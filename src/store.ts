@@ -6,7 +6,7 @@
 
 import { create } from 'zustand';
 import type {
-  Command, GameData, NationId, ProvinceDetail, ProvinceId, WorldSnapshot,
+  Command, GameData, NationDetail, NationId, ProvinceDetail, ProvinceId, WorldSnapshot,
 } from './shared/types';
 
 export type MapMode = 'political' | 'population' | 'economy' | 'military' | 'diplomatic';
@@ -20,6 +20,7 @@ interface UIState {
   mapMode: MapMode;
   selectedProvince: ProvinceId | null;
   provinceDetail: ProvinceDetail | null;
+  nationDetail: NationDetail | null;
   openPanel: PanelId;
 
   worker: Worker | null;
@@ -28,6 +29,7 @@ interface UIState {
   onSnapshot: (s: WorldSnapshot) => void;
   onData: (d: GameData) => void;
   onProvinceDetail: (d: ProvinceDetail) => void;
+  onNationDetail: (d: NationDetail) => void;
 
   setMapMode: (m: MapMode) => void;
   selectProvince: (id: ProvinceId | null) => void;
@@ -44,6 +46,7 @@ export const useStore = create<UIState>((set, get) => ({
   mapMode: 'political',
   selectedProvince: null,
   provinceDetail: null,
+  nationDetail: null,
   openPanel: null,
   worker: null,
 
@@ -51,6 +54,7 @@ export const useStore = create<UIState>((set, get) => ({
   onSnapshot: (s) => set({ snapshot: s }),
   onData: (d) => set({ data: d }),
   onProvinceDetail: (d) => set({ provinceDetail: d }),
+  onNationDetail: (d) => set({ nationDetail: d }),
 
   setMapMode: (m) => set({ mapMode: m }),
   selectProvince: (id) => {

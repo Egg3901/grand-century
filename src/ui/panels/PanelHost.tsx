@@ -1,0 +1,45 @@
+import { useStore } from '../../store';
+import { BudgetPanel } from './BudgetPanel';
+import { ProvincePanel } from './ProvincePanel';
+import './panels.css';
+
+function PlaceholderPanel({ title, body }: { title: string; body: string }) {
+  return (
+    <section className="panel-card atlas-panel">
+      <h2 className="atlas-heading">{title}</h2>
+      <p>{body}</p>
+    </section>
+  );
+}
+
+export function PanelHost() {
+  const openPanel = useStore((state) => state.openPanel);
+  const snapshot = useStore((state) => state.snapshot);
+  const worldPopulation = snapshot
+    ? snapshot.provinces.reduce((sum, province) => sum + province.population, 0)
+    : 0;
+
+  if (!openPanel) return null;
+
+  return (
+    <aside className="panel-host">
+      {openPanel === 'province' ? <ProvincePanel /> : null}
+      {openPanel === 'budget' ? <BudgetPanel /> : null}
+      {openPanel === 'population' ? (
+        <PlaceholderPanel
+          title="Population"
+          body={`Total world population: ${worldPopulation.toLocaleString()}`}
+        />
+      ) : null}
+      {openPanel === 'politics' ? (
+        <PlaceholderPanel title="Politics" body={`Great powers tracked: ${snapshot?.nations.filter((nation) => nation.gpRank > 0).length ?? 0}`} />
+      ) : null}
+      {openPanel === 'diplomacy' ? (
+        <PlaceholderPanel title="Diplomacy" body={`Active wars: ${snapshot?.wars.length ?? 0}`} />
+      ) : null}
+      {openPanel === 'military' ? (
+        <PlaceholderPanel title="Military" body={`Armies: ${snapshot?.armies.length ?? 0} | Fleets: ${snapshot?.fleets.length ?? 0}`} />
+      ) : null}
+    </aside>
+  );
+}

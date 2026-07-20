@@ -14,7 +14,11 @@ export function nextRandom(state: number): { value: number; state: number } {
 
 /** Stateful convenience wrapper for use inside a single tick. */
 export class Rng {
-  constructor(public state: number) {}
+  state: number;
+
+  constructor(state: number) {
+    this.state = state;
+  }
   next(): number {
     const r = nextRandom(this.state);
     this.state = r.state;

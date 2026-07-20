@@ -1,0 +1,75 @@
+.panel-host {
+  position: absolute;
+  right: 1rem;
+  top: 5.1rem;
+  width: min(31rem, calc(100vw - 14rem));
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.panel-card {
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+}
+
+.panel-card h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.03rem;
+}
+
+.panel-subtle {
+  margin: 0.18rem 0;
+  color: #3f2f22;
+}
+
+.panel-small-heading {
+  margin-top: 0.8rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.77rem;
+}
+
+.panel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.panel-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.18rem 0;
+  border-bottom: 1px solid rgba(71, 47, 28, 0.15);
+}
+
+.ledger-grid {
+  margin: 0.25rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem 0.7rem;
+}
+
+.ledger-grid div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.ledger-grid dt,
+.ledger-grid dd {
+  margin: 0;
+}
+
+.budget-net {
+  margin: 0.75rem 0 0;
+  font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, serif;
+}
+
+.budget-net.positive {
+  color: #234620;
+}
+
+.budget-net.negative {
+  color: #6a241f;
+}

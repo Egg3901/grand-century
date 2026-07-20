@@ -1,0 +1,13 @@
+.grand-map {
+  position: absolute;
+  inset: 0;
+}
+
+.grand-map .maplibregl-canvas {
+  image-rendering: auto;
+}
+
+.grand-map .maplibregl-ctrl-group {
+  border: 1px solid rgba(76, 54, 39, 0.42);
+  background: rgba(247, 236, 209, 0.92);
+}
