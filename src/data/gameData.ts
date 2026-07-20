@@ -1,4 +1,4 @@
-import type { GameData, GoodDef, Recipe } from '../shared/types';
+import type { GameData, GoodDef, PopNeedsDef, PopType, Recipe } from '../shared/types';
 import { PROVINCE_COUNT } from './generated';
 
 const GOODS: GoodDef[] = [
@@ -81,10 +81,64 @@ const RECIPES: Recipe[] = [
   },
 ];
 
+const POP_NEEDS: Record<PopType, PopNeedsDef> = {
+  farmer: {
+    life: [input('grain', 0.55), input('fish', 0.2)],
+    everyday: [input('clothes', 0.08), input('liquor', 0.03)],
+    luxury: [input('furniture', 0.02), input('wine', 0.01)],
+  },
+  laborer: {
+    life: [input('grain', 0.52), input('cattle', 0.22)],
+    everyday: [input('clothes', 0.09), input('liquor', 0.04)],
+    luxury: [input('furniture', 0.03), input('wine', 0.01)],
+  },
+  craftsman: {
+    life: [input('grain', 0.45), input('fish', 0.2)],
+    everyday: [input('clothes', 0.14), input('liquor', 0.05), input('paper', 0.03)],
+    luxury: [input('furniture', 0.05), input('wine', 0.03)],
+  },
+  clerk: {
+    life: [input('grain', 0.4), input('fish', 0.18)],
+    everyday: [input('clothes', 0.18), input('paper', 0.05), input('liquor', 0.04)],
+    luxury: [input('furniture', 0.06), input('wine', 0.04)],
+  },
+  capitalist: {
+    life: [input('grain', 0.36), input('fish', 0.12)],
+    everyday: [input('clothes', 0.24), input('paper', 0.08), input('wine', 0.06)],
+    luxury: [input('furniture', 0.1), input('machine_parts', 0.02)],
+  },
+  aristocrat: {
+    life: [input('grain', 0.34), input('cattle', 0.16)],
+    everyday: [input('clothes', 0.22), input('wine', 0.08)],
+    luxury: [input('furniture', 0.11), input('artillery', 0.01)],
+  },
+  clergy: {
+    life: [input('grain', 0.4), input('fish', 0.2)],
+    everyday: [input('clothes', 0.12), input('paper', 0.06)],
+    luxury: [input('furniture', 0.04), input('wine', 0.02)],
+  },
+  soldier: {
+    life: [input('grain', 0.52), input('cattle', 0.24)],
+    everyday: [input('clothes', 0.12), input('liquor', 0.05), input('small_arms', 0.02)],
+    luxury: [input('wine', 0.02), input('canned_food', 0.03)],
+  },
+  officer: {
+    life: [input('grain', 0.42), input('fish', 0.18)],
+    everyday: [input('clothes', 0.16), input('paper', 0.05), input('liquor', 0.04)],
+    luxury: [input('wine', 0.05), input('small_arms', 0.02)],
+  },
+  slave: {
+    life: [input('grain', 0.46), input('fish', 0.16)],
+    everyday: [input('clothes', 0.03)],
+    luxury: [],
+  },
+};
+
 export const GAME_DATA: GameData = {
   startDate: { year: 1836, month: 1, day: 1 },
   goods: GOODS,
   recipes: RECIPES,
+  popNeeds: POP_NEEDS,
   cultures: [
     { key: 'british', name: 'British', color: [170, 170, 190] },
     { key: 'french', name: 'French', color: [142, 164, 196] },

@@ -58,13 +58,35 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     case 'buildFactory': {
       const state = world.states[cmd.state];
       const recipe = data.recipes.find((candidate) => candidate.key === cmd.recipe && candidate.building === 'factory');
-      if (!state || !recipe) return;
+      const nation = world.nations[world.playerNation];
+      if (!state || !recipe || !nation) return;
+      if (state.owner !== world.playerNation) {
+        log(post, 'warn', 'Cannot build outside your own state.');
+        return;
+      }
+      if (nation.constructionBlocked || nation.isBankrupt) {
+        log(post, 'warn', 'Construction is blocked during bankruptcy.');
+        return;
+      }
+      const buildCost = 220 + state.factories.length * 45;
+      if (nation.treasury < buildCost) {
+        log(post, 'warn', `Insufficient treasury for factory build (need ${buildCost.toFixed(0)}).`);
+        return;
+      }
+      nation.treasury -= buildCost;
       state.factories.push({
         recipe: recipe.key,
         level: 1,
         employed: 500,
         stockpileIn: 0,
         profitTrend: 0,
+        weeklyProfit: 0,
+        cashReserve: 0,
+        workerShare: 0,
+        clerkShare: 0,
+        lastOutput: 0,
+        profitableWeeks: 0,
+        lossWeeks: 0,
       });
       return;
     }

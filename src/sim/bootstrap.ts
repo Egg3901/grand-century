@@ -1,4 +1,5 @@
 import type {
+  BudgetLine,
   DiploRelation,
   Factory,
   GameData,
@@ -78,6 +79,36 @@ interface ProvinceSeedRuntime {
   weight: number;
 }
 
+function emptyTrace() {
+  return [];
+}
+
+function zeroBudget(): BudgetLine {
+  return {
+    taxIncome: 0,
+    tariffIncome: 0,
+    productionIncome: 0,
+    armyUpkeep: 0,
+    subsidySpend: 0,
+    constructionSpend: 0,
+    adminSpend: 0,
+    reformUpkeep: 0,
+    net: 0,
+    bankrupt: false,
+    trace: {
+      taxIncome: emptyTrace(),
+      tariffIncome: emptyTrace(),
+      productionIncome: emptyTrace(),
+      armyUpkeep: emptyTrace(),
+      subsidySpend: emptyTrace(),
+      constructionSpend: emptyTrace(),
+      adminSpend: emptyTrace(),
+      reformUpkeep: emptyTrace(),
+      net: emptyTrace(),
+    },
+  };
+}
+
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
@@ -129,6 +160,12 @@ function createNations(data: GameData): Nation[] {
     colonialPoints: 0,
     isCivilized: seed.government !== 'uncivilized',
     isPlayer: seed.tag === 'ENG',
+    isBankrupt: false,
+    bankruptcyMonths: 0,
+    constructionBlocked: false,
+    monthlyTariffIncome: 0,
+    monthlyProductionIncome: 0,
+    lastBudget: zeroBudget(),
   }));
 }
 
@@ -193,6 +230,13 @@ function addFactorySeeds(states: State[], rng: Rng): void {
       employed: 3000 + Math.floor(rng.next() * 7000),
       stockpileIn: 0,
       profitTrend: 0,
+      weeklyProfit: 0,
+      cashReserve: 20,
+      workerShare: 0,
+      clerkShare: 0,
+      lastOutput: 0,
+      profitableWeeks: 0,
+      lossWeeks: 0,
     };
     state.factories.push(factory);
     if (index % 3 === 0 && rng.next() > 0.38) {
@@ -202,6 +246,13 @@ function addFactorySeeds(states: State[], rng: Rng): void {
         employed: 1200 + Math.floor(rng.next() * 3000),
         stockpileIn: 0,
         profitTrend: 0,
+        weeklyProfit: 0,
+        cashReserve: 10,
+        workerShare: 0,
+        clerkShare: 0,
+        lastOutput: 0,
+        profitableWeeks: 0,
+        lossWeeks: 0,
       });
     }
   });
@@ -246,6 +297,7 @@ function createPops(worldProvinces: Province[], provinceRuntime: ProvinceSeedRun
         militancy: 0.8 + rng.next() * 1.4,
         consciousness: 0.6 + rng.next() * 1.6,
         needsMet: 0.55 + rng.next() * 0.35,
+        lastGrowth: 0,
         ideology: Math.floor(rng.next() * 4),
       };
       province.popIds.push(pop.id);
@@ -300,7 +352,38 @@ export function createWorld(data: GameData, seed: number): World {
       price: good.basePrice,
       supply: 80,
       demand: 80,
+      sold: 80,
       worldStockpile: 180,
+      trend: Array.from({ length: 8 }, () => good.basePrice),
+      priceTrace: {
+        basePrice: good.basePrice,
+        ratio: 1,
+        damping: 0.12,
+        requestedDemand: 80,
+        effectiveSupply: 80,
+        stockpileStart: 180,
+        stockpileEnd: 180,
+      },
+    })),
+    marketRuntime: data.goods.map((good) => ({
+      good: good.id,
+      stockpileStart: 0,
+      remainingProducer: 0,
+      remainingStockpile: 0,
+      producerSupply: 0,
+      requestedDemand: 0,
+      consumerBought: 0,
+      stockpileBuy: 0,
+      stockpileSell: 0,
+    })),
+    marketInvariants: data.goods.map((good) => ({
+      good: good.id,
+      supply: 0,
+      sold: 0,
+      stockpileStart: 0,
+      stockpileEnd: 0,
+      residual: 0,
+      ok: true,
     })),
     armies: [],
     fleets: [],

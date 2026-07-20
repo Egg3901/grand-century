@@ -5,7 +5,9 @@ import './Hud.css';
 const SPEEDS = [0, 1, 2, 3, 4, 5] as const;
 const PANELS: { id: PanelId; label: string }[] = [
   { id: 'budget', label: 'Budget' },
+  { id: 'production', label: 'Production' },
   { id: 'population', label: 'Population' },
+  { id: 'market', label: 'Market' },
   { id: 'politics', label: 'Politics' },
   { id: 'diplomacy', label: 'Diplomacy' },
   { id: 'military', label: 'Military' },

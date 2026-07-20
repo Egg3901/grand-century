@@ -275,10 +275,10 @@ export function GrandMap() {
     if (!map || !map.getLayer(MAP_FILL_LAYER) || !snapshot) return;
 
     const provinceById = new globalThis.Map(snapshot.provinces.map((province) => [province.id, province]));
-    const populations = snapshot.provinces.map((province) => province.population);
-    const popMin = Math.min(...populations);
-    const popMax = Math.max(...populations);
-    const popRange = Math.max(1, popMax - popMin);
+    const economies = snapshot.provinces.map((province) => province.economyOutput);
+    const econMin = Math.min(...economies);
+    const econMax = Math.max(...economies);
+    const econRange = Math.max(1, econMax - econMin);
 
     const allies = new Set<number>();
     const enemies = new Set<number>();
@@ -298,11 +298,15 @@ export function GrandMap() {
       let fill = ownerColor;
 
       if (mapMode === 'population') {
-        const scaled = clamp01((province.population - popMin) / popRange);
-        const shade = 0.12 + (1 - scaled) * 0.56;
-        fill = blend('#8c6e4b', shade);
+        const needs = clamp01(province.needsMet);
+        const hunger = 1 - needs;
+        const red = Math.round(164 + hunger * 58);
+        const green = Math.round(92 + needs * 84);
+        const blue = Math.round(78 + needs * 30);
+        fill = toHexColor([red, green, blue]);
       } else if (mapMode === 'economy') {
-        fill = ['#b9a275', '#9f8f6d', '#7c8875', '#6f7f8f', '#8d7d9f', '#8e876b'][province.rgoGood % 6] ?? '#a08f7b';
+        const econScaled = clamp01((province.economyOutput - econMin) / econRange);
+        fill = blend('#5b7c72', 0.6 - econScaled * 0.5);
       } else if (mapMode === 'military') {
         fill = province.controller !== province.owner ? blend(controllerColor, 0.14) : blend(ownerColor, 0.32);
       } else if (mapMode === 'diplomatic') {

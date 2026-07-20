@@ -1,4 +1,4 @@
-import type { BudgetLine, GameData, NationSummary, ProvinceSummary, World, WorldSnapshot } from '../shared/types';
+import type { BudgetLine, GameData, NationSummary, PopType, ProvinceSummary, World, WorldSnapshot } from '../shared/types';
 import { dayToDate } from './world';
 
 function zeroBudget(): BudgetLine {
@@ -7,9 +7,23 @@ function zeroBudget(): BudgetLine {
     tariffIncome: 0,
     productionIncome: 0,
     armyUpkeep: 0,
+    subsidySpend: 0,
     constructionSpend: 0,
     adminSpend: 0,
+    reformUpkeep: 0,
     net: 0,
+    bankrupt: false,
+    trace: {
+      taxIncome: [],
+      tariffIncome: [],
+      productionIncome: [],
+      armyUpkeep: [],
+      subsidySpend: [],
+      constructionSpend: [],
+      adminSpend: [],
+      reformUpkeep: [],
+      net: [],
+    },
   };
 }
 
@@ -24,6 +38,25 @@ function provinceMilitancy(world: World, popIds: number[]): number {
   let total = 0;
   for (const popId of popIds) total += Math.max(0, world.pops[popId]?.militancy ?? 0);
   return total / popIds.length;
+}
+
+function provinceNeeds(world: World, popIds: number[]): { needsMet: number; growth: number; outputProxy: number } {
+  if (popIds.length === 0) return { needsMet: 0, growth: 0, outputProxy: 0 };
+  let needs = 0;
+  let growth = 0;
+  let outputProxy = 0;
+  for (const popId of popIds) {
+    const pop = world.pops[popId];
+    if (!pop) continue;
+    needs += Math.max(0, pop.needsMet);
+    growth += Number.isFinite(pop.lastGrowth) ? pop.lastGrowth : 0;
+    outputProxy += Math.max(0, pop.money) * 0.002;
+  }
+  return {
+    needsMet: needs / popIds.length,
+    growth,
+    outputProxy,
+  };
 }
 
 export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
@@ -50,18 +83,92 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       atWar: world.wars.some((war) => war.attackers.includes(nation.id) || war.defenders.includes(nation.id)),
       numProvinces: owned.length,
       militancy: avgMilitancy,
+      taxRatePoor: nation.taxRatePoor,
+      taxRateMiddle: nation.taxRateMiddle,
+      taxRateRich: nation.taxRateRich,
+      tariffRate: nation.tariffRate,
+      isBankrupt: nation.isBankrupt,
+      constructionBlocked: nation.constructionBlocked,
     };
   });
 
-  const provinces: ProvinceSummary[] = world.provinces.map((province) => ({
-    id: province.id,
-    owner: province.owner,
-    controller: province.controller,
-    population: provincePopulation(world, province.popIds),
-    militancy: provinceMilitancy(world, province.popIds),
-    rgoGood: rgoOutputByRecipe[province.rgo.recipe] ?? 0,
-    fortLevel: province.fortLevel,
-    occupation: province.occupationProgress,
+  const provinces: ProvinceSummary[] = world.provinces.map((province) => {
+    const needs = provinceNeeds(world, province.popIds);
+    const rgoGood = rgoOutputByRecipe[province.rgo.recipe] ?? 0;
+    const rgoOutput = (province.rgo.employed / 1000) * (data.recipes.find((recipe) => recipe.key === province.rgo.recipe)?.output.amount ?? 0);
+    return {
+      id: province.id,
+      owner: province.owner,
+      controller: province.controller,
+      population: provincePopulation(world, province.popIds),
+      militancy: provinceMilitancy(world, province.popIds),
+      needsMet: needs.needsMet,
+      growth: needs.growth,
+      economyOutput: rgoOutput + needs.outputProxy,
+      rgoGood,
+      fortLevel: province.fortLevel,
+      occupation: province.occupationProgress,
+    };
+  });
+
+  const playerOwnedStates = world.states.filter((state) => state.owner === world.playerNation);
+  const playerProduction = [
+    ...world.provinces
+      .filter((province) => province.owner === world.playerNation)
+      .map((province) => ({
+        kind: 'rgo' as const,
+        locationName: province.name,
+        recipe: province.rgo.recipe,
+        outputGood: rgoOutputByRecipe[province.rgo.recipe] ?? 0,
+        outputAmount: (province.rgo.employed / 1000) * (data.recipes.find((recipe) => recipe.key === province.rgo.recipe)?.output.amount ?? 0),
+        employment: province.rgo.employed,
+        profit: province.rgo.employed * 0.0025,
+        level: province.rgo.level,
+      })),
+    ...playerOwnedStates.flatMap((state) => state.factories.map((factory) => {
+      const recipe = data.recipes.find((candidate) => candidate.key === factory.recipe);
+      return {
+        kind: 'factory' as const,
+        locationName: state.name,
+        recipe: factory.recipe,
+        outputGood: recipe?.output.good ?? 0,
+        outputAmount: factory.lastOutput,
+        employment: factory.employed,
+        profit: factory.weeklyProfit,
+        level: factory.level,
+      };
+    })),
+  ];
+
+  const playerPopulationMap = new Map<string, { size: number; needs: number; mil: number; growth: number; count: number }>();
+  for (const province of world.provinces) {
+    if (province.owner !== world.playerNation) continue;
+    for (const popId of province.popIds) {
+      const pop = world.pops[popId];
+      if (!pop || pop.size <= 0) continue;
+      const key = pop.type;
+      const bucket = playerPopulationMap.get(key) ?? { size: 0, needs: 0, mil: 0, growth: 0, count: 0 };
+      bucket.size += pop.size;
+      bucket.needs += pop.needsMet;
+      bucket.mil += pop.militancy;
+      bucket.growth += pop.lastGrowth;
+      bucket.count += 1;
+      playerPopulationMap.set(key, bucket);
+    }
+  }
+  const playerPopulation = Array.from(playerPopulationMap.entries())
+    .map(([type, bucket]) => ({
+      type: type as PopType,
+      size: bucket.size,
+      avgNeedsMet: bucket.count > 0 ? bucket.needs / bucket.count : 0,
+      avgMilitancy: bucket.count > 0 ? bucket.mil / bucket.count : 0,
+      growth: bucket.growth,
+    }))
+    .sort((a, b) => b.size - a.size);
+  const playerStates = playerOwnedStates.map((state) => ({
+    id: state.id,
+    name: state.name,
+    factoryCount: state.factories.length,
   }));
 
   return {
@@ -75,6 +182,9 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     wars: world.wars.map((war) => ({ ...war, attackers: war.attackers.slice(), defenders: war.defenders.slice(), goals: war.goals.map((goal) => ({ ...goal })) })),
     armies: world.armies.map((army) => ({ ...army, regiments: army.regiments.map((regiment) => ({ ...regiment })), leader: army.leader ? { ...army.leader } : null })),
     fleets: world.fleets.map((fleet) => ({ ...fleet, ships: fleet.ships.map((ship) => ({ ...ship })) })),
+    playerProduction,
+    playerPopulation,
+    playerStates,
     playerBudget: zeroBudget(),
   };
 }

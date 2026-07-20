@@ -11,7 +11,7 @@ import type {
 
 export type MapMode = 'political' | 'population' | 'economy' | 'military' | 'diplomatic';
 export type PanelId =
-  | null | 'budget' | 'population' | 'politics' | 'diplomacy'
+  | null | 'budget' | 'population' | 'market' | 'politics' | 'diplomacy'
   | 'military' | 'production' | 'technology' | 'province';
 
 interface UIState {

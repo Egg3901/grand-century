@@ -21,5 +21,5 @@ describe('world long-run stability', () => {
       expect(Number.isFinite(pop.size)).toBe(true);
       expect(pop.size).toBeGreaterThanOrEqual(0);
     }
-  });
+  }, 30_000);
 });

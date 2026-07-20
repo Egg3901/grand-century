@@ -9,6 +9,36 @@ function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
+function emptyTrace() {
+  return [];
+}
+
+function zeroBudget(bankrupt = false): BudgetLine {
+  return {
+    taxIncome: 0,
+    tariffIncome: 0,
+    productionIncome: 0,
+    armyUpkeep: 0,
+    subsidySpend: 0,
+    constructionSpend: 0,
+    adminSpend: 0,
+    reformUpkeep: 0,
+    net: 0,
+    bankrupt,
+    trace: {
+      taxIncome: emptyTrace(),
+      tariffIncome: emptyTrace(),
+      productionIncome: emptyTrace(),
+      armyUpkeep: emptyTrace(),
+      subsidySpend: emptyTrace(),
+      constructionSpend: emptyTrace(),
+      adminSpend: emptyTrace(),
+      reformUpkeep: emptyTrace(),
+      net: emptyTrace(),
+    },
+  };
+}
+
 function popBracket(pop: Pop): 'poor' | 'middle' | 'rich' {
   switch (pop.type) {
     case 'aristocrat':
@@ -32,56 +62,133 @@ function nationPopulation(world: World, nationId: NationId): number {
   return total;
 }
 
+function nationProvinceIds(world: World, nationId: NationId): number[] {
+  const ids: number[] = [];
+  for (const province of world.provinces) {
+    if (province.owner === nationId) ids.push(province.id);
+  }
+  return ids;
+}
+
+function nationFactorySubsidies(world: World, nationId: NationId): number {
+  let subsidies = 0;
+  for (const state of world.states) {
+    if (state.owner !== nationId) continue;
+    for (const factory of state.factories) {
+      const weeklyLoss = Math.max(0, -finite(factory.weeklyProfit));
+      subsidies += weeklyLoss * 3.6;
+    }
+  }
+  return subsidies;
+}
+
 function computeNationBudget(world: World, nationId: NationId, mutatePopMoney: boolean): BudgetLine {
   const nation = world.nations[nationId];
-  if (!nation) {
-    return {
-      taxIncome: 0,
-      tariffIncome: 0,
-      productionIncome: 0,
-      armyUpkeep: 0,
-      constructionSpend: 0,
-      adminSpend: 0,
-      net: 0,
-    };
-  }
+  if (!nation) return zeroBudget();
 
-  const provinceIds = world.provinces.filter((province) => province.owner === nationId).map((province) => province.id);
+  const provinceIds = nationProvinceIds(world, nationId);
   const provinceIdSet = new Set(provinceIds);
 
-  let taxIncome = 0;
-  let taxableBase = 0;
+  let poorBase = 0;
+  let middleBase = 0;
+  let richBase = 0;
+  let poorTax = 0;
+  let middleTax = 0;
+  let richTax = 0;
+
   for (const pop of world.pops) {
     if (!provinceIdSet.has(pop.provinceId)) continue;
     const money = Math.max(0, finite(pop.money));
     const bracket = popBracket(pop);
     const rate = bracket === 'poor' ? nation.taxRatePoor : bracket === 'middle' ? nation.taxRateMiddle : nation.taxRateRich;
-    const tax = clamp(money * clamp(rate, 0, 1) * 0.08, 0, money);
-    taxableBase += money;
-    taxIncome += tax;
+    const tax = clamp(money * clamp(rate, 0, 1) * 0.11, 0, money);
+    if (bracket === 'poor') {
+      poorBase += money;
+      poorTax += tax;
+    } else if (bracket === 'middle') {
+      middleBase += money;
+      middleTax += tax;
+    } else {
+      richBase += money;
+      richTax += tax;
+    }
     if (mutatePopMoney) pop.money = Math.max(0, money - tax);
   }
 
-  const tariffIncome = taxableBase * Math.max(-1, Math.min(1, finite(nation.tariffRate))) * 0.012;
-  const productionIncome = world.states
-    .filter((state) => state.owner === nationId)
-    .reduce((total, state) => total + state.factories.reduce((sub, factory) => sub + Math.max(0, finite(factory.employed)) * 0.0018, 0), 0);
+  const taxIncome = poorTax + middleTax + richTax;
+  const tariffIncome = Math.max(0, finite(nation.monthlyTariffIncome));
+  const productionIncome = Math.max(0, finite(nation.monthlyProductionIncome));
   const armyUpkeep = world.armies
     .filter((army) => army.owner === nationId)
     .reduce((total, army) => total + army.regiments.length * 3.6, 0)
     + world.fleets.filter((fleet) => fleet.owner === nationId).reduce((total, fleet) => total + fleet.ships.length * 2.4, 0);
-  const constructionSpend = provinceIds.length * 0.9;
-  const adminSpend = nationPopulation(world, nationId) * 0.00012;
-  const net = taxIncome + tariffIncome + productionIncome - armyUpkeep - constructionSpend - adminSpend;
+  const subsidySpend = nationFactorySubsidies(world, nationId);
+  const constructionSpend = nation.constructionBlocked ? 0 : provinceIds.length * 1.15;
+  const adminSpend = nationPopulation(world, nationId) * 0.00016 + provinceIds.length * 1.3;
+  const reformUpkeep = Object.values(nation.reforms).reduce((sum, level) => sum + Math.max(0, level) * 5.5, 0);
+
+  const bankruptcyCut = nation.isBankrupt ? 0.45 : 1;
+  const adjustedArmyUpkeep = armyUpkeep * bankruptcyCut;
+  const adjustedSubsidy = subsidySpend * (nation.isBankrupt ? 0.3 : 1);
+  const adjustedAdmin = adminSpend * (nation.isBankrupt ? 0.6 : 1);
+  const adjustedConstruction = constructionSpend * (nation.isBankrupt ? 0 : 1);
+  const adjustedReform = reformUpkeep * (nation.isBankrupt ? 0.55 : 1);
+  const net = taxIncome + tariffIncome + productionIncome
+    - adjustedArmyUpkeep
+    - adjustedSubsidy
+    - adjustedConstruction
+    - adjustedAdmin
+    - adjustedReform;
 
   return {
     taxIncome: finite(taxIncome),
     tariffIncome: finite(tariffIncome),
     productionIncome: finite(productionIncome),
-    armyUpkeep: finite(armyUpkeep),
-    constructionSpend: finite(constructionSpend),
-    adminSpend: finite(adminSpend),
+    armyUpkeep: finite(adjustedArmyUpkeep),
+    subsidySpend: finite(adjustedSubsidy),
+    constructionSpend: finite(adjustedConstruction),
+    adminSpend: finite(adjustedAdmin),
+    reformUpkeep: finite(adjustedReform),
     net: finite(net),
+    bankrupt: nation.isBankrupt,
+    trace: {
+      taxIncome: [
+        { label: 'Poor base', value: poorBase },
+        { label: 'Poor tax', value: poorTax },
+        { label: 'Middle base', value: middleBase },
+        { label: 'Middle tax', value: middleTax },
+        { label: 'Rich base', value: richBase },
+        { label: 'Rich tax', value: richTax },
+      ],
+      tariffIncome: [
+        { label: 'Applied tariff flow', value: tariffIncome },
+        { label: 'Tariff slider', value: nation.tariffRate },
+      ],
+      productionIncome: [
+        { label: 'State-owned profits', value: productionIncome },
+      ],
+      armyUpkeep: [
+        { label: 'Army + navy upkeep base', value: armyUpkeep },
+        { label: 'Bankruptcy multiplier', value: bankruptcyCut },
+      ],
+      subsidySpend: [
+        { label: 'Factory losses', value: subsidySpend },
+      ],
+      constructionSpend: [
+        { label: 'Province count', value: provinceIds.length },
+      ],
+      adminSpend: [
+        { label: 'Population', value: nationPopulation(world, nationId) },
+        { label: 'Province count', value: provinceIds.length },
+      ],
+      reformUpkeep: [
+        { label: 'Reform burden', value: reformUpkeep },
+      ],
+      net: [
+        { label: 'Income total', value: taxIncome + tariffIncome + productionIncome },
+        { label: 'Expense total', value: adjustedArmyUpkeep + adjustedSubsidy + adjustedConstruction + adjustedAdmin + adjustedReform },
+      ],
+    },
   };
 }
 
@@ -90,9 +197,35 @@ export function runBudgetMonthly(world: World, _data: GameData, _rng: Rng): void
     const budget = computeNationBudget(world, nation.id, true);
     nation.treasury = finite(nation.treasury) + budget.net;
     if (!Number.isFinite(nation.treasury)) nation.treasury = 0;
+    nation.monthlyTariffIncome = 0;
+    nation.monthlyProductionIncome = 0;
+
+    if (!nation.isBankrupt && nation.treasury <= -1200) {
+      nation.isBankrupt = true;
+      nation.constructionBlocked = true;
+      nation.bankruptcyMonths = 0;
+      nation.prestige = Math.max(0, nation.prestige - 4);
+    }
+    if (nation.isBankrupt) {
+      nation.bankruptcyMonths += 1;
+      nation.prestige = Math.max(0, nation.prestige - 0.6);
+      if (nation.treasury >= 450) {
+        nation.isBankrupt = false;
+        nation.constructionBlocked = false;
+      }
+    }
+    nation.lastBudget = { ...budget, trace: { ...budget.trace } };
   }
 }
 
 export function computePlayerBudget(world: World, _data: GameData, nationId: NationId): BudgetLine {
+  const nation = world.nations[nationId];
+  if (!nation) return zeroBudget();
+  if (nation.lastBudget && Number.isFinite(nation.lastBudget.net)) {
+    return {
+      ...nation.lastBudget,
+      trace: { ...nation.lastBudget.trace },
+    };
+  }
   return computeNationBudget(world, nationId, false);
 }

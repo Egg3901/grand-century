@@ -64,6 +64,17 @@ export type PopType =
   | 'aristocrat' | 'capitalist' | 'clergy' | 'clerk' | 'craftsman'
   | 'farmer' | 'laborer' | 'soldier' | 'officer' | 'slave';
 
+export interface NeedAmount {
+  good: GoodId;
+  amount: number;
+}
+
+export interface PopNeedsDef {
+  life: NeedAmount[];
+  everyday: NeedAmount[];
+  luxury: NeedAmount[];
+}
+
 export interface CultureDef { key: string; name: string; color: [number, number, number]; }
 export interface ReligionDef { key: string; name: string; }
 
@@ -90,6 +101,7 @@ export interface GameData {
   startDate: GameDate;   // 1836-01-01
   goods: GoodDef[];
   recipes: Recipe[];
+  popNeeds: Record<PopType, PopNeedsDef>;
   cultures: CultureDef[];
   religions: ReligionDef[];
   reforms: ReformDef[];
@@ -112,6 +124,7 @@ export interface Pop {
   militancy: number;     // 0-10
   consciousness: number; // 0-10
   needsMet: number;      // 0-1, fraction of life+everyday needs satisfied
+  lastGrowth: number;    // monthly growth delta from last monthly tick
   /** ideology/issue leanings summed to 1; kept compact for perf */
   ideology: number;      // index into a small ideology enum for shallow model
 }
@@ -128,6 +141,13 @@ export interface Factory {
   employed: number;
   stockpileIn: number;   // buffered inputs
   profitTrend: number;   // recent profit, drives expansion/closure
+  weeklyProfit: number;
+  cashReserve: number;
+  workerShare: number;   // craftsman employed this week
+  clerkShare: number;    // clerk employed this week
+  lastOutput: number;
+  profitableWeeks: number;
+  lossWeeks: number;
 }
 
 export interface Province {
@@ -195,6 +215,12 @@ export interface Nation {
 
   isCivilized: boolean;
   isPlayer: boolean;
+  isBankrupt: boolean;
+  bankruptcyMonths: number;
+  constructionBlocked: boolean;
+  monthlyTariffIncome: number;
+  monthlyProductionIncome: number;
+  lastBudget: BudgetLine;
 }
 
 // ---------------------------------------------------------------------------
@@ -285,7 +311,42 @@ export interface MarketGood {
   price: number;
   supply: number;        // last period
   demand: number;        // last period
+  sold: number;
   worldStockpile: number;
+  trend: number[];
+  priceTrace: PriceTrace;
+}
+
+export interface PriceTrace {
+  basePrice: number;
+  ratio: number;
+  damping: number;
+  requestedDemand: number;
+  effectiveSupply: number;
+  stockpileStart: number;
+  stockpileEnd: number;
+}
+
+export interface MarketRuntimeGood {
+  good: GoodId;
+  stockpileStart: number;
+  remainingProducer: number;
+  remainingStockpile: number;
+  producerSupply: number;
+  requestedDemand: number;
+  consumerBought: number;
+  stockpileBuy: number;
+  stockpileSell: number;
+}
+
+export interface MarketInvariant {
+  good: GoodId;
+  supply: number;
+  sold: number;
+  stockpileStart: number;
+  stockpileEnd: number;
+  residual: number;
+  ok: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -304,6 +365,8 @@ export interface World {
   states: State[];
   pops: Pop[];
   market: MarketGood[];
+  marketRuntime: MarketRuntimeGood[];
+  marketInvariants: MarketInvariant[];
   armies: Army[];
   fleets: Fleet[];
   wars: War[];
@@ -331,6 +394,12 @@ export interface NationSummary {
   atWar: boolean;
   numProvinces: number;
   militancy: number; // avg
+  taxRatePoor: number;
+  taxRateMiddle: number;
+  taxRateRich: number;
+  tariffRate: number;
+  isBankrupt: boolean;
+  constructionBlocked: boolean;
 }
 
 export interface ProvinceSummary {
@@ -339,9 +408,37 @@ export interface ProvinceSummary {
   controller: NationId;
   population: number;
   militancy: number;
+  needsMet: number;
+  growth: number;
+  economyOutput: number;
   rgoGood: GoodId;
   fortLevel: number;
   occupation: number;
+}
+
+export interface ProductionLedgerEntry {
+  kind: 'rgo' | 'factory';
+  locationName: string;
+  recipe: string;
+  outputGood: GoodId;
+  outputAmount: number;
+  employment: number;
+  profit: number;
+  level: number;
+}
+
+export interface PopulationLedgerEntry {
+  type: PopType;
+  size: number;
+  avgNeedsMet: number;
+  avgMilitancy: number;
+  growth: number;
+}
+
+export interface PlayerStateSummary {
+  id: StateId;
+  name: string;
+  factoryCount: number;
 }
 
 /** Sent every rendered frame; province array feeds the map paint. */
@@ -356,8 +453,16 @@ export interface WorldSnapshot {
   wars: War[];
   armies: Army[];
   fleets: Fleet[];
+  playerProduction: ProductionLedgerEntry[];
+  playerPopulation: PopulationLedgerEntry[];
+  playerStates: PlayerStateSummary[];
   /** headline numbers for the player nation's HUD */
   playerBudget: BudgetLine;
+}
+
+export interface TraceLine {
+  label: string;
+  value: number;
 }
 
 export interface BudgetLine {
@@ -365,9 +470,23 @@ export interface BudgetLine {
   tariffIncome: number;
   productionIncome: number;
   armyUpkeep: number;
+  subsidySpend: number;
   constructionSpend: number;
   adminSpend: number;
+  reformUpkeep: number;
   net: number;
+  bankrupt: boolean;
+  trace: {
+    taxIncome: TraceLine[];
+    tariffIncome: TraceLine[];
+    productionIncome: TraceLine[];
+    armyUpkeep: TraceLine[];
+    subsidySpend: TraceLine[];
+    constructionSpend: TraceLine[];
+    adminSpend: TraceLine[];
+    reformUpkeep: TraceLine[];
+    net: TraceLine[];
+  };
 }
 
 // ---------------------------------------------------------------------------

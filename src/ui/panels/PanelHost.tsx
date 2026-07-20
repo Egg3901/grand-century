@@ -1,5 +1,8 @@
 import { useStore } from '../../store';
 import { BudgetPanel } from './BudgetPanel';
+import { MarketPanel } from './MarketPanel';
+import { PopulationPanel } from './PopulationPanel';
+import { ProductionPanel } from './ProductionPanel';
 import { ProvincePanel } from './ProvincePanel';
 import './panels.css';
 
@@ -15,9 +18,6 @@ function PlaceholderPanel({ title, body }: { title: string; body: string }) {
 export function PanelHost() {
   const openPanel = useStore((state) => state.openPanel);
   const snapshot = useStore((state) => state.snapshot);
-  const worldPopulation = snapshot
-    ? snapshot.provinces.reduce((sum, province) => sum + province.population, 0)
-    : 0;
 
   if (!openPanel) return null;
 
@@ -25,12 +25,9 @@ export function PanelHost() {
     <aside className="panel-host">
       {openPanel === 'province' ? <ProvincePanel /> : null}
       {openPanel === 'budget' ? <BudgetPanel /> : null}
-      {openPanel === 'population' ? (
-        <PlaceholderPanel
-          title="Population"
-          body={`Total world population: ${worldPopulation.toLocaleString()}`}
-        />
-      ) : null}
+      {openPanel === 'population' ? <PopulationPanel /> : null}
+      {openPanel === 'production' ? <ProductionPanel /> : null}
+      {openPanel === 'market' ? <MarketPanel /> : null}
       {openPanel === 'politics' ? (
         <PlaceholderPanel title="Politics" body={`Great powers tracked: ${snapshot?.nations.filter((nation) => nation.gpRank > 0).length ?? 0}`} />
       ) : null}
