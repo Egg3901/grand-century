@@ -1,4 +1,5 @@
 import { useStore } from '../../store';
+import { TraceTooltip } from '../components/TraceTooltip';
 
 function pct(value: number): string {
   return `${(Math.max(0, Math.min(1, value)) * 100).toFixed(1)}%`;
@@ -34,12 +35,46 @@ export function PopulationPanel() {
             </div>
             <div>
               <span>{entry.dominantIdeology}</span>
-              <span>Needs {pct(entry.avgNeedsMet)}</span>
-              <span>Mil {entry.avgMilitancy.toFixed(2)}</span>
-              <span>Con {entry.avgConsciousness.toFixed(2)}</span>
+              <span>
+                Needs{' '}
+                <TraceTooltip
+                  value={pct(entry.avgNeedsMet)}
+                  trace={[
+                    { label: 'Average needs met', value: entry.avgNeedsMet },
+                    { label: 'Population size', value: entry.size },
+                  ]}
+                />
+              </span>
+              <span>
+                Mil{' '}
+                <TraceTooltip
+                  value={entry.avgMilitancy.toFixed(2)}
+                  trace={[
+                    { label: 'Average militancy', value: entry.avgMilitancy },
+                    { label: 'Population size', value: entry.size },
+                  ]}
+                />
+              </span>
+              <span>
+                Con{' '}
+                <TraceTooltip
+                  value={entry.avgConsciousness.toFixed(2)}
+                  trace={[
+                    { label: 'Average consciousness', value: entry.avgConsciousness },
+                    { label: 'Population size', value: entry.size },
+                  ]}
+                />
+              </span>
               <span>{entry.agitatingFor.length > 0 ? `Agitating: ${entry.agitatingFor.map((reform) => reform.replaceAll('_', ' ')).join(', ')}` : 'Agitating: none'}</span>
               <span className={entry.growth >= 0 ? 'positive' : 'negative'}>
-                Growth {entry.growth >= 0 ? '+' : ''}{entry.growth.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                Growth{' '}
+                <TraceTooltip
+                  value={`${entry.growth >= 0 ? '+' : ''}${entry.growth.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+                  trace={[
+                    { label: 'Monthly growth', value: entry.growth },
+                    { label: 'Population size', value: entry.size },
+                  ]}
+                />
               </span>
             </div>
           </li>

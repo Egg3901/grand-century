@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { WORLD_SEED } from '../../data/generated';
 import type { Army, Fleet, Ship } from '../../shared/types';
 import { useStore } from '../../store';
+import { TraceTooltip } from '../components/TraceTooltip';
 
 function avgRegimentStrength(army: Army): number {
   if (army.regiments.length === 0) return 0;
@@ -84,6 +85,29 @@ export function MilitaryPanel() {
   const selectedWarGoals = selectedWarObj?.goals ?? [];
   const isPlayerAttacker = selectedWarObj ? selectedWarObj.attackers.includes(snapshot.playerNation) : false;
   const scorePerspective = selectedWarObj ? (isPlayerAttacker ? selectedWarObj.score : -selectedWarObj.score) : 0;
+  const warCombat = selectedWarObj ? (() => {
+    const attackerArmies = snapshot.armies.filter((army) => selectedWarObj.attackers.includes(army.owner));
+    const defenderArmies = snapshot.armies.filter((army) => selectedWarObj.defenders.includes(army.owner));
+    const attackerRegiments = attackerArmies.reduce((sum, army) => sum + army.regiments.length, 0);
+    const defenderRegiments = defenderArmies.reduce((sum, army) => sum + army.regiments.length, 0);
+    const attackerOrg = attackerRegiments > 0
+      ? attackerArmies.reduce((sum, army) => sum + army.regiments.reduce((inner, regiment) => inner + regiment.organization, 0), 0) / attackerRegiments
+      : 0;
+    const defenderOrg = defenderRegiments > 0
+      ? defenderArmies.reduce((sum, army) => sum + army.regiments.reduce((inner, regiment) => inner + regiment.organization, 0), 0) / defenderRegiments
+      : 0;
+    const attackerPower = attackerRegiments * (0.8 + attackerOrg / 100);
+    const defenderPower = defenderRegiments * (0.8 + defenderOrg / 100);
+    const odds = attackerPower + defenderPower > 0 ? attackerPower / (attackerPower + defenderPower) : 0.5;
+    const playerOdds = isPlayerAttacker ? odds : 1 - odds;
+    return {
+      playerOdds,
+      attackerRegiments,
+      defenderRegiments,
+      attackerOrg,
+      defenderOrg,
+    };
+  })() : null;
 
   return (
     <section className="panel-card atlas-panel">
@@ -221,9 +245,30 @@ export function MilitaryPanel() {
           {selectedWarObj ? (
             <>
               <p className="panel-subtle">
-                Score (your perspective): {scorePerspective.toFixed(1)} | Exhaustion A {selectedWarObj.attackerExhaustion.toFixed(1)} / D {selectedWarObj.defenderExhaustion.toFixed(1)}
+                Score (your perspective):{' '}
+                <TraceTooltip
+                  value={scorePerspective.toFixed(1)}
+                  trace={[
+                    { label: 'Raw warscore', value: selectedWarObj.score },
+                    { label: 'Attacker exhaustion', value: selectedWarObj.attackerExhaustion },
+                    { label: 'Defender exhaustion', value: selectedWarObj.defenderExhaustion },
+                    { label: 'Goals', value: selectedWarObj.goals.length },
+                  ]}
+                />{' '}
+                | Exhaustion A {selectedWarObj.attackerExhaustion.toFixed(1)} / D {selectedWarObj.defenderExhaustion.toFixed(1)}
               </p>
-              <p className="panel-subtle">Warscore bar: [{Math.max(-100, Math.min(100, selectedWarObj.score)).toFixed(1)}]</p>
+              <p className="panel-subtle">
+                Combat odds:{' '}
+                <TraceTooltip
+                  value={warCombat ? `${(warCombat.playerOdds * 100).toFixed(1)}%` : '50.0%'}
+                  trace={warCombat ? [
+                    { label: 'Attacker regiments', value: warCombat.attackerRegiments },
+                    { label: 'Defender regiments', value: warCombat.defenderRegiments },
+                    { label: 'Attacker avg org', value: warCombat.attackerOrg },
+                    { label: 'Defender avg org', value: warCombat.defenderOrg },
+                  ] : []}
+                />
+              </p>
               <ul className="panel-list mil-goal-list">
                 {selectedWarGoals.map((goal, index) => (
                   <li key={`${goal.type}-${index}`}>

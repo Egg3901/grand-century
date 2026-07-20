@@ -1,9 +1,25 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import maplibregl, { type Map as MapLibreMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './GrandMap.css';
-import { PROVINCES_GEOJSON, WORLD_SEED } from '../data/generated';
+import { WORLD_SEED } from '../data/generated';
 import { useStore } from '../store';
+
+type MapLibreMap = import('maplibre-gl').Map;
+type MapLibreMarker = import('maplibre-gl').Marker;
+type ProvinceGeoJson = {
+  type: 'FeatureCollection';
+  features: Array<{
+    type: 'Feature';
+    id: number;
+    properties: { id: number; n: string };
+    geometry: {
+      type: 'Polygon' | 'MultiPolygon';
+      coordinates: number[][][] | number[][][][];
+    };
+  }>;
+};
+
+const FALLBACK_GEOJSON_URL = new URL('../data/generated/provinces.geo.json', import.meta.url).toString();
 
 const MAP_SOURCE_ID = 'provinces';
 const MAP_FILL_LAYER = 'province-fill';
@@ -62,12 +78,12 @@ function blend(hex: string, amount: number): string {
   return toHexColor(mixed);
 }
 
-function computeBounds() {
+function computeBounds(geojson: ProvinceGeoJson) {
   let minLon = Infinity;
   let minLat = Infinity;
   let maxLon = -Infinity;
   let maxLat = -Infinity;
-  for (const feature of PROVINCES_GEOJSON.features) {
+  for (const feature of geojson.features) {
     const walk = (node: unknown): void => {
       if (!Array.isArray(node) || node.length === 0) return;
       if (typeof node[0] === 'number' && typeof node[1] === 'number') {
@@ -82,6 +98,9 @@ function computeBounds() {
       for (const child of node) walk(child);
     };
     walk(feature.geometry.coordinates);
+  }
+  if (!Number.isFinite(minLon) || !Number.isFinite(minLat) || !Number.isFinite(maxLon) || !Number.isFinite(maxLat)) {
+    return null;
   }
   return [[minLon, minLat], [maxLon, maxLat]] as [[number, number], [number, number]];
 }
@@ -100,6 +119,7 @@ export function GrandMap() {
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
+  const maplibreRef = useRef<any>(null);
   const hoveredRef = useRef<number | null>(null);
   const selectedRef = useRef<number | null>(null);
   const snapshotRef = useRef(snapshot);
@@ -107,7 +127,8 @@ export function GrandMap() {
   const selectedFleetRef = useRef<number | null>(selectedFleet);
   const fillRef = useRef<Map<number, string>>(new globalThis.Map());
   const frontierRef = useRef<Map<number, number>>(new globalThis.Map());
-  const markerRef = useRef<Map<string, maplibregl.Marker>>(new globalThis.Map());
+  const markerRef = useRef<Map<string, MapLibreMarker>>(new globalThis.Map());
+  const [geojson, setGeojson] = useState<ProvinceGeoJson | null>(null);
   const [tooltip, setTooltip] = useState<{
     x: number;
     y: number;
@@ -135,7 +156,7 @@ export function GrandMap() {
     new globalThis.Map<number, { lon: number; lat: number }>(WORLD_SEED.provinces.map((province) => [province.id, { lon: province.lon, lat: province.lat }]))
   ), []);
 
-  const bounds = useMemo(() => computeBounds(), []);
+  const bounds = useMemo(() => (geojson ? computeBounds(geojson) : null), [geojson]);
 
   useEffect(() => {
     snapshotRef.current = snapshot;
@@ -148,35 +169,68 @@ export function GrandMap() {
   }, [selectedFleet]);
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current) return;
+    let alive = true;
+    const loadGeo = async () => {
+      const candidates = ['/generated/provinces.geo.json', FALLBACK_GEOJSON_URL];
+      for (const url of candidates) {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) continue;
+          const parsed = await response.json() as ProvinceGeoJson;
+          if (!alive) return;
+          setGeojson(parsed);
+          return;
+        } catch {
+          // continue to next candidate
+        }
+      }
+    };
+    void loadGeo();
+    return () => {
+      alive = false;
+    };
+  }, []);
 
-    const map = new maplibregl.Map({
-      container: containerRef.current,
-      style: {
-        version: 8,
-        sources: {},
-        layers: [{
-          id: 'paper-background',
-          type: 'background',
-          paint: { 'background-color': '#ddcfb1' },
-        }],
-      },
-      center: [0, 18],
-      zoom: 1.3,
-      attributionControl: false,
-      maxPitch: 0,
-      renderWorldCopies: false,
-    });
-    map.dragRotate.disable();
-    map.touchZoomRotate.disableRotation();
-    map.keyboard.disableRotation();
-    map.addControl(new maplibregl.NavigationControl({ visualizePitch: false, showCompass: false }), 'bottom-right');
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current || !geojson) return;
+    let alive = true;
+    let createdMap: MapLibreMap | null = null;
 
-    map.on('load', () => {
-      map.addSource(MAP_SOURCE_ID, {
-        type: 'geojson',
-        data: PROVINCES_GEOJSON as unknown as object,
+    const init = async () => {
+      const maplibreModule = await import('maplibre-gl');
+      if (!alive || !containerRef.current) return;
+      const maplibregl = maplibreModule.default;
+      maplibreRef.current = maplibregl;
+
+      const map = new maplibregl.Map({
+        container: containerRef.current,
+        style: {
+          version: 8,
+          sources: {},
+          layers: [{
+            id: 'paper-background',
+            type: 'background',
+            paint: { 'background-color': '#ddcfb1' },
+          }],
+        },
+        center: [0, 18],
+        zoom: 1.3,
+        attributionControl: false,
+        maxPitch: 0,
+        renderWorldCopies: false,
       });
+      createdMap = map;
+      mapRef.current = map;
+      map.dragRotate.disable();
+      map.touchZoomRotate.disableRotation();
+      map.keyboard.disableRotation();
+      map.addControl(new maplibregl.NavigationControl({ visualizePitch: false, showCompass: false }), 'bottom-right');
+
+      map.on('load', () => {
+        map.addSource(MAP_SOURCE_ID, {
+          type: 'geojson',
+          data: geojson as unknown as object,
+        });
 
       map.addLayer({
         id: MAP_FILL_LAYER,
@@ -238,8 +292,8 @@ export function GrandMap() {
         },
       });
 
-      map.fitBounds(bounds, { padding: 30, duration: 550, maxZoom: 2.7 });
-    });
+        if (bounds) map.fitBounds(bounds, { padding: 30, duration: 550, maxZoom: 2.7 });
+      });
 
     map.on('click', MAP_FILL_LAYER, (event) => {
       const clicked = event.features?.[0];
@@ -300,12 +354,16 @@ export function GrandMap() {
       });
     });
 
-    mapRef.current = map;
+    };
+
+    void init();
     return () => {
-      map.remove();
+      alive = false;
+      const map = createdMap ?? mapRef.current;
+      if (map) map.remove();
       mapRef.current = null;
     };
-  }, [bounds, provinceNameById, selectProvince, sendCommand]);
+  }, [bounds, geojson, provinceNameById, selectProvince, sendCommand]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -397,7 +455,8 @@ export function GrandMap() {
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !snapshot) return;
+    const maplibregl = maplibreRef.current;
+    if (!map || !snapshot || !maplibregl) return;
 
     const allMarkers = markerRef.current;
     for (const marker of allMarkers.values()) marker.remove();
@@ -514,6 +573,14 @@ export function GrandMap() {
       addMarker(`blockade-${provinceId}`, provinceId, '⛵', 'is-blockade', () => {
         openPanelId('military');
         selectProvince(provinceId);
+      });
+    }
+
+    for (const province of snapshot.provinces) {
+      if (province.occupation <= 0 || province.controller === province.owner) continue;
+      addMarker(`siege-${province.id}`, province.id, '🏰', 'is-siege', () => {
+        openPanelId('military');
+        selectProvince(province.id);
       });
     }
 

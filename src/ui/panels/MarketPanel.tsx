@@ -61,8 +61,24 @@ export function MarketPanel() {
               <tr key={good.good}>
                 <td>{goodById.get(good.good) ?? `Good ${good.good}`}</td>
                 <td><TraceTooltip value={`£${good.price.toFixed(2)}`} trace={trace} /></td>
-                <td>{good.supply.toFixed(1)}</td>
-                <td>{good.demand.toFixed(1)}</td>
+                <td>
+                  <TraceTooltip
+                    value={good.supply.toFixed(1)}
+                    trace={[
+                      { label: 'Producer supply', value: good.priceTrace.effectiveSupply },
+                      { label: 'Stockpile start', value: good.priceTrace.stockpileStart },
+                    ]}
+                  />
+                </td>
+                <td>
+                  <TraceTooltip
+                    value={good.demand.toFixed(1)}
+                    trace={[
+                      { label: 'Requested demand', value: good.priceTrace.requestedDemand },
+                      { label: 'Demand ratio', value: good.priceTrace.ratio },
+                    ]}
+                  />
+                </td>
                 <td><Sparkline values={good.trend} /></td>
               </tr>
             );

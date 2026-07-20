@@ -31,3 +31,62 @@
   margin: 0;
   font-size: 0.95rem;
 }
+
+.map-loading {
+  position: absolute;
+  inset: 0;
+  background: #ddcfb1;
+}
+
+.menu-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(27, 17, 10, 0.52);
+  display: grid;
+  place-items: center;
+  z-index: 20;
+}
+
+.menu-card {
+  width: min(28rem, calc(100vw - 2rem));
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.menu-card h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.menu-card p {
+  margin: 0;
+}
+
+.menu-card label {
+  display: grid;
+  gap: 0.22rem;
+  font-size: 0.86rem;
+}
+
+.menu-card select,
+.menu-card input {
+  border: 1px solid rgba(72, 49, 35, 0.24);
+  border-radius: 7px;
+  background: rgba(242, 229, 201, 0.92);
+  padding: 0.38rem 0.45rem;
+  color: #2f2219;
+}
+
+.menu-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.menu-actions button {
+  border: 1px solid rgba(67, 49, 35, 0.25);
+  background: rgba(240, 227, 201, 0.9);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+}

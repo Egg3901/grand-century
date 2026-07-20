@@ -13,6 +13,7 @@ const PANELS: { id: PanelId; label: string }[] = [
   { id: 'great_powers', label: 'Great Powers' },
   { id: 'military', label: 'Military' },
   { id: 'colonization', label: 'Colonization' },
+  { id: 'save_load', label: 'Save / Load' },
 ];
 const MAP_MODES: { id: MapMode; label: string }[] = [
   { id: 'political', label: 'Political' },
@@ -40,6 +41,9 @@ export function Hud() {
   const sendCommand = useStore((state) => state.sendCommand);
   const mapMode = useStore((state) => state.mapMode);
   const setMapMode = useStore((state) => state.setMapMode);
+  const setShowMainMenu = useStore((state) => state.setShowMainMenu);
+  const muteAudio = useStore((state) => state.muteAudio);
+  const setMuteAudio = useStore((state) => state.setMuteAudio);
 
   const playerNation = useMemo(() => {
     if (!snapshot) return null;
@@ -51,7 +55,7 @@ export function Hud() {
       <header className="hud-top atlas-panel">
         <div className="hud-top__section">
           <span className="atlas-heading">Date</span>
-          <strong>
+          <strong data-testid="hud-date">
             {snapshot ? `${snapshot.date.year}-${String(snapshot.date.month).padStart(2, '0')}-${String(snapshot.date.day).padStart(2, '0')}` : '1836-01-01'}
           </strong>
         </div>
@@ -60,6 +64,7 @@ export function Hud() {
             <button
               key={speed}
               type="button"
+              data-testid={`speed-${speed}`}
               className={snapshot?.speed === speed ? 'is-active' : ''}
               onClick={() => sendCommand({ t: 'setSpeed', speed })}
             >
@@ -74,6 +79,8 @@ export function Hud() {
             Infamy {(playerNation?.infamy ?? 0).toFixed(1)}
             {snapshot ? ` / ${snapshot.infamyLimit.toFixed(1)}` : ''}
           </span>
+          <button type="button" onClick={() => setMuteAudio(!muteAudio)}>{muteAudio ? 'Unmute' : 'Mute'}</button>
+          <button type="button" onClick={() => setShowMainMenu(true)}>Menu</button>
         </div>
       </header>
 
@@ -82,6 +89,7 @@ export function Hud() {
           <button
             key={panel.id}
             type="button"
+            data-testid={`panel-${panel.id}`}
             className={openPanel === panel.id ? 'is-active' : ''}
             onClick={() => openPanelId(openPanel === panel.id ? null : panel.id)}
           >

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useStore } from '../../store';
+import { TraceTooltip } from '../components/TraceTooltip';
 
 export function GreatPowersPanel() {
   const snapshot = useStore((state) => state.snapshot);
@@ -42,7 +43,16 @@ export function GreatPowersPanel() {
                   #{entry.rank} {nation?.name ?? `Nation ${entry.nation}`}
                 </strong>
                 <span>
-                  Score {entry.score.toFixed(1)} | Industry {entry.industry.toFixed(1)} | Military {entry.military.toFixed(1)} | Prestige {entry.prestige.toFixed(1)}
+                  Score{' '}
+                  <TraceTooltip
+                    value={entry.score.toFixed(1)}
+                    trace={[
+                      { label: 'Industry', value: entry.industry },
+                      { label: 'Military', value: entry.military },
+                      { label: 'Prestige', value: entry.prestige },
+                    ]}
+                  />{' '}
+                  | Industry {entry.industry.toFixed(1)} | Military {entry.military.toFixed(1)} | Prestige {entry.prestige.toFixed(1)}
                 </span>
                 <span>
                   Sphere: {sphereNames.length > 0 ? sphereNames.join(', ') : 'None'}

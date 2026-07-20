@@ -1,8 +1,9 @@
 import type { GameData, GoodId, NationId, World } from '../../shared/types';
 import type { Rng } from '../rng';
+import { BALANCE } from '../balance';
 
-const MIN_PRICE = 0.05;
-const MAX_PRICE = 1_000_000;
+const MIN_PRICE = BALANCE.economy.minPrice;
+const MAX_PRICE = BALANCE.economy.maxPrice;
 
 function finite(value: number, fallback = 0): number {
   return Number.isFinite(value) ? value : fallback;

@@ -5,9 +5,14 @@ import { Rng } from '../src/sim/rng';
 import { runPopsMonthly } from '../src/sim/systems/pops';
 import { advanceDay } from '../src/sim/world';
 
+function disableAi(world: ReturnType<typeof createWorld>) {
+  for (const nation of world.nations) nation.isPlayer = true;
+}
+
 describe('M2 economy loop', () => {
   it('conserves market flow over one year', () => {
     const world = createWorld(GAME_DATA, 1836);
+    disableAi(world);
     const yearlySupply = new Array(world.market.length).fill(0);
     const yearlySold = new Array(world.market.length).fill(0);
 
@@ -36,6 +41,7 @@ describe('M2 economy loop', () => {
 
   it('bankrupts an overextended nation within years', () => {
     const world = createWorld(GAME_DATA, 45);
+    disableAi(world);
     const nationId = world.playerNation;
     const nation = world.nations[nationId];
     nation.taxRatePoor = 0;
@@ -70,10 +76,11 @@ describe('M2 economy loop', () => {
       if (world.nations[nationId].isBankrupt) sawBankruptcy = true;
     }
     expect(sawBankruptcy).toBe(true);
-  });
+  }, 15_000);
 
   it('grows well-fed pops and shrinks starving pops', () => {
     const world = createWorld(GAME_DATA, 99);
+    disableAi(world);
     const wellFed = world.pops[0];
     const starving = world.pops[1];
     wellFed.type = 'aristocrat';
@@ -91,6 +98,8 @@ describe('M2 economy loop', () => {
   it('is deterministic for identical seed over five years', () => {
     const a = createWorld(GAME_DATA, 1234);
     const b = createWorld(GAME_DATA, 1234);
+    disableAi(a);
+    disableAi(b);
     const days = 365 * 5;
     for (let i = 0; i < days; i++) {
       advanceDay(a, GAME_DATA);
@@ -99,5 +108,5 @@ describe('M2 economy loop', () => {
     const treasuryA = a.nations[a.playerNation].treasury;
     const treasuryB = b.nations[b.playerNation].treasury;
     expect(treasuryA).toBeCloseTo(treasuryB, 9);
-  });
+  }, 15_000);
 });

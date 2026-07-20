@@ -40,6 +40,18 @@ interface WarRuntime {
   colonialClaims: Map<StateId, ColonialClaim>;
 }
 
+export interface WarRuntimeSnapshot {
+  generalPools: Array<{ nation: NationId; leaders: Leader[] }>;
+  mobilizedNations: NationId[];
+  mobilizedArmyIds: Array<{ nation: NationId; armyIds: ArmyId[] }>;
+  battleScoreByWar: Array<{ war: WarId; score: number }>;
+  colonialClaims: Array<{
+    stateId: StateId;
+    claimants: Array<{ nation: NationId; progress: number }>;
+    tension: number;
+  }>;
+}
+
 const RUNTIME_BY_WORLD = new WeakMap<World, WarRuntime>();
 
 function clamp(value: number, min: number, max: number): number {
@@ -83,6 +95,50 @@ function ensureRuntime(world: World): WarRuntime {
   };
   RUNTIME_BY_WORLD.set(world, created);
   return created;
+}
+
+export function exportWarRuntime(world: World): WarRuntimeSnapshot {
+  const runtime = ensureRuntime(world);
+  return {
+    generalPools: Array.from(runtime.generalPools.entries())
+      .map(([nation, leaders]) => ({ nation, leaders: leaders.map((leader) => ({ ...leader })) }))
+      .sort((a, b) => a.nation - b.nation),
+    mobilizedNations: Array.from(runtime.mobilizedNations).sort((a, b) => a - b),
+    mobilizedArmyIds: Array.from(runtime.mobilizedArmyIds.entries())
+      .map(([nation, armyIds]) => ({ nation, armyIds: Array.from(armyIds).sort((a, b) => a - b) }))
+      .sort((a, b) => a.nation - b.nation),
+    battleScoreByWar: Array.from(runtime.battleScoreByWar.entries())
+      .map(([war, score]) => ({ war, score }))
+      .sort((a, b) => a.war - b.war),
+    colonialClaims: Array.from(runtime.colonialClaims.entries())
+      .map(([stateId, claim]) => ({
+        stateId,
+        claimants: Array.from(claim.claimants.entries())
+          .map(([nation, progress]) => ({ nation, progress }))
+          .sort((a, b) => a.nation - b.nation),
+        tension: claim.tension,
+      }))
+      .sort((a, b) => a.stateId - b.stateId),
+  };
+}
+
+export function importWarRuntime(world: World, snapshot: WarRuntimeSnapshot | null | undefined): void {
+  if (!snapshot) {
+    ensureRuntime(world);
+    return;
+  }
+  const runtime: WarRuntime = {
+    generalPools: new Map(snapshot.generalPools.map((entry) => [entry.nation, entry.leaders.map((leader) => ({ ...leader }))])),
+    mobilizedNations: new Set(snapshot.mobilizedNations),
+    mobilizedArmyIds: new Map(snapshot.mobilizedArmyIds.map((entry) => [entry.nation, new Set(entry.armyIds)])),
+    battleScoreByWar: new Map(snapshot.battleScoreByWar.map((entry) => [entry.war, entry.score])),
+    colonialClaims: new Map(snapshot.colonialClaims.map((entry) => [entry.stateId, {
+      stateId: entry.stateId,
+      claimants: new Map(entry.claimants.map((claimant) => [claimant.nation, claimant.progress])),
+      tension: entry.tension,
+    }])),
+  };
+  RUNTIME_BY_WORLD.set(world, runtime);
 }
 
 function shipPower(ship: Ship): number {

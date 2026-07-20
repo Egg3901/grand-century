@@ -575,6 +575,13 @@ export interface BudgetLine {
   };
 }
 
+export interface SaveSlotInfo {
+  slot: string;
+  updatedAt: number;
+  day: GameDay;
+  playerNation: NationId;
+}
+
 // ---------------------------------------------------------------------------
 // Commands: the ONLY way the UI changes the world (§4 architecture)
 // ---------------------------------------------------------------------------
@@ -606,7 +613,8 @@ export type Command =
   | { t: 'colonize'; state: StateId }
   | { t: 'newGame'; seed: number; playerNation: NationId }
   | { t: 'save'; slot: string }
-  | { t: 'load'; slot: string };
+  | { t: 'load'; slot: string }
+  | { t: 'listSaves' };
 
 // ---------------------------------------------------------------------------
 // Worker <-> UI message protocol
@@ -623,6 +631,8 @@ export type FromWorker =
   | { t: 'snapshot'; snapshot: WorldSnapshot }
   | { t: 'provinceDetail'; detail: ProvinceDetail }
   | { t: 'nationDetail'; detail: NationDetail }
+  | { t: 'saveSlots'; slots: SaveSlotInfo[] }
+  | { t: 'saveStatus'; action: 'save' | 'load' | 'autosave'; slot: string; ok: boolean; msg: string }
   | { t: 'log'; level: 'info' | 'warn' | 'error'; msg: string };
 
 export interface ProvinceDetail {

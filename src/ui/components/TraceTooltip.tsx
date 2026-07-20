@@ -18,14 +18,14 @@ export function TraceTooltip({ value, trace }: TraceTooltipProps) {
       {trace.length > 0 ? (
         <span className="trace-tooltip atlas-panel" role="tooltip">
           <strong className="trace-tooltip__title">Trace Inputs</strong>
-          <ul className="trace-tooltip__list">
+          <span className="trace-tooltip__list">
             {trace.map((entry) => (
-              <li key={`${entry.label}-${entry.value}`}>
+              <span className="trace-tooltip__row" key={`${entry.label}-${entry.value}`}>
                 <span>{entry.label}</span>
                 <span>{formatTraceValue(entry.value)}</span>
-              </li>
+              </span>
             ))}
-          </ul>
+          </span>
         </span>
       ) : null}
     </span>

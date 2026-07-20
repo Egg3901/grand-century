@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useStore } from '../../store';
+import { TraceTooltip } from '../components/TraceTooltip';
 
 function formatNumber(value: number, digits = 1): string {
   return Number.isFinite(value) ? value.toLocaleString(undefined, { maximumFractionDigits: digits }) : '0';
@@ -61,10 +62,37 @@ export function ProductionPanel() {
               <span>{entry.kind.toUpperCase()} {recipeLabel(entry.recipe)}</span>
             </div>
             <div>
-              <span>{goodById.get(entry.outputGood) ?? `Good ${entry.outputGood}`}: {formatNumber(entry.outputAmount, 2)}</span>
-              <span>Jobs {formatNumber(entry.employment, 0)}</span>
+              <span>{goodById.get(entry.outputGood) ?? `Good ${entry.outputGood}`}</span>
+              <span>
+                Jobs{' '}
+                <TraceTooltip
+                  value={formatNumber(entry.employment, 0)}
+                  trace={[
+                    { label: 'Building level', value: entry.level },
+                    { label: 'Output amount', value: entry.outputAmount },
+                  ]}
+                />
+              </span>
+              <span>
+                Output{' '}
+                <TraceTooltip
+                  value={formatNumber(entry.outputAmount, 2)}
+                  trace={[
+                    { label: 'Employment', value: entry.employment },
+                    { label: 'Building level', value: entry.level },
+                  ]}
+                />
+              </span>
               <span className={entry.profit >= 0 ? 'positive' : 'negative'}>
-                Profit {entry.profit >= 0 ? '+' : ''}{formatNumber(entry.profit, 2)}
+                Profit{' '}
+                <TraceTooltip
+                  value={`${entry.profit >= 0 ? '+' : ''}${formatNumber(entry.profit, 2)}`}
+                  trace={[
+                    { label: 'Output amount', value: entry.outputAmount },
+                    { label: 'Employment', value: entry.employment },
+                    { label: 'Building level', value: entry.level },
+                  ]}
+                />
               </span>
             </div>
           </li>

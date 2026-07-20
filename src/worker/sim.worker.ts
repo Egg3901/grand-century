@@ -11,18 +11,80 @@ import { createWorld } from '../sim/bootstrap';
 import { applyCommand } from '../sim/commands';
 import { GAME_DATA } from '../data/gameData';
 import { detailProvince, detailNation } from '../sim/detail';
+import { deserializeWorld, serializeWorld } from '../sim/persistence';
+import { listSaveSlots, readSaveSlot, writeSaveSlot } from './saveSlots';
 
 const ctx: DedicatedWorkerGlobalScope = self as unknown as DedicatedWorkerGlobalScope;
 
 let data: GameData = GAME_DATA;
 let world: World | null = null;
 let acc = 0;
+let lastAutosaveYear = -1;
+let saveBusy = false;
 
 // days advanced per real second at each speed
 const SPEED_DAYS_PER_SEC = [0, 2, 5, 12, 30, 90];
 
 function post(m: FromWorker) {
   ctx.postMessage(m);
+}
+
+function yearFromDay(day: number): number {
+  return 1836 + Math.floor(day / 365);
+}
+
+async function publishSaveSlots() {
+  const slots = await listSaveSlots();
+  post({ t: 'saveSlots', slots });
+}
+
+async function saveCurrentWorld(slot: string, action: 'save' | 'autosave') {
+  if (!world || saveBusy) return;
+  saveBusy = true;
+  try {
+    const payload = serializeWorld(world);
+    await writeSaveSlot(slot, payload, world.day, world.playerNation);
+    post({ t: 'saveStatus', action, slot, ok: true, msg: `${action} complete` });
+    await publishSaveSlots();
+  } catch (error) {
+    post({
+      t: 'saveStatus',
+      action,
+      slot,
+      ok: false,
+      msg: error instanceof Error ? error.message : 'save failed',
+    });
+  } finally {
+    saveBusy = false;
+  }
+}
+
+async function loadWorldFromSlot(slot: string) {
+  if (saveBusy) return;
+  saveBusy = true;
+  try {
+    const payload = await readSaveSlot(slot);
+    if (!payload) {
+      post({ t: 'saveStatus', action: 'load', slot, ok: false, msg: 'slot not found' });
+      return;
+    }
+    const loaded = deserializeWorld(payload);
+    world = loaded.world;
+    lastAutosaveYear = yearFromDay(world.day);
+    post({ t: 'snapshot', snapshot: snapshot(world, data) });
+    post({ t: 'saveStatus', action: 'load', slot, ok: true, msg: 'load complete' });
+    await publishSaveSlots();
+  } catch (error) {
+    post({
+      t: 'saveStatus',
+      action: 'load',
+      slot,
+      ok: false,
+      msg: error instanceof Error ? error.message : 'load failed',
+    });
+  } finally {
+    saveBusy = false;
+  }
 }
 
 function tick(dtSeconds: number) {
@@ -35,6 +97,12 @@ function tick(dtSeconds: number) {
       acc -= 1;
       steps++;
     }
+  }
+  const year = yearFromDay(world.day);
+  if (world.day > 0 && world.day % 365 === 0 && year !== lastAutosaveYear) {
+    lastAutosaveYear = year;
+    const autosaveSlot = `autosave-${(year % 3) + 1}`;
+    void saveCurrentWorld(autosaveSlot, 'autosave');
   }
   post({ t: 'snapshot', snapshot: snapshot(world, data) });
 }
@@ -57,8 +125,10 @@ ctx.onmessage = (e: MessageEvent<ToWorker>) => {
   switch (msg.t) {
     case 'init':
       world = createWorld(data, msg.seed);
+      lastAutosaveYear = yearFromDay(world.day);
       post({ t: 'ready', data });
       post({ t: 'snapshot', snapshot: snapshot(world, data) });
+      void publishSaveSlots();
       break;
     case 'command':
       if (world) handleCommand(msg.cmd);
@@ -77,7 +147,24 @@ function handleCommand(cmd: Command) {
   if (cmd.t === 'newGame') {
     world = createWorld(data, cmd.seed);
     world.playerNation = cmd.playerNation;
+    const playerNation = world.playerNation;
+    world.nations.forEach((nation) => {
+      nation.isPlayer = nation.id === playerNation;
+    });
+    lastAutosaveYear = yearFromDay(world.day);
     post({ t: 'snapshot', snapshot: snapshot(world, data) });
+    return;
+  }
+  if (cmd.t === 'save') {
+    void saveCurrentWorld(cmd.slot, 'save');
+    return;
+  }
+  if (cmd.t === 'load') {
+    void loadWorldFromSlot(cmd.slot);
+    return;
+  }
+  if (cmd.t === 'listSaves') {
+    void publishSaveSlots();
     return;
   }
   applyCommand(world, data, cmd, post);

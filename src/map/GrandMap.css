@@ -67,3 +67,7 @@
 .grand-map__counter.is-blockade {
   background: rgba(192, 213, 228, 0.98);
 }
+
+.grand-map__counter.is-siege {
+  background: rgba(236, 219, 176, 0.98);
+}

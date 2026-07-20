@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { WORLD_SEED } from '../../data/generated';
 import type { NationId, WarGoalType } from '../../shared/types';
 import { useStore } from '../../store';
+import { TraceTooltip } from '../components/TraceTooltip';
 
 const WAR_GOALS: { id: WarGoalType; label: string }[] = [
   { id: 'annex_state', label: 'Annex State' },
@@ -120,7 +121,16 @@ export function DiplomacyPanel() {
     <section className="panel-card atlas-panel">
       <h2 className="atlas-heading">Diplomacy</h2>
       <p className="panel-subtle">
-        Infamy {playerInfamy.toFixed(1)} / {snapshot.infamyLimit.toFixed(1)}
+        Infamy{' '}
+        <TraceTooltip
+          value={playerInfamy.toFixed(1)}
+          trace={[
+            { label: 'Current infamy', value: playerInfamy },
+            { label: 'Limit', value: snapshot.infamyLimit },
+            { label: 'Projected declaration cost', value: projectedInfamy },
+          ]}
+        />{' '}
+        / {snapshot.infamyLimit.toFixed(1)}
         {playerInfamy >= snapshot.infamyLimit ? ' - Warning: containment coalitions are likely.' : ''}
       </p>
       {snapshot.coalitionAgainstPlayer.length > 0 ? (
@@ -193,6 +203,7 @@ export function DiplomacyPanel() {
         </button>
         <button
           type="button"
+          data-testid="diplo-declare-war"
           disabled={targetId === null || truceBlocks || stateRequiredMissing}
           onClick={() => targetId !== null && sendCommand({ t: 'declareWar', target: targetId, goal: selectedGoal, state: effectiveState })}
         >

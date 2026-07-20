@@ -23,6 +23,12 @@ worker.onmessage = (event: MessageEvent<FromWorker>) => {
     case 'nationDetail':
       state.onNationDetail(message.detail);
       break;
+    case 'saveSlots':
+      state.onSaveSlots(message.slots);
+      break;
+    case 'saveStatus':
+      state.onSaveStatus(message);
+      break;
     case 'log':
       if (message.level === 'error') console.error(`[sim] ${message.msg}`);
       else if (message.level === 'warn') console.warn(`[sim] ${message.msg}`);

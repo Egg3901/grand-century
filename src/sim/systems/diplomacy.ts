@@ -42,6 +42,16 @@ interface DiplomacyRuntime {
   coalitionAgainst: Map<NationId, NationId[]>;
 }
 
+export interface DiplomacyRuntimeSnapshot {
+  pendingCbs: CasusBelli[];
+  activeCbs: CasusBelli[];
+  influence: InfluenceEntry[];
+  influencePool: number[];
+  diplomaticPoints: number[];
+  powerScores: PowerScoreEntry[];
+  coalitionAgainst: Array<{ nation: NationId; members: NationId[] }>;
+}
+
 interface WarGoalRule {
   score: number;
   infamyUse: number;
@@ -84,6 +94,38 @@ function ensureRuntime(world: World): DiplomacyRuntime {
   };
   RUNTIME_BY_WORLD.set(world, created);
   return created;
+}
+
+export function exportDiplomacyRuntime(world: World): DiplomacyRuntimeSnapshot {
+  const runtime = ensureRuntime(world);
+  return {
+    pendingCbs: runtime.pendingCbs.map((cb) => ({ ...cb })),
+    activeCbs: runtime.activeCbs.map((cb) => ({ ...cb })),
+    influence: runtime.influence.map((entry) => ({ ...entry })),
+    influencePool: runtime.influencePool.slice(),
+    diplomaticPoints: runtime.diplomaticPoints.slice(),
+    powerScores: runtime.powerScores.map((entry) => ({ ...entry })),
+    coalitionAgainst: Array.from(runtime.coalitionAgainst.entries())
+      .map(([nation, members]) => ({ nation, members: members.slice().sort((a, b) => a - b) }))
+      .sort((a, b) => a.nation - b.nation),
+  };
+}
+
+export function importDiplomacyRuntime(world: World, snapshot: DiplomacyRuntimeSnapshot | null | undefined): void {
+  if (!snapshot) {
+    ensureRuntime(world);
+    return;
+  }
+  const runtime: DiplomacyRuntime = {
+    pendingCbs: snapshot.pendingCbs.map((cb) => ({ ...cb })),
+    activeCbs: snapshot.activeCbs.map((cb) => ({ ...cb })),
+    influence: snapshot.influence.map((entry) => ({ ...entry })),
+    influencePool: Array.from({ length: world.nations.length }, (_unused, index) => snapshot.influencePool[index] ?? 0),
+    diplomaticPoints: Array.from({ length: world.nations.length }, (_unused, index) => snapshot.diplomaticPoints[index] ?? 24),
+    powerScores: snapshot.powerScores.map((entry) => ({ ...entry })),
+    coalitionAgainst: new Map(snapshot.coalitionAgainst.map((entry) => [entry.nation, entry.members.slice()])),
+  };
+  RUNTIME_BY_WORLD.set(world, runtime);
 }
 
 function relationIndex(world: World, a: NationId, b: NationId): number {

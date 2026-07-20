@@ -15,6 +15,10 @@ function noopPost() {
   // intentionally empty in tests
 }
 
+function disableAi(world: World) {
+  for (const nation of world.nations) nation.isPlayer = true;
+}
+
 function firstNationExcept(world: World, excluded: NationId): NationId {
   for (const nation of world.nations) {
     if (nation.id !== excluded) return nation.id;
@@ -81,6 +85,7 @@ function runScriptedWar(seed: number): {
   controller: NationId;
 } {
   const world = createWorld(GAME_DATA, seed);
+  disableAi(world);
   const player = world.playerNation;
   const targetNation = firstNationExcept(world, player);
   let border = findBorderPair(world, player, targetNation);
@@ -126,6 +131,8 @@ describe('M5 war and expansion', () => {
   it('recruitArmy draws from soldier pops and scales with conscription level', () => {
     const low = createWorld(GAME_DATA, 5501);
     const high = createWorld(GAME_DATA, 5501);
+    disableAi(low);
+    disableAi(high);
     const lowNation = low.nations[low.playerNation];
     const highNation = high.nations[high.playerNation];
     const lowProvince = firstSoldierProvince(low, low.playerNation);
@@ -176,6 +183,7 @@ describe('M5 war and expansion', () => {
 
   it('resolves land combat with organization break then retreat/destruction and no NaN values', () => {
     const world = createWorld(GAME_DATA, 5502);
+    disableAi(world);
     const attacker = world.playerNation;
     const defender = firstNationExcept(world, attacker);
     const pair = findBorderPair(world, attacker, defender) ?? { from: 0, to: 1 };
@@ -213,6 +221,7 @@ describe('M5 war and expansion', () => {
 
   it('sieges an undefended enemy province until controller flips', () => {
     const world = createWorld(GAME_DATA, 5503);
+    disableAi(world);
     const attacker = world.playerNation;
     const defender = firstNationExcept(world, attacker);
     const border = findBorderPair(world, attacker, defender) ?? { from: 0, to: 1 };
@@ -242,6 +251,7 @@ describe('M5 war and expansion', () => {
 
   it('enforcing annex_state transfers all provinces in the target state', () => {
     const world = createWorld(GAME_DATA, 5504);
+    disableAi(world);
     const attacker = world.playerNation;
     const defender = firstNationExcept(world, attacker);
     const targetState = world.states.find((state) => state.owner === defender)?.id ?? 0;
@@ -276,6 +286,7 @@ describe('M5 war and expansion', () => {
 
   it('requires transport fleets and naval supremacy for amphibious landing', () => {
     const world = createWorld(GAME_DATA, 5505);
+    disableAi(world);
     const attacker = world.playerNation;
     const defender = firstNationExcept(world, attacker);
     const home = firstCoastalProvince(world, attacker);

@@ -80,7 +80,7 @@ export function BudgetPanel() {
         <div><dt>Reform Upkeep</dt><dd><TraceTooltip value={formatMoney(-budget.reformUpkeep)} trace={budget.trace.reformUpkeep} /></dd></div>
       </dl>
       <p className={`budget-net ${budget.net >= 0 ? 'positive' : 'negative'}`}>
-        Monthly Net: {formatMoney(budget.net)}
+        Monthly Net: <TraceTooltip value={formatMoney(budget.net)} trace={budget.trace.net} />
       </p>
       <p className={`bankruptcy-pill ${player.isBankrupt ? 'is-bankrupt' : ''}`}>
         {player.isBankrupt

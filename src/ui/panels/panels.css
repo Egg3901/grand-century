@@ -136,17 +136,16 @@
 }
 
 .trace-tooltip__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  display: grid;
+  gap: 0.08rem;
 }
 
-.trace-tooltip__list li {
+.trace-tooltip__row {
   display: flex;
   justify-content: space-between;
   gap: 0.6rem;
   font-size: 0.74rem;
-  padding: 0.08rem 0;
+  padding: 0.04rem 0;
 }
 
 .production-build-grid {

@@ -9,6 +9,7 @@ import { DiplomacyPanel } from './DiplomacyPanel';
 import { GreatPowersPanel } from './GreatPowersPanel';
 import { MilitaryPanel } from './MilitaryPanel';
 import { ColonizationPanel } from './ColonizationPanel';
+import { SaveLoadPanel } from './SaveLoadPanel';
 import './panels.css';
 
 export function PanelHost() {
@@ -28,6 +29,7 @@ export function PanelHost() {
       {openPanel === 'great_powers' ? <GreatPowersPanel /> : null}
       {openPanel === 'military' ? <MilitaryPanel /> : null}
       {openPanel === 'colonization' ? <ColonizationPanel /> : null}
+      {openPanel === 'save_load' ? <SaveLoadPanel /> : null}
     </aside>
   );
 }

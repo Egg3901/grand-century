@@ -1,4 +1,5 @@
 import { useStore } from '../../store';
+import { TraceTooltip } from '../components/TraceTooltip';
 
 export function ProvincePanel() {
   const detail = useStore((state) => state.provinceDetail);
@@ -31,10 +32,28 @@ export function ProvincePanel() {
     <section className="panel-card atlas-panel">
       <h2 className="atlas-heading">{detail.name}</h2>
       <p className="panel-subtle">Owner: {ownerName}</p>
-      <p className="panel-subtle">Population: {population.toLocaleString()}</p>
+      <p className="panel-subtle">
+        Population:{' '}
+        <TraceTooltip
+          value={population.toLocaleString()}
+          trace={detail.pops.map((pop) => ({ label: pop.type, value: pop.size }))}
+        />
+      </p>
       <p className="panel-subtle">Terrain: {detail.terrain}</p>
       <p className="panel-subtle">RGO: {detail.rgo.recipe.replace('rgo_', '').replace('_', ' ')}</p>
       <p className="panel-subtle">Fort: {detail.fortLevel} | Naval Base: {detail.navalBaseLevel}</p>
+      {provinceSummary ? (
+        <p className="panel-subtle">
+          Militancy:{' '}
+          <TraceTooltip
+            value={provinceSummary.militancy.toFixed(2)}
+            trace={[
+              { label: 'Unrest risk', value: provinceSummary.unrestRisk },
+              { label: 'Needs met', value: provinceSummary.needsMet },
+            ]}
+          />
+        </p>
+      ) : null}
       <h3 className="atlas-heading panel-small-heading">Population</h3>
       <ul className="panel-list">
         {detail.pops.map((pop) => (

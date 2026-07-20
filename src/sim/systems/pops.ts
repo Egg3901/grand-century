@@ -1,5 +1,6 @@
 import type { GameData, Pop, PopType, ProvinceId, World } from '../../shared/types';
 import type { Rng } from '../rng';
+import { BALANCE } from '../balance';
 import { buyFromMarket } from './market';
 
 function finite(value: number, fallback = 0): number {
@@ -271,7 +272,11 @@ export function runPopsMonthly(world: World, _data: GameData, rng: Rng): void {
     const healthcareLevel = nation?.reforms.healthcare ?? 0;
 
     const noise = (rng.next() - 0.5) * 0.001;
-    const growthRate = clamp(-0.004 + pop.needsMet * 0.010 + healthcareLevel * 0.0008 + noise, -0.008, 0.01);
+    const growthRate = clamp(
+      -0.004 + pop.needsMet * 0.010 + healthcareLevel * 0.0008 + noise,
+      BALANCE.population.minGrowthRate,
+      BALANCE.population.maxGrowthRate,
+    );
     const growthDelta = Math.floor(pop.size * growthRate);
     pop.size = Math.max(0, pop.size + growthDelta);
     pop.lastGrowth = growthDelta;

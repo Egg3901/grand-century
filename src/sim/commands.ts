@@ -414,10 +414,9 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       // Handled by the worker entry point to rebuild a brand new world.
       return;
     case 'save':
-      log(post, 'info', `Save requested for slot "${cmd.slot}" (M0 stub).`);
-      return;
     case 'load':
-      log(post, 'info', `Load requested for slot "${cmd.slot}" (M0 stub).`);
+    case 'listSaves':
+      // Persistence commands are handled by the worker wrapper around sim state.
       return;
     default:
       return;

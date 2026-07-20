@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { useStore } from '../../store';
 import type { NationDetail } from '../../shared/types';
+import { TraceTooltip } from '../components/TraceTooltip';
 
 function pct(value: number): string {
   return `${(Math.max(0, Math.min(1, value)) * 100).toFixed(1)}%`;
@@ -49,7 +50,20 @@ export function PoliticsPanel() {
         {detail.government.replaceAll('_', ' ')} | Ruling party: {detail.rulingParty} ({detail.rulingIdeology})
       </p>
       <p className="panel-subtle">
-        Infamy {detail.infamy.toFixed(1)} | Avg militancy {detail.avgMilitancy.toFixed(2)} | Avg consciousness {detail.avgConsciousness.toFixed(2)}
+        Infamy{' '}
+        <TraceTooltip
+          value={detail.infamy.toFixed(1)}
+          trace={[
+            { label: 'Infamy limit', value: detail.infamyLimit },
+            { label: 'Coalition size', value: detail.coalitionAgainst.length },
+          ]}
+        />{' '}
+        | Avg militancy{' '}
+        <TraceTooltip
+          value={detail.avgMilitancy.toFixed(2)}
+          trace={detail.stateUnrest.slice(0, 4).map((entry) => ({ label: entry.name, value: entry.militancy }))}
+        />{' '}
+        | Avg consciousness {detail.avgConsciousness.toFixed(2)}
       </p>
       <p className="panel-subtle">
         Election: {detail.election.elective ? `${detail.election.yearsToNext}y to next (${detail.election.nextYear})` : 'Not elective'} | Last: {detail.election.lastResult}
