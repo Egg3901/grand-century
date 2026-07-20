@@ -12,151 +12,75 @@ import type {
   World,
 } from '../shared/types';
 import { Rng } from './rng';
-import { PROVINCE_GEOMETRY } from '../data/geometry';
-
-interface NationSeed {
-  tag: string;
-  name: string;
-  color: [number, number, number];
-  government: Nation['government'];
-  primaryCultureKey: string;
-  acceptedCultureKeys: string[];
-  religionKey: string;
-  rulingParty: string;
-  techs: string[];
-  literacy: number;
-  treasury: number;
-  prestige: number;
-  gpRank: number;
-}
-
-const NATION_SEEDS: NationSeed[] = [
-  {
-    tag: 'ENG',
-    name: 'United Kingdom',
-    color: [176, 94, 84],
-    government: 'hms_government',
-    primaryCultureKey: 'british',
-    acceptedCultureKeys: ['british'],
-    religionKey: 'protestant',
-    rulingParty: 'Conservative',
-    techs: ['muzzle_loaded_rifles', 'market_structure', 'steamers'],
-    literacy: 0.58,
-    treasury: 5200,
-    prestige: 65,
-    gpRank: 1,
-  },
-  {
-    tag: 'FRA',
-    name: 'France',
-    color: [106, 124, 182],
-    government: 'constitutional_monarchy',
-    primaryCultureKey: 'french',
-    acceptedCultureKeys: ['french'],
-    religionKey: 'catholic',
-    rulingParty: 'Orleanist',
-    techs: ['romanticism', 'muzzle_loaded_rifles'],
-    literacy: 0.49,
-    treasury: 4100,
-    prestige: 58,
-    gpRank: 2,
-  },
-  {
-    tag: 'PRU',
-    name: 'Prussia',
-    color: [82, 88, 116],
-    government: 'constitutional_monarchy',
-    primaryCultureKey: 'north_german',
-    acceptedCultureKeys: ['south_german'],
-    religionKey: 'protestant',
-    rulingParty: 'Junker Ministry',
-    techs: ['post_napoleonic_thought'],
-    literacy: 0.51,
-    treasury: 3200,
-    prestige: 47,
-    gpRank: 3,
-  },
-  {
-    tag: 'RUS',
-    name: 'Russian Empire',
-    color: [112, 128, 92],
-    government: 'absolute_monarchy',
-    primaryCultureKey: 'russian',
-    acceptedCultureKeys: ['russian'],
-    religionKey: 'orthodox',
-    rulingParty: 'Autocracy',
-    techs: ['muzzle_loaded_rifles'],
-    literacy: 0.23,
-    treasury: 4600,
-    prestige: 54,
-    gpRank: 4,
-  },
-  {
-    tag: 'AUS',
-    name: 'Austrian Empire',
-    color: [154, 132, 92],
-    government: 'absolute_monarchy',
-    primaryCultureKey: 'south_german',
-    acceptedCultureKeys: ['north_german'],
-    religionKey: 'catholic',
-    rulingParty: 'Imperial Court',
-    techs: ['romanticism'],
-    literacy: 0.36,
-    treasury: 3500,
-    prestige: 44,
-    gpRank: 5,
-  },
-  {
-    tag: 'USA',
-    name: 'United States',
-    color: [132, 98, 88],
-    government: 'democracy',
-    primaryCultureKey: 'yankee',
-    acceptedCultureKeys: ['british'],
-    religionKey: 'protestant',
-    rulingParty: 'Democrats',
-    techs: ['market_structure'],
-    literacy: 0.54,
-    treasury: 2900,
-    prestige: 39,
-    gpRank: 6,
-  },
-  {
-    tag: 'CHI',
-    name: 'Qing Empire',
-    color: [146, 126, 72],
-    government: 'uncivilized',
-    primaryCultureKey: 'han',
-    acceptedCultureKeys: ['han'],
-    religionKey: 'confucian',
-    rulingParty: 'Imperial Bureaucracy',
-    techs: [],
-    literacy: 0.15,
-    treasury: 3800,
-    prestige: 25,
-    gpRank: 0,
-  },
-  {
-    tag: 'OTT',
-    name: 'Ottoman Empire',
-    color: [128, 112, 88],
-    government: 'absolute_monarchy',
-    primaryCultureKey: 'turkish',
-    acceptedCultureKeys: ['turkish'],
-    religionKey: 'sunni',
-    rulingParty: 'Sublime Porte',
-    techs: [],
-    literacy: 0.2,
-    treasury: 2700,
-    prestige: 28,
-    gpRank: 8,
-  },
-];
+import { WORLD_SEED } from '../data/generated';
 
 const RGO_RECIPES = ['rgo_grain', 'rgo_cattle', 'rgo_timber', 'rgo_coal', 'rgo_iron', 'rgo_cotton'];
 const FACTORY_RECIPES = ['factory_fabric', 'factory_steel', 'factory_small_arms', 'factory_cannery'];
-const TERRAINS: Terrain[] = ['farmland', 'plains', 'forest', 'hills', 'coast', 'mountains'];
-const POP_TYPES: PopType[] = ['farmer', 'laborer', 'soldier', 'aristocrat'];
+const POP_TYPES: PopType[] = ['farmer', 'laborer', 'soldier', 'aristocrat', 'craftsman', 'clergy'];
+const GP_ORDER = ['ENG', 'FRA', 'PRU', 'AUS', 'RUS', 'USA', 'OTT', 'ESP'];
+const INDUSTRIAL_TAGS = new Set(['ENG', 'FRA', 'PRU', 'AUS', 'RUS', 'USA', 'NLD', 'SWE', 'SAR', 'TSC', 'ESP', 'POR']);
+const RGO_GOOD_TO_RECIPE: Record<string, string> = {
+  grain: 'rgo_grain',
+  cattle: 'rgo_cattle',
+  timber: 'rgo_timber',
+  coal: 'rgo_coal',
+  iron: 'rgo_iron',
+  cotton: 'rgo_cotton',
+};
+const RELIGION_BY_TAG: Record<string, string> = {
+  ENG: 'protestant',
+  FRA: 'catholic',
+  PRU: 'protestant',
+  AUS: 'catholic',
+  RUS: 'orthodox',
+  USA: 'protestant',
+  QNG: 'confucian',
+  OTT: 'sunni',
+  ESP: 'catholic',
+  POR: 'catholic',
+  NLD: 'protestant',
+  SWE: 'protestant',
+  SAR: 'catholic',
+  TSC: 'catholic',
+  JPN: 'confucian',
+  BRA: 'catholic',
+  ARG: 'catholic',
+  PER: 'catholic',
+  MEX: 'catholic',
+};
+const CULTURE_BY_TAG: Record<string, string> = {
+  ENG: 'british',
+  FRA: 'french',
+  PRU: 'north_german',
+  AUS: 'south_german',
+  RUS: 'russian',
+  USA: 'yankee',
+  QNG: 'han',
+  OTT: 'turkish',
+  ESP: 'french',
+  POR: 'french',
+  NLD: 'north_german',
+  SWE: 'north_german',
+  SAR: 'south_german',
+  TSC: 'south_german',
+  JPN: 'han',
+  BRA: 'french',
+  ARG: 'french',
+  PER: 'french',
+  MEX: 'yankee',
+  COL: 'british',
+  UNC: 'han',
+  UNA: 'han',
+};
+
+interface ProvinceSeedRuntime {
+  id: number;
+  weight: number;
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
 
 function cultureIndex(data: GameData, key: string, fallback = 0): number {
   const index = data.cultures.findIndex((culture) => culture.key === key);
@@ -168,29 +92,38 @@ function religionIndex(data: GameData, key: string, fallback = 0): number {
   return index >= 0 ? index : fallback;
 }
 
+function nationReforms(data: GameData): Record<string, number> {
+  return Object.fromEntries(data.reforms.map((reform) => [reform.key, 0]));
+}
+
+function capitalId(id: number): number {
+  if (id >= 0 && id < WORLD_SEED.provinceCount) return id;
+  return 0;
+}
+
 function createNations(data: GameData): Nation[] {
-  return NATION_SEEDS.map((seed, id) => ({
+  return WORLD_SEED.nations.map((seed, id) => ({
     id,
     tag: seed.tag,
     name: seed.name,
     color: seed.color,
-    primaryCulture: cultureIndex(data, seed.primaryCultureKey),
-    acceptedCultures: seed.acceptedCultureKeys.map((key) => cultureIndex(data, key)).filter((value, i, arr) => arr.indexOf(value) === i),
+    primaryCulture: cultureIndex(data, seed.primaryCulture || CULTURE_BY_TAG[seed.tag] || 'british'),
+    acceptedCultures: [cultureIndex(data, seed.primaryCulture || CULTURE_BY_TAG[seed.tag] || 'british')],
     government: seed.government,
-    rulingParty: seed.rulingParty,
-    capital: id * 6,
-    treasury: seed.treasury,
-    prestige: seed.prestige,
+    rulingParty: seed.government === 'democracy' ? 'Liberal Coalition' : 'Royal Ministry',
+    capital: capitalId(seed.capitalProvinceId),
+    treasury: 2600 + (GP_ORDER.length - Math.min(GP_ORDER.length, GP_ORDER.indexOf(seed.tag) + 1 || GP_ORDER.length)) * 380,
+    prestige: GP_ORDER.includes(seed.tag) ? 25 + Math.max(0, 8 - GP_ORDER.indexOf(seed.tag)) * 5 : 6,
     infamy: 0,
-    literacy: seed.literacy,
+    literacy: seed.government === 'uncivilized' ? 0.12 : GP_ORDER.includes(seed.tag) ? 0.45 : 0.26,
     researchPoints: 0,
-    reforms: Object.fromEntries(data.reforms.map((reform) => [reform.key, 0])),
-    techs: seed.techs.slice(),
+    reforms: nationReforms(data),
+    techs: seed.government === 'uncivilized' ? [] : ['market_structure'],
     taxRatePoor: 0.45,
     taxRateMiddle: 0.35,
     taxRateRich: 0.25,
     tariffRate: 0.1,
-    gpRank: seed.gpRank,
+    gpRank: GP_ORDER.includes(seed.tag) ? GP_ORDER.indexOf(seed.tag) + 1 : 0,
     spheredBy: -1 as NationId,
     sphereMembers: [],
     colonialPoints: 0,
@@ -199,68 +132,60 @@ function createNations(data: GameData): Nation[] {
   }));
 }
 
-function createStates(nations: Nation[]): State[] {
-  const states: State[] = [];
-  for (const nation of nations) {
-    const baseProvince = nation.id * 6;
-    states.push({
-      id: states.length,
-      name: `${nation.tag} Homeland`,
-      owner: nation.id,
-      provinceIds: [baseProvince, baseProvince + 1, baseProvince + 2],
-      factories: [],
-    });
-    states.push({
-      id: states.length,
-      name: `${nation.tag} March`,
-      owner: nation.id,
-      provinceIds: [baseProvince + 3, baseProvince + 4, baseProvince + 5],
-      factories: [],
-    });
-  }
-  return states;
+function createStates(tagToNationId: Record<string, number>): State[] {
+  return WORLD_SEED.states.map((stateSeed) => ({
+    id: stateSeed.id,
+    name: stateSeed.name,
+    owner: tagToNationId[stateSeed.ownerTag] ?? 0,
+    provinceIds: stateSeed.provinceIds.slice(),
+    factories: [],
+  }));
 }
 
-function provinceStateById(states: State[]): number[] {
-  const stateByProvince: number[] = [];
-  for (const state of states) {
-    for (const provinceId of state.provinceIds) stateByProvince[provinceId] = state.id;
-  }
-  return stateByProvince;
-}
+function createProvinces(rng: Rng, tagToNationId: Record<string, number>): { provinces: Province[]; runtime: ProvinceSeedRuntime[] } {
+  const provinces: Province[] = [];
+  const runtime: ProvinceSeedRuntime[] = [];
+  const validIds = new Set(WORLD_SEED.provinces.map((province) => province.id));
 
-function createProvinces(states: State[], rng: Rng): Province[] {
-  const stateByProvince = provinceStateById(states);
-  return PROVINCE_GEOMETRY.map((shape) => {
-    const owner = Math.floor(shape.id / 6);
-    const rgoRecipe = RGO_RECIPES[(shape.id + shape.row) % RGO_RECIPES.length];
-    const terrain = TERRAINS[(shape.row + shape.col) % TERRAINS.length];
-    const employed = 5000 + Math.floor(rng.next() * 12000);
-    return {
-      id: shape.id,
-      name: shape.name,
+  for (const seed of WORLD_SEED.provinces) {
+    const owner = tagToNationId[seed.ownerTag] ?? 0;
+    const terrain = seed.terrain as Terrain;
+    const recipe = RGO_GOOD_TO_RECIPE[seed.rgoGood] ?? RGO_RECIPES[seed.id % RGO_RECIPES.length];
+    const level = clamp(1 + Math.round(seed.populationWeight * 1.6), 1, 5);
+    const employed = Math.max(800, Math.floor((1200 + rng.next() * 2400) * seed.populationWeight));
+    provinces.push({
+      id: seed.id,
+      name: seed.name,
       owner,
       controller: owner,
-      stateId: stateByProvince[shape.id] ?? 0,
+      stateId: seed.stateId,
       terrain,
       rgo: {
-        recipe: rgoRecipe,
-        level: 1 + ((shape.col + shape.row) % 3),
+        recipe,
+        level,
         employed,
       },
-      fortLevel: shape.col % 3 === 0 ? 1 : 0,
-      navalBaseLevel: terrain === 'coast' ? 1 : 0,
-      coastal: terrain === 'coast',
-      neighbors: shape.neighbors.slice(),
+      fortLevel: terrain === 'mountains' || terrain === 'hills' ? 1 : 0,
+      navalBaseLevel: seed.coastal && (seed.ownerTag === 'ENG' || seed.ownerTag === 'USA' || seed.ownerTag === 'NLD') ? 1 : 0,
+      coastal: seed.coastal,
+      neighbors: seed.neighbors.filter((neighbor) => validIds.has(neighbor)),
       popIds: [],
       occupationProgress: 0,
-      colonial: false,
-    };
-  });
+      colonial: seed.ownerTag === 'COL' || seed.ownerTag === 'UNC' || seed.ownerTag === 'UNA',
+    });
+    runtime.push({
+      id: seed.id,
+      weight: Math.max(0.2, seed.populationWeight),
+    });
+  }
+  return { provinces, runtime };
 }
 
 function addFactorySeeds(states: State[], rng: Rng): void {
   states.forEach((state, index) => {
+    const ownerTag = WORLD_SEED.nations[state.owner]?.tag ?? '';
+    if (!INDUSTRIAL_TAGS.has(ownerTag)) return;
+    if (state.provinceIds.length === 0 || rng.next() < 0.34) return;
     const primaryRecipe = FACTORY_RECIPES[index % FACTORY_RECIPES.length];
     const factory: Factory = {
       recipe: primaryRecipe,
@@ -270,7 +195,7 @@ function addFactorySeeds(states: State[], rng: Rng): void {
       profitTrend: 0,
     };
     state.factories.push(factory);
-    if (index % 3 === 0) {
+    if (index % 3 === 0 && rng.next() > 0.38) {
       state.factories.push({
         recipe: FACTORY_RECIPES[(index + 1) % FACTORY_RECIPES.length],
         level: 1,
@@ -282,18 +207,34 @@ function addFactorySeeds(states: State[], rng: Rng): void {
   });
 }
 
-function createPops(worldProvinces: Province[], nations: Nation[], data: GameData, rng: Rng): Pop[] {
+function createPops(worldProvinces: Province[], provinceRuntime: ProvinceSeedRuntime[], nations: Nation[], data: GameData, rng: Rng): Pop[] {
   const pops: Pop[] = [];
-  const religionByNation = NATION_SEEDS.map((seed) => religionIndex(data, seed.religionKey));
+  const religionByNation = nations.map((nation) => religionIndex(data, RELIGION_BY_TAG[nation.tag] || 'protestant'));
+  const runtimeByProvince = new Map(provinceRuntime.map((item) => [item.id, item]));
   for (const province of worldProvinces) {
     const nation = nations[province.owner];
+    const runtime = runtimeByProvince.get(province.id);
+    const weight = runtime?.weight ?? 1;
     const culture = nation.primaryCulture;
     const religion = religionByNation[province.owner] ?? 0;
+    const density = Math.max(0.3, weight * (province.terrain === 'desert' ? 0.62 : 1));
+    const basePopulation = Math.max(2200, Math.floor((7000 + rng.next() * 16000) * density));
+    const sizeShareByType: Record<PopType, number> = {
+      farmer: 0.42,
+      laborer: 0.27,
+      soldier: 0.08,
+      aristocrat: 0.03,
+      craftsman: nation.isCivilized ? 0.14 : 0.06,
+      clergy: 0.06,
+      capitalist: 0,
+      clerk: 0,
+      officer: 0,
+      slave: 0,
+    };
     for (let i = 0; i < POP_TYPES.length; i++) {
       const type = POP_TYPES[i];
-      const baseSize = 6500 + Math.floor(rng.next() * 12000);
-      const sizeMultiplier = type === 'soldier' ? 0.45 : type === 'aristocrat' ? 0.08 : 1;
-      const size = Math.max(100, Math.floor(baseSize * sizeMultiplier));
+      const share = sizeShareByType[type] ?? 0.05;
+      const size = Math.max(80, Math.floor(basePopulation * share * (0.9 + rng.next() * 0.25)));
       const pop: Pop = {
         id: pops.length,
         type,
@@ -316,13 +257,18 @@ function createPops(worldProvinces: Province[], nations: Nation[], data: GameDat
 
 function createRelations(): DiploRelation[] {
   const relations: DiploRelation[] = [];
-  for (let a = 0; a < NATION_SEEDS.length; a++) {
-    for (let b = a + 1; b < NATION_SEEDS.length; b++) {
+  for (let a = 0; a < WORLD_SEED.nations.length; a++) {
+    for (let b = a + 1; b < WORLD_SEED.nations.length; b++) {
+      const tagA = WORLD_SEED.nations[a]?.tag ?? '';
+      const tagB = WORLD_SEED.nations[b]?.tag ?? '';
+      const kind = (tagA === 'ENG' && tagB === 'POR') || (tagA === 'RUS' && tagB === 'AUS')
+        ? 'alliance'
+        : 'rivalry';
       relations.push({
         a,
         b,
-        kind: 'rivalry',
-        opinion: 0,
+        kind,
+        opinion: kind === 'alliance' ? 95 : 0,
         expiresDay: -1,
       });
     }
@@ -333,17 +279,18 @@ function createRelations(): DiploRelation[] {
 export function createWorld(data: GameData, seed: number): World {
   const rng = new Rng(seed >>> 0);
   const nations = createNations(data);
-  const states = createStates(nations);
-  const provinces = createProvinces(states, rng);
+  const tagToNationId = Object.fromEntries(nations.map((nation) => [nation.tag, nation.id])) as Record<string, number>;
+  const states = createStates(tagToNationId);
+  const { provinces, runtime } = createProvinces(rng, tagToNationId);
   addFactorySeeds(states, rng);
-  const pops = createPops(provinces, nations, data, rng);
+  const pops = createPops(provinces, runtime, nations, data, rng);
 
   return {
     day: 0,
     seed: seed >>> 0,
     rngState: rng.state,
     speed: 1,
-    playerNation: nations.find((nation) => nation.tag === 'ENG')?.id ?? 0,
+    playerNation: tagToNationId.ENG ?? 0,
     nations,
     provinces,
     states,

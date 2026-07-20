@@ -1,5 +1,5 @@
 import type { GameData, GoodDef, Recipe } from '../shared/types';
-import { PROVINCE_COUNT } from './geometry';
+import { PROVINCE_COUNT } from './generated';
 
 const GOODS: GoodDef[] = [
   { id: 0, key: 'grain', name: 'Grain', category: 'raw', basePrice: 2.2 },

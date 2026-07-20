@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useStore, type PanelId } from '../store';
+import { useStore, type MapMode, type PanelId } from '../store';
 import './Hud.css';
 
 const SPEEDS = [0, 1, 2, 3, 4, 5] as const;
@@ -9,6 +9,13 @@ const PANELS: { id: PanelId; label: string }[] = [
   { id: 'politics', label: 'Politics' },
   { id: 'diplomacy', label: 'Diplomacy' },
   { id: 'military', label: 'Military' },
+];
+const MAP_MODES: { id: MapMode; label: string }[] = [
+  { id: 'political', label: 'Political' },
+  { id: 'population', label: 'Population' },
+  { id: 'economy', label: 'Economy' },
+  { id: 'military', label: 'Military' },
+  { id: 'diplomatic', label: 'Diplomatic' },
 ];
 
 function speedLabel(speed: number): string {
@@ -25,6 +32,8 @@ export function Hud() {
   const openPanel = useStore((state) => state.openPanel);
   const openPanelId = useStore((state) => state.openPanelId);
   const sendCommand = useStore((state) => state.sendCommand);
+  const mapMode = useStore((state) => state.mapMode);
+  const setMapMode = useStore((state) => state.setMapMode);
 
   const playerNation = useMemo(() => {
     if (!snapshot) return null;
@@ -67,6 +76,19 @@ export function Hud() {
             onClick={() => openPanelId(openPanel === panel.id ? null : panel.id)}
           >
             {panel.label}
+          </button>
+        ))}
+      </nav>
+
+      <nav className="hud-mapmodes atlas-panel" aria-label="Map mode">
+        {MAP_MODES.map((mode) => (
+          <button
+            key={mode.id}
+            type="button"
+            className={mapMode === mode.id ? 'is-active' : ''}
+            onClick={() => setMapMode(mode.id)}
+          >
+            {mode.label}
           </button>
         ))}
       </nav>

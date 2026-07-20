@@ -76,3 +76,19 @@
   text-align: left;
   padding: 0.42rem 0.6rem;
 }
+
+.hud-mapmodes {
+  position: absolute;
+  right: 1rem;
+  top: 4.6rem;
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.7rem;
+  width: 11.2rem;
+  border-radius: 10px;
+}
+
+.hud-mapmodes button {
+  text-align: left;
+  padding: 0.42rem 0.6rem;
+}

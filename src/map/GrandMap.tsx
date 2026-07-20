@@ -1,14 +1,22 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import maplibregl, { type Map as MapLibreMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './GrandMap.css';
-import { PROVINCE_FEATURES } from '../data/geometry';
+import { PROVINCES_GEOJSON, WORLD_SEED } from '../data/generated';
 import { useStore } from '../store';
 
 const MAP_SOURCE_ID = 'provinces';
 const MAP_FILL_LAYER = 'province-fill';
-const MAP_LINE_LAYER = 'province-line';
+const MAP_PROVINCE_LINE_LAYER = 'province-line';
+const MAP_NATIONAL_LINE_LAYER = 'nation-line';
+const MAP_HOVER_LAYER = 'province-hover';
 const DEFAULT_FILL = '#b7a486';
+const DIPLO_COLORS = {
+  self: '#6f879f',
+  ally: '#7c9472',
+  atWar: '#8e5a52',
+  neutral: '#b5a27f',
+};
 
 function toHexColor(rgb: [number, number, number]): string {
   const [r, g, b] = rgb.map((value) => Math.max(0, Math.min(255, Math.round(value)))) as [number, number, number];
@@ -30,19 +38,85 @@ function clamp01(value: number): number {
   return Math.max(0, Math.min(1, value));
 }
 
+function blend(hex: string, amount: number): string {
+  const clamped = clamp01(amount);
+  const red = Number.parseInt(hex.slice(1, 3), 16);
+  const green = Number.parseInt(hex.slice(3, 5), 16);
+  const blue = Number.parseInt(hex.slice(5, 7), 16);
+  const paper = [232, 220, 192];
+  const mixed = [
+    red * (1 - clamped) + paper[0] * clamped,
+    green * (1 - clamped) + paper[1] * clamped,
+    blue * (1 - clamped) + paper[2] * clamped,
+  ] as [number, number, number];
+  return toHexColor(mixed);
+}
+
+function computeBounds() {
+  let minLon = Infinity;
+  let minLat = Infinity;
+  let maxLon = -Infinity;
+  let maxLat = -Infinity;
+  for (const feature of PROVINCES_GEOJSON.features) {
+    const walk = (node: unknown): void => {
+      if (!Array.isArray(node) || node.length === 0) return;
+      if (typeof node[0] === 'number' && typeof node[1] === 'number') {
+        const lon = node[0];
+        const lat = node[1];
+        if (lon < minLon) minLon = lon;
+        if (lon > maxLon) maxLon = lon;
+        if (lat < minLat) minLat = lat;
+        if (lat > maxLat) maxLat = lat;
+        return;
+      }
+      for (const child of node) walk(child);
+    };
+    walk(feature.geometry.coordinates);
+  }
+  return [[minLon, minLat], [maxLon, maxLat]] as [[number, number], [number, number]];
+}
+
 export function GrandMap() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<MapLibreMap | null>(null);
   const snapshot = useStore((state) => state.snapshot);
   const mapMode = useStore((state) => state.mapMode);
   const selectProvince = useStore((state) => state.selectProvince);
   const selectedProvince = useStore((state) => state.selectedProvince);
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<MapLibreMap | null>(null);
+  const hoveredRef = useRef<number | null>(null);
+  const selectedRef = useRef<number | null>(null);
+  const snapshotRef = useRef(snapshot);
+  const fillRef = useRef<Map<number, string>>(new globalThis.Map());
+  const frontierRef = useRef<Map<number, number>>(new globalThis.Map());
+  const [tooltip, setTooltip] = useState<{
+    x: number;
+    y: number;
+    provinceId: number;
+    name: string;
+    owner: string;
+    population: number;
+  } | null>(null);
 
   const nationColorById = useMemo(() => {
     const colors = new globalThis.Map<number, string>();
     if (!snapshot) return colors;
     for (const nation of snapshot.nations) colors.set(nation.id, muteColor(nation.color));
     return colors;
+  }, [snapshot]);
+
+  const provinceNameById = useMemo(() => (
+    new globalThis.Map<number, string>(WORLD_SEED.provinces.map((province) => [province.id, province.name]))
+  ), []);
+
+  const provinceSeedById = useMemo(() => (
+    new globalThis.Map<number, { neighbors: number[] }>(WORLD_SEED.provinces.map((province) => [province.id, { neighbors: province.neighbors }]))
+  ), []);
+
+  const bounds = useMemo(() => computeBounds(), []);
+
+  useEffect(() => {
+    snapshotRef.current = snapshot;
   }, [snapshot]);
 
   useEffect(() => {
@@ -56,12 +130,14 @@ export function GrandMap() {
         layers: [{
           id: 'paper-background',
           type: 'background',
-          paint: { 'background-color': '#e8dcc0' },
+          paint: { 'background-color': '#ddcfb1' },
         }],
       },
       center: [0, 18],
-      zoom: 1.05,
+      zoom: 1.3,
       attributionControl: false,
+      maxPitch: 0,
+      renderWorldCopies: false,
     });
     map.dragRotate.disable();
     map.touchZoomRotate.disableRotation();
@@ -71,7 +147,7 @@ export function GrandMap() {
     map.on('load', () => {
       map.addSource(MAP_SOURCE_ID, {
         type: 'geojson',
-        data: PROVINCE_FEATURES as unknown as object,
+        data: PROVINCES_GEOJSON as unknown as object,
       });
 
       map.addLayer({
@@ -79,21 +155,62 @@ export function GrandMap() {
         type: 'fill',
         source: MAP_SOURCE_ID,
         paint: {
-          'fill-color': DEFAULT_FILL,
+          'fill-color': ['coalesce', ['feature-state', 'fill'], DEFAULT_FILL],
           'fill-opacity': 0.83,
         },
       });
 
       map.addLayer({
-        id: MAP_LINE_LAYER,
+        id: MAP_PROVINCE_LINE_LAYER,
         type: 'line',
         source: MAP_SOURCE_ID,
         paint: {
           'line-color': '#5b4433',
-          'line-width': 0.7,
+          'line-width': 0.5,
           'line-opacity': 0.7,
         },
       });
+
+      map.addLayer({
+        id: MAP_NATIONAL_LINE_LAYER,
+        type: 'line',
+        source: MAP_SOURCE_ID,
+        paint: {
+          'line-color': '#4b3324',
+          'line-width': [
+            'case',
+            ['==', ['feature-state', 'nationalBorder'], 1],
+            1.2,
+            0,
+          ],
+          'line-opacity': 0.88,
+        },
+      });
+
+      map.addLayer({
+        id: MAP_HOVER_LAYER,
+        type: 'line',
+        source: MAP_SOURCE_ID,
+        paint: {
+          'line-color': [
+            'case',
+            ['boolean', ['feature-state', 'selected'], false],
+            '#1f140d',
+            '#2f2216',
+          ],
+          'line-width': [
+            'case',
+            ['boolean', ['feature-state', 'selected'], false],
+            2.1,
+            ['boolean', ['feature-state', 'hover'], false],
+            1.8,
+            0,
+          ],
+          'line-opacity': 0.95,
+        },
+      });
+
+      map.fitBounds(bounds, { padding: 30, duration: 550, maxZoom: 2.7 });
     });
 
     map.on('click', MAP_FILL_LAYER, (event) => {
@@ -112,6 +229,38 @@ export function GrandMap() {
     });
     map.on('mouseleave', MAP_FILL_LAYER, () => {
       map.getCanvas().style.cursor = '';
+      if (hoveredRef.current !== null) {
+        map.setFeatureState({ source: MAP_SOURCE_ID, id: hoveredRef.current }, { hover: false });
+        hoveredRef.current = null;
+      }
+      setTooltip(null);
+    });
+
+    map.on('mousemove', MAP_FILL_LAYER, (event) => {
+      const id = Number(event.features?.[0]?.properties?.id);
+      if (!Number.isInteger(id)) {
+        setTooltip(null);
+        return;
+      }
+      if (hoveredRef.current !== null && hoveredRef.current !== id) {
+        map.setFeatureState({ source: MAP_SOURCE_ID, id: hoveredRef.current }, { hover: false });
+      }
+      hoveredRef.current = id;
+      map.setFeatureState({ source: MAP_SOURCE_ID, id }, { hover: true });
+
+      const latestSnapshot = snapshotRef.current;
+      if (!latestSnapshot) return;
+      const province = latestSnapshot.provinces[id];
+      if (!province) return;
+      const owner = latestSnapshot.nations.find((nation) => nation.id === province.owner)?.name ?? 'Unknown';
+      setTooltip({
+        x: event.point.x,
+        y: event.point.y,
+        provinceId: id,
+        name: provinceNameById.get(id) ?? `Province ${id}`,
+        owner,
+        population: province.population,
+      });
     });
 
     mapRef.current = map;
@@ -119,56 +268,95 @@ export function GrandMap() {
       map.remove();
       mapRef.current = null;
     };
-  }, [selectProvince]);
+  }, [bounds, provinceNameById, selectProvince]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !map.getLayer(MAP_FILL_LAYER) || !snapshot) return;
 
-    const colorExpression: unknown[] = ['match', ['get', 'id']];
-    for (const province of snapshot.provinces) {
-      const nationColor = nationColorById.get(province.owner) ?? DEFAULT_FILL;
-      const popTone = Math.max(120, Math.min(225, 225 - Math.floor(Math.log10(Math.max(1, province.population)) * 28)));
-      const milTone = Math.max(60, Math.min(180, 180 - Math.floor(clamp01(province.militancy / 10) * 90)));
+    const provinceById = new globalThis.Map(snapshot.provinces.map((province) => [province.id, province]));
+    const populations = snapshot.provinces.map((province) => province.population);
+    const popMin = Math.min(...populations);
+    const popMax = Math.max(...populations);
+    const popRange = Math.max(1, popMax - popMin);
 
-      let color = nationColor;
-      if (mapMode === 'population') color = `rgb(${popTone}, ${popTone - 8}, ${popTone - 22})`;
-      if (mapMode === 'military') color = `rgb(${milTone + 25}, ${milTone}, ${milTone - 10})`;
-      if (mapMode === 'diplomatic') color = nationColorById.get(province.controller) ?? nationColor;
-      if (mapMode === 'economy') {
-        const key = province.rgoGood % 5;
-        color = ['#b6a87f', '#a4937d', '#8f8e78', '#8ea58d', '#8a8caa'][key];
+    const allies = new Set<number>();
+    const enemies = new Set<number>();
+    for (const war of snapshot.wars) {
+      if (war.attackers.includes(snapshot.playerNation)) {
+        war.attackers.forEach((nationId) => allies.add(nationId));
+        war.defenders.forEach((nationId) => enemies.add(nationId));
+      } else if (war.defenders.includes(snapshot.playerNation)) {
+        war.defenders.forEach((nationId) => allies.add(nationId));
+        war.attackers.forEach((nationId) => enemies.add(nationId));
       }
-      colorExpression.push(province.id, color);
     }
-    colorExpression.push(DEFAULT_FILL);
 
-    map.setPaintProperty(MAP_FILL_LAYER, 'fill-color', colorExpression);
-  }, [snapshot, mapMode, nationColorById]);
+    for (const province of snapshot.provinces) {
+      const ownerColor = nationColorById.get(province.owner) ?? DEFAULT_FILL;
+      const controllerColor = nationColorById.get(province.controller) ?? ownerColor;
+      let fill = ownerColor;
+
+      if (mapMode === 'population') {
+        const scaled = clamp01((province.population - popMin) / popRange);
+        const shade = 0.12 + (1 - scaled) * 0.56;
+        fill = blend('#8c6e4b', shade);
+      } else if (mapMode === 'economy') {
+        fill = ['#b9a275', '#9f8f6d', '#7c8875', '#6f7f8f', '#8d7d9f', '#8e876b'][province.rgoGood % 6] ?? '#a08f7b';
+      } else if (mapMode === 'military') {
+        fill = province.controller !== province.owner ? blend(controllerColor, 0.14) : blend(ownerColor, 0.32);
+      } else if (mapMode === 'diplomatic') {
+        if (province.owner === snapshot.playerNation) fill = DIPLO_COLORS.self;
+        else if (enemies.has(province.owner)) fill = DIPLO_COLORS.atWar;
+        else if (allies.has(province.owner)) fill = DIPLO_COLORS.ally;
+        else fill = DIPLO_COLORS.neutral;
+      }
+
+      const prevFill = fillRef.current.get(province.id);
+      if (prevFill !== fill) {
+        map.setFeatureState({ source: MAP_SOURCE_ID, id: province.id }, { fill });
+        fillRef.current.set(province.id, fill);
+      }
+
+      const seed = provinceSeedById.get(province.id);
+      const isNationalBorder = seed?.neighbors.some((neighborId) => {
+        const neighbor = provinceById.get(neighborId);
+        return neighbor && neighbor.owner !== province.owner;
+      }) ? 1 : 0;
+      const prevFrontier = frontierRef.current.get(province.id);
+      if (prevFrontier !== isNationalBorder) {
+        map.setFeatureState({ source: MAP_SOURCE_ID, id: province.id }, { nationalBorder: isNationalBorder });
+        frontierRef.current.set(province.id, isNationalBorder);
+      }
+    }
+  }, [mapMode, nationColorById, provinceSeedById, snapshot]);
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !map.getLayer(MAP_LINE_LAYER)) return;
-    if (selectedProvince === null) {
-      map.setPaintProperty(MAP_LINE_LAYER, 'line-width', 0.7);
-      map.setPaintProperty(MAP_LINE_LAYER, 'line-color', '#5b4433');
+    if (!map || !map.getLayer(MAP_HOVER_LAYER)) return;
+    if (selectedRef.current !== null && selectedRef.current !== selectedProvince) {
+      map.setFeatureState({ source: MAP_SOURCE_ID, id: selectedRef.current }, { selected: false });
+    }
+    if (selectedProvince !== null) {
+      map.setFeatureState({ source: MAP_SOURCE_ID, id: selectedProvince }, { selected: true });
+      selectedRef.current = selectedProvince;
       return;
     }
-    map.setPaintProperty(MAP_LINE_LAYER, 'line-width', [
-      'match',
-      ['get', 'id'],
-      selectedProvince,
-      2.1,
-      0.7,
-    ]);
-    map.setPaintProperty(MAP_LINE_LAYER, 'line-color', [
-      'match',
-      ['get', 'id'],
-      selectedProvince,
-      '#21150d',
-      '#5b4433',
-    ]);
+    selectedRef.current = null;
   }, [selectedProvince]);
 
-  return <div ref={containerRef} className="grand-map" />;
+  return (
+    <div ref={containerRef} className="grand-map">
+      {tooltip ? (
+        <div
+          className="grand-map__tooltip atlas-panel"
+          style={{ left: tooltip.x + 12, top: tooltip.y + 14 }}
+        >
+          <strong>{tooltip.name}</strong>
+          <span>{tooltip.owner}</span>
+          <span>Pop {tooltip.population.toLocaleString()}</span>
+        </div>
+      ) : null}
+    </div>
+  );
 }
