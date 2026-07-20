@@ -701,6 +701,14 @@ export function getInfluenceTargetsForNation(world: World, nationId: NationId): 
     .sort((a, b) => (b.points - a.points) || (a.target - b.target));
 }
 
+export function getInfluencePressureForTarget(world: World, target: NationId): Array<{ gp: NationId; points: number }> {
+  const runtime = ensureRuntime(world);
+  return runtime.influence
+    .filter((entry) => entry.target === target && entry.points > 0.001)
+    .map((entry) => ({ gp: entry.gp, points: Number(entry.points.toFixed(2)) }))
+    .sort((a, b) => (b.points - a.points) || (a.gp - b.gp));
+}
+
 export function getNationPowerBreakdown(world: World, nationId: NationId): { industry: number; military: number; score: number } {
   const runtime = ensureRuntime(world);
   if (runtime.powerScores.length === 0) refreshGreatPowerRanking(world);
