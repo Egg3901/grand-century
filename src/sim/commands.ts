@@ -10,9 +10,17 @@ import {
   getWarGoalRule,
   hasActiveTruce,
   setRelationKindByCommand,
-  setTruce,
   spendInfluence,
 } from './systems/diplomacy';
+import {
+  assignGeneralToArmy,
+  canEmbarkArmy,
+  demobilizeNation,
+  disembarkFromFleet,
+  mobilizeNation,
+  offerPeaceTerms,
+  startColonization,
+} from './systems/war';
 
 type Poster = (msg: FromWorker) => void;
 
@@ -167,15 +175,18 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       }
 
       const regiments: Regiment[] = [];
+      const recruitCostPerRegiment = 24;
       for (const pop of soldierPops) {
-        if (regiments.length >= capRemaining || regiments.length >= 6) break;
+        if (regiments.length >= capRemaining || regiments.length >= 12) break;
         const popSupportCap = Math.max(0, Math.floor((pop.size / 1000) * nation.regimentsPerSoldierPop));
         const allocated = usedByPop.get(pop.id) ?? 0;
         const available = Math.max(0, popSupportCap - allocated);
         if (available <= 0) continue;
-        const toRaise = Math.min(available, capRemaining - regiments.length, 2);
+        const toRaise = Math.min(available, capRemaining - regiments.length);
         for (let i = 0; i < toRaise; i++) {
+          if (nation.treasury < recruitCostPerRegiment) break;
           pop.size = Math.max(0, pop.size - 70);
+          nation.treasury -= recruitCostPerRegiment;
           regiments.push({
             type: 'infantry',
             strength: 1000,
@@ -202,18 +213,69 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       });
       return;
     }
+    case 'assignGeneral': {
+      const result = assignGeneralToArmy(world, world.playerNation, cmd.army);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
+      return;
+    }
+    case 'mobilize': {
+      const result = mobilizeNation(world, world.playerNation);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
+      return;
+    }
+    case 'demobilize':
+      demobilizeNation(world, world.playerNation);
+      log(post, 'info', 'Army reserves demobilized.');
+      return;
     case 'moveArmy': {
       const army = world.armies.find((candidate) => candidate.id === cmd.army);
       if (!army) return;
       const target = world.provinces[cmd.target];
-      if (!target) return;
+      const source = world.provinces[army.location];
+      if (!target || !source || !source.neighbors.includes(target.id)) return;
       army.moveTarget = cmd.target;
       army.moveProgress = 0;
       return;
     }
+    case 'buildFleet': {
+      const province = world.provinces[cmd.province];
+      const nation = world.nations[world.playerNation];
+      if (!province || !nation || province.owner !== world.playerNation || !province.coastal) return;
+      const count = clamp(Math.floor(cmd.count ?? 1), 1, 8);
+      const shipType = cmd.shipType;
+      const shipCost = shipType === 'transport' ? 55 : shipType === 'frigate' ? 70 : shipType === 'manofwar' ? 95 : 120;
+      const totalCost = shipCost * count;
+      if (nation.treasury < totalCost) {
+        log(post, 'warn', `Need £${totalCost.toFixed(0)} to build ships.`);
+        return;
+      }
+      nation.treasury -= totalCost;
+      const existingFleet = world.fleets.find((fleet) => fleet.owner === world.playerNation && fleet.location === province.id && fleet.embarkedArmy < 0);
+      const ships = Array.from({ length: count }, () => ({
+        type: shipType,
+        strength: 100,
+        organization: 62,
+      }));
+      if (existingFleet) existingFleet.ships.push(...ships);
+      else {
+        world.fleets.push({
+          id: world.nextFleetId++,
+          owner: world.playerNation,
+          location: province.id,
+          moveTarget: -1,
+          moveProgress: 0,
+          ships,
+          embarkedArmy: -1,
+        });
+      }
+      return;
+    }
     case 'moveFleet': {
       const fleet = world.fleets.find((candidate) => candidate.id === cmd.fleet);
-      if (!fleet || !world.provinces[cmd.target]) return;
+      const source = fleet ? world.provinces[fleet.location] : null;
+      const target = world.provinces[cmd.target];
+      if (!fleet || !source || !target) return;
+      if (!source.coastal || !target.coastal) return;
       fleet.moveTarget = cmd.target;
       fleet.moveProgress = 0;
       return;
@@ -222,8 +284,21 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       const fleet = world.fleets.find((candidate) => candidate.id === cmd.fleet);
       const army = world.armies.find((candidate) => candidate.id === cmd.army);
       if (!fleet || !army || army.owner !== fleet.owner) return;
+      const embark = canEmbarkArmy(world, cmd.fleet, cmd.army);
+      if (!embark.ok) {
+        log(post, 'warn', embark.reason);
+        return;
+      }
       fleet.embarkedArmy = army.id;
       army.location = fleet.location;
+      army.moveTarget = -1;
+      army.moveProgress = 0;
+      log(post, 'info', `Army ${army.id} embarked.`);
+      return;
+    }
+    case 'disembarkArmy': {
+      const result = disembarkFromFleet(world, cmd.fleet, cmd.target);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }
     case 'proposeAlliance': {
@@ -326,33 +401,13 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       return;
     }
     case 'offerPeace': {
-      const warIndex = world.wars.findIndex((war) => war.id === cmd.war);
-      if (warIndex < 0) return;
-      const [war] = world.wars.splice(warIndex, 1);
-      for (const attackerId of war.attackers) {
-        for (const defenderId of war.defenders) setTruce(world, attackerId, defenderId);
-      }
-      const attackerLeader = world.nations[war.attackers[0]];
-      const defenderLeader = world.nations[war.defenders[0]];
-      if (cmd.goalsToEnforce.length > 0) {
-        if (attackerLeader) attackerLeader.prestige += 3 + cmd.goalsToEnforce.length * 0.6;
-        if (defenderLeader) defenderLeader.prestige = Math.max(0, defenderLeader.prestige - (2 + cmd.goalsToEnforce.length * 0.6));
-      } else {
-        if (attackerLeader) attackerLeader.prestige += 0.4;
-        if (defenderLeader) defenderLeader.prestige += 0.4;
-      }
+      const result = offerPeaceTerms(world, cmd.war, world.playerNation, cmd.goalsToEnforce);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }
     case 'colonize': {
-      const state = world.states[cmd.state];
-      if (!state) return;
-      for (const provinceId of state.provinceIds) {
-        const province = world.provinces[provinceId];
-        if (!province) continue;
-        province.owner = world.playerNation;
-        province.controller = world.playerNation;
-        province.colonial = false;
-      }
+      const result = startColonization(world, world.playerNation, cmd.state);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }
     case 'newGame':

@@ -19,7 +19,7 @@ export type MapMode =
   | 'ruling_ideology';
 export type PanelId =
   | null | 'budget' | 'population' | 'market' | 'politics' | 'diplomacy'
-  | 'great_powers' | 'military' | 'production' | 'technology' | 'province';
+  | 'great_powers' | 'military' | 'production' | 'technology' | 'province' | 'colonization';
 
 interface UIState {
   data: GameData | null;
@@ -29,6 +29,8 @@ interface UIState {
   provinceDetail: ProvinceDetail | null;
   nationDetail: NationDetail | null;
   openPanel: PanelId;
+  selectedArmy: number | null;
+  selectedFleet: number | null;
 
   worker: Worker | null;
 
@@ -41,6 +43,8 @@ interface UIState {
   setMapMode: (m: MapMode) => void;
   selectProvince: (id: ProvinceId | null) => void;
   openPanelId: (p: PanelId) => void;
+  setSelectedArmy: (id: number | null) => void;
+  setSelectedFleet: (id: number | null) => void;
 
   sendCommand: (cmd: Command) => void;
   requestProvince: (id: ProvinceId) => void;
@@ -55,6 +59,8 @@ export const useStore = create<UIState>((set, get) => ({
   provinceDetail: null,
   nationDetail: null,
   openPanel: null,
+  selectedArmy: null,
+  selectedFleet: null,
   worker: null,
 
   setWorker: (w) => set({ worker: w }),
@@ -69,6 +75,8 @@ export const useStore = create<UIState>((set, get) => ({
     if (id !== null) get().requestProvince(id);
   },
   openPanelId: (p) => set({ openPanel: p }),
+  setSelectedArmy: (id) => set({ selectedArmy: id, selectedFleet: null }),
+  setSelectedFleet: (id) => set({ selectedFleet: id, selectedArmy: null }),
 
   sendCommand: (cmd) => get().worker?.postMessage({ t: 'command', cmd }),
   requestProvince: (id) => get().worker?.postMessage({ t: 'requestProvince', id }),

@@ -587,9 +587,14 @@ export type Command =
   | { t: 'enactReform'; reform: string; level: number }
   | { t: 'buildFactory'; state: StateId; recipe: string }
   | { t: 'recruitArmy'; province: ProvinceId }
+  | { t: 'assignGeneral'; army: ArmyId }
+  | { t: 'mobilize' }
+  | { t: 'demobilize' }
   | { t: 'moveArmy'; army: ArmyId; target: ProvinceId }
+  | { t: 'buildFleet'; province: ProvinceId; shipType: Ship['type']; count?: number }
   | { t: 'moveFleet'; fleet: FleetId; target: ProvinceId }
   | { t: 'embarkArmy'; fleet: FleetId; army: ArmyId }
+  | { t: 'disembarkArmy'; fleet: FleetId; target: ProvinceId }
   | { t: 'proposeAlliance'; target: NationId }
   | { t: 'offerGuarantee'; target: NationId }
   | { t: 'addRival'; target: NationId }

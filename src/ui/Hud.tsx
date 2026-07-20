@@ -12,6 +12,7 @@ const PANELS: { id: PanelId; label: string }[] = [
   { id: 'diplomacy', label: 'Diplomacy' },
   { id: 'great_powers', label: 'Great Powers' },
   { id: 'military', label: 'Military' },
+  { id: 'colonization', label: 'Colonization' },
 ];
 const MAP_MODES: { id: MapMode; label: string }[] = [
   { id: 'political', label: 'Political' },

@@ -295,6 +295,74 @@
   color: #4a3628;
 }
 
+.mil-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem 0.55rem;
+  margin-bottom: 0.45rem;
+}
+
+.mil-grid label,
+.mil-label {
+  display: grid;
+  gap: 0.18rem;
+  font-size: 0.78rem;
+}
+
+.mil-grid select,
+.mil-grid input,
+.mil-label select {
+  border: 1px solid rgba(72, 49, 35, 0.24);
+  border-radius: 7px;
+  background: rgba(242, 229, 201, 0.92);
+  padding: 0.22rem 0.35rem;
+  color: #2f2219;
+}
+
+.mil-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.mil-actions button {
+  border: 1px solid rgba(67, 49, 35, 0.25);
+  background: rgba(240, 227, 201, 0.9);
+  border-radius: 999px;
+  padding: 0.16rem 0.52rem;
+  font-size: 0.72rem;
+}
+
+.mil-list li {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.2rem;
+}
+
+.mil-list li > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: baseline;
+}
+
+.mil-list li > div span {
+  font-size: 0.77rem;
+  color: #4d392b;
+}
+
+.mil-goal-list li {
+  display: block;
+  padding: 0.14rem 0;
+}
+
+.mil-goal-list label {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  font-size: 0.77rem;
+}
+
 .sparkline {
   width: 3.4rem;
   height: 1rem;

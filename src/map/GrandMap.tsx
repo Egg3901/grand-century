@@ -90,6 +90,12 @@ export function GrandMap() {
   const snapshot = useStore((state) => state.snapshot);
   const mapMode = useStore((state) => state.mapMode);
   const selectProvince = useStore((state) => state.selectProvince);
+  const selectedArmy = useStore((state) => state.selectedArmy);
+  const selectedFleet = useStore((state) => state.selectedFleet);
+  const setSelectedArmy = useStore((state) => state.setSelectedArmy);
+  const setSelectedFleet = useStore((state) => state.setSelectedFleet);
+  const openPanelId = useStore((state) => state.openPanelId);
+  const sendCommand = useStore((state) => state.sendCommand);
   const selectedProvince = useStore((state) => state.selectedProvince);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -97,8 +103,11 @@ export function GrandMap() {
   const hoveredRef = useRef<number | null>(null);
   const selectedRef = useRef<number | null>(null);
   const snapshotRef = useRef(snapshot);
+  const selectedArmyRef = useRef<number | null>(selectedArmy);
+  const selectedFleetRef = useRef<number | null>(selectedFleet);
   const fillRef = useRef<Map<number, string>>(new globalThis.Map());
   const frontierRef = useRef<Map<number, number>>(new globalThis.Map());
+  const markerRef = useRef<Map<string, maplibregl.Marker>>(new globalThis.Map());
   const [tooltip, setTooltip] = useState<{
     x: number;
     y: number;
@@ -122,12 +131,21 @@ export function GrandMap() {
   const provinceSeedById = useMemo(() => (
     new globalThis.Map<number, { neighbors: number[] }>(WORLD_SEED.provinces.map((province) => [province.id, { neighbors: province.neighbors }]))
   ), []);
+  const provinceCoordById = useMemo(() => (
+    new globalThis.Map<number, { lon: number; lat: number }>(WORLD_SEED.provinces.map((province) => [province.id, { lon: province.lon, lat: province.lat }]))
+  ), []);
 
   const bounds = useMemo(() => computeBounds(), []);
 
   useEffect(() => {
     snapshotRef.current = snapshot;
   }, [snapshot]);
+  useEffect(() => {
+    selectedArmyRef.current = selectedArmy;
+  }, [selectedArmy]);
+  useEffect(() => {
+    selectedFleetRef.current = selectedFleet;
+  }, [selectedFleet]);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -226,7 +244,16 @@ export function GrandMap() {
     map.on('click', MAP_FILL_LAYER, (event) => {
       const clicked = event.features?.[0];
       const provinceId = Number(clicked?.properties?.id);
-      if (Number.isInteger(provinceId)) selectProvince(provinceId);
+      if (!Number.isInteger(provinceId)) return;
+      if (selectedArmyRef.current !== null) {
+        sendCommand({ t: 'moveArmy', army: selectedArmyRef.current, target: provinceId });
+        return;
+      }
+      if (selectedFleetRef.current !== null) {
+        sendCommand({ t: 'moveFleet', fleet: selectedFleetRef.current, target: provinceId });
+        return;
+      }
+      selectProvince(provinceId);
     });
 
     map.on('click', (event) => {
@@ -278,7 +305,7 @@ export function GrandMap() {
       map.remove();
       mapRef.current = null;
     };
-  }, [bounds, provinceNameById, selectProvince]);
+  }, [bounds, provinceNameById, selectProvince, sendCommand]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -367,6 +394,143 @@ export function GrandMap() {
       }
     }
   }, [mapMode, nationColorById, provinceSeedById, snapshot]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !snapshot) return;
+
+    const allMarkers = markerRef.current;
+    for (const marker of allMarkers.values()) marker.remove();
+    allMarkers.clear();
+
+    const enemyByNation = new globalThis.Map<number, Set<number>>();
+    for (const war of snapshot.wars) {
+      for (const attacker of war.attackers) {
+        const set = enemyByNation.get(attacker) ?? new Set<number>();
+        for (const defender of war.defenders) set.add(defender);
+        enemyByNation.set(attacker, set);
+      }
+      for (const defender of war.defenders) {
+        const set = enemyByNation.get(defender) ?? new Set<number>();
+        for (const attacker of war.attackers) set.add(attacker);
+        enemyByNation.set(defender, set);
+      }
+    }
+
+    const armiesByProvince = new globalThis.Map<number, typeof snapshot.armies>();
+    for (const army of snapshot.armies) {
+      const list = armiesByProvince.get(army.location) ?? [];
+      list.push(army);
+      armiesByProvince.set(army.location, list);
+    }
+    const fleetsByProvince = new globalThis.Map<number, typeof snapshot.fleets>();
+    for (const fleet of snapshot.fleets) {
+      const list = fleetsByProvince.get(fleet.location) ?? [];
+      list.push(fleet);
+      fleetsByProvince.set(fleet.location, list);
+    }
+    const provinceById = new globalThis.Map(snapshot.provinces.map((province) => [province.id, province]));
+
+    const addMarker = (key: string, provinceId: number, text: string, className: string, onClick: () => void) => {
+      const coord = provinceCoordById.get(provinceId);
+      if (!coord) return;
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = `grand-map__counter ${className}`;
+      el.textContent = text;
+      el.addEventListener('click', (event) => {
+        event.stopPropagation();
+        onClick();
+      });
+      const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+        .setLngLat([coord.lon, coord.lat])
+        .addTo(map);
+      allMarkers.set(key, marker);
+    };
+
+    for (const [provinceId, armies] of armiesByProvince.entries()) {
+      const friendly = armies.some((army) => army.owner === snapshot.playerNation);
+      const selected = selectedArmy !== null && armies.some((army) => army.id === selectedArmy);
+      addMarker(
+        `army-${provinceId}`,
+        provinceId,
+        `A${armies.length}`,
+        `${friendly ? 'is-friendly' : 'is-hostile'} ${selected ? 'is-selected' : ''}`.trim(),
+        () => {
+          const candidate = armies.find((army) => army.owner === snapshot.playerNation) ?? armies[0];
+          setSelectedArmy(candidate.id);
+          openPanelId('military');
+        },
+      );
+    }
+
+    for (const [provinceId, fleets] of fleetsByProvince.entries()) {
+      const friendly = fleets.some((fleet) => fleet.owner === snapshot.playerNation);
+      const selected = selectedFleet !== null && fleets.some((fleet) => fleet.id === selectedFleet);
+      addMarker(
+        `fleet-${provinceId}`,
+        provinceId,
+        `F${fleets.length}`,
+        `${friendly ? 'is-friendly' : 'is-hostile'} ${selected ? 'is-selected' : ''}`.trim(),
+        () => {
+          const candidate = fleets.find((fleet) => fleet.owner === snapshot.playerNation) ?? fleets[0];
+          setSelectedFleet(candidate.id);
+          openPanelId('military');
+        },
+      );
+    }
+
+    const hasHostilePair = (owners: number[]): boolean => {
+      for (let i = 0; i < owners.length; i++) {
+        const enemies = enemyByNation.get(owners[i]);
+        if (!enemies) continue;
+        for (let j = i + 1; j < owners.length; j++) {
+          if (enemies.has(owners[j])) return true;
+        }
+      }
+      return false;
+    };
+
+    for (const [provinceId, armies] of armiesByProvince.entries()) {
+      const owners = Array.from(new Set(armies.filter((army) => !army.rebel).map((army) => army.owner)));
+      if (!hasHostilePair(owners)) continue;
+      addMarker(`battle-${provinceId}`, provinceId, '⚔', 'is-battle', () => {
+        openPanelId('military');
+        selectProvince(provinceId);
+      });
+    }
+
+    for (const [provinceId, fleets] of fleetsByProvince.entries()) {
+      const province = provinceById.get(provinceId);
+      if (!province || !WORLD_SEED.provinces[provinceId]?.coastal) continue;
+      const owner = province.owner;
+      const ownerFleetPower = fleets
+        .filter((fleet) => fleet.owner === owner)
+        .reduce((sum, fleet) => sum + fleet.ships.length, 0);
+      const hostileFleetPower = fleets
+        .filter((fleet) => (enemyByNation.get(owner)?.has(fleet.owner) ?? false))
+        .reduce((sum, fleet) => sum + fleet.ships.filter((ship) => ship.type !== 'transport').length, 0);
+      if (hostileFleetPower <= ownerFleetPower) continue;
+      addMarker(`blockade-${provinceId}`, provinceId, '⛵', 'is-blockade', () => {
+        openPanelId('military');
+        selectProvince(provinceId);
+      });
+    }
+
+    return () => {
+      for (const marker of allMarkers.values()) marker.remove();
+      allMarkers.clear();
+    };
+  }, [
+    openPanelId,
+    provinceCoordById,
+    selectProvince,
+    selectedArmy,
+    selectedFleet,
+    setSelectedArmy,
+    setSelectedFleet,
+    snapshot,
+  ]);
 
   useEffect(() => {
     const map = mapRef.current;

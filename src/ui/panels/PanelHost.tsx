@@ -7,20 +7,12 @@ import { ProvincePanel } from './ProvincePanel';
 import { PoliticsPanel } from './PoliticsPanel';
 import { DiplomacyPanel } from './DiplomacyPanel';
 import { GreatPowersPanel } from './GreatPowersPanel';
+import { MilitaryPanel } from './MilitaryPanel';
+import { ColonizationPanel } from './ColonizationPanel';
 import './panels.css';
-
-function PlaceholderPanel({ title, body }: { title: string; body: string }) {
-  return (
-    <section className="panel-card atlas-panel">
-      <h2 className="atlas-heading">{title}</h2>
-      <p>{body}</p>
-    </section>
-  );
-}
 
 export function PanelHost() {
   const openPanel = useStore((state) => state.openPanel);
-  const snapshot = useStore((state) => state.snapshot);
 
   if (!openPanel) return null;
 
@@ -34,9 +26,8 @@ export function PanelHost() {
       {openPanel === 'politics' ? <PoliticsPanel /> : null}
       {openPanel === 'diplomacy' ? <DiplomacyPanel /> : null}
       {openPanel === 'great_powers' ? <GreatPowersPanel /> : null}
-      {openPanel === 'military' ? (
-        <PlaceholderPanel title="Military" body={`Armies: ${snapshot?.armies.length ?? 0} | Fleets: ${snapshot?.fleets.length ?? 0}`} />
-      ) : null}
+      {openPanel === 'military' ? <MilitaryPanel /> : null}
+      {openPanel === 'colonization' ? <ColonizationPanel /> : null}
     </aside>
   );
 }

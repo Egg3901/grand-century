@@ -31,3 +31,39 @@
   border: 1px solid rgba(76, 54, 39, 0.42);
   background: rgba(247, 236, 209, 0.92);
 }
+
+.grand-map__counter {
+  border: 1px solid rgba(67, 49, 35, 0.55);
+  border-radius: 999px;
+  background: rgba(245, 233, 206, 0.95);
+  color: #2f1f14;
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.18rem 0.33rem;
+  min-width: 1.6rem;
+  cursor: pointer;
+  box-shadow: 0 1px 5px rgba(22, 13, 8, 0.28);
+}
+
+.grand-map__counter.is-friendly {
+  background: rgba(199, 223, 205, 0.95);
+}
+
+.grand-map__counter.is-hostile {
+  background: rgba(221, 196, 181, 0.95);
+}
+
+.grand-map__counter.is-selected {
+  box-shadow:
+    0 0 0 2px rgba(28, 19, 12, 0.48),
+    0 1px 5px rgba(22, 13, 8, 0.28);
+}
+
+.grand-map__counter.is-battle {
+  background: rgba(239, 208, 184, 0.98);
+}
+
+.grand-map__counter.is-blockade {
+  background: rgba(192, 213, 228, 0.98);
+}
