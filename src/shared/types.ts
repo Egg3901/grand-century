@@ -1,0 +1,432 @@
+/**
+ * Grand Century — shared domain contract.
+ *
+ * THE single source of truth for the game data model. Both the simulation
+ * (which runs in a Web Worker, see src/worker) and the UI (src/ui, src/map)
+ * import from here and nowhere else for domain shapes.
+ *
+ * Rules:
+ *  - Pure data only. No functions, no classes, no DOM, no imports.
+ *  - The sim OWNS the mutable world. The UI only ever reads a `WorldSnapshot`.
+ *  - All player intent flows to the sim as a `Command`. The UI never mutates.
+ *
+ * See the master doc (§3 entities, §4 architecture) for the design rationale.
+ */
+
+// ---------------------------------------------------------------------------
+// Primitives & ids
+// ---------------------------------------------------------------------------
+
+export type NationId = number;   // index into nations
+export type ProvinceId = number; // index into provinces (matches baked geometry)
+export type StateId = number;    // index into states
+export type PopId = number;      // index into the pop store
+export type GoodId = number;     // index into the goods table
+export type ArmyId = number;
+export type FleetId = number;
+export type WarId = number;
+
+/** Days since the game epoch (1836-01-01). The sim's canonical clock. */
+export type GameDay = number;
+
+export interface GameDate {
+  year: number;
+  month: number; // 1-12
+  day: number;   // 1-based day of month
+}
+
+// ---------------------------------------------------------------------------
+// Static content (baked at build time from /content — see master doc §6)
+// ---------------------------------------------------------------------------
+
+export type Terrain =
+  | 'plains' | 'farmland' | 'forest' | 'hills' | 'mountains'
+  | 'desert' | 'jungle' | 'marsh' | 'arctic' | 'ocean' | 'coast';
+
+export interface GoodDef {
+  id: GoodId;
+  key: string;          // 'grain', 'iron', 'small_arms', ...
+  name: string;
+  category: 'raw' | 'intermediate' | 'manufactured' | 'military';
+  basePrice: number;    // world-market anchor price
+}
+
+/** A factory/RGO recipe: inputs -> outputs per unit of employment. */
+export interface Recipe {
+  key: string;
+  name: string;
+  inputs: { good: GoodId; amount: number }[]; // <= 3 inputs (master doc §3.4)
+  output: { good: GoodId; amount: number };
+  building: 'rgo' | 'factory';
+}
+
+export type PopType =
+  | 'aristocrat' | 'capitalist' | 'clergy' | 'clerk' | 'craftsman'
+  | 'farmer' | 'laborer' | 'soldier' | 'officer' | 'slave';
+
+export interface CultureDef { key: string; name: string; color: [number, number, number]; }
+export interface ReligionDef { key: string; name: string; }
+
+export type ReformCategory = 'economic' | 'political' | 'social' | 'military';
+
+export interface ReformDef {
+  key: string;
+  category: ReformCategory;
+  name: string;
+  /** Ordered options low->high; index is the enacted level. */
+  options: { key: string; name: string; effects: string[] }[];
+}
+
+export interface TechDef {
+  key: string;
+  name: string;
+  category: 'army' | 'navy' | 'commerce' | 'industry' | 'culture';
+  cost: number;
+  effects: string[];
+}
+
+/** Everything static the game is built from. Loaded once, never mutated. */
+export interface GameData {
+  startDate: GameDate;   // 1836-01-01
+  goods: GoodDef[];
+  recipes: Recipe[];
+  cultures: CultureDef[];
+  religions: ReligionDef[];
+  reforms: ReformDef[];
+  techs: TechDef[];
+  provinceCount: number;
+}
+
+// ---------------------------------------------------------------------------
+// Mutable world entities (owned by the sim)
+// ---------------------------------------------------------------------------
+
+export interface Pop {
+  id: PopId;
+  type: PopType;
+  provinceId: ProvinceId;
+  size: number;
+  culture: number;       // index into cultures
+  religion: number;      // index into religions
+  money: number;
+  militancy: number;     // 0-10
+  consciousness: number; // 0-10
+  needsMet: number;      // 0-1, fraction of life+everyday needs satisfied
+  /** ideology/issue leanings summed to 1; kept compact for perf */
+  ideology: number;      // index into a small ideology enum for shallow model
+}
+
+export interface RGO {
+  recipe: string;        // Recipe.key with building 'rgo'
+  level: number;         // capacity
+  employed: number;
+}
+
+export interface Factory {
+  recipe: string;        // Recipe.key with building 'factory'
+  level: number;
+  employed: number;
+  stockpileIn: number;   // buffered inputs
+  profitTrend: number;   // recent profit, drives expansion/closure
+}
+
+export interface Province {
+  id: ProvinceId;
+  name: string;
+  owner: NationId;
+  controller: NationId;  // differs from owner while occupied
+  stateId: StateId;
+  terrain: Terrain;
+  rgo: RGO;
+  fortLevel: number;
+  navalBaseLevel: number;
+  coastal: boolean;
+  neighbors: ProvinceId[];
+  popIds: PopId[];
+  occupationProgress: number; // 0-1 toward flipping controller
+  /** Colonization: 0 = uncolonized/unowned-by-anyone claimable region. */
+  colonial: boolean;
+}
+
+export interface State {
+  id: StateId;
+  name: string;
+  owner: NationId;
+  provinceIds: ProvinceId[];
+  factories: Factory[];   // factories live at the state level
+}
+
+export type GovernmentType =
+  | 'absolute_monarchy' | 'constitutional_monarchy' | 'hms_government'
+  | 'democracy' | 'presidential_dictatorship' | 'proletarian_dictatorship'
+  | 'fascist_dictatorship' | 'uncivilized';
+
+export interface Nation {
+  id: NationId;
+  tag: string;           // 'ENG', 'FRA', ...
+  name: string;
+  color: [number, number, number];
+  primaryCulture: number;
+  acceptedCultures: number[];
+  government: GovernmentType;
+  rulingParty: string;
+  capital: ProvinceId;
+
+  treasury: number;
+  prestige: number;
+  infamy: number;
+  literacy: number;      // 0-1
+  researchPoints: number;
+
+  /** enacted reform level per ReformDef.key */
+  reforms: Record<string, number>;
+  /** researched tech keys */
+  techs: string[];
+
+  taxRatePoor: number;   // 0-1 sliders
+  taxRateMiddle: number;
+  taxRateRich: number;
+  tariffRate: number;    // -1..1
+
+  gpRank: number;        // 0 = not a great power; 1..8 = GP rank
+  spheredBy: NationId;   // -1 if none
+  sphereMembers: NationId[];
+  colonialPoints: number;
+
+  isCivilized: boolean;
+  isPlayer: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Military & war (the star system — master doc §3.3)
+// ---------------------------------------------------------------------------
+
+export interface Leader {
+  name: string;
+  attack: number;
+  defense: number;
+  trait: string;
+}
+
+export interface Regiment {
+  type: 'infantry' | 'cavalry' | 'artillery' | 'guard';
+  strength: number;      // manpower 0-1000
+  organization: number;  // 0-100, depleted before strength
+  sourcePop: PopId;      // soldier pop that supplies it
+}
+
+export interface Army {
+  id: ArmyId;
+  owner: NationId;
+  location: ProvinceId;
+  moveTarget: ProvinceId; // -1 if stationary
+  moveProgress: number;   // 0-1 along current leg
+  regiments: Regiment[];
+  leader: Leader | null;
+}
+
+export interface Ship {
+  type: 'transport' | 'frigate' | 'manofwar' | 'ironclad';
+  strength: number;
+  organization: number;
+}
+
+export interface Fleet {
+  id: FleetId;
+  owner: NationId;
+  location: ProvinceId;   // a coastal/sea province
+  moveTarget: ProvinceId;
+  moveProgress: number;
+  ships: Ship[];
+  embarkedArmy: ArmyId;   // -1 if none
+}
+
+export type WarGoalType =
+  | 'annex_state' | 'liberate_state' | 'humiliate' | 'add_to_sphere'
+  | 'take_colony' | 'cut_down_to_size';
+
+export interface WarGoal {
+  holder: NationId;      // who benefits
+  target: NationId;
+  type: WarGoalType;
+  stateId: StateId;      // -1 if not state-specific
+  scoreValue: number;    // war-score % required/awarded
+}
+
+export interface War {
+  id: WarId;
+  attackers: NationId[];
+  defenders: NationId[];
+  goals: WarGoal[];
+  /** war score from the attackers' perspective, -100..100 */
+  score: number;
+  attackerExhaustion: number;
+  defenderExhaustion: number;
+  startDay: GameDay;
+}
+
+export type DiploRelationKind =
+  | 'alliance' | 'guarantee' | 'truce' | 'rivalry';
+
+export interface DiploRelation {
+  a: NationId;
+  b: NationId;
+  kind: DiploRelationKind;
+  opinion: number;       // -200..200
+  expiresDay: GameDay;   // -1 if permanent
+}
+
+// ---------------------------------------------------------------------------
+// Market
+// ---------------------------------------------------------------------------
+
+export interface MarketGood {
+  good: GoodId;
+  price: number;
+  supply: number;        // last period
+  demand: number;        // last period
+  worldStockpile: number;
+}
+
+// ---------------------------------------------------------------------------
+// Full world state (lives in the worker; never sent whole to the UI raw)
+// ---------------------------------------------------------------------------
+
+export interface World {
+  day: GameDay;
+  seed: number;
+  rngState: number;
+  speed: number;         // 0 = paused, 1..5
+  playerNation: NationId;
+
+  nations: Nation[];
+  provinces: Province[];
+  states: State[];
+  pops: Pop[];
+  market: MarketGood[];
+  armies: Army[];
+  fleets: Fleet[];
+  wars: War[];
+  relations: DiploRelation[];
+
+  nextArmyId: ArmyId;
+  nextFleetId: FleetId;
+  nextWarId: WarId;
+  nextPopId: PopId;
+}
+
+// ---------------------------------------------------------------------------
+// Snapshot: the read-only view the sim ships to the UI each frame.
+// Compact by design — heavy per-pop detail is fetched on demand, not streamed.
+// ---------------------------------------------------------------------------
+
+export interface NationSummary {
+  id: NationId;
+  tag: string;
+  name: string;
+  color: [number, number, number];
+  treasury: number;
+  prestige: number;
+  gpRank: number;
+  atWar: boolean;
+  numProvinces: number;
+  militancy: number; // avg
+}
+
+export interface ProvinceSummary {
+  id: ProvinceId;
+  owner: NationId;
+  controller: NationId;
+  population: number;
+  militancy: number;
+  rgoGood: GoodId;
+  fortLevel: number;
+  occupation: number;
+}
+
+/** Sent every rendered frame; province array feeds the map paint. */
+export interface WorldSnapshot {
+  day: GameDay;
+  date: GameDate;
+  speed: number;
+  playerNation: NationId;
+  nations: NationSummary[];
+  provinces: ProvinceSummary[];
+  market: MarketGood[];
+  wars: War[];
+  armies: Army[];
+  fleets: Fleet[];
+  /** headline numbers for the player nation's HUD */
+  playerBudget: BudgetLine;
+}
+
+export interface BudgetLine {
+  taxIncome: number;
+  tariffIncome: number;
+  productionIncome: number;
+  armyUpkeep: number;
+  constructionSpend: number;
+  adminSpend: number;
+  net: number;
+}
+
+// ---------------------------------------------------------------------------
+// Commands: the ONLY way the UI changes the world (§4 architecture)
+// ---------------------------------------------------------------------------
+
+export type Command =
+  | { t: 'setSpeed'; speed: number }
+  | { t: 'setPlayerNation'; nation: NationId }
+  | { t: 'setTax'; bracket: 'poor' | 'middle' | 'rich'; rate: number }
+  | { t: 'setTariff'; rate: number }
+  | { t: 'enactReform'; reform: string; level: number }
+  | { t: 'buildFactory'; state: StateId; recipe: string }
+  | { t: 'recruitArmy'; province: ProvinceId }
+  | { t: 'moveArmy'; army: ArmyId; target: ProvinceId }
+  | { t: 'moveFleet'; fleet: FleetId; target: ProvinceId }
+  | { t: 'embarkArmy'; fleet: FleetId; army: ArmyId }
+  | { t: 'proposeAlliance'; target: NationId }
+  | { t: 'fabricateCB'; target: NationId; goal: WarGoalType; state: StateId }
+  | { t: 'declareWar'; target: NationId; goal: WarGoalType; state: StateId }
+  | { t: 'offerPeace'; war: WarId; goalsToEnforce: number[] }
+  | { t: 'colonize'; state: StateId }
+  | { t: 'newGame'; seed: number; playerNation: NationId }
+  | { t: 'save'; slot: string }
+  | { t: 'load'; slot: string };
+
+// ---------------------------------------------------------------------------
+// Worker <-> UI message protocol
+// ---------------------------------------------------------------------------
+
+export type ToWorker =
+  | { t: 'init'; seed: number }
+  | { t: 'command'; cmd: Command }
+  | { t: 'requestProvince'; id: ProvinceId }   // pull detailed province view
+  | { t: 'requestNation'; id: NationId };
+
+export type FromWorker =
+  | { t: 'ready'; data: GameData }
+  | { t: 'snapshot'; snapshot: WorldSnapshot }
+  | { t: 'provinceDetail'; detail: ProvinceDetail }
+  | { t: 'nationDetail'; detail: NationDetail }
+  | { t: 'log'; level: 'info' | 'warn' | 'error'; msg: string };
+
+export interface ProvinceDetail {
+  id: ProvinceId;
+  name: string;
+  owner: NationId;
+  controller: NationId;
+  terrain: Terrain;
+  pops: { type: PopType; size: number; militancy: number; needsMet: number }[];
+  rgo: RGO;
+  fortLevel: number;
+  navalBaseLevel: number;
+}
+
+export interface NationDetail {
+  id: NationId;
+  reforms: Record<string, number>;
+  techs: string[];
+  budget: BudgetLine;
+  reformsAvailable: { reform: string; level: number; legal: boolean }[];
+}
