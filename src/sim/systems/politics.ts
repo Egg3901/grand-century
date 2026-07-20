@@ -1,5 +1,6 @@
 import type { GameData, World } from '../../shared/types';
 import type { Rng } from '../rng';
+import { BALANCE } from '../balance';
 import {
   aggregateReformDemand,
   computeReformLegality,
@@ -153,10 +154,12 @@ function applySuppressionEffects(world: World, data: GameData, nationId: number)
       if (reform) {
         const next = (nation.reforms[wanted] ?? 0) + 1;
         const legality = computeReformLegality(world, data, nation, reform, next);
-        deniedPressure = legality.legal ? -0.02 : 0.16 + blockedSupport * 0.24;
+        deniedPressure = legality.legal
+          ? -BALANCE.population.legalReformRelief
+          : BALANCE.population.deniedReformBasePressure + blockedSupport * BALANCE.population.deniedReformSupportPressure;
       }
     }
-    pop.militancy = clamp(pop.militancy + suppression * 0.1 + deniedPressure, 0, 10);
+    pop.militancy = clamp(pop.militancy + suppression * BALANCE.population.suppressionMilitancyImpact + deniedPressure, 0, 10);
     pop.consciousness = clamp(pop.consciousness + suppression * 0.03 + blockedSupport * 0.08, 0, 10);
   }
 }

@@ -1,5 +1,6 @@
 import type { BudgetLine, GameData, NationId, Pop, World } from '../../shared/types';
 import type { Rng } from '../rng';
+import { BALANCE } from '../balance';
 
 function finite(value: number, fallback = 0): number {
   return Number.isFinite(value) ? value : fallback;
@@ -120,12 +121,17 @@ function computeNationBudget(world: World, nationId: NationId, mutatePopMoney: b
   const productionIncome = Math.max(0, finite(nation.monthlyProductionIncome));
   const armyUpkeep = world.armies
     .filter((army) => army.owner === nationId)
-    .reduce((total, army) => total + army.regiments.length * 3.6, 0)
-    + world.fleets.filter((fleet) => fleet.owner === nationId).reduce((total, fleet) => total + fleet.ships.length * 2.4, 0);
+    .reduce((total, army) => total + army.regiments.length * BALANCE.economy.armyUpkeepPerRegiment, 0)
+    + world.fleets
+      .filter((fleet) => fleet.owner === nationId)
+      .reduce((total, fleet) => total + fleet.ships.length * BALANCE.economy.navyUpkeepPerShip, 0);
   const subsidySpend = nationFactorySubsidies(world, nationId);
-  const constructionSpend = nation.constructionBlocked ? 0 : provinceIds.length * 1.15;
-  const adminSpend = nationPopulation(world, nationId) * 0.00016 + provinceIds.length * 1.3;
-  const reformUpkeep = Object.values(nation.reforms).reduce((sum, level) => sum + Math.max(0, level) * 5.5, 0);
+  const constructionSpend = nation.constructionBlocked ? 0 : provinceIds.length * BALANCE.economy.constructionSpendPerProvince;
+  const adminSpend = nationPopulation(world, nationId) * BALANCE.economy.adminSpendPerPopulation
+    + provinceIds.length * BALANCE.economy.adminSpendPerProvince;
+  const reformUpkeep = Object.values(nation.reforms).reduce((sum, level) => (
+    sum + Math.max(0, level) * BALANCE.economy.reformUpkeepPerLevel
+  ), 0);
 
   const bankruptcyCut = nation.isBankrupt ? 0.45 : 1;
   const adjustedArmyUpkeep = armyUpkeep * bankruptcyCut;
@@ -200,7 +206,7 @@ export function runBudgetMonthly(world: World, _data: GameData, _rng: Rng): void
     nation.monthlyTariffIncome = 0;
     nation.monthlyProductionIncome = 0;
 
-    if (!nation.isBankrupt && nation.treasury <= -1200) {
+    if (!nation.isBankrupt && nation.treasury <= BALANCE.economy.bankruptcyEnterTreasury) {
       nation.isBankrupt = true;
       nation.constructionBlocked = true;
       nation.bankruptcyMonths = 0;
@@ -209,7 +215,7 @@ export function runBudgetMonthly(world: World, _data: GameData, _rng: Rng): void
     if (nation.isBankrupt) {
       nation.bankruptcyMonths += 1;
       nation.prestige = Math.max(0, nation.prestige - 0.6);
-      if (nation.treasury >= 450) {
+      if (nation.treasury >= BALANCE.economy.bankruptcyExitTreasury) {
         nation.isBankrupt = false;
         nation.constructionBlocked = false;
       }

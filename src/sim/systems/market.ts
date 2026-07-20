@@ -4,6 +4,16 @@ import { BALANCE } from '../balance';
 
 const MIN_PRICE = BALANCE.economy.minPrice;
 const MAX_PRICE = BALANCE.economy.maxPrice;
+const INFLATION_GUARD = BALANCE.economy.inflationGuard;
+const DEFLATION_GUARD = BALANCE.economy.deflationGuard;
+const MARKET_UNMET_DEMAND_WEIGHT = BALANCE.economy.marketUnmetDemandWeight;
+const MARKET_STOCKPILE_WEIGHT = BALANCE.economy.marketStockpileWeight;
+const MARKET_PRESSURE_CLAMP = BALANCE.economy.marketPressureClamp;
+const MARKET_DAMPING = BALANCE.economy.marketDamping;
+const MARKET_SMOOTHING = BALANCE.economy.marketSmoothing;
+const MARKET_BASE_REVERSION = BALANCE.economy.marketBaseReversion;
+const IMPORT_TARIFF_PRICE_IMPACT = BALANCE.economy.importTariffPriceImpact;
+const EXPORT_TARIFF_PRICE_IMPACT = BALANCE.economy.exportTariffPriceImpact;
 
 function finite(value: number, fallback = 0): number {
   return Number.isFinite(value) ? value : fallback;
@@ -14,13 +24,15 @@ function clamp(value: number, min: number, max: number): number {
 }
 
 function importMultiplier(rate: number): number {
-  const positive = Math.max(0, finite(rate));
-  return 1 + positive * 0.5;
+  const safe = clamp(finite(rate), -1, 1);
+  if (safe >= 0) return 1 + safe * IMPORT_TARIFF_PRICE_IMPACT;
+  return Math.max(0.72, 1 + safe * IMPORT_TARIFF_PRICE_IMPACT * 0.75);
 }
 
 function exportMultiplier(rate: number): number {
-  const positive = Math.max(0, finite(rate));
-  return Math.max(0.75, 1 - positive * 0.2);
+  const safe = clamp(finite(rate), -1, 1);
+  if (safe >= 0) return Math.max(0.82, 1 - safe * EXPORT_TARIFF_PRICE_IMPACT);
+  return 1 + Math.abs(safe) * EXPORT_TARIFF_PRICE_IMPACT * 0.25;
 }
 
 export function beginMarketWeek(world: World): void {
@@ -143,13 +155,18 @@ export function runMarketWeekly(world: World, data: GameData, _rng: Rng): void {
     const stockpileEnd = Math.max(0, runtime.remainingStockpile);
     const residual = (runtime.producerSupply + runtime.stockpileStart) - (runtime.consumerBought + stockpileEnd);
 
-    const effectiveSupply = runtime.producerSupply + runtime.stockpileStart * 0.35;
-    const ratio = (runtime.requestedDemand + 1) / (effectiveSupply + 1);
-    const pressure = clamp(Math.log(ratio), -1.15, 1.15);
-    const damping = 0.16;
+    const unmetDemand = Math.max(0, runtime.requestedDemand - runtime.consumerBought);
+    const effectiveDemand = runtime.consumerBought + runtime.stockpileBuy + unmetDemand * MARKET_UNMET_DEMAND_WEIGHT;
+    const effectiveSupply = runtime.producerSupply + runtime.stockpileStart * MARKET_STOCKPILE_WEIGHT;
+    const ratio = (effectiveDemand + 1) / (effectiveSupply + 1);
+    const pressure = clamp(Math.log(ratio), -MARKET_PRESSURE_CLAMP, MARKET_PRESSURE_CLAMP);
     const currentPrice = clamp(finite(marketGood.price, def.basePrice), MIN_PRICE, MAX_PRICE);
-    const targetPrice = clamp(currentPrice * Math.exp(pressure * damping), MIN_PRICE, MAX_PRICE);
-    const nextPrice = clamp(currentPrice + (targetPrice - currentPrice) * 0.45, MIN_PRICE, MAX_PRICE);
+    const pressureTarget = clamp(currentPrice * Math.exp(pressure * MARKET_DAMPING), MIN_PRICE, MAX_PRICE);
+    const anchoredTarget = pressureTarget + (def.basePrice - pressureTarget) * MARKET_BASE_REVERSION;
+    const minByBase = Math.max(MIN_PRICE, def.basePrice * DEFLATION_GUARD);
+    const maxByBase = Math.min(MAX_PRICE, def.basePrice * INFLATION_GUARD);
+    const boundedTarget = clamp(anchoredTarget, minByBase, maxByBase);
+    const nextPrice = clamp(currentPrice + (boundedTarget - currentPrice) * MARKET_SMOOTHING, minByBase, maxByBase);
 
     marketGood.price = nextPrice;
     marketGood.supply = Math.max(0, finite(supply));
@@ -160,7 +177,7 @@ export function runMarketWeekly(world: World, data: GameData, _rng: Rng): void {
     marketGood.priceTrace = {
       basePrice: def.basePrice,
       ratio,
-      damping,
+      damping: MARKET_DAMPING,
       requestedDemand: runtime.requestedDemand,
       effectiveSupply,
       stockpileStart: runtime.stockpileStart,

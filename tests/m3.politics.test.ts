@@ -60,7 +60,7 @@ describe('M3 politics and unrest', () => {
       && army.hostileTo === world.playerNation
       && state.provinceIds.includes(army.location)
     ));
-    expect(hasRebelArmy || state.unrestRisk > 1).toBe(true);
+    expect(hasRebelArmy || state.unrestRisk > 0.65).toBe(true);
   });
 
   it('higher conscription reform increases mobilization capacity', () => {

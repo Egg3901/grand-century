@@ -510,10 +510,14 @@ function stabilizeEconomy(world: World, nationId: NationId): void {
   const bankruptPush = nation.isBankrupt ? 0.2 : 0;
   const incomeStress = income < 0 ? clamp(Math.abs(income) / 350, 0, 0.18) : 0;
 
-  nation.taxRatePoor = clamp(0.41 + pressure * 0.21 + warPush + bankruptPush + incomeStress, BALANCE.ai.minTax, BALANCE.ai.maxTax);
-  nation.taxRateMiddle = clamp(0.32 + pressure * 0.19 + warPush * 0.7 + bankruptPush + incomeStress * 0.8, BALANCE.ai.minTax, BALANCE.ai.maxTax);
-  nation.taxRateRich = clamp(0.22 + pressure * 0.17 + warPush * 0.35 + bankruptPush * 0.75 + incomeStress * 0.5, BALANCE.ai.minTax * 0.4, BALANCE.ai.maxTax);
-  nation.tariffRate = clamp(pressure * 0.5 + (income < 0 ? 0.08 : 0) + (nation.isBankrupt ? 0.2 : 0), -0.32, 0.55);
+  nation.taxRatePoor = clamp(0.34 + pressure * 0.17 + warPush + bankruptPush + incomeStress, BALANCE.ai.minTax, BALANCE.ai.maxTax);
+  nation.taxRateMiddle = clamp(0.27 + pressure * 0.15 + warPush * 0.7 + bankruptPush + incomeStress * 0.75, BALANCE.ai.minTax, BALANCE.ai.maxTax);
+  nation.taxRateRich = clamp(0.18 + pressure * 0.13 + warPush * 0.35 + bankruptPush * 0.65 + incomeStress * 0.45, BALANCE.ai.minTax * 0.4, BALANCE.ai.maxTax);
+  nation.tariffRate = clamp(
+    pressure * 0.32 + (income < 0 ? 0.05 : 0) + (nation.isBankrupt ? 0.15 : 0),
+    BALANCE.ai.minTariff,
+    BALANCE.ai.maxTariff,
+  );
 }
 
 function isAggressivePosture(world: World, nationId: NationId): boolean {
@@ -619,7 +623,18 @@ function maybeBuildFactory(world: World, data: GameData, nationId: NationId): vo
     .sort((a, b) => b.score - a.score || a.state.id - b.state.id)[0];
   if (!candidate || candidate.score < -5) return;
 
-  const recipe = factoryRecipes[(candidate.state.id + world.day) % factoryRecipes.length];
+  const recipe = factoryRecipes
+    .map((factoryRecipe) => {
+      const outputPrice = world.market[factoryRecipe.output.good]?.price ?? 0;
+      const outputValue = outputPrice * factoryRecipe.output.amount * BALANCE.economy.factoryOutputBoost;
+      const inputValue = factoryRecipe.inputs.reduce((sum, input) => (
+        sum + (world.market[input.good]?.price ?? 0) * input.amount * BALANCE.economy.factoryInputIntensity
+      ), 0);
+      const expectedMargin = outputValue - inputValue;
+      return { factoryRecipe, expectedMargin };
+    })
+    .sort((a, b) => b.expectedMargin - a.expectedMargin || a.factoryRecipe.key.localeCompare(b.factoryRecipe.key))[0]?.factoryRecipe;
+  if (!recipe) return;
   const buildCost = 220 + candidate.state.factories.length * 45;
   if (nation.treasury < buildCost) return;
   nation.treasury -= buildCost;

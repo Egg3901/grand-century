@@ -1,5 +1,6 @@
 import type { Factory, GameData, Pop, Recipe, State, World } from '../../shared/types';
 import type { Rng } from '../rng';
+import { BALANCE } from '../balance';
 import { buyFromMarket, computeSaleRevenue, registerSupply } from './market';
 
 function finite(value: number, fallback = 0): number {
@@ -143,7 +144,7 @@ function processFactory(
   factory.clerkShare = employedClerks;
 
   if (employed <= 0) {
-    factory.weeklyProfit = -4;
+    factory.weeklyProfit = -BALANCE.economy.factoryIdleLoss;
     factory.lastOutput = 0;
     factory.profitTrend = finite(factory.profitTrend) * 0.78 - 0.3;
     factory.lossWeeks += 1;
@@ -151,11 +152,13 @@ function processFactory(
     return factory.weeklyProfit;
   }
 
-  let unitTarget = (employed / 1000) * (1 + factory.level * 0.11);
+  let unitTarget = (employed / 1000) * (1 + factory.level * 0.16);
   let inputCost = 0;
   for (const input of recipe.inputs) {
     if (unitTarget <= 0) break;
-    const needed = input.amount * unitTarget;
+    // Balance pass: factories consume fewer inputs per output unit so they can
+    // survive normal market swings and not collapse into permanent losses.
+    const needed = input.amount * unitTarget * BALANCE.economy.factoryInputIntensity;
     const purchase = buyFromMarket(world, state.owner, input.good, needed, Number.POSITIVE_INFINITY);
     inputCost += purchase.spent;
     const ratio = needed > 0 ? purchase.bought / needed : 1;
@@ -163,11 +166,17 @@ function processFactory(
   }
   unitTarget = Math.max(0, unitTarget);
 
-  const outputAmount = registerSupply(world, recipe.output.good, recipe.output.amount * unitTarget);
+  const outputAmount = registerSupply(
+    world,
+    recipe.output.good,
+    recipe.output.amount * unitTarget * BALANCE.economy.factoryOutputBoost,
+  );
   factory.lastOutput = outputAmount;
-  const revenue = computeSaleRevenue(world, recipe.output.good, state.owner, outputAmount);
+  // Balance pass: industrial value-add should beat raw extraction in the long run.
+  const revenue = computeSaleRevenue(world, recipe.output.good, state.owner, outputAmount)
+    * BALANCE.economy.factoryRevenueMultiplier;
 
-  const wagePool = revenue * 0.55;
+  const wagePool = revenue * BALANCE.economy.factoryWageShare;
   const clerkWages = wagePool * 0.36;
   const craftWages = wagePool - clerkWages;
   const craftWeight = totalCrafts > 0 ? totalCrafts : 1;
@@ -175,14 +184,19 @@ function processFactory(
   distributeMoney(world, craftsmanIds, craftWeight, craftWages);
   distributeMoney(world, clerkIds, clerkWeight, clerkWages);
 
-  const operating = 4 + factory.level * 1.2;
+  const operating = BALANCE.economy.factoryOperatingBase + factory.level * BALANCE.economy.factoryOperatingPerLevel;
   const netBeforeCapital = revenue - inputCost - wagePool - operating;
   const capitalistCut = Math.max(0, netBeforeCapital) * 0.18;
   const capitalistWeight = totalPopSize(world, capitalistIds);
   if (capitalistWeight > 0) distributeMoney(world, capitalistIds, capitalistWeight, capitalistCut);
   else owner.monthlyProductionIncome += capitalistCut;
 
-  const weeklyProfit = netBeforeCapital - capitalistCut;
+  let weeklyProfit = netBeforeCapital - capitalistCut;
+  // Keep active industry from collapsing into a permanent loss trap; this acts
+  // like a light industrial-policy floor that maintains a minimal profit signal.
+  if (weeklyProfit < BALANCE.economy.factoryProfitFloor && employed > 0 && !owner.isBankrupt) {
+    weeklyProfit = BALANCE.economy.factoryProfitFloor;
+  }
   factory.weeklyProfit = weeklyProfit;
   factory.cashReserve = Math.max(-400, finite(factory.cashReserve) + weeklyProfit);
   factory.profitTrend = finite(factory.profitTrend) * 0.72 + weeklyProfit * 0.28;
@@ -202,16 +216,20 @@ function processFactory(
 function rebalanceFactoryLevels(state: State): void {
   const survivors: Factory[] = [];
   for (const factory of state.factories) {
-    if (factory.profitableWeeks >= 14 && factory.cashReserve > 120) {
+    if (factory.profitableWeeks >= 10 && factory.cashReserve > 70) {
       factory.level = clamp(factory.level + 1, 1, 10);
-      factory.cashReserve -= 100;
+      factory.cashReserve -= 60;
       factory.profitableWeeks = 0;
     }
-    if (factory.lossWeeks >= 16 && factory.level > 1) {
+    if (factory.lossWeeks >= 8 && factory.level > 1) {
       factory.level -= 1;
       factory.lossWeeks = 0;
     }
-    if (factory.lossWeeks >= 24 && factory.level <= 1 && factory.cashReserve < -90) {
+    if (
+      factory.lossWeeks >= 10
+      && factory.level <= 1
+      && (factory.cashReserve < 0 || factory.employed < 120)
+    ) {
       continue;
     }
     survivors.push(factory);

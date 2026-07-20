@@ -13,22 +13,23 @@ function clamp(value: number, min: number, max: number): number {
 
 function passiveIncome(popType: PopType, size: number): number {
   const units = Math.max(0, finite(size)) / 1000;
+  const scale = BALANCE.population.passiveIncomeScale;
   switch (popType) {
     case 'aristocrat':
-      return units * 3.2;
+      return units * 3.2 * scale;
     case 'capitalist':
-      return units * 2.4;
+      return units * 2.4 * scale;
     case 'clergy':
     case 'officer':
-      return units * 1.8;
+      return units * 1.8 * scale;
     case 'clerk':
-      return units * 1.5;
+      return units * 1.5 * scale;
     case 'soldier':
-      return units * 1.1;
+      return units * 1.1 * scale;
     case 'slave':
-      return units * 0.4;
+      return units * 0.4 * scale;
     default:
-      return units * 0.4;
+      return units * 0.4 * scale;
   }
 }
 
@@ -166,10 +167,21 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
     const everydayFrac = everydayNeed > 0 ? everydayMet / everydayNeed : 1;
     const luxuryFrac = luxuryNeed > 0 ? luxuryMet / luxuryNeed : 1;
     const combinedNeeds = clamp(lifeFrac * 0.72 + everydayFrac * 0.28, 0, 1);
-    pop.needsMet = clamp(pop.needsMet * 0.45 + combinedNeeds * 0.55, 0, 1);
+    pop.needsMet = clamp(
+      pop.needsMet * BALANCE.population.weeklyNeedsPreviousWeight
+      + combinedNeeds * BALANCE.population.weeklyNeedsCurrentWeight,
+      0,
+      1,
+    );
 
     const unmet = 1 - pop.needsMet;
-    pop.militancy = clamp(pop.militancy + unmet * 0.16 - pop.needsMet * 0.05, 0, 10);
+    pop.militancy = clamp(
+      pop.militancy
+      + unmet * BALANCE.population.weeklyMilitancyFromUnmet
+      - pop.needsMet * BALANCE.population.weeklyMilitancyFromMetRelief,
+      0,
+      10,
+    );
     const literacy = world.nations[nationId]?.literacy ?? 0;
     const urbanization = popUrbanization(world, pop);
     pop.consciousness = clamp(
@@ -282,8 +294,21 @@ export function runPopsMonthly(world: World, _data: GameData, rng: Rng): void {
     pop.lastGrowth = growthDelta;
 
     const urban = popUrbanization(world, pop);
-    pop.consciousness = clamp(pop.consciousness + literacy * 0.16 + urban * 0.05 - (1 - pop.needsMet) * 0.04, 0, 10);
-    pop.militancy = clamp(pop.militancy + (0.55 - pop.needsMet) * 0.35, 0, 10);
+    pop.consciousness = clamp(
+      pop.consciousness
+      + literacy * BALANCE.population.monthlyConsciousnessLiteracy
+      + urban * BALANCE.population.monthlyConsciousnessUrban
+      - (1 - pop.needsMet) * BALANCE.population.monthlyConsciousnessNeedPenalty,
+      0,
+      10,
+    );
+    pop.militancy = clamp(
+      pop.militancy
+      + (BALANCE.population.monthlyMilitancyBaseline - pop.needsMet) * BALANCE.population.monthlyMilitancyPressure
+      - pop.needsMet * BALANCE.population.monthlyMilitancyDecay,
+      0,
+      10,
+    );
 
     if ((pop.type === 'farmer' || pop.type === 'laborer') && pop.size > 250) {
       const destination = bestDestination.get(nationId);
@@ -298,11 +323,11 @@ export function runPopsMonthly(world: World, _data: GameData, rng: Rng): void {
     const province = world.provinces[pop.provinceId];
     const stateId = province?.stateId ?? -1;
     const openings = stateFactoryOpenings.get(stateId) ?? 0;
-    if ((pop.type === 'farmer' || pop.type === 'laborer') && pop.needsMet > 0.62 && literacy > 0.2 && openings > 10) {
-      const promoted = convertPopPortion(world, pop, 'craftsman', pop.size * 0.012);
+    if ((pop.type === 'farmer' || pop.type === 'laborer') && pop.needsMet > 0.35 && literacy > 0.12 && openings > 8) {
+      const promoted = convertPopPortion(world, pop, 'craftsman', pop.size * 0.025);
       stateFactoryOpenings.set(stateId, Math.max(0, openings - promoted));
-    } else if (pop.type === 'craftsman' && (pop.needsMet < 0.34 || openings < 5)) {
-      convertPopPortion(world, pop, 'laborer', pop.size * 0.014);
+    } else if (pop.type === 'craftsman' && (pop.needsMet < 0.08 || openings < 2)) {
+      convertPopPortion(world, pop, 'laborer', pop.size * 0.004);
     }
 
     if ((pop.type === 'farmer' || pop.type === 'laborer' || pop.type === 'craftsman') && isAcceptedCulture(world, pop)) {
