@@ -1,5 +1,6 @@
-import type { BudgetLine, GameData, NationSummary, PopType, ProvinceSummary, World, WorldSnapshot } from '../shared/types';
+import type { BudgetLine, GameData, NationSummary, PartyIdeology, PopType, ProvinceSummary, World, WorldSnapshot } from '../shared/types';
 import { dayToDate } from './world';
+import { ideologyFromPop, partyByKey, reformDemandForPop, topReformDemandEntries } from './politics';
 
 function zeroBudget(): BudgetLine {
   return {
@@ -72,23 +73,34 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     const avgMilitancy = popCount.length > 0
       ? popCount.reduce((sum, popId) => sum + (world.pops[popId]?.militancy ?? 0), 0) / popCount.length
       : 0;
+    const ownedStates = world.states.filter((state) => state.owner === nation.id);
+    const avgUnrest = ownedStates.length > 0
+      ? ownedStates.reduce((sum, state) => sum + state.unrestRisk, 0) / ownedStates.length
+      : 0;
+    const ruling = partyByKey(nation, nation.rulingParty);
     return {
       id: nation.id,
       tag: nation.tag,
       name: nation.name,
       color: nation.color,
+      government: nation.government,
+      rulingParty: ruling?.name ?? nation.rulingParty,
+      rulingIdeology: ruling?.ideology ?? 'conservative',
       treasury: nation.treasury,
       prestige: nation.prestige,
+      infamy: nation.infamy,
       gpRank: nation.gpRank,
       atWar: world.wars.some((war) => war.attackers.includes(nation.id) || war.defenders.includes(nation.id)),
       numProvinces: owned.length,
       militancy: avgMilitancy,
+      unrest: avgUnrest,
       taxRatePoor: nation.taxRatePoor,
       taxRateMiddle: nation.taxRateMiddle,
       taxRateRich: nation.taxRateRich,
       tariffRate: nation.tariffRate,
       isBankrupt: nation.isBankrupt,
       constructionBlocked: nation.constructionBlocked,
+      mobilizationCapacity: nation.mobilizationCapacity,
     };
   });
 
@@ -102,6 +114,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       controller: province.controller,
       population: provincePopulation(world, province.popIds),
       militancy: provinceMilitancy(world, province.popIds),
+      unrestRisk: world.states[province.stateId]?.unrestRisk ?? 0,
       needsMet: needs.needsMet,
       growth: needs.growth,
       economyOutput: rgoOutput + needs.outputProxy,
@@ -140,31 +153,64 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     })),
   ];
 
-  const playerPopulationMap = new Map<string, { size: number; needs: number; mil: number; growth: number; count: number }>();
+  const playerPopulationMap = new Map<string, {
+    size: number;
+    needs: number;
+    mil: number;
+    con: number;
+    growth: number;
+    count: number;
+    ideology: Record<string, number>;
+    agitating: Map<string, number>;
+  }>();
+  const playerNation = world.nations[world.playerNation];
   for (const province of world.provinces) {
     if (province.owner !== world.playerNation) continue;
     for (const popId of province.popIds) {
       const pop = world.pops[popId];
       if (!pop || pop.size <= 0) continue;
       const key = pop.type;
-      const bucket = playerPopulationMap.get(key) ?? { size: 0, needs: 0, mil: 0, growth: 0, count: 0 };
+      const bucket = playerPopulationMap.get(key) ?? {
+        size: 0,
+        needs: 0,
+        mil: 0,
+        con: 0,
+        growth: 0,
+        count: 0,
+        ideology: {},
+        agitating: new Map<string, number>(),
+      };
       bucket.size += pop.size;
       bucket.needs += pop.needsMet;
       bucket.mil += pop.militancy;
+      bucket.con += pop.consciousness;
       bucket.growth += pop.lastGrowth;
       bucket.count += 1;
+      const ideology = ideologyFromPop(pop);
+      bucket.ideology[ideology] = (bucket.ideology[ideology] ?? 0) + pop.size;
+      if (playerNation) {
+        const demanded = reformDemandForPop(pop, playerNation, data);
+        if (demanded) bucket.agitating.set(demanded, (bucket.agitating.get(demanded) ?? 0) + pop.size);
+      }
       playerPopulationMap.set(key, bucket);
     }
   }
   const playerPopulation = Array.from(playerPopulationMap.entries())
-    .map(([type, bucket]) => ({
-      type: type as PopType,
-      size: bucket.size,
-      avgNeedsMet: bucket.count > 0 ? bucket.needs / bucket.count : 0,
-      avgMilitancy: bucket.count > 0 ? bucket.mil / bucket.count : 0,
-      growth: bucket.growth,
-    }))
+    .map(([type, bucket]) => {
+      const dominantIdeology = (Object.entries(bucket.ideology).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'conservative') as PartyIdeology;
+      return {
+        type: type as PopType,
+        size: bucket.size,
+        avgNeedsMet: bucket.count > 0 ? bucket.needs / bucket.count : 0,
+        avgMilitancy: bucket.count > 0 ? bucket.mil / bucket.count : 0,
+        avgConsciousness: bucket.count > 0 ? bucket.con / bucket.count : 0,
+        dominantIdeology,
+        agitatingFor: Array.from(bucket.agitating.entries()).sort((a, b) => b[1] - a[1]).slice(0, 2).map(([reform]) => reform),
+        growth: bucket.growth,
+      };
+    })
     .sort((a, b) => b.size - a.size);
+  const playerReformAgitation = topReformDemandEntries(world, data, world.playerNation, 5);
   const playerStates = playerOwnedStates.map((state) => ({
     id: state.id,
     name: state.name,
@@ -184,6 +230,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     fleets: world.fleets.map((fleet) => ({ ...fleet, ships: fleet.ships.map((ship) => ({ ...ship })) })),
     playerProduction,
     playerPopulation,
+    playerReformAgitation,
     playerStates,
     playerBudget: zeroBudget(),
   };

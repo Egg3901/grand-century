@@ -17,6 +17,14 @@ const DIPLO_COLORS = {
   atWar: '#8e5a52',
   neutral: '#b5a27f',
 };
+const IDEOLOGY_COLORS: Record<string, string> = {
+  reactionary: '#5f4a3a',
+  conservative: '#6a5f4b',
+  liberal: '#4f6e8f',
+  socialist: '#8c4f55',
+  communist: '#7b3537',
+  fascist: '#352926',
+};
 
 function toHexColor(rgb: [number, number, number]): string {
   const [r, g, b] = rgb.map((value) => Math.max(0, Math.min(255, Math.round(value)))) as [number, number, number];
@@ -303,6 +311,15 @@ export function GrandMap() {
         const red = Math.round(164 + hunger * 58);
         const green = Math.round(92 + needs * 84);
         const blue = Math.round(78 + needs * 30);
+        fill = toHexColor([red, green, blue]);
+      } else if (mapMode === 'ruling_ideology') {
+        const ideology = snapshot.nations.find((nation) => nation.id === province.owner)?.rulingIdeology ?? 'conservative';
+        fill = blend(IDEOLOGY_COLORS[ideology] ?? IDEOLOGY_COLORS.conservative, 0.12);
+      } else if (mapMode === 'unrest') {
+        const unrest = clamp01(Math.max(province.unrestRisk, province.militancy / 10));
+        const red = Math.round(136 + unrest * 86);
+        const green = Math.round(108 - unrest * 48);
+        const blue = Math.round(92 - unrest * 50);
         fill = toHexColor([red, green, blue]);
       } else if (mapMode === 'economy') {
         const econScaled = clamp01((province.economyOutput - econMin) / econRange);

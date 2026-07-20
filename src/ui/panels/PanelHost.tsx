@@ -4,6 +4,7 @@ import { MarketPanel } from './MarketPanel';
 import { PopulationPanel } from './PopulationPanel';
 import { ProductionPanel } from './ProductionPanel';
 import { ProvincePanel } from './ProvincePanel';
+import { PoliticsPanel } from './PoliticsPanel';
 import './panels.css';
 
 function PlaceholderPanel({ title, body }: { title: string; body: string }) {
@@ -28,9 +29,7 @@ export function PanelHost() {
       {openPanel === 'population' ? <PopulationPanel /> : null}
       {openPanel === 'production' ? <ProductionPanel /> : null}
       {openPanel === 'market' ? <MarketPanel /> : null}
-      {openPanel === 'politics' ? (
-        <PlaceholderPanel title="Politics" body={`Great powers tracked: ${snapshot?.nations.filter((nation) => nation.gpRank > 0).length ?? 0}`} />
-      ) : null}
+      {openPanel === 'politics' ? <PoliticsPanel /> : null}
       {openPanel === 'diplomacy' ? (
         <PlaceholderPanel title="Diplomacy" body={`Active wars: ${snapshot?.wars.length ?? 0}`} />
       ) : null}

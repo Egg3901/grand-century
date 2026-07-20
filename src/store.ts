@@ -9,7 +9,14 @@ import type {
   Command, GameData, NationDetail, NationId, ProvinceDetail, ProvinceId, WorldSnapshot,
 } from './shared/types';
 
-export type MapMode = 'political' | 'population' | 'economy' | 'military' | 'diplomatic';
+export type MapMode =
+  | 'political'
+  | 'population'
+  | 'economy'
+  | 'military'
+  | 'diplomatic'
+  | 'unrest'
+  | 'ruling_ideology';
 export type PanelId =
   | null | 'budget' | 'population' | 'market' | 'politics' | 'diplomacy'
   | 'military' | 'production' | 'technology' | 'province';

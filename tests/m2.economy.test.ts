@@ -58,6 +58,8 @@ describe('M2 economy loop', () => {
           sourcePop: 0,
         })),
         leader: null,
+        rebel: false,
+        hostileTo: -1,
       });
     }
 

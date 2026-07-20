@@ -1,4 +1,5 @@
 import type { Command, FromWorker, GameData, NationId, Regiment, War, WarGoal, World } from '../shared/types';
+import { computeReformLegality, partyLabel, reformDemandForPop, updateMilitaryDerivedForNation } from './politics';
 
 type Poster = (msg: FromWorker) => void;
 
@@ -52,7 +53,34 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       const nation = world.nations[world.playerNation];
       const reformDef = data.reforms.find((reform) => reform.key === cmd.reform);
       if (!nation || !reformDef) return;
-      nation.reforms[cmd.reform] = clamp(cmd.level, 0, reformDef.options.length - 1);
+      const targetLevel = clamp(cmd.level, 0, reformDef.options.length - 1);
+      const legality = computeReformLegality(world, data, nation, reformDef, targetLevel);
+      if (!legality.legal) {
+        log(post, 'warn', `Cannot enact ${reformDef.name}: ${legality.reason}`);
+        return;
+      }
+      nation.treasury -= legality.costMoney;
+      nation.prestige = Math.max(0, nation.prestige - legality.costPrestige);
+      nation.reforms[cmd.reform] = targetLevel;
+
+      let appeased = 0;
+      for (const province of world.provinces) {
+        if (province.owner !== nation.id) continue;
+        for (const popId of province.popIds) {
+          const pop = world.pops[popId];
+          if (!pop || pop.size <= 0) continue;
+          const demand = reformDemandForPop(pop, nation, data);
+          if (demand === cmd.reform) {
+            pop.militancy = clamp(pop.militancy - 0.28, 0, 10);
+            pop.consciousness = clamp(pop.consciousness + 0.1, 0, 10);
+            appeased += 1;
+          } else {
+            pop.consciousness = clamp(pop.consciousness + 0.03, 0, 10);
+          }
+        }
+      }
+      if (reformDef.category === 'military') updateMilitaryDerivedForNation(world, nation.id);
+      log(post, 'info', `${reformDef.name} enacted by ${partyLabel(nation, nation.rulingParty)} (${appeased} groups appeased).`);
       return;
     }
     case 'buildFactory': {
@@ -92,21 +120,55 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     }
     case 'recruitArmy': {
       const province = world.provinces[cmd.province];
-      if (!province || province.owner !== world.playerNation) return;
+      const nation = world.nations[world.playerNation];
+      if (!province || !nation || province.owner !== world.playerNation) return;
+
+      const activeRegiments = world.armies
+        .filter((army) => army.owner === world.playerNation && !army.rebel)
+        .reduce((sum, army) => sum + army.regiments.length, 0);
+      const capRemaining = Math.max(0, nation.standingRegimentCapacity - activeRegiments);
+      if (capRemaining <= 0) {
+        log(post, 'warn', 'Standing regiment cap reached. Raise conscription or soldier population.');
+        return;
+      }
+
+      const usedByPop = new Map<number, number>();
+      for (const army of world.armies) {
+        if (army.owner !== world.playerNation || army.rebel) continue;
+        for (const regiment of army.regiments) {
+          usedByPop.set(regiment.sourcePop, (usedByPop.get(regiment.sourcePop) ?? 0) + 1);
+        }
+      }
+
       const soldierPops = province.popIds.map((id) => world.pops[id]).filter((pop) => pop?.type === 'soldier' && pop.size > 200);
       if (soldierPops.length === 0) {
         log(post, 'warn', 'No soldier pops available for recruitment.');
         return;
       }
-      const regiments: Regiment[] = soldierPops.slice(0, 4).map((pop) => {
-        pop.size = Math.max(0, pop.size - 80);
-        return {
-          type: 'infantry',
-          strength: 1000,
-          organization: 60,
-          sourcePop: pop.id,
-        };
-      });
+
+      const regiments: Regiment[] = [];
+      for (const pop of soldierPops) {
+        if (regiments.length >= capRemaining || regiments.length >= 6) break;
+        const popSupportCap = Math.max(0, Math.floor((pop.size / 1000) * nation.regimentsPerSoldierPop));
+        const allocated = usedByPop.get(pop.id) ?? 0;
+        const available = Math.max(0, popSupportCap - allocated);
+        if (available <= 0) continue;
+        const toRaise = Math.min(available, capRemaining - regiments.length, 2);
+        for (let i = 0; i < toRaise; i++) {
+          pop.size = Math.max(0, pop.size - 70);
+          regiments.push({
+            type: 'infantry',
+            strength: 1000,
+            organization: clamp(Math.round(55 * nation.armyOrganization), 20, 100),
+            sourcePop: pop.id,
+          });
+        }
+      }
+      if (regiments.length === 0) {
+        log(post, 'warn', 'Soldier pops are fully allocated under current conscription reform.');
+        return;
+      }
+
       world.armies.push({
         id: world.nextArmyId++,
         owner: province.owner,
@@ -115,6 +177,8 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
         moveProgress: 0,
         regiments,
         leader: null,
+        rebel: false,
+        hostileTo: -1,
       });
       return;
     }

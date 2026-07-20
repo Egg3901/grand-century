@@ -14,6 +14,13 @@ import type {
 } from '../shared/types';
 import { Rng } from './rng';
 import { WORLD_SEED } from '../data/generated';
+import {
+  createNationParties,
+  defaultRulingParty,
+  defaultUpperHouse,
+  isElectiveGovernment,
+  updateMilitaryDerivedForNation,
+} from './politics';
 
 const RGO_RECIPES = ['rgo_grain', 'rgo_cattle', 'rgo_timber', 'rgo_coal', 'rgo_iron', 'rgo_cotton'];
 const FACTORY_RECIPES = ['factory_fabric', 'factory_steel', 'factory_small_arms', 'factory_cannery'];
@@ -141,12 +148,19 @@ function createNations(data: GameData): Nation[] {
     primaryCulture: cultureIndex(data, seed.primaryCulture || CULTURE_BY_TAG[seed.tag] || 'british'),
     acceptedCultures: [cultureIndex(data, seed.primaryCulture || CULTURE_BY_TAG[seed.tag] || 'british')],
     government: seed.government,
-    rulingParty: seed.government === 'democracy' ? 'Liberal Coalition' : 'Royal Ministry',
+    rulingParty: defaultRulingParty(seed.government),
+    parties: createNationParties(),
+    upperHouse: defaultUpperHouse(seed.government),
+    electionIntervalYears: seed.government === 'constitutional_monarchy' ? 5 : 4,
+    lastElectionYear: 1832,
+    nextElectionYear: isElectiveGovernment(seed.government) ? 1836 + (id % 4) : Number.MAX_SAFE_INTEGER,
+    electionLastResult: 'No election held yet.',
     capital: capitalId(seed.capitalProvinceId),
     treasury: 2600 + (GP_ORDER.length - Math.min(GP_ORDER.length, GP_ORDER.indexOf(seed.tag) + 1 || GP_ORDER.length)) * 380,
     prestige: GP_ORDER.includes(seed.tag) ? 25 + Math.max(0, 8 - GP_ORDER.indexOf(seed.tag)) * 5 : 6,
     infamy: 0,
     literacy: seed.government === 'uncivilized' ? 0.12 : GP_ORDER.includes(seed.tag) ? 0.45 : 0.26,
+    nationalConsciousness: 1.2,
     researchPoints: 0,
     reforms: nationReforms(data),
     techs: seed.government === 'uncivilized' ? [] : ['market_structure'],
@@ -166,6 +180,11 @@ function createNations(data: GameData): Nation[] {
     monthlyTariffIncome: 0,
     monthlyProductionIncome: 0,
     lastBudget: zeroBudget(),
+    regimentsPerSoldierPop: 0.8,
+    standingRegimentCapacity: 0,
+    mobilizationCapacity: 0,
+    armyOrganization: 0.84,
+    armyMorale: 0.9,
   }));
 }
 
@@ -176,6 +195,8 @@ function createStates(tagToNationId: Record<string, number>): State[] {
     owner: tagToNationId[stateSeed.ownerTag] ?? 0,
     provinceIds: stateSeed.provinceIds.slice(),
     factories: [],
+    unrestRisk: 0,
+    lastRebellionDay: -3650,
   }));
 }
 
@@ -337,7 +358,7 @@ export function createWorld(data: GameData, seed: number): World {
   addFactorySeeds(states, rng);
   const pops = createPops(provinces, runtime, nations, data, rng);
 
-  return {
+  const world: World = {
     day: 0,
     seed: seed >>> 0,
     rngState: rng.state,
@@ -394,4 +415,6 @@ export function createWorld(data: GameData, seed: number): World {
     nextWarId: 1,
     nextPopId: pops.length,
   };
+  for (const nation of world.nations) updateMilitaryDerivedForNation(world, nation.id);
+  return world;
 }

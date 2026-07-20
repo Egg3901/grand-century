@@ -88,6 +88,22 @@ export interface ReformDef {
   options: { key: string; name: string; effects: string[] }[];
 }
 
+export type PartyIdeology =
+  | 'reactionary'
+  | 'conservative'
+  | 'liberal'
+  | 'socialist'
+  | 'communist'
+  | 'fascist';
+
+export interface Party {
+  key: string;
+  name: string;
+  ideology: PartyIdeology;
+  /** preferred reform level per ReformDef.key */
+  positions: Record<string, number>;
+}
+
 export interface TechDef {
   key: string;
   name: string;
@@ -174,6 +190,8 @@ export interface State {
   owner: NationId;
   provinceIds: ProvinceId[];
   factories: Factory[];   // factories live at the state level
+  unrestRisk: number;     // 0-1+ monthly pressure toward rebellion
+  lastRebellionDay: GameDay;
 }
 
 export type GovernmentType =
@@ -189,13 +207,20 @@ export interface Nation {
   primaryCulture: number;
   acceptedCultures: number[];
   government: GovernmentType;
-  rulingParty: string;
+  rulingParty: string; // Party.key
+  parties: Party[];
+  upperHouse: Record<PartyIdeology, number>; // ideology share, sums to 1
+  electionIntervalYears: number;
+  lastElectionYear: number;
+  nextElectionYear: number;
+  electionLastResult: string;
   capital: ProvinceId;
 
   treasury: number;
   prestige: number;
   infamy: number;
   literacy: number;      // 0-1
+  nationalConsciousness: number; // 0-10
   researchPoints: number;
 
   /** enacted reform level per ReformDef.key */
@@ -221,6 +246,13 @@ export interface Nation {
   monthlyTariffIncome: number;
   monthlyProductionIncome: number;
   lastBudget: BudgetLine;
+
+  // Derived monthly from military reforms (consumed by war in M5).
+  regimentsPerSoldierPop: number;
+  standingRegimentCapacity: number;
+  mobilizationCapacity: number;
+  armyOrganization: number;
+  armyMorale: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -249,6 +281,8 @@ export interface Army {
   moveProgress: number;   // 0-1 along current leg
   regiments: Regiment[];
   leader: Leader | null;
+  rebel: boolean;
+  hostileTo: NationId;
 }
 
 export interface Ship {
@@ -388,18 +422,24 @@ export interface NationSummary {
   tag: string;
   name: string;
   color: [number, number, number];
+  government: GovernmentType;
+  rulingParty: string;
+  rulingIdeology: PartyIdeology;
   treasury: number;
   prestige: number;
+  infamy: number;
   gpRank: number;
   atWar: boolean;
   numProvinces: number;
   militancy: number; // avg
+  unrest: number;    // avg state unrest risk
   taxRatePoor: number;
   taxRateMiddle: number;
   taxRateRich: number;
   tariffRate: number;
   isBankrupt: boolean;
   constructionBlocked: boolean;
+  mobilizationCapacity: number;
 }
 
 export interface ProvinceSummary {
@@ -408,6 +448,7 @@ export interface ProvinceSummary {
   controller: NationId;
   population: number;
   militancy: number;
+  unrestRisk: number;
   needsMet: number;
   growth: number;
   economyOutput: number;
@@ -432,6 +473,9 @@ export interface PopulationLedgerEntry {
   size: number;
   avgNeedsMet: number;
   avgMilitancy: number;
+  avgConsciousness: number;
+  dominantIdeology: PartyIdeology;
+  agitatingFor: string[];
   growth: number;
 }
 
@@ -455,6 +499,7 @@ export interface WorldSnapshot {
   fleets: Fleet[];
   playerProduction: ProductionLedgerEntry[];
   playerPopulation: PopulationLedgerEntry[];
+  playerReformAgitation: { reform: string; support: number }[];
   playerStates: PlayerStateSummary[];
   /** headline numbers for the player nation's HUD */
   playerBudget: BudgetLine;
@@ -544,8 +589,39 @@ export interface ProvinceDetail {
 
 export interface NationDetail {
   id: NationId;
+  government: GovernmentType;
+  rulingParty: string;
+  rulingIdeology: PartyIdeology;
+  upperHouse: { ideology: PartyIdeology; share: number }[];
+  infamy: number;
+  election: {
+    elective: boolean;
+    yearsToNext: number;
+    nextYear: number;
+    lastResult: string;
+  };
+  military: {
+    regimentsPerSoldierPop: number;
+    standingRegimentCapacity: number;
+    mobilizationCapacity: number;
+    armyOrganization: number;
+    armyMorale: number;
+  };
+  avgMilitancy: number;
+  avgConsciousness: number;
+  topReformDemands: { reform: string; support: number }[];
+  stateUnrest: { stateId: StateId; name: string; risk: number; militancy: number }[];
   reforms: Record<string, number>;
   techs: string[];
   budget: BudgetLine;
-  reformsAvailable: { reform: string; level: number; legal: boolean }[];
+  reformsAvailable: {
+    reform: string;
+    level: number;
+    legal: boolean;
+    reason: string;
+    support: number;
+    requiredSupport: number;
+    costMoney: number;
+    costPrestige: number;
+  }[];
 }

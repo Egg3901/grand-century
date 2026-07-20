@@ -2,12 +2,15 @@ import type {
   GameData,
   NationDetail,
   NationId,
+  PartyIdeology,
   ProvinceDetail,
   ProvinceId,
   PopType,
   World,
 } from '../shared/types';
 import { computePlayerBudget } from './systems/budget';
+import { computeReformLegality, isElectiveGovernment, partyByKey, topReformDemandEntries, yearsToElection } from './politics';
+import { dayToDate } from './world';
 
 interface PopAggregate {
   type: PopType;
@@ -78,6 +81,28 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
   if (!nation) {
     return {
       id,
+      government: 'absolute_monarchy',
+      rulingParty: 'Unknown',
+      rulingIdeology: 'conservative',
+      upperHouse: [],
+      infamy: 0,
+      election: {
+        elective: false,
+        yearsToNext: 0,
+        nextYear: 0,
+        lastResult: 'N/A',
+      },
+      military: {
+        regimentsPerSoldierPop: 0,
+        standingRegimentCapacity: 0,
+        mobilizationCapacity: 0,
+        armyOrganization: 1,
+        armyMorale: 1,
+      },
+      avgMilitancy: 0,
+      avgConsciousness: 0,
+      topReformDemands: [],
+      stateUnrest: [],
       reforms: {},
       techs: [],
       budget: computePlayerBudget(world, data, world.playerNation),
@@ -85,20 +110,93 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
     };
   }
 
+  let totalMilitancy = 0;
+  let totalConsciousness = 0;
+  let popCount = 0;
+  for (const province of world.provinces) {
+    if (province.owner !== nation.id) continue;
+    for (const popId of province.popIds) {
+      const pop = world.pops[popId];
+      if (!pop || pop.size <= 0) continue;
+      totalMilitancy += pop.militancy;
+      totalConsciousness += pop.consciousness;
+      popCount += 1;
+    }
+  }
+  const date = dayToDate(world.day);
+  const ruling = partyByKey(nation, nation.rulingParty);
+  const upperHouse = (Object.entries(nation.upperHouse) as [PartyIdeology, number][])
+    .map(([ideology, share]) => ({ ideology, share }))
+    .sort((a, b) => b.share - a.share);
+  const stateUnrest = world.states
+    .filter((state) => state.owner === nation.id)
+    .map((state) => {
+      let total = 0;
+      let count = 0;
+      for (const provinceId of state.provinceIds) {
+        const province = world.provinces[provinceId];
+        if (!province) continue;
+        for (const popId of province.popIds) {
+          const pop = world.pops[popId];
+          if (!pop || pop.size <= 0) continue;
+          total += pop.militancy;
+          count += 1;
+        }
+      }
+      return {
+        stateId: state.id,
+        name: state.name,
+        risk: state.unrestRisk,
+        militancy: count > 0 ? total / count : 0,
+      };
+    })
+    .sort((a, b) => b.risk - a.risk)
+    .slice(0, 8);
+
   return {
     id: nation.id,
+    government: nation.government,
+    rulingParty: ruling?.name ?? nation.rulingParty,
+    rulingIdeology: ruling?.ideology ?? 'conservative',
+    upperHouse,
+    infamy: nation.infamy,
+    election: {
+      elective: isElectiveGovernment(nation.government),
+      yearsToNext: yearsToElection(date, nation),
+      nextYear: nation.nextElectionYear,
+      lastResult: nation.electionLastResult,
+    },
+    military: {
+      regimentsPerSoldierPop: nation.regimentsPerSoldierPop,
+      standingRegimentCapacity: nation.standingRegimentCapacity,
+      mobilizationCapacity: nation.mobilizationCapacity,
+      armyOrganization: nation.armyOrganization,
+      armyMorale: nation.armyMorale,
+    },
+    avgMilitancy: popCount > 0 ? totalMilitancy / popCount : 0,
+    avgConsciousness: popCount > 0 ? totalConsciousness / popCount : 0,
+    topReformDemands: topReformDemandEntries(world, data, nation.id, 6),
+    stateUnrest,
     reforms: { ...nation.reforms },
     techs: nation.techs.slice(),
     budget: computePlayerBudget(world, data, nation.id),
     reformsAvailable: data.reforms.flatMap((reform) => {
       const current = nation.reforms[reform.key] ?? 0;
-      const next = current + 1;
-      if (next >= reform.options.length) return [];
-      return [{
-        reform: reform.key,
-        level: next,
-        legal: true,
-      }];
+      const result: NationDetail['reformsAvailable'] = [];
+      for (let next = current + 1; next < reform.options.length; next++) {
+        const legality = computeReformLegality(world, data, nation, reform, next);
+        result.push({
+          reform: reform.key,
+          level: next,
+          legal: legality.legal,
+          reason: legality.reason,
+          support: legality.support,
+          requiredSupport: legality.requiredSupport,
+          costMoney: legality.costMoney,
+          costPrestige: legality.costPrestige,
+        });
+      }
+      return result;
     }),
   };
 }
