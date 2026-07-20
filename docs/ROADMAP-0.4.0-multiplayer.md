@@ -3,6 +3,18 @@
 Status: PLANNED · Build AFTER 0.3.0 ships (user chose: finish 0.3.0 first). This
 doc locks the design so 0.4.0 can be executed directly.
 
+## 0.4.0 has TWO tracks (per user, 2026-07-20)
+1. **Multiplayer** (this doc) — session-based live MP.
+2. **UI aesthetic overhaul** — the current UI reads "chintzy/weak" on mobile and
+   desktop; make it feel premium and cohesive. This track ALSO absorbs the map
+   **label** work (labels currently don't render) — proper, well-placed, legible
+   labels are part of the visual redesign, not another one-off patch. Scope:
+   a coherent design system (type scale, spacing, panel chrome, color, iconography),
+   restyle HUD + panels + menus + event popups, polished map labels (pole-of-
+   inaccessibility placement, self-hosted serif), consistent light/dark parchment
+   theming, and mobile parity. Lower infra risk than MP; directly addresses live
+   feedback — a sensible thing to ship FIRST.
+
 ## Locked decisions
 - **Model: BOTH competitive and co-op**, chosen per-session in the lobby (free-for-all
   = one nation each; teams/co-op = shared or allied nations vs AI).
