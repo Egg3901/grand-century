@@ -59,14 +59,98 @@ const NATION_LIBRARY = {
   MEX: { name: 'Mexico', color: [146, 118, 96], government: 'presidential_dictatorship', primaryCulture: 'yankee' },
   BRA: { name: 'Brazil', color: [128, 148, 102], government: 'constitutional_monarchy', primaryCulture: 'french' },
   ARG: { name: 'Argentina', color: [150, 154, 186], government: 'presidential_dictatorship', primaryCulture: 'french' },
-  PER: { name: 'Peru', color: [162, 126, 102], government: 'presidential_dictatorship', primaryCulture: 'french' },
+  PER: { name: 'Persia', color: [140, 114, 90], government: 'absolute_monarchy', primaryCulture: 'turkish' },
+  PEU: { name: 'Peru', color: [162, 126, 102], government: 'presidential_dictatorship', primaryCulture: 'french' },
+  BEL: { name: 'Belgium', color: [166, 140, 100], government: 'constitutional_monarchy', primaryCulture: 'french' },
+  GRE: { name: 'Kingdom of Greece', color: [132, 152, 184], government: 'absolute_monarchy', primaryCulture: 'french' },
+  DEN: { name: 'Denmark', color: [170, 122, 108], government: 'absolute_monarchy', primaryCulture: 'north_german' },
+  SWI: { name: 'Switzerland', color: [188, 166, 132], government: 'democracy', primaryCulture: 'south_german' },
+  EGY: { name: 'Egypt', color: [158, 132, 86], government: 'absolute_monarchy', primaryCulture: 'turkish' },
+  AFG: { name: 'Afghanistan', color: [128, 110, 84], government: 'absolute_monarchy', primaryCulture: 'turkish' },
+  SIA: { name: 'Siam', color: [154, 116, 104], government: 'absolute_monarchy', primaryCulture: 'han' },
+  KOR: { name: 'Joseon Korea', color: [142, 136, 166], government: 'absolute_monarchy', primaryCulture: 'han' },
+  MOR: { name: 'Morocco', color: [156, 118, 98], government: 'absolute_monarchy', primaryCulture: 'turkish' },
+  ETH: { name: 'Ethiopia', color: [128, 136, 96], government: 'absolute_monarchy', primaryCulture: 'turkish' },
+  NEP: { name: 'Nepal', color: [140, 122, 104], government: 'absolute_monarchy', primaryCulture: 'han' },
+  BHU: { name: 'Bhutan', color: [150, 130, 108], government: 'absolute_monarchy', primaryCulture: 'han' },
+  BUR: { name: 'Burma', color: [162, 128, 98], government: 'absolute_monarchy', primaryCulture: 'han' },
+  VIE: { name: 'Dai Nam', color: [156, 132, 108], government: 'absolute_monarchy', primaryCulture: 'han' },
+  CAM: { name: 'Cambodia', color: [156, 124, 112], government: 'absolute_monarchy', primaryCulture: 'han' },
+  LAO: { name: 'Laos', color: [146, 120, 114], government: 'absolute_monarchy', primaryCulture: 'han' },
+  CHL: { name: 'Chile', color: [132, 150, 174], government: 'presidential_dictatorship', primaryCulture: 'french' },
+  CLM: { name: 'New Granada', color: [154, 138, 108], government: 'presidential_dictatorship', primaryCulture: 'french' },
+  VEN: { name: 'Venezuela', color: [168, 146, 108], government: 'presidential_dictatorship', primaryCulture: 'french' },
+  BOL: { name: 'Bolivia', color: [148, 132, 104], government: 'presidential_dictatorship', primaryCulture: 'french' },
+  PRG: { name: 'Paraguay', color: [142, 120, 106], government: 'presidential_dictatorship', primaryCulture: 'french' },
+  URY: { name: 'Uruguay', color: [148, 156, 186], government: 'presidential_dictatorship', primaryCulture: 'french' },
   COL: { name: 'Colonial Territories', color: [162, 150, 132], government: 'uncivilized', primaryCulture: 'british' },
   UNC: { name: 'Uncivilized Regions', color: [136, 128, 112], government: 'uncivilized', primaryCulture: 'han' },
   UNA: { name: 'Unclaimed Frontier', color: [108, 104, 98], government: 'uncivilized', primaryCulture: 'han' },
 };
 
 const MAJOR_TAGS = ['ENG', 'FRA', 'PRU', 'AUS', 'RUS', 'USA', 'QNG', 'OTT', 'ESP', 'POR', 'NLD', 'SWE', 'SAR', 'TSC'];
-const REQUIRED_MINOR_TAGS = ['BAV', 'SAX', 'HAN', 'WUR', 'BAD', 'HES', 'PAP', 'TUS', 'MOD', 'PAR', 'TEX'];
+const REQUIRED_MINOR_TAGS = [
+  'BAV',
+  'SAX',
+  'HAN',
+  'WUR',
+  'BAD',
+  'HES',
+  'PAP',
+  'TUS',
+  'MOD',
+  'PAR',
+  'TEX',
+  'BEL',
+  'GRE',
+  'DEN',
+  'SWI',
+  'EGY',
+  'PER',
+  'AFG',
+  'SIA',
+  'KOR',
+  'MOR',
+];
+
+const ISO_TO_TAG = {
+  af: 'AFG',
+  al: 'OTT',
+  be: 'BEL',
+  bh: 'OTT',
+  bo: 'BOL',
+  bt: 'BHU',
+  ch: 'SWI',
+  cl: 'CHL',
+  co: 'CLM',
+  dk: 'DEN',
+  ec: 'CLM',
+  eg: 'EGY',
+  et: 'ETH',
+  ge: 'RUS',
+  gr: 'GRE',
+  hn: 'CLM',
+  ir: 'PER',
+  jo: 'EGY',
+  kh: 'CAM',
+  kp: 'KOR',
+  kr: 'KOR',
+  la: 'LAO',
+  ma: 'MOR',
+  mm: 'BUR',
+  np: 'NEP',
+  pa: 'CLM',
+  pe: 'PEU',
+  py: 'PRG',
+  rs: 'OTT',
+  ro: 'OTT',
+  sd: 'EGY',
+  sy: 'EGY',
+  th: 'SIA',
+  uy: 'URY',
+  ve: 'VEN',
+  vn: 'VIE',
+};
 
 const COUNTRY_TO_TAG = {
   'united kingdom': 'ENG',
@@ -78,12 +162,14 @@ const COUNTRY_TO_TAG = {
   pakistan: 'ENG',
   bangladesh: 'ENG',
   'south africa': 'ENG',
-  nigeria: 'ENG',
-  egypt: 'ENG',
+  nigeria: 'UNC',
+  egypt: 'EGY',
   france: 'FRA',
-  belgium: 'FRA',
+  belgium: 'BEL',
   algeria: 'FRA',
   germany: 'PRU',
+  denmark: 'DEN',
+  switzerland: 'SWI',
   'czech republic': 'AUS',
   czechia: 'AUS',
   slovakia: 'AUS',
@@ -108,13 +194,15 @@ const COUNTRY_TO_TAG = {
   mongolia: 'QNG',
   taiwan: 'QNG',
   turkey: 'OTT',
-  syria: 'OTT',
+  syria: 'EGY',
   iraq: 'OTT',
-  jordan: 'OTT',
-  lebanon: 'OTT',
-  israel: 'OTT',
-  saudi: 'OTT',
-  greece: 'OTT',
+  jordan: 'EGY',
+  lebanon: 'EGY',
+  israel: 'EGY',
+  palestine: 'EGY',
+  saudi: 'UNC',
+  yemen: 'UNC',
+  greece: 'GRE',
   spain: 'ESP',
   cuba: 'ESP',
   philippines: 'ESP',
@@ -132,31 +220,40 @@ const COUNTRY_TO_TAG = {
   mexico: 'MEX',
   brazil: 'BRA',
   argentina: 'ARG',
-  peru: 'PER',
+  peru: 'PEU',
+  chile: 'CHL',
+  colombia: 'CLM',
+  ecuador: 'CLM',
+  venezuela: 'VEN',
+  bolivia: 'BOL',
+  paraguay: 'PRG',
+  uruguay: 'URY',
+  iran: 'PER',
+  persia: 'PER',
+  afghanistan: 'AFG',
+  thailand: 'SIA',
+  cambodia: 'CAM',
+  laos: 'LAO',
+  vietnam: 'VIE',
+  myanmar: 'BUR',
+  burma: 'BUR',
+  korea: 'KOR',
+  'south korea': 'KOR',
+  'north korea': 'KOR',
+  ethiopia: 'ETH',
+  morocco: 'MOR',
+  nepal: 'NEP',
+  bhutan: 'BHU',
+  tunisia: 'OTT',
+  libya: 'OTT',
+  sudan: 'EGY',
+  'south sudan': 'EGY',
   austria: 'AUS',
   prussia: 'PRU',
   'ottoman empire': 'OTT',
-  iran: 'OTT',
-  afghanistan: 'OTT',
-  thailand: 'UNC',
-  vietnam: 'UNC',
-  korea: 'QNG',
-  ethiopia: 'UNC',
-  morocco: 'UNC',
-  tunisia: 'OTT',
-  libya: 'OTT',
-  sudan: 'OTT',
-  chile: 'COL',
-  colombia: 'COL',
-  venezuela: 'COL',
-  bolivia: 'COL',
-  paraguay: 'COL',
-  uruguay: 'COL',
   romania: 'OTT',
-  greece: 'OTT',
   serbia: 'OTT',
   poland: 'RUS',
-  denmark: 'PRU',
 };
 
 function normalizeName(value) {
@@ -464,7 +561,9 @@ function ownerTagForFeature(props) {
     || props.NAME,
   );
   const geonunit = normalizeName(props.geonunit || props.GEOUNIT || '');
-  const iso = normalizeName(props.iso_a2 || props.adm0_a3 || props.ADM0_A3 || '');
+  const iso2 = normalizeName(props.iso_a2 || props.ISO_A2 || '');
+  if (ISO_TO_TAG[iso2]) return ISO_TO_TAG[iso2];
+  const iso = normalizeName(props.iso_a2 || props.adm0_a3 || props.ADM0_A3 || props.ISO_A2 || '');
   const region = normalizeName(props.region || props.region_un || props.continent || props.REGION_UN || '');
   const lookup = [
     adminName,
@@ -503,11 +602,46 @@ function historicalOwnerOverride(baseTag, lon, lat, adminName, stateName) {
     if (lat >= 41.0 && lat < 43.8 && lon >= 11.0 && lon < 14.8) return 'PAP';
     return 'SAR';
   }
-  if (admin === 'switzerland') return 'AUS';
+  if (admin === 'belgium') return 'BEL';
+  if (admin === 'greece') return 'GRE';
+  if (admin === 'denmark') return 'DEN';
+  if (admin === 'switzerland') return 'SWI';
   if (admin === 'norway') return 'SWE';
+  if (admin === 'afghanistan') return 'AFG';
+  if (admin === 'iran' || admin === 'persia') return 'PER';
+  if (admin === 'morocco') return 'MOR';
+  if (admin === 'ethiopia') return 'ETH';
+  if (admin === 'nepal') return 'NEP';
+  if (admin === 'bhutan') return 'BHU';
+  if (admin === 'north korea' || admin === 'south korea' || admin === 'korea') return 'KOR';
+  if (admin === 'thailand') return 'SIA';
+  if (admin === 'laos') return 'LAO';
+  if (admin === 'cambodia') return 'CAM';
+  if (admin === 'vietnam') return 'VIE';
+  if (admin === 'myanmar' || admin === 'burma') return 'BUR';
+  if (
+    admin === 'egypt'
+    || admin === 'sudan'
+    || admin === 'south sudan'
+    || admin === 'syria'
+    || admin === 'lebanon'
+    || admin === 'israel'
+    || admin === 'jordan'
+    || admin === 'palestine'
+  ) {
+    return 'EGY';
+  }
+  if (admin === 'indonesia') {
+    // Keep Dutch control concentrated in Java/Sumatra/Moluccas.
+    const java = lon >= 104.5 && lon <= 114.9 && lat >= -9.6 && lat <= -5.2;
+    const sumatra = lon >= 94.8 && lon <= 106.6 && lat >= -6.7 && lat <= 6.3;
+    const moluccas = lon >= 124.0 && lon <= 133.8 && lat >= -4.8 && lat <= 3.6;
+    const riauBangka = lon >= 103.0 && lon <= 110.0 && lat >= -4.5 && lat <= 4.6;
+    return java || sumatra || moluccas || riauBangka ? 'NLD' : 'UNC';
+  }
+  if (admin === 'albania') return 'OTT';
   if (admin === 'romania' || admin === 'bulgaria' || admin === 'serbia') return 'OTT';
   if (admin === 'algeria') return 'FRA';
-  if (admin === 'egypt' && lon < 30) return 'OTT';
   return baseTag;
 }
 
@@ -1250,6 +1384,53 @@ function edgeKey(start, end, precision = 1000) {
   return `${bx}:${by}|${ax}:${ay}`;
 }
 
+function compactNationalBorders(provinces) {
+  const edges = new Map();
+  for (const province of provinces) {
+    for (const segment of province.segments) {
+      const start = [roundCoord(segment.start[0]), roundCoord(segment.start[1])];
+      const end = [roundCoord(segment.end[0]), roundCoord(segment.end[1])];
+      const key = edgeKey(start, end, 260);
+      let edge = edges.get(key);
+      if (!edge) {
+        const startFirst = start[0] < end[0] || (start[0] === end[0] && start[1] <= end[1]);
+        edge = {
+          start: startFirst ? start : end,
+          end: startFirst ? end : start,
+          owners: new Set(),
+        };
+        edges.set(key, edge);
+      }
+      edge.owners.add(province.ownerTag);
+    }
+  }
+
+  const coordinates = [];
+  for (const edge of edges.values()) {
+    if (edge.owners.size < 2) continue;
+    coordinates.push([edge.start, edge.end]);
+  }
+  coordinates.sort((a, b) => (
+    a[0][0] - b[0][0]
+    || a[0][1] - b[0][1]
+    || a[1][0] - b[1][0]
+    || a[1][1] - b[1][1]
+  ));
+  return {
+    type: 'FeatureCollection',
+    features: coordinates.length > 0
+      ? [{
+        type: 'Feature',
+        properties: { id: 0 },
+        geometry: {
+          type: 'MultiLineString',
+          coordinates,
+        },
+      }]
+      : [],
+  };
+}
+
 function computeCoastalFlags(provinces) {
   const edgeUse = new Map();
   for (const province of provinces) {
@@ -1354,6 +1535,17 @@ function buildProvinceRecords(units) {
 
   const { bridgedIslands } = buildAdjacency(provinceRecords);
   computeCoastalFlags(provinceRecords);
+  for (const state of stateRecords) {
+    const ownerCounts = new Map();
+    for (const provinceId of state.provinceIds) {
+      const ownerTag = provinceRecords[provinceId]?.ownerTag;
+      if (!ownerTag) continue;
+      ownerCounts.set(ownerTag, (ownerCounts.get(ownerTag) ?? 0) + 1);
+    }
+    const bestOwner = Array.from(ownerCounts.entries())
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0];
+    if (bestOwner) state.ownerTag = bestOwner;
+  }
 
   return { provinceRecords, stateRecords, bridgedIslands };
 }
@@ -1481,6 +1673,8 @@ async function main() {
 
   const nations = buildNations(provinceRecords);
   const geojson = compactGeojson(provinceRecords);
+  const nationalBorders = compactNationalBorders(provinceRecords);
+  const nationalBorderSegments = nationalBorders.features[0]?.geometry?.coordinates?.length ?? 0;
 
   const worldSeed = {
     source: loaded.source,
@@ -1510,6 +1704,7 @@ async function main() {
   };
 
   await writeFile(path.join(OUT_DIR, 'provinces.geo.json'), `${JSON.stringify(geojson)}\n`, 'utf8');
+  await writeFile(path.join(OUT_DIR, 'nationalBorders.geo.json'), `${JSON.stringify(nationalBorders)}\n`, 'utf8');
   await writeFile(path.join(OUT_DIR, 'worldSeed.json'), `${JSON.stringify(worldSeed)}\n`, 'utf8');
 
   const geoGzipBytes = gzipSync(JSON.stringify(geojson)).length;
@@ -1524,6 +1719,7 @@ async function main() {
   console.log(`[build-map] Dropped for cap/target: ${selectedResult.droppedForCap}`);
   console.log(`[build-map] Island nearest-neighbor bridges: ${bridgedIslands}`);
   console.log(`[build-map] Provinces generated: ${provinceRecords.length}`);
+  console.log(`[build-map] National border segments: ${nationalBorderSegments}`);
   console.log(`[build-map] provinces.geo.json gzip bytes: ${geoGzipBytes}`);
 }
 

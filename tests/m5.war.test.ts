@@ -287,14 +287,16 @@ describe('M5 war and expansion', () => {
   it('requires transport fleets and naval supremacy for amphibious landing', () => {
     const world = createWorld(GAME_DATA, 5505);
     disableAi(world);
+    world.fleets = [];
     const attacker = world.playerNation;
-    const defender = firstNationExcept(world, attacker);
     const home = firstCoastalProvince(world, attacker);
-    const target = world.provinces.find((province) => (
-      province.owner === defender
+    const overseasTarget = world.provinces.find((province) => (
+      province.owner !== attacker
       && province.coastal
       && !province.neighbors.some((neighborId) => world.provinces[neighborId]?.owner === attacker)
-    ))?.id ?? firstCoastalProvince(world, defender);
+    ));
+    const defender = overseasTarget?.owner ?? firstNationExcept(world, attacker);
+    const target = overseasTarget?.id ?? firstCoastalProvince(world, defender);
     const sourcePop = world.provinces[home].popIds[0] ?? 0;
 
     const army = makeArmy(world, attacker, home, 2, 900, 65);
