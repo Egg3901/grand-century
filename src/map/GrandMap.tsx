@@ -18,33 +18,41 @@ type ProvinceGeoJson = {
     };
   }>;
 };
-type PointLabelGeoJson = {
-  type: 'FeatureCollection';
-  features: Array<{
-    type: 'Feature';
-    id: number | string;
-    properties: Record<string, string | number>;
-    geometry: {
-      type: 'Point';
-      coordinates: [number, number];
-    };
-  }>;
+type ProvinceGeometryMetrics = {
+  lon: number;
+  lat: number;
+  area: number;
+};
+type ProvinceLabelSeed = {
+  id: number;
+  name: string;
+  ownerTag: string;
+  lon: number;
+  lat: number;
+  weight: number;
+  area: number;
+  prominence: number;
+};
+type CountryLabelSeed = {
+  tag: string;
+  name: string;
+  lon: number;
+  lat: number;
+  provinceCount: number;
+  prominence: number;
+  major: boolean;
 };
 
 const FALLBACK_GEOJSON_URL = new URL('../data/generated/provinces.geo.json', import.meta.url).toString();
 
 const MAP_SOURCE_ID = 'provinces';
 const MAP_NATIONAL_SOURCE_ID = 'national-borders';
-const MAP_COUNTRY_LABEL_SOURCE_ID = 'country-labels';
-const MAP_PROVINCE_LABEL_SOURCE_ID = 'province-labels';
 const MAP_FILL_LAYER = 'province-fill';
 const MAP_PROVINCE_LINE_LAYER = 'province-line';
 const MAP_NATIONAL_LINE_LAYER = 'nation-line';
 const MAP_HOVER_LAYER = 'province-hover';
-const MAP_COUNTRY_LABEL_LAYER = 'country-label';
-const MAP_PROVINCE_LABEL_LAYER = 'province-label';
 const DEFAULT_FILL = '#b7a486';
-const MAJOR_LABEL_TAGS = new Set(['ENG', 'FRA', 'PRU', 'AUS', 'RUS', 'USA', 'QNG', 'OTT']);
+const MAJOR_LABEL_TAGS = new Set(['ENG', 'FRA', 'PRU', 'AUS', 'RUS', 'USA', 'QNG', 'OTT', 'ESP']);
 const DIPLO_COLORS = {
   self: '#6f879f',
   ally: '#7c9472',
@@ -123,6 +131,87 @@ function computeBounds(geojson: ProvinceGeoJson) {
   return [[minLon, minLat], [maxLon, maxLat]] as [[number, number], [number, number]];
 }
 
+function signedRingAreaCentroid(ring: number[][]): { area: number; lon: number; lat: number } | null {
+  if (ring.length < 4) return null;
+  let twiceArea = 0;
+  let lonAcc = 0;
+  let latAcc = 0;
+  for (let index = 0; index < ring.length - 1; index += 1) {
+    const [x1, y1] = ring[index] ?? [];
+    const [x2, y2] = ring[index + 1] ?? [];
+    if (![x1, y1, x2, y2].every((value) => Number.isFinite(value))) continue;
+    const cross = x1 * y2 - x2 * y1;
+    twiceArea += cross;
+    lonAcc += (x1 + x2) * cross;
+    latAcc += (y1 + y2) * cross;
+  }
+  if (Math.abs(twiceArea) < 1e-9) return null;
+  return {
+    area: twiceArea / 2,
+    lon: lonAcc / (3 * twiceArea),
+    lat: latAcc / (3 * twiceArea),
+  };
+}
+
+function polygonAreaCentroid(polygon: number[][][]): ProvinceGeometryMetrics | null {
+  let areaAcc = 0;
+  let lonAcc = 0;
+  let latAcc = 0;
+  for (const ring of polygon) {
+    const ringStats = signedRingAreaCentroid(ring);
+    if (!ringStats) continue;
+    areaAcc += ringStats.area;
+    lonAcc += ringStats.lon * ringStats.area;
+    latAcc += ringStats.lat * ringStats.area;
+  }
+  if (Math.abs(areaAcc) > 1e-8) {
+    return {
+      lon: lonAcc / areaAcc,
+      lat: latAcc / areaAcc,
+      area: Math.abs(areaAcc),
+    };
+  }
+  const outerRing = polygon[0] ?? [];
+  if (outerRing.length === 0) return null;
+  let lon = 0;
+  let lat = 0;
+  for (const [x, y] of outerRing) {
+    lon += x;
+    lat += y;
+  }
+  return {
+    lon: lon / outerRing.length,
+    lat: lat / outerRing.length,
+    area: 0.01,
+  };
+}
+
+function geometryAreaCentroid(
+  geometry: ProvinceGeoJson['features'][number]['geometry'],
+): ProvinceGeometryMetrics | null {
+  if (geometry.type === 'Polygon') return polygonAreaCentroid(geometry.coordinates as number[][][]);
+  let areaAcc = 0;
+  let lonAcc = 0;
+  let latAcc = 0;
+  for (const polygon of geometry.coordinates as number[][][][]) {
+    const stats = polygonAreaCentroid(polygon);
+    if (!stats) continue;
+    areaAcc += stats.area;
+    lonAcc += stats.lon * stats.area;
+    latAcc += stats.lat * stats.area;
+  }
+  if (areaAcc <= 0) return null;
+  return {
+    lon: lonAcc / areaAcc,
+    lat: latAcc / areaAcc,
+    area: areaAcc,
+  };
+}
+
+function intersects(a: { left: number; top: number; right: number; bottom: number }, b: { left: number; top: number; right: number; bottom: number }): boolean {
+  return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+}
+
 export function GrandMap() {
   const snapshot = useStore((state) => state.snapshot);
   const mapMode = useStore((state) => state.mapMode);
@@ -145,7 +234,10 @@ export function GrandMap() {
   const selectedFleetRef = useRef<number | null>(selectedFleet);
   const fillRef = useRef<Map<number, string>>(new globalThis.Map());
   const markerRef = useRef<Map<string, MapLibreMarker>>(new globalThis.Map());
+  const countryLabelMarkerRef = useRef<Map<string, MapLibreMarker>>(new globalThis.Map());
+  const provinceLabelMarkerRef = useRef<Map<number, MapLibreMarker>>(new globalThis.Map());
   const [geojson, setGeojson] = useState<ProvinceGeoJson | null>(null);
+  const [mapReady, setMapReady] = useState(false);
   const [tooltip, setTooltip] = useState<{
     x: number;
     y: number;
@@ -169,52 +261,88 @@ export function GrandMap() {
   const provinceCoordById = useMemo(() => (
     new globalThis.Map<number, { lon: number; lat: number }>(WORLD_SEED.provinces.map((province) => [province.id, { lon: province.lon, lat: province.lat }]))
   ), []);
-  const countryLabelGeojson = useMemo<PointLabelGeoJson>(() => {
-    const provincesByOwner = new globalThis.Map<string, typeof WORLD_SEED.provinces>();
-    for (const province of WORLD_SEED.provinces) {
-      const list = provincesByOwner.get(province.ownerTag) ?? [];
-      list.push(province);
-      provincesByOwner.set(province.ownerTag, list);
+  const nationNameByTag = useMemo(() => (
+    new globalThis.Map<string, string>(WORLD_SEED.nations.map((nation) => [nation.tag, nation.name]))
+  ), []);
+
+  const provinceGeometryById = useMemo(() => {
+    const map = new globalThis.Map<number, ProvinceGeometryMetrics>();
+    if (!geojson) return map;
+    for (const feature of geojson.features) {
+      const featureId = Number(feature.id ?? feature.properties?.id);
+      if (!Number.isInteger(featureId)) continue;
+      const metrics = geometryAreaCentroid(feature.geometry);
+      if (!metrics) continue;
+      map.set(featureId, metrics);
     }
-    const features: PointLabelGeoJson['features'] = [];
-    for (const nation of WORLD_SEED.nations) {
-      const owned = provincesByOwner.get(nation.tag) ?? [];
-      if (owned.length === 0) continue;
-      const sortedOwned = owned.slice().sort((a, b) => b.populationWeight - a.populationWeight || a.id - b.id);
-      const anchor = sortedOwned.find((province) => province.id === nation.capitalProvinceId) ?? sortedOwned[0];
-      const prominence = sortedOwned.reduce((sum, province) => sum + province.populationWeight, 0);
-      features.push({
-        type: 'Feature',
-        id: nation.tag,
-        properties: {
-          name: nation.name,
-          provinceCount: owned.length,
-          prominence: Number(prominence.toFixed(3)),
-          major: MAJOR_LABEL_TAGS.has(nation.tag) ? 1 : 0,
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [anchor.lon, anchor.lat],
-        },
+    return map;
+  }, [geojson]);
+
+  const provinceLabelSeeds = useMemo<ProvinceLabelSeed[]>(() => (
+    WORLD_SEED.provinces.map((province) => {
+      const geometry = provinceGeometryById.get(province.id);
+      const area = Math.max(geometry?.area ?? 0, 0.01);
+      const weight = Math.max(0.1, province.populationWeight);
+      return {
+        id: province.id,
+        name: province.name,
+        ownerTag: province.ownerTag,
+        lon: geometry?.lon ?? province.lon,
+        lat: geometry?.lat ?? province.lat,
+        area,
+        weight,
+        prominence: Math.max(weight, Math.sqrt(area)),
+      };
+    })
+  ), [provinceGeometryById]);
+
+  const countryLabelSeeds = useMemo<CountryLabelSeed[]>(() => {
+    type NationAccum = {
+      provinceCount: number;
+      prominence: number;
+      area: number;
+      lonArea: number;
+      latArea: number;
+    };
+    const accumByTag = new globalThis.Map<string, NationAccum>();
+    for (const province of provinceLabelSeeds) {
+      const ownerTag = province.ownerTag;
+      const area = Math.max(province.area, 0.01);
+      const prominence = Math.max(province.prominence, 0.1);
+      const existing = accumByTag.get(ownerTag) ?? {
+        provinceCount: 0,
+        prominence: 0,
+        area: 0,
+        lonArea: 0,
+        latArea: 0,
+      };
+      existing.provinceCount += 1;
+      existing.prominence += prominence;
+      existing.area += area;
+      existing.lonArea += province.lon * area;
+      existing.latArea += province.lat * area;
+      accumByTag.set(ownerTag, existing);
+    }
+    const labels: CountryLabelSeed[] = [];
+    for (const [tag, values] of accumByTag.entries()) {
+      if (values.provinceCount === 0 || values.area <= 0) continue;
+      labels.push({
+        tag,
+        name: nationNameByTag.get(tag) ?? tag,
+        lon: values.lonArea / values.area,
+        lat: values.latArea / values.area,
+        provinceCount: values.provinceCount,
+        prominence: values.prominence,
+        major: MAJOR_LABEL_TAGS.has(tag),
       });
     }
-    return { type: 'FeatureCollection', features };
-  }, []);
-  const provinceLabelGeojson = useMemo<PointLabelGeoJson>(() => ({
-    type: 'FeatureCollection',
-    features: WORLD_SEED.provinces.map((province) => ({
-      type: 'Feature',
-      id: province.id,
-      properties: {
-        name: province.name,
-        weight: province.populationWeight,
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [province.lon, province.lat] as [number, number],
-      },
-    })),
-  }), []);
+    labels.sort((a, b) => {
+      if (a.major !== b.major) return a.major ? -1 : 1;
+      if (b.prominence !== a.prominence) return b.prominence - a.prominence;
+      return a.name.localeCompare(b.name);
+    });
+    return labels;
+  }, [nationNameByTag, provinceLabelSeeds]);
 
   const bounds = useMemo(() => (geojson ? computeBounds(geojson) : null), [geojson]);
 
@@ -270,7 +398,6 @@ export function GrandMap() {
         container: containerRef.current,
         style: {
           version: 8,
-          glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
           sources: {},
           layers: [{
             id: 'paper-background',
@@ -289,12 +416,14 @@ export function GrandMap() {
       });
       createdMap = map;
       mapRef.current = map;
+      if (import.meta.env.DEV) (globalThis as { __grandCenturyMap?: MapLibreMap }).__grandCenturyMap = map;
       map.dragRotate.disable();
       map.touchZoomRotate.disableRotation();
       map.keyboard.disableRotation();
       map.addControl(new maplibregl.NavigationControl({ visualizePitch: false, showCompass: false }), 'bottom-right');
 
       map.on('load', () => {
+        setMapReady(true);
         map.addSource(MAP_SOURCE_ID, {
           type: 'geojson',
           data: geojson as unknown as object,
@@ -302,14 +431,6 @@ export function GrandMap() {
         map.addSource(MAP_NATIONAL_SOURCE_ID, {
           type: 'geojson',
           data: NATIONAL_BORDERS_GEOJSON as unknown as object,
-        });
-        map.addSource(MAP_COUNTRY_LABEL_SOURCE_ID, {
-          type: 'geojson',
-          data: countryLabelGeojson as unknown as object,
-        });
-        map.addSource(MAP_PROVINCE_LABEL_SOURCE_ID, {
-          type: 'geojson',
-          data: provinceLabelGeojson as unknown as object,
         });
 
         map.addLayer({
@@ -323,37 +444,6 @@ export function GrandMap() {
         });
 
         map.addLayer({
-          id: MAP_NATIONAL_LINE_LAYER,
-          type: 'line',
-          source: MAP_NATIONAL_SOURCE_ID,
-          paint: {
-            'line-color': '#3d281a',
-            'line-width': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              0,
-              0.95,
-              3.5,
-              1.25,
-              6,
-              1.7,
-            ],
-            'line-opacity': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              0,
-              0.83,
-              3.5,
-              0.92,
-              7,
-              0.72,
-            ],
-          },
-        });
-
-        map.addLayer({
           id: MAP_PROVINCE_LINE_LAYER,
           type: 'line',
           source: MAP_SOURCE_ID,
@@ -363,26 +453,49 @@ export function GrandMap() {
               'interpolate',
               ['linear'],
               ['zoom'],
-              3.5,
+              3.2,
               0.2,
-              5,
-              0.55,
-              7,
-              0.9,
+              4.8,
+              0.42,
+              6.8,
+              0.78,
             ],
             'line-opacity': [
               'interpolate',
               ['linear'],
               ['zoom'],
-              3.4,
+              3.2,
               0,
-              4.2,
-              0.22,
-              5.0,
-              0.66,
-              7.0,
-              0.82,
+              4.4,
+              0.18,
+              5.4,
+              0.5,
+              7.2,
+              0.8,
             ],
+          },
+        });
+
+        map.addLayer({
+          id: MAP_NATIONAL_LINE_LAYER,
+          type: 'line',
+          source: MAP_NATIONAL_SOURCE_ID,
+          paint: {
+            'line-color': '#2f2116',
+            'line-width': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              0,
+              1.2,
+              3.5,
+              1.7,
+              6.5,
+              2.25,
+              8.5,
+              2.7,
+            ],
+            'line-opacity': 1,
           },
         });
 
@@ -406,72 +519,6 @@ export function GrandMap() {
               0,
             ],
             'line-opacity': 0.95,
-          },
-        });
-
-        map.addLayer({
-          id: MAP_COUNTRY_LABEL_LAYER,
-          type: 'symbol',
-          source: MAP_COUNTRY_LABEL_SOURCE_ID,
-          maxzoom: 6.2,
-          layout: {
-            'text-field': ['get', 'name'],
-            'text-font': ['Noto Serif Regular', 'Open Sans Regular', 'Arial Unicode MS Regular'],
-            'text-size': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              0,
-              ['interpolate', ['linear'], ['get', 'provinceCount'], 1, 9, 12, 13, 24, 17],
-              4.7,
-              ['interpolate', ['linear'], ['get', 'provinceCount'], 1, 10, 12, 14, 24, 19],
-              6.2,
-              11,
-            ],
-            'text-transform': 'uppercase',
-            'text-letter-spacing': 0.06,
-            'text-max-width': 7.5,
-            'text-optional': true,
-          },
-          paint: {
-            'text-color': '#322317',
-            'text-halo-color': 'rgba(238, 226, 200, 0.95)',
-            'text-halo-width': 1.35,
-            'text-halo-blur': 0.35,
-            'text-opacity': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              0,
-              0.9,
-              4.9,
-              0.88,
-              5.8,
-              0.24,
-              6.2,
-              0,
-            ],
-          },
-        });
-
-        map.addLayer({
-          id: MAP_PROVINCE_LABEL_LAYER,
-          type: 'symbol',
-          source: MAP_PROVINCE_LABEL_SOURCE_ID,
-          minzoom: 5.0,
-          layout: {
-            'text-field': ['get', 'name'],
-            'text-font': ['Noto Serif Regular', 'Open Sans Regular', 'Arial Unicode MS Regular'],
-            'text-size': ['interpolate', ['linear'], ['zoom'], 5, 9, 7, 11.8, 9, 12.8],
-            'text-max-width': 7,
-            'text-optional': true,
-          },
-          paint: {
-            'text-color': '#403024',
-            'text-halo-color': 'rgba(242, 232, 208, 0.92)',
-            'text-halo-width': 1.2,
-            'text-halo-blur': 0.2,
-            'text-opacity': ['interpolate', ['linear'], ['zoom'], 4.9, 0, 5.4, 0.65, 8.2, 0.9],
           },
         });
 
@@ -545,8 +592,10 @@ export function GrandMap() {
       const map = createdMap ?? mapRef.current;
       if (map) map.remove();
       mapRef.current = null;
+      if (import.meta.env.DEV) delete (globalThis as { __grandCenturyMap?: MapLibreMap }).__grandCenturyMap;
+      setMapReady(false);
     };
-  }, [bounds, countryLabelGeojson, geojson, provinceLabelGeojson, provinceNameById, selectProvince, sendCommand]);
+  }, [bounds, geojson, provinceNameById, selectProvince, sendCommand]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -623,6 +672,165 @@ export function GrandMap() {
       }
     }
   }, [mapMode, nationColorById, snapshot]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    const maplibregl = maplibreRef.current;
+    if (!map || !maplibregl || !mapReady) return;
+
+    const countryMarkers = countryLabelMarkerRef.current;
+    const provinceMarkers = provinceLabelMarkerRef.current;
+
+    const upsertCountryMarker = (label: CountryLabelSeed, size: number, opacity: number) => {
+      const existing = countryMarkers.get(label.tag);
+      if (existing) {
+        const element = existing.getElement() as HTMLDivElement;
+        element.textContent = label.name;
+        element.style.fontSize = `${size.toFixed(1)}px`;
+        element.style.opacity = `${opacity.toFixed(3)}`;
+        element.style.letterSpacing = `${(size * 0.05).toFixed(2)}px`;
+        element.classList.toggle('is-major', label.major);
+        existing.setLngLat([label.lon, label.lat]);
+        return;
+      }
+      const el = document.createElement('div');
+      el.className = 'grand-map__country-label';
+      if (label.major) el.classList.add('is-major');
+      el.textContent = label.name;
+      el.style.fontSize = `${size.toFixed(1)}px`;
+      el.style.opacity = `${opacity.toFixed(3)}`;
+      el.style.letterSpacing = `${(size * 0.05).toFixed(2)}px`;
+      const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+        .setLngLat([label.lon, label.lat])
+        .addTo(map);
+      countryMarkers.set(label.tag, marker);
+    };
+
+    const upsertProvinceMarker = (province: ProvinceLabelSeed, size: number, opacity: number) => {
+      const existing = provinceMarkers.get(province.id);
+      if (existing) {
+        const element = existing.getElement() as HTMLDivElement;
+        element.textContent = province.name;
+        element.style.fontSize = `${size.toFixed(1)}px`;
+        element.style.opacity = `${opacity.toFixed(3)}`;
+        existing.setLngLat([province.lon, province.lat]);
+        return;
+      }
+      const el = document.createElement('div');
+      el.className = 'grand-map__province-label';
+      el.textContent = province.name;
+      el.style.fontSize = `${size.toFixed(1)}px`;
+      el.style.opacity = `${opacity.toFixed(3)}`;
+      const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+        .setLngLat([province.lon, province.lat])
+        .addTo(map);
+      provinceMarkers.set(province.id, marker);
+    };
+
+    const refreshLabels = () => {
+      if (!map.isStyleLoaded()) return;
+      const zoom = map.getZoom();
+      const canvas = map.getCanvas();
+      const viewportWidth = canvas.clientWidth;
+      const viewportHeight = canvas.clientHeight;
+      const isProjectedVisible = (point: { x: number; y: number }, padding: number) => (
+        point.x >= -padding
+        && point.x <= viewportWidth + padding
+        && point.y >= -padding
+        && point.y <= viewportHeight + padding
+      );
+      const countryOpacity = clamp01((6.4 - zoom) / 1.6);
+      const countryBoxes: Array<{ left: number; top: number; right: number; bottom: number }> = [];
+      const keepCountry = new Set<string>();
+
+      if (countryOpacity > 0.01) {
+        for (const label of countryLabelSeeds) {
+          const point = map.project([label.lon, label.lat]);
+          if (!isProjectedVisible(point, 100)) continue;
+          const zoomScale = 1 - clamp01((zoom - 1.4) / 7.2) * 0.28;
+          const baseSize = 10 + Math.log(label.prominence + 1) * 1.95 + (label.major ? 1.3 : 0);
+          const size = Math.max(10, Math.min(24, baseSize * zoomScale));
+          const width = Math.max(70, label.name.length * size * 0.55);
+          const height = Math.max(16, size * 1.5);
+          const box = {
+            left: point.x - width / 2,
+            right: point.x + width / 2,
+            top: point.y - height / 2,
+            bottom: point.y + height / 2,
+          };
+          const hasCollision = countryBoxes.some((other) => intersects(box, other));
+          const forceMajor = label.major && zoom <= 3;
+          if (hasCollision && !forceMajor) continue;
+          countryBoxes.push(box);
+          const opacity = label.major
+            ? Math.min(1, countryOpacity + 0.12)
+            : Math.max(0.34, countryOpacity * 0.92);
+          keepCountry.add(label.tag);
+          upsertCountryMarker(label, size, opacity);
+        }
+      }
+
+      for (const [tag, marker] of countryMarkers.entries()) {
+        if (keepCountry.has(tag)) continue;
+        marker.remove();
+        countryMarkers.delete(tag);
+      }
+
+      const provinceOpacity = clamp01((zoom - 5.0) / 0.7) * 0.95;
+      const keepProvince = new Set<number>();
+      const provinceBoxes: Array<{ left: number; top: number; right: number; bottom: number }> = [];
+
+      if (provinceOpacity > 0.01) {
+        const maxLabels = zoom < 6 ? 130 : zoom < 7 ? 220 : 320;
+        const minProminence = zoom < 5.7 ? 1.6 : zoom < 6.3 ? 1.0 : 0.4;
+        const candidates = provinceLabelSeeds
+          .filter((province) => province.prominence >= minProminence)
+          .sort((a, b) => b.prominence - a.prominence);
+        for (const province of candidates) {
+          if (keepProvince.size >= maxLabels) break;
+          const baseSize = 8.4 + clamp01((zoom - 5) / 3.5) * 2.6 + Math.min(1.6, Math.log(province.weight + 1) * 0.55);
+          const size = Math.max(8.8, Math.min(13.8, baseSize));
+          const point = map.project([province.lon, province.lat]);
+          if (!isProjectedVisible(point, 64)) continue;
+          const width = Math.max(44, province.name.length * size * 0.5);
+          const height = Math.max(12, size * 1.2);
+          const box = {
+            left: point.x - width / 2,
+            right: point.x + width / 2,
+            top: point.y - height / 2,
+            bottom: point.y + height / 2,
+          };
+          if (provinceBoxes.some((other) => intersects(box, other))) continue;
+          provinceBoxes.push(box);
+          keepProvince.add(province.id);
+          upsertProvinceMarker(province, size, provinceOpacity);
+        }
+      }
+
+      for (const [id, marker] of provinceMarkers.entries()) {
+        if (keepProvince.has(id)) continue;
+        marker.remove();
+        provinceMarkers.delete(id);
+      }
+    };
+
+    map.on('move', refreshLabels);
+    map.on('zoom', refreshLabels);
+    map.on('resize', refreshLabels);
+    map.on('moveend', refreshLabels);
+    refreshLabels();
+
+    return () => {
+      map.off('move', refreshLabels);
+      map.off('zoom', refreshLabels);
+      map.off('resize', refreshLabels);
+      map.off('moveend', refreshLabels);
+      for (const marker of countryMarkers.values()) marker.remove();
+      countryMarkers.clear();
+      for (const marker of provinceMarkers.values()) marker.remove();
+      provinceMarkers.clear();
+    };
+  }, [countryLabelSeeds, mapReady, provinceLabelSeeds]);
 
   useEffect(() => {
     const map = mapRef.current;

@@ -32,6 +32,42 @@
   background: rgba(247, 236, 209, 0.92);
 }
 
+.grand-map__country-label,
+.grand-map__province-label {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  color: #2f2217;
+  text-shadow:
+    0 1px 0 rgba(246, 235, 206, 0.9),
+    0 0 5px rgba(246, 235, 206, 0.62),
+    0 2px 6px rgba(32, 20, 12, 0.22);
+  white-space: nowrap;
+  transform: translateY(-2px);
+}
+
+.grand-map__country-label {
+  font-family: Georgia, 'Times New Roman', 'Palatino Linotype', serif;
+  font-variant: small-caps;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+}
+
+.grand-map__country-label.is-major {
+  color: #27190f;
+  font-weight: 700;
+}
+
+.grand-map__province-label {
+  font-family: Georgia, 'Times New Roman', 'Palatino Linotype', serif;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  color: rgba(53, 38, 27, 0.96);
+}
+
 .grand-map__counter {
   border: 1px solid rgba(67, 49, 35, 0.55);
   border-radius: 999px;
@@ -92,5 +128,9 @@
 
   .grand-map__tooltip {
     display: none;
+  }
+
+  .grand-map__country-label {
+    transform: translateY(-1px);
   }
 }
