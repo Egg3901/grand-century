@@ -104,6 +104,6 @@ Screenshot: `docs/screenshot.png`.
 #### Known issues / residual risks (for the morning)
 - ~~Europe under-provinced~~ **FIXED (#1)**: map reworked to 1450 provinces, 499 in the Europe box, with the 1836 German states (Prussia/Bavaria/Saxony/Hanover/Baden/Württemberg/Hesse), Italian states (Sardinia/Two Sicilies/Papal/Tuscany/Modena/Parma) and Republic of Texas as nations (32 total).
 - **Map JS chunk still large** (~1.26MB, MapLibre-heavy) though code-split from the 229KB main chunk and geojson is fetched at runtime.
-- **AI is heuristic** (alive, not omniscient) — a dedicated AI-depth pass could improve diplomacy/peace quality.
+- ~~AI is shallow~~ **FIXED (#2)**: AI now allies against real threats, targets winnable wars with fitting goals, concentrates armies + sieges, and makes score/exhaustion-based peace. Guarded by the stability test + a new behavior test.
 - **Audio is synthesized** placeholder tones; no licensed music pack.
 - Balance is tuned to pass the 20-year stability bounds, not hand-playtested for fun over a full campaign — expect tuning work.
