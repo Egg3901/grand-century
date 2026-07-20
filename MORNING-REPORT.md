@@ -107,3 +107,8 @@ Screenshot: `docs/screenshot.png`.
 - ~~AI is shallow~~ **FIXED (#2)**: AI now allies against real threats, targets winnable wars with fitting goals, concentrates armies + sieges, and makes score/exhaustion-based peace. Guarded by the stability test + a new behavior test.
 - **Audio is synthesized** placeholder tones; no licensed music pack.
 - Balance is tuned to pass the 20-year stability bounds, not hand-playtested for fun over a full campaign — expect tuning work.
+
+## Live hosting
+- **Public URL: https://lakesidegames.net/games/grand-century/** (static, no sign-in).
+- Deployed via Caddy `handle_path /games/grand-century/*` → `/var/www/grand-century` (same pattern as rialto/foreshore/metroforge).
+- Redeploy: `VITE_BASE=/games/grand-century/ npm run build && rsync -a --delete dist/ /var/www/grand-century/`
