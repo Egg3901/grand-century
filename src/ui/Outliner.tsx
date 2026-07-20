@@ -5,6 +5,7 @@ export function Outliner() {
   const snapshot = useStore((state) => state.snapshot);
   const alerts = useStore((state) => state.alerts);
   const dismissAlert = useStore((state) => state.dismissAlert);
+  const openPanelId = useStore((state) => state.openPanelId);
 
   const playerItems = useMemo(() => {
     if (!snapshot) return { armies: 0, fleets: 0, wars: 0 };
@@ -22,8 +23,15 @@ export function Outliner() {
       <ul className="outliner-alerts">
         {alerts.slice().reverse().map((alert) => (
           <li key={alert.id}>
-            <span>{alert.message}</span>
-            <button type="button" onClick={() => dismissAlert(alert.id)}>x</button>
+            <button
+              type="button"
+              className="outliner-alert-action"
+              onClick={() => alert.panel && openPanelId(alert.panel)}
+            >
+              <span>{alert.message}</span>
+              {alert.suggestion ? <small>{alert.suggestion}</small> : null}
+            </button>
+            <button type="button" aria-label="Dismiss alert" onClick={() => dismissAlert(alert.id)}>x</button>
           </li>
         ))}
         {alerts.length === 0 ? <li><span>No active alerts</span></li> : null}

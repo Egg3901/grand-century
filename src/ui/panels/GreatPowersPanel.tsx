@@ -52,7 +52,30 @@ export function GreatPowersPanel() {
                       { label: 'Prestige', value: entry.prestige },
                     ]}
                   />{' '}
-                  | Industry {entry.industry.toFixed(1)} | Military {entry.military.toFixed(1)} | Prestige {entry.prestige.toFixed(1)}
+                  | Industry{' '}
+                  <TraceTooltip
+                    value={entry.industry.toFixed(1)}
+                    trace={[
+                      { label: 'Industry score', value: entry.industry },
+                      { label: 'Total power score', value: entry.score },
+                    ]}
+                  />{' '}
+                  | Military{' '}
+                  <TraceTooltip
+                    value={entry.military.toFixed(1)}
+                    trace={[
+                      { label: 'Military score', value: entry.military },
+                      { label: 'Total power score', value: entry.score },
+                    ]}
+                  />{' '}
+                  | Prestige{' '}
+                  <TraceTooltip
+                    value={entry.prestige.toFixed(1)}
+                    trace={[
+                      { label: 'Prestige score', value: entry.prestige },
+                      { label: 'Total power score', value: entry.score },
+                    ]}
+                  />
                 </span>
                 <span>
                   Sphere: {sphereNames.length > 0 ? sphereNames.join(', ') : 'None'}

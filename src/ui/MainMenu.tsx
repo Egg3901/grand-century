@@ -47,6 +47,16 @@ export function MainMenu() {
           <button type="button" onClick={() => setShowMainMenu(false)}>
             Continue
           </button>
+          <button
+            type="button"
+            data-testid="menu-replay-tutorial"
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('gc:replay-tutorial'));
+              setShowMainMenu(false);
+            }}
+          >
+            Replay Tutorial
+          </button>
         </div>
       </section>
     </div>

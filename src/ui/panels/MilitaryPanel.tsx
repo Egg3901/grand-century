@@ -225,7 +225,7 @@ export function MilitaryPanel() {
         ))}
       </ul>
 
-      <h3 className="atlas-heading panel-small-heading">War Overview</h3>
+      <h3 className="atlas-heading panel-small-heading" data-coach-id="war-overview">War Overview</h3>
       {derived.wars.length === 0 ? <p className="panel-subtle">No active wars.</p> : (
         <>
           <label className="mil-label">
@@ -255,7 +255,24 @@ export function MilitaryPanel() {
                     { label: 'Goals', value: selectedWarObj.goals.length },
                   ]}
                 />{' '}
-                | Exhaustion A {selectedWarObj.attackerExhaustion.toFixed(1)} / D {selectedWarObj.defenderExhaustion.toFixed(1)}
+                | Exhaustion A{' '}
+                <TraceTooltip
+                  value={selectedWarObj.attackerExhaustion.toFixed(1)}
+                  trace={[
+                    { label: 'Attacker exhaustion', value: selectedWarObj.attackerExhaustion },
+                    { label: 'Defender exhaustion', value: selectedWarObj.defenderExhaustion },
+                    { label: 'Warscore', value: selectedWarObj.score },
+                  ]}
+                />{' '}
+                / D{' '}
+                <TraceTooltip
+                  value={selectedWarObj.defenderExhaustion.toFixed(1)}
+                  trace={[
+                    { label: 'Defender exhaustion', value: selectedWarObj.defenderExhaustion },
+                    { label: 'Attacker exhaustion', value: selectedWarObj.attackerExhaustion },
+                    { label: 'Warscore', value: selectedWarObj.score },
+                  ]}
+                />
               </p>
               <p className="panel-subtle">
                 Combat odds:{' '}

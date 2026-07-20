@@ -42,6 +42,8 @@ export function PopulationPanel() {
                   trace={[
                     { label: 'Average needs met', value: entry.avgNeedsMet },
                     { label: 'Population size', value: entry.size },
+                    { label: 'Militancy', value: entry.avgMilitancy },
+                    { label: 'Monthly growth', value: entry.growth },
                   ]}
                 />
               </span>
@@ -51,6 +53,8 @@ export function PopulationPanel() {
                   value={entry.avgMilitancy.toFixed(2)}
                   trace={[
                     { label: 'Average militancy', value: entry.avgMilitancy },
+                    { label: 'Needs met', value: entry.avgNeedsMet },
+                    { label: 'Reform demands', value: entry.agitatingFor.length },
                     { label: 'Population size', value: entry.size },
                   ]}
                 />
@@ -61,6 +65,8 @@ export function PopulationPanel() {
                   value={entry.avgConsciousness.toFixed(2)}
                   trace={[
                     { label: 'Average consciousness', value: entry.avgConsciousness },
+                    { label: 'Needs met', value: entry.avgNeedsMet },
+                    { label: 'Reform demands', value: entry.agitatingFor.length },
                     { label: 'Population size', value: entry.size },
                   ]}
                 />

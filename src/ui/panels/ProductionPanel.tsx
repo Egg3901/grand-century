@@ -34,15 +34,16 @@ export function ProductionPanel() {
       <p className="panel-subtle">Weekly output and profitability across RGOs and factories.</p>
 
       <div className="production-build-grid">
-        {snapshot.playerStates.map((state) => (
+        {snapshot.playerStates.map((state, stateIndex) => (
           <div key={state.id} className="production-build-row">
             <strong>{state.name}</strong>
             <span>Factories: {state.factoryCount}</span>
             <div className="production-build-actions">
-              {factoryRecipes.map((recipe) => (
+              {factoryRecipes.map((recipe, recipeIndex) => (
                 <button
                   key={`${state.id}-${recipe.key}`}
                   type="button"
+                  data-coach-id={stateIndex === 0 && recipeIndex === 0 ? 'build-factory-primary' : undefined}
                   disabled={player.constructionBlocked}
                   onClick={() => sendCommand({ t: 'buildFactory', state: state.id, recipe: recipe.key })}
                 >

@@ -63,6 +63,22 @@ const MAP_NATIONAL_LINE_LAYER = 'nation-line';
 const MAP_HOVER_LAYER = 'province-hover';
 const DEFAULT_FILL = '#b7a486';
 const MAJOR_LABEL_TAGS = new Set(['ENG', 'FRA', 'AUS', 'RUS', 'USA', 'QNG', 'OTT', 'ESP', 'BRA']);
+const MAJOR_LABEL_TUNING: Record<string, {
+  minZoom?: number;
+  lonOffset?: number;
+  latOffset?: number;
+  preferredOffset?: [number, number];
+}> = {
+  ENG: { minZoom: 1.04, preferredOffset: [-18, -18] },
+  FRA: { minZoom: 1.12, preferredOffset: [-18, -8] },
+  AUS: { minZoom: 1.36, lonOffset: 0.35, latOffset: 0.2, preferredOffset: [24, -16] },
+  OTT: { minZoom: 1.48, lonOffset: 0.5, latOffset: -0.2, preferredOffset: [36, 14] },
+  ESP: { minZoom: 1.26, lonOffset: -0.4, latOffset: -0.2, preferredOffset: [-30, 18] },
+  RUS: { minZoom: 0.92, preferredOffset: [0, -24] },
+  USA: { minZoom: 0.96, preferredOffset: [0, -16] },
+  QNG: { minZoom: 0.96, preferredOffset: [0, -16] },
+  BRA: { minZoom: 1.06, preferredOffset: [16, -10] },
+};
 const LABEL_REFRESH_DEBOUNCE_MS = 90;
 const DIPLO_COLORS = {
   self: '#6f879f',
@@ -331,7 +347,7 @@ export function GrandMap() {
       const normalizedProminence = normalizeAcrossRange(province.prominence, minProminence, maxProminence);
       return {
         ...province,
-        minZoom: 4.75 + (1 - normalizedProminence) * 1.2,
+        minZoom: 5.35 + (1 - normalizedProminence) * 1.2,
       };
     });
   }, [provinceGeometryById]);
@@ -366,6 +382,7 @@ export function GrandMap() {
     const labels: CountryLabelSeed[] = [];
     for (const [tag, values] of accumByTag.entries()) {
       if (values.provinceCount === 0 || values.area <= 0) continue;
+      const tuning = MAJOR_LABEL_TUNING[tag];
       const prominence = (
         Math.log(values.provinceCount + 1) * 0.42
         + Math.log(values.populationWeight + 1) * 0.38
@@ -374,8 +391,8 @@ export function GrandMap() {
       labels.push({
         tag,
         name: nationNameByTag.get(tag) ?? tag,
-        lon: values.lonArea / values.area,
-        lat: values.latArea / values.area,
+        lon: (values.lonArea / values.area) + (tuning?.lonOffset ?? 0),
+        lat: (values.latArea / values.area) + (tuning?.latOffset ?? 0),
         provinceCount: values.provinceCount,
         area: values.area,
         populationWeight: values.populationWeight,
@@ -388,7 +405,12 @@ export function GrandMap() {
     const minProminence = nonMajorProminence.length > 0 ? Math.min(...nonMajorProminence) : 0;
     const maxProminence = nonMajorProminence.length > 0 ? Math.max(...nonMajorProminence) : 1;
     const withThresholds = labels.map((label) => {
-      if (label.major) return { ...label, minZoom: 0.75 };
+      if (label.major) {
+        return {
+          ...label,
+          minZoom: MAJOR_LABEL_TUNING[label.tag]?.minZoom ?? 0.94,
+        };
+      }
       const normalizedProminence = normalizeAcrossRange(label.prominence, minProminence, maxProminence);
       const tierBase = normalizedProminence >= 0.72
         ? 2.05
@@ -882,10 +904,17 @@ export function GrandMap() {
 
           const zoomScale = 1 - clamp01((zoom - 1.6) / 5.4) * 0.22;
           const baseSize = 10.4 + Math.log(label.prominence + 1) * 2.0 + (label.major ? 1.55 : 0);
-          const targetSize = Math.max(10, Math.min(24, baseSize * zoomScale));
-          const baseWidth = Math.max(64, label.name.length * targetSize * 0.52 + (label.major ? 12 : 8));
+          const majorDensityScale = label.major && zoom >= 3 ? 0.78 : 1;
+          const targetSize = Math.max(10, Math.min(24, baseSize * zoomScale * majorDensityScale));
+          const majorWidthAddon = zoom <= 1.9 ? 18 : 13;
+          const majorPadding = zoom <= 1.9 ? 9.5 : zoom <= 3.2 ? 7.2 : 5.6;
+          const baseWidth = Math.max(64, label.name.length * targetSize * 0.52 + (label.major ? majorWidthAddon : 8));
           const baseHeight = Math.max(16, targetSize * 1.34);
-          const offsets = label.major ? majorOffsets : standardOffsets;
+          const preferredOffset = label.major ? MAJOR_LABEL_TUNING[label.tag]?.preferredOffset : undefined;
+          const baseOffsets = label.major ? majorOffsets : standardOffsets;
+          const offsets = preferredOffset
+            ? [preferredOffset, ...baseOffsets.filter(([x, y]) => x !== preferredOffset[0] || y !== preferredOffset[1])]
+            : baseOffsets;
           const shrinkSteps = label.major ? [1, 0.9, 0.8, 0.72, 0.64] : [1];
           let placed: { box: ScreenBox; size: number; offset: [number, number] } | null = null;
           for (const shrink of shrinkSteps) {
@@ -893,7 +922,7 @@ export function GrandMap() {
             const height = baseHeight * shrink;
             const size = targetSize * shrink;
             for (const offset of offsets) {
-              const box = makeScreenBox(point.x + offset[0], point.y + offset[1], width, height, label.major ? 4.8 : 6.2);
+              const box = makeScreenBox(point.x + offset[0], point.y + offset[1], width, height, label.major ? majorPadding : 6.2);
               if (!insideViewport(box, viewportWidth, viewportHeight, label.major ? 120 : 80)) continue;
               if (occupiedBoxes.some((other) => intersects(box, other))) continue;
               placed = { box, size, offset };
@@ -911,7 +940,7 @@ export function GrandMap() {
           upsertCountryMarker(label, placed.size, opacity, placed.offset);
         }
       }
-      const provinceOpacity = clamp01((zoom - 5.0) / 0.7) * 0.95;
+      const provinceOpacity = clamp01((zoom - 5.35) / 0.65) * 0.95;
       const provinceCountByOwner = new globalThis.Map<string, number>();
 
       if (provinceOpacity > 0.01) {
@@ -1145,7 +1174,7 @@ export function GrandMap() {
   }, [selectedProvince]);
 
   return (
-    <div ref={containerRef} className="grand-map">
+    <div ref={containerRef} className="grand-map" data-coach-id="world-map">
       {tooltip ? (
         <div
           className="grand-map__tooltip atlas-panel"

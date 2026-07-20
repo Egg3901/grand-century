@@ -28,6 +28,7 @@ export function BudgetPanel() {
           <span>Poor Tax {(player.taxRatePoor * 100).toFixed(0)}%</span>
           <input
             type="range"
+            data-coach-id="budget-tax-slider"
             min={0}
             max={1}
             step={0.01}

@@ -7,6 +7,7 @@ import { Outliner } from './ui/Outliner';
 import { EventFeed } from './ui/EventFeed';
 import { MapLegend } from './ui/MapLegend';
 import { AudioManager } from './ui/AudioManager';
+import { TutorialCoach } from './ui/TutorialCoach';
 import { useStore } from './store';
 
 const LazyGrandMap = lazy(async () => {
@@ -31,6 +32,7 @@ function App() {
         <MapLegend />
         <EventFeed />
         <PanelHost />
+        <TutorialCoach />
       </div>
       {!snapshot || !data ? (
         <div className="loading-veil">

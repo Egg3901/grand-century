@@ -156,10 +156,27 @@
 
 .outliner-alerts li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 0.4rem;
   font-size: 0.75rem;
+}
+
+.outliner-alerts .outliner-alert-action {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  text-align: left;
+  display: grid;
+  gap: 0.08rem;
+  cursor: pointer;
+  flex: 1;
+}
+
+.outliner-alert-action small {
+  font-size: 0.67rem;
+  color: #5a4331;
 }
 
 .outliner-alerts button {
@@ -188,6 +205,62 @@
   color: #443122;
 }
 
+.map-legend__mode {
+  margin: 0 0 0.35rem;
+  font-size: 0.74rem;
+  color: #4a3627;
+  text-transform: capitalize;
+}
+
+.map-legend__scale {
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 0.35rem;
+}
+
+.map-legend__scale-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  border-radius: 7px;
+  overflow: hidden;
+  border: 1px solid rgba(76, 56, 42, 0.28);
+}
+
+.map-legend__scale-bar span {
+  min-height: 0.55rem;
+}
+
+.map-legend__scale-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.3rem;
+  font-size: 0.66rem;
+  color: #4b3729;
+}
+
+.map-legend__swatches {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.map-legend__swatches li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem;
+  align-items: center;
+  font-size: 0.72rem;
+}
+
+.map-legend__swatches li span:first-child {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(74, 53, 39, 0.26);
+}
+
 .event-feed {
   position: absolute;
   top: 5rem;
@@ -205,10 +278,27 @@
   display: grid;
   gap: 0.1rem;
   font-size: 0.79rem;
+  pointer-events: auto;
 }
 
 .event-card strong {
   font-size: 0.67rem;
+}
+
+.event-card small {
+  font-size: 0.68rem;
+  color: #4e3829;
+}
+
+.event-card button {
+  justify-self: start;
+  border: 1px solid rgba(83, 58, 41, 0.35);
+  border-radius: 6px;
+  background: rgba(236, 220, 188, 0.8);
+  color: #251b12;
+  cursor: pointer;
+  padding: 0.16rem 0.44rem;
+  font-size: 0.72rem;
 }
 
 @media (max-width: 768px) {

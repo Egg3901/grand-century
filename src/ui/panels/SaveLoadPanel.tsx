@@ -24,7 +24,7 @@ export function SaveLoadPanel() {
   ), [snapshot]);
 
   return (
-    <section className="panel-card atlas-panel">
+    <section className="panel-card atlas-panel" data-coach-id="save-panel">
       <h2 className="atlas-heading">Save / Load</h2>
       <p className="panel-subtle">Autosave rotates every sim-year across `autosave-1..3`.</p>
       {saveStatus ? (

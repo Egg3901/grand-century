@@ -63,7 +63,15 @@ export function PoliticsPanel() {
           value={detail.avgMilitancy.toFixed(2)}
           trace={detail.stateUnrest.slice(0, 4).map((entry) => ({ label: entry.name, value: entry.militancy }))}
         />{' '}
-        | Avg consciousness {detail.avgConsciousness.toFixed(2)}
+        | Avg consciousness{' '}
+        <TraceTooltip
+          value={detail.avgConsciousness.toFixed(2)}
+          trace={[
+            { label: 'National consciousness', value: detail.avgConsciousness },
+            { label: 'Average militancy', value: detail.avgMilitancy },
+            { label: 'Top reform demand', value: detail.topReformDemands[0]?.support ?? 0 },
+          ]}
+        />
       </p>
       <p className="panel-subtle">
         Election: {detail.election.elective ? `${detail.election.yearsToNext}y to next (${detail.election.nextYear})` : 'Not elective'} | Last: {detail.election.lastResult}
@@ -95,8 +103,28 @@ export function PoliticsPanel() {
       <ul className="panel-list">
         {detail.stateUnrest.slice(0, 3).map((entry) => (
           <li key={entry.stateId}>
-            <span>{entry.name} risk {entry.risk.toFixed(2)}</span>
-            <span>Mil {entry.militancy.toFixed(2)}</span>
+            <span>
+              {entry.name} risk{' '}
+              <TraceTooltip
+                value={entry.risk.toFixed(2)}
+                trace={[
+                  { label: 'State militancy', value: entry.militancy },
+                  { label: 'National consciousness', value: detail.avgConsciousness },
+                  { label: 'Reform pressure', value: detail.topReformDemands[0]?.support ?? 0 },
+                ]}
+              />
+            </span>
+            <span>
+              Mil{' '}
+              <TraceTooltip
+                value={entry.militancy.toFixed(2)}
+                trace={[
+                  { label: 'State militancy', value: entry.militancy },
+                  { label: 'State unrest risk', value: entry.risk },
+                  { label: 'National militancy', value: detail.avgMilitancy },
+                ]}
+              />
+            </span>
           </li>
         ))}
       </ul>
@@ -129,6 +157,7 @@ export function PoliticsPanel() {
                           <button
                             key={option.key}
                             type="button"
+                            data-coach-id={legal ? 'reform-action' : undefined}
                             disabled={!legal}
                             title={`${reason} | Support ${pct(next?.support ?? 0)} / ${pct(next?.requiredSupport ?? 0)} | Cost ${money(next?.costMoney ?? 0)} + ${next?.costPrestige.toFixed(1) ?? '0.0'} prestige`}
                             onClick={() => sendCommand({ t: 'enactReform', reform: reform.key, level })}

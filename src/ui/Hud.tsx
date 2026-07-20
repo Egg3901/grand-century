@@ -85,7 +85,7 @@ export function Hud() {
           <span className="atlas-heading">Date</span>
           <strong data-testid="hud-date">{formattedDate}</strong>
         </div>
-        <div className="hud-top__section hud-top__speeds">
+        <div className="hud-top__section hud-top__speeds" data-coach-id="speed-controls-desktop">
           {SPEEDS.map((speed) => (
             <button
               key={speed}
@@ -98,7 +98,7 @@ export function Hud() {
             </button>
           ))}
         </div>
-        <div className="hud-top__section hud-top__nation">
+        <div className="hud-top__section hud-top__nation" data-coach-id="hud-nation">
           <span className="atlas-heading">{playerNation?.name ?? 'United Kingdom'}</span>
           <strong>{formatMoney(playerNation?.treasury ?? 0)}</strong>
           <span className={`hud-infamy ${playerNation && snapshot && playerNation.infamy >= snapshot.infamyLimit ? 'is-danger' : ''}`}>
@@ -110,12 +110,25 @@ export function Hud() {
         </div>
       </header>
 
-      <nav className="hud-rail atlas-panel" aria-label="Panels">
+      <nav className="hud-rail atlas-panel" aria-label="Panels" data-coach-id="panel-rail-desktop">
         {PANELS.map((panel) => (
           <button
             key={panel.id}
             type="button"
             data-testid={`panel-${panel.id}`}
+            data-coach-id={panel.id === 'budget'
+              ? 'panel-budget'
+              : panel.id === 'production'
+                ? 'panel-production'
+                : panel.id === 'politics'
+                  ? 'panel-politics'
+                  : panel.id === 'diplomacy'
+                    ? 'panel-diplomacy'
+                    : panel.id === 'military'
+                      ? 'panel-military'
+                      : panel.id === 'save_load'
+                        ? 'panel-save-load'
+                        : undefined}
             className={openPanel === panel.id ? 'is-active' : ''}
             onClick={() => openPanelId(openPanel === panel.id ? null : panel.id)}
           >
@@ -124,7 +137,7 @@ export function Hud() {
         ))}
       </nav>
 
-      <nav className="hud-mapmodes atlas-panel" aria-label="Map mode">
+      <nav className="hud-mapmodes atlas-panel" aria-label="Map mode" data-coach-id="mapmodes-desktop">
         {MAP_MODES.map((mode) => (
           <button
             key={mode.id}
@@ -142,7 +155,7 @@ export function Hud() {
           <span className="atlas-heading">Date</span>
           <strong>{formattedDate}</strong>
         </div>
-        <div className="hud-mobile-top__speed">
+        <div className="hud-mobile-top__speed" data-coach-id="speed-controls-mobile">
           <button type="button" aria-label="Decrease speed" onClick={() => setSpeed(currentSpeed - 1)}>-</button>
           <button type="button" onClick={() => setSpeed(currentSpeed === 0 ? 3 : 0)}>{currentSpeed === 0 ? 'Play' : 'Pause'}</button>
           <button type="button" aria-label="Increase speed" onClick={() => setSpeed(currentSpeed + 1)}>+</button>
@@ -154,12 +167,25 @@ export function Hud() {
       </header>
 
       {mobilePanelsOpen ? (
-        <nav className="hud-mobile-panel-drawer atlas-panel" aria-label="Panel drawer">
+        <nav className="hud-mobile-panel-drawer atlas-panel" aria-label="Panel drawer" data-coach-id="panel-rail-mobile">
           {PANELS.map((panel) => (
             <button
               key={panel.id}
               type="button"
               data-testid={`panel-${panel.id}`}
+              data-coach-id={panel.id === 'budget'
+                ? 'panel-budget'
+                : panel.id === 'production'
+                  ? 'panel-production'
+                  : panel.id === 'politics'
+                    ? 'panel-politics'
+                    : panel.id === 'diplomacy'
+                      ? 'panel-diplomacy'
+                      : panel.id === 'military'
+                        ? 'panel-military'
+                        : panel.id === 'save_load'
+                          ? 'panel-save-load'
+                          : undefined}
               className={openPanel === panel.id ? 'is-active' : ''}
               onClick={() => openPanelId(openPanel === panel.id ? null : panel.id)}
             >
@@ -170,7 +196,7 @@ export function Hud() {
       ) : null}
 
       {mobileMapModesOpen ? (
-        <nav className="hud-mobile-mapmodes atlas-panel" aria-label="Map mode drawer">
+        <nav className="hud-mobile-mapmodes atlas-panel" aria-label="Map mode drawer" data-coach-id="mapmodes-mobile-drawer">
           {MAP_MODES.map((mode) => (
             <button
               key={mode.id}
@@ -188,8 +214,8 @@ export function Hud() {
       ) : null}
 
       <nav className="hud-mobile-bottom atlas-panel" aria-label="Mobile primary navigation">
-        <button type="button" className={mobilePanelsOpen ? 'is-active' : ''} onClick={toggleMobilePanels}>Panels</button>
-        <button type="button" className={mobileMapModesOpen ? 'is-active' : ''} onClick={toggleMobileMapModes}>Map</button>
+        <button type="button" className={mobilePanelsOpen ? 'is-active' : ''} data-coach-id="panels-mobile-toggle" onClick={toggleMobilePanels}>Panels</button>
+        <button type="button" className={mobileMapModesOpen ? 'is-active' : ''} data-coach-id="mapmodes-mobile-toggle" onClick={toggleMobileMapModes}>Map</button>
         <button type="button" onClick={() => setMuteAudio(!muteAudio)}>{muteAudio ? 'Unmute' : 'Mute'}</button>
         <button type="button" onClick={() => setShowMainMenu(true)}>Menu</button>
       </nav>
