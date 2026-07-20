@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useStore, type MapMode, type PanelId } from '../store';
+import { copyShareLink } from './permalink';
 import './Hud.css';
 
 const SPEEDS = [0, 1, 2, 3, 4, 5] as const;
@@ -50,6 +51,7 @@ export function Hud() {
   const setMuteAudio = useStore((state) => state.setMuteAudio);
   const [mobilePanelsOpen, setMobilePanelsOpen] = useState(false);
   const [mobileMapModesOpen, setMobileMapModesOpen] = useState(false);
+  const [shareHint, setShareHint] = useState<string | null>(null);
 
   const playerNation = useMemo(() => {
     if (!snapshot) return null;
@@ -107,6 +109,23 @@ export function Hud() {
             {snapshot ? ` / ${snapshot.infamyLimit.toFixed(1)}` : ''}
           </span>
           <button type="button" onClick={() => setMuteAudio(!muteAudio)}>{muteAudio ? 'Unmute' : 'Mute'}</button>
+          <button
+            type="button"
+            data-testid="hud-copy-share"
+            title={shareHint ?? 'Copy share link'}
+            onClick={() => {
+              if (!playerNation) return;
+              void copyShareLink({
+                seed: snapshot?.seed ?? 1836,
+                nationTag: playerNation.tag,
+              }).then((ok) => {
+                setShareHint(ok ? 'Copied' : 'Copy failed');
+                window.setTimeout(() => setShareHint(null), 2000);
+              });
+            }}
+          >
+            {shareHint ?? 'Share'}
+          </button>
           <button type="button" onClick={() => setShowMainMenu(true)}>Menu</button>
         </div>
       </header>

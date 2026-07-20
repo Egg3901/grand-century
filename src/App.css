@@ -81,6 +81,7 @@
 
 .menu-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
@@ -89,4 +90,11 @@
   background: rgba(240, 227, 201, 0.9);
   border-radius: 999px;
   padding: 0.35rem 0.75rem;
+}
+
+.menu-share-status {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #5a4634;
+  word-break: break-all;
 }

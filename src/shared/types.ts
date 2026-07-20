@@ -718,6 +718,8 @@ export interface WorldSnapshot {
   date: GameDate;
   speed: number;
   playerNation: NationId;
+  /** Campaign start seed (for shareable permalinks). */
+  seed?: number;
   nations: NationSummary[];
   provinces: ProvinceSummary[];
   market: MarketGood[];

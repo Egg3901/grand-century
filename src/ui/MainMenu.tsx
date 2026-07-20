@@ -1,16 +1,56 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useStore } from '../store';
+import { buildShareUrl, copyShareLink, parseStartHash } from './permalink';
 
 export function MainMenu() {
   const snapshot = useStore((state) => state.snapshot);
   const sendCommand = useStore((state) => state.sendCommand);
   const setShowMainMenu = useStore((state) => state.setShowMainMenu);
-  const [seedInput, setSeedInput] = useState('1836');
-
+  const hashStart = useMemo(() => parseStartHash(), []);
+  const [seedInput, setSeedInput] = useState(() => String(hashStart?.seed ?? snapshot?.seed ?? 1836));
+  const [shareStatus, setShareStatus] = useState<string | null>(null);
   const nations = useMemo(() => (snapshot?.nations ?? []).slice().sort((a, b) => a.name.localeCompare(b.name)), [snapshot]);
-  const [selectedNation, setSelectedNation] = useState<number>(snapshot?.playerNation ?? 0);
+  const defaultNation = useMemo(() => {
+    if (hashStart?.nationTag) {
+      const match = nations.find((nation) => nation.tag === hashStart.nationTag);
+      if (match) return match.id;
+    }
+    return snapshot?.playerNation ?? 0;
+  }, [hashStart, nations, snapshot?.playerNation]);
+  const [selectedNation, setSelectedNation] = useState<number>(defaultNation);
+  const syncedHashNation = useRef(false);
+
+  useEffect(() => {
+    if (syncedHashNation.current || !hashStart?.nationTag || nations.length === 0) return;
+    const match = nations.find((nation) => nation.tag === hashStart.nationTag);
+    if (match) {
+      setSelectedNation(match.id);
+      syncedHashNation.current = true;
+    }
+  }, [hashStart, nations]);
 
   if (!snapshot) return null;
+
+  const selectedTag = nations.find((nation) => nation.id === selectedNation)?.tag
+    ?? snapshot.nations.find((nation) => nation.id === selectedNation)?.tag
+    ?? 'ENG';
+
+  const startGame = () => {
+    const parsedSeed = Number(seedInput);
+    const seed = Number.isFinite(parsedSeed) ? Math.max(1, Math.floor(parsedSeed)) : 1836;
+    sendCommand({ t: 'newGame', seed, playerNation: selectedNation });
+    const tag = nations.find((nation) => nation.id === selectedNation)?.tag ?? selectedTag;
+    window.location.hash = `#/new?seed=${seed}&nation=${encodeURIComponent(tag)}`;
+    setShowMainMenu(false);
+  };
+
+  const onCopyShare = async () => {
+    const parsedSeed = Number(seedInput);
+    const seed = Number.isFinite(parsedSeed) ? Math.max(1, Math.floor(parsedSeed)) : 1836;
+    const ok = await copyShareLink({ seed, nationTag: selectedTag });
+    setShareStatus(ok ? 'Link copied.' : buildShareUrl({ seed, nationTag: selectedTag }));
+    window.setTimeout(() => setShareStatus(null), 3500);
+  };
 
   return (
     <div className="menu-overlay">
@@ -22,7 +62,7 @@ export function MainMenu() {
           <select data-testid="menu-nation-select" value={selectedNation} onChange={(event) => setSelectedNation(Number(event.target.value))}>
             {nations.map((nation) => (
               <option key={nation.id} value={nation.id}>
-                {nation.name}
+                {nation.name} ({nation.tag})
               </option>
             ))}
           </select>
@@ -35,12 +75,7 @@ export function MainMenu() {
           <button
             type="button"
             data-testid="menu-new-game"
-            onClick={() => {
-              const parsedSeed = Number(seedInput);
-              const seed = Number.isFinite(parsedSeed) ? Math.max(1, Math.floor(parsedSeed)) : 1836;
-              sendCommand({ t: 'newGame', seed, playerNation: selectedNation });
-              setShowMainMenu(false);
-            }}
+            onClick={startGame}
           >
             New Game
           </button>
@@ -57,9 +92,16 @@ export function MainMenu() {
           >
             Replay Tutorial
           </button>
+          <button
+            type="button"
+            data-testid="menu-copy-share"
+            onClick={() => { void onCopyShare(); }}
+          >
+            Copy share link
+          </button>
         </div>
+        {shareStatus ? <p className="menu-share-status" data-testid="menu-share-status">{shareStatus}</p> : null}
       </section>
     </div>
   );
 }
-

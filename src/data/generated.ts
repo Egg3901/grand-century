@@ -1,6 +1,4 @@
 import worldSeedRaw from './generated/worldSeed.json';
-import provincesGeoRaw from './generated/provinces.geo.json';
-import nationalBordersRaw from './generated/nationalBorders.geo.json';
 import type { GovernmentType, Terrain } from '../shared/types';
 
 export interface SeedNation {
@@ -84,7 +82,6 @@ export interface NationalBorderFeatureCollection {
   }>;
 }
 
+/** Static world seed (nations/provinces metadata). Map geometry is fetched at runtime. */
 export const WORLD_SEED = worldSeedRaw as WorldSeedData;
-export const PROVINCES_GEOJSON = provincesGeoRaw as CompactProvinceFeatureCollection;
-export const NATIONAL_BORDERS_GEOJSON = nationalBordersRaw as NationalBorderFeatureCollection;
 export const PROVINCE_COUNT = WORLD_SEED.provinces.length;

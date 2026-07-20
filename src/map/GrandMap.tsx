@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './GrandMap.css';
-import { NATIONAL_BORDERS_GEOJSON, WORLD_SEED } from '../data/generated';
+import { WORLD_SEED } from '../data/generated';
 import { useStore } from '../store';
 
 type MapLibreMap = import('maplibre-gl').Map;
@@ -15,6 +15,17 @@ type ProvinceGeoJson = {
     geometry: {
       type: 'Polygon' | 'MultiPolygon';
       coordinates: number[][][] | number[][][][];
+    };
+  }>;
+};
+type NationalBorderGeoJson = {
+  type: 'FeatureCollection';
+  features: Array<{
+    type: 'Feature';
+    properties: { id: number };
+    geometry: {
+      type: 'MultiLineString';
+      coordinates: number[][][];
     };
   }>;
 };
@@ -52,8 +63,6 @@ type ScreenBox = {
   right: number;
   bottom: number;
 };
-
-const FALLBACK_GEOJSON_URL = new URL('../data/generated/provinces.geo.json', import.meta.url).toString();
 
 const MAP_SOURCE_ID = 'provinces';
 const MAP_NATIONAL_SOURCE_ID = 'national-borders';
@@ -301,6 +310,7 @@ export function GrandMap() {
   const countryLabelMarkerRef = useRef<Map<string, MapLibreMarker>>(new globalThis.Map());
   const provinceLabelMarkerRef = useRef<Map<number, MapLibreMarker>>(new globalThis.Map());
   const [geojson, setGeojson] = useState<ProvinceGeoJson | null>(null);
+  const [nationalBorders, setNationalBorders] = useState<NationalBorderGeoJson | null>(null);
   const [mapReady, setMapReady] = useState(false);
   const [tooltip, setTooltip] = useState<{
     x: number;
@@ -464,24 +474,24 @@ export function GrandMap() {
 
   useEffect(() => {
     let alive = true;
-    const loadGeo = async () => {
-      const candidates = [
-        `${import.meta.env.BASE_URL}generated/provinces.geo.json`,
-        '/generated/provinces.geo.json',
-        FALLBACK_GEOJSON_URL,
-      ];
-      for (const url of candidates) {
-        try {
-          const response = await fetch(url);
-          if (!response.ok) continue;
-          const parsed = await response.json() as ProvinceGeoJson;
-          if (!alive) return;
-          setGeojson(parsed);
-          return;
-        } catch {
-          // continue to next candidate
-        }
+    const base = import.meta.env.BASE_URL;
+    const fetchJson = async <T,>(fileName: string): Promise<T | null> => {
+      try {
+        const response = await fetch(`${base}generated/${fileName}`);
+        if (!response.ok) return null;
+        return await response.json() as T;
+      } catch {
+        return null;
       }
+    };
+    const loadGeo = async () => {
+      const [provinces, borders] = await Promise.all([
+        fetchJson<ProvinceGeoJson>('provinces.geo.json'),
+        fetchJson<NationalBorderGeoJson>('nationalBorders.geo.json'),
+      ]);
+      if (!alive) return;
+      if (provinces) setGeojson(provinces);
+      if (borders) setNationalBorders(borders);
     };
     void loadGeo();
     return () => {
@@ -490,7 +500,7 @@ export function GrandMap() {
   }, []);
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current || !geojson) return;
+    if (!containerRef.current || mapRef.current || !geojson || !nationalBorders) return;
     let alive = true;
     let createdMap: MapLibreMap | null = null;
 
@@ -536,7 +546,7 @@ export function GrandMap() {
         });
         map.addSource(MAP_NATIONAL_SOURCE_ID, {
           type: 'geojson',
-          data: NATIONAL_BORDERS_GEOJSON as unknown as object,
+          data: nationalBorders as unknown as object,
         });
         map.addSource(MAP_MOVEMENT_SOURCE, {
           type: 'geojson',
@@ -744,7 +754,7 @@ export function GrandMap() {
       if (import.meta.env.DEV) delete (globalThis as { __grandCenturyMap?: MapLibreMap }).__grandCenturyMap;
       setMapReady(false);
     };
-  }, [bounds, geojson, provinceNameById, selectProvince, sendCommand]);
+  }, [bounds, geojson, nationalBorders, provinceNameById, selectProvince, sendCommand]);
 
   useEffect(() => {
     const map = mapRef.current;

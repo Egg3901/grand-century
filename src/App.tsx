@@ -3,6 +3,7 @@ import { Suspense, lazy } from 'react';
 import { Hud } from './ui/Hud';
 import { PanelHost } from './ui/panels/PanelHost';
 import { MainMenu } from './ui/MainMenu';
+import { PermalinkBootstrap } from './ui/PermalinkBootstrap';
 import { Outliner } from './ui/Outliner';
 import { EventFeed } from './ui/EventFeed';
 import { EventPopup } from './ui/EventPopup';
@@ -42,6 +43,7 @@ function App() {
           <p>Initializing simulation ledger...</p>
         </div>
       ) : null}
+      <PermalinkBootstrap />
       {showMainMenu && snapshot ? <MainMenu /> : null}
     </div>
   );
