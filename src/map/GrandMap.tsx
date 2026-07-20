@@ -171,7 +171,11 @@ export function GrandMap() {
   useEffect(() => {
     let alive = true;
     const loadGeo = async () => {
-      const candidates = ['/generated/provinces.geo.json', FALLBACK_GEOJSON_URL];
+      const candidates = [
+        `${import.meta.env.BASE_URL}generated/provinces.geo.json`,
+        '/generated/provinces.geo.json',
+        FALLBACK_GEOJSON_URL,
+      ];
       for (const url of candidates) {
         try {
           const response = await fetch(url);

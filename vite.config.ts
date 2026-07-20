@@ -34,6 +34,9 @@ function generatedDataPublicPlugin() {
 }
 
 export default defineConfig({
+  // Served at site root in dev; set VITE_BASE=/games/grand-century/ for the
+  // Lakeside subpath deploy so asset + worker URLs resolve under the prefix.
+  base: process.env.VITE_BASE ?? '/',
   plugins: [react(), generatedDataPublicPlugin()],
   build: {
     rollupOptions: {
