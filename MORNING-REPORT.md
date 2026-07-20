@@ -102,7 +102,7 @@ Screenshot: `docs/screenshot.png`.
 - Replaced the initial 5° grid-cell map with REAL Natural-Earth admin-1 polygons (1033 provinces, smooth coastlines, up to 380 pts/ring), same schema so the sim/tests were unchanged. Build + 29 tests still green; new screenshot confirms smooth borders.
 
 #### Known issues / residual risks (for the morning)
-- **Europe under-provinced** vs sprawling regions (Natural-Earth admin-1 artifact): France/Prussia/Austria have few units; not a hand-curated Vic2-density map. A future content pass should split European states finer and fix a few 1836 inaccuracies (Texas→USA, German/Italian minors merged into PRU/AUS).
+- ~~Europe under-provinced~~ **FIXED (#1)**: map reworked to 1450 provinces, 499 in the Europe box, with the 1836 German states (Prussia/Bavaria/Saxony/Hanover/Baden/Württemberg/Hesse), Italian states (Sardinia/Two Sicilies/Papal/Tuscany/Modena/Parma) and Republic of Texas as nations (32 total).
 - **Map JS chunk still large** (~1.26MB, MapLibre-heavy) though code-split from the 229KB main chunk and geojson is fetched at runtime.
 - **AI is heuristic** (alive, not omniscient) — a dedicated AI-depth pass could improve diplomacy/peace quality.
 - **Audio is synthesized** placeholder tones; no licensed music pack.
