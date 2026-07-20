@@ -15,17 +15,23 @@ const ADMIN1_FILES = [
 ];
 const ADMIN0_FILE = 'ne_110m_admin_0_countries.geojson';
 
-const TARGET_PROVINCES = 1450;
-const DENSIFY_TARGET_PROVINCES = 1520;
-const MIN_PROVINCES = 800;
-const MAX_PROVINCES = 1500;
-const ADMIN0_FALLBACK_COUNTRY_FLOOR = 30;
+const MIN_PROVINCES = 300;
+const MAX_PROVINCES = 700;
 const TOUCH_EPSILON = 0.045;
-const SLIVER_ABS_AREA = 0.002;
-const EUROPE_BOUNDS = { minLon: -25, maxLon: 45, minLat: 35, maxLat: 72 };
-const MIN_NON_EUROPE_KEEP_SMALL = 1;
-const MIN_NON_EUROPE_KEEP_MEDIUM = 2;
-const MIN_NON_EUROPE_KEEP_LARGE = 3;
+const SLIVER_ABS_AREA = 0.012;
+const SOURCE_TOLERANCE = 0.025;
+const ADMIN0_TOLERANCE = 0.03;
+const KEEP_LARGE_ADMINS = new Set([
+  'russia',
+  'united states of america',
+  'united states',
+  'canada',
+  'china',
+  'brazil',
+  'india',
+  'indonesia',
+  'australia',
+]);
 
 const GOV_DEFAULT = 'absolute_monarchy';
 
@@ -90,171 +96,90 @@ const NATION_LIBRARY = {
 
 const MAJOR_TAGS = ['ENG', 'FRA', 'PRU', 'AUS', 'RUS', 'USA', 'QNG', 'OTT', 'ESP', 'POR', 'NLD', 'SWE', 'SAR', 'TSC'];
 const REQUIRED_MINOR_TAGS = [
-  'BAV',
-  'SAX',
-  'HAN',
-  'WUR',
-  'BAD',
-  'HES',
-  'PAP',
-  'TUS',
-  'MOD',
-  'PAR',
-  'TEX',
-  'BEL',
-  'GRE',
-  'DEN',
-  'SWI',
-  'EGY',
-  'PER',
-  'AFG',
-  'SIA',
-  'KOR',
-  'MOR',
+  'BAV', 'SAX', 'HAN', 'WUR', 'BAD', 'HES', 'PAP', 'TUS', 'MOD', 'PAR', 'TEX',
+  'BEL', 'GRE', 'DEN', 'SWI', 'EGY', 'PER', 'AFG', 'SIA', 'KOR', 'MOR',
 ];
 
 const ISO_TO_TAG = {
-  af: 'AFG',
-  al: 'OTT',
-  be: 'BEL',
-  bh: 'OTT',
-  bo: 'BOL',
-  bt: 'BHU',
-  ch: 'SWI',
-  cl: 'CHL',
-  co: 'CLM',
-  dk: 'DEN',
-  ec: 'CLM',
-  eg: 'EGY',
-  et: 'ETH',
-  ge: 'RUS',
-  gr: 'GRE',
-  hn: 'CLM',
-  ir: 'PER',
-  jo: 'EGY',
-  kh: 'CAM',
-  kp: 'KOR',
-  kr: 'KOR',
-  la: 'LAO',
-  ma: 'MOR',
-  mm: 'BUR',
-  np: 'NEP',
-  pa: 'CLM',
-  pe: 'PEU',
-  py: 'PRG',
-  rs: 'OTT',
-  ro: 'OTT',
-  sd: 'EGY',
-  sy: 'EGY',
-  th: 'SIA',
-  uy: 'URY',
-  ve: 'VEN',
-  vn: 'VIE',
+  af: 'AFG', al: 'OTT', be: 'BEL', bh: 'OTT', bo: 'BOL', bt: 'BHU', ch: 'SWI', cl: 'CHL',
+  co: 'CLM', dk: 'DEN', ec: 'CLM', eg: 'EGY', et: 'ETH', ge: 'RUS', gr: 'GRE', hn: 'CLM',
+  ir: 'PER', jo: 'EGY', kh: 'CAM', kp: 'KOR', kr: 'KOR', la: 'LAO', ma: 'MOR', mm: 'BUR',
+  np: 'NEP', pa: 'CLM', pe: 'PEU', py: 'PRG', rs: 'OTT', ro: 'OTT', sd: 'EGY', sy: 'EGY',
+  th: 'SIA', uy: 'URY', ve: 'VEN', vn: 'VIE',
 };
 
 const COUNTRY_TO_TAG = {
-  'united kingdom': 'ENG',
-  ireland: 'ENG',
-  canada: 'ENG',
-  australia: 'ENG',
-  'new zealand': 'ENG',
-  india: 'ENG',
-  pakistan: 'ENG',
-  bangladesh: 'ENG',
-  'south africa': 'ENG',
-  nigeria: 'UNC',
-  egypt: 'EGY',
-  france: 'FRA',
-  belgium: 'BEL',
-  algeria: 'FRA',
-  germany: 'PRU',
-  denmark: 'DEN',
-  switzerland: 'SWI',
-  'czech republic': 'AUS',
-  czechia: 'AUS',
-  slovakia: 'AUS',
-  hungary: 'AUS',
-  slovenia: 'AUS',
-  croatia: 'AUS',
-  austria: 'AUS',
-  russia: 'RUS',
-  ukraine: 'RUS',
-  belarus: 'RUS',
-  lithuania: 'RUS',
-  latvia: 'RUS',
-  estonia: 'RUS',
-  finland: 'RUS',
-  kazakhstan: 'RUS',
-  georgia: 'RUS',
-  armenia: 'RUS',
-  azerbaijan: 'RUS',
-  'united states of america': 'USA',
-  'united states': 'USA',
-  china: 'QNG',
-  mongolia: 'QNG',
-  taiwan: 'QNG',
-  turkey: 'OTT',
-  syria: 'EGY',
-  iraq: 'OTT',
-  jordan: 'EGY',
-  lebanon: 'EGY',
-  israel: 'EGY',
-  palestine: 'EGY',
-  saudi: 'UNC',
-  yemen: 'UNC',
-  greece: 'GRE',
-  spain: 'ESP',
-  cuba: 'ESP',
-  philippines: 'ESP',
-  portugal: 'POR',
-  angola: 'POR',
-  mozambique: 'POR',
-  netherlands: 'NLD',
-  indonesia: 'NLD',
-  sweden: 'SWE',
-  norway: 'SWE',
-  italy: 'SAR',
-  'sardinia-piedmont': 'SAR',
-  sicily: 'TSC',
-  japan: 'JPN',
-  mexico: 'MEX',
-  brazil: 'BRA',
-  argentina: 'ARG',
-  peru: 'PEU',
-  chile: 'CHL',
-  colombia: 'CLM',
-  ecuador: 'CLM',
-  venezuela: 'VEN',
-  bolivia: 'BOL',
-  paraguay: 'PRG',
-  uruguay: 'URY',
-  iran: 'PER',
-  persia: 'PER',
-  afghanistan: 'AFG',
-  thailand: 'SIA',
-  cambodia: 'CAM',
-  laos: 'LAO',
-  vietnam: 'VIE',
-  myanmar: 'BUR',
-  burma: 'BUR',
-  korea: 'KOR',
-  'south korea': 'KOR',
-  'north korea': 'KOR',
-  ethiopia: 'ETH',
-  morocco: 'MOR',
-  nepal: 'NEP',
-  bhutan: 'BHU',
-  tunisia: 'OTT',
-  libya: 'OTT',
-  sudan: 'EGY',
-  'south sudan': 'EGY',
-  austria: 'AUS',
-  prussia: 'PRU',
-  'ottoman empire': 'OTT',
-  romania: 'OTT',
-  serbia: 'OTT',
-  poland: 'RUS',
+  'united kingdom': 'ENG', ireland: 'ENG', canada: 'ENG', australia: 'ENG', 'new zealand': 'ENG',
+  india: 'ENG', pakistan: 'ENG', bangladesh: 'ENG', 'south africa': 'ENG', nigeria: 'UNC',
+  egypt: 'EGY', france: 'FRA', belgium: 'BEL', algeria: 'FRA', germany: 'PRU', denmark: 'DEN',
+  switzerland: 'SWI', 'czech republic': 'AUS', czechia: 'AUS', slovakia: 'AUS', hungary: 'AUS',
+  slovenia: 'AUS', croatia: 'AUS', austria: 'AUS', russia: 'RUS', ukraine: 'RUS', belarus: 'RUS',
+  lithuania: 'RUS', latvia: 'RUS', estonia: 'RUS', finland: 'RUS', kazakhstan: 'RUS', georgia: 'RUS',
+  armenia: 'RUS', azerbaijan: 'RUS', 'united states of america': 'USA', 'united states': 'USA',
+  china: 'QNG', mongolia: 'QNG', taiwan: 'QNG', turkey: 'OTT', syria: 'EGY', iraq: 'OTT',
+  jordan: 'EGY', lebanon: 'EGY', israel: 'EGY', palestine: 'EGY', saudi: 'UNC', yemen: 'UNC',
+  greece: 'GRE', spain: 'ESP', cuba: 'ESP', philippines: 'ESP', portugal: 'POR', angola: 'POR',
+  mozambique: 'POR', netherlands: 'NLD', indonesia: 'NLD', sweden: 'SWE', norway: 'SWE',
+  italy: 'SAR', 'sardinia-piedmont': 'SAR', sicily: 'TSC', japan: 'JPN', mexico: 'MEX',
+  brazil: 'BRA', argentina: 'ARG', peru: 'PEU', chile: 'CHL', colombia: 'CLM', ecuador: 'CLM',
+  venezuela: 'VEN', bolivia: 'BOL', paraguay: 'PRG', uruguay: 'URY', iran: 'PER', persia: 'PER',
+  afghanistan: 'AFG', thailand: 'SIA', cambodia: 'CAM', laos: 'LAO', vietnam: 'VIE',
+  myanmar: 'BUR', burma: 'BUR', korea: 'KOR', 'south korea': 'KOR', 'north korea': 'KOR',
+  ethiopia: 'ETH', morocco: 'MOR', nepal: 'NEP', bhutan: 'BHU', tunisia: 'OTT', libya: 'OTT',
+  sudan: 'EGY', 'south sudan': 'EGY', prussia: 'PRU', 'ottoman empire': 'OTT', romania: 'OTT',
+  serbia: 'OTT', poland: 'RUS',
 };
+
+/** Historical named regions clipped from modern Germany / Italy outlines (exclusive bounds, not grid boxes). */
+const HISTORICAL_PARTITIONS = {
+  germany: [
+    { name: 'Hanover', ownerTag: 'HAN', bounds: { minLon: 5.5, maxLon: 12.5, minLat: 52.15, maxLat: 55.5 } },
+    { name: 'Saxony', ownerTag: 'SAX', bounds: { minLon: 11.6, maxLon: 15.5, minLat: 50.2, maxLat: 52.15 } },
+    { name: 'Hesse', ownerTag: 'HES', bounds: { minLon: 7.6, maxLon: 11.6, minLat: 50.2, maxLat: 52.15 } },
+    { name: 'Bavaria', ownerTag: 'BAV', bounds: { minLon: 10.25, maxLon: 14.0, minLat: 47.2, maxLat: 50.2 } },
+    { name: 'Wurttemberg', ownerTag: 'WUR', bounds: { minLon: 8.75, maxLon: 10.25, minLat: 47.35, maxLat: 50.2 } },
+    { name: 'Baden', ownerTag: 'BAD', bounds: { minLon: 7.2, maxLon: 8.75, minLat: 47.35, maxLat: 50.2 } },
+    { name: 'Prussia', ownerTag: 'PRU', bounds: null },
+  ],
+  italy: [
+    { name: 'Two Sicilies', ownerTag: 'TSC', bounds: { minLon: 12.4, maxLon: 19.0, minLat: 36.4, maxLat: 41.55 } },
+    { name: 'Papal States', ownerTag: 'PAP', bounds: { minLon: 11.3, maxLon: 14.5, minLat: 41.55, maxLat: 43.85 } },
+    { name: 'Tuscany', ownerTag: 'TUS', bounds: { minLon: 9.7, maxLon: 12.2, minLat: 42.4, maxLat: 44.15 } },
+    { name: 'Modena', ownerTag: 'MOD', bounds: { minLon: 10.6, maxLon: 12.3, minLat: 44.15, maxLat: 45.05 } },
+    { name: 'Parma', ownerTag: 'PAR', bounds: { minLon: 9.3, maxLon: 10.6, minLat: 44.15, maxLat: 45.15 } },
+    { name: 'Lombardy-Venetia', ownerTag: 'AUS', bounds: { minLon: 8.5, maxLon: 13.9, minLat: 45.05, maxLat: 47.2 } },
+    { name: 'Piedmont', ownerTag: 'SAR', bounds: null },
+  ],
+};
+
+const FORMABLE_TEMPLATES = [
+  {
+    key: 'GERMANY',
+    resultTag: 'GER',
+    resultName: 'German Empire',
+    resultColor: [75, 77, 88],
+    resultPrimaryCulture: 'north_german',
+    candidateTags: ['PRU', 'BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES', 'AUS'],
+    ownerTags: ['PRU', 'BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES', 'AUS'],
+    requiredCoreShare: 0.65,
+    requireIndependent: true,
+    requireGreatPower: true,
+    prestigeReward: 65,
+  },
+  {
+    key: 'ITALY',
+    resultTag: 'ITA',
+    resultName: 'Kingdom of Italy',
+    resultColor: [64, 120, 82],
+    resultPrimaryCulture: 'south_german',
+    candidateTags: ['SAR', 'TSC', 'PAP', 'MOD', 'PAR', 'TUS'],
+    ownerTags: ['SAR', 'TSC', 'PAP', 'MOD', 'PAR', 'TUS'],
+    requiredCoreShare: 0.75,
+    requireIndependent: true,
+    requireGreatPower: true,
+    prestigeReward: 55,
+  },
+];
 
 function normalizeName(value) {
   if (!value) return '';
@@ -294,9 +219,7 @@ function perpendicularDistance(point, start, end) {
   const dy = ey - sy;
   if (dx === 0 && dy === 0) return Math.hypot(px - sx, py - sy);
   const t = ((px - sx) * dx + (py - sy) * dy) / (dx * dx + dy * dy);
-  const projX = sx + t * dx;
-  const projY = sy + t * dy;
-  return Math.hypot(px - projX, py - projY);
+  return Math.hypot(px - (sx + t * dx), py - (sy + t * dy));
 }
 
 function simplifyLine(points, tolerance) {
@@ -310,9 +233,7 @@ function simplifyLine(points, tolerance) {
       index = i;
     }
   }
-  if (maxDistance <= tolerance || index < 0) {
-    return [points[0], points[points.length - 1]];
-  }
+  if (maxDistance <= tolerance || index < 0) return [points[0], points[points.length - 1]];
   const left = simplifyLine(points.slice(0, index + 1), tolerance);
   const right = simplifyLine(points.slice(index), tolerance);
   return [...left.slice(0, -1), ...right];
@@ -321,8 +242,7 @@ function simplifyLine(points, tolerance) {
 function simplifyRing(ring, tolerance) {
   const closed = ensureClosedRing(ring);
   if (closed.length <= 4) return closed;
-  const body = closed.slice(0, -1);
-  const simplified = simplifyLine(body, tolerance);
+  const simplified = simplifyLine(closed.slice(0, -1), tolerance);
   const restored = ensureClosedRing(simplified);
   return restored.length >= 4 ? restored : closed;
 }
@@ -334,20 +254,14 @@ function simplifyGeometry(geometry, tolerance) {
       .map((ring) => simplifyRing(ring, tolerance))
       .filter((ring) => ring.length >= 4);
     if (coordinates.length === 0) return null;
-    return {
-      type: 'Polygon',
-      coordinates,
-    };
+    return { type: 'Polygon', coordinates };
   }
   if (geometry.type === 'MultiPolygon') {
     const coordinates = geometry.coordinates
       .map((poly) => poly.map((ring) => simplifyRing(ring, tolerance)).filter((ring) => ring.length >= 4))
       .filter((poly) => poly.length > 0);
     if (coordinates.length === 0) return null;
-    return {
-      type: 'MultiPolygon',
-      coordinates,
-    };
+    return { type: 'MultiPolygon', coordinates };
   }
   return geometry;
 }
@@ -364,9 +278,7 @@ function polygonAreaRing(ring) {
 
 function geometryArea(geometry) {
   if (!geometry) return 0;
-  if (geometry.type === 'Polygon') {
-    return Math.abs(polygonAreaRing(geometry.coordinates[0]));
-  }
+  if (geometry.type === 'Polygon') return Math.abs(polygonAreaRing(geometry.coordinates[0]));
   if (geometry.type === 'MultiPolygon') {
     let total = 0;
     for (const poly of geometry.coordinates) total += Math.abs(polygonAreaRing(poly[0]));
@@ -379,7 +291,6 @@ function geometryCentroid(geometry) {
   let totalX = 0;
   let totalY = 0;
   let totalArea = 0;
-
   const addRing = (ring) => {
     let ringArea = 0;
     let cx = 0;
@@ -394,18 +305,13 @@ function geometryCentroid(geometry) {
     }
     ringArea *= 0.5;
     if (Math.abs(ringArea) < 1e-9) return;
-    totalX += cx / (6 * ringArea) * Math.abs(ringArea);
-    totalY += cy / (6 * ringArea) * Math.abs(ringArea);
+    totalX += (cx / (6 * ringArea)) * Math.abs(ringArea);
+    totalY += (cy / (6 * ringArea)) * Math.abs(ringArea);
     totalArea += Math.abs(ringArea);
   };
-
   if (!geometry) return [0, 0];
-  if (geometry.type === 'Polygon') {
-    addRing(geometry.coordinates[0]);
-  } else if (geometry.type === 'MultiPolygon') {
-    for (const poly of geometry.coordinates) addRing(poly[0]);
-  }
-
+  if (geometry.type === 'Polygon') addRing(geometry.coordinates[0]);
+  else if (geometry.type === 'MultiPolygon') for (const poly of geometry.coordinates) addRing(poly[0]);
   if (totalArea <= 0) return [0, 0];
   return [totalX / totalArea, totalY / totalArea];
 }
@@ -415,21 +321,17 @@ function geometryBounds(geometry) {
   let minLat = Infinity;
   let maxLon = -Infinity;
   let maxLat = -Infinity;
-
-  const visitCoord = (coord) => {
-    const [lon, lat] = coord;
+  const visitCoord = ([lon, lat]) => {
     if (lon < minLon) minLon = lon;
     if (lon > maxLon) maxLon = lon;
     if (lat < minLat) minLat = lat;
     if (lat > maxLat) maxLat = lat;
   };
-
   if (geometry.type === 'Polygon') {
     for (const ring of geometry.coordinates) for (const coord of ring) visitCoord(coord);
   } else if (geometry.type === 'MultiPolygon') {
     for (const poly of geometry.coordinates) for (const ring of poly) for (const coord of ring) visitCoord(coord);
   }
-
   if (!Number.isFinite(minLon)) return null;
   return { minLon, minLat, maxLon, maxLat };
 }
@@ -450,37 +352,10 @@ function toPolygons(geometry) {
   return [];
 }
 
-function pointInRing(point, ring) {
-  const [x, y] = point;
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const xi = ring[i][0];
-    const yi = ring[i][1];
-    const xj = ring[j][0];
-    const yj = ring[j][1];
-    const intersects = ((yi > y) !== (yj > y))
-      && (x < ((xj - xi) * (y - yi)) / ((yj - yi) || 1e-12) + xi);
-    if (intersects) inside = !inside;
-  }
-  return inside;
-}
-
-function pointInPolygon(point, polygon) {
-  if (!polygon || polygon.length === 0) return false;
-  if (!pointInRing(point, polygon[0])) return false;
-  for (let i = 1; i < polygon.length; i++) {
-    if (pointInRing(point, polygon[i])) return false;
-  }
-  return true;
-}
-
-function pointInGeometry(point, geometry) {
-  if (!geometry) return false;
-  const polys = toPolygons(geometry);
-  for (const poly of polys) {
-    if (pointInPolygon(point, poly)) return true;
-  }
-  return false;
+function geometryFromPolygons(polygons) {
+  if (!polygons || polygons.length === 0) return null;
+  if (polygons.length === 1) return { type: 'Polygon', coordinates: polygons[0] };
+  return { type: 'MultiPolygon', coordinates: polygons };
 }
 
 function pointSegmentDistanceSq(point, start, end) {
@@ -499,10 +374,8 @@ function pointSegmentDistanceSq(point, start, end) {
     return vx * vx + vy * vy;
   }
   const t = clamp(((px - sx) * dx + (py - sy) * dy) / lenSq, 0, 1);
-  const projX = sx + t * dx;
-  const projY = sy + t * dy;
-  const vx = px - projX;
-  const vy = py - projY;
+  const vx = px - (sx + t * dx);
+  const vy = py - (sy + t * dy);
   return vx * vx + vy * vy;
 }
 
@@ -524,7 +397,6 @@ function segmentsIntersect(a, b, c, d, epsilon) {
   const o2 = orientation(a, b, d);
   const o3 = orientation(c, d, a);
   const o4 = orientation(c, d, b);
-
   if ((o1 > epsilon && o2 < -epsilon || o1 < -epsilon && o2 > epsilon)
     && (o3 > epsilon && o4 < -epsilon || o3 < -epsilon && o4 > epsilon)) {
     return true;
@@ -552,13 +424,7 @@ function segmentDistanceSq(segA, segB, epsilon) {
 
 function ownerTagForFeature(props) {
   const adminName = normalizeName(
-    props.admin
-    || props.ADMIN
-    || props.adm0_name
-    || props.geonunit
-    || props.GEOUNIT
-    || props.NAME_LONG
-    || props.NAME,
+    props.admin || props.ADMIN || props.adm0_name || props.geonunit || props.GEOUNIT || props.NAME_LONG || props.NAME,
   );
   const geonunit = normalizeName(props.geonunit || props.GEOUNIT || '');
   const iso2 = normalizeName(props.iso_a2 || props.ISO_A2 || '');
@@ -584,24 +450,6 @@ function historicalOwnerOverride(baseTag, lon, lat, adminName, stateName) {
   const admin = normalizeName(adminName);
   const state = normalizeName(stateName);
   if (admin === 'united states of america' && state === 'texas') return 'TEX';
-  if (admin === 'germany') {
-    if (lat >= 52.5 && lon < 10.4) return 'HAN';
-    if (lon >= 12.4 && lat >= 50.4) return 'SAX';
-    if (lat < 49.4 && lon >= 10.2) return 'BAV';
-    if (lat < 49.2 && lon < 8.5) return 'BAD';
-    if (lat < 49.9 && lon >= 8.5 && lon < 10.2) return 'WUR';
-    if (lon >= 8.3 && lon < 10.8 && lat >= 49.6 && lat < 51.9) return 'HES';
-    return 'PRU';
-  }
-  if (admin === 'italy') {
-    if (lon >= 9.2 && lat >= 44.8) return 'AUS'; // Lombardy-Venetia under Austria
-    if (lat < 40.9) return 'TSC'; // Two Sicilies
-    if (lat >= 43.1 && lon >= 9.1 && lon < 10.8) return 'TUS';
-    if (lat >= 43.8 && lon >= 10.8 && lon < 11.6) return 'PAR';
-    if (lat >= 43.8 && lon >= 11.6 && lon < 12.6) return 'MOD';
-    if (lat >= 41.0 && lat < 43.8 && lon >= 11.0 && lon < 14.8) return 'PAP';
-    return 'SAR';
-  }
   if (admin === 'belgium') return 'BEL';
   if (admin === 'greece') return 'GRE';
   if (admin === 'denmark') return 'DEN';
@@ -620,19 +468,12 @@ function historicalOwnerOverride(baseTag, lon, lat, adminName, stateName) {
   if (admin === 'vietnam') return 'VIE';
   if (admin === 'myanmar' || admin === 'burma') return 'BUR';
   if (
-    admin === 'egypt'
-    || admin === 'sudan'
-    || admin === 'south sudan'
-    || admin === 'syria'
-    || admin === 'lebanon'
-    || admin === 'israel'
-    || admin === 'jordan'
-    || admin === 'palestine'
+    admin === 'egypt' || admin === 'sudan' || admin === 'south sudan' || admin === 'syria'
+    || admin === 'lebanon' || admin === 'israel' || admin === 'jordan' || admin === 'palestine'
   ) {
     return 'EGY';
   }
   if (admin === 'indonesia') {
-    // Keep Dutch control concentrated in Java/Sumatra/Moluccas.
     const java = lon >= 104.5 && lon <= 114.9 && lat >= -9.6 && lat <= -5.2;
     const sumatra = lon >= 94.8 && lon <= 106.6 && lat >= -6.7 && lat <= 6.3;
     const moluccas = lon >= 124.0 && lon <= 133.8 && lat >= -4.8 && lat <= 3.6;
@@ -651,9 +492,7 @@ function terrainForCell(lat, lon, parentName, regionHint) {
   if (
     (lat > 12 && lat < 36 && lon > -20 && lon < 60)
     || (lat > 12 && lat < 35 && lon > 40 && lon < 80)
-    || label.includes('sahara')
-    || label.includes('arab')
-    || label.includes('desert')
+    || label.includes('sahara') || label.includes('arab') || label.includes('desert')
   ) {
     return 'desert';
   }
@@ -661,17 +500,14 @@ function terrainForCell(lat, lon, parentName, regionHint) {
     (lat > -12 && lat < 12 && lon > -80 && lon < -45)
     || (lat > -8 && lat < 18 && lon > 10 && lon < 35)
     || (lat > -8 && lat < 18 && lon > 95 && lon < 140)
-    || label.includes('amazon')
-    || label.includes('congo')
+    || label.includes('amazon') || label.includes('congo')
   ) {
     return 'jungle';
   }
   if (
     (lat > 27 && lat < 45 && lon > 65 && lon < 108)
     || (lat > -42 && lat < -18 && lon > -75 && lon < -64)
-    || label.includes('alps')
-    || label.includes('rocky')
-    || label.includes('himal')
+    || label.includes('alps') || label.includes('rocky') || label.includes('himal')
   ) {
     return 'mountains';
   }
@@ -694,11 +530,11 @@ function rgoForTerrain(terrain, lat, lon, salt) {
 
 function populationWeight(lat, lon, terrain) {
   let weight = 1;
-  if (lon > -12 && lon < 42 && lat > 35 && lat < 60) weight *= 2.05; // Europe
-  if (lon > 67 && lon < 93 && lat > 7 && lat < 34) weight *= 2.15; // India
-  if (lon > 102 && lon < 124 && lat > 20 && lat < 42) weight *= 2.3; // China core
-  if (lon > 126 && lon < 146 && lat > 31 && lat < 43) weight *= 1.7; // Japan/Korea
-  if (lon > 90 && lon < 121 && lat > -8 && lat < 24) weight *= 1.45; // SE Asia
+  if (lon > -12 && lon < 42 && lat > 35 && lat < 60) weight *= 2.05;
+  if (lon > 67 && lon < 93 && lat > 7 && lat < 34) weight *= 2.15;
+  if (lon > 102 && lon < 124 && lat > 20 && lat < 42) weight *= 2.3;
+  if (lon > 126 && lon < 146 && lat > 31 && lat < 43) weight *= 1.7;
+  if (lon > 90 && lon < 121 && lat > -8 && lat < 24) weight *= 1.45;
   if (Math.abs(lat) > 58) weight *= 0.42;
   if (terrain === 'desert') weight *= 0.4;
   if (terrain === 'mountains') weight *= 0.62;
@@ -707,38 +543,17 @@ function populationWeight(lat, lon, terrain) {
   return roundCoord(clamp(weight, 0.18, 3.2));
 }
 
-function centerOfCell(lonMin, lonStep, latMin, latStep, col, row) {
-  return [
-    lonMin + (col + 0.5) * lonStep,
-    latMin + (row + 0.5) * latStep,
-  ];
-}
-
-function cellPolygon(lonMin, lonStep, latMin, latStep, col, row) {
-  const west = lonMin + col * lonStep;
-  const east = west + lonStep;
-  const south = latMin + row * latStep;
-  const north = south + latStep;
-  return [[
-    [roundCoord(west), roundCoord(north)],
-    [roundCoord(east), roundCoord(north)],
-    [roundCoord(east), roundCoord(south)],
-    [roundCoord(west), roundCoord(south)],
-    [roundCoord(west), roundCoord(north)],
-  ]];
-}
-
 function loadNameFromProps(props) {
   return String(
-    props.name
-    || props.NAME
-    || props.name_en
+    props.name_en
     || props.NAME_EN
+    || props.name
+    || props.NAME
     || props.NAME_LONG
     || props.ADMIN
     || props.admin
     || 'Unknown',
-  );
+  ).trim();
 }
 
 function loadAdminNameFromProps(props) {
@@ -753,17 +568,12 @@ function loadAdminNameFromProps(props) {
     || props.name
     || props.NAME
     || 'Unknown',
-  );
+  ).trim();
 }
 
 function loadRegionHint(props) {
   return String(
-    props.region
-    || props.region_un
-    || props.REGION_UN
-    || props.continent
-    || props.CONTINENT
-    || '',
+    props.region || props.region_un || props.REGION_UN || props.continent || props.CONTINENT || '',
   );
 }
 
@@ -780,7 +590,19 @@ function deterministicParentSort(a, b) {
   );
 }
 
-function buildParentsFromGeojson(geojson, tolerance, keyPrefix = '') {
+function deterministicUnitSort(a, b) {
+  return (
+    a.countryKey.localeCompare(b.countryKey)
+    || normalizeName(a.stateName).localeCompare(normalizeName(b.stateName))
+    || a.parentKey.localeCompare(b.parentKey)
+    || String(a.partitionKey || '').localeCompare(String(b.partitionKey || ''))
+    || b.area - a.area
+    || a.centroid[0] - b.centroid[0]
+    || a.centroid[1] - b.centroid[1]
+  );
+}
+
+function buildParentsFromGeojson(geojson, tolerance, keyPrefix = '', forceCountryName = false) {
   const features = Array.isArray(geojson.features) ? geojson.features : [];
   const parents = [];
   for (let i = 0; i < features.length; i++) {
@@ -791,8 +613,8 @@ function buildParentsFromGeojson(geojson, tolerance, keyPrefix = '') {
     if (!bbox) continue;
     const area = Math.max(1e-6, geometryArea(simplified));
     const centroid = geometryCentroid(simplified);
-    const stateName = loadNameFromProps(props);
     const adminName = loadAdminNameFromProps(props);
+    const stateName = forceCountryName ? adminName : loadNameFromProps(props);
     const ownerTag = ownerTagForFeature(props);
     const key = String(
       props.adm1_code
@@ -803,8 +625,6 @@ function buildParentsFromGeojson(geojson, tolerance, keyPrefix = '') {
       || props.ADM0_A3
       || props.iso_a2
       || props.ISO_A2
-      || props.sov_a3
-      || props.SOV_A3
       || `${adminName}:${stateName}:${i + 1}`,
     );
     parents.push({
@@ -820,196 +640,6 @@ function buildParentsFromGeojson(geojson, tolerance, keyPrefix = '') {
     });
   }
   return parents.sort(deterministicParentSort);
-}
-
-function proceduralParents() {
-  const pseudo = [];
-  const continents = [
-    { key: 'na', ownerTag: 'USA', stateName: 'North America', bbox: { minLon: -170, minLat: 10, maxLon: -50, maxLat: 72 } },
-    { key: 'sa', ownerTag: 'BRA', stateName: 'South America', bbox: { minLon: -84, minLat: -56, maxLon: -33, maxLat: 13 } },
-    { key: 'eu', ownerTag: 'PRU', stateName: 'Europe', bbox: { minLon: -12, minLat: 35, maxLon: 45, maxLat: 72 } },
-    { key: 'af', ownerTag: 'UNC', stateName: 'Africa', bbox: { minLon: -18, minLat: -35, maxLon: 52, maxLat: 36 } },
-    { key: 'as', ownerTag: 'QNG', stateName: 'Asia', bbox: { minLon: 45, minLat: -5, maxLon: 170, maxLat: 76 } },
-    { key: 'oc', ownerTag: 'ENG', stateName: 'Oceania', bbox: { minLon: 110, minLat: -48, maxLon: 180, maxLat: -6 } },
-  ];
-
-  const ellipse = (lon, lat, cx, cy, rx, ry) => {
-    const dx = (lon - cx) / rx;
-    const dy = (lat - cy) / ry;
-    return dx * dx + dy * dy <= 1;
-  };
-
-  const proceduralLandMask = (lon, lat) => (
-    ellipse(lon, lat, -102, 48, 56, 27)
-    || ellipse(lon, lat, -86, 19, 20, 12)
-    || ellipse(lon, lat, -60, -16, 24, 36)
-    || ellipse(lon, lat, 18, 53, 28, 15)
-    || ellipse(lon, lat, 24, 8, 30, 37)
-    || ellipse(lon, lat, 86, 44, 78, 28)
-    || ellipse(lon, lat, 106, 18, 43, 23)
-    || ellipse(lon, lat, 134, -26, 22, 15)
-    || ellipse(lon, lat, -42, 72, 14, 10)
-  );
-
-  for (const c of continents) {
-    pseudo.push({
-      key: c.key,
-      stateName: c.stateName,
-      ownerTag: c.ownerTag,
-      adminName: c.stateName,
-      region: c.stateName,
-      bbox: c.bbox,
-      area: (c.bbox.maxLon - c.bbox.minLon) * (c.bbox.maxLat - c.bbox.minLat),
-      centroid: [(c.bbox.minLon + c.bbox.maxLon) * 0.5, (c.bbox.minLat + c.bbox.maxLat) * 0.5],
-      geometry: {
-        type: 'Polygon',
-        coordinates: [[
-          [c.bbox.minLon, c.bbox.maxLat],
-          [c.bbox.maxLon, c.bbox.maxLat],
-          [c.bbox.maxLon, c.bbox.minLat],
-          [c.bbox.minLon, c.bbox.minLat],
-          [c.bbox.minLon, c.bbox.maxLat],
-        ]],
-      },
-      proceduralLandMask,
-    });
-  }
-  return pseudo;
-}
-
-function isEuropeLike(unit) {
-  const region = normalizeName(unit.region || '');
-  if (region.includes('europe')) return true;
-  const lon = unit.centroid[0];
-  const lat = unit.centroid[1];
-  return (
-    lon >= EUROPE_BOUNDS.minLon
-    && lon <= EUROPE_BOUNDS.maxLon
-    && lat >= EUROPE_BOUNDS.minLat
-    && lat <= EUROPE_BOUNDS.maxLat
-  );
-}
-
-function splitToPolygonUnits(parents) {
-  const units = [];
-  for (const parent of parents) {
-    const polygons = toPolygons(parent.geometry);
-    for (let partIndex = 0; partIndex < polygons.length; partIndex++) {
-      const polygon = polygons[partIndex];
-      if (!Array.isArray(polygon) || polygon.length === 0) continue;
-      const ring = ensureClosedRing(polygon[0] || []);
-      if (ring.length < 4) continue;
-      const area = Math.abs(polygonAreaRing(ring));
-      if (area <= 1e-10) continue;
-      const geometry = { type: 'Polygon', coordinates: [ring, ...polygon.slice(1)] };
-      const centroid = geometryCentroid(geometry);
-      const bbox = geometryBounds(geometry);
-      if (!bbox) continue;
-      units.push({
-        parentKey: parent.key,
-        stateName: parent.stateName,
-        ownerTag: parent.ownerTag,
-        adminName: parent.adminName,
-        region: parent.region,
-        countryKey: countryKeyForParent(parent),
-        partIndex,
-        partitionKey: `${partIndex}`,
-        polygons: [geometry.coordinates],
-        area,
-        centroid,
-        bbox,
-      });
-    }
-  }
-  return units;
-}
-
-function weightedCentroid(polygons) {
-  let totalArea = 0;
-  let x = 0;
-  let y = 0;
-  for (const polygon of polygons) {
-    const geometry = { type: 'Polygon', coordinates: polygon };
-    const area = Math.max(1e-10, geometryArea(geometry));
-    const centroid = geometryCentroid(geometry);
-    x += centroid[0] * area;
-    y += centroid[1] * area;
-    totalArea += area;
-  }
-  if (totalArea <= 0) return [0, 0];
-  return [x / totalArea, y / totalArea];
-}
-
-function mergeAndDropTinySlivers(units) {
-  const byParent = new Map();
-  for (const unit of units) {
-    const list = byParent.get(unit.parentKey) ?? [];
-    list.push({ ...unit });
-    byParent.set(unit.parentKey, list);
-  }
-
-  const merged = [];
-  let mergedSlivers = 0;
-  let droppedSlivers = 0;
-  for (const [parentKey, group] of byParent.entries()) {
-    group.sort((a, b) => b.area - a.area || a.partIndex - b.partIndex);
-    const keepMinimum = Math.min(
-      group.length,
-      Math.max(1, isEuropeLike(group[0]) ? 2 : 1),
-    );
-    const tinyFloor = isEuropeLike(group[0]) ? SLIVER_ABS_AREA * 0.5 : SLIVER_ABS_AREA;
-
-    const keepers = [];
-    const slivers = [];
-    group.forEach((unit, index) => {
-      if (index < keepMinimum || unit.area >= tinyFloor) keepers.push(unit);
-      else slivers.push(unit);
-    });
-
-    if (keepers.length === 0) keepers.push(group[0]);
-
-    for (const sliver of slivers) {
-      let best = null;
-      let bestDistance = Infinity;
-      for (const candidate of keepers) {
-        const dx = sliver.centroid[0] - candidate.centroid[0];
-        const dy = sliver.centroid[1] - candidate.centroid[1];
-        const distance = dx * dx + dy * dy;
-        if (distance < bestDistance) {
-          bestDistance = distance;
-          best = candidate;
-        }
-      }
-      if (!best) {
-        droppedSlivers += 1;
-        continue;
-      }
-      best.polygons.push(...sliver.polygons);
-      best.area += sliver.area;
-      best.centroid = weightedCentroid(best.polygons);
-      best.bbox = geometryBounds({
-        type: best.polygons.length === 1 ? 'Polygon' : 'MultiPolygon',
-        coordinates: best.polygons.length === 1 ? best.polygons[0] : best.polygons,
-      });
-      mergedSlivers += 1;
-    }
-
-    for (const keeper of keepers) {
-      keeper.parentKey = parentKey;
-      merged.push(keeper);
-    }
-  }
-
-  merged.sort((a, b) => (
-    a.countryKey.localeCompare(b.countryKey)
-    || normalizeName(a.stateName).localeCompare(normalizeName(b.stateName))
-    || a.parentKey.localeCompare(b.parentKey)
-    || String(a.partitionKey || '').localeCompare(String(b.partitionKey || ''))
-    || b.area - a.area
-    || a.centroid[0] - b.centroid[0]
-    || a.centroid[1] - b.centroid[1]
-  ));
-  return { units: merged, mergedSlivers, droppedSlivers };
 }
 
 function clipRingByAxis(ring, axis, threshold, keepLower) {
@@ -1036,11 +666,9 @@ function clipRingByAxis(ring, axis, threshold, keepLower) {
     const next = closed[i + 1];
     const currentInside = inside(current);
     const nextInside = inside(next);
-    if (currentInside && nextInside) {
-      output.push(next);
-    } else if (currentInside && !nextInside) {
-      output.push(intersect(current, next));
-    } else if (!currentInside && nextInside) {
+    if (currentInside && nextInside) output.push(next);
+    else if (currentInside && !nextInside) output.push(intersect(current, next));
+    else if (!currentInside && nextInside) {
       output.push(intersect(current, next));
       output.push(next);
     }
@@ -1059,221 +687,223 @@ function clipRingByAxis(ring, axis, threshold, keepLower) {
   return closedOut;
 }
 
-function rebuildUnitFromPolygons(unit, polygons, partitionKey) {
-  const geometry = geometryFromPolygons(polygons);
+function clipPolygonToBBox(polygon, bbox) {
+  let ring = ensureClosedRing(polygon[0] || []);
+  if (ring.length < 4) return null;
+  ring = clipRingByAxis(ring, 'x', bbox.maxLon, true);
+  if (!ring) return null;
+  ring = clipRingByAxis(ring, 'x', bbox.minLon, false);
+  if (!ring) return null;
+  ring = clipRingByAxis(ring, 'y', bbox.maxLat, true);
+  if (!ring) return null;
+  ring = clipRingByAxis(ring, 'y', bbox.minLat, false);
+  if (!ring) return null;
+  return [ring];
+}
+
+function clipGeometryToBBox(geometry, bbox) {
+  const out = [];
+  for (const polygon of toPolygons(geometry)) {
+    const clipped = clipPolygonToBBox(polygon, bbox);
+    if (clipped && Math.abs(polygonAreaRing(clipped[0])) > 1e-8) out.push(clipped);
+  }
+  return geometryFromPolygons(out);
+}
+
+function subtractBBoxFromGeometry(geometry, bbox) {
+  const sides = [
+    { minLon: -180, maxLon: bbox.minLon, minLat: -90, maxLat: 90 },
+    { minLon: bbox.maxLon, maxLon: 180, minLat: -90, maxLat: 90 },
+    { minLon: bbox.minLon, maxLon: bbox.maxLon, minLat: -90, maxLat: bbox.minLat },
+    { minLon: bbox.minLon, maxLon: bbox.maxLon, minLat: bbox.maxLat, maxLat: 90 },
+  ];
+  const parts = [];
+  for (const side of sides) {
+    const clipped = clipGeometryToBBox(geometry, side);
+    if (!clipped) continue;
+    parts.push(...toPolygons(clipped));
+  }
+  return geometryFromPolygons(parts);
+}
+
+function weightedCentroid(polygons) {
+  let totalArea = 0;
+  let x = 0;
+  let y = 0;
+  for (const polygon of polygons) {
+    const geometry = { type: 'Polygon', coordinates: polygon };
+    const area = Math.max(1e-10, geometryArea(geometry));
+    const centroid = geometryCentroid(geometry);
+    x += centroid[0] * area;
+    y += centroid[1] * area;
+    totalArea += area;
+  }
+  if (totalArea <= 0) return [0, 0];
+  return [x / totalArea, y / totalArea];
+}
+
+function unitFromGeometry(base, geometry, stateName, ownerTag, partitionKey) {
+  if (!geometry) return null;
+  const polygons = toPolygons(geometry);
+  if (polygons.length === 0) return null;
+  const area = Math.max(1e-9, geometryArea(geometry));
+  const centroid = weightedCentroid(polygons);
   const bbox = geometryBounds(geometry);
   if (!bbox) return null;
   return {
-    ...unit,
-    polygons,
+    parentKey: `${base.parentKey}:${partitionKey}`,
+    stateName,
+    ownerTag,
+    adminName: base.adminName,
+    region: base.region,
+    countryKey: base.countryKey || countryKeyForParent(base),
+    partIndex: 0,
     partitionKey,
-    area: Math.max(1e-9, geometryArea(geometry)),
-    centroid: weightedCentroid(polygons),
+    polygons,
+    area,
+    centroid,
     bbox,
+    lockedOwner: Boolean(ownerTag),
   };
 }
 
-function splitUnitOnce(unit) {
-  if (!unit.bbox || unit.area < 0.035) return null;
-  const width = unit.bbox.maxLon - unit.bbox.minLon;
-  const height = unit.bbox.maxLat - unit.bbox.minLat;
-  if (Math.max(width, height) < 0.95) return null;
-  if ((unit.partitionKey || '').length >= 10) return null;
+function partitionHistoricalCountry(parent, regions) {
+  const named = regions.filter((region) => region.bounds);
+  const remainder = regions.find((region) => region.bounds === null);
+  const units = [];
 
-  const primaryAxis = width >= height ? 'x' : 'y';
-  const secondaryAxis = primaryAxis === 'x' ? 'y' : 'x';
-  const cuts = [
-    { axis: primaryAxis, cut: primaryAxis === 'x' ? unit.centroid[0] : unit.centroid[1] },
-    { axis: primaryAxis, cut: primaryAxis === 'x' ? (unit.bbox.minLon + unit.bbox.maxLon) * 0.5 : (unit.bbox.minLat + unit.bbox.maxLat) * 0.5 },
-    { axis: secondaryAxis, cut: secondaryAxis === 'x' ? unit.centroid[0] : unit.centroid[1] },
-  ];
-
-  for (const attempt of cuts) {
-    const lowerPolygons = [];
-    const upperPolygons = [];
-    for (const polygon of unit.polygons) {
-      const outerRing = polygon[0];
-      if (!outerRing || outerRing.length < 4) continue;
-      const lower = clipRingByAxis(outerRing, attempt.axis, attempt.cut, true);
-      const upper = clipRingByAxis(outerRing, attempt.axis, attempt.cut, false);
-      if (lower) lowerPolygons.push([lower]);
-      if (upper) upperPolygons.push([upper]);
-    }
-    if (lowerPolygons.length === 0 || upperPolygons.length === 0) continue;
-    const lowerUnit = rebuildUnitFromPolygons(unit, lowerPolygons, `${unit.partitionKey}a`);
-    const upperUnit = rebuildUnitFromPolygons(unit, upperPolygons, `${unit.partitionKey}b`);
-    if (!lowerUnit || !upperUnit) continue;
-    const areaRatio = Math.min(lowerUnit.area, upperUnit.area) / Math.max(lowerUnit.area, upperUnit.area);
-    if (areaRatio < 0.08) continue;
-    return [lowerUnit, upperUnit];
+  // Clip each named region from the original country outline (exclusive bounds → real outer borders).
+  for (const region of named) {
+    const pieceGeometry = clipGeometryToBBox(parent.geometry, region.bounds);
+    const unit = unitFromGeometry(
+      parent,
+      pieceGeometry,
+      region.name,
+      region.ownerTag,
+      `hist-${normalizeName(region.name).replace(/\s+/g, '-')}`,
+    );
+    if (unit && unit.area > 1e-6) units.push(unit);
   }
-  return null;
-}
 
-function unitTerrainAndPopulation(unit) {
-  const lon = unit.centroid[0];
-  const lat = unit.centroid[1];
-  const terrain = terrainForCell(lat, lon, unit.stateName, unit.region);
-  const pop = populationWeight(lat, lon, terrain);
-  return { terrain, pop };
-}
-
-function inSparseSprawlRegion(unit, terrain, pop) {
-  const lon = unit.centroid[0];
-  const lat = unit.centroid[1];
-  if (terrain === 'arctic' || (Math.abs(lat) > 64 && pop < 0.65)) return true;
-  const siberia = lon >= 60 && lon <= 180 && lat >= 54;
-  const sahara = lon >= -20 && lon <= 35 && lat >= 12 && lat <= 35;
-  const outback = lon >= 112 && lon <= 152 && lat >= -36 && lat <= -18;
-  const arcticCanada = lon >= -145 && lon <= -55 && lat >= 60;
-  return siberia || sahara || outback || arcticCanada;
-}
-
-function splitDesirability(unit) {
-  const { terrain, pop } = unitTerrainAndPopulation(unit);
-  const europeBoost = isEuropeLike(unit) ? 2.5 : 1;
-  const sprawlPenalty = inSparseSprawlRegion(unit, terrain, pop) ? 0.45 : 1;
-  const areaFactor = Math.sqrt(Math.max(unit.area, 1e-9));
-  return pop * areaFactor * europeBoost * sprawlPenalty;
-}
-
-function retentionScore(unit) {
-  const { terrain, pop } = unitTerrainAndPopulation(unit);
-  const europeBoost = isEuropeLike(unit) ? 3.0 : 1;
-  const populatedCoastBias = pop >= 1 ? 1.25 : 0.95;
-  const harshPenalty = inSparseSprawlRegion(unit, terrain, pop) ? 0.35 : 1;
-  return pop * europeBoost * populatedCoastBias * harshPenalty * Math.log1p(Math.max(unit.area, 1e-9));
-}
-
-function trimPriority(unit) {
-  const { terrain, pop } = unitTerrainAndPopulation(unit);
-  const sparseBonus = inSparseSprawlRegion(unit, terrain, pop) ? 2.3 : 1;
-  return sparseBonus * (Math.max(unit.area, 1e-9) / Math.max(0.15, pop));
-}
-
-function deterministicUnitSort(a, b) {
-  return (
-    a.countryKey.localeCompare(b.countryKey)
-    || normalizeName(a.stateName).localeCompare(normalizeName(b.stateName))
-    || a.parentKey.localeCompare(b.parentKey)
-    || String(a.partitionKey || '').localeCompare(String(b.partitionKey || ''))
-    || b.area - a.area
-    || a.centroid[0] - b.centroid[0]
-    || a.centroid[1] - b.centroid[1]
-  );
-}
-
-function densifyProvinceUnits(units, targetCount) {
-  if (units.length >= targetCount) return { units: units.slice().sort(deterministicUnitSort), densifySplits: 0 };
-  const working = units.slice().sort(deterministicUnitSort);
-  const blocked = new Set();
-  let densifySplits = 0;
-  while (working.length < targetCount) {
-    let bestIndex = -1;
-    let bestScore = -Infinity;
-    for (let i = 0; i < working.length; i++) {
-      const unit = working[i];
-      const key = `${unit.parentKey}|${unit.partitionKey}`;
-      if (blocked.has(key)) continue;
-      const score = splitDesirability(unit);
-      if (
-        score > bestScore
-        || (
-          Math.abs(score - bestScore) <= 1e-12
-          && bestIndex >= 0
-          && deterministicUnitSort(unit, working[bestIndex]) < 0
-        )
-      ) {
-        bestScore = score;
-        bestIndex = i;
-      }
+  if (remainder) {
+    let leftover = parent.geometry;
+    for (const region of named) {
+      leftover = subtractBBoxFromGeometry(leftover, region.bounds);
     }
-    if (bestIndex < 0) break;
-    const candidate = working[bestIndex];
-    const candidateKey = `${candidate.parentKey}|${candidate.partitionKey}`;
-    const split = splitUnitOnce(candidate);
-    if (!split) {
-      blocked.add(candidateKey);
+    const unit = unitFromGeometry(
+      parent,
+      leftover,
+      remainder.name,
+      remainder.ownerTag,
+      `hist-${normalizeName(remainder.name).replace(/\s+/g, '-')}`,
+    );
+    if (unit && unit.area > 1e-6) units.push(unit);
+  }
+  return units;
+}
+
+function parentsToUnits(parents) {
+  const units = [];
+  for (const parent of parents) {
+    const adminKey = normalizeName(parent.adminName);
+    const partition = HISTORICAL_PARTITIONS[adminKey];
+    if (partition) {
+      const base = {
+        ...parent,
+        countryKey: countryKeyForParent(parent),
+      };
+      units.push(...partitionHistoricalCountry(base, partition));
       continue;
     }
-    blocked.delete(candidateKey);
-    working.splice(bestIndex, 1, split[0], split[1]);
-    densifySplits += 1;
-    if (densifySplits > 5000) break;
+    const geometry = parent.geometry;
+    const polygons = toPolygons(geometry);
+    if (polygons.length === 0) continue;
+    units.push({
+      parentKey: parent.key,
+      stateName: parent.stateName,
+      ownerTag: parent.ownerTag,
+      adminName: parent.adminName,
+      region: parent.region,
+      countryKey: countryKeyForParent(parent),
+      partIndex: 0,
+      partitionKey: '0',
+      polygons,
+      area: Math.max(1e-9, parent.area),
+      centroid: parent.centroid,
+      bbox: parent.bbox,
+      lockedOwner: false,
+    });
   }
-  return { units: working.sort(deterministicUnitSort), densifySplits };
+  return units.sort(deterministicUnitSort);
 }
 
-function selectProvinceUnits(units) {
-  const byCountry = new Map();
-  for (const unit of units) {
-    const list = byCountry.get(unit.countryKey) ?? [];
-    list.push(unit);
-    byCountry.set(unit.countryKey, list);
-  }
+function mergeTinySlivers(units) {
+  const working = units.map((unit) => ({ ...unit, polygons: unit.polygons.map((poly) => poly.map((ring) => ring.map((pt) => pt.slice()))) }));
+  working.sort((a, b) => a.area - b.area || deterministicUnitSort(a, b));
 
-  const guaranteedSet = new Set();
-  const pool = [];
-  for (const list of byCountry.values()) {
-    list.sort((a, b) => retentionScore(b) - retentionScore(a) || deterministicUnitSort(a, b));
-    const europeUnits = list.filter((unit) => isEuropeLike(unit));
-    const nonEuropeUnits = list.filter((unit) => !isEuropeLike(unit));
-    for (const europeUnit of europeUnits) guaranteedSet.add(europeUnit);
-    let minKeep = MIN_NON_EUROPE_KEEP_SMALL;
-    if (nonEuropeUnits.length >= 8) minKeep = MIN_NON_EUROPE_KEEP_MEDIUM;
-    if (nonEuropeUnits.length >= 20) minKeep = MIN_NON_EUROPE_KEEP_LARGE;
-    const guaranteedNonEurope = nonEuropeUnits.slice(0, Math.min(minKeep, nonEuropeUnits.length));
-    for (const guaranteedUnit of guaranteedNonEurope) guaranteedSet.add(guaranteedUnit);
-    pool.push(...nonEuropeUnits.slice(guaranteedNonEurope.length));
-  }
-  const guaranteed = Array.from(guaranteedSet);
-
-  pool.sort((a, b) => retentionScore(b) - retentionScore(a) || deterministicUnitSort(a, b));
-  const selectedSet = new Set(guaranteed);
-  for (const unit of pool) {
-    if (selectedSet.size >= TARGET_PROVINCES) break;
-    selectedSet.add(unit);
-  }
-  if (selectedSet.size < TARGET_PROVINCES) {
-    for (const unit of pool) selectedSet.add(unit);
-  }
-  const selected = Array.from(selectedSet);
-
-  const finalSet = new Set(selected);
-  let toDrop = Math.max(0, selected.length - MAX_PROVINCES);
-  const nonEuropeSelected = selected
-    .filter((unit) => !isEuropeLike(unit))
-    .sort((a, b) => trimPriority(b) - trimPriority(a) || deterministicUnitSort(a, b));
-  for (const unit of nonEuropeSelected) {
-    if (toDrop <= 0) break;
-    if (!finalSet.has(unit)) continue;
-    finalSet.delete(unit);
-    toDrop -= 1;
-  }
-  if (toDrop > 0) {
-    const europeFallback = selected
-      .filter((unit) => isEuropeLike(unit))
-      .sort((a, b) => retentionScore(a) - retentionScore(b) || deterministicUnitSort(a, b));
-    for (const unit of europeFallback) {
-      if (toDrop <= 0) break;
-      if (!finalSet.has(unit)) continue;
-      finalSet.delete(unit);
-      toDrop -= 1;
+  let mergedCount = 0;
+  const kept = [];
+  for (const unit of working) {
+    const isLargeEmpire = KEEP_LARGE_ADMINS.has(unit.countryKey);
+    const floor = isLargeEmpire ? SLIVER_ABS_AREA * 0.35 : SLIVER_ABS_AREA;
+    if (unit.area >= floor) {
+      kept.push(unit);
+      continue;
     }
+    let best = null;
+    let bestDistance = Infinity;
+    for (const candidate of kept) {
+      if (candidate.countryKey !== unit.countryKey && candidate.ownerTag !== unit.ownerTag) continue;
+      const dx = unit.centroid[0] - candidate.centroid[0];
+      const dy = unit.centroid[1] - candidate.centroid[1];
+      const distance = dx * dx + dy * dy;
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        best = candidate;
+      }
+    }
+    if (!best) {
+      for (const candidate of kept) {
+        const dx = unit.centroid[0] - candidate.centroid[0];
+        const dy = unit.centroid[1] - candidate.centroid[1];
+        const distance = dx * dx + dy * dy;
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = candidate;
+        }
+      }
+    }
+    if (!best) {
+      kept.push(unit);
+      continue;
+    }
+    best.polygons.push(...unit.polygons);
+    best.area += unit.area;
+    best.centroid = weightedCentroid(best.polygons);
+    best.bbox = geometryBounds(geometryFromPolygons(best.polygons));
+    mergedCount += 1;
   }
 
-  const finalUnits = Array.from(finalSet).sort(deterministicUnitSort);
-  return {
-    units: finalUnits,
-    droppedForCap: units.length - finalUnits.length,
-    europeBefore: units.filter((unit) => isEuropeLike(unit)).length,
-    europeAfter: finalUnits.filter((unit) => isEuropeLike(unit)).length,
-  };
+  return { units: kept.sort(deterministicUnitSort), mergedCount };
 }
 
-function geometryFromPolygons(polygons) {
-  if (polygons.length === 1) return { type: 'Polygon', coordinates: polygons[0] };
-  return { type: 'MultiPolygon', coordinates: polygons };
+function assignUniqueRealNames(units) {
+  const used = new Map();
+  for (const unit of units) {
+    let name = String(unit.stateName || unit.adminName || 'Unknown').trim();
+    const key = normalizeName(name);
+    if (!used.has(key)) {
+      used.set(key, unit.adminName);
+      unit.displayName = name;
+      continue;
+    }
+    const priorAdmin = used.get(key);
+    if (normalizeName(priorAdmin) !== normalizeName(unit.adminName)) {
+      name = `${name} (${unit.adminName})`;
+    }
+    unit.displayName = name;
+    used.set(normalizeName(name), unit.adminName);
+  }
 }
 
 function buildSegmentsFromGeometry(geometry) {
@@ -1309,12 +939,15 @@ function makeProvinceGeometryRecord(unit, id) {
   const lon = roundCoord(centroid[0]);
   const lat = roundCoord(centroid[1]);
   const terrain = terrainForCell(lat, lon, unit.stateName, unit.region);
+  const ownerTag = unit.lockedOwner
+    ? unit.ownerTag
+    : historicalOwnerOverride(unit.ownerTag, lon, lat, unit.adminName, unit.stateName);
   return {
     id,
-    name: '',
-    ownerTag: historicalOwnerOverride(unit.ownerTag, lon, lat, unit.adminName, unit.stateName),
+    name: unit.displayName || unit.stateName,
+    ownerTag,
     stateId: -1,
-    stateName: unit.stateName,
+    stateName: unit.displayName || unit.stateName,
     terrain,
     coastal: false,
     rgoGood: rgoForTerrain(terrain, lat, lon, unit.parentKey),
@@ -1355,8 +988,7 @@ function candidatePairsByGrid(provinces, cellSize) {
       for (let j = i + 1; j < list.length; j++) {
         const a = list[i];
         const b = list[j];
-        const key = a < b ? `${a}|${b}` : `${b}|${a}`;
-        pairs.add(key);
+        pairs.add(a < b ? `${a}|${b}` : `${b}|${a}`);
       }
     }
   }
@@ -1422,10 +1054,7 @@ function compactNationalBorders(provinces) {
       ? [{
         type: 'Feature',
         properties: { id: 0 },
-        geometry: {
-          type: 'MultiLineString',
-          coordinates,
-        },
+        geometry: { type: 'MultiLineString', coordinates },
       }]
       : [],
   };
@@ -1436,8 +1065,7 @@ function computeCoastalFlags(provinces) {
   for (const province of provinces) {
     for (const segment of province.segments) {
       const key = edgeKey(segment.start, segment.end, 220);
-      const count = edgeUse.get(key) ?? 0;
-      edgeUse.set(key, count + 1);
+      edgeUse.set(key, (edgeUse.get(key) ?? 0) + 1);
     }
   }
   for (const province of provinces) {
@@ -1507,28 +1135,24 @@ function buildProvinceRecords(units) {
   const stateKeyToId = new Map();
   const stateRecords = [];
   const provinceRecords = [];
-  const perStateCounter = new Map();
-
   const orderedUnits = units.slice().sort(deterministicUnitSort);
 
   for (const unit of orderedUnits) {
-    let stateId = stateKeyToId.get(unit.parentKey);
+    const stateKey = unit.parentKey;
+    let stateId = stateKeyToId.get(stateKey);
     if (stateId === undefined) {
       stateId = stateRecords.length;
-      stateKeyToId.set(unit.parentKey, stateId);
+      stateKeyToId.set(stateKey, stateId);
       stateRecords.push({
         id: stateId,
-        key: unit.parentKey,
-        name: unit.stateName,
+        key: stateKey,
+        name: unit.displayName || unit.stateName,
         ownerTag: unit.ownerTag,
         provinceIds: [],
       });
     }
-    const serial = (perStateCounter.get(unit.parentKey) ?? 0) + 1;
-    perStateCounter.set(unit.parentKey, serial);
     const province = makeProvinceGeometryRecord(unit, provinceRecords.length);
     province.stateId = stateId;
-    province.name = `${unit.stateName} ${serial}`;
     stateRecords[stateId].provinceIds.push(province.id);
     provinceRecords.push(province);
   }
@@ -1550,7 +1174,7 @@ function buildProvinceRecords(units) {
   return { provinceRecords, stateRecords, bridgedIslands };
 }
 
-function buildNations(provinces) {
+function buildNations(provinces, states) {
   const byTag = new Map();
   for (const province of provinces) {
     const tag = province.ownerTag in NATION_LIBRARY ? province.ownerTag : 'COL';
@@ -1566,6 +1190,14 @@ function buildNations(provinces) {
   for (const tag of REQUIRED_MINOR_TAGS) {
     if (!byTag.has(tag)) byTag.set(tag, { capital: fallbackCapital, score: 0 });
   }
+
+  const coresByTag = new Map();
+  for (const state of states) {
+    const list = coresByTag.get(state.ownerTag) ?? [];
+    list.push(state.id);
+    coresByTag.set(state.ownerTag, list);
+  }
+
   const tags = Array.from(byTag.keys()).sort((a, b) => a.localeCompare(b));
   const nations = [];
   for (const tag of tags) {
@@ -1577,9 +1209,33 @@ function buildNations(provinces) {
       government: def.government || GOV_DEFAULT,
       capitalProvinceId: byTag.get(tag)?.capital ?? 0,
       primaryCulture: def.primaryCulture || 'british',
+      coreStateIds: (coresByTag.get(tag) ?? []).slice().sort((a, b) => a - b),
     });
   }
   return nations;
+}
+
+function buildFormables(states) {
+  return FORMABLE_TEMPLATES.map((template) => {
+    const ownerSet = new Set(template.ownerTags);
+    const coreStateIds = states
+      .filter((state) => ownerSet.has(state.ownerTag))
+      .map((state) => state.id)
+      .sort((a, b) => a - b);
+    return {
+      key: template.key,
+      resultTag: template.resultTag,
+      resultName: template.resultName,
+      resultColor: template.resultColor,
+      resultPrimaryCulture: template.resultPrimaryCulture,
+      candidateTags: template.candidateTags.slice(),
+      coreStateIds,
+      requiredCoreShare: template.requiredCoreShare,
+      requireIndependent: template.requireIndependent,
+      requireGreatPower: template.requireGreatPower,
+      prestigeReward: template.prestigeReward,
+    };
+  });
 }
 
 function compactGeojson(provinces) {
@@ -1619,9 +1275,7 @@ async function loadSourceGeojson() {
       return { json: loaded.json, source: `raw:${filename}`, fallback: false, filename };
     }
   }
-
-  console.error('[build-map] LIVE GEOMETRY FETCH FAILED. Generating procedural fallback map over approximate coastline.');
-  return { json: null, source: 'procedural-fallback', fallback: true, filename: null };
+  throw new Error('No Natural Earth admin-1 source found in content/raw.');
 }
 
 async function loadAdmin0Geojson() {
@@ -1633,37 +1287,29 @@ async function loadAdmin0Geojson() {
 async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   const loaded = await loadSourceGeojson();
-  const sourceTolerance = loaded.filename?.includes('110m') ? 0.2 : 0.08;
+  let parents = buildParentsFromGeojson(loaded.json, SOURCE_TOLERANCE);
 
-  let parents = loaded.json
-    ? buildParentsFromGeojson(loaded.json, sourceTolerance)
-    : proceduralParents();
-
-  if (loaded.json) {
-    const countriesCovered = new Set(parents.map((parent) => normalizeName(parent.adminName)));
-    if (countriesCovered.size < ADMIN0_FALLBACK_COUNTRY_FLOOR) {
-      const admin0 = await loadAdmin0Geojson();
-      if (admin0?.json) {
-        const admin0Parents = buildParentsFromGeojson(admin0.json, 0.24, 'ADM0-')
-          .filter((parent) => !countriesCovered.has(normalizeName(parent.adminName)))
-          .map((parent) => ({ ...parent, stateName: parent.adminName }));
-        parents = [...parents, ...admin0Parents].sort(deterministicParentSort);
-        console.log(`[build-map] Admin-0 fallback appended: ${admin0Parents.length} parents from ${admin0.source}`);
-      } else {
-        console.warn('[build-map] Admin-0 fallback unavailable; continuing with sparse admin-1 geometry only.');
-      }
-    }
+  const countriesCovered = new Set(parents.map((parent) => normalizeName(parent.adminName)));
+  const admin0 = await loadAdmin0Geojson();
+  let admin0Appended = 0;
+  if (admin0?.json) {
+    const admin0Parents = buildParentsFromGeojson(admin0.json, ADMIN0_TOLERANCE, 'ADM0-', true)
+      .filter((parent) => !countriesCovered.has(normalizeName(parent.adminName)));
+    admin0Appended = admin0Parents.length;
+    parents = [...parents, ...admin0Parents].sort(deterministicParentSort);
+    console.log(`[build-map] Admin-0 countries appended: ${admin0Appended} from ${admin0.source}`);
+  } else {
+    console.warn('[build-map] Admin-0 fallback unavailable; continuing with admin-1 geometry only.');
   }
 
   if (parents.length === 0) {
     throw new Error('No valid parent geometries available for province generation.');
   }
 
-  const explodedUnits = splitToPolygonUnits(parents);
-  const sliverResult = mergeAndDropTinySlivers(explodedUnits);
-  const densifiedResult = densifyProvinceUnits(sliverResult.units, DENSIFY_TARGET_PROVINCES);
-  const selectedResult = selectProvinceUnits(densifiedResult.units);
-  const { provinceRecords, stateRecords, bridgedIslands } = buildProvinceRecords(selectedResult.units);
+  const baseUnits = parentsToUnits(parents);
+  const sliverResult = mergeTinySlivers(baseUnits);
+  assignUniqueRealNames(sliverResult.units);
+  const { provinceRecords, stateRecords, bridgedIslands } = buildProvinceRecords(sliverResult.units);
 
   if (provinceRecords.length < MIN_PROVINCES || provinceRecords.length > MAX_PROVINCES) {
     throw new Error(
@@ -1671,7 +1317,8 @@ async function main() {
     );
   }
 
-  const nations = buildNations(provinceRecords);
+  const nations = buildNations(provinceRecords, stateRecords);
+  const formables = buildFormables(stateRecords);
   const geojson = compactGeojson(provinceRecords);
   const nationalBorders = compactNationalBorders(provinceRecords);
   const nationalBorderSegments = nationalBorders.features[0]?.geometry?.coordinates?.length ?? 0;
@@ -1701,24 +1348,33 @@ async function main() {
       provinceIds: state.provinceIds,
     })),
     nations,
+    formables,
   };
 
   await writeFile(path.join(OUT_DIR, 'provinces.geo.json'), `${JSON.stringify(geojson)}\n`, 'utf8');
   await writeFile(path.join(OUT_DIR, 'nationalBorders.geo.json'), `${JSON.stringify(nationalBorders)}\n`, 'utf8');
   await writeFile(path.join(OUT_DIR, 'worldSeed.json'), `${JSON.stringify(worldSeed)}\n`, 'utf8');
 
+  const chinaCount = provinceRecords.filter((province) => (
+    normalizeName(province.countryKey || '') === 'china'
+    || normalizeName(province.stateName).match(/gansu|qinghai|guangxi|guizhou|chongqing|beijing|fujian|anhui|guangdong|tibet|xinjiang|hainan|ningxia|shaanxi|shanxi|hubei|hunan|sichuan|yunnan|hebei|henan|liaoning|shandong|tianjin|jiangxi|jiangsu|shanghai|zhejiang|jilin|inner mongolia|heilongjiang/)
+  )).length;
+  const qngCount = provinceRecords.filter((province) => province.ownerTag === 'QNG').length;
+  const numbered = provinceRecords.filter((province) => /\s\d+$/.test(province.name));
+  const sampleNames = ['Gansu', 'California', 'Bavaria', 'Prussia', 'France', 'Texas', 'Piedmont', 'Saxony']
+    .map((wanted) => provinceRecords.find((province) => province.name === wanted || province.name.startsWith(wanted))?.name)
+    .filter(Boolean);
+
   const geoGzipBytes = gzipSync(JSON.stringify(geojson)).length;
   console.log(`[build-map] Source: ${loaded.source}`);
-  console.log(`[build-map] Parents loaded: ${parents.length}`);
-  console.log(`[build-map] Polygon parts exploded: ${explodedUnits.length}`);
-  console.log(`[build-map] Slivers merged: ${sliverResult.mergedSlivers}`);
-  console.log(`[build-map] Slivers dropped: ${sliverResult.droppedSlivers}`);
-  console.log(`[build-map] Densify splits applied: ${densifiedResult.densifySplits}`);
-  console.log(`[build-map] Europe-like units before select: ${selectedResult.europeBefore}`);
-  console.log(`[build-map] Europe-like units after select: ${selectedResult.europeAfter}`);
-  console.log(`[build-map] Dropped for cap/target: ${selectedResult.droppedForCap}`);
+  console.log(`[build-map] Parents loaded: ${parents.length} (admin-1 + ${admin0Appended} admin-0)`);
+  console.log(`[build-map] Units before sliver merge: ${baseUnits.length}`);
+  console.log(`[build-map] Slivers merged: ${sliverResult.mergedCount}`);
   console.log(`[build-map] Island nearest-neighbor bridges: ${bridgedIslands}`);
   console.log(`[build-map] Provinces generated: ${provinceRecords.length}`);
+  console.log(`[build-map] China provinces: ${chinaCount} (QNG owned: ${qngCount})`);
+  console.log(`[build-map] Sample real names: ${sampleNames.join(', ') || '(none)'}`);
+  console.log(`[build-map] Numbered names remaining: ${numbered.length}`);
   console.log(`[build-map] National border segments: ${nationalBorderSegments}`);
   console.log(`[build-map] provinces.geo.json gzip bytes: ${geoGzipBytes}`);
 }

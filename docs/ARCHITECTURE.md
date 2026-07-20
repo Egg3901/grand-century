@@ -20,7 +20,7 @@ This is the contract every contributor — human or agent — builds against. `d
 
 ## Performance
 - Snapshots are compact summaries, not the whole world. Detailed views (a province's pops) are pulled on demand via `requestProvince`/`requestNation`.
-- Keep hot loops allocation-light. Province cap 800–1500.
+- Keep hot loops allocation-light. Province cap 300–700 (consolidated real admin-1 units).
 
 ## Verification gate (must pass before a milestone is committed)
 1. `npm run build` — typechecks + bundles clean.

@@ -108,9 +108,9 @@ function toHexColor(rgb: [number, number, number]): string {
 function muteColor(rgb: [number, number, number]): string {
   const parchment: [number, number, number] = [232, 220, 192];
   const mixed: [number, number, number] = [
-    parchment[0] * 0.5 + rgb[0] * 0.5,
-    parchment[1] * 0.5 + rgb[1] * 0.5,
-    parchment[2] * 0.5 + rgb[2] * 0.5,
+    parchment[0] * 0.25 + rgb[0] * 0.75,
+    parchment[1] * 0.25 + rgb[1] * 0.75,
+    parchment[2] * 0.25 + rgb[2] * 0.75,
   ];
   return toHexColor(mixed);
 }

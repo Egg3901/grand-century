@@ -3,8 +3,8 @@ import { WORLD_SEED } from '../src/data/generated';
 
 describe('generated world seed data', () => {
   it('stays in the perf-safe province range', () => {
-    expect(WORLD_SEED.provinces.length).toBeGreaterThanOrEqual(800);
-    expect(WORLD_SEED.provinces.length).toBeLessThanOrEqual(1500);
+    expect(WORLD_SEED.provinces.length).toBeGreaterThanOrEqual(300);
+    expect(WORLD_SEED.provinces.length).toBeLessThanOrEqual(700);
   });
 
   it('ensures every province has at least one neighbor', () => {
