@@ -2,6 +2,46 @@
 
 All notable changes to Grand Century are documented here.
 
+## [0.2.0] — 2026-07-20
+
+Theme: make a full campaign fun and legible, and give the player a grand goal.
+
+### Balance & feel (E1)
+- Deterministic **season-report harness** (`npm run season-report`) runs 60/100-year
+  AI games across seeds and emits economy/population/geopolitics metrics.
+- Tuned the economy/war/pop constants against it. A 60-year, 3-seed campaign now
+  holds healthy bands: inflation ~1.3%/yr, factories profitable in aggregate, ~6%
+  peak bankruptcy, ~2.2 wars/yr all resolving, no runaway hegemon (largest nation
+  ~21% at year 20), believable pop growth.
+- New long-run balance test guards the bands + determinism; perf test made robust to
+  machine load.
+
+### Legibility & onboarding (E2)
+- **Interactive 7-step tutorial coach** on first play (replayable), on desktop and
+  mobile.
+- **Tooltips-that-trace** on every important number (budget, prices, war score,
+  great-power score, militancy, pop needs) — each breaks down into its inputs.
+- **Actionable alerts**: outliner/election/war items now jump to the relevant panel
+  and suggest the next action, and can be dismissed.
+- Map polish: **province name labels** at high zoom, reduced world-zoom label
+  crowding, and per-mapmode **legends** with real scales.
+
+### Formable nations (E3)
+- **Cores/claims** per nation and **formation decisions**: unify the German states →
+  **German Empire**, the Italian states → **Kingdom of Italy** (plus cheap analogues).
+- Forming transfers the core territory, merges pops, adopts a new tag/colors, awards
+  prestige, and updates the great-power ranking. The **AI pursues formation too** — a
+  rising Prussia can proclaim the German Empire.
+- New Formables panel shows eligibility + a live requirements checklist; a Cores
+  mapmode highlights your core states.
+
+### Notes
+- Test suite is heavier now (~225s) due to the long-run balance sims.
+- Pops run ~40% needs-met in long sims (stable, low militancy) — a candidate for
+  further tuning.
+
+[0.2.0]: https://github.com/Egg3901/grand-century/releases/tag/v0.2.0
+
 ## [0.1.0] — 2026-07-20
 
 First playable release. A single-player, browser-based grand strategy game in the

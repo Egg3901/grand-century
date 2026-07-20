@@ -1,6 +1,6 @@
 # Grand Century — 0.2.0 Roadmap
 
-Status: PROPOSED · Target after 0.1.0 (first playable, released 2026-07-20)
+Status: SHIPPED (v0.2.0, 2026-07-20) · E1–E3 all delivered. E4–E6 carry to 0.3.0.
 
 ## Framing
 
