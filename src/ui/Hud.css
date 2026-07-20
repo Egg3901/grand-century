@@ -123,6 +123,9 @@
 .hud-mobile-panel-drawer,
 .hud-mobile-mapmodes {
   display: none;
+  /* Re-enable taps: the parent .hud-layer is pointer-events:none (pass-through
+     to the map), so mobile HUD containers must opt back in or no button works. */
+  pointer-events: auto;
 }
 
 .outliner {
