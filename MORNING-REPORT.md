@@ -4,6 +4,24 @@ Repo: https://github.com/Egg3901/grand-century (private)
 Build model: orchestrated by Claude (Opus) + cursor-agent (gpt-5.3-codex) builders.
 Design: `docs/MASTER.md` · Rules: `docs/ARCHITECTURE.md`
 
+## ✅ FINAL STATUS — all 6 milestones + geometry upgrade shipped
+A complete, playable Victoria-2-style browser game. Built overnight by Claude (Opus) orchestrating cursor-agent (gpt-5.3-codex-high) builders, each milestone gated on build + tests before commit.
+
+- **Verified end-to-end in a real headless browser** (Playwright): boot → play a year → open panels → declare a war, no crash.
+- **29 unit/integration tests green**, incl. a 20-year AI-driven stability run (wars occur, no runaway hegemon, bounded prices/treasuries), a 5-year perf ceiling, and save/load determinism.
+- **1033 real Natural-Earth province polygons**, painterly parchment paper-map, 5 systems (economy, pops, politics, diplomacy, war), AI opponents, save/load, audio.
+
+### How to run
+```
+cd grand-century
+npm install
+npm run dev          # play at http://localhost:5173
+npm run test         # unit + integration (vitest)
+npm run test:e2e     # Playwright browser smoke (needs: npx playwright install chromium)
+node content/build-map.mjs   # regenerate the province map artifacts
+```
+Screenshot: `docs/screenshot.png`.
+
 ## Locked decisions (no pausing overnight, per instruction)
 - Scope: broad-but-shallow full loop; Pillar: **war & expansion**.
 - Setting: historical 1836 Earth. Timespan 1836→1936. Player nation: Britain.
@@ -80,6 +98,12 @@ Design: `docs/MASTER.md` · Rules: `docs/ARCHITECTURE.md`
 - AI remains heuristic and intentionally imperfect (alive, not omniscient); diplomacy coalition/peace quality can still be improved in a dedicated AI-depth pass.
 - Audio is synthesized/minimal; no external music pack included.
 
-#### Known issues / residual risks
-- Map chunk is now split from initial JS and geojson is fetched, but the map chunk itself is still large (MapLibre-heavy).
-- Historical granularity remains tied to admin-1 source artifacts (not yet a hand-curated Vic2-density map).
+### M1b — real polygon geometry ✅ (post-M6 upgrade)
+- Replaced the initial 5° grid-cell map with REAL Natural-Earth admin-1 polygons (1033 provinces, smooth coastlines, up to 380 pts/ring), same schema so the sim/tests were unchanged. Build + 29 tests still green; new screenshot confirms smooth borders.
+
+#### Known issues / residual risks (for the morning)
+- **Europe under-provinced** vs sprawling regions (Natural-Earth admin-1 artifact): France/Prussia/Austria have few units; not a hand-curated Vic2-density map. A future content pass should split European states finer and fix a few 1836 inaccuracies (Texas→USA, German/Italian minors merged into PRU/AUS).
+- **Map JS chunk still large** (~1.26MB, MapLibre-heavy) though code-split from the 229KB main chunk and geojson is fetched at runtime.
+- **AI is heuristic** (alive, not omniscient) — a dedicated AI-depth pass could improve diplomacy/peace quality.
+- **Audio is synthesized** placeholder tones; no licensed music pack.
+- Balance is tuned to pass the 20-year stability bounds, not hand-playtested for fun over a full campaign — expect tuning work.

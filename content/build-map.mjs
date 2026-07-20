@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { gzipSync } from 'node:zlib';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -8,15 +9,19 @@ const ROOT = path.resolve(__dirname, '..');
 const RAW_DIR = path.join(ROOT, 'content', 'raw');
 const OUT_DIR = path.join(ROOT, 'src', 'data', 'generated');
 
-const SOURCE_URLS = [
-  'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_1_states_provinces.geojson',
-  'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_1_states_provinces.geojson',
+const ADMIN1_FILES = [
+  'ne_50m_admin_1_states_provinces.geojson',
+  'ne_110m_admin_1_states_provinces.geojson',
 ];
-const ADMIN0_URL = 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson';
+const ADMIN0_FILE = 'ne_110m_admin_0_countries.geojson';
 
-const TARGET_PROVINCES = 1100;
+const TARGET_PROVINCES = 1200;
 const MIN_PROVINCES = 800;
-const MAX_PROVINCES = 1200;
+const MAX_PROVINCES = 1500;
+const ADMIN0_FALLBACK_COUNTRY_FLOOR = 30;
+const TOUCH_EPSILON = 0.045;
+const SLIVER_ABS_AREA = 0.002;
+const EUROPE_BOUNDS = { minLon: -13, maxLon: 42, minLat: 34, maxLat: 72 };
 
 const GOV_DEFAULT = 'absolute_monarchy';
 
@@ -138,15 +143,6 @@ const COUNTRY_TO_TAG = {
   denmark: 'PRU',
 };
 
-const GRID_CONFIGS = [
-  { lonStep: 5, latStep: 3 },
-  { lonStep: 4.5, latStep: 2.75 },
-  { lonStep: 4, latStep: 2.5 },
-  { lonStep: 4, latStep: 2.25 },
-  { lonStep: 3.5, latStep: 2.2 },
-  { lonStep: 6, latStep: 3.2 },
-];
-
 function normalizeName(value) {
   if (!value) return '';
   return String(value).trim().toLowerCase().replace(/\s+/g, ' ');
@@ -221,15 +217,23 @@ function simplifyRing(ring, tolerance) {
 function simplifyGeometry(geometry, tolerance) {
   if (!geometry || !geometry.type || !geometry.coordinates) return geometry;
   if (geometry.type === 'Polygon') {
+    const coordinates = geometry.coordinates
+      .map((ring) => simplifyRing(ring, tolerance))
+      .filter((ring) => ring.length >= 4);
+    if (coordinates.length === 0) return null;
     return {
       type: 'Polygon',
-      coordinates: geometry.coordinates.map((ring) => simplifyRing(ring, tolerance)),
+      coordinates,
     };
   }
   if (geometry.type === 'MultiPolygon') {
+    const coordinates = geometry.coordinates
+      .map((poly) => poly.map((ring) => simplifyRing(ring, tolerance)).filter((ring) => ring.length >= 4))
+      .filter((poly) => poly.length > 0);
+    if (coordinates.length === 0) return null;
     return {
       type: 'MultiPolygon',
-      coordinates: geometry.coordinates.map((poly) => poly.map((ring) => simplifyRing(ring, tolerance))),
+      coordinates,
     };
   }
   return geometry;
@@ -317,6 +321,15 @@ function geometryBounds(geometry) {
   return { minLon, minLat, maxLon, maxLat };
 }
 
+function boundsNear(a, b, epsilon = 0) {
+  return !(
+    a.maxLon < b.minLon - epsilon
+    || a.minLon > b.maxLon + epsilon
+    || a.maxLat < b.minLat - epsilon
+    || a.minLat > b.maxLat + epsilon
+  );
+}
+
 function toPolygons(geometry) {
   if (!geometry) return [];
   if (geometry.type === 'Polygon') return [geometry.coordinates];
@@ -355,6 +368,73 @@ function pointInGeometry(point, geometry) {
     if (pointInPolygon(point, poly)) return true;
   }
   return false;
+}
+
+function pointSegmentDistanceSq(point, start, end) {
+  const px = point[0];
+  const py = point[1];
+  const sx = start[0];
+  const sy = start[1];
+  const ex = end[0];
+  const ey = end[1];
+  const dx = ex - sx;
+  const dy = ey - sy;
+  const lenSq = dx * dx + dy * dy;
+  if (lenSq < 1e-15) {
+    const vx = px - sx;
+    const vy = py - sy;
+    return vx * vx + vy * vy;
+  }
+  const t = clamp(((px - sx) * dx + (py - sy) * dy) / lenSq, 0, 1);
+  const projX = sx + t * dx;
+  const projY = sy + t * dy;
+  const vx = px - projX;
+  const vy = py - projY;
+  return vx * vx + vy * vy;
+}
+
+function orientation(a, b, c) {
+  return (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+}
+
+function onSegment(a, b, c, epsilon) {
+  return (
+    Math.min(a[0], c[0]) - epsilon <= b[0]
+    && b[0] <= Math.max(a[0], c[0]) + epsilon
+    && Math.min(a[1], c[1]) - epsilon <= b[1]
+    && b[1] <= Math.max(a[1], c[1]) + epsilon
+  );
+}
+
+function segmentsIntersect(a, b, c, d, epsilon) {
+  const o1 = orientation(a, b, c);
+  const o2 = orientation(a, b, d);
+  const o3 = orientation(c, d, a);
+  const o4 = orientation(c, d, b);
+
+  if ((o1 > epsilon && o2 < -epsilon || o1 < -epsilon && o2 > epsilon)
+    && (o3 > epsilon && o4 < -epsilon || o3 < -epsilon && o4 > epsilon)) {
+    return true;
+  }
+  if (Math.abs(o1) <= epsilon && onSegment(a, c, b, epsilon)) return true;
+  if (Math.abs(o2) <= epsilon && onSegment(a, d, b, epsilon)) return true;
+  if (Math.abs(o3) <= epsilon && onSegment(c, a, d, epsilon)) return true;
+  if (Math.abs(o4) <= epsilon && onSegment(c, b, d, epsilon)) return true;
+  return false;
+}
+
+function segmentDistanceSq(segA, segB, epsilon) {
+  const a0 = segA.start;
+  const a1 = segA.end;
+  const b0 = segB.start;
+  const b1 = segB.end;
+  if (segmentsIntersect(a0, a1, b0, b1, epsilon)) return 0;
+  return Math.min(
+    pointSegmentDistanceSq(a0, b0, b1),
+    pointSegmentDistanceSq(a1, b0, b1),
+    pointSegmentDistanceSq(b0, a0, a1),
+    pointSegmentDistanceSq(b1, a0, a1),
+  );
 }
 
 function ownerTagForFeature(props) {
@@ -480,7 +560,59 @@ function cellPolygon(lonMin, lonStep, latMin, latStep, col, row) {
   ]];
 }
 
-function buildParentsFromGeojson(geojson, tolerance) {
+function loadNameFromProps(props) {
+  return String(
+    props.name
+    || props.NAME
+    || props.name_en
+    || props.NAME_EN
+    || props.NAME_LONG
+    || props.ADMIN
+    || props.admin
+    || 'Unknown',
+  );
+}
+
+function loadAdminNameFromProps(props) {
+  return String(
+    props.admin
+    || props.ADMIN
+    || props.adm0_name
+    || props.ADM0_NAME
+    || props.geonunit
+    || props.GEOUNIT
+    || props.NAME_LONG
+    || props.name
+    || props.NAME
+    || 'Unknown',
+  );
+}
+
+function loadRegionHint(props) {
+  return String(
+    props.region
+    || props.region_un
+    || props.REGION_UN
+    || props.continent
+    || props.CONTINENT
+    || '',
+  );
+}
+
+function countryKeyForParent(parent) {
+  return normalizeName(parent.adminName || parent.stateName || parent.key || '');
+}
+
+function deterministicParentSort(a, b) {
+  return (
+    countryKeyForParent(a).localeCompare(countryKeyForParent(b))
+    || normalizeName(a.stateName).localeCompare(normalizeName(b.stateName))
+    || String(a.key).localeCompare(String(b.key))
+    || a.area - b.area
+  );
+}
+
+function buildParentsFromGeojson(geojson, tolerance, keyPrefix = '') {
   const features = Array.isArray(geojson.features) ? geojson.features : [];
   const parents = [];
   for (let i = 0; i < features.length; i++) {
@@ -491,21 +623,35 @@ function buildParentsFromGeojson(geojson, tolerance) {
     if (!bbox) continue;
     const area = Math.max(1e-6, geometryArea(simplified));
     const centroid = geometryCentroid(simplified);
-    const stateName = String(props.name || props.NAME || props.NAME_LONG || props.name_en || `State ${i + 1}`);
+    const stateName = loadNameFromProps(props);
+    const adminName = loadAdminNameFromProps(props);
     const ownerTag = ownerTagForFeature(props);
+    const key = String(
+      props.adm1_code
+      || props.ADM1_CODE
+      || props.iso_3166_2
+      || props.ISO_3166_2
+      || props.adm0_a3
+      || props.ADM0_A3
+      || props.iso_a2
+      || props.ISO_A2
+      || props.sov_a3
+      || props.SOV_A3
+      || `${adminName}:${stateName}:${i + 1}`,
+    );
     parents.push({
-      key: String(props.adm1_code || props.iso_3166_2 || `${props.adm0_a3 || 'UNK'}-${stateName}`),
+      key: `${keyPrefix}${key}`,
       stateName,
       ownerTag,
-      adminName: String(props.admin || props.ADMIN || props.geonunit || props.GEOUNIT || props.NAME || 'Unknown'),
-      region: String(props.region || props.region_un || props.continent || props.REGION_UN || ''),
+      adminName,
+      region: loadRegionHint(props),
       bbox,
       area,
       centroid,
       geometry: simplified,
     });
   }
-  return parents.sort((a, b) => a.area - b.area);
+  return parents.sort(deterministicParentSort);
 }
 
 function proceduralParents() {
@@ -563,164 +709,316 @@ function proceduralParents() {
   return pseudo;
 }
 
-function pickOwnerTagFromCoords(lon, lat) {
-  if (lon > -12 && lon < 42 && lat > 35 && lat < 60) return 'PRU';
-  if (lon > 65 && lon < 95 && lat > 7 && lat < 34) return 'ENG';
-  if (lon > 100 && lon < 125 && lat > 20 && lat < 45) return 'QNG';
-  if (lon > -140 && lon < -60 && lat > 25 && lat < 56) return 'USA';
-  if (lon > -75 && lon < -30 && lat > -35 && lat < 8) return 'BRA';
-  if (lon > -20 && lon < 55 && lat > -32 && lat < 34) return 'UNC';
-  if (lon > 95 && lon < 180 && lat < 0) return 'ENG';
-  return 'COL';
+function isEuropeLike(unit) {
+  const region = normalizeName(unit.region || '');
+  if (region.includes('europe')) return true;
+  const lon = unit.centroid[0];
+  const lat = unit.centroid[1];
+  return (
+    lon >= EUROPE_BOUNDS.minLon
+    && lon <= EUROPE_BOUNDS.maxLon
+    && lat >= EUROPE_BOUNDS.minLat
+    && lat <= EUROPE_BOUNDS.maxLat
+  );
 }
 
-function assignCellParent(parents, point) {
-  const [lon, lat] = point;
+function splitToPolygonUnits(parents) {
+  const units = [];
   for (const parent of parents) {
-    const { bbox } = parent;
-    if (lon < bbox.minLon || lon > bbox.maxLon || lat < bbox.minLat || lat > bbox.maxLat) continue;
-    if (parent.proceduralLandMask) {
-      if (parent.proceduralLandMask(lon, lat)) return parent;
-      continue;
-    }
-    if (pointInGeometry(point, parent.geometry)) return parent;
-  }
-  return null;
-}
-
-function rasterize(parents, cfg) {
-  const lonMin = -180;
-  const lonMax = 180;
-  const latMin = -60;
-  const latMax = 84;
-  const cols = Math.floor((lonMax - lonMin) / cfg.lonStep);
-  const rows = Math.floor((latMax - latMin) / cfg.latStep);
-  const cells = [];
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      const center = centerOfCell(lonMin, cfg.lonStep, latMin, cfg.latStep, col, row);
-      const parent = assignCellParent(parents, center);
-      if (!parent) continue;
-      cells.push({
-        col,
-        row,
-        centerLon: roundCoord(center[0]),
-        centerLat: roundCoord(center[1]),
-        parent,
+    const polygons = toPolygons(parent.geometry);
+    for (let partIndex = 0; partIndex < polygons.length; partIndex++) {
+      const polygon = polygons[partIndex];
+      if (!Array.isArray(polygon) || polygon.length === 0) continue;
+      const ring = ensureClosedRing(polygon[0] || []);
+      if (ring.length < 4) continue;
+      const area = Math.abs(polygonAreaRing(ring));
+      if (area <= 1e-10) continue;
+      const geometry = { type: 'Polygon', coordinates: [ring, ...polygon.slice(1)] };
+      const centroid = geometryCentroid(geometry);
+      const bbox = geometryBounds(geometry);
+      if (!bbox) continue;
+      units.push({
+        parentKey: parent.key,
+        stateName: parent.stateName,
+        ownerTag: parent.ownerTag,
+        adminName: parent.adminName,
+        region: parent.region,
+        countryKey: countryKeyForParent(parent),
+        partIndex,
+        polygons: [geometry.coordinates],
+        area,
+        centroid,
+        bbox,
       });
     }
   }
-  return { cells, lonMin, latMin, cols, rows };
+  return units;
 }
 
-function chooseRasterConfig(parents) {
-  let best = null;
-  for (const cfg of GRID_CONFIGS) {
-    const candidate = rasterize(parents, cfg);
-    const count = candidate.cells.length;
-    const inRange = count >= MIN_PROVINCES && count <= MAX_PROVINCES;
-    const distance = Math.abs(count - TARGET_PROVINCES);
-    if (!best || (inRange && !best.inRange) || (inRange === best.inRange && distance < best.distance)) {
-      best = { cfg, count, inRange, distance, candidate };
-    }
+function weightedCentroid(polygons) {
+  let totalArea = 0;
+  let x = 0;
+  let y = 0;
+  for (const polygon of polygons) {
+    const geometry = { type: 'Polygon', coordinates: polygon };
+    const area = Math.max(1e-10, geometryArea(geometry));
+    const centroid = geometryCentroid(geometry);
+    x += centroid[0] * area;
+    y += centroid[1] * area;
+    totalArea += area;
   }
-  return best;
+  if (totalArea <= 0) return [0, 0];
+  return [x / totalArea, y / totalArea];
 }
 
-function buildProvinceRecords(raster, cfg) {
-  const cellByKey = new Map();
-  for (const cell of raster.cells) {
-    cellByKey.set(`${cell.col},${cell.row}`, cell);
+function mergeAndDropTinySlivers(units) {
+  const byParent = new Map();
+  for (const unit of units) {
+    const list = byParent.get(unit.parentKey) ?? [];
+    list.push({ ...unit });
+    byParent.set(unit.parentKey, list);
   }
 
-  let selected = raster.cells.slice();
-  let droppedForCap = 0;
-  if (selected.length > MAX_PROVINCES) {
-    selected.sort((a, b) => a.parent.area - b.parent.area);
-    droppedForCap = selected.length - MAX_PROVINCES;
-    selected = selected.slice(droppedForCap);
-  }
+  const merged = [];
+  let mergedSlivers = 0;
+  let droppedSlivers = 0;
+  for (const [parentKey, group] of byParent.entries()) {
+    group.sort((a, b) => b.area - a.area || a.partIndex - b.partIndex);
+    const keepMinimum = Math.min(
+      group.length,
+      Math.max(1, isEuropeLike(group[0]) ? 2 : 1),
+    );
+    const tinyFloor = isEuropeLike(group[0]) ? SLIVER_ABS_AREA * 0.5 : SLIVER_ABS_AREA;
 
-  const selectedByKey = new Map();
-  for (const cell of selected) selectedByKey.set(`${cell.col},${cell.row}`, cell);
-
-  const stateKeyToId = new Map();
-  const stateRecords = [];
-  const provinceRecords = [];
-  const perStateCounter = new Map();
-
-  selected.sort((a, b) => a.row - b.row || a.col - b.col);
-  for (const cell of selected) {
-    const stateKey = cell.parent.key;
-    let stateId = stateKeyToId.get(stateKey);
-    if (stateId === undefined) {
-      stateId = stateRecords.length;
-      stateKeyToId.set(stateKey, stateId);
-      stateRecords.push({
-        id: stateId,
-        key: stateKey,
-        name: cell.parent.stateName,
-        ownerTag: cell.parent.ownerTag,
-        provinceIds: [],
-      });
-    }
-
-    const serial = (perStateCounter.get(stateKey) ?? 0) + 1;
-    perStateCounter.set(stateKey, serial);
-    const provinceName = `${cell.parent.stateName} ${serial}`;
-    const terrain = terrainForCell(cell.centerLat, cell.centerLon, cell.parent.stateName, cell.parent.region);
-    provinceRecords.push({
-      id: provinceRecords.length,
-      name: provinceName,
-      ownerTag: historicalOwnerOverride(
-        cell.parent.ownerTag || pickOwnerTagFromCoords(cell.centerLon, cell.centerLat),
-        cell.centerLon,
-        cell.centerLat,
-        cell.parent.adminName,
-      ),
-      stateId,
-      stateName: cell.parent.stateName,
-      terrain,
-      coastal: false,
-      rgoGood: rgoForTerrain(terrain, cell.centerLat, cell.centerLon, cell.parent.key),
-      neighbors: [],
-      lon: cell.centerLon,
-      lat: cell.centerLat,
-      populationWeight: populationWeight(cell.centerLat, cell.centerLon, terrain),
-      col: cell.col,
-      row: cell.row,
-      polygon: cellPolygon(raster.lonMin, cfg.lonStep, raster.latMin, cfg.latStep, cell.col, cell.row),
+    const keepers = [];
+    const slivers = [];
+    group.forEach((unit, index) => {
+      if (index < keepMinimum || unit.area >= tinyFloor) keepers.push(unit);
+      else slivers.push(unit);
     });
-    stateRecords[stateId].provinceIds.push(provinceRecords.length - 1);
-  }
 
-  const idByCellKey = new Map();
-  for (const province of provinceRecords) idByCellKey.set(`${province.col},${province.row}`, province.id);
+    if (keepers.length === 0) keepers.push(group[0]);
 
-  const offsets = [
-    [1, 0], [-1, 0], [0, 1], [0, -1],
-  ];
-  for (const province of provinceRecords) {
-    const neighbors = [];
-    let coastal = false;
-    for (const [dx, dy] of offsets) {
-      const neighborId = idByCellKey.get(`${province.col + dx},${province.row + dy}`);
-      if (neighborId === undefined) {
-        coastal = true;
+    for (const sliver of slivers) {
+      let best = null;
+      let bestDistance = Infinity;
+      for (const candidate of keepers) {
+        const dx = sliver.centroid[0] - candidate.centroid[0];
+        const dy = sliver.centroid[1] - candidate.centroid[1];
+        const distance = dx * dx + dy * dy;
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = candidate;
+        }
+      }
+      if (!best) {
+        droppedSlivers += 1;
         continue;
       }
-      neighbors.push(neighborId);
+      best.polygons.push(...sliver.polygons);
+      best.area += sliver.area;
+      best.centroid = weightedCentroid(best.polygons);
+      best.bbox = geometryBounds({
+        type: best.polygons.length === 1 ? 'Polygon' : 'MultiPolygon',
+        coordinates: best.polygons.length === 1 ? best.polygons[0] : best.polygons,
+      });
+      mergedSlivers += 1;
     }
-    province.neighbors = neighbors.sort((a, b) => a - b);
-    province.coastal = coastal;
+
+    for (const keeper of keepers) {
+      keeper.parentKey = parentKey;
+      merged.push(keeper);
+    }
   }
 
-  // Ensure no disconnected single-cell islands violate the >=1 neighbor invariant.
-  for (const province of provinceRecords) {
+  merged.sort((a, b) => (
+    a.countryKey.localeCompare(b.countryKey)
+    || normalizeName(a.stateName).localeCompare(normalizeName(b.stateName))
+    || a.parentKey.localeCompare(b.parentKey)
+    || b.area - a.area
+    || a.centroid[0] - b.centroid[0]
+    || a.centroid[1] - b.centroid[1]
+  ));
+  return { units: merged, mergedSlivers, droppedSlivers };
+}
+
+function capProvinceUnits(units) {
+  if (units.length <= MAX_PROVINCES) return { units, droppedForCap: 0 };
+  const byCountry = new Map();
+  for (const unit of units) {
+    const list = byCountry.get(unit.countryKey) ?? [];
+    list.push(unit);
+    byCountry.set(unit.countryKey, list);
+  }
+
+  const guaranteed = [];
+  const pool = [];
+  for (const list of byCountry.values()) {
+    list.sort((a, b) => b.area - a.area || a.centroid[0] - b.centroid[0] || a.centroid[1] - b.centroid[1]);
+    const minKeep = Math.min(list.length, isEuropeLike(list[0]) ? 4 : 1);
+    guaranteed.push(...list.slice(0, minKeep));
+    pool.push(...list.slice(minKeep));
+  }
+
+  if (guaranteed.length >= MAX_PROVINCES) {
+    guaranteed.sort((a, b) => b.area - a.area);
+    return { units: guaranteed.slice(0, MAX_PROVINCES), droppedForCap: units.length - MAX_PROVINCES };
+  }
+
+  pool.sort((a, b) => b.area - a.area || a.countryKey.localeCompare(b.countryKey));
+  const remaining = MAX_PROVINCES - guaranteed.length;
+  const selected = [...guaranteed, ...pool.slice(0, remaining)];
+  selected.sort((a, b) => (
+    a.countryKey.localeCompare(b.countryKey)
+    || normalizeName(a.stateName).localeCompare(normalizeName(b.stateName))
+    || a.parentKey.localeCompare(b.parentKey)
+    || b.area - a.area
+  ));
+  return { units: selected, droppedForCap: units.length - selected.length };
+}
+
+function geometryFromPolygons(polygons) {
+  if (polygons.length === 1) return { type: 'Polygon', coordinates: polygons[0] };
+  return { type: 'MultiPolygon', coordinates: polygons };
+}
+
+function buildSegmentsFromGeometry(geometry) {
+  const polygons = toPolygons(geometry);
+  const segments = [];
+  for (const polygon of polygons) {
+    for (const ring of polygon) {
+      const closed = ensureClosedRing(ring);
+      for (let i = 0; i < closed.length - 1; i++) {
+        const start = [roundCoord(closed[i][0]), roundCoord(closed[i][1])];
+        const end = [roundCoord(closed[i + 1][0]), roundCoord(closed[i + 1][1])];
+        if (start[0] === end[0] && start[1] === end[1]) continue;
+        segments.push({
+          start,
+          end,
+          bbox: {
+            minLon: Math.min(start[0], end[0]),
+            maxLon: Math.max(start[0], end[0]),
+            minLat: Math.min(start[1], end[1]),
+            maxLat: Math.max(start[1], end[1]),
+          },
+        });
+      }
+    }
+  }
+  return segments;
+}
+
+function makeProvinceGeometryRecord(unit, id) {
+  const geometry = geometryFromPolygons(unit.polygons);
+  const bounds = geometryBounds(geometry);
+  const centroid = weightedCentroid(unit.polygons);
+  const lon = roundCoord(centroid[0]);
+  const lat = roundCoord(centroid[1]);
+  const terrain = terrainForCell(lat, lon, unit.stateName, unit.region);
+  return {
+    id,
+    name: '',
+    ownerTag: historicalOwnerOverride(unit.ownerTag, lon, lat, unit.adminName),
+    stateId: -1,
+    stateName: unit.stateName,
+    terrain,
+    coastal: false,
+    rgoGood: rgoForTerrain(terrain, lat, lon, unit.parentKey),
+    neighbors: [],
+    lon,
+    lat,
+    populationWeight: populationWeight(lat, lon, terrain),
+    geometry,
+    bbox: bounds,
+    segments: buildSegmentsFromGeometry(geometry),
+    countryKey: unit.countryKey,
+    parentKey: unit.parentKey,
+  };
+}
+
+function candidatePairsByGrid(provinces, cellSize) {
+  const grid = new Map();
+  provinces.forEach((province, index) => {
+    const bbox = province.bbox;
+    if (!bbox) return;
+    const minX = Math.floor((bbox.minLon + 180) / cellSize);
+    const maxX = Math.floor((bbox.maxLon + 180) / cellSize);
+    const minY = Math.floor((bbox.minLat + 90) / cellSize);
+    const maxY = Math.floor((bbox.maxLat + 90) / cellSize);
+    for (let x = minX; x <= maxX; x++) {
+      for (let y = minY; y <= maxY; y++) {
+        const key = `${x},${y}`;
+        const list = grid.get(key) ?? [];
+        list.push(index);
+        grid.set(key, list);
+      }
+    }
+  });
+
+  const pairs = new Set();
+  for (const list of grid.values()) {
+    for (let i = 0; i < list.length; i++) {
+      for (let j = i + 1; j < list.length; j++) {
+        const a = list[i];
+        const b = list[j];
+        const key = a < b ? `${a}|${b}` : `${b}|${a}`;
+        pairs.add(key);
+      }
+    }
+  }
+  return pairs;
+}
+
+function provincesTouch(a, b, epsilon) {
+  if (!a.bbox || !b.bbox || !boundsNear(a.bbox, b.bbox, epsilon)) return false;
+  const epsSq = epsilon * epsilon;
+  for (const segA of a.segments) {
+    for (const segB of b.segments) {
+      if (!boundsNear(segA.bbox, segB.bbox, epsilon)) continue;
+      if (segmentDistanceSq(segA, segB, epsilon) <= epsSq) return true;
+    }
+  }
+  return false;
+}
+
+function edgeKey(start, end, precision = 1000) {
+  const ax = Math.round(start[0] * precision);
+  const ay = Math.round(start[1] * precision);
+  const bx = Math.round(end[0] * precision);
+  const by = Math.round(end[1] * precision);
+  if (ax < bx || (ax === bx && ay <= by)) return `${ax}:${ay}|${bx}:${by}`;
+  return `${bx}:${by}|${ax}:${ay}`;
+}
+
+function computeCoastalFlags(provinces) {
+  const edgeUse = new Map();
+  for (const province of provinces) {
+    for (const segment of province.segments) {
+      const key = edgeKey(segment.start, segment.end, 220);
+      const count = edgeUse.get(key) ?? 0;
+      edgeUse.set(key, count + 1);
+    }
+  }
+  for (const province of provinces) {
+    let coastal = false;
+    for (const segment of province.segments) {
+      const key = edgeKey(segment.start, segment.end, 220);
+      if ((edgeUse.get(key) ?? 0) === 1) {
+        coastal = true;
+        break;
+      }
+    }
+    province.coastal = coastal;
+  }
+}
+
+function linkIsolatedProvinces(provinces) {
+  let linked = 0;
+  for (const province of provinces) {
     if (province.neighbors.length > 0) continue;
     let bestId = -1;
     let bestDistance = Infinity;
-    for (const other of provinceRecords) {
+    for (const other of provinces) {
       if (other.id === province.id) continue;
       const dx = province.lon - other.lon;
       const dy = province.lat - other.lat;
@@ -732,14 +1030,79 @@ function buildProvinceRecords(raster, cfg) {
     }
     if (bestId >= 0) {
       province.neighbors.push(bestId);
-      const back = provinceRecords[bestId].neighbors;
-      if (!back.includes(province.id)) back.push(province.id);
-      province.coastal = true;
+      const reverse = provinces[bestId].neighbors;
+      if (!reverse.includes(province.id)) reverse.push(province.id);
+      linked += 1;
     }
   }
+  for (const province of provinces) province.neighbors.sort((a, b) => a - b);
+  return linked;
+}
 
-  for (const province of provinceRecords) province.neighbors.sort((a, b) => a - b);
-  return { provinceRecords, stateRecords, droppedForCap };
+function buildAdjacency(provinces) {
+  const neighbors = provinces.map(() => new Set());
+  const pairs = candidatePairsByGrid(provinces, 8);
+  for (const pair of pairs) {
+    const [aText, bText] = pair.split('|');
+    const a = Number(aText);
+    const b = Number(bText);
+    if (!Number.isInteger(a) || !Number.isInteger(b)) continue;
+    const provinceA = provinces[a];
+    const provinceB = provinces[b];
+    if (!provinceA || !provinceB) continue;
+    if (provincesTouch(provinceA, provinceB, TOUCH_EPSILON)) {
+      neighbors[a].add(b);
+      neighbors[b].add(a);
+    }
+  }
+  for (let i = 0; i < provinces.length; i++) {
+    provinces[i].neighbors = Array.from(neighbors[i]).sort((a, b) => a - b);
+  }
+  const bridgedIslands = linkIsolatedProvinces(provinces);
+  return { bridgedIslands };
+}
+
+function buildProvinceRecords(units) {
+  const stateKeyToId = new Map();
+  const stateRecords = [];
+  const provinceRecords = [];
+  const perStateCounter = new Map();
+
+  const orderedUnits = units.slice().sort((a, b) => (
+    a.countryKey.localeCompare(b.countryKey)
+    || normalizeName(a.stateName).localeCompare(normalizeName(b.stateName))
+    || a.parentKey.localeCompare(b.parentKey)
+    || b.area - a.area
+    || a.centroid[0] - b.centroid[0]
+    || a.centroid[1] - b.centroid[1]
+  ));
+
+  for (const unit of orderedUnits) {
+    let stateId = stateKeyToId.get(unit.parentKey);
+    if (stateId === undefined) {
+      stateId = stateRecords.length;
+      stateKeyToId.set(unit.parentKey, stateId);
+      stateRecords.push({
+        id: stateId,
+        key: unit.parentKey,
+        name: unit.stateName,
+        ownerTag: unit.ownerTag,
+        provinceIds: [],
+      });
+    }
+    const serial = (perStateCounter.get(unit.parentKey) ?? 0) + 1;
+    perStateCounter.set(unit.parentKey, serial);
+    const province = makeProvinceGeometryRecord(unit, provinceRecords.length);
+    province.stateId = stateId;
+    province.name = `${unit.stateName} ${serial}`;
+    stateRecords[stateId].provinceIds.push(province.id);
+    provinceRecords.push(province);
+  }
+
+  const { bridgedIslands } = buildAdjacency(provinceRecords);
+  computeCoastalFlags(provinceRecords);
+
+  return { provinceRecords, stateRecords, bridgedIslands };
 }
 
 function buildNations(provinces) {
@@ -781,79 +1144,48 @@ function compactGeojson(provinces) {
         id: province.id,
         n: province.name,
       },
-      geometry: {
-        type: 'Polygon',
-        coordinates: province.polygon,
-      },
+      geometry: province.geometry,
     })),
   };
 }
 
-async function fetchJson(url) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 30_000);
-  try {
-    const response = await fetch(url, { signal: controller.signal });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return await response.json();
-  } finally {
-    clearTimeout(timeout);
-  }
+async function readJsonFile(filePath) {
+  const payload = await readFile(filePath, 'utf8');
+  return JSON.parse(payload);
 }
 
-async function loadSourceGeojson() {
-  await mkdir(RAW_DIR, { recursive: true });
-
-  for (const url of SOURCE_URLS) {
-    try {
-      const json = await fetchJson(url);
-      const filename = path.basename(url);
-      await writeFile(path.join(RAW_DIR, filename), `${JSON.stringify(json)}\n`, 'utf8');
-      return { json, source: url, fallback: false };
-    } catch (error) {
-      console.warn(`[build-map] Failed to fetch ${url}: ${error.message}`);
-    }
-  }
-
-  for (const url of SOURCE_URLS) {
-    const filename = path.basename(url);
-    const localPath = path.join(RAW_DIR, filename);
-    try {
-      const payload = await readFile(localPath, 'utf8');
-      const json = JSON.parse(payload);
-      console.warn(`[build-map] Using cached raw map from ${localPath}`);
-      return { json, source: `cached:${filename}`, fallback: true };
-    } catch {
-      // keep trying
-    }
-  }
-
-  console.error('[build-map] LIVE GEOMETRY FETCH FAILED. Generating procedural fallback map over approximate coastline.');
-  return { json: null, source: 'procedural-fallback', fallback: true };
-}
-
-async function loadAdmin0Geojson() {
-  const filename = path.basename(ADMIN0_URL);
+async function tryReadRaw(filename) {
+  const fullPath = path.join(RAW_DIR, filename);
   try {
-    const json = await fetchJson(ADMIN0_URL);
-    await writeFile(path.join(RAW_DIR, filename), `${JSON.stringify(json)}\n`, 'utf8');
-    return { json, source: ADMIN0_URL };
-  } catch (error) {
-    console.warn(`[build-map] Failed to fetch admin-0 fallback ${ADMIN0_URL}: ${error.message}`);
-  }
-
-  try {
-    const payload = await readFile(path.join(RAW_DIR, filename), 'utf8');
-    return { json: JSON.parse(payload), source: `cached:${filename}` };
+    return { json: await readJsonFile(fullPath), fullPath };
   } catch {
     return null;
   }
 }
 
+async function loadSourceGeojson() {
+  await mkdir(RAW_DIR, { recursive: true });
+  for (const filename of ADMIN1_FILES) {
+    const loaded = await tryReadRaw(filename);
+    if (loaded) {
+      return { json: loaded.json, source: `raw:${filename}`, fallback: false, filename };
+    }
+  }
+
+  console.error('[build-map] LIVE GEOMETRY FETCH FAILED. Generating procedural fallback map over approximate coastline.');
+  return { json: null, source: 'procedural-fallback', fallback: true, filename: null };
+}
+
+async function loadAdmin0Geojson() {
+  const loaded = await tryReadRaw(ADMIN0_FILE);
+  if (!loaded) return null;
+  return { json: loaded.json, source: `raw:${ADMIN0_FILE}` };
+}
+
 async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   const loaded = await loadSourceGeojson();
-  const sourceTolerance = loaded.source.includes('110m') ? 0.25 : 0.12;
+  const sourceTolerance = loaded.filename?.includes('110m') ? 0.2 : 0.08;
 
   let parents = loaded.json
     ? buildParentsFromGeojson(loaded.json, sourceTolerance)
@@ -861,17 +1193,13 @@ async function main() {
 
   if (loaded.json) {
     const countriesCovered = new Set(parents.map((parent) => normalizeName(parent.adminName)));
-    if (countriesCovered.size < 30) {
+    if (countriesCovered.size < ADMIN0_FALLBACK_COUNTRY_FLOOR) {
       const admin0 = await loadAdmin0Geojson();
       if (admin0?.json) {
-        const admin0Parents = buildParentsFromGeojson(admin0.json, 0.28)
+        const admin0Parents = buildParentsFromGeojson(admin0.json, 0.24, 'ADM0-')
           .filter((parent) => !countriesCovered.has(normalizeName(parent.adminName)))
-          .map((parent) => ({
-            ...parent,
-            key: `ADM0-${parent.key}`,
-            stateName: parent.adminName,
-          }));
-        parents = [...parents, ...admin0Parents].sort((a, b) => a.area - b.area);
+          .map((parent) => ({ ...parent, stateName: parent.adminName }));
+        parents = [...parents, ...admin0Parents].sort(deterministicParentSort);
         console.log(`[build-map] Admin-0 fallback appended: ${admin0Parents.length} parents from ${admin0.source}`);
       } else {
         console.warn('[build-map] Admin-0 fallback unavailable; continuing with sparse admin-1 geometry only.');
@@ -883,10 +1211,11 @@ async function main() {
     throw new Error('No valid parent geometries available for province generation.');
   }
 
-  const chosen = chooseRasterConfig(parents);
-  if (!chosen) throw new Error('Failed to rasterize province map from source geometry.');
+  const explodedUnits = splitToPolygonUnits(parents);
+  const sliverResult = mergeAndDropTinySlivers(explodedUnits);
+  const cappedResult = capProvinceUnits(sliverResult.units);
+  const { provinceRecords, stateRecords, bridgedIslands } = buildProvinceRecords(cappedResult.units);
 
-  const { provinceRecords, stateRecords, droppedForCap } = buildProvinceRecords(chosen.candidate, chosen.cfg);
   if (provinceRecords.length < MIN_PROVINCES || provinceRecords.length > 1500) {
     throw new Error(
       `Generated province count ${provinceRecords.length} outside hard acceptance [${MIN_PROVINCES}, 1500].`,
@@ -898,7 +1227,7 @@ async function main() {
 
   const worldSeed = {
     source: loaded.source,
-    generatedAt: new Date().toISOString(),
+    generatedAt: '1836-01-01T00:00:00.000Z',
     provinceCount: provinceRecords.length,
     provinces: provinceRecords.map((province) => ({
       id: province.id,
@@ -926,11 +1255,16 @@ async function main() {
   await writeFile(path.join(OUT_DIR, 'provinces.geo.json'), `${JSON.stringify(geojson)}\n`, 'utf8');
   await writeFile(path.join(OUT_DIR, 'worldSeed.json'), `${JSON.stringify(worldSeed)}\n`, 'utf8');
 
+  const geoGzipBytes = gzipSync(JSON.stringify(geojson)).length;
   console.log(`[build-map] Source: ${loaded.source}`);
   console.log(`[build-map] Parents loaded: ${parents.length}`);
-  console.log(`[build-map] Grid chosen: lonStep=${chosen.cfg.lonStep}, latStep=${chosen.cfg.latStep}`);
+  console.log(`[build-map] Polygon parts exploded: ${explodedUnits.length}`);
+  console.log(`[build-map] Slivers merged: ${sliverResult.mergedSlivers}`);
+  console.log(`[build-map] Slivers dropped: ${sliverResult.droppedSlivers}`);
+  console.log(`[build-map] Dropped for cap: ${cappedResult.droppedForCap}`);
+  console.log(`[build-map] Island nearest-neighbor bridges: ${bridgedIslands}`);
   console.log(`[build-map] Provinces generated: ${provinceRecords.length}`);
-  console.log(`[build-map] Sliver cells dropped for cap: ${droppedForCap}`);
+  console.log(`[build-map] provinces.geo.json gzip bytes: ${geoGzipBytes}`);
 }
 
 main().catch((error) => {
