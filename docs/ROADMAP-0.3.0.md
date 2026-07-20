@@ -1,6 +1,6 @@
 # Grand Century — 0.3.0 Roadmap
 
-Status: IN PROGRESS · Target after 0.2.0 (Fun/Legible/Formable, released 2026-07-20)
+Status: SHIPPED (v0.3.0, 2026-07-20) — E4/E5/E6 + B1 + map rework delivered.
 
 ## Framing
 

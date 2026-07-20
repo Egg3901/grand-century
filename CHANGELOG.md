@@ -2,6 +2,51 @@
 
 All notable changes to Grand Century are documented here.
 
+## [0.3.0] — 2026-07-20
+
+Theme: deepen the war pillar, add narrative agency, pay down platform debt — plus
+a major map-data rework from playtest feedback.
+
+### War depth & UI (E5)
+- Peace-conference settlement (stack multiple war goals within the war-score
+  budget; AI offers/accepts sensibly).
+- Army/fleet stack counters, movement, occupation shading on the map.
+- Unit composition on recruitment (infantry/cavalry/artillery/guard) gated by
+  conscription/professionalism reforms, with distinct combat roles.
+- Rebellions are real: rebel armies with demands; a victorious rebellion forces its
+  demand (reform enacted or provinces flip).
+
+### Events & decisions (E4)
+- Data-driven events engine with a curated set: 1848 Springtime of Nations,
+  economic panics, colonial scramble, succession, discoveries. Player decisions
+  gated by prerequisites, with real trade-offs. Fired as event popups.
+
+### Balance & world feel (B1)
+- Deterministic season-report harness; tuned so pops are believably fed and pop
+  growth is sane. Rebellion governance (thresholds, caps, cooldowns) — concurrent
+  rebellions dropped from 1000+ to a handful.
+
+### Map data rework (playtest feedback)
+- Consolidated from 1450 to ~473 provinces using **real Natural-Earth admin-1 units
+  with real names** (Gansu, Piedmont, California…). China 80 → 33 real provinces.
+  Western Europe no longer boxy. Zero fake numbered names. Vivid, distinct nation
+  colors.
+
+### Performance & platform (E6, #4)
+- Split the heavy multi-decade sims: `npm run test` (unit) now runs in ~9s;
+  `test:all` / `test:balance` for the long-run envelope.
+- MapLibre kept off the critical path; PWA (installable, offline-capable) with a
+  service worker; shareable permalinks (`#/new?seed&nation`).
+
+### Fixes
+- Mobile: all HUD controls were tap-dead (pointer-events) — fixed.
+
+### Known limitations
+- Map **labels** are not rendering — deferred to the 0.4.0 UI overhaul.
+- France came out heavily consolidated (few provinces); can be subdivided later.
+
+[0.3.0]: https://github.com/Egg3901/grand-century/releases/tag/v0.3.0
+
 ## [0.2.0] — 2026-07-20
 
 Theme: make a full campaign fun and legible, and give the player a grand goal.
