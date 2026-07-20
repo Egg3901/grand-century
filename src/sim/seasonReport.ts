@@ -77,6 +77,10 @@ export interface CampaignSummary {
   hegemonyShareFinal: number;
   worldPopGrowthShare: number;
   highMilitancyShareFinal: number;
+  avgNeedsMetMean: number;
+  avgNeedsMetFinal: number;
+  peakActiveRebellions: number;
+  peakRebelArmies: number;
 }
 
 export interface CampaignMetrics {
@@ -94,6 +98,7 @@ export interface CampaignMetrics {
   population: {
     totalWorldPop: ScalarPoint[];
     annualGrowthRate: ScalarPoint[];
+    avgNeedsMet: ScalarPoint[];
     urbanShare: ScalarPoint[];
     popTypeShareStart: Record<string, number>;
     popTypeShareEnd: Record<string, number>;
@@ -206,6 +211,18 @@ function urbanPopulationShare(world: World): number {
     if (URBAN_TYPES.has(pop.type)) urban += size;
   }
   return total > 0 ? urban / total : 0;
+}
+
+function worldAvgNeedsMet(world: World): number {
+  let total = 0;
+  let weighted = 0;
+  for (const pop of world.pops) {
+    const size = Math.max(0, pop.size);
+    if (size <= 0) continue;
+    total += size;
+    weighted += pop.needsMet * size;
+  }
+  return total > 0 ? weighted / total : 0;
 }
 
 function popTypeShare(world: World): Record<string, number> {
@@ -350,6 +367,7 @@ export function runCampaignMetrics(data: GameData, seed: number, years: number):
   const treasurySeries: TreasuryPoint[] = [];
   const totalPopSeries: ScalarPoint[] = [];
   const urbanShareSeries: ScalarPoint[] = [];
+  const needsMetSeries: ScalarPoint[] = [];
   const militancySeries: MilitancyDistributionPoint[] = [];
   const hegemonySeries: ScalarPoint[] = [];
 
@@ -361,10 +379,16 @@ export function runCampaignMetrics(data: GameData, seed: number, years: number):
   const unifications: string[] = [];
   let previousWarIds = new Set(world.wars.map((war) => war.id));
   let previousGpTop8: number[] | null = null;
+  let peakActiveRebellions = 0;
+  let peakRebelArmies = 0;
 
   for (let day = 0; day < days; day++) {
     advanceDay(world, data);
     const year = EPOCH_YEAR + Math.floor(world.day / 365);
+    const activeRebellions = world.rebellions.filter((rebellion) => rebellion.status === 'active').length;
+    const rebelArmies = world.armies.filter((army) => army.rebel && army.regiments.length > 0).length;
+    peakActiveRebellions = Math.max(peakActiveRebellions, activeRebellions);
+    peakRebelArmies = Math.max(peakRebelArmies, rebelArmies);
 
     const currentWarIds = new Set(world.wars.map((war) => war.id));
     for (const warId of currentWarIds) if (!previousWarIds.has(warId)) incDecade(warsStartedByDecade, year, 1);
@@ -394,6 +418,7 @@ export function runCampaignMetrics(data: GameData, seed: number, years: number):
     treasurySeries.push(treasuryPoint(world, year));
     totalPopSeries.push({ year, value: totalPopulation(world) });
     urbanShareSeries.push({ year, value: urbanPopulationShare(world) });
+    needsMetSeries.push({ year, value: worldAvgNeedsMet(world) });
     militancySeries.push(militancyDistribution(world, year));
     hegemonySeries.push({ year, value: hegemonyShare(world) });
 
@@ -424,6 +449,8 @@ export function runCampaignMetrics(data: GameData, seed: number, years: number):
   const finalMil = militancySeries[militancySeries.length - 1]?.bands['8-10'] ?? 0;
   const startPop = totalPopSeries[0]?.value ?? 0;
   const endPop = totalPopSeries[totalPopSeries.length - 1]?.value ?? startPop;
+  const meanNeedsMet = mean(needsMetSeries.map((point) => point.value));
+  const finalNeedsMet = needsMetSeries[needsMetSeries.length - 1]?.value ?? 0;
   const startIndex = worldPriceIndexSeries[0]?.value ?? 1;
   const endIndex = worldPriceIndexSeries[worldPriceIndexSeries.length - 1]?.value ?? startIndex;
   const annualizedInflation = years > 0 && startIndex > 0 ? Math.pow(endIndex / startIndex, 1 / Math.max(1, years)) - 1 : 0;
@@ -443,6 +470,10 @@ export function runCampaignMetrics(data: GameData, seed: number, years: number):
     hegemonyShareFinal: hegemonySeries[hegemonySeries.length - 1]?.value ?? hegemonyAtYear20,
     worldPopGrowthShare: startPop > 0 ? (endPop / startPop) - 1 : 0,
     highMilitancyShareFinal: finalMil,
+    avgNeedsMetMean: meanNeedsMet,
+    avgNeedsMetFinal: finalNeedsMet,
+    peakActiveRebellions,
+    peakRebelArmies,
   };
 
   return {
@@ -460,6 +491,7 @@ export function runCampaignMetrics(data: GameData, seed: number, years: number):
     population: {
       totalWorldPop: totalPopSeries,
       annualGrowthRate,
+      avgNeedsMet: needsMetSeries,
       urbanShare: urbanShareSeries,
       popTypeShareStart,
       popTypeShareEnd,

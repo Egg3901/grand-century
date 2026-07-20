@@ -250,11 +250,14 @@ function chooseRebelDemand(world: World, data: GameData, nationId: number, state
 function spawnRebellionIfNeeded(world: World, data: GameData, nationId: number): void {
   if (!Array.isArray(world.rebellions)) world.rebellions = [];
   if (!Number.isFinite(world.nextRebellionId)) world.nextRebellionId = 1;
+  const activeRebellions = world.rebellions.filter((rebellion) => rebellion.status === 'active');
+  let activeWorldCount = activeRebellions.length;
+  if (activeWorldCount >= BALANCE.rebellion.worldActiveCap) return;
+  let activeNationCount = activeRebellions.filter((rebellion) => rebellion.targetNation === nationId).length;
+  if (activeNationCount >= BALANCE.rebellion.nationActiveCap) return;
+
   for (const state of world.states) {
     if (state.owner !== nationId) continue;
-    if (state.unrestRisk < 1.05) continue;
-    if (world.day - state.lastRebellionDay < 180) continue;
-
     let bestProvince = state.provinceIds[0] ?? -1;
     let bestMil = -Infinity;
     for (const provinceId of state.provinceIds) {
@@ -274,7 +277,15 @@ function spawnRebellionIfNeeded(world: World, data: GameData, nationId: number):
         bestProvince = provinceId;
       }
     }
-    if (bestProvince < 0 || bestMil < 5.8) continue;
+    if (bestProvince < 0) continue;
+    const unrestHot = state.unrestRisk >= BALANCE.rebellion.unrestRiskThreshold
+      && bestMil >= BALANCE.rebellion.stateMilitancyThreshold;
+    state.unrestMonths = unrestHot ? state.unrestMonths + 1 : Math.max(0, state.unrestMonths - 1);
+    if (!unrestHot) continue;
+    if (state.unrestMonths < BALANCE.rebellion.sustainedUnrestMonths) continue;
+    if (world.day - state.lastRebellionDay < BALANCE.rebellion.stateCooldownDays) continue;
+    if (activeNationCount >= BALANCE.rebellion.nationActiveCap) continue;
+    if (activeWorldCount >= BALANCE.rebellion.worldActiveCap) break;
 
     const province = world.provinces[bestProvince];
     if (!province) continue;
@@ -284,20 +295,23 @@ function spawnRebellionIfNeeded(world: World, data: GameData, nationId: number):
       && rebellion.targetNation === nationId
       && rebellion.originState === state.id
     ));
-    const rebellionId = existing?.id ?? world.nextRebellionId++;
-    if (!existing) {
-      world.rebellions.push({
-        id: rebellionId,
-        targetNation: nationId,
-        originState: state.id,
-        startDay: world.day,
-        progress: 0,
-        holdDays: 0,
-        status: 'active',
-        demand,
-      });
-    }
-    const regimentCount = clamp(Math.floor(state.unrestRisk * 3), 1, 5);
+    if (existing) continue;
+    const rebellionId = world.nextRebellionId++;
+    world.rebellions.push({
+      id: rebellionId,
+      targetNation: nationId,
+      originState: state.id,
+      startDay: world.day,
+      progress: 0,
+      holdDays: 0,
+      status: 'active',
+      demand,
+    });
+    const regimentCount = clamp(
+      Math.floor(state.unrestRisk * BALANCE.rebellion.spawnRegimentScale),
+      BALANCE.rebellion.spawnRegimentMin,
+      BALANCE.rebellion.spawnRegimentMax,
+    );
     const sourcePop = province.popIds.find((popId) => (world.pops[popId]?.size ?? 0) > 0) ?? 0;
     world.armies.push({
       id: world.nextArmyId++,
@@ -318,7 +332,10 @@ function spawnRebellionIfNeeded(world: World, data: GameData, nationId: number):
       rebelDemand: demand,
     });
     state.lastRebellionDay = world.day;
-    state.unrestRisk = clamp(state.unrestRisk * 0.45, 0, 2);
+    state.unrestRisk = clamp(state.unrestRisk * BALANCE.rebellion.postSpawnUnrestMultiplier, 0, 2);
+    state.unrestMonths = 0;
+    activeNationCount += 1;
+    activeWorldCount += 1;
   }
 }
 

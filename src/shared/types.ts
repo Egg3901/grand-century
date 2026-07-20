@@ -227,6 +227,7 @@ export interface State {
   provinceIds: ProvinceId[];
   factories: Factory[];   // factories live at the state level
   unrestRisk: number;     // 0-1+ monthly pressure toward rebellion
+  unrestMonths: number;   // consecutive high-unrest months
   lastRebellionDay: GameDay;
 }
 

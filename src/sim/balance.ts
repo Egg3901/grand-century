@@ -26,6 +26,10 @@ export const BALANCE = {
     exportTariffPriceImpact: 0.1,
     // Factory operating model.
     factoryIdleLoss: 0.1,
+    rgoEmploymentPerLevel: 4200,
+    rgoOutputBoost: 1.2,
+    rgoWageShare: 0.8,
+    rgoOwnerShare: 0.12,
     factoryOperatingBase: 1,
     factoryOperatingPerLevel: 0.3,
     factoryWageShare: 0.28,
@@ -45,7 +49,7 @@ export const BALANCE = {
   },
   population: {
     minGrowthRate: -0.006,
-    maxGrowthRate: 0.009,
+    maxGrowthRate: 0.00022,
     believableAnnualGrowthCap: 0.02,
     passiveIncomeScale: 1.7,
     weeklyNeedsPreviousWeight: 0.6,
@@ -62,6 +66,22 @@ export const BALANCE = {
     deniedReformBasePressure: 0.05,
     deniedReformSupportPressure: 0.08,
     legalReformRelief: 0.01,
+  },
+  rebellion: {
+    worldActiveCap: 8,
+    nationActiveCap: 2,
+    stateCooldownDays: 900,
+    unrestRiskThreshold: 0.5,
+    stateMilitancyThreshold: 5.95,
+    sustainedUnrestMonths: 6,
+    spawnRegimentScale: 1.8,
+    spawnRegimentMin: 1,
+    spawnRegimentMax: 3,
+    postSpawnUnrestMultiplier: 0.55,
+    postResolutionUnrestMultiplier: 0.35,
+    crushedMilitancyRelief: 1.1,
+    enforcedMilitancyRelief: 0.6,
+    maxRebelArmiesWorld: 32,
   },
   ai: {
     // Stagger expensive AI planning work by nation/month to protect perf.

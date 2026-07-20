@@ -56,6 +56,9 @@ export function deserializeWorld(buffer: Uint8Array): { world: World; metadata: 
   const world = payload.world;
   if (!Array.isArray(world.rebellions)) world.rebellions = [];
   if (!Number.isFinite(world.nextRebellionId)) world.nextRebellionId = 1;
+  for (const state of world.states ?? []) {
+    if (!Number.isFinite(state.unrestMonths)) state.unrestMonths = 0;
+  }
   importDiplomacyRuntime(world, payload.runtimes?.diplomacy);
   importWarRuntime(world, payload.runtimes?.war);
   return {

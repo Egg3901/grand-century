@@ -247,6 +247,7 @@ function createStates(tagToNationId: Record<string, number>): State[] {
     provinceIds: stateSeed.provinceIds.slice(),
     factories: [],
     unrestRisk: 0,
+    unrestMonths: 0,
     lastRebellionDay: -3650,
   }));
 }

@@ -81,20 +81,20 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>): void {
       return pop && (pop.type === 'farmer' || pop.type === 'laborer') && pop.size > 0;
     });
     const totalEligible = totalPopSize(world, eligible);
-    const capacity = Math.max(0, finite(province.rgo.level, 1)) * 2600;
+    const capacity = Math.max(0, finite(province.rgo.level, 1)) * BALANCE.economy.rgoEmploymentPerLevel;
     const employed = Math.min(totalEligible, capacity);
     province.rgo.employed = employed;
     if (employed <= 0 || totalEligible <= 0) continue;
 
     const laborUnits = employed / 1000;
-    const throughput = recipe.output.amount * laborUnits * (1 + province.rgo.level * 0.1);
+    const throughput = recipe.output.amount * laborUnits * (1 + province.rgo.level * 0.1) * BALANCE.economy.rgoOutputBoost;
     const outputAmount = registerSupply(world, recipe.output.good, throughput);
     if (outputAmount <= 0) continue;
 
     const nationId = province.owner;
     const grossRevenue = computeSaleRevenue(world, recipe.output.good, nationId, outputAmount);
-    const wagePool = grossRevenue * 0.72;
-    const ownerPool = grossRevenue * 0.15;
+    const wagePool = grossRevenue * BALANCE.economy.rgoWageShare;
+    const ownerPool = grossRevenue * BALANCE.economy.rgoOwnerShare;
     const statePool = Math.max(0, grossRevenue - wagePool - ownerPool);
     world.nations[nationId].monthlyProductionIncome += statePool;
 

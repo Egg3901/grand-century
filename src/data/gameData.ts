@@ -83,53 +83,53 @@ const RECIPES: Recipe[] = [
 
 const POP_NEEDS: Record<PopType, PopNeedsDef> = {
   farmer: {
-    life: [input('grain', 0.55), input('fish', 0.2)],
-    everyday: [input('clothes', 0.08), input('liquor', 0.03)],
+    life: [input('grain', 0.36), input('cattle', 0.2), input('fish', 0.1)],
+    everyday: [input('timber', 0.08)],
     luxury: [input('furniture', 0.02), input('wine', 0.01)],
   },
   laborer: {
-    life: [input('grain', 0.52), input('cattle', 0.22)],
-    everyday: [input('clothes', 0.09), input('liquor', 0.04)],
+    life: [input('grain', 0.35), input('cattle', 0.22), input('fish', 0.1)],
+    everyday: [input('timber', 0.09)],
     luxury: [input('furniture', 0.03), input('wine', 0.01)],
   },
   craftsman: {
-    life: [input('grain', 0.45), input('fish', 0.2)],
-    everyday: [input('clothes', 0.14), input('liquor', 0.05), input('paper', 0.03)],
+    life: [input('grain', 0.29), input('cattle', 0.19), input('fish', 0.09)],
+    everyday: [input('timber', 0.08), input('fabric', 0.05)],
     luxury: [input('furniture', 0.05), input('wine', 0.03)],
   },
   clerk: {
-    life: [input('grain', 0.4), input('fish', 0.18)],
-    everyday: [input('clothes', 0.18), input('paper', 0.05), input('liquor', 0.04)],
+    life: [input('grain', 0.27), input('cattle', 0.18), input('fish', 0.08)],
+    everyday: [input('timber', 0.07), input('fabric', 0.06)],
     luxury: [input('furniture', 0.06), input('wine', 0.04)],
   },
   capitalist: {
-    life: [input('grain', 0.36), input('fish', 0.12)],
-    everyday: [input('clothes', 0.24), input('paper', 0.08), input('wine', 0.06)],
+    life: [input('grain', 0.22), input('cattle', 0.14), input('fish', 0.08)],
+    everyday: [input('timber', 0.07), input('fabric', 0.08)],
     luxury: [input('furniture', 0.1), input('machine_parts', 0.02)],
   },
   aristocrat: {
-    life: [input('grain', 0.34), input('cattle', 0.16)],
-    everyday: [input('clothes', 0.22), input('wine', 0.08)],
+    life: [input('grain', 0.22), input('cattle', 0.16), input('fish', 0.08)],
+    everyday: [input('timber', 0.07), input('fabric', 0.08)],
     luxury: [input('furniture', 0.11), input('artillery', 0.01)],
   },
   clergy: {
-    life: [input('grain', 0.4), input('fish', 0.2)],
-    everyday: [input('clothes', 0.12), input('paper', 0.06)],
+    life: [input('grain', 0.28), input('cattle', 0.18), input('fish', 0.09)],
+    everyday: [input('timber', 0.07), input('fabric', 0.05)],
     luxury: [input('furniture', 0.04), input('wine', 0.02)],
   },
   soldier: {
-    life: [input('grain', 0.52), input('cattle', 0.24)],
-    everyday: [input('clothes', 0.12), input('liquor', 0.05), input('small_arms', 0.02)],
+    life: [input('grain', 0.36), input('cattle', 0.23), input('fish', 0.1)],
+    everyday: [input('timber', 0.08), input('fabric', 0.04)],
     luxury: [input('wine', 0.02), input('canned_food', 0.03)],
   },
   officer: {
-    life: [input('grain', 0.42), input('fish', 0.18)],
-    everyday: [input('clothes', 0.16), input('paper', 0.05), input('liquor', 0.04)],
+    life: [input('grain', 0.28), input('cattle', 0.18), input('fish', 0.09)],
+    everyday: [input('timber', 0.07), input('fabric', 0.06)],
     luxury: [input('wine', 0.05), input('small_arms', 0.02)],
   },
   slave: {
-    life: [input('grain', 0.46), input('fish', 0.16)],
-    everyday: [input('clothes', 0.03)],
+    life: [input('grain', 0.31), input('cattle', 0.18), input('fish', 0.08)],
+    everyday: [input('timber', 0.05)],
     luxury: [],
   },
 };

@@ -18,6 +18,7 @@ import type {
   World,
 } from '../../shared/types';
 import type { Rng } from '../rng';
+import { BALANCE } from '../balance';
 import { getOrCreateRelation, setTruce } from './diplomacy';
 import { createNationParties, defaultRulingParty, defaultUpperHouse, updateMilitaryDerivedForNation } from '../politics';
 
@@ -737,7 +738,7 @@ function cleanupDestroyedForces(world: World): void {
   world.fleets = world.fleets.filter((fleet) => fleet.ships.length > 0);
 }
 
-function capRebelArmies(world: World, limit = 180): void {
+function capRebelArmies(world: World, limit = BALANCE.rebellion.maxRebelArmiesWorld): void {
   const rebels = world.armies.filter((army) => army.rebel);
   if (rebels.length <= limit) return;
   const keepIds = new Set(rebels
@@ -1475,6 +1476,26 @@ function applyRebelIndependenceDemand(world: World, data: GameData, rebellion: R
   updateMilitaryDerivedForNation(world, rebellion.targetNation);
 }
 
+function applyRebellionAftermath(world: World, rebellion: Rebellion, militancyRelief: number): void {
+  const targetStates = new Set([rebellion.originState, ...(rebellion.demand.stateIds ?? [])]);
+  for (const stateId of targetStates) {
+    const state = world.states[stateId];
+    if (!state) continue;
+    state.unrestRisk = clamp(state.unrestRisk * BALANCE.rebellion.postResolutionUnrestMultiplier, 0, 2);
+    state.unrestMonths = 0;
+    state.lastRebellionDay = world.day;
+    for (const provinceId of state.provinceIds) {
+      const province = world.provinces[provinceId];
+      if (!province || province.owner !== rebellion.targetNation) continue;
+      for (const popId of province.popIds) {
+        const pop = world.pops[popId];
+        if (!pop || pop.size <= 0) continue;
+        pop.militancy = clamp(pop.militancy - militancyRelief, 0, 10);
+      }
+    }
+  }
+}
+
 function updateRebellions(world: World, data: GameData): void {
   if (!Array.isArray(world.rebellions) || world.rebellions.length === 0) return;
   for (const rebellion of world.rebellions) {
@@ -1505,12 +1526,16 @@ function updateRebellions(world: World, data: GameData): void {
     const enforce = rebellion.progress >= REBELLION_PROGRESS_TO_ENFORCE
       || (rebellion.holdDays >= 180 && holdShare >= 0.35 && rebelStrength >= loyalStrength * 0.6);
     if (!enforce) {
-      if (armies.length === 0 && rebellion.progress < 2 && holdShare <= 0.01) rebellion.status = 'crushed';
+      if (armies.length === 0 && rebellion.progress < 2 && holdShare <= 0.01) {
+        rebellion.status = 'crushed';
+        applyRebellionAftermath(world, rebellion, BALANCE.rebellion.crushedMilitancyRelief);
+      }
       continue;
     }
     if (rebellion.demand.type === 'enact_reform') applyRebelReformDemand(world, data, rebellion);
     else applyRebelIndependenceDemand(world, data, rebellion);
     rebellion.status = 'enforced';
+    applyRebellionAftermath(world, rebellion, BALANCE.rebellion.enforcedMilitancyRelief);
     for (const army of armies) army.regiments = [];
   }
   if (world.rebellions.length > 64) {

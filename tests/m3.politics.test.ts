@@ -41,26 +41,30 @@ describe('M3 politics and unrest', () => {
     expect(state).toBeTruthy();
     if (!state) return;
 
-    for (const provinceId of state.provinceIds) {
-      const province = world.provinces[provinceId];
-      if (!province) continue;
-      for (const popId of province.popIds) {
-        const pop = world.pops[popId];
-        if (!pop) continue;
-        pop.needsMet = 0.02;
-        pop.militancy = 6.1;
-        pop.consciousness = 6;
+    for (let day = 0; day < 365 * 2; day++) {
+      if (day % 30 === 0) {
+        for (const provinceId of state.provinceIds) {
+          const province = world.provinces[provinceId];
+          if (!province) continue;
+          for (const popId of province.popIds) {
+            const pop = world.pops[popId];
+            if (!pop) continue;
+            pop.needsMet = 0.02;
+            pop.militancy = 7.4;
+            pop.consciousness = 6;
+            pop.money = 0;
+          }
+        }
       }
+      advanceDay(world, GAME_DATA);
     }
-
-    for (let day = 0; day < 365; day++) advanceDay(world, GAME_DATA);
 
     const hasRebelArmy = world.armies.some((army) => (
       army.rebel
       && army.hostileTo === world.playerNation
       && state.provinceIds.includes(army.location)
     ));
-    expect(hasRebelArmy || state.unrestRisk > 0.65).toBe(true);
+    expect(hasRebelArmy || state.unrestRisk > 0.8).toBe(true);
   });
 
   it('higher conscription reform increases mobilization capacity', () => {

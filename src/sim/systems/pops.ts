@@ -211,7 +211,7 @@ function provinceScores(world: World): { score: number; openings: number }[] {
     }
     avgNeeds = count > 0 ? avgNeeds / count : 0;
 
-    const rgoCapacity = province.rgo.level * 2600;
+    const rgoCapacity = province.rgo.level * BALANCE.economy.rgoEmploymentPerLevel;
     const rgoOpenings = Math.max(0, rgoCapacity - province.rgo.employed);
     const factoryOpenings = state
       ? Math.max(0, state.factories.reduce((sum, f) => sum + f.level * 2300, 0) - state.factories.reduce((sum, f) => sum + f.employed, 0))
@@ -273,7 +273,12 @@ export function runPopsMonthly(world: World, _data: GameData, rng: Rng): void {
   }
   const soldierDemand = nationSoldierDemand(world);
 
-  for (const pop of world.pops) {
+  // Process only cohorts present at month start so newly split/promoted pops
+  // don't receive another full monthly growth/conversion pass immediately.
+  const monthStartPopCount = world.pops.length;
+  for (let popIndex = 0; popIndex < monthStartPopCount; popIndex++) {
+    const pop = world.pops[popIndex];
+    if (!pop) continue;
     if (pop.size <= 0) {
       cleanupPop(pop);
       continue;
@@ -283,11 +288,13 @@ export function runPopsMonthly(world: World, _data: GameData, rng: Rng): void {
     const literacy = nation?.literacy ?? 0;
     const healthcareLevel = nation?.reforms.healthcare ?? 0;
 
-    const noise = (rng.next() - 0.5) * 0.001;
+    const noise = (rng.next() - 0.5) * 0.0001;
+    const needsScaledGrowthCap = 0.00014 + pop.needsMet * 0.000035;
+    const maxGrowthRate = Math.min(BALANCE.population.maxGrowthRate, needsScaledGrowthCap);
     const growthRate = clamp(
-      -0.00415 + pop.needsMet * 0.00945 + healthcareLevel * 0.00075 + noise,
+      -0.0009 + pop.needsMet * 0.0013 + healthcareLevel * 0.00012 + noise,
       BALANCE.population.minGrowthRate,
-      BALANCE.population.maxGrowthRate,
+      maxGrowthRate,
     );
     const growthDelta = Math.floor(pop.size * growthRate);
     pop.size = Math.max(0, pop.size + growthDelta);
