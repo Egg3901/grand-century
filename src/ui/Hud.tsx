@@ -10,6 +10,7 @@ const PANELS: { id: PanelId; label: string }[] = [
   { id: 'market', label: 'Market' },
   { id: 'politics', label: 'Politics' },
   { id: 'diplomacy', label: 'Diplomacy' },
+  { id: 'great_powers', label: 'Great Powers' },
   { id: 'military', label: 'Military' },
 ];
 const MAP_MODES: { id: MapMode; label: string }[] = [
@@ -68,6 +69,10 @@ export function Hud() {
         <div className="hud-top__section hud-top__nation">
           <span className="atlas-heading">{playerNation?.name ?? 'United Kingdom'}</span>
           <strong>{formatMoney(playerNation?.treasury ?? 0)}</strong>
+          <span className={`hud-infamy ${playerNation && snapshot && playerNation.infamy >= snapshot.infamyLimit ? 'is-danger' : ''}`}>
+            Infamy {(playerNation?.infamy ?? 0).toFixed(1)}
+            {snapshot ? ` / ${snapshot.infamyLimit.toFixed(1)}` : ''}
+          </span>
         </div>
       </header>
 

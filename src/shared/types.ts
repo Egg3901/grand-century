@@ -326,7 +326,7 @@ export interface War {
 }
 
 export type DiploRelationKind =
-  | 'alliance' | 'guarantee' | 'truce' | 'rivalry';
+  | 'alliance' | 'guarantee' | 'truce' | 'rivalry' | 'neutral';
 
 export interface DiploRelation {
   a: NationId;
@@ -334,6 +334,34 @@ export interface DiploRelation {
   kind: DiploRelationKind;
   opinion: number;       // -200..200
   expiresDay: GameDay;   // -1 if permanent
+}
+
+export interface CasusBelli {
+  holder: NationId;
+  target: NationId;
+  goal: WarGoalType;
+  stateId: StateId;
+  scoreCost: number;
+  infamyCost: number;
+  readyDay: GameDay;
+  expiresDay: GameDay;
+  discovered: boolean;
+}
+
+export interface GreatPowerStanding {
+  nation: NationId;
+  rank: number;
+  industry: number;
+  military: number;
+  prestige: number;
+  score: number;
+  sphereMembers: NationId[];
+  influencePool: number;
+}
+
+export interface InfluenceTarget {
+  target: NationId;
+  points: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -429,6 +457,11 @@ export interface NationSummary {
   prestige: number;
   infamy: number;
   gpRank: number;
+  industryScore: number;
+  militaryScore: number;
+  powerScore: number;
+  spheredBy: NationId;
+  sphereMembers: NationId[];
   atWar: boolean;
   numProvinces: number;
   militancy: number; // avg
@@ -446,6 +479,7 @@ export interface ProvinceSummary {
   id: ProvinceId;
   owner: NationId;
   controller: NationId;
+  stateId: StateId;
   population: number;
   militancy: number;
   unrestRisk: number;
@@ -495,6 +529,13 @@ export interface WorldSnapshot {
   provinces: ProvinceSummary[];
   market: MarketGood[];
   wars: War[];
+  relations: DiploRelation[];
+  greatPowers: GreatPowerStanding[];
+  playerCbs: CasusBelli[];
+  playerInfluencePool: number;
+  playerInfluenceTargets: InfluenceTarget[];
+  infamyLimit: number;
+  coalitionAgainstPlayer: NationId[];
   armies: Army[];
   fleets: Fleet[];
   playerProduction: ProductionLedgerEntry[];
@@ -550,6 +591,10 @@ export type Command =
   | { t: 'moveFleet'; fleet: FleetId; target: ProvinceId }
   | { t: 'embarkArmy'; fleet: FleetId; army: ArmyId }
   | { t: 'proposeAlliance'; target: NationId }
+  | { t: 'offerGuarantee'; target: NationId }
+  | { t: 'addRival'; target: NationId }
+  | { t: 'cancelRelation'; target: NationId; kind: 'alliance' | 'guarantee' | 'rivalry' }
+  | { t: 'influenceNation'; target: NationId; spend?: number }
   | { t: 'fabricateCB'; target: NationId; goal: WarGoalType; state: StateId }
   | { t: 'declareWar'; target: NationId; goal: WarGoalType; state: StateId }
   | { t: 'offerPeace'; war: WarId; goalsToEnforce: number[] }
@@ -594,6 +639,17 @@ export interface NationDetail {
   rulingIdeology: PartyIdeology;
   upperHouse: { ideology: PartyIdeology; share: number }[];
   infamy: number;
+  infamyLimit: number;
+  gpRank: number;
+  industryScore: number;
+  militaryScore: number;
+  powerScore: number;
+  spheredBy: NationId;
+  sphereMembers: NationId[];
+  relations: { nation: NationId; kind: DiploRelationKind; opinion: number; expiresDay: GameDay }[];
+  cbs: CasusBelli[];
+  influencePool: number;
+  coalitionAgainst: NationId[];
   election: {
     elective: boolean;
     yearsToNext: number;

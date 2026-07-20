@@ -60,6 +60,16 @@
   justify-content: flex-end;
 }
 
+.hud-infamy {
+  font-size: 0.78rem;
+  color: #3f2f22;
+}
+
+.hud-infamy.is-danger {
+  color: #8a2b22;
+  font-weight: 700;
+}
+
 .hud-rail {
   position: absolute;
   top: 4.6rem;

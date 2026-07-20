@@ -14,6 +14,8 @@ const DEFAULT_FILL = '#b7a486';
 const DIPLO_COLORS = {
   self: '#6f879f',
   ally: '#7c9472',
+  sphere: '#6f8f7f',
+  rival: '#8a5f46',
   atWar: '#8e5a52',
   neutral: '#b5a27f',
 };
@@ -283,6 +285,7 @@ export function GrandMap() {
     if (!map || !map.getLayer(MAP_FILL_LAYER) || !snapshot) return;
 
     const provinceById = new globalThis.Map(snapshot.provinces.map((province) => [province.id, province]));
+    const nationById = new globalThis.Map(snapshot.nations.map((nation) => [nation.id, nation]));
     const economies = snapshot.provinces.map((province) => province.economyOutput);
     const econMin = Math.min(...economies);
     const econMax = Math.max(...economies);
@@ -290,6 +293,7 @@ export function GrandMap() {
 
     const allies = new Set<number>();
     const enemies = new Set<number>();
+    const relationByNation = new globalThis.Map<number, string>();
     for (const war of snapshot.wars) {
       if (war.attackers.includes(snapshot.playerNation)) {
         war.attackers.forEach((nationId) => allies.add(nationId));
@@ -299,6 +303,11 @@ export function GrandMap() {
         war.attackers.forEach((nationId) => enemies.add(nationId));
       }
     }
+    for (const relation of snapshot.relations) {
+      if (relation.a === snapshot.playerNation) relationByNation.set(relation.b, relation.kind);
+      else if (relation.b === snapshot.playerNation) relationByNation.set(relation.a, relation.kind);
+    }
+    const playerNation = nationById.get(snapshot.playerNation) ?? null;
 
     for (const province of snapshot.provinces) {
       const ownerColor = nationColorById.get(province.owner) ?? DEFAULT_FILL;
@@ -327,9 +336,16 @@ export function GrandMap() {
       } else if (mapMode === 'military') {
         fill = province.controller !== province.owner ? blend(controllerColor, 0.14) : blend(ownerColor, 0.32);
       } else if (mapMode === 'diplomatic') {
+        const ownerNation = nationById.get(province.owner);
+        const relation = relationByNation.get(province.owner) ?? 'neutral';
         if (province.owner === snapshot.playerNation) fill = DIPLO_COLORS.self;
         else if (enemies.has(province.owner)) fill = DIPLO_COLORS.atWar;
         else if (allies.has(province.owner)) fill = DIPLO_COLORS.ally;
+        else if (relation === 'rivalry') fill = DIPLO_COLORS.rival;
+        else if (relation === 'alliance') fill = DIPLO_COLORS.ally;
+        else if (ownerNation && (ownerNation.spheredBy === snapshot.playerNation || playerNation?.spheredBy === ownerNation.id)) {
+          fill = DIPLO_COLORS.sphere;
+        }
         else fill = DIPLO_COLORS.neutral;
       }
 

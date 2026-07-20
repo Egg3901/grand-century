@@ -11,6 +11,14 @@ import type {
 import { computePlayerBudget } from './systems/budget';
 import { computeReformLegality, isElectiveGovernment, partyByKey, topReformDemandEntries, yearsToElection } from './politics';
 import { dayToDate } from './world';
+import {
+  getCbsForNation,
+  getCoalitionAgainst,
+  getInfluencePool,
+  getInfamyLimit,
+  getNationPowerBreakdown,
+  getNationRelations,
+} from './systems/diplomacy';
 
 interface PopAggregate {
   type: PopType;
@@ -86,6 +94,17 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
       rulingIdeology: 'conservative',
       upperHouse: [],
       infamy: 0,
+      infamyLimit: getInfamyLimit(),
+      gpRank: 0,
+      industryScore: 0,
+      militaryScore: 0,
+      powerScore: 0,
+      spheredBy: -1,
+      sphereMembers: [],
+      relations: [],
+      cbs: [],
+      influencePool: 0,
+      coalitionAgainst: [],
       election: {
         elective: false,
         yearsToNext: 0,
@@ -124,6 +143,7 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
     }
   }
   const date = dayToDate(world.day);
+  const power = getNationPowerBreakdown(world, nation.id);
   const ruling = partyByKey(nation, nation.rulingParty);
   const upperHouse = (Object.entries(nation.upperHouse) as [PartyIdeology, number][])
     .map(([ideology, share]) => ({ ideology, share }))
@@ -160,6 +180,17 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
     rulingIdeology: ruling?.ideology ?? 'conservative',
     upperHouse,
     infamy: nation.infamy,
+    infamyLimit: getInfamyLimit(),
+    gpRank: nation.gpRank,
+    industryScore: power.industry,
+    militaryScore: power.military,
+    powerScore: power.score,
+    spheredBy: nation.spheredBy,
+    sphereMembers: nation.sphereMembers.slice().sort((a, b) => a - b),
+    relations: getNationRelations(world, nation.id),
+    cbs: getCbsForNation(world, nation.id),
+    influencePool: getInfluencePool(world, nation.id),
+    coalitionAgainst: getCoalitionAgainst(world, nation.id),
     election: {
       elective: isElectiveGovernment(nation.government),
       yearsToNext: yearsToElection(date, nation),

@@ -21,6 +21,7 @@ import {
   isElectiveGovernment,
   updateMilitaryDerivedForNation,
 } from './politics';
+import { primeDiplomacy } from './systems/diplomacy';
 
 const RGO_RECIPES = ['rgo_grain', 'rgo_cattle', 'rgo_timber', 'rgo_coal', 'rgo_iron', 'rgo_cotton'];
 const FACTORY_RECIPES = ['factory_fabric', 'factory_steel', 'factory_small_arms', 'factory_cannery'];
@@ -330,19 +331,33 @@ function createPops(worldProvinces: Province[], provinceRuntime: ProvinceSeedRun
 
 function createRelations(): DiploRelation[] {
   const relations: DiploRelation[] = [];
+  const alliancePairs = new Set<string>([
+    'ENG:POR',
+    'AUS:RUS',
+  ]);
+  const rivalryPairs = new Set<string>([
+    'ENG:FRA',
+    'PRU:AUS',
+    'RUS:OTT',
+    'USA:ENG',
+  ]);
   for (let a = 0; a < WORLD_SEED.nations.length; a++) {
     for (let b = a + 1; b < WORLD_SEED.nations.length; b++) {
       const tagA = WORLD_SEED.nations[a]?.tag ?? '';
       const tagB = WORLD_SEED.nations[b]?.tag ?? '';
-      const kind = (tagA === 'ENG' && tagB === 'POR') || (tagA === 'RUS' && tagB === 'AUS')
+      const key = `${tagA}:${tagB}`;
+      const reverse = `${tagB}:${tagA}`;
+      const kind = alliancePairs.has(key) || alliancePairs.has(reverse)
         ? 'alliance'
-        : 'rivalry';
+        : rivalryPairs.has(key) || rivalryPairs.has(reverse)
+          ? 'rivalry'
+          : 'neutral';
       relations.push({
         a,
         b,
         kind,
-        opinion: kind === 'alliance' ? 95 : 0,
-        expiresDay: -1,
+        opinion: kind === 'alliance' ? 90 : kind === 'rivalry' ? -55 : 0,
+        expiresDay: kind === 'alliance' ? 365 * 12 : -1,
       });
     }
   }
@@ -416,5 +431,6 @@ export function createWorld(data: GameData, seed: number): World {
     nextPopId: pops.length,
   };
   for (const nation of world.nations) updateMilitaryDerivedForNation(world, nation.id);
+  primeDiplomacy(world, data);
   return world;
 }

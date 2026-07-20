@@ -19,7 +19,7 @@ export type MapMode =
   | 'ruling_ideology';
 export type PanelId =
   | null | 'budget' | 'population' | 'market' | 'politics' | 'diplomacy'
-  | 'military' | 'production' | 'technology' | 'province';
+  | 'great_powers' | 'military' | 'production' | 'technology' | 'province';
 
 interface UIState {
   data: GameData | null;

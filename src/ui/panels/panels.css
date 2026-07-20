@@ -214,6 +214,87 @@
   text-align: left;
 }
 
+.diplo-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem 0.55rem;
+  margin-top: 0.45rem;
+}
+
+.diplo-controls label {
+  display: grid;
+  gap: 0.18rem;
+  font-size: 0.78rem;
+}
+
+.diplo-controls select {
+  border: 1px solid rgba(72, 49, 35, 0.24);
+  border-radius: 7px;
+  background: rgba(242, 229, 201, 0.92);
+  padding: 0.22rem 0.35rem;
+  color: #2f2219;
+}
+
+.diplo-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.35rem 0 0.5rem;
+}
+
+.diplo-action-row button,
+.diplo-buttons button {
+  border: 1px solid rgba(67, 49, 35, 0.25);
+  background: rgba(240, 227, 201, 0.9);
+  border-radius: 999px;
+  padding: 0.16rem 0.52rem;
+  font-size: 0.72rem;
+}
+
+.diplo-action-row button:disabled,
+.diplo-buttons button:disabled {
+  opacity: 0.55;
+}
+
+.diplo-list li {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.22rem;
+}
+
+.diplo-list li > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.7rem;
+  align-items: baseline;
+}
+
+.diplo-list li > div span {
+  font-size: 0.77rem;
+  color: #4d392b;
+}
+
+.diplo-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.24rem;
+}
+
+.gp-list li {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.gp-list li > div {
+  display: grid;
+  gap: 0.16rem;
+}
+
+.gp-list span {
+  font-size: 0.78rem;
+  color: #4a3628;
+}
+
 .sparkline {
   width: 3.4rem;
   height: 1rem;

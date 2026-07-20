@@ -1,6 +1,15 @@
 import type { BudgetLine, GameData, NationSummary, PartyIdeology, PopType, ProvinceSummary, World, WorldSnapshot } from '../shared/types';
 import { dayToDate } from './world';
 import { ideologyFromPop, partyByKey, reformDemandForPop, topReformDemandEntries } from './politics';
+import {
+  getCbsForNation,
+  getCoalitionAgainst,
+  getGreatPowerStandings,
+  getInfluencePool,
+  getInfluenceTargetsForNation,
+  getInfamyLimit,
+  getNationPowerBreakdown,
+} from './systems/diplomacy';
 
 function zeroBudget(): BudgetLine {
   return {
@@ -67,6 +76,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       .map((recipe) => [recipe.key, recipe.output.good]),
   ) as Record<string, number>;
 
+  const powerByNation = new Map(world.nations.map((nation) => [nation.id, getNationPowerBreakdown(world, nation.id)]));
   const nations: NationSummary[] = world.nations.map((nation) => {
     const owned = world.provinces.filter((province) => province.owner === nation.id);
     const popCount = owned.flatMap((province) => province.popIds);
@@ -78,6 +88,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       ? ownedStates.reduce((sum, state) => sum + state.unrestRisk, 0) / ownedStates.length
       : 0;
     const ruling = partyByKey(nation, nation.rulingParty);
+    const power = powerByNation.get(nation.id) ?? { industry: 0, military: 0, score: 0 };
     return {
       id: nation.id,
       tag: nation.tag,
@@ -90,6 +101,11 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       prestige: nation.prestige,
       infamy: nation.infamy,
       gpRank: nation.gpRank,
+      industryScore: power.industry,
+      militaryScore: power.military,
+      powerScore: power.score,
+      spheredBy: nation.spheredBy,
+      sphereMembers: nation.sphereMembers.slice().sort((a, b) => a - b),
       atWar: world.wars.some((war) => war.attackers.includes(nation.id) || war.defenders.includes(nation.id)),
       numProvinces: owned.length,
       militancy: avgMilitancy,
@@ -112,6 +128,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       id: province.id,
       owner: province.owner,
       controller: province.controller,
+      stateId: province.stateId,
       population: provincePopulation(world, province.popIds),
       militancy: provinceMilitancy(world, province.popIds),
       unrestRisk: world.states[province.stateId]?.unrestRisk ?? 0,
@@ -226,6 +243,13 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     provinces,
     market: world.market.map((good) => ({ ...good })),
     wars: world.wars.map((war) => ({ ...war, attackers: war.attackers.slice(), defenders: war.defenders.slice(), goals: war.goals.map((goal) => ({ ...goal })) })),
+    relations: world.relations.map((relation) => ({ ...relation })),
+    greatPowers: getGreatPowerStandings(world).map((entry) => ({ ...entry, sphereMembers: entry.sphereMembers.slice() })),
+    playerCbs: getCbsForNation(world, world.playerNation).map((cb) => ({ ...cb })),
+    playerInfluencePool: getInfluencePool(world, world.playerNation),
+    playerInfluenceTargets: getInfluenceTargetsForNation(world, world.playerNation).map((entry) => ({ ...entry })),
+    infamyLimit: getInfamyLimit(),
+    coalitionAgainstPlayer: getCoalitionAgainst(world, world.playerNation),
     armies: world.armies.map((army) => ({ ...army, regiments: army.regiments.map((regiment) => ({ ...regiment })), leader: army.leader ? { ...army.leader } : null })),
     fleets: world.fleets.map((fleet) => ({ ...fleet, ships: fleet.ships.map((ship) => ({ ...ship })) })),
     playerProduction,
