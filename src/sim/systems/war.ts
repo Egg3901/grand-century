@@ -9,6 +9,7 @@ import type {
   Pop,
   Province,
   ProvinceId,
+  Rebellion,
   Ship,
   StateId,
   War,
@@ -18,6 +19,7 @@ import type {
 } from '../../shared/types';
 import type { Rng } from '../rng';
 import { getOrCreateRelation, setTruce } from './diplomacy';
+import { createNationParties, defaultRulingParty, defaultUpperHouse, updateMilitaryDerivedForNation } from '../politics';
 
 const MAX_REGIMENT_STRENGTH = 1000;
 const MAX_SHIP_STRENGTH = 100;
@@ -25,6 +27,21 @@ const BASE_ARMY_MOVE_DAYS = 5;
 const BASE_FLEET_MOVE_DAYS = 4;
 const MOBILIZED_UPKEEP_DAILY = 0.16;
 const COLONIAL_CLAIM_COST = 32;
+const REBELLION_PROGRESS_TO_ENFORCE = 85;
+const REBEL_SIEGE_BASE_DAILY = 0.022;
+
+const REGIMENT_ROLE: Record<Army['regiments'][number]['type'], {
+  offense: number;
+  defense: number;
+  siege: number;
+  mobility: number;
+  pursuit: number;
+}> = {
+  infantry: { offense: 1, defense: 1.05, siege: 1, mobility: 1, pursuit: 0.9 },
+  cavalry: { offense: 0.92, defense: 0.82, siege: 0.5, mobility: 1.24, pursuit: 1.45 },
+  artillery: { offense: 1.42, defense: 0.64, siege: 1.9, mobility: 0.76, pursuit: 0.72 },
+  guard: { offense: 1.25, defense: 1.26, siege: 1.12, mobility: 0.95, pursuit: 1.02 },
+};
 
 interface ColonialClaim {
   stateId: StateId;
@@ -277,7 +294,12 @@ function movementDaysForArmy(world: World, army: Army, target: Province): number
   const leaderMove = army.leader?.trait === 'logistics' ? -0.7 : 0;
   const fortPenalty = target.fortLevel * 0.4;
   const terrainPenalty = terrainMoveCost(target.terrain);
-  return clamp(BASE_ARMY_MOVE_DAYS * terrainPenalty + fortPenalty + leaderMove, 2, 15);
+  const composition = sideTypePower([army]);
+  const cavalrySpeed = composition.cavalryShare * 0.32;
+  const artilleryDrag = composition.artilleryShare * 0.34;
+  const guardDrill = composition.guardShare * 0.08;
+  const compositionFactor = clamp(1 - cavalrySpeed + artilleryDrag - guardDrill, 0.72, 1.4);
+  return clamp(BASE_ARMY_MOVE_DAYS * terrainPenalty * compositionFactor + fortPenalty + leaderMove, 2, 15);
 }
 
 function movementDaysForFleet(world: World, fleet: Fleet, target: Province): number {
@@ -397,6 +419,85 @@ function sideAvgOrg(armies: Army[]): number {
   return total / regiments;
 }
 
+function sideTypePower(armies: Army[]): {
+  offense: number;
+  defense: number;
+  siege: number;
+  mobility: number;
+  pursuit: number;
+  total: number;
+  infantryShare: number;
+  cavalryShare: number;
+  artilleryShare: number;
+  guardShare: number;
+} {
+  const weights: Record<Army['regiments'][number]['type'], number> = {
+    infantry: 0,
+    cavalry: 0,
+    artillery: 0,
+    guard: 0,
+  };
+  let offense = 0;
+  let defense = 0;
+  let siege = 0;
+  let mobility = 0;
+  let pursuit = 0;
+  for (const army of armies) {
+    for (const regiment of army.regiments) {
+      const weight = clamp(regiment.strength / MAX_REGIMENT_STRENGTH, 0, 1.3) * clamp(regiment.organization / 100 + 0.2, 0.2, 1.2);
+      const role = REGIMENT_ROLE[regiment.type];
+      weights[regiment.type] += weight;
+      offense += role.offense * weight;
+      defense += role.defense * weight;
+      siege += role.siege * weight;
+      mobility += role.mobility * weight;
+      pursuit += role.pursuit * weight;
+    }
+  }
+  const total = Math.max(0.001, weights.infantry + weights.cavalry + weights.artillery + weights.guard);
+  const infantryShare = weights.infantry / total;
+  const cavalryShare = weights.cavalry / total;
+  const artilleryShare = weights.artillery / total;
+  const guardShare = weights.guard / total;
+  let adjustedOffense = offense;
+  let adjustedDefense = defense;
+  if (artilleryShare > 0.45 && infantryShare < 0.25) {
+    // Artillery-heavy forces without an infantry line collapse quickly in field battles.
+    adjustedOffense *= 0.82;
+    adjustedDefense *= 0.72;
+  }
+  if (guardShare > 0.18) {
+    adjustedOffense *= 1 + Math.min(0.12, guardShare * 0.18);
+    adjustedDefense *= 1 + Math.min(0.14, guardShare * 0.2);
+  }
+  return {
+    offense: adjustedOffense,
+    defense: adjustedDefense,
+    siege,
+    mobility,
+    pursuit,
+    total,
+    infantryShare,
+    cavalryShare,
+    artilleryShare,
+    guardShare,
+  };
+}
+
+function nationArmySpecializationTech(world: World, nationId: NationId): { cavalry: number; artillery: number; guard: number } {
+  const nation = world.nations[nationId];
+  if (!nation) return { cavalry: 0, artillery: 0, guard: 0 };
+  let cavalry = 0;
+  let artillery = 0;
+  let guard = 0;
+  for (const tech of nation.techs) {
+    if (tech.includes('cavalry') || tech.includes('mobility')) cavalry++;
+    if (tech.includes('artillery') || tech.includes('cannon') || tech.includes('siege')) artillery++;
+    if (tech.includes('guard') || tech.includes('staff') || tech.includes('professional')) guard++;
+  }
+  return { cavalry, artillery, guard };
+}
+
 function damageArmies(
   armies: Army[],
   orgDamage: number,
@@ -440,21 +541,29 @@ function resolveLandBattle(
   const leaderDef = sideLeader(defenders, false);
   const attackerTech = attackers.length > 0 ? nationArmyTech(world, attackers[0].owner) : 0;
   const defenderTech = defenders.length > 0 ? nationArmyTech(world, defenders[0].owner) : 0;
+  const attackerTypes = sideTypePower(attackers);
+  const defenderTypes = sideTypePower(defenders);
+  const attackerSpec = attackers.length > 0 ? nationArmySpecializationTech(world, attackers[0].owner) : { cavalry: 0, artillery: 0, guard: 0 };
+  const defenderSpec = defenders.length > 0 ? nationArmySpecializationTech(world, defenders[0].owner) : { cavalry: 0, artillery: 0, guard: 0 };
   const terrainDef = terrainDefenseBonus(terrain);
   const attackerRoll = rng.next() * 6;
   const defenderRoll = rng.next() * 6;
   const attackerOrg = sideAvgOrg(attackers) / 100;
   const defenderOrg = sideAvgOrg(defenders) / 100;
 
-  const attackerOffense = (attackerUnits * 1.15 + attackerRoll + leaderAtk.attack * 1.4 + attackerTech * 0.85) * clamp(attackerOrg + 0.35, 0.2, 1.4);
-  const defenderOffense = (defenderUnits * 1.1 + defenderRoll + leaderDef.attack * 1.2 + defenderTech * 0.8) * clamp(defenderOrg + 0.35, 0.2, 1.4);
-  const attackerDefense = 1 + leaderAtk.defense * 0.08;
-  const defenderDefense = 1 + leaderDef.defense * 0.08 + terrainDef + (province?.fortLevel ?? 0) * 0.05;
+  const attackerFlank = 1 + Math.min(0.24, Math.max(0, attackerTypes.cavalryShare - defenderTypes.cavalryShare) * 0.45) + attackerSpec.cavalry * 0.01;
+  const defenderFlank = 1 + Math.min(0.24, Math.max(0, defenderTypes.cavalryShare - attackerTypes.cavalryShare) * 0.45) + defenderSpec.cavalry * 0.01;
+  const attackerFirepower = attackerTypes.offense * (1 + attackerSpec.artillery * attackerTypes.artilleryShare * 0.03);
+  const defenderFirepower = defenderTypes.offense * (1 + defenderSpec.artillery * defenderTypes.artilleryShare * 0.03);
+  const attackerOffense = (attackerFirepower * attackerFlank + attackerRoll + leaderAtk.attack * 1.6 + attackerTech * 0.95) * clamp(attackerOrg + 0.35, 0.2, 1.45);
+  const defenderOffense = (defenderFirepower * defenderFlank + defenderRoll + leaderDef.attack * 1.45 + defenderTech * 0.9) * clamp(defenderOrg + 0.35, 0.2, 1.45);
+  const attackerDefense = 1 + leaderAtk.defense * 0.08 + attackerTypes.defense / Math.max(2, attackerUnits) * 0.3 + attackerSpec.guard * attackerTypes.guardShare * 0.02;
+  const defenderDefense = 1 + leaderDef.defense * 0.08 + terrainDef + (province?.fortLevel ?? 0) * 0.05 + defenderTypes.defense / Math.max(2, defenderUnits) * 0.34 + defenderSpec.guard * defenderTypes.guardShare * 0.02;
 
   const attackerOrgDamage = clamp((defenderOffense / attackerDefense) * 1.8, 3, 60);
   const defenderOrgDamage = clamp((attackerOffense / defenderDefense) * 1.75, 3, 60);
-  const attackerStrengthDamage = clamp((defenderOffense / attackerDefense) * 0.88, 2, 45);
-  const defenderStrengthDamage = clamp((attackerOffense / defenderDefense) * 0.84, 2, 45);
+  const attackerStrengthDamage = clamp((defenderOffense / attackerDefense) * (0.82 + defenderTypes.pursuit / Math.max(2, defenderUnits) * 0.2), 2, 45);
+  const defenderStrengthDamage = clamp((attackerOffense / defenderDefense) * (0.82 + attackerTypes.pursuit / Math.max(2, attackerUnits) * 0.2), 2, 45);
 
   const attackerLosses = damageArmies(attackers, attackerOrgDamage, attackerStrengthDamage);
   const defenderLosses = damageArmies(defenders, defenderOrgDamage, defenderStrengthDamage);
@@ -812,7 +921,7 @@ export function offerPeaceTerms(
   warId: WarId,
   offeringNation: NationId,
   goalsToEnforce: number[],
-): { ok: boolean; reason: string } {
+): { ok: boolean; reason: string; counterGoals?: number[] } {
   const war = warById(world, warId);
   if (!war) return { ok: false, reason: 'War not found.' };
   const offeringAttackers = war.attackers.includes(offeringNation);
@@ -831,6 +940,36 @@ export function offerPeaceTerms(
   const available = offeringAttackers ? war.score : -war.score;
   if (available + 1e-6 < needed) {
     return { ok: false, reason: `Need ${needed.toFixed(1)} score, only ${available.toFixed(1)} available.` };
+  }
+  const receiverExhaustion = offeringAttackers ? war.defenderExhaustion : war.attackerExhaustion;
+  const offeringExhaustion = offeringAttackers ? war.attackerExhaustion : war.defenderExhaustion;
+  const acceptanceBudget = clamp(available + receiverExhaustion * 0.55 - offeringExhaustion * 0.2, 0, 140);
+  if (needed > acceptanceBudget + 2) {
+    const candidateIndices = Array.from(new Set(goalsToEnforce.filter((index) => index >= 0 && index < war.goals.length))).sort((a, b) => a - b);
+    const sorted = candidateIndices
+      .map((index) => ({ index, cost: Math.max(0, war.goals[index]?.scoreValue ?? 0) }))
+      .filter((entry) => entry.cost > 0)
+      .sort((a, b) => b.cost - a.cost || a.index - b.index);
+    let running = 0;
+    const counterGoals: number[] = [];
+    for (const entry of sorted) {
+      if (running + entry.cost > acceptanceBudget) continue;
+      running += entry.cost;
+      counterGoals.push(entry.index);
+    }
+    counterGoals.sort((a, b) => a - b);
+    if (counterGoals.length === 0) {
+      return {
+        ok: false,
+        reason: `Offer rejected. Opposing side will only accept white peace (exhaustion ${receiverExhaustion.toFixed(1)}).`,
+        counterGoals: [],
+      };
+    }
+    return {
+      ok: false,
+      reason: `Offer rejected. Counter-offer accepts ${counterGoals.length} goal(s) for ${running.toFixed(1)} score.`,
+      counterGoals,
+    };
   }
   for (const goal of requested) applyWarGoal(world, goal);
   endWar(world, warId);
@@ -878,7 +1017,8 @@ function updateSieges(world: World): void {
   for (const [provinceId, armies] of byProvince.entries()) {
     const province = world.provinces[provinceId];
     if (!province) continue;
-    const nonRebelArmies = armies.filter((army) => !army.rebel && army.regiments.length > 0);
+    const activeArmies = armies.filter((army) => army.regiments.length > 0);
+    const nonRebelArmies = activeArmies.filter((army) => !army.rebel);
     for (const army of nonRebelArmies) {
       const enemies = enemyMap.get(army.owner);
       if (!enemies || !enemies.has(province.owner)) continue;
@@ -886,7 +1026,10 @@ function updateSieges(world: World): void {
       if (enemyPresent) continue;
       if (province.controller === army.owner) continue;
       const leaderBonus = army.leader?.trait === 'siegecraft' ? 1.25 : 1;
-      const daily = (0.028 / (1 + province.fortLevel * 0.75)) * leaderBonus;
+      const typePower = sideTypePower([army]);
+      const artilleryBoost = 1 + Math.min(0.95, typePower.artilleryShare * 1.4);
+      const infantryPenalty = typePower.infantryShare < 0.2 ? 0.82 : 1;
+      const daily = (0.028 / (1 + province.fortLevel * 0.75)) * leaderBonus * artilleryBoost * infantryPenalty;
       province.occupationProgress = clamp(province.occupationProgress + daily, 0, 1);
       if (province.occupationProgress >= 0.999) {
         province.controller = army.owner;
@@ -894,9 +1037,25 @@ function updateSieges(world: World): void {
       }
     }
 
+    const rebelArmies = activeArmies.filter((army) => army.rebel && army.hostileTo === province.owner);
+    if (rebelArmies.length > 0 && province.controller !== -1) {
+      const loyalPresence = nonRebelArmies.some((army) => army.owner === province.owner);
+      if (!loyalPresence) {
+        const siegeWeight = rebelArmies.reduce((sum, army) => sum + sideTypePower([army]).siege, 0);
+        const regimentCount = rebelArmies.reduce((sum, army) => sum + army.regiments.length, 0);
+        const siegeFactor = regimentCount > 0 ? clamp(siegeWeight / regimentCount, 0.45, 2.5) : 1;
+        const daily = (REBEL_SIEGE_BASE_DAILY / (1 + province.fortLevel * 0.8)) * siegeFactor;
+        province.occupationProgress = clamp(province.occupationProgress + daily, 0, 1);
+        if (province.occupationProgress >= 0.999) {
+          province.controller = -1;
+          province.occupationProgress = 0;
+        }
+      }
+    }
+
     if (province.controller !== province.owner) {
       const ownerArmy = nonRebelArmies.find((army) => army.owner === province.owner);
-      const hostileOwnerPresent = nonRebelArmies.some((army) => army.owner !== province.owner);
+      const hostileOwnerPresent = activeArmies.some((army) => army.owner !== province.owner || army.rebel);
       if (ownerArmy && !hostileOwnerPresent) {
         province.occupationProgress = clamp(province.occupationProgress + 0.04, 0, 1);
         if (province.occupationProgress >= 0.999) {
@@ -1184,6 +1343,184 @@ function updateMobilizationUpkeep(world: World): void {
   }
 }
 
+function rebelArmiesFor(world: World, rebellionId: number): Army[] {
+  return world.armies.filter((army) => army.rebel && army.rebellionId === rebellionId && army.regiments.length > 0);
+}
+
+function applyRebelReformDemand(world: World, data: GameData, rebellion: Rebellion): void {
+  const nation = world.nations[rebellion.targetNation];
+  if (!nation || rebellion.demand.type !== 'enact_reform' || !rebellion.demand.reformKey) return;
+  const reform = data.reforms.find((entry) => entry.key === rebellion.demand.reformKey);
+  if (!reform) return;
+  const target = clamp(rebellion.demand.reformLevel ?? (nation.reforms[reform.key] ?? 0) + 1, 0, reform.options.length - 1);
+  if (target <= (nation.reforms[reform.key] ?? 0)) return;
+  nation.reforms[reform.key] = target;
+  const targetStates = new Set([rebellion.originState, ...(rebellion.demand.stateIds ?? [])]);
+  for (const province of world.provinces) {
+    if (province.owner !== nation.id || !targetStates.has(province.stateId)) continue;
+    for (const popId of province.popIds) {
+      const pop = world.pops[popId];
+      if (!pop || pop.size <= 0) continue;
+      pop.militancy = clamp(pop.militancy - 0.32, 0, 10);
+      pop.consciousness = clamp(pop.consciousness + 0.08, 0, 10);
+    }
+  }
+  if (reform.category === 'military') updateMilitaryDerivedForNation(world, nation.id);
+}
+
+function createIndependentRebelNation(world: World, data: GameData, rebellion: Rebellion): NationId {
+  const target = world.nations[rebellion.targetNation];
+  const stateIds = rebellion.demand.stateIds?.slice() ?? [rebellion.originState];
+  const culture = rebellion.demand.culture ?? target?.primaryCulture ?? 0;
+  const cultureDef = data.cultures[culture];
+  const newId = world.nations.length as NationId;
+  const template = target ?? world.nations[world.playerNation];
+  const capitalState = world.states[stateIds[0]];
+  const capital = capitalState?.provinceIds[0] ?? template?.capital ?? 0;
+  const tag = `REB${newId}`;
+  const name = cultureDef ? `${cultureDef.name} Revolt` : `Rebel State ${newId}`;
+  const color = cultureDef?.color ?? template?.color ?? [140, 110, 100];
+  world.nations.push({
+    id: newId,
+    tag,
+    name,
+    color,
+    primaryCulture: culture,
+    acceptedCultures: [culture],
+    government: template?.government ?? 'presidential_dictatorship',
+    rulingParty: defaultRulingParty(template?.government ?? 'presidential_dictatorship'),
+    parties: createNationParties(),
+    upperHouse: defaultUpperHouse(template?.government ?? 'presidential_dictatorship'),
+    electionIntervalYears: 4,
+    lastElectionYear: 1836,
+    nextElectionYear: Number.MAX_SAFE_INTEGER,
+    electionLastResult: 'Revolutionary council',
+    capital,
+    coreStateIds: stateIds.slice().sort((a, b) => a - b),
+    treasury: 650,
+    prestige: 6,
+    infamy: 0,
+    literacy: clamp(template?.literacy ?? 0.25, 0.05, 0.75),
+    nationalConsciousness: 2.6,
+    researchPoints: 0,
+    reforms: { ...(template?.reforms ?? {}) },
+    techs: (template?.techs ?? []).slice(),
+    taxRatePoor: 0.45,
+    taxRateMiddle: 0.35,
+    taxRateRich: 0.22,
+    tariffRate: 0.1,
+    gpRank: 0,
+    spheredBy: -1,
+    sphereMembers: [],
+    colonialPoints: 0,
+    isCivilized: template?.isCivilized ?? false,
+    isPlayer: false,
+    isBankrupt: false,
+    bankruptcyMonths: 0,
+    constructionBlocked: false,
+    monthlyTariffIncome: 0,
+    monthlyProductionIncome: 0,
+    lastBudget: template ? JSON.parse(JSON.stringify(template.lastBudget)) : {
+      taxIncome: 0,
+      tariffIncome: 0,
+      productionIncome: 0,
+      armyUpkeep: 0,
+      subsidySpend: 0,
+      constructionSpend: 0,
+      adminSpend: 0,
+      reformUpkeep: 0,
+      net: 0,
+      bankrupt: false,
+      trace: {
+        taxIncome: [],
+        tariffIncome: [],
+        productionIncome: [],
+        armyUpkeep: [],
+        subsidySpend: [],
+        constructionSpend: [],
+        adminSpend: [],
+        reformUpkeep: [],
+        net: [],
+      },
+    },
+    regimentsPerSoldierPop: template?.regimentsPerSoldierPop ?? 0.8,
+    standingRegimentCapacity: 0,
+    mobilizationCapacity: 0,
+    armyOrganization: template?.armyOrganization ?? 0.9,
+    armyMorale: template?.armyMorale ?? 0.9,
+  });
+  for (let otherId = 0; otherId < newId; otherId++) {
+    world.relations.push({
+      a: otherId,
+      b: newId,
+      kind: otherId === rebellion.targetNation ? 'truce' : 'neutral',
+      opinion: otherId === rebellion.targetNation ? -45 : 0,
+      expiresDay: otherId === rebellion.targetNation ? world.day + 365 * 5 : -1,
+    });
+  }
+  updateMilitaryDerivedForNation(world, newId);
+  return newId;
+}
+
+function applyRebelIndependenceDemand(world: World, data: GameData, rebellion: Rebellion): void {
+  const target = world.nations[rebellion.targetNation];
+  if (!target) return;
+  const toRelease = (rebellion.demand.stateIds?.slice() ?? [rebellion.originState])
+    .filter((stateId) => world.states[stateId] && world.states[stateId].owner === rebellion.targetNation);
+  if (toRelease.length === 0) return;
+  const newNationId = createIndependentRebelNation(world, data, rebellion);
+  for (const stateId of toRelease) transferStateTo(world, stateId, newNationId);
+  target.prestige = Math.max(0, target.prestige - 8);
+  target.coreStateIds = (target.coreStateIds ?? []).filter((stateId) => !toRelease.includes(stateId));
+  updateMilitaryDerivedForNation(world, rebellion.targetNation);
+}
+
+function updateRebellions(world: World, data: GameData): void {
+  if (!Array.isArray(world.rebellions) || world.rebellions.length === 0) return;
+  for (const rebellion of world.rebellions) {
+    if (rebellion.status !== 'active') continue;
+    const armies = rebelArmiesFor(world, rebellion.id);
+    const demandStates = rebellion.demand.stateIds?.slice() ?? [rebellion.originState];
+    const relevantProvinces = world.provinces.filter((province) => (
+      province.owner === rebellion.targetNation
+      && (
+        rebellion.demand.type !== 'independence'
+        || demandStates.includes(province.stateId)
+      )
+    ));
+    const controlled = relevantProvinces.filter((province) => province.controller === -1);
+    const holdShare = relevantProvinces.length > 0 ? controlled.length / relevantProvinces.length : 0;
+    const rebelStrength = armies.reduce((sum, army) => sum + army.regiments.reduce((inner, regiment) => inner + regiment.strength, 0), 0);
+    const loyalStrength = world.armies
+      .filter((army) => !army.rebel && army.owner === rebellion.targetNation)
+      .reduce((sum, army) => sum + army.regiments.reduce((inner, regiment) => inner + regiment.strength, 0), 0);
+    if (holdShare > 0.18) rebellion.holdDays += 1;
+    else rebellion.holdDays = Math.max(0, rebellion.holdDays - 1);
+    let delta = holdShare * 1.35;
+    if (rebelStrength > loyalStrength * 1.05) delta += 0.42;
+    if (loyalStrength < 2500) delta += 0.24;
+    if (armies.length === 0) delta -= 0.6;
+    if (holdShare < 0.05) delta -= 0.35;
+    rebellion.progress = clamp(rebellion.progress + delta, 0, 120);
+    const enforce = rebellion.progress >= REBELLION_PROGRESS_TO_ENFORCE
+      || (rebellion.holdDays >= 180 && holdShare >= 0.35 && rebelStrength >= loyalStrength * 0.6);
+    if (!enforce) {
+      if (armies.length === 0 && rebellion.progress < 2 && holdShare <= 0.01) rebellion.status = 'crushed';
+      continue;
+    }
+    if (rebellion.demand.type === 'enact_reform') applyRebelReformDemand(world, data, rebellion);
+    else applyRebelIndependenceDemand(world, data, rebellion);
+    rebellion.status = 'enforced';
+    for (const army of armies) army.regiments = [];
+  }
+  if (world.rebellions.length > 64) {
+    world.rebellions = world.rebellions
+      .slice()
+      .sort((a, b) => (a.status === 'active' ? -1 : b.status === 'active' ? 1 : b.startDay - a.startDay))
+      .slice(0, 64);
+  }
+}
+
 function maybeAutoPeace(world: World): void {
   for (const war of world.wars.slice()) {
     const attackerPressure = war.score + (war.defenderExhaustion - war.attackerExhaustion) * 0.4;
@@ -1206,6 +1543,10 @@ function maybeAutoPeace(world: World): void {
     }
     const proposer = side[0];
     const result = offerPeaceTerms(world, war.id, proposer, selected);
+    if (!result.ok && result.counterGoals && result.counterGoals.length < selected.length) {
+      offerPeaceTerms(world, war.id, proposer, result.counterGoals);
+      continue;
+    }
     if (!result.ok && (war.attackerExhaustion > 98 || war.defenderExhaustion > 98)) {
       offerPeaceTerms(world, war.id, proposer, []);
     }
@@ -1220,7 +1561,7 @@ function normalizeWarPostPeace(world: World): void {
   }
 }
 
-export function runWarDaily(world: World, _data: GameData, rng: Rng): void {
+export function runWarDaily(world: World, data: GameData, rng: Rng): void {
   const runtime = ensureRuntime(world);
   for (const nation of world.nations) {
     if (!runtime.generalPools.has(nation.id)) runtime.generalPools.set(nation.id, generateLeaderPool(nation.id));
@@ -1233,11 +1574,13 @@ export function runWarDaily(world: World, _data: GameData, rng: Rng): void {
       if (world.day % 30 === 0) {
         for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id);
       }
+      if (world.day % 7 === 0) updateRebellions(world, data);
       return;
     }
     if (world.day % 30 !== 0) return;
     const byProvince = armiesByProvince(world);
     for (const provinceId of byProvince.keys()) resolveRebelCombat(world, rng, provinceId);
+    updateRebellions(world, data);
     cleanupDestroyedForces(world);
     capRebelArmies(world);
     for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id);
@@ -1250,6 +1593,7 @@ export function runWarDaily(world: World, _data: GameData, rng: Rng): void {
   updateSieges(world);
   updateMobilizationUpkeep(world);
   updateColonialClaims(world);
+  if ((world.rebellions?.length ?? 0) > 0 && world.day % 3 === 0) updateRebellions(world, data);
   cleanupDestroyedForces(world);
   capRebelArmies(world);
   updateWarScores(world);

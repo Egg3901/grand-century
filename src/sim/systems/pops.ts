@@ -285,7 +285,7 @@ export function runPopsMonthly(world: World, _data: GameData, rng: Rng): void {
 
     const noise = (rng.next() - 0.5) * 0.001;
     const growthRate = clamp(
-      -0.004 + pop.needsMet * 0.010 + healthcareLevel * 0.0008 + noise,
+      -0.00415 + pop.needsMet * 0.00945 + healthcareLevel * 0.00075 + noise,
       BALANCE.population.minGrowthRate,
       BALANCE.population.maxGrowthRate,
     );

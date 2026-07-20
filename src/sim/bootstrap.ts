@@ -474,10 +474,12 @@ export function createWorld(data: GameData, seed: number): World {
     armies: [],
     fleets: [],
     wars: [],
+    rebellions: [],
     relations: createRelations(),
     nextArmyId: 1,
     nextFleetId: 1,
     nextWarId: 1,
+    nextRebellionId: 1,
     nextPopId: pops.length,
   };
   for (const nation of world.nations) {

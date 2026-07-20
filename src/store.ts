@@ -202,6 +202,44 @@ export const useStore = create<UIState>((set, get) => ({
           20,
         );
       }
+      const prevRebellions = new Map((prev.rebellions ?? []).map((rebellion) => [rebellion.id, rebellion]));
+      for (const rebellion of s.rebellions ?? []) {
+        const prior = prevRebellions.get(rebellion.id);
+        if (!prior && rebellion.status === 'active') {
+          const target = s.nations.find((nation) => nation.id === rebellion.targetNation);
+          pushAlert(
+            'rebellion',
+            `${target?.name ?? 'A nation'} faces rebels demanding ${rebellion.demand.description}.`,
+            s.day,
+            'military',
+            'Open Military to review rebel fronts and demands.',
+            `rebellion-demand-${rebellion.id}`,
+            365,
+          );
+        }
+        if (prior?.status === 'active' && rebellion.status === 'enforced') {
+          const target = s.nations.find((nation) => nation.id === rebellion.targetNation);
+          pushAlert(
+            'rebellion',
+            `Rebels forced concessions in ${target?.name ?? 'a nation'} (${rebellion.demand.description}).`,
+            s.day,
+            'military',
+            'Open Military to assess the post-rebellion map.',
+            `rebellion-enforced-${rebellion.id}`,
+            365,
+          );
+        } else if (prior?.status === 'active' && rebellion.status === 'crushed') {
+          pushAlert(
+            'rebellion',
+            `A rebellion was crushed (${rebellion.demand.description}).`,
+            s.day,
+            'military',
+            'Open Military to stand down reserve forces if needed.',
+            `rebellion-crushed-${rebellion.id}`,
+            180,
+          );
+        }
+      }
       const prevPartyByNation = new Map(prev.nations.map((nation) => [nation.id, nation.rulingParty]));
       const prevTagByNation = new Map(prev.nations.map((nation) => [nation.id, nation.tag]));
       for (const nation of s.nations) {
@@ -283,3 +321,7 @@ export const useStore = create<UIState>((set, get) => ({
   requestSaves: () => get().worker?.postMessage({ t: 'command', cmd: { t: 'listSaves' } }),
   dismissAlert: (id) => set((state) => ({ alerts: state.alerts.filter((alert) => alert.id !== id) })),
 }));
+
+if (import.meta.env.DEV) {
+  (globalThis as { __grandCenturyStore?: typeof useStore }).__grandCenturyStore = useStore;
+}

@@ -3,6 +3,7 @@ import { WORLD_SEED } from '../../data/generated';
 import type { Army, Fleet, Ship } from '../../shared/types';
 import { useStore } from '../../store';
 import { TraceTooltip } from '../components/TraceTooltip';
+import { PeaceConference } from './PeaceConference';
 
 function avgRegimentStrength(army: Army): number {
   if (army.regiments.length === 0) return 0;
@@ -18,6 +19,23 @@ function shipSummary(fleet: Fleet): string {
   const counts: Record<Ship['type'], number> = { transport: 0, frigate: 0, manofwar: 0, ironclad: 0 };
   for (const ship of fleet.ships) counts[ship.type] += 1;
   return `T ${counts.transport} | F ${counts.frigate} | M ${counts.manofwar} | I ${counts.ironclad}`;
+}
+
+function regimentCountByType(armies: Army[]): Record<Army['regiments'][number]['type'], number> {
+  const counts: Record<Army['regiments'][number]['type'], number> = {
+    infantry: 0,
+    cavalry: 0,
+    artillery: 0,
+    guard: 0,
+  };
+  for (const army of armies) {
+    for (const regiment of army.regiments) counts[regiment.type] += 1;
+  }
+  return counts;
+}
+
+function formatRegimentCount(counts: Record<Army['regiments'][number]['type'], number>): string {
+  return `Inf ${counts.infantry} | Cav ${counts.cavalry} | Art ${counts.artillery} | Gd ${counts.guard}`;
 }
 
 export function MilitaryPanel() {
@@ -40,13 +58,20 @@ export function MilitaryPanel() {
   const [fleetType, setFleetType] = useState<Ship['type']>('transport');
   const [fleetCount, setFleetCount] = useState(1);
   const [selectedWar, setSelectedWar] = useState<number>(-1);
-  const [enforcedGoals, setEnforcedGoals] = useState<number[]>([]);
+  const [recruitPlan, setRecruitPlan] = useState<Record<Army['regiments'][number]['type'], number>>({
+    infantry: 4,
+    cavalry: 0,
+    artillery: 0,
+    guard: 0,
+  });
 
   const derived = useMemo(() => {
     if (!snapshot) return null;
     const player = snapshot.playerNation;
-    const armies = snapshot.armies.filter((army) => army.owner === player && !army.rebel).sort((a, b) => a.id - b.id);
-    const fleets = snapshot.fleets.filter((fleet) => fleet.owner === player).sort((a, b) => a.id - b.id);
+    const allArmies = snapshot.armies.filter((army) => !army.rebel).sort((a, b) => a.id - b.id);
+    const allFleets = snapshot.fleets.slice().sort((a, b) => a.id - b.id);
+    const armies = allArmies.filter((army) => army.owner === player);
+    const fleets = allFleets.filter((fleet) => fleet.owner === player);
     const ownedProvinces = snapshot.provinces
       .filter((province) => province.owner === player)
       .map((province) => province.id)
@@ -55,7 +80,8 @@ export function MilitaryPanel() {
     const wars = snapshot.wars
       .filter((war) => war.attackers.includes(player) || war.defenders.includes(player))
       .sort((a, b) => a.id - b.id);
-    return { armies, fleets, ownedProvinces, coastalProvinces, wars };
+    const playerSummary = snapshot.nations.find((nation) => nation.id === player) ?? null;
+    return { armies, fleets, allArmies, allFleets, ownedProvinces, coastalProvinces, wars, playerSummary };
   }, [snapshot]);
 
   useEffect(() => {
@@ -68,7 +94,6 @@ export function MilitaryPanel() {
     }
     if (selectedWar < 0 || !derived.wars.some((war) => war.id === selectedWar)) {
       setSelectedWar(derived.wars[0]?.id ?? -1);
-      setEnforcedGoals([]);
     }
   }, [derived, fleetProvince, recruitProvince, selectedWar]);
 
@@ -82,9 +107,19 @@ export function MilitaryPanel() {
   }
 
   const selectedWarObj = derived.wars.find((war) => war.id === selectedWar) ?? null;
-  const selectedWarGoals = selectedWarObj?.goals ?? [];
   const isPlayerAttacker = selectedWarObj ? selectedWarObj.attackers.includes(snapshot.playerNation) : false;
   const scorePerspective = selectedWarObj ? (isPlayerAttacker ? selectedWarObj.score : -selectedWarObj.score) : 0;
+  const selectedArmyObj = selectedArmy !== null ? derived.allArmies.find((army) => army.id === selectedArmy) ?? null : null;
+  const selectedArmyStack = selectedArmyObj
+    ? derived.allArmies.filter((army) => army.owner === selectedArmyObj.owner && army.location === selectedArmyObj.location)
+    : [];
+  const selectedFleetObj = selectedFleet !== null ? derived.allFleets.find((fleet) => fleet.id === selectedFleet) ?? null : null;
+  const selectedFleetStack = selectedFleetObj
+    ? derived.allFleets.filter((fleet) => fleet.owner === selectedFleetObj.owner && fleet.location === selectedFleetObj.location)
+    : [];
+  const selectedArmyComposition = regimentCountByType(selectedArmyStack);
+  const totalFieldRegiments = derived.armies.reduce((sum, army) => sum + army.regiments.length, 0);
+  const reserveCapacity = derived.playerSummary?.mobilizationCapacity ?? 0;
   const warCombat = selectedWarObj ? (() => {
     const attackerArmies = snapshot.armies.filter((army) => selectedWarObj.attackers.includes(army.owner));
     const defenderArmies = snapshot.armies.filter((army) => selectedWarObj.defenders.includes(army.owner));
@@ -128,12 +163,62 @@ export function MilitaryPanel() {
             ))}
           </select>
         </label>
+        <label>
+          Infantry
+          <input
+            type="number"
+            min={0}
+            max={16}
+            value={recruitPlan.infantry}
+            onChange={(event) => setRecruitPlan((prev) => ({ ...prev, infantry: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
+          />
+        </label>
+        <label>
+          Cavalry
+          <input
+            type="number"
+            min={0}
+            max={16}
+            value={recruitPlan.cavalry}
+            onChange={(event) => setRecruitPlan((prev) => ({ ...prev, cavalry: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
+          />
+        </label>
+        <label>
+          Artillery
+          <input
+            type="number"
+            min={0}
+            max={16}
+            value={recruitPlan.artillery}
+            onChange={(event) => setRecruitPlan((prev) => ({ ...prev, artillery: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
+          />
+        </label>
+        <label>
+          Guard
+          <input
+            type="number"
+            min={0}
+            max={16}
+            value={recruitPlan.guard}
+            onChange={(event) => setRecruitPlan((prev) => ({ ...prev, guard: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
+          />
+        </label>
         <div className="mil-actions">
-          <button type="button" disabled={recruitProvince < 0} onClick={() => sendCommand({ t: 'recruitArmy', province: recruitProvince })}>Recruit Army</button>
+          <button
+            type="button"
+            disabled={recruitProvince < 0}
+            onClick={() => sendCommand({ t: 'recruitArmyWithComposition', province: recruitProvince, composition: recruitPlan })}
+          >
+            Recruit Composition
+          </button>
+          <button type="button" disabled={recruitProvince < 0} onClick={() => sendCommand({ t: 'recruitArmy', province: recruitProvince })}>Quick Infantry Draft</button>
           <button type="button" onClick={() => sendCommand({ t: 'mobilize' })}>Mobilize</button>
           <button type="button" onClick={() => sendCommand({ t: 'demobilize' })}>Demobilize</button>
         </div>
       </div>
+      <p className="panel-subtle">
+        Field regiments: {totalFieldRegiments} | Reserve mobilization capacity: {reserveCapacity} | Composition rules: cavalry requires conscription I, artillery requires conscription I + professionalism I, guard requires conscription II + professionalism II.
+      </p>
 
       <div className="mil-grid">
         <label>
@@ -170,6 +255,44 @@ export function MilitaryPanel() {
         </div>
       </div>
 
+      {selectedArmyStack.length > 0 || selectedFleetStack.length > 0 ? (
+        <>
+          <h3 className="atlas-heading panel-small-heading">Selected Stack</h3>
+          {selectedArmyStack.length > 0 ? (
+            <div className="panel-subtle">
+              <strong>Army stack at {provinceNameById.get(selectedArmyObj?.location ?? -1) ?? selectedArmyObj?.location}</strong>
+              <div>{selectedArmyStack.length} armies | {selectedArmyStack.reduce((sum, army) => sum + army.regiments.length, 0)} regiments</div>
+              <div>{formatRegimentCount(selectedArmyComposition)}</div>
+              <div>
+                Avg STR {(
+                  selectedArmyStack.reduce((sum, army) => sum + avgRegimentStrength(army), 0)
+                  / Math.max(1, selectedArmyStack.length)
+                ).toFixed(0)} | Avg ORG {(
+                  selectedArmyStack.reduce((sum, army) => sum + avgRegimentOrg(army), 0)
+                  / Math.max(1, selectedArmyStack.length)
+                ).toFixed(0)}
+              </div>
+              <div>
+                Orders: {selectedArmyObj && selectedArmyObj.moveTarget >= 0
+                  ? `Moving to ${provinceNameById.get(selectedArmyObj.moveTarget) ?? selectedArmyObj.moveTarget}`
+                  : 'Holding position'}
+              </div>
+            </div>
+          ) : null}
+          {selectedFleetStack.length > 0 ? (
+            <div className="panel-subtle">
+              <strong>Fleet stack at {provinceNameById.get(selectedFleetObj?.location ?? -1) ?? selectedFleetObj?.location}</strong>
+              <div>{selectedFleetStack.length} fleets | {selectedFleetStack.reduce((sum, fleet) => sum + fleet.ships.length, 0)} ships</div>
+              <div>
+                Orders: {selectedFleetObj && selectedFleetObj.moveTarget >= 0
+                  ? `Moving to ${provinceNameById.get(selectedFleetObj.moveTarget) ?? selectedFleetObj.moveTarget}`
+                  : 'Holding position'}
+              </div>
+            </div>
+          ) : null}
+        </>
+      ) : null}
+
       <h3 className="atlas-heading panel-small-heading">Armies</h3>
       <ul className="panel-list mil-list">
         {derived.armies.map((army) => (
@@ -179,6 +302,9 @@ export function MilitaryPanel() {
               <span>
                 {provinceNameById.get(army.location) ?? `Province ${army.location}`} | {army.regiments.length} regiments | STR {avgRegimentStrength(army).toFixed(0)} | ORG {avgRegimentOrg(army).toFixed(0)}
                 {army.leader ? ` | ${army.leader.name}` : ' | No general'}
+                {' '}| {formatRegimentCount(regimentCountByType([army]))}
+                {' '}| {army.moveTarget >= 0 ? `Order: ${provinceNameById.get(army.moveTarget) ?? army.moveTarget}` : 'Order: Hold'}
+                {' '}| {avgRegimentStrength(army) < 930 ? 'Reinforcing' : 'Combat ready'}
               </span>
             </div>
             <div className="mil-actions">
@@ -209,6 +335,7 @@ export function MilitaryPanel() {
               <span>
                 {provinceNameById.get(fleet.location) ?? `Province ${fleet.location}`} | {shipSummary(fleet)}
                 {fleet.embarkedArmy >= 0 ? ` | Embarked army ${fleet.embarkedArmy}` : ''}
+                {fleet.moveTarget >= 0 ? ` | Order: ${provinceNameById.get(fleet.moveTarget) ?? fleet.moveTarget}` : ' | Order: Hold'}
               </span>
             </div>
             <div className="mil-actions">
@@ -225,6 +352,28 @@ export function MilitaryPanel() {
         ))}
       </ul>
 
+      <h3 className="atlas-heading panel-small-heading">Rebellions & Civil Wars</h3>
+      {snapshot.rebellions.length === 0 ? <p className="panel-subtle">No active rebellions.</p> : (
+        <ul className="panel-list mil-list">
+          {snapshot.rebellions
+            .filter((rebellion) => rebellion.status === 'active')
+            .map((rebellion) => (
+              <li key={`rebellion-${rebellion.id}`}>
+                <div>
+                  <strong>Rebellion {rebellion.id}</strong>
+                  <span>
+                    {snapshot.nations.find((nation) => nation.id === rebellion.targetNation)?.name ?? rebellion.targetNation}
+                    {' '}| Demand: {rebellion.demand.description}
+                    {' '}| Progress {rebellion.progress.toFixed(1)}
+                    {' '}| Hold {rebellion.holdDays}d
+                    {' '}| Core state {stateNameById.get(rebellion.originState) ?? rebellion.originState}
+                  </span>
+                </div>
+              </li>
+            ))}
+        </ul>
+      )}
+
       <h3 className="atlas-heading panel-small-heading" data-coach-id="war-overview">War Overview</h3>
       {derived.wars.length === 0 ? <p className="panel-subtle">No active wars.</p> : (
         <>
@@ -232,7 +381,6 @@ export function MilitaryPanel() {
             Active War
             <select value={selectedWar} onChange={(event) => {
               setSelectedWar(Number(event.target.value));
-              setEnforcedGoals([]);
             }}
             >
               {derived.wars.map((war) => (
@@ -286,30 +434,7 @@ export function MilitaryPanel() {
                   ] : []}
                 />
               </p>
-              <ul className="panel-list mil-goal-list">
-                {selectedWarGoals.map((goal, index) => (
-                  <li key={`${goal.type}-${index}`}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={enforcedGoals.includes(index)}
-                        onChange={(event) => {
-                          setEnforcedGoals((prev) => (
-                            event.target.checked
-                              ? [...prev, index].sort((a, b) => a - b)
-                              : prev.filter((value) => value !== index)
-                          ));
-                        }}
-                      />
-                      {goal.type} ({stateNameById.get(goal.stateId) ?? goal.stateId}) - cost {goal.scoreValue.toFixed(1)}
-                    </label>
-                  </li>
-                ))}
-              </ul>
-              <div className="mil-actions">
-                <button type="button" onClick={() => sendCommand({ t: 'offerPeace', war: selectedWarObj.id, goalsToEnforce: [] })}>White Peace</button>
-                <button type="button" onClick={() => sendCommand({ t: 'offerPeace', war: selectedWarObj.id, goalsToEnforce: enforcedGoals })}>Enforce Selected Goals</button>
-              </div>
+              <PeaceConference war={selectedWarObj} />
             </>
           ) : null}
         </>

@@ -1,4 +1,4 @@
-import type { GameData, World } from '../../shared/types';
+import type { GameData, RebelDemand, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
 import {
@@ -164,7 +164,92 @@ function applySuppressionEffects(world: World, data: GameData, nationId: number)
   }
 }
 
-function spawnRebellionIfNeeded(world: World, nationId: number): void {
+function dominantMinorityCultureInState(world: World, nationId: number, stateId: number): { culture: number; share: number } | null {
+  const nation = world.nations[nationId];
+  const state = world.states[stateId];
+  if (!nation || !state) return null;
+  const accepted = new Set([nation.primaryCulture, ...(nation.acceptedCultures ?? [])]);
+  const culturePop = new Map<number, number>();
+  let total = 0;
+  for (const provinceId of state.provinceIds) {
+    const province = world.provinces[provinceId];
+    if (!province) continue;
+    for (const popId of province.popIds) {
+      const pop = world.pops[popId];
+      if (!pop || pop.size <= 0) continue;
+      if (accepted.has(pop.culture)) continue;
+      culturePop.set(pop.culture, (culturePop.get(pop.culture) ?? 0) + pop.size);
+      total += pop.size;
+    }
+  }
+  if (total <= 0) return null;
+  const top = Array.from(culturePop.entries()).sort((a, b) => b[1] - a[1] || a[0] - b[0])[0];
+  if (!top) return null;
+  return {
+    culture: top[0],
+    share: top[1] / total,
+  };
+}
+
+function chooseRebelDemand(world: World, data: GameData, nationId: number, stateId: number): RebelDemand {
+  const nation = world.nations[nationId];
+  const state = world.states[stateId];
+  if (!nation || !state) {
+    return { type: 'enact_reform', description: 'Political reforms', reformKey: 'press_rights', reformLevel: 1 };
+  }
+  const reformPressure = new Map<string, number>();
+  let totalWeight = 0;
+  for (const provinceId of state.provinceIds) {
+    const province = world.provinces[provinceId];
+    if (!province) continue;
+    for (const popId of province.popIds) {
+      const pop = world.pops[popId];
+      if (!pop || pop.size <= 0) continue;
+      const demand = reformDemandForPop(pop, nation, data);
+      if (!demand) continue;
+      const weight = pop.size * (0.5 + clamp(pop.militancy / 10, 0, 1) * 0.5);
+      reformPressure.set(demand, (reformPressure.get(demand) ?? 0) + weight);
+      totalWeight += weight;
+    }
+  }
+  const topDemand = Array.from(reformPressure.entries())
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
+  if (topDemand && totalWeight > 0) {
+    const reform = data.reforms.find((candidate) => candidate.key === topDemand[0]);
+    if (reform) {
+      const next = (nation.reforms[reform.key] ?? 0) + 1;
+      const legality = computeReformLegality(world, data, nation, reform, next);
+      if (!legality.legal || topDemand[1] / totalWeight > 0.24) {
+        return {
+          type: 'enact_reform',
+          description: `Enact ${reform.name}`,
+          reformKey: reform.key,
+          reformLevel: clamp(next, 0, reform.options.length - 1),
+        };
+      }
+    }
+  }
+  const minority = dominantMinorityCultureInState(world, nationId, stateId);
+  if (minority && minority.share >= 0.38) {
+    const cultureName = data.cultures[minority.culture]?.name ?? `Culture ${minority.culture}`;
+    return {
+      type: 'independence',
+      description: `${cultureName} independence`,
+      culture: minority.culture,
+      stateIds: [stateId],
+    };
+  }
+  return {
+    type: 'enact_reform',
+    description: 'Expand voting franchise',
+    reformKey: 'voting_franchise',
+    reformLevel: Math.min(3, (nation.reforms.voting_franchise ?? 0) + 1),
+  };
+}
+
+function spawnRebellionIfNeeded(world: World, data: GameData, nationId: number): void {
+  if (!Array.isArray(world.rebellions)) world.rebellions = [];
+  if (!Number.isFinite(world.nextRebellionId)) world.nextRebellionId = 1;
   for (const state of world.states) {
     if (state.owner !== nationId) continue;
     if (state.unrestRisk < 1.05) continue;
@@ -193,6 +278,25 @@ function spawnRebellionIfNeeded(world: World, nationId: number): void {
 
     const province = world.provinces[bestProvince];
     if (!province) continue;
+    const demand = chooseRebelDemand(world, data, nationId, state.id);
+    const existing = world.rebellions.find((rebellion) => (
+      rebellion.status === 'active'
+      && rebellion.targetNation === nationId
+      && rebellion.originState === state.id
+    ));
+    const rebellionId = existing?.id ?? world.nextRebellionId++;
+    if (!existing) {
+      world.rebellions.push({
+        id: rebellionId,
+        targetNation: nationId,
+        originState: state.id,
+        startDay: world.day,
+        progress: 0,
+        holdDays: 0,
+        status: 'active',
+        demand,
+      });
+    }
     const regimentCount = clamp(Math.floor(state.unrestRisk * 3), 1, 5);
     const sourcePop = province.popIds.find((popId) => (world.pops[popId]?.size ?? 0) > 0) ?? 0;
     world.armies.push({
@@ -210,6 +314,8 @@ function spawnRebellionIfNeeded(world: World, nationId: number): void {
       leader: { name: 'Rebel Committee', attack: 1, defense: 1, trait: 'uprising' },
       rebel: true,
       hostileTo: nationId,
+      rebellionId,
+      rebelDemand: demand,
     });
     state.lastRebellionDay = world.day;
     state.unrestRisk = clamp(state.unrestRisk * 0.45, 0, 2);
@@ -225,5 +331,5 @@ export function runPoliticsMonthly(world: World, data: GameData, rng: Rng): void
     updateMilitaryDerivedForNation(world, nation.id);
   }
   for (const nation of world.nations) updateStateUnrest(world, data, nation.id);
-  for (const nation of world.nations) spawnRebellionIfNeeded(world, nation.id);
+  for (const nation of world.nations) spawnRebellionIfNeeded(world, data, nation.id);
 }

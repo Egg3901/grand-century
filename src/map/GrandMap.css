@@ -101,6 +101,14 @@
     0 1px 5px rgba(22, 13, 8, 0.28);
 }
 
+.grand-map__counter.is-army {
+  min-width: 2.55rem;
+}
+
+.grand-map__counter.is-fleet {
+  min-width: 2.55rem;
+}
+
 .grand-map__counter.is-battle {
   background: rgba(239, 208, 184, 0.98);
 }
@@ -111,6 +119,21 @@
 
 .grand-map__counter.is-siege {
   background: rgba(236, 219, 176, 0.98);
+}
+
+.grand-map__counter.is-rebel {
+  background: rgba(114, 75, 70, 0.95);
+  color: #f6ece1;
+}
+
+.grand-map__arrow {
+  width: 0;
+  height: 0;
+  border-left: 8px solid currentColor;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
@@ -124,6 +147,12 @@
     min-height: 44px;
     padding: 0.2rem 0.44rem;
     font-size: 0.75rem;
+  }
+
+  .grand-map__arrow {
+    border-left-width: 10px;
+    border-top-width: 6px;
+    border-bottom-width: 6px;
   }
 
   .grand-map__tooltip {

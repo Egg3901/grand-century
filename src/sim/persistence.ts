@@ -54,6 +54,8 @@ export function deserializeWorld(buffer: Uint8Array): { world: World; metadata: 
     throw new Error('Unsupported or corrupted save payload.');
   }
   const world = payload.world;
+  if (!Array.isArray(world.rebellions)) world.rebellions = [];
+  if (!Number.isFinite(world.nextRebellionId)) world.nextRebellionId = 1;
   importDiplomacyRuntime(world, payload.runtimes?.diplomacy);
   importWarRuntime(world, payload.runtimes?.war);
   return {

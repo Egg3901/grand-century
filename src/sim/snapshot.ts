@@ -255,6 +255,13 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     coalitionAgainstPlayer: getCoalitionAgainst(world, world.playerNation),
     armies: world.armies.map((army) => ({ ...army, regiments: army.regiments.map((regiment) => ({ ...regiment })), leader: army.leader ? { ...army.leader } : null })),
     fleets: world.fleets.map((fleet) => ({ ...fleet, ships: fleet.ships.map((ship) => ({ ...ship })) })),
+    rebellions: world.rebellions.map((rebellion) => ({
+      ...rebellion,
+      demand: {
+        ...rebellion.demand,
+        stateIds: rebellion.demand.stateIds?.slice(),
+      },
+    })),
     playerProduction,
     playerPopulation,
     playerReformAgitation,

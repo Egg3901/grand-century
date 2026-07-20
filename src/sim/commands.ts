@@ -24,6 +24,21 @@ import {
 import { formNation } from './formables';
 
 type Poster = (msg: FromWorker) => void;
+type RegimentType = Regiment['type'];
+
+const REGIMENT_RECRUIT_PROFILE: Record<RegimentType, {
+  cost: number;
+  manpowerDrain: number;
+  baseStrength: number;
+  orgBonus: number;
+}> = {
+  infantry: { cost: 24, manpowerDrain: 70, baseStrength: 1000, orgBonus: 0 },
+  cavalry: { cost: 31, manpowerDrain: 82, baseStrength: 930, orgBonus: 3 },
+  artillery: { cost: 38, manpowerDrain: 90, baseStrength: 820, orgBonus: -5 },
+  guard: { cost: 45, manpowerDrain: 96, baseStrength: 1000, orgBonus: 8 },
+};
+
+const REGIMENT_ORDER: RegimentType[] = ['infantry', 'cavalry', 'artillery', 'guard'];
 
 function clamp(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) return min;
@@ -49,6 +64,128 @@ function atWarAgainst(world: World, a: NationId, b: NationId): boolean {
     (war.attackers.includes(a) && war.defenders.includes(b))
     || (war.attackers.includes(b) && war.defenders.includes(a))
   ));
+}
+
+function allowsRegimentType(world: World, nationId: NationId, type: RegimentType): boolean {
+  const nation = world.nations[nationId];
+  if (!nation) return false;
+  const conscription = Math.max(0, Math.floor(nation.reforms.conscription_level ?? 0));
+  const professionalism = Math.max(0, Math.floor(nation.reforms.army_professionalism ?? 0));
+  if (type === 'infantry') return true;
+  if (type === 'cavalry') return conscription >= 1;
+  if (type === 'artillery') return conscription >= 1 && professionalism >= 1;
+  if (type === 'guard') return conscription >= 2 && professionalism >= 2;
+  return false;
+}
+
+function recruitArmyWithPlan(
+  world: World,
+  post: Poster,
+  nationId: NationId,
+  provinceId: number,
+  composition?: Partial<Record<RegimentType, number>>,
+): void {
+  const province = world.provinces[provinceId];
+  const nation = world.nations[nationId];
+  if (!province || !nation || province.owner !== nationId) return;
+
+  const activeRegiments = world.armies
+    .filter((army) => army.owner === nationId && !army.rebel)
+    .reduce((sum, army) => sum + army.regiments.length, 0);
+  const capRemaining = Math.max(0, nation.standingRegimentCapacity - activeRegiments);
+  if (capRemaining <= 0) {
+    log(post, 'warn', 'Standing regiment cap reached. Raise conscription or soldier population.');
+    return;
+  }
+
+  const usedByPop = new Map<number, number>();
+  for (const army of world.armies) {
+    if (army.owner !== nationId || army.rebel) continue;
+    for (const regiment of army.regiments) {
+      usedByPop.set(regiment.sourcePop, (usedByPop.get(regiment.sourcePop) ?? 0) + 1);
+    }
+  }
+
+  const popPool = province.popIds
+    .map((id) => world.pops[id])
+    .filter((pop) => pop?.type === 'soldier' && pop.size > 200)
+    .map((pop) => {
+      const popSupportCap = Math.max(0, Math.floor((pop.size / 1000) * nation.regimentsPerSoldierPop));
+      const allocated = usedByPop.get(pop.id) ?? 0;
+      return {
+        pop,
+        slots: Math.max(0, popSupportCap - allocated),
+      };
+    })
+    .filter((entry) => entry.slots > 0)
+    .sort((a, b) => b.pop.size - a.pop.size || a.pop.id - b.pop.id);
+  if (popPool.length === 0) {
+    log(post, 'warn', 'No soldier pops available for recruitment.');
+    return;
+  }
+
+  const requested: RegimentType[] = [];
+  if (composition) {
+    for (const type of REGIMENT_ORDER) {
+      const count = Math.max(0, Math.floor(composition[type] ?? 0));
+      for (let i = 0; i < count; i++) requested.push(type);
+    }
+  }
+  if (requested.length === 0) {
+    const fallbackCount = Math.min(capRemaining, 12);
+    for (let i = 0; i < fallbackCount; i++) requested.push('infantry');
+  }
+
+  const allowedRequested = requested.filter((type) => allowsRegimentType(world, nationId, type)).slice(0, capRemaining);
+  if (allowedRequested.length === 0) {
+    log(post, 'warn', 'Selected composition is blocked by current conscription/professionalism reforms.');
+    return;
+  }
+
+  const regiments: Regiment[] = [];
+  const raisedByType: Record<RegimentType, number> = { infantry: 0, cavalry: 0, artillery: 0, guard: 0 };
+
+  for (const type of allowedRequested) {
+    const profile = REGIMENT_RECRUIT_PROFILE[type];
+    if (nation.treasury < profile.cost) break;
+    const source = popPool.find((entry) => entry.slots > 0 && entry.pop.size > profile.manpowerDrain + 90);
+    if (!source) break;
+    source.pop.size = Math.max(0, source.pop.size - profile.manpowerDrain);
+    source.slots -= 1;
+    nation.treasury -= profile.cost;
+    regiments.push({
+      type,
+      strength: profile.baseStrength,
+      organization: clamp(Math.round(54 * nation.armyOrganization + profile.orgBonus), 18, 100),
+      sourcePop: source.pop.id,
+    });
+    raisedByType[type] += 1;
+  }
+
+  if (regiments.length === 0) {
+    log(post, 'warn', 'Unable to recruit requested regiments (capacity, treasury, or soldier support unavailable).');
+    return;
+  }
+
+  world.armies.push({
+    id: world.nextArmyId++,
+    owner: province.owner,
+    location: province.id,
+    moveTarget: -1,
+    moveProgress: 0,
+    regiments,
+    leader: null,
+    rebel: false,
+    hostileTo: -1,
+    rebellionId: undefined,
+    rebelDemand: null,
+  });
+
+  const detail = REGIMENT_ORDER
+    .filter((type) => raisedByType[type] > 0)
+    .map((type) => `${type[0].toUpperCase()}${raisedByType[type]}`)
+    .join(' ');
+  log(post, 'info', `Recruited ${regiments.length} regiments (${detail || 'infantry'}).`);
 }
 
 export function applyCommand(world: World, data: GameData, cmd: Command, post: Poster): void {
@@ -148,70 +285,11 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       return;
     }
     case 'recruitArmy': {
-      const province = world.provinces[cmd.province];
-      const nation = world.nations[world.playerNation];
-      if (!province || !nation || province.owner !== world.playerNation) return;
-
-      const activeRegiments = world.armies
-        .filter((army) => army.owner === world.playerNation && !army.rebel)
-        .reduce((sum, army) => sum + army.regiments.length, 0);
-      const capRemaining = Math.max(0, nation.standingRegimentCapacity - activeRegiments);
-      if (capRemaining <= 0) {
-        log(post, 'warn', 'Standing regiment cap reached. Raise conscription or soldier population.');
-        return;
-      }
-
-      const usedByPop = new Map<number, number>();
-      for (const army of world.armies) {
-        if (army.owner !== world.playerNation || army.rebel) continue;
-        for (const regiment of army.regiments) {
-          usedByPop.set(regiment.sourcePop, (usedByPop.get(regiment.sourcePop) ?? 0) + 1);
-        }
-      }
-
-      const soldierPops = province.popIds.map((id) => world.pops[id]).filter((pop) => pop?.type === 'soldier' && pop.size > 200);
-      if (soldierPops.length === 0) {
-        log(post, 'warn', 'No soldier pops available for recruitment.');
-        return;
-      }
-
-      const regiments: Regiment[] = [];
-      const recruitCostPerRegiment = 24;
-      for (const pop of soldierPops) {
-        if (regiments.length >= capRemaining || regiments.length >= 12) break;
-        const popSupportCap = Math.max(0, Math.floor((pop.size / 1000) * nation.regimentsPerSoldierPop));
-        const allocated = usedByPop.get(pop.id) ?? 0;
-        const available = Math.max(0, popSupportCap - allocated);
-        if (available <= 0) continue;
-        const toRaise = Math.min(available, capRemaining - regiments.length);
-        for (let i = 0; i < toRaise; i++) {
-          if (nation.treasury < recruitCostPerRegiment) break;
-          pop.size = Math.max(0, pop.size - 70);
-          nation.treasury -= recruitCostPerRegiment;
-          regiments.push({
-            type: 'infantry',
-            strength: 1000,
-            organization: clamp(Math.round(55 * nation.armyOrganization), 20, 100),
-            sourcePop: pop.id,
-          });
-        }
-      }
-      if (regiments.length === 0) {
-        log(post, 'warn', 'Soldier pops are fully allocated under current conscription reform.');
-        return;
-      }
-
-      world.armies.push({
-        id: world.nextArmyId++,
-        owner: province.owner,
-        location: province.id,
-        moveTarget: -1,
-        moveProgress: 0,
-        regiments,
-        leader: null,
-        rebel: false,
-        hostileTo: -1,
-      });
+      recruitArmyWithPlan(world, post, world.playerNation, cmd.province);
+      return;
+    }
+    case 'recruitArmyWithComposition': {
+      recruitArmyWithPlan(world, post, world.playerNation, cmd.province, cmd.composition);
       return;
     }
     case 'assignGeneral': {
@@ -230,7 +308,7 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       return;
     case 'moveArmy': {
       const army = world.armies.find((candidate) => candidate.id === cmd.army);
-      if (!army) return;
+      if (!army || army.owner !== world.playerNation || army.rebel) return;
       const target = world.provinces[cmd.target];
       const source = world.provinces[army.location];
       if (!target || !source || !source.neighbors.includes(target.id)) return;
@@ -273,6 +351,7 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     }
     case 'moveFleet': {
       const fleet = world.fleets.find((candidate) => candidate.id === cmd.fleet);
+      if (!fleet || fleet.owner !== world.playerNation) return;
       const source = fleet ? world.provinces[fleet.location] : null;
       const target = world.provinces[cmd.target];
       if (!fleet || !source || !target) return;

@@ -58,9 +58,12 @@ const FALLBACK_GEOJSON_URL = new URL('../data/generated/provinces.geo.json', imp
 const MAP_SOURCE_ID = 'provinces';
 const MAP_NATIONAL_SOURCE_ID = 'national-borders';
 const MAP_FILL_LAYER = 'province-fill';
+const MAP_OCCUPATION_LAYER = 'province-occupation';
 const MAP_PROVINCE_LINE_LAYER = 'province-line';
 const MAP_NATIONAL_LINE_LAYER = 'nation-line';
 const MAP_HOVER_LAYER = 'province-hover';
+const MAP_MOVEMENT_SOURCE = 'movement-lines';
+const MAP_MOVEMENT_LAYER = 'movement-lines-layer';
 const DEFAULT_FILL = '#b7a486';
 const MAJOR_LABEL_TAGS = new Set(['ENG', 'FRA', 'AUS', 'RUS', 'USA', 'QNG', 'OTT', 'ESP', 'BRA']);
 const MAJOR_LABEL_TUNING: Record<string, {
@@ -129,6 +132,20 @@ function blend(hex: string, amount: number): string {
     blue * (1 - clamped) + paper[2] * clamped,
   ] as [number, number, number];
   return toHexColor(mixed);
+}
+
+function toRgba(hex: string, alpha: number): string {
+  const clamped = clamp01(alpha);
+  const red = Number.parseInt(hex.slice(1, 3), 16);
+  const green = Number.parseInt(hex.slice(3, 5), 16);
+  const blue = Number.parseInt(hex.slice(5, 7), 16);
+  return `rgba(${red}, ${green}, ${blue}, ${clamped.toFixed(3)})`;
+}
+
+function bearingDegrees(from: { lon: number; lat: number }, to: { lon: number; lat: number }): number {
+  const deltaLon = to.lon - from.lon;
+  const deltaLat = to.lat - from.lat;
+  return Math.atan2(deltaLat, deltaLon) * (180 / Math.PI);
 }
 
 function computeBounds(geojson: ProvinceGeoJson) {
@@ -521,6 +538,10 @@ export function GrandMap() {
           type: 'geojson',
           data: NATIONAL_BORDERS_GEOJSON as unknown as object,
         });
+        map.addSource(MAP_MOVEMENT_SOURCE, {
+          type: 'geojson',
+          data: { type: 'FeatureCollection', features: [] } as unknown as object,
+        });
 
         map.addLayer({
           id: MAP_FILL_LAYER,
@@ -529,6 +550,16 @@ export function GrandMap() {
           paint: {
             'fill-color': ['coalesce', ['feature-state', 'fill'], DEFAULT_FILL],
             'fill-opacity': 0.83,
+          },
+        });
+
+        map.addLayer({
+          id: MAP_OCCUPATION_LAYER,
+          type: 'fill',
+          source: MAP_SOURCE_ID,
+          paint: {
+            'fill-color': ['coalesce', ['feature-state', 'occupationColor'], '#6b4c38'],
+            'fill-opacity': ['coalesce', ['feature-state', 'occupationOpacity'], 0],
           },
         });
 
@@ -611,6 +642,18 @@ export function GrandMap() {
           },
         });
 
+        map.addLayer({
+          id: MAP_MOVEMENT_LAYER,
+          type: 'line',
+          source: MAP_MOVEMENT_SOURCE,
+          paint: {
+            'line-color': ['coalesce', ['get', 'color'], '#553a29'],
+            'line-width': ['coalesce', ['get', 'width'], 2],
+            'line-opacity': ['coalesce', ['get', 'opacity'], 0.65],
+            'line-dasharray': [1.4, 1.2],
+          },
+        });
+
         if (bounds) map.fitBounds(bounds, { padding: 30, duration: 550, maxZoom: 2.7 });
       });
 
@@ -618,12 +661,29 @@ export function GrandMap() {
       const clicked = event.features?.[0];
       const provinceId = Number(clicked?.properties?.id);
       if (!Number.isInteger(provinceId)) return;
+      const latestSnapshot = snapshotRef.current;
       if (selectedArmyRef.current !== null) {
-        sendCommand({ t: 'moveArmy', army: selectedArmyRef.current, target: provinceId });
+        const selected = latestSnapshot?.armies.find((army) => army.id === selectedArmyRef.current) ?? null;
+        const stack = selected && latestSnapshot
+          ? latestSnapshot.armies.filter((army) => !army.rebel && army.owner === selected.owner && army.location === selected.location)
+          : [];
+        if (stack.length > 0) {
+          for (const army of stack) sendCommand({ t: 'moveArmy', army: army.id, target: provinceId });
+        } else {
+          sendCommand({ t: 'moveArmy', army: selectedArmyRef.current, target: provinceId });
+        }
         return;
       }
       if (selectedFleetRef.current !== null) {
-        sendCommand({ t: 'moveFleet', fleet: selectedFleetRef.current, target: provinceId });
+        const selected = latestSnapshot?.fleets.find((fleet) => fleet.id === selectedFleetRef.current) ?? null;
+        const stack = selected && latestSnapshot
+          ? latestSnapshot.fleets.filter((fleet) => fleet.owner === selected.owner && fleet.location === selected.location)
+          : [];
+        if (stack.length > 0) {
+          for (const fleet of stack) sendCommand({ t: 'moveFleet', fleet: fleet.id, target: provinceId });
+        } else {
+          sendCommand({ t: 'moveFleet', fleet: selectedFleetRef.current, target: provinceId });
+        }
         return;
       }
       selectProvince(provinceId);
@@ -717,8 +777,13 @@ export function GrandMap() {
 
     for (const province of snapshot.provinces) {
       const ownerColor = nationColorById.get(province.owner) ?? DEFAULT_FILL;
-      const controllerColor = nationColorById.get(province.controller) ?? ownerColor;
+      const controllerColor = province.controller === -1
+        ? '#7a4d49'
+        : (nationColorById.get(province.controller) ?? ownerColor);
       let fill = ownerColor;
+      const occupied = province.controller !== province.owner;
+      const occupationOpacity = occupied ? (mapMode === 'military' ? 0.54 : 0.24) : 0;
+      const occupationColor = occupied ? blend(controllerColor, 0.04) : controllerColor;
 
       if (mapMode === 'population') {
         const needs = clamp01(province.needsMet);
@@ -762,8 +827,16 @@ export function GrandMap() {
 
       const prevFill = fillRef.current.get(province.id);
       if (prevFill !== fill) {
-        map.setFeatureState({ source: MAP_SOURCE_ID, id: province.id }, { fill });
+        map.setFeatureState(
+          { source: MAP_SOURCE_ID, id: province.id },
+          { fill, occupationColor, occupationOpacity },
+        );
         fillRef.current.set(province.id, fill);
+      } else {
+        map.setFeatureState(
+          { source: MAP_SOURCE_ID, id: province.id },
+          { occupationColor, occupationOpacity },
+        );
       }
     }
   }, [mapMode, nationColorById, snapshot]);
@@ -1021,6 +1094,9 @@ export function GrandMap() {
     const allMarkers = markerRef.current;
     for (const marker of allMarkers.values()) marker.remove();
     allMarkers.clear();
+    const movementSource = map.getSource(MAP_MOVEMENT_SOURCE) as
+      | { setData: (data: object) => void }
+      | undefined;
 
     const enemyByNation = new globalThis.Map<number, Set<number>>();
     for (const war of snapshot.wars) {
@@ -1049,54 +1125,148 @@ export function GrandMap() {
       fleetsByProvince.set(fleet.location, list);
     }
     const provinceById = new globalThis.Map(snapshot.provinces.map((province) => [province.id, province]));
+    const ownerColorById = new globalThis.Map(snapshot.nations.map((nation) => [nation.id, toHexColor(nation.color)]));
 
-    const addMarker = (key: string, provinceId: number, text: string, className: string, onClick: () => void) => {
+    const markerOffsets = (count: number): Array<[number, number]> => {
+      if (count <= 1) return [[0, 0]];
+      const radius = count <= 2 ? 16 : count <= 4 ? 20 : 25;
+      const offsets: Array<[number, number]> = [];
+      for (let index = 0; index < count; index++) {
+        const angle = (Math.PI * 2 * index) / count;
+        offsets.push([Math.round(Math.cos(angle) * radius), Math.round(Math.sin(angle) * radius)]);
+      }
+      return offsets;
+    };
+
+    const addMarker = (
+      key: string,
+      provinceId: number,
+      text: string,
+      className: string,
+      onClick: () => void,
+      color?: string,
+      offset: [number, number] = [0, 0],
+      title?: string,
+    ) => {
       const coord = provinceCoordById.get(provinceId);
       if (!coord) return;
       const el = document.createElement('button');
       el.type = 'button';
       el.className = `grand-map__counter ${className}`;
       el.textContent = text;
+      if (title) el.title = title;
+      if (color) {
+        el.style.background = toRgba(color, 0.82);
+        el.style.borderColor = toRgba('#312014', 0.45);
+      }
       el.addEventListener('click', (event) => {
         event.stopPropagation();
         onClick();
       });
       const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
         .setLngLat([coord.lon, coord.lat])
+        .setOffset(offset)
+        .addTo(map);
+      allMarkers.set(key, marker);
+    };
+    const addArrowMarker = (key: string, fromProvinceId: number, toProvinceId: number, color: string) => {
+      const from = provinceCoordById.get(fromProvinceId);
+      const to = provinceCoordById.get(toProvinceId);
+      if (!from || !to) return;
+      const el = document.createElement('div');
+      el.className = 'grand-map__arrow';
+      el.style.color = color;
+      el.style.transform = `rotate(${bearingDegrees(from, to)}deg)`;
+      const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+        .setLngLat([(from.lon + to.lon) / 2, (from.lat + to.lat) / 2])
         .addTo(map);
       allMarkers.set(key, marker);
     };
 
+    const armyStacksByProvince = new globalThis.Map<number, Array<{ owner: number; armies: typeof snapshot.armies; regiments: number; avgStrength: number }>>();
     for (const [provinceId, armies] of armiesByProvince.entries()) {
-      const friendly = armies.some((army) => army.owner === snapshot.playerNation);
-      const selected = selectedArmy !== null && armies.some((army) => army.id === selectedArmy);
-      addMarker(
-        `army-${provinceId}`,
-        provinceId,
-        `A${armies.length}`,
-        `${friendly ? 'is-friendly' : 'is-hostile'} ${selected ? 'is-selected' : ''}`.trim(),
-        () => {
-          const candidate = armies.find((army) => army.owner === snapshot.playerNation) ?? armies[0];
-          setSelectedArmy(candidate.id);
-          openPanelId('military');
-        },
-      );
+      const byOwner = new globalThis.Map<number, typeof snapshot.armies>();
+      for (const army of armies) {
+        const list = byOwner.get(army.owner) ?? [];
+        list.push(army);
+        byOwner.set(army.owner, list);
+      }
+      const stacks = Array.from(byOwner.entries())
+        .map(([owner, ownerArmies]) => {
+          const regiments = ownerArmies.reduce((sum, army) => sum + army.regiments.length, 0);
+          const avgStrength = regiments > 0
+            ? ownerArmies.reduce((sum, army) => sum + army.regiments.reduce((inner, regiment) => inner + regiment.strength, 0), 0) / regiments
+            : 0;
+          return { owner, armies: ownerArmies, regiments, avgStrength };
+        })
+        .filter((stack) => stack.regiments > 0)
+        .sort((a, b) => a.owner - b.owner);
+      if (stacks.length > 0) armyStacksByProvince.set(provinceId, stacks);
+    }
+    for (const [provinceId, stacks] of armyStacksByProvince.entries()) {
+      const offsets = markerOffsets(stacks.length);
+      stacks.forEach((stack, index) => {
+        const friendly = stack.owner === snapshot.playerNation;
+        const selected = selectedArmy !== null && stack.armies.some((army) => army.id === selectedArmy);
+        const candidate = stack.armies.find((army) => army.owner === snapshot.playerNation) ?? stack.armies[0];
+        const pct = Math.round((stack.avgStrength / 1000) * 100);
+        addMarker(
+          `army-${provinceId}-${stack.owner}`,
+          provinceId,
+          `A${stack.regiments} ${pct}%`,
+          `${friendly ? 'is-friendly' : 'is-hostile'} is-army ${selected ? 'is-selected' : ''}`.trim(),
+          () => {
+            setSelectedArmy(candidate.id);
+            openPanelId('military');
+          },
+          ownerColorById.get(stack.owner),
+          offsets[index] ?? [0, 0],
+          `${snapshot.nations.find((nation) => nation.id === stack.owner)?.name ?? stack.owner} army stack`,
+        );
+      });
     }
 
+    const fleetStacksByProvince = new globalThis.Map<number, Array<{ owner: number; fleets: typeof snapshot.fleets; ships: number; avgStrength: number }>>();
     for (const [provinceId, fleets] of fleetsByProvince.entries()) {
-      const friendly = fleets.some((fleet) => fleet.owner === snapshot.playerNation);
-      const selected = selectedFleet !== null && fleets.some((fleet) => fleet.id === selectedFleet);
-      addMarker(
-        `fleet-${provinceId}`,
-        provinceId,
-        `F${fleets.length}`,
-        `${friendly ? 'is-friendly' : 'is-hostile'} ${selected ? 'is-selected' : ''}`.trim(),
-        () => {
-          const candidate = fleets.find((fleet) => fleet.owner === snapshot.playerNation) ?? fleets[0];
-          setSelectedFleet(candidate.id);
-          openPanelId('military');
-        },
-      );
+      const byOwner = new globalThis.Map<number, typeof snapshot.fleets>();
+      for (const fleet of fleets) {
+        const list = byOwner.get(fleet.owner) ?? [];
+        list.push(fleet);
+        byOwner.set(fleet.owner, list);
+      }
+      const stacks = Array.from(byOwner.entries())
+        .map(([owner, ownerFleets]) => {
+          const ships = ownerFleets.reduce((sum, fleet) => sum + fleet.ships.length, 0);
+          const avgStrength = ships > 0
+            ? ownerFleets.reduce((sum, fleet) => sum + fleet.ships.reduce((inner, ship) => inner + ship.strength, 0), 0) / ships
+            : 0;
+          return { owner, fleets: ownerFleets, ships, avgStrength };
+        })
+        .filter((stack) => stack.ships > 0)
+        .sort((a, b) => a.owner - b.owner);
+      if (stacks.length > 0) fleetStacksByProvince.set(provinceId, stacks);
+    }
+    for (const [provinceId, stacks] of fleetStacksByProvince.entries()) {
+      const offsets = markerOffsets(stacks.length).map(([x, y]) => [x, y + 18] as [number, number]);
+      stacks.forEach((stack, index) => {
+        const friendly = stack.owner === snapshot.playerNation;
+        const selected = selectedFleet !== null && stack.fleets.some((fleet) => fleet.id === selectedFleet);
+        const candidate = stack.fleets.find((fleet) => fleet.owner === snapshot.playerNation) ?? stack.fleets[0];
+        const pct = Math.round((stack.avgStrength / 100) * 100);
+        addMarker(
+          `fleet-${provinceId}-${stack.owner}`,
+          provinceId,
+          `F${stack.ships} ${pct}%`,
+          `${friendly ? 'is-friendly' : 'is-hostile'} is-fleet ${selected ? 'is-selected' : ''}`.trim(),
+          () => {
+            setSelectedFleet(candidate.id);
+            openPanelId('military');
+          },
+          ownerColorById.get(stack.owner),
+          offsets[index] ?? [0, 18],
+          `${snapshot.nations.find((nation) => nation.id === stack.owner)?.name ?? stack.owner} fleet stack`,
+        );
+      });
     }
 
     const hasHostilePair = (owners: number[]): boolean => {
@@ -1144,11 +1314,74 @@ export function GrandMap() {
       });
     }
 
+    for (const province of snapshot.provinces) {
+      if (province.controller !== -1) continue;
+      addMarker(`rebel-${province.id}`, province.id, '☠', 'is-rebel', () => {
+        openPanelId('military');
+        selectProvince(province.id);
+      });
+    }
+
+    const movementEntries = new globalThis.Map<string, {
+      from: number;
+      to: number;
+      owner: number;
+      width: number;
+      opacity: number;
+    }>();
+    for (const army of snapshot.armies) {
+      if (army.moveTarget < 0 || army.regiments.length === 0) continue;
+      const key = `a-${army.owner}-${army.location}-${army.moveTarget}`;
+      movementEntries.set(key, {
+        from: army.location,
+        to: army.moveTarget,
+        owner: army.owner,
+        width: army.owner === snapshot.playerNation ? 2.8 : 2.2,
+        opacity: army.owner === snapshot.playerNation ? 0.86 : 0.62,
+      });
+    }
+    for (const fleet of snapshot.fleets) {
+      if (fleet.moveTarget < 0 || fleet.ships.length === 0) continue;
+      const key = `f-${fleet.owner}-${fleet.location}-${fleet.moveTarget}`;
+      movementEntries.set(key, {
+        from: fleet.location,
+        to: fleet.moveTarget,
+        owner: fleet.owner,
+        width: fleet.owner === snapshot.playerNation ? 2.6 : 2,
+        opacity: fleet.owner === snapshot.playerNation ? 0.82 : 0.58,
+      });
+    }
+    const movementFeatures = Array.from(movementEntries.values()).flatMap((entry) => {
+      const from = provinceCoordById.get(entry.from);
+      const to = provinceCoordById.get(entry.to);
+      if (!from || !to) return [];
+      const color = ownerColorById.get(entry.owner) ?? '#4f3a2b';
+      addArrowMarker(`arrow-${entry.owner}-${entry.from}-${entry.to}-${entry.width}`, entry.from, entry.to, color);
+      return [{
+        type: 'Feature',
+        geometry: {
+          type: 'LineString',
+          coordinates: [[from.lon, from.lat], [to.lon, to.lat]],
+        },
+        properties: {
+          color,
+          width: entry.width,
+          opacity: entry.opacity,
+        },
+      }];
+    });
+    movementSource?.setData({
+      type: 'FeatureCollection',
+      features: movementFeatures,
+    });
+
     return () => {
       for (const marker of allMarkers.values()) marker.remove();
       allMarkers.clear();
+      movementSource?.setData({ type: 'FeatureCollection', features: [] });
     };
   }, [
+    nationColorById,
     openPanelId,
     provinceCoordById,
     selectProvince,

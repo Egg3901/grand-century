@@ -394,8 +394,13 @@ function manageWarMovement(world: World, nationId: NationId): void {
     if (weak) {
       const fallback = nearestFriendlySupplyProvince(world, nationId, army.location, enemies);
       const retreatStep = stepToward(world, army.location, fallback);
-      if (retreatStep !== army.location && world.provinces[army.location]?.neighbors.includes(retreatStep)) {
-        army.moveTarget = retreatStep;
+      let weakStep = retreatStep;
+      if (weakStep === army.location) {
+        const neighbors = world.provinces[army.location]?.neighbors.slice().sort((a, b) => a - b) ?? [];
+        weakStep = neighbors[0] ?? army.location;
+      }
+      if (weakStep !== army.location && world.provinces[army.location]?.neighbors.includes(weakStep)) {
+        army.moveTarget = weakStep;
         army.moveProgress = 0;
         issuedMoves++;
         if (issuedMoves >= BALANCE.ai.warMoveBudgetPerMonth) break;
@@ -434,6 +439,16 @@ function manageWarMovement(world: World, nationId: NationId): void {
       if (issuedMoves >= BALANCE.ai.warMoveBudgetPerMonth) break;
     }
   }
+  if (issuedMoves > 0) return;
+  const fallbackArmy = world.armies
+    .filter((army) => army.owner === nationId && !army.rebel && army.regiments.length > 0 && army.moveTarget < 0)
+    .sort((a, b) => a.id - b.id)[0];
+  if (!fallbackArmy) return;
+  const neighbors = world.provinces[fallbackArmy.location]?.neighbors.slice().sort((a, b) => a - b) ?? [];
+  const fallbackNeighbor = neighbors[0];
+  if (fallbackNeighbor === undefined) return;
+  fallbackArmy.moveTarget = fallbackNeighbor;
+  fallbackArmy.moveProgress = 0;
 }
 
 function choosePeaceGoals(war: War, attackerSide: boolean): number[] {
@@ -480,7 +495,8 @@ function maybePeaceOut(world: World, nationId: NationId): void {
     const stalemate = Math.abs(scoreForNation) <= BALANCE.ai.peaceStalemateScoreBand
       && warDays >= BALANCE.ai.peaceStalemateDays;
     const forcedExit = warDays >= BALANCE.ai.peaceForceExitDays;
-    if (losing || stalemate || forcedExit) {
+    const commitToWar = warDays < 120 && myExhaustion < BALANCE.ai.peaceExhaustionPush && scoreForNation > -35;
+    if ((losing || stalemate || forcedExit) && !commitToWar) {
       offerPeaceTerms(world, war.id, nationId, []);
       continue;
     }
@@ -495,7 +511,10 @@ function maybePeaceOut(world: World, nationId: NationId): void {
       && scoreForNation < 85
       && warDays < BALANCE.ai.peaceForceExitDays;
     if (holdOut) continue;
-    offerPeaceTerms(world, war.id, nationId, achievableGoals);
+    const result = offerPeaceTerms(world, war.id, nationId, achievableGoals);
+    if (!result.ok && result.counterGoals && result.counterGoals.length < achievableGoals.length) {
+      offerPeaceTerms(world, war.id, nationId, result.counterGoals);
+    }
   }
 }
 

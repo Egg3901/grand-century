@@ -310,6 +310,28 @@ export interface Regiment {
   sourcePop: PopId;      // soldier pop that supplies it
 }
 
+export type RebelDemandType = 'enact_reform' | 'independence';
+
+export interface RebelDemand {
+  type: RebelDemandType;
+  description: string;
+  reformKey?: string;
+  reformLevel?: number;
+  culture?: number;
+  stateIds?: StateId[];
+}
+
+export interface Rebellion {
+  id: number;
+  targetNation: NationId;
+  originState: StateId;
+  startDay: GameDay;
+  progress: number;
+  holdDays: number;
+  status: 'active' | 'enforced' | 'crushed';
+  demand: RebelDemand;
+}
+
 export interface Army {
   id: ArmyId;
   owner: NationId;
@@ -320,6 +342,8 @@ export interface Army {
   leader: Leader | null;
   rebel: boolean;
   hostileTo: NationId;
+  rebellionId?: number;
+  rebelDemand?: RebelDemand | null;
 }
 
 export interface Ship {
@@ -469,11 +493,13 @@ export interface World {
   armies: Army[];
   fleets: Fleet[];
   wars: War[];
+  rebellions: Rebellion[];
   relations: DiploRelation[];
 
   nextArmyId: ArmyId;
   nextFleetId: FleetId;
   nextWarId: WarId;
+  nextRebellionId: number;
   nextPopId: PopId;
 }
 
@@ -575,6 +601,7 @@ export interface WorldSnapshot {
   coalitionAgainstPlayer: NationId[];
   armies: Army[];
   fleets: Fleet[];
+  rebellions: Rebellion[];
   playerProduction: ProductionLedgerEntry[];
   playerPopulation: PopulationLedgerEntry[];
   playerReformAgitation: { reform: string; support: number }[];
@@ -633,6 +660,7 @@ export type Command =
   | { t: 'enactReform'; reform: string; level: number }
   | { t: 'buildFactory'; state: StateId; recipe: string }
   | { t: 'recruitArmy'; province: ProvinceId }
+  | { t: 'recruitArmyWithComposition'; province: ProvinceId; composition: Partial<Record<Regiment['type'], number>> }
   | { t: 'assignGeneral'; army: ArmyId }
   | { t: 'mobilize' }
   | { t: 'demobilize' }
