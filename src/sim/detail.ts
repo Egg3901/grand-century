@@ -19,6 +19,7 @@ import {
   getNationPowerBreakdown,
   getNationRelations,
 } from './systems/diplomacy';
+import { getFormableStatusesForNation } from './formables';
 
 interface PopAggregate {
   type: PopType;
@@ -126,6 +127,7 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
       techs: [],
       budget: computePlayerBudget(world, data, world.playerNation),
       reformsAvailable: [],
+      formablesAvailable: [],
     };
   }
 
@@ -229,5 +231,6 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
       }
       return result;
     }),
+    formablesAvailable: getFormableStatusesForNation(world, data, nation.id),
   };
 }

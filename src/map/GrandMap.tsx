@@ -691,6 +691,7 @@ export function GrandMap() {
       else if (relation.b === snapshot.playerNation) relationByNation.set(relation.a, relation.kind);
     }
     const playerNation = nationById.get(snapshot.playerNation) ?? null;
+    const playerCoreStates = new Set(snapshot.playerCoreStateIds ?? []);
 
     for (const province of snapshot.provinces) {
       const ownerColor = nationColorById.get(province.owner) ?? DEFAULT_FILL;
@@ -730,6 +731,11 @@ export function GrandMap() {
           fill = DIPLO_COLORS.sphere;
         }
         else fill = DIPLO_COLORS.neutral;
+      } else if (mapMode === 'cores') {
+        const isCore = playerCoreStates.has(province.stateId);
+        if (!isCore) fill = blend(ownerColor, 0.6);
+        else if (province.owner === snapshot.playerNation) fill = blend('#4e8a5e', 0.2);
+        else fill = blend('#8e4d46', 0.18);
       }
 
       const prevFill = fillRef.current.get(province.id);

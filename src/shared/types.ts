@@ -112,6 +112,40 @@ export interface TechDef {
   effects: string[];
 }
 
+export interface FormableDefinition {
+  key: string;
+  resultTag: string;
+  resultName: string;
+  resultColor: [number, number, number];
+  resultPrimaryCulture?: string;
+  candidateTags: string[];
+  coreStateIds: StateId[];
+  requiredCoreShare: number;
+  requireIndependent: boolean;
+  requireGreatPower: boolean;
+  prestigeReward: number;
+}
+
+export interface FormableRequirementStatus {
+  key: 'candidate' | 'independent' | 'power' | 'core_control';
+  label: string;
+  met: boolean;
+  detail: string;
+}
+
+export interface FormableStatus {
+  key: string;
+  name: string;
+  targetTag: string;
+  ready: boolean;
+  reason: string;
+  coreStateIds: StateId[];
+  controlledCoreStates: number;
+  totalCoreStates: number;
+  requiredCoreStates: number;
+  requirements: FormableRequirementStatus[];
+}
+
 /** Everything static the game is built from. Loaded once, never mutated. */
 export interface GameData {
   startDate: GameDate;   // 1836-01-01
@@ -123,6 +157,8 @@ export interface GameData {
   reforms: ReformDef[];
   techs: TechDef[];
   provinceCount: number;
+  nationCores?: Record<string, StateId[]>;
+  formables?: FormableDefinition[];
 }
 
 // ---------------------------------------------------------------------------
@@ -215,6 +251,7 @@ export interface Nation {
   nextElectionYear: number;
   electionLastResult: string;
   capital: ProvinceId;
+  coreStateIds?: StateId[];
 
   treasury: number;
   prestige: number;
@@ -542,6 +579,8 @@ export interface WorldSnapshot {
   playerPopulation: PopulationLedgerEntry[];
   playerReformAgitation: { reform: string; support: number }[];
   playerStates: PlayerStateSummary[];
+  playerCoreStateIds?: StateId[];
+  playerFormables?: FormableStatus[];
   /** headline numbers for the player nation's HUD */
   playerBudget: BudgetLine;
 }
@@ -611,6 +650,7 @@ export type Command =
   | { t: 'declareWar'; target: NationId; goal: WarGoalType; state: StateId }
   | { t: 'offerPeace'; war: WarId; goalsToEnforce: number[] }
   | { t: 'colonize'; state: StateId }
+  | { t: 'formNation'; key: string }
   | { t: 'newGame'; seed: number; playerNation: NationId }
   | { t: 'save'; slot: string }
   | { t: 'load'; slot: string }
@@ -695,4 +735,5 @@ export interface NationDetail {
     costMoney: number;
     costPrestige: number;
   }[];
+  formablesAvailable?: FormableStatus[];
 }

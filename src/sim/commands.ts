@@ -21,6 +21,7 @@ import {
   offerPeaceTerms,
   startColonization,
 } from './systems/war';
+import { formNation } from './formables';
 
 type Poster = (msg: FromWorker) => void;
 
@@ -407,6 +408,11 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     }
     case 'colonize': {
       const result = startColonization(world, world.playerNation, cmd.state);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
+      return;
+    }
+    case 'formNation': {
+      const result = formNation(world, data, world.playerNation, cmd.key);
       log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }

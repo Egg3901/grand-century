@@ -16,14 +16,15 @@ export type MapMode =
   | 'military'
   | 'diplomatic'
   | 'unrest'
-  | 'ruling_ideology';
+  | 'ruling_ideology'
+  | 'cores';
 export type PanelId =
   | null | 'budget' | 'population' | 'market' | 'politics' | 'diplomacy'
-  | 'great_powers' | 'military' | 'production' | 'technology' | 'province' | 'colonization' | 'save_load';
+  | 'great_powers' | 'military' | 'production' | 'technology' | 'province' | 'colonization' | 'save_load' | 'formables';
 
 export interface UiAlert {
   id: string;
-  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save';
+  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save' | 'formation';
   day: number;
   message: string;
 }
@@ -106,10 +107,17 @@ export const useStore = create<UIState>((set, get) => ({
       const rebels = s.armies.filter((army) => army.rebel).length;
       if (rebels > prevRebels) pushAlert('rebellion', 'Rebellion forces have risen.', s.day);
       const prevPartyByNation = new Map(prev.nations.map((nation) => [nation.id, nation.rulingParty]));
+      const prevTagByNation = new Map(prev.nations.map((nation) => [nation.id, nation.tag]));
       for (const nation of s.nations) {
         const oldParty = prevPartyByNation.get(nation.id);
         if (oldParty && oldParty !== nation.rulingParty) {
           pushAlert('election', `${nation.name} elected ${nation.rulingParty}.`, s.day);
+        }
+        const oldTag = prevTagByNation.get(nation.id);
+        if (oldTag && oldTag !== nation.tag) {
+          if (nation.tag === 'GER') pushAlert('formation', 'The German Empire is proclaimed!', s.day);
+          else if (nation.tag === 'ITA') pushAlert('formation', 'The Kingdom of Italy is proclaimed!', s.day);
+          else pushAlert('formation', `${nation.name} has formed.`, s.day);
         }
       }
     }

@@ -258,7 +258,7 @@ function computePowerScores(world: World): PowerScoreEntry[] {
     .sort((a, b) => (b.score - a.score) || (a.nation - b.nation));
 }
 
-function refreshGreatPowerRanking(world: World): void {
+export function refreshGreatPowerRanking(world: World): void {
   const runtime = ensureRuntime(world);
   const scores = computePowerScores(world);
   runtime.powerScores = scores;

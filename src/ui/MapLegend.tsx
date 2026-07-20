@@ -8,6 +8,7 @@ const LEGENDS: Record<string, string[]> = {
   economy: ['Dark teal = high output', 'Pale teal = low output'],
   military: ['Controller tint overlay', 'Counters show army/fleet stacks'],
   diplomatic: ['Blue self', 'Green allies', 'Red enemies/rivals'],
+  cores: ['Green = your owned core states', 'Red = unowned core states'],
 };
 
 export function MapLegend() {

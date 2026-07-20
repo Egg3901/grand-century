@@ -19,6 +19,7 @@ import {
   offerPeaceTerms,
   startColonization,
 } from './war';
+import { formNation, getFormableStatusesForNation } from '../formables';
 
 function clamp(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) return min;
@@ -1010,6 +1011,42 @@ function maybeColonialAndSphereActions(world: World, nationId: NationId, rng: Rn
   }
 }
 
+function maybePursueFormables(world: World, data: GameData, nationId: NationId): boolean {
+  const nation = world.nations[nationId];
+  if (!nation) return false;
+  const statuses = getFormableStatusesForNation(world, data, nationId);
+  if (statuses.length === 0) return false;
+  const ready = statuses.find((status) => status.ready);
+  if (ready) {
+    formNation(world, data, nationId, ready.key);
+    return true;
+  }
+
+  const target = statuses
+    .slice()
+    .sort((a, b) => (
+      b.controlledCoreStates - a.controlledCoreStates
+      || a.requiredCoreStates - b.requiredCoreStates
+      || a.key.localeCompare(b.key)
+    ))[0];
+  if (!target || nation.gpRank <= 0) return false;
+
+  const sphere = new Set(nation.sphereMembers);
+  const missingOwners = new Set<NationId>();
+  for (const stateId of target.coreStateIds) {
+    const state = world.states[stateId];
+    if (!state) continue;
+    if (state.owner === nationId || sphere.has(state.owner)) continue;
+    if (world.nations[state.owner]?.gpRank > 0) continue;
+    missingOwners.add(state.owner);
+  }
+
+  for (const ownerId of Array.from(missingOwners).sort((a, b) => a - b).slice(0, 2)) {
+    spendInfluence(world, nationId, ownerId, 1);
+  }
+  return false;
+}
+
 function keepValuesFinite(world: World): void {
   for (const nation of world.nations) {
     nation.treasury = clamp(nation.treasury, BALANCE.economy.treasuryFloor, BALANCE.economy.treasurySoftCap);
@@ -1040,6 +1077,8 @@ export function runAiMonthly(world: World, data: GameData, rng: Rng): void {
     maybePeaceOut(world, nation.id);
     manageWarMovement(world, nation.id);
     if (nationAtWar(world, nation.id)) mobilizeNation(world, nation.id);
+    const formed = maybePursueFormables(world, data, nation.id);
+    if (formed) continue;
 
     if (!heavyPlanMonth) continue;
     maybeEnactPartyReform(world, data, nation.id);
@@ -1047,6 +1086,7 @@ export function runAiMonthly(world: World, data: GameData, rng: Rng): void {
     maybeBuildMilitary(world, nation.id);
     maybeDiplomaticActions(world, nation.id, rng, neighborMap);
     maybeColonialAndSphereActions(world, nation.id, rng, neighborMap);
+    maybePursueFormables(world, data, nation.id);
   }
   keepValuesFinite(world);
 }

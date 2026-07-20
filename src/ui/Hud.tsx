@@ -11,6 +11,7 @@ const PANELS: { id: PanelId; label: string }[] = [
   { id: 'politics', label: 'Politics' },
   { id: 'diplomacy', label: 'Diplomacy' },
   { id: 'great_powers', label: 'Great Powers' },
+  { id: 'formables', label: 'Formables' },
   { id: 'military', label: 'Military' },
   { id: 'colonization', label: 'Colonization' },
   { id: 'save_load', label: 'Save / Load' },
@@ -23,6 +24,7 @@ const MAP_MODES: { id: MapMode; label: string }[] = [
   { id: 'economy', label: 'Economy' },
   { id: 'military', label: 'Military' },
   { id: 'diplomatic', label: 'Diplomatic' },
+  { id: 'cores', label: 'Cores' },
 ];
 const MAX_SPEED = SPEEDS[SPEEDS.length - 1];
 

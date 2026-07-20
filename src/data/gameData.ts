@@ -1,5 +1,5 @@
-import type { GameData, GoodDef, PopNeedsDef, PopType, Recipe } from '../shared/types';
-import { PROVINCE_COUNT } from './generated';
+import type { FormableDefinition, GameData, GoodDef, PopNeedsDef, PopType, Recipe } from '../shared/types';
+import { PROVINCE_COUNT, WORLD_SEED } from './generated';
 
 const GOODS: GoodDef[] = [
   { id: 0, key: 'grain', name: 'Grain', category: 'raw', basePrice: 2.2 },
@@ -133,6 +133,24 @@ const POP_NEEDS: Record<PopType, PopNeedsDef> = {
     luxury: [],
   },
 };
+
+const NATION_CORES = Object.fromEntries(
+  WORLD_SEED.nations.map((nation) => [nation.tag, (nation.coreStateIds ?? []).slice().sort((a, b) => a - b)]),
+) as Record<string, number[]>;
+
+const FORMABLES: FormableDefinition[] = (WORLD_SEED.formables ?? []).map((formable) => ({
+  key: formable.key,
+  resultTag: formable.resultTag,
+  resultName: formable.resultName,
+  resultColor: formable.resultColor,
+  resultPrimaryCulture: formable.resultPrimaryCulture,
+  candidateTags: formable.candidateTags.slice(),
+  coreStateIds: formable.coreStateIds.slice().sort((a, b) => a - b),
+  requiredCoreShare: formable.requiredCoreShare,
+  requireIndependent: formable.requireIndependent,
+  requireGreatPower: formable.requireGreatPower,
+  prestigeReward: formable.prestigeReward,
+}));
 
 export const GAME_DATA: GameData = {
   startDate: { year: 1836, month: 1, day: 1 },
@@ -290,4 +308,6 @@ export const GAME_DATA: GameData = {
     { key: 'idealism', name: 'Idealism', category: 'culture', cost: 9, effects: ['+Research points'] },
   ],
   provinceCount: PROVINCE_COUNT,
+  nationCores: NATION_CORES,
+  formables: FORMABLES,
 };

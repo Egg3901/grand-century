@@ -10,6 +10,21 @@ export interface SeedNation {
   government: GovernmentType;
   capitalProvinceId: number;
   primaryCulture: string;
+  coreStateIds?: number[];
+}
+
+export interface SeedFormable {
+  key: string;
+  resultTag: string;
+  resultName: string;
+  resultColor: [number, number, number];
+  resultPrimaryCulture?: string;
+  candidateTags: string[];
+  coreStateIds: number[];
+  requiredCoreShare: number;
+  requireIndependent: boolean;
+  requireGreatPower: boolean;
+  prestigeReward: number;
 }
 
 export interface SeedProvince {
@@ -41,6 +56,7 @@ export interface WorldSeedData {
   provinces: SeedProvince[];
   states: SeedState[];
   nations: SeedNation[];
+  formables?: SeedFormable[];
 }
 
 export interface CompactProvinceFeatureCollection {

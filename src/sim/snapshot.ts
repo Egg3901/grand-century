@@ -10,6 +10,7 @@ import {
   getInfamyLimit,
   getNationPowerBreakdown,
 } from './systems/diplomacy';
+import { getFormableStatusesForNation } from './formables';
 
 function zeroBudget(): BudgetLine {
   return {
@@ -142,6 +143,8 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
   });
 
   const playerOwnedStates = world.states.filter((state) => state.owner === world.playerNation);
+  const playerCoreStateIds = world.nations[world.playerNation]?.coreStateIds?.slice().sort((a, b) => a - b) ?? [];
+  const playerFormables = getFormableStatusesForNation(world, data, world.playerNation);
   const playerProduction = [
     ...world.provinces
       .filter((province) => province.owner === world.playerNation)
@@ -256,6 +259,8 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerPopulation,
     playerReformAgitation,
     playerStates,
+    playerCoreStateIds,
+    playerFormables,
     playerBudget: zeroBudget(),
   };
 }

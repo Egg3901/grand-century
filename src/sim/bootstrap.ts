@@ -191,6 +191,7 @@ function capitalId(id: number): number {
 
 function createNations(data: GameData): Nation[] {
   return WORLD_SEED.nations.map((seed, id) => ({
+    coreStateIds: Array.from(new Set((data.nationCores?.[seed.tag] ?? seed.coreStateIds ?? []).slice())).sort((a, b) => a - b),
     id,
     tag: seed.tag,
     name: seed.name,
@@ -479,6 +480,12 @@ export function createWorld(data: GameData, seed: number): World {
     nextWarId: 1,
     nextPopId: pops.length,
   };
+  for (const nation of world.nations) {
+    const ownedStates = world.states
+      .filter((state) => state.owner === nation.id)
+      .map((state) => state.id);
+    nation.coreStateIds = Array.from(new Set([...(nation.coreStateIds ?? []), ...ownedStates])).sort((a, b) => a - b);
+  }
   for (const nation of world.nations) updateMilitaryDerivedForNation(world, nation.id);
   primeDiplomacy(world, data);
   return world;
