@@ -11,6 +11,7 @@ import {
   getNationPowerBreakdown,
 } from './systems/diplomacy';
 import { getFormableStatusesForNation } from './formables';
+import { listPlayerDecisions } from './systems/events';
 
 function zeroBudget(): BudgetLine {
   return {
@@ -268,6 +269,16 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerStates,
     playerCoreStateIds,
     playerFormables,
+    pendingPlayerEvents: (world.pendingEvents ?? [])
+      .filter((event) => event.nationId === world.playerNation)
+      .map((event) => ({
+        ...event,
+        choices: event.choices.map((choice) => ({
+          ...choice,
+          effectsSummary: choice.effectsSummary.slice(),
+        })),
+      })),
+    playerDecisions: listPlayerDecisions(world, data, world.playerNation),
     playerBudget: zeroBudget(),
   };
 }

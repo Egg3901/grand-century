@@ -20,11 +20,11 @@ export type MapMode =
   | 'cores';
 export type PanelId =
   | null | 'budget' | 'population' | 'market' | 'politics' | 'diplomacy'
-  | 'great_powers' | 'military' | 'production' | 'technology' | 'province' | 'colonization' | 'save_load' | 'formables';
+  | 'great_powers' | 'military' | 'production' | 'technology' | 'province' | 'colonization' | 'save_load' | 'formables' | 'decisions';
 
 export interface UiAlert {
   id: string;
-  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save' | 'formation' | 'unrest';
+  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save' | 'formation' | 'unrest' | 'event';
   day: number;
   message: string;
   panel: Exclude<PanelId, null> | null;
@@ -279,6 +279,19 @@ export const useStore = create<UIState>((set, get) => ({
           'Open Politics and enact stabilizing reforms or cut taxes.',
           'high-unrest',
           120,
+        );
+      }
+      const prevPendingIds = new Set((prev.pendingPlayerEvents ?? []).map((event) => event.instanceId));
+      for (const event of s.pendingPlayerEvents ?? []) {
+        if (prevPendingIds.has(event.instanceId)) continue;
+        pushAlert(
+          'event',
+          event.title,
+          s.day,
+          'decisions',
+          'A national event requires your choice.',
+          `event-${event.instanceId}`,
+          365,
         );
       }
     }

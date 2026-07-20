@@ -22,6 +22,7 @@ import {
   startColonization,
 } from './systems/war';
 import { formNation } from './formables';
+import { resolvePendingEvent, takeDecision } from './systems/events';
 
 type Poster = (msg: FromWorker) => void;
 type RegimentType = Regiment['type'];
@@ -492,6 +493,16 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     }
     case 'formNation': {
       const result = formNation(world, data, world.playerNation, cmd.key);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
+      return;
+    }
+    case 'resolveEvent': {
+      const result = resolvePendingEvent(world, data, world.playerNation, cmd.instanceId, cmd.choiceId);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
+      return;
+    }
+    case 'takeDecision': {
+      const result = takeDecision(world, data, world.playerNation, cmd.decision);
       log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }

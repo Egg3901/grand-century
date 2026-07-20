@@ -5,6 +5,7 @@ import { PanelHost } from './ui/panels/PanelHost';
 import { MainMenu } from './ui/MainMenu';
 import { Outliner } from './ui/Outliner';
 import { EventFeed } from './ui/EventFeed';
+import { EventPopup } from './ui/EventPopup';
 import { MapLegend } from './ui/MapLegend';
 import { AudioManager } from './ui/AudioManager';
 import { TutorialCoach } from './ui/TutorialCoach';
@@ -31,6 +32,7 @@ function App() {
         <Outliner />
         <MapLegend />
         <EventFeed />
+        <EventPopup />
         <PanelHost />
         <TutorialCoach />
       </div>

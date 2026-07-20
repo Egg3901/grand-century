@@ -126,6 +126,127 @@ export interface FormableDefinition {
   prestigeReward: number;
 }
 
+// ---------------------------------------------------------------------------
+// Events & decisions (E4 — data-driven narrative agency)
+// ---------------------------------------------------------------------------
+
+/** Composable mutation applied by an event choice or decision. */
+export type EventEffect =
+  | { t: 'treasury'; amount: number }
+  | { t: 'prestige'; amount: number }
+  | { t: 'infamy'; amount: number }
+  | { t: 'militancy'; amount: number }
+  | { t: 'consciousness'; amount: number }
+  | { t: 'literacy'; amount: number }
+  | { t: 'researchPoints'; amount: number }
+  | { t: 'colonialPoints'; amount: number }
+  | { t: 'unrest'; amount: number }
+  | { t: 'reformLevel'; reform: string; delta: number }
+  | { t: 'modifyGoodPrice'; goodKey: string; factor: number }
+  | { t: 'modifyGoodStockpile'; goodKey: string; amount: number }
+  | { t: 'relationsWithGps'; amount: number }
+  | { t: 'spawnRebels' }
+  | { t: 'grantColonialClaim' }
+  | { t: 'boostFactories'; levels: number }
+  | { t: 'boostRgo'; goodKey?: string; levels: number };
+
+export type EventRequirement =
+  | { t: 'minTreasury'; value: number }
+  | { t: 'minPrestige'; value: number }
+  | { t: 'minColonialPoints'; value: number }
+  | { t: 'isGreatPower' }
+  | { t: 'isCivilized' }
+  | { t: 'reformAtMost'; reform: string; level: number }
+  | { t: 'reformAtLeast'; reform: string; level: number }
+  | { t: 'yearAtLeast'; value: number }
+  | { t: 'yearAtMost'; value: number }
+  | { t: 'minLiteracy'; value: number }
+  | { t: 'hasFormableCandidate' };
+
+export interface EventTriggerDef {
+  yearAtLeast?: number;
+  yearAtMost?: number;
+  minMilitancy?: number;
+  maxMilitancy?: number;
+  minAvgNeedsMet?: number;
+  maxAvgNeedsMet?: number;
+  minTreasury?: number;
+  maxTreasury?: number;
+  minLiteracy?: number;
+  maxLiteracy?: number;
+  isGreatPower?: boolean;
+  isCivilized?: boolean;
+  hasUncolonizedAdjacent?: boolean;
+  hasFormableCandidate?: boolean;
+  minFactoryCount?: number;
+  tags?: string[];
+  excludeTags?: string[];
+}
+
+export interface EventChoiceDef {
+  id: string;
+  label: string;
+  description?: string;
+  effects: EventEffect[];
+  requirements?: EventRequirement[];
+  /** Higher = preferred by AI heuristic. */
+  aiWeight?: number;
+}
+
+export interface EventDef {
+  id: string;
+  title: string;
+  description: string;
+  trigger: EventTriggerDef;
+  /** Mean months between fire attempts when eligible. */
+  mtthMonths: number;
+  weight?: number;
+  once: boolean;
+  /** For repeatable events, minimum months between fires for the same nation. */
+  cooldownMonths?: number;
+  choices: EventChoiceDef[];
+}
+
+export interface DecisionDef {
+  id: string;
+  title: string;
+  description: string;
+  prerequisites: EventRequirement[];
+  cost: { treasury?: number; prestige?: number; researchPoints?: number };
+  effects: EventEffect[];
+  cooldownMonths?: number;
+  once?: boolean;
+}
+
+export interface PendingEventChoiceView {
+  id: string;
+  label: string;
+  description?: string;
+  effectsSummary: string[];
+  available: boolean;
+  unavailableReason?: string;
+}
+
+export interface PendingEvent {
+  instanceId: number;
+  eventKey: string;
+  nationId: NationId;
+  firedDay: GameDay;
+  title: string;
+  description: string;
+  choices: PendingEventChoiceView[];
+}
+
+export interface DecisionStatus {
+  id: string;
+  title: string;
+  description: string;
+  available: boolean;
+  reason: string;
+  costSummary: string[];
+  effectsSummary: string[];
+}
+
 export interface FormableRequirementStatus {
   key: 'candidate' | 'independent' | 'power' | 'core_control';
   label: string;
@@ -497,6 +618,14 @@ export interface World {
   rebellions: Rebellion[];
   relations: DiploRelation[];
 
+  /** Pending narrative events awaiting a choice (player + AI buffer). */
+  pendingEvents: PendingEvent[];
+  /** `${eventId}:${nationId}` -> last fired day */
+  eventLastFired: Record<string, GameDay>;
+  /** `${decisionId}:${nationId}` -> last taken day */
+  decisionLastTaken: Record<string, GameDay>;
+  nextEventInstanceId: number;
+
   nextArmyId: ArmyId;
   nextFleetId: FleetId;
   nextWarId: WarId;
@@ -609,6 +738,10 @@ export interface WorldSnapshot {
   playerStates: PlayerStateSummary[];
   playerCoreStateIds?: StateId[];
   playerFormables?: FormableStatus[];
+  /** Pending events for the player nation (popup queue). */
+  pendingPlayerEvents?: PendingEvent[];
+  /** Player-initiated decisions with prereq gating. */
+  playerDecisions?: DecisionStatus[];
   /** headline numbers for the player nation's HUD */
   playerBudget: BudgetLine;
 }
@@ -680,6 +813,8 @@ export type Command =
   | { t: 'offerPeace'; war: WarId; goalsToEnforce: number[] }
   | { t: 'colonize'; state: StateId }
   | { t: 'formNation'; key: string }
+  | { t: 'resolveEvent'; instanceId: number; choiceId: string }
+  | { t: 'takeDecision'; decision: string }
   | { t: 'newGame'; seed: number; playerNation: NationId }
   | { t: 'save'; slot: string }
   | { t: 'load'; slot: string }

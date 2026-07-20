@@ -56,6 +56,10 @@ export function deserializeWorld(buffer: Uint8Array): { world: World; metadata: 
   const world = payload.world;
   if (!Array.isArray(world.rebellions)) world.rebellions = [];
   if (!Number.isFinite(world.nextRebellionId)) world.nextRebellionId = 1;
+  if (!Array.isArray(world.pendingEvents)) world.pendingEvents = [];
+  if (!world.eventLastFired || typeof world.eventLastFired !== 'object') world.eventLastFired = {};
+  if (!world.decisionLastTaken || typeof world.decisionLastTaken !== 'object') world.decisionLastTaken = {};
+  if (!Number.isFinite(world.nextEventInstanceId)) world.nextEventInstanceId = 1;
   for (const state of world.states ?? []) {
     if (!Number.isFinite(state.unrestMonths)) state.unrestMonths = 0;
   }

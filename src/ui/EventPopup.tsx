@@ -1,0 +1,51 @@
+import { useStore } from '../store';
+import './EventPopup.css';
+
+export function EventPopup() {
+  const snapshot = useStore((state) => state.snapshot);
+  const sendCommand = useStore((state) => state.sendCommand);
+
+  const pending = snapshot?.pendingPlayerEvents ?? [];
+  const current = pending[0];
+  if (!current) return null;
+
+  return (
+    <div className="event-popup-layer" role="dialog" aria-modal="true" aria-labelledby="event-popup-title">
+      <div className="event-popup atlas-panel" data-testid="event-popup">
+        <header className="event-popup__header">
+          <span className="atlas-heading">Dispatch</span>
+          <h2 id="event-popup-title">{current.title}</h2>
+        </header>
+        <p className="event-popup__body">{current.description}</p>
+        <div className="event-popup__choices">
+          {current.choices.map((choice) => (
+            <button
+              key={choice.id}
+              type="button"
+              className="event-popup__choice"
+              disabled={!choice.available}
+              title={choice.available
+                ? (choice.effectsSummary.join(' · ') || choice.description || choice.label)
+                : (choice.unavailableReason ?? 'Unavailable')}
+              data-testid={`event-choice-${choice.id}`}
+              onClick={() => {
+                if (!choice.available) return;
+                sendCommand({ t: 'resolveEvent', instanceId: current.instanceId, choiceId: choice.id });
+              }}
+            >
+              <strong>{choice.label}</strong>
+              {choice.description ? <span>{choice.description}</span> : null}
+              <small>{choice.effectsSummary.join(' · ')}</small>
+              {!choice.available && choice.unavailableReason ? (
+                <em>{choice.unavailableReason}</em>
+              ) : null}
+            </button>
+          ))}
+        </div>
+        {pending.length > 1 ? (
+          <p className="event-popup__queue">{pending.length - 1} more dispatch{pending.length > 2 ? 'es' : ''} waiting</p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
