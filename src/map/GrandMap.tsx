@@ -283,6 +283,9 @@ export function GrandMap() {
         attributionControl: false,
         maxPitch: 0,
         renderWorldCopies: false,
+        dragPan: true,
+        touchZoomRotate: true,
+        cooperativeGestures: false,
       });
       createdMap = map;
       mapRef.current = map;

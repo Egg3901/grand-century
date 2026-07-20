@@ -42,8 +42,13 @@
   line-height: 1;
   padding: 0.18rem 0.33rem;
   min-width: 1.6rem;
+  min-height: 1.6rem;
   cursor: pointer;
   box-shadow: 0 1px 5px rgba(22, 13, 8, 0.28);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .grand-map__counter.is-friendly {
@@ -70,4 +75,22 @@
 
 .grand-map__counter.is-siege {
   background: rgba(236, 219, 176, 0.98);
+}
+
+@media (max-width: 768px) {
+  .grand-map .maplibregl-ctrl-bottom-right {
+    right: 0.5rem;
+    bottom: calc(env(safe-area-inset-bottom) + 5.9rem);
+  }
+
+  .grand-map__counter {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.2rem 0.44rem;
+    font-size: 0.75rem;
+  }
+
+  .grand-map__tooltip {
+    display: none;
+  }
 }

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useStore, type MapMode, type PanelId } from '../store';
 import './Hud.css';
 
@@ -24,6 +24,7 @@ const MAP_MODES: { id: MapMode; label: string }[] = [
   { id: 'military', label: 'Military' },
   { id: 'diplomatic', label: 'Diplomatic' },
 ];
+const MAX_SPEED = SPEEDS[SPEEDS.length - 1];
 
 function speedLabel(speed: number): string {
   if (speed === 0) return 'Pause';
@@ -44,20 +45,43 @@ export function Hud() {
   const setShowMainMenu = useStore((state) => state.setShowMainMenu);
   const muteAudio = useStore((state) => state.muteAudio);
   const setMuteAudio = useStore((state) => state.setMuteAudio);
+  const [mobilePanelsOpen, setMobilePanelsOpen] = useState(false);
+  const [mobileMapModesOpen, setMobileMapModesOpen] = useState(false);
 
   const playerNation = useMemo(() => {
     if (!snapshot) return null;
     return snapshot.nations.find((nation) => nation.id === snapshot.playerNation) ?? null;
   }, [snapshot]);
+  const currentSpeed = snapshot?.speed ?? 0;
+  const formattedDate = snapshot
+    ? `${snapshot.date.year}-${String(snapshot.date.month).padStart(2, '0')}-${String(snapshot.date.day).padStart(2, '0')}`
+    : '1836-01-01';
+
+  useEffect(() => {
+    if (openPanel) setMobilePanelsOpen(false);
+  }, [openPanel]);
+
+  const setSpeed = (speed: number) => {
+    const clamped = Math.max(0, Math.min(MAX_SPEED, speed));
+    sendCommand({ t: 'setSpeed', speed: clamped });
+  };
+
+  const toggleMobilePanels = () => {
+    setMobilePanelsOpen((open) => !open);
+    setMobileMapModesOpen(false);
+  };
+
+  const toggleMobileMapModes = () => {
+    setMobileMapModesOpen((open) => !open);
+    setMobilePanelsOpen(false);
+  };
 
   return (
     <>
       <header className="hud-top atlas-panel">
         <div className="hud-top__section">
           <span className="atlas-heading">Date</span>
-          <strong data-testid="hud-date">
-            {snapshot ? `${snapshot.date.year}-${String(snapshot.date.month).padStart(2, '0')}-${String(snapshot.date.day).padStart(2, '0')}` : '1836-01-01'}
-          </strong>
+          <strong data-testid="hud-date">{formattedDate}</strong>
         </div>
         <div className="hud-top__section hud-top__speeds">
           {SPEEDS.map((speed) => (
@@ -65,7 +89,7 @@ export function Hud() {
               key={speed}
               type="button"
               data-testid={`speed-${speed}`}
-              className={snapshot?.speed === speed ? 'is-active' : ''}
+              className={currentSpeed === speed ? 'is-active' : ''}
               onClick={() => sendCommand({ t: 'setSpeed', speed })}
             >
               {speedLabel(speed)}
@@ -109,6 +133,63 @@ export function Hud() {
             {mode.label}
           </button>
         ))}
+      </nav>
+
+      <header className="hud-mobile-top atlas-panel" aria-label="Mobile controls">
+        <div className="hud-mobile-top__date">
+          <span className="atlas-heading">Date</span>
+          <strong>{formattedDate}</strong>
+        </div>
+        <div className="hud-mobile-top__speed">
+          <button type="button" aria-label="Decrease speed" onClick={() => setSpeed(currentSpeed - 1)}>-</button>
+          <button type="button" onClick={() => setSpeed(currentSpeed === 0 ? 3 : 0)}>{currentSpeed === 0 ? 'Play' : 'Pause'}</button>
+          <button type="button" aria-label="Increase speed" onClick={() => setSpeed(currentSpeed + 1)}>+</button>
+        </div>
+        <div className="hud-mobile-top__nation">
+          <span>{playerNation?.name ?? 'United Kingdom'}</span>
+          <strong>{speedLabel(currentSpeed)} · {formatMoney(playerNation?.treasury ?? 0)}</strong>
+        </div>
+      </header>
+
+      {mobilePanelsOpen ? (
+        <nav className="hud-mobile-panel-drawer atlas-panel" aria-label="Panel drawer">
+          {PANELS.map((panel) => (
+            <button
+              key={panel.id}
+              type="button"
+              data-testid={`panel-${panel.id}`}
+              className={openPanel === panel.id ? 'is-active' : ''}
+              onClick={() => openPanelId(openPanel === panel.id ? null : panel.id)}
+            >
+              {panel.label}
+            </button>
+          ))}
+        </nav>
+      ) : null}
+
+      {mobileMapModesOpen ? (
+        <nav className="hud-mobile-mapmodes atlas-panel" aria-label="Map mode drawer">
+          {MAP_MODES.map((mode) => (
+            <button
+              key={mode.id}
+              type="button"
+              className={mapMode === mode.id ? 'is-active' : ''}
+              onClick={() => {
+                setMapMode(mode.id);
+                setMobileMapModesOpen(false);
+              }}
+            >
+              {mode.label}
+            </button>
+          ))}
+        </nav>
+      ) : null}
+
+      <nav className="hud-mobile-bottom atlas-panel" aria-label="Mobile primary navigation">
+        <button type="button" className={mobilePanelsOpen ? 'is-active' : ''} onClick={toggleMobilePanels}>Panels</button>
+        <button type="button" className={mobileMapModesOpen ? 'is-active' : ''} onClick={toggleMobileMapModes}>Map</button>
+        <button type="button" onClick={() => setMuteAudio(!muteAudio)}>{muteAudio ? 'Unmute' : 'Mute'}</button>
+        <button type="button" onClick={() => setShowMainMenu(true)}>Menu</button>
       </nav>
     </>
   );

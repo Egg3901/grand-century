@@ -14,7 +14,7 @@ function formatTraceValue(value: number): string {
 export function TraceTooltip({ value, trace }: TraceTooltipProps) {
   return (
     <span className="trace-value-wrap">
-      <span className="trace-value-display">{value}</span>
+      <span className="trace-value-display" tabIndex={0}>{value}</span>
       {trace.length > 0 ? (
         <span className="trace-tooltip atlas-panel" role="tooltip">
           <strong className="trace-tooltip__title">Trace Inputs</strong>
