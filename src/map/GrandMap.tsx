@@ -4,6 +4,27 @@ import './GrandMap.css';
 import { WORLD_SEED } from '../data/generated';
 import { useStore } from '../store';
 import { largestPolygon, polylabel, ringArea } from './polylabel';
+import {
+  COAST_GLOW,
+  COAST_INK,
+  GRATICULE_INK,
+  LAND_PAPER,
+  LAND_SHADOW,
+  NATION_BORDER_BAND,
+  NATION_BORDER_INK,
+  OCEAN_LABELS,
+  PROVINCE_BORDER_INK,
+  SEA_BASE,
+  TERRAIN_TINTS,
+  TERRAIN_TINT_STRENGTH,
+  WATERLINE_INK,
+  createFoliageTile,
+  createGraticule,
+  createHachureTile,
+  createSeaEngravingTile,
+  createStippleTile,
+  mixHex,
+} from './mapDecor';
 
 type MapLibreMap = import('maplibre-gl').Map;
 type MapLibreMarker = import('maplibre-gl').Marker;
@@ -70,13 +91,35 @@ type ScreenBox = {
 
 const MAP_SOURCE_ID = 'provinces';
 const MAP_NATIONAL_SOURCE_ID = 'national-borders';
+const MAP_GRATICULE_SOURCE_ID = 'sea-graticule';
 const MAP_FILL_LAYER = 'province-fill';
 const MAP_OCCUPATION_LAYER = 'province-occupation';
 const MAP_PROVINCE_LINE_LAYER = 'province-line';
 const MAP_NATIONAL_LINE_LAYER = 'nation-line';
+const MAP_NATIONAL_BAND_LAYER = 'nation-band';
 const MAP_HOVER_LAYER = 'province-hover';
+const MAP_HOVER_GLOW_LAYER = 'province-hover-glow';
+const MAP_HOVER_LIFT_LAYER = 'province-hover-lift';
+const MAP_GRATICULE_LAYER = 'sea-graticule-lines';
+const MAP_SEA_PATTERN_LAYER = 'sea-engraving';
+const MAP_SEA_PATTERN_IMAGE = 'sea-engraving-tile';
+const MAP_COAST_GLOW_LAYER = 'coast-glow';
+const MAP_COAST_WATERLINE_1_LAYER = 'coast-waterline-1';
+const MAP_COAST_WATERLINE_2_LAYER = 'coast-waterline-2';
+const MAP_COASTLINE_INK_LAYER = 'coastline-ink';
+const MAP_LAND_SHADOW_LAYER = 'land-shadow';
+const MAP_LAND_UNDERLAY_LAYER = 'land-underlay';
+const MAP_HACHURE_LAYER = 'terrain-hachure';
+const MAP_HACHURE_IMAGE = 'terrain-hachure-tile';
+const MAP_STIPPLE_LAYER = 'terrain-stipple';
+const MAP_STIPPLE_IMAGE = 'terrain-stipple-tile';
+const MAP_FOLIAGE_LAYER = 'terrain-foliage';
+const MAP_FOLIAGE_IMAGE = 'terrain-foliage-tile';
+const MAP_INNER_SHADE_LAYER = 'province-inner-shade';
 const MAP_MOVEMENT_SOURCE = 'movement-lines';
 const MAP_MOVEMENT_LAYER = 'movement-lines-layer';
+/** Mapmodes where the terrain wash blends into the fills. */
+const TERRAIN_TINTED_MODES = new Set(['political', 'military', 'cores']);
 const DEFAULT_FILL = '#b7a486';
 const MAJOR_LABEL_TAGS = new Set(['ENG', 'FRA', 'AUS', 'RUS', 'USA', 'QNG', 'OTT', 'ESP', 'BRA']);
 /** Prefer homeland landmasses over sparse colonial deserts when scoring. */
@@ -113,14 +156,27 @@ function toHexColor(rgb: [number, number, number]): string {
 }
 
 function muteColor(rgb: [number, number, number]): string {
+  // Keep nation colors richer than 0.4.x (0.25 parchment felt washed out):
+  // a light 14% parchment wash harmonizes without draining the pigment.
   const parchment: [number, number, number] = [232, 220, 192];
   const mixed: [number, number, number] = [
-    parchment[0] * 0.25 + rgb[0] * 0.75,
-    parchment[1] * 0.25 + rgb[1] * 0.75,
-    parchment[2] * 0.25 + rgb[2] * 0.75,
+    parchment[0] * 0.14 + rgb[0] * 0.86,
+    parchment[1] * 0.14 + rgb[1] * 0.86,
+    parchment[2] * 0.14 + rgb[2] * 0.86,
   ];
   return toHexColor(mixed);
 }
+
+/** Province ids per engraved terrain pattern (static world data). */
+const MOUNTAIN_PROVINCE_IDS = WORLD_SEED.provinces
+  .filter((province) => province.terrain === 'mountains')
+  .map((province) => province.id);
+const DESERT_PROVINCE_IDS = WORLD_SEED.provinces
+  .filter((province) => province.terrain === 'desert')
+  .map((province) => province.id);
+const FOREST_PROVINCE_IDS = WORLD_SEED.provinces
+  .filter((province) => province.terrain === 'forest' || province.terrain === 'jungle')
+  .map((province) => province.id);
 
 function clamp01(value: number): number {
   if (!Number.isFinite(value)) return 0;
@@ -357,6 +413,9 @@ export function GrandMap() {
   const nationNameByTag = useMemo(() => (
     new globalThis.Map<string, string>(WORLD_SEED.nations.map((nation) => [nation.tag, nation.name]))
   ), []);
+  const provinceTerrainById = useMemo(() => (
+    new globalThis.Map<number, string>(WORLD_SEED.provinces.map((province) => [province.id, province.terrain]))
+  ), []);
 
   const provinceGeometryById = useMemo(() => {
     const map = new globalThis.Map<number, ProvinceGeometryMetrics>();
@@ -541,7 +600,7 @@ export function GrandMap() {
           layers: [{
             id: 'paper-background',
             type: 'background',
-            paint: { 'background-color': '#ddcfb1' },
+            paint: { 'background-color': SEA_BASE },
           }],
         },
         center: [0, 18],
@@ -571,9 +630,123 @@ export function GrandMap() {
           type: 'geojson',
           data: nationalBorders as unknown as object,
         });
+        map.addSource(MAP_GRATICULE_SOURCE_ID, {
+          type: 'geojson',
+          data: createGraticule() as unknown as object,
+        });
         map.addSource(MAP_MOVEMENT_SOURCE, {
           type: 'geojson',
           data: { type: 'FeatureCollection', features: [] } as unknown as object,
+        });
+
+        // ---- Sea plate: engraved water, graticule, coastal aquatint --------
+        const seaTile = createSeaEngravingTile();
+        if (seaTile) {
+          map.addImage(MAP_SEA_PATTERN_IMAGE, seaTile, { pixelRatio: 2 });
+          map.addLayer({
+            id: MAP_SEA_PATTERN_LAYER,
+            type: 'background',
+            paint: {
+              'background-pattern': MAP_SEA_PATTERN_IMAGE,
+              'background-opacity': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                0,
+                0.45,
+                4,
+                0.6,
+                7,
+                0.7,
+              ],
+            },
+          });
+        }
+
+        map.addLayer({
+          id: MAP_GRATICULE_LAYER,
+          type: 'line',
+          source: MAP_GRATICULE_SOURCE_ID,
+          paint: {
+            'line-color': GRATICULE_INK,
+            'line-width': 0.7,
+            'line-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.14, 4, 0.1, 6.5, 0.06],
+          },
+        });
+
+        // Wide blurred ink hugging the coast. Land half is masked by the
+        // opaque land underlay, leaving a soft aquatint wash over the sea.
+        map.addLayer({
+          id: MAP_COAST_GLOW_LAYER,
+          type: 'line',
+          source: MAP_SOURCE_ID,
+          paint: {
+            'line-color': COAST_GLOW,
+            'line-width': ['interpolate', ['linear'], ['zoom'], 0, 4.5, 3, 7, 6, 10],
+            'line-blur': ['interpolate', ['linear'], ['zoom'], 0, 4.5, 3, 7, 6, 10],
+            'line-opacity': 0.32,
+          },
+        });
+
+        // Classic engraved waterlines: twin strokes via line-gap-width; the
+        // inner stroke hides under land, the outer reads as a coastal ring.
+        map.addLayer({
+          id: MAP_COAST_WATERLINE_1_LAYER,
+          type: 'line',
+          source: MAP_SOURCE_ID,
+          paint: {
+            'line-color': WATERLINE_INK,
+            'line-width': 0.9,
+            'line-gap-width': ['interpolate', ['linear'], ['zoom'], 0, 2.2, 4, 4.4, 7, 7],
+            'line-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.2, 3, 0.4, 7, 0.5],
+          },
+        });
+        map.addLayer({
+          id: MAP_COAST_WATERLINE_2_LAYER,
+          type: 'line',
+          source: MAP_SOURCE_ID,
+          paint: {
+            'line-color': WATERLINE_INK,
+            'line-width': 0.8,
+            'line-gap-width': ['interpolate', ['linear'], ['zoom'], 0, 5.4, 4, 9.4, 7, 14.5],
+            'line-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.07, 3, 0.24, 7, 0.32],
+          },
+        });
+
+        // Crisp coastline ink — outer half of the stroke survives the mask.
+        map.addLayer({
+          id: MAP_COASTLINE_INK_LAYER,
+          type: 'line',
+          source: MAP_SOURCE_ID,
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: {
+            'line-color': COAST_INK,
+            'line-width': ['interpolate', ['linear'], ['zoom'], 0, 1.1, 4, 1.7, 7, 2.3],
+            'line-opacity': 0.72,
+          },
+        });
+
+        // ---- Land plate: SE plate shadow + opaque paper underlay -----------
+        map.addLayer({
+          id: MAP_LAND_SHADOW_LAYER,
+          type: 'fill',
+          source: MAP_SOURCE_ID,
+          paint: {
+            'fill-color': LAND_SHADOW,
+            'fill-opacity': 0.18,
+            'fill-translate': [2.5, 3.5],
+            'fill-translate-anchor': 'viewport',
+          },
+        });
+
+        map.addLayer({
+          id: MAP_LAND_UNDERLAY_LAYER,
+          type: 'fill',
+          source: MAP_SOURCE_ID,
+          paint: {
+            'fill-color': LAND_PAPER,
+            'fill-opacity': 1,
+          },
         });
 
         map.addLayer({
@@ -582,7 +755,7 @@ export function GrandMap() {
           source: MAP_SOURCE_ID,
           paint: {
             'fill-color': ['coalesce', ['feature-state', 'fill'], DEFAULT_FILL],
-            'fill-opacity': 0.83,
+            'fill-opacity': 0.92,
           },
         });
 
@@ -596,36 +769,122 @@ export function GrandMap() {
           },
         });
 
+        // ---- Terrain engraving: hachured ranges, stippled deserts ----------
+        const hachureTile = createHachureTile();
+        if (hachureTile && MOUNTAIN_PROVINCE_IDS.length > 0) {
+          map.addImage(MAP_HACHURE_IMAGE, hachureTile, { pixelRatio: 2 });
+          map.addLayer({
+            id: MAP_HACHURE_LAYER,
+            type: 'fill',
+            source: MAP_SOURCE_ID,
+            filter: ['in', ['id'], ['literal', MOUNTAIN_PROVINCE_IDS]],
+            paint: {
+              'fill-pattern': MAP_HACHURE_IMAGE,
+              'fill-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.22, 3, 0.32, 6, 0.38],
+            },
+          });
+        }
+        const stippleTile = createStippleTile();
+        if (stippleTile && DESERT_PROVINCE_IDS.length > 0) {
+          map.addImage(MAP_STIPPLE_IMAGE, stippleTile, { pixelRatio: 2 });
+          map.addLayer({
+            id: MAP_STIPPLE_LAYER,
+            type: 'fill',
+            source: MAP_SOURCE_ID,
+            filter: ['in', ['id'], ['literal', DESERT_PROVINCE_IDS]],
+            paint: {
+              'fill-pattern': MAP_STIPPLE_IMAGE,
+              'fill-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.18, 3, 0.26, 6, 0.3],
+            },
+          });
+        }
+        const foliageTile = createFoliageTile();
+        if (foliageTile && FOREST_PROVINCE_IDS.length > 0) {
+          map.addImage(MAP_FOLIAGE_IMAGE, foliageTile, { pixelRatio: 2 });
+          map.addLayer({
+            id: MAP_FOLIAGE_LAYER,
+            type: 'fill',
+            source: MAP_SOURCE_ID,
+            filter: ['in', ['id'], ['literal', FOREST_PROVINCE_IDS]],
+            paint: {
+              'fill-pattern': MAP_FOLIAGE_IMAGE,
+              'fill-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.14, 3, 0.2, 6, 0.24],
+            },
+          });
+        }
+
+        // Inner shade: soft ink rim inside every parcel at close zoom — the
+        // embossed "hand-tinted plate" depth that breaks up large flat fills.
+        map.addLayer({
+          id: MAP_INNER_SHADE_LAYER,
+          type: 'line',
+          source: MAP_SOURCE_ID,
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: {
+            'line-color': '#3c2b18',
+            'line-width': ['interpolate', ['linear'], ['zoom'], 3.6, 0, 5, 6, 7, 11],
+            'line-blur': ['interpolate', ['linear'], ['zoom'], 3.6, 2, 5, 7, 7, 12],
+            'line-opacity': ['interpolate', ['linear'], ['zoom'], 3.6, 0, 4.6, 0.12, 6, 0.17],
+          },
+        });
+
+        // ---- Borders: fine sepia province rules, weighted national ink ----
         map.addLayer({
           id: MAP_PROVINCE_LINE_LAYER,
           type: 'line',
           source: MAP_SOURCE_ID,
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
           paint: {
-            'line-color': '#5b4433',
+            'line-color': PROVINCE_BORDER_INK,
             'line-width': [
               'interpolate',
               ['linear'],
               ['zoom'],
               3.2,
-              0.2,
+              0.25,
               4.8,
-              0.42,
+              0.5,
               6.8,
-              0.78,
+              0.85,
             ],
             'line-opacity': [
               'interpolate',
               ['linear'],
               ['zoom'],
-              3.2,
+              3.0,
               0,
-              4.4,
-              0.18,
+              4.2,
+              0.22,
               5.4,
               0.5,
               7.2,
-              0.8,
+              0.72,
             ],
+          },
+        });
+
+        // Soft dark band beneath the national line — engraved plate weight
+        // without the wobble a single thick stroke would show.
+        map.addLayer({
+          id: MAP_NATIONAL_BAND_LAYER,
+          type: 'line',
+          source: MAP_NATIONAL_SOURCE_ID,
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: {
+            'line-color': NATION_BORDER_BAND,
+            'line-width': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              0,
+              2.6,
+              3.5,
+              4.4,
+              6.5,
+              6.5,
+            ],
+            'line-blur': 3.5,
+            'line-opacity': 0.22,
           },
         });
 
@@ -633,22 +892,61 @@ export function GrandMap() {
           id: MAP_NATIONAL_LINE_LAYER,
           type: 'line',
           source: MAP_NATIONAL_SOURCE_ID,
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
           paint: {
-            'line-color': '#2f2116',
+            'line-color': NATION_BORDER_INK,
             'line-width': [
               'interpolate',
               ['linear'],
               ['zoom'],
               0,
-              1.2,
+              1.05,
               3.5,
-              1.7,
+              1.5,
               6.5,
-              2.25,
+              2.0,
               8.5,
-              2.7,
+              2.4,
             ],
-            'line-opacity': 1,
+            'line-opacity': 0.96,
+          },
+        });
+
+        // ---- Selection & hover: paper lift + ink halo + crisp rule --------
+        map.addLayer({
+          id: MAP_HOVER_LIFT_LAYER,
+          type: 'fill',
+          source: MAP_SOURCE_ID,
+          paint: {
+            'fill-color': '#fff6dd',
+            'fill-opacity': [
+              'case',
+              ['boolean', ['feature-state', 'selected'], false],
+              0.1,
+              ['boolean', ['feature-state', 'hover'], false],
+              0.12,
+              0,
+            ],
+          },
+        });
+
+        map.addLayer({
+          id: MAP_HOVER_GLOW_LAYER,
+          type: 'line',
+          source: MAP_SOURCE_ID,
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: {
+            'line-color': '#231407',
+            'line-blur': 6,
+            'line-width': [
+              'case',
+              ['boolean', ['feature-state', 'selected'], false],
+              9,
+              ['boolean', ['feature-state', 'hover'], false],
+              7,
+              0,
+            ],
+            'line-opacity': 0.28,
           },
         });
 
@@ -656,6 +954,7 @@ export function GrandMap() {
           id: MAP_HOVER_LAYER,
           type: 'line',
           source: MAP_SOURCE_ID,
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
           paint: {
             'line-color': [
               'case',
@@ -666,7 +965,7 @@ export function GrandMap() {
             'line-width': [
               'case',
               ['boolean', ['feature-state', 'selected'], false],
-              2.1,
+              2.2,
               ['boolean', ['feature-state', 'hover'], false],
               1.8,
               0,
@@ -858,6 +1157,13 @@ export function GrandMap() {
         else fill = blend('#8e4d46', 0.18);
       }
 
+      if (TERRAIN_TINTED_MODES.has(mapMode)) {
+        // Terrain underpainting: a hand-tinted wash beneath the nation color
+        // so continents get internal texture without breaking political reads.
+        const tint = TERRAIN_TINTS[provinceTerrainById.get(province.id) ?? ''];
+        if (tint) fill = mixHex(fill, tint, TERRAIN_TINT_STRENGTH);
+      }
+
       const prevFill = fillRef.current.get(province.id);
       if (prevFill !== fill) {
         map.setFeatureState(
@@ -872,7 +1178,7 @@ export function GrandMap() {
         );
       }
     }
-  }, [mapMode, nationColorById, snapshot]);
+  }, [mapMode, nationColorById, provinceTerrainById, snapshot]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -1073,8 +1379,11 @@ export function GrandMap() {
           if (!isProjectedVisible(point, 72)) continue;
           const appearOpacity = clamp01((zoom - province.minZoom + 0.35) / 0.5);
           if (appearOpacity <= 0.01) continue;
-          const baseSize = 8.6 + clamp01((zoom - 5) / 3.2) * 2.3 + Math.min(1.4, Math.log(province.weight + 1) * 0.45);
-          const size = Math.max(8.8, Math.min(14, baseSize));
+          const baseSize = 8.6
+            + clamp01((zoom - 5) / 3.2) * 2.3
+            + Math.min(1.4, Math.log(province.weight + 1) * 0.45)
+            + Math.min(2.6, Math.log(province.area + 1) * 0.55);
+          const size = Math.max(8.8, Math.min(16.5, baseSize));
           const measured = measureLabel(province.name, size, false, true);
           const box = makeScreenBox(point.x, point.y, measured.width, measured.height, 3.5);
           if (!insideViewport(box, viewportWidth, viewportHeight, 56)) continue;
@@ -1139,6 +1448,41 @@ export function GrandMap() {
       provinceMarkers.clear();
     };
   }, [countryLabelSeeds, mapReady, provinceLabelSeeds]);
+
+  // Ocean lettering + zoom band (atlas furniture; markers created once).
+  useEffect(() => {
+    const map = mapRef.current;
+    const maplibregl = maplibreRef.current;
+    const container = containerRef.current;
+    if (!map || !maplibregl || !container || !mapReady) return;
+
+    const oceanMarkers: MapLibreMarker[] = [];
+    for (const ocean of OCEAN_LABELS) {
+      const el = document.createElement('div');
+      el.className = 'grand-map__ocean-label';
+      el.textContent = ocean.name;
+      el.style.fontSize = `${(15 * ocean.size).toFixed(1)}px`;
+      const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+        .setLngLat([ocean.lon, ocean.lat])
+        .addTo(map);
+      oceanMarkers.push(marker);
+    }
+
+    // Cheap zoom band on the container so CSS can fade decor (compositor-only).
+    const syncZoomBand = () => {
+      const zoom = map.getZoom();
+      const band = zoom < 3.4 ? 'far' : zoom < 5.1 ? 'mid' : 'near';
+      if (container.dataset.zoomBand !== band) container.dataset.zoomBand = band;
+    };
+    syncZoomBand();
+    map.on('zoom', syncZoomBand);
+
+    return () => {
+      map.off('zoom', syncZoomBand);
+      for (const marker of oceanMarkers) marker.remove();
+      delete container.dataset.zoomBand;
+    };
+  }, [mapReady]);
 
   useEffect(() => {
     const map = mapRef.current;

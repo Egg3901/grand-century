@@ -3,6 +3,63 @@
   inset: 0;
 }
 
+/* 0.5.1 atlas varnish — paper grain + mottle + vignette over the printed
+   sheet. Static composited elements: zero per-frame cost, no repaint on pan. */
+.grand-map::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  /* Fine tooth grain + low-frequency paper mottle (both feTurbulence). */
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='220' height='220' filter='url(%23g)'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='560' height='560'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' seed='7' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.55'/></feComponentTransfer></filter><rect width='560' height='560' filter='url(%23m)'/></svg>");
+  background-size: 220px 220px, 560px 560px;
+  mix-blend-mode: multiply;
+  opacity: 0.11;
+}
+
+.grand-map::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  /* Varnish: top page-light, corner vignette, faint aged-edge burn. */
+  background:
+    radial-gradient(120% 92% at 50% 42%, transparent 55%, rgba(66, 42, 20, 0.07) 80%, rgba(46, 28, 13, 0.19) 100%),
+    linear-gradient(180deg, rgba(255, 249, 230, 0.085), transparent 18%, transparent 82%, rgba(46, 30, 16, 0.08));
+  box-shadow:
+    inset 0 0 90px rgba(58, 38, 20, 0.1),
+    inset 0 0 14px rgba(58, 38, 20, 0.05);
+}
+
+/* Ocean lettering — spaced italic caps, printed into the plate. */
+.grand-map__ocean-label {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: var(--gc-font-display);
+  font-style: italic;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.42em;
+  white-space: nowrap;
+  color: rgba(92, 71, 46, 0.58);
+  text-shadow: 0 1px 0 rgba(246, 235, 206, 0.5);
+  opacity: 1;
+  transition: opacity 400ms ease;
+}
+
+.grand-map[data-zoom-band='mid'] .grand-map__ocean-label {
+  opacity: 0.55;
+}
+
+.grand-map[data-zoom-band='near'] .grand-map__ocean-label {
+  opacity: 0;
+}
+
 .grand-map__tooltip {
   position: absolute;
   z-index: 4;
@@ -38,14 +95,13 @@
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
-  color: var(--gc-ink);
+  color: #241709;
+  /* Letterpress: tight parchment halo + a light emboss kiss below the ink. */
   text-shadow:
-    0 0 3px rgba(246, 235, 206, 0.95),
-    0 1px 0 rgba(246, 235, 206, 0.95),
-    0 -1px 0 rgba(246, 235, 206, 0.7),
-    1px 0 0 rgba(246, 235, 206, 0.7),
-    -1px 0 0 rgba(246, 235, 206, 0.7),
-    0 2px 6px rgba(32, 20, 12, 0.18);
+    0 0 2px rgba(246, 235, 206, 0.75),
+    0 1px 0 rgba(255, 246, 220, 0.45),
+    0 1px 3px rgba(246, 235, 206, 0.6),
+    0 -1px 2px rgba(246, 235, 206, 0.45);
   white-space: nowrap;
   font-family: var(--gc-font-display);
 }
@@ -59,16 +115,17 @@
 }
 
 .grand-map__country-label.is-major {
-  color: #1a120b;
+  color: #170f07;
   font-weight: 700;
   letter-spacing: 0.09em;
 }
 
 .grand-map__province-label {
+  font-style: italic;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.025em;
   line-height: 1.05;
-  color: rgba(42, 30, 20, 0.94);
+  color: rgba(46, 32, 20, 0.92);
   text-transform: none;
   font-variant: normal;
 }
