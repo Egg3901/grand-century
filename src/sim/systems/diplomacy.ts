@@ -501,6 +501,41 @@ function ensureContainmentCb(world: World, holder: NationId, target: NationId): 
   });
 }
 
+/**
+ * 1.0-U1: content-granted free CB (from a decision or event effect) — active
+ * immediately, no fabrication time or fabrication infamy. Stateless goals
+ * only (humiliate / cut_down_to_size / add_to_sphere).
+ */
+export function grantContentCb(
+  world: World,
+  holder: NationId,
+  target: NationId,
+  goal: WarGoalType,
+  monthsValid = 36,
+): void {
+  const runtime = ensureRuntime(world);
+  const expiresDay = world.day + Math.max(30, Math.round(monthsValid * 30));
+  const existing = runtime.activeCbs.find((cb) => (
+    cb.holder === holder && cb.target === target && cb.goal === goal && world.day <= cb.expiresDay
+  ));
+  if (existing) {
+    existing.expiresDay = Math.max(existing.expiresDay, expiresDay);
+    return;
+  }
+  const rule = WAR_GOAL_RULES[goal];
+  runtime.activeCbs.push({
+    holder,
+    target,
+    goal,
+    stateId: -1,
+    scoreCost: rule.score,
+    infamyCost: rule.infamyUse,
+    readyDay: world.day,
+    expiresDay,
+    discovered: true,
+  });
+}
+
 export function getWarGoalRule(goal: WarGoalType): WarGoalRule {
   return WAR_GOAL_RULES[goal];
 }

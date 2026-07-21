@@ -263,6 +263,42 @@ const FORMABLES: FormableDefinition[] = (WORLD_SEED.formables ?? []).map((formab
   prestigeReward: formable.prestigeReward,
 }));
 
+// ---------------------------------------------------------------------------
+// 1.0-U1: unification arc fixes & content.
+//
+// The baked GERMANY cores wrongly included the whole Habsburg empire (Hungary,
+// Croatia, Slovenia, Slovakia, Lombardy — never German Confederation members),
+// which put unification behind total conquest of Austria. Cores are the German
+// Confederation instead: the seven German states plus Austria proper and
+// Bohemia. 0.65 share of 9 = 6 states — Prussia can unify with the minors and
+// without Vienna (kleindeutsch), Austria can compete for grossdeutsch.
+// ---------------------------------------------------------------------------
+const GERMAN_CONFEDERATION_STATES = [27, 138, 176, 177, 178, 179, 180, 181, 182];
+const NORTH_GERMAN_STATES = [178, 179, 180, 181]; // Hanover, Hesse, Prussia, Saxony
+
+for (const formable of FORMABLES) {
+  if (formable.key !== 'GERMANY') continue;
+  formable.coreStateIds = GERMAN_CONFEDERATION_STATES.slice();
+  if (!formable.candidateTags.includes('NGF')) formable.candidateTags.push('NGF');
+}
+
+// The historical stepping stone: Prussia unites the states north of the Main
+// first. Optional — a strong Prussia may skip straight to Germany — but it
+// pays prestige early and marks the arc's midpoint.
+FORMABLES.push({
+  key: 'NORTH_GERMAN_CONFEDERATION',
+  resultTag: 'NGF',
+  resultName: 'North German Confederation',
+  resultColor: [70, 74, 86],
+  resultPrimaryCulture: 'north_german',
+  candidateTags: ['PRU'],
+  coreStateIds: NORTH_GERMAN_STATES.slice(),
+  requiredCoreShare: 1,
+  requireIndependent: true,
+  requireGreatPower: true,
+  prestigeReward: 30,
+});
+
 export const GAME_DATA: GameData = {
   startDate: { year: 1820, month: 1, day: 1 },
   goods: GOODS,

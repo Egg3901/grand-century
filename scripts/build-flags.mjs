@@ -264,6 +264,7 @@ const FLAGS = {
   UNC: field('#7a7060') + `<circle cx="30" cy="20" r="7" fill="none" stroke="#5d5445" stroke-width="1.4"/><circle cx="30" cy="20" r="1.6" fill="#5d5445"/>`,
   // ---- formables ---------------------------------------------------------------
   GER: hstripes([K, W, R]),
+  NGF: hstripes([K, W, R]), // the Norddeutscher Bund flew the same black-white-red
   ITA: vstripes([G, W, R]) + savoyShield(30, 10, 0.9),
 };
 delete FLAGS.TSC2;

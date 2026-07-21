@@ -24,7 +24,7 @@ import type {
 } from '../../shared/types';
 import { getFormableStatusesForNation } from '../formables';
 import type { Rng } from '../rng';
-import { getOrCreateRelation } from './diplomacy';
+import { getOrCreateRelation, grantContentCb } from './diplomacy';
 import { startColonization } from './war';
 
 const STAGGER_BUCKETS = 6;
@@ -161,6 +161,9 @@ export function summarizeEffect(effect: EventEffect): string {
     case 'grantColonialClaim': return 'Plant colonial claim';
     case 'boostFactories': return `+${effect.levels} factory level(s)`;
     case 'boostRgo': return `+${effect.levels} ${effect.goodKey ?? 'RGO'} output`;
+    case 'grantCasusBelli': return `Free casus belli vs ${effect.targetTag}`;
+    case 'opinionWithTags': return `${effect.amount >= 0 ? '+' : ''}${effect.amount} opinion with ${effect.tags.join(', ')}`;
+    case 'forceRivalry': return `Rivalry with ${effect.tag}`;
     default: return 'Effect';
   }
 }
@@ -217,6 +220,24 @@ export function checkRequirement(
       return hasFormableCandidate(world, data, nation.id)
         ? { ok: true, reason: '' }
         : { ok: false, reason: 'No formable nation available' };
+    case 'tagIn':
+      return req.tags.includes(nation.tag)
+        ? { ok: true, reason: '' }
+        : { ok: false, reason: 'Not available to this nation' };
+    case 'decisionTaken':
+      return world.decisionLastTaken[`${req.id}:${nation.id}`] !== undefined
+        ? { ok: true, reason: '' }
+        : { ok: false, reason: `Requires "${req.id.replace(/_/g, ' ')}" first` };
+    case 'formableCoreShareAtLeast': {
+      const status = getFormableStatusesForNation(world, data, nation.id)
+        .find((entry) => entry.key === req.key);
+      const share = status && status.totalCoreStates > 0
+        ? status.controlledCoreStates / status.totalCoreStates
+        : 0;
+      return share >= req.share
+        ? { ok: true, reason: '' }
+        : { ok: false, reason: `Control ${Math.round(req.share * 100)}% of the unification cores` };
+    }
     default:
       return { ok: true, reason: '' };
   }
@@ -238,6 +259,7 @@ function triggerMet(
   }
   if (trigger.tags && trigger.tags.length > 0 && !trigger.tags.includes(nation.tag)) return false;
   if (trigger.excludeTags && trigger.excludeTags.includes(nation.tag)) return false;
+  if (trigger.decisionTaken && world.decisionLastTaken[`${trigger.decisionTaken}:${nation.id}`] === undefined) return false;
   if (trigger.minTreasury !== undefined && nation.treasury < trigger.minTreasury) return false;
   if (trigger.maxTreasury !== undefined && nation.treasury > trigger.maxTreasury) return false;
   if (trigger.minLiteracy !== undefined && nation.literacy < trigger.minLiteracy) return false;
@@ -473,6 +495,31 @@ export function applyEffects(
         }
         break;
       }
+      case 'grantCasusBelli': {
+        const target = world.nations.find((other) => other.tag === effect.targetTag);
+        if (target && target.id !== nationId) {
+          grantContentCb(world, nationId, target.id, effect.goal, effect.monthsValid);
+        }
+        break;
+      }
+      case 'opinionWithTags': {
+        for (const tag of effect.tags) {
+          const other = world.nations.find((candidate) => candidate.tag === tag);
+          if (!other || other.id === nationId) continue;
+          const relation = getOrCreateRelation(world, nationId, other.id);
+          relation.opinion = clamp(relation.opinion + effect.amount, -200, 200);
+        }
+        break;
+      }
+      case 'forceRivalry': {
+        const other = world.nations.find((candidate) => candidate.tag === effect.tag);
+        if (other && other.id !== nationId) {
+          const relation = getOrCreateRelation(world, nationId, other.id);
+          relation.kind = 'rivalry';
+          relation.opinion = Math.min(relation.opinion, -40);
+        }
+        break;
+      }
       case 'spawnRebels':
         spawnEventRebels(world, data, nationId);
         break;
@@ -643,8 +690,45 @@ function tryFireForNation(
   fireEvent(world, data, nation, picked, rng);
 }
 
+/**
+ * 1.0-U1: balance-of-power pressure. Great powers sour on any OUTSIDE nation
+ * closing in on a formable — France watches German unification, Austria the
+ * Risorgimento — without scripting outcomes: it is pure opinion pressure,
+ * plus a rivalry once the unifier is nearly done and comparably strong.
+ * Fellow formable candidates are exempt (they already compete directly), as
+ * are allies (an entente is a choice the player can make and keep).
+ */
+const BOP_ALARM_SHARE = 0.5;
+const BOP_RIVALRY_SHARE = 0.8;
+
+export function applyBalanceOfPowerPressure(world: World, data: GameData): void {
+  for (const nation of world.nations) {
+    if (!nation || nation.gpRank <= 0) continue;
+    const statuses = getFormableStatusesForNation(world, data, nation.id);
+    for (const status of statuses) {
+      if (status.totalCoreStates <= 0) continue;
+      const share = status.controlledCoreStates / status.totalCoreStates;
+      if (share < BOP_ALARM_SHARE) continue;
+      const formable = data.formables?.find((entry) => entry.key === status.key);
+      for (const gp of world.nations) {
+        if (!gp || gp.id === nation.id || gp.gpRank <= 0) continue;
+        if (formable?.candidateTags.includes(gp.tag)) continue;
+        const relation = getOrCreateRelation(world, gp.id, nation.id);
+        if (relation.kind === 'alliance') continue;
+        const pressure = share >= BOP_RIVALRY_SHARE ? 3 : 1.5;
+        relation.opinion = clamp(relation.opinion - pressure, -140, 200);
+        if (share >= BOP_RIVALRY_SHARE && relation.kind === 'neutral') {
+          relation.kind = 'rivalry';
+          relation.opinion = Math.min(relation.opinion, -40);
+        }
+      }
+    }
+  }
+}
+
 export function runEventsMonthly(world: World, data: GameData, rng: Rng): void {
   ensureEventState(world);
+  applyBalanceOfPowerPressure(world, data);
   const monthIndex = monthIndexFromDay(world.day);
   const bucket = ((monthIndex % STAGGER_BUCKETS) + STAGGER_BUCKETS) % STAGGER_BUCKETS;
 
@@ -788,7 +872,19 @@ export function evaluateDecision(
 }
 
 export function listPlayerDecisions(world: World, data: GameData, nationId: NationId): DecisionStatus[] {
-  return DECISION_DEFS.map((decision) => evaluateDecision(world, data, nationId, decision));
+  const nation = world.nations[nationId];
+  return DECISION_DEFS
+    // Tag-locked decisions (national arcs) are invisible to nations that can
+    // NEVER take them — a year gate builds anticipation, a wrong-tag row is
+    // just noise in 47 other panels.
+    .filter((decision) => {
+      if (!nation) return true;
+      const tagGate = decision.prerequisites.find(
+        (req): req is Extract<EventRequirement, { t: 'tagIn' }> => req.t === 'tagIn',
+      );
+      return !tagGate || tagGate.tags.includes(nation.tag);
+    })
+    .map((decision) => evaluateDecision(world, data, nationId, decision));
 }
 
 export function takeDecision(

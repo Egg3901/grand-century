@@ -227,7 +227,11 @@ export type EventEffect =
   | { t: 'spawnRebels' }
   | { t: 'grantColonialClaim' }
   | { t: 'boostFactories'; levels: number }
-  | { t: 'boostRgo'; goodKey?: string; levels: number };
+  | { t: 'boostRgo'; goodKey?: string; levels: number }
+  // 1.0-U1: content-driven diplomacy — free CBs, targeted opinion, rivalry.
+  | { t: 'grantCasusBelli'; targetTag: string; goal: WarGoalType; monthsValid?: number }
+  | { t: 'opinionWithTags'; tags: string[]; amount: number }
+  | { t: 'forceRivalry'; tag: string };
 
 export type EventRequirement =
   | { t: 'minTreasury'; value: number }
@@ -240,7 +244,11 @@ export type EventRequirement =
   | { t: 'yearAtLeast'; value: number }
   | { t: 'yearAtMost'; value: number }
   | { t: 'minLiteracy'; value: number }
-  | { t: 'hasFormableCandidate' };
+  | { t: 'hasFormableCandidate' }
+  // 1.0-U1: decision-chain gating.
+  | { t: 'tagIn'; tags: string[] }
+  | { t: 'decisionTaken'; id: string }
+  | { t: 'formableCoreShareAtLeast'; key: string; share: number };
 
 export interface EventTriggerDef {
   yearAtLeast?: number;
@@ -260,6 +268,8 @@ export interface EventTriggerDef {
   minFactoryCount?: number;
   tags?: string[];
   excludeTags?: string[];
+  /** 1.0-U1: only fire once the nation has taken this decision. */
+  decisionTaken?: string;
 }
 
 export interface EventChoiceDef {

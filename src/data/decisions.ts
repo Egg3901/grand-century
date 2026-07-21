@@ -107,4 +107,58 @@ export const DECISION_DEFS: DecisionDef[] = [
     ],
     cooldownMonths: 40,
   },
+
+  // ---- 1.0-U1: the Prussian unification arc -------------------------------
+  {
+    id: 'zollverein',
+    title: 'Found the Zollverein',
+    description: 'Bind the German states into a Prussian-led customs union. Trade flows through Berlin — and with it, influence.',
+    prerequisites: [
+      { t: 'tagIn', tags: ['PRU'] },
+      { t: 'yearAtLeast', value: 1828 },
+      { t: 'isGreatPower' },
+    ],
+    cost: { treasury: 250 },
+    effects: [
+      { t: 'prestige', amount: 12 },
+      { t: 'opinionWithTags', tags: ['BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES'], amount: 45 },
+      { t: 'researchPoints', amount: 6 },
+    ],
+    once: true,
+  },
+  {
+    id: 'german_question',
+    title: 'Raise the German Question',
+    description: 'Klein- or Grossdeutschland? Berlin declares that the age of a united Germany has come. Vienna disagrees — permanently.',
+    prerequisites: [
+      { t: 'tagIn', tags: ['PRU', 'NGF'] },
+      { t: 'decisionTaken', id: 'zollverein' },
+      { t: 'formableCoreShareAtLeast', key: 'GERMANY', share: 0.33 },
+    ],
+    cost: { prestige: 10 },
+    effects: [
+      { t: 'prestige', amount: 8 },
+      { t: 'consciousness', amount: 0.5 },
+      { t: 'opinionWithTags', tags: ['AUS'], amount: -50 },
+      { t: 'forceRivalry', tag: 'AUS' },
+    ],
+    once: true,
+  },
+  {
+    id: 'brothers_war',
+    title: "Force the Brothers' War",
+    description: 'Settle German leadership on the battlefield. A free casus belli to humble Austria and break her hold over the minor courts.',
+    prerequisites: [
+      { t: 'tagIn', tags: ['PRU', 'NGF'] },
+      { t: 'decisionTaken', id: 'german_question' },
+      { t: 'isGreatPower' },
+    ],
+    cost: { prestige: 5 },
+    effects: [
+      { t: 'grantCasusBelli', targetTag: 'AUS', goal: 'humiliate', monthsValid: 48 },
+      { t: 'grantCasusBelli', targetTag: 'AUS', goal: 'cut_down_to_size', monthsValid: 48 },
+      { t: 'infamy', amount: 2 },
+    ],
+    cooldownMonths: 120,
+  },
 ];

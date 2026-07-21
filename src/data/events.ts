@@ -941,4 +941,61 @@ export const EVENT_DEFS: EventDef[] = [
       },
     ],
   },
+
+  // ---- 1.0-U1: unification arc flavor --------------------------------------
+  {
+    id: 'zollverein_dividend',
+    title: 'The Customs Union Pays',
+    description: 'Toll houses come down along the German roads. Trade — and tax receipts — surge through the union.',
+    trigger: { tags: ['PRU', 'NGF'], decisionTaken: 'zollverein' },
+    mtthMonths: 30,
+    once: true,
+    choices: [
+      {
+        id: 'invest',
+        label: 'Reinvest in the roads',
+        effects: [
+          { t: 'treasury', amount: 180 },
+          { t: 'literacy', amount: 0.01 },
+          { t: 'prestige', amount: 4 },
+        ],
+      },
+      {
+        id: 'pocket',
+        label: 'Fill the war chest',
+        effects: [{ t: 'treasury', amount: 320 }],
+        aiWeight: 1,
+      },
+    ],
+  },
+  {
+    id: 'pan_german_sentiment',
+    title: 'Pan-German Sentiment',
+    description: 'Student unions sing of one Germany; pamphlets cross every border. The nation exists — it merely lacks a state.',
+    trigger: { tags: ['PRU', 'NGF', 'AUS'], yearAtLeast: 1840, hasFormableCandidate: true },
+    mtthMonths: 96,
+    once: false,
+    cooldownMonths: 120,
+    choices: [
+      {
+        id: 'fan',
+        label: 'Fan the flames',
+        effects: [
+          { t: 'consciousness', amount: 0.6 },
+          { t: 'prestige', amount: 6 },
+          { t: 'militancy', amount: 0.3 },
+        ],
+        aiWeight: 2,
+      },
+      {
+        id: 'suppress',
+        label: 'Suppress the radicals',
+        effects: [
+          { t: 'militancy', amount: -0.2 },
+          { t: 'consciousness', amount: -0.2 },
+          { t: 'prestige', amount: -3 },
+        ],
+      },
+    ],
+  },
 ];
