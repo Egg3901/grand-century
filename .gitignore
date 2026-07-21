@@ -26,3 +26,4 @@ content/raw/
 docs/season-report.json
 artifacts/
 test-results/
+.claude/worktrees/
