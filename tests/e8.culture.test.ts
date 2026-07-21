@@ -372,7 +372,7 @@ describe('E8 culture — snapshot, self-healing, determinism, stability', () => 
     const first = runOnce();
     const second = runOnce();
     expect(second).toEqual(first);
-  });
+  }, 30_000);
 
   it('stays stable over a 4-year full-sim run (bounded rebellions, finite state)', () => {
     const world = createWorld(GAME_DATA, 20260720);

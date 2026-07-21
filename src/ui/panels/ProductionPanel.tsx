@@ -16,11 +16,29 @@ export function ProductionPanel() {
   const sendCommand = useStore((state) => state.sendCommand);
 
   const goodById = useMemo(() => new Map(data?.goods.map((good) => [good.id, good.name]) ?? []), [data]);
+  const priceByGood = useMemo(
+    () => new Map(snapshot?.market.map((entry) => [entry.good, entry.price]) ?? []),
+    [snapshot],
+  );
+  // Live per-unit margin at current market prices — the number Vic2 players
+  // build by. Recomputed per snapshot; drives button ordering and coloring.
+  const marginOf = (recipe: { inputs: { good: number; amount: number }[]; output: { good: number; amount: number } }) => {
+    const revenue = (priceByGood.get(recipe.output.good) ?? 0) * recipe.output.amount;
+    const cost = recipe.inputs.reduce((sum, entry) => sum + (priceByGood.get(entry.good) ?? 0) * entry.amount, 0);
+    return revenue - cost;
+  };
+  const chainOf = (recipe: { inputs: { good: number; amount: number }[]; output: { good: number; amount: number } }) => {
+    const inputs = recipe.inputs.map((entry) => goodById.get(entry.good) ?? '?').join(' + ');
+    return `${inputs || 'no inputs'} → ${goodById.get(recipe.output.good) ?? '?'}`;
+  };
   // 0.6.0: only offer recipes whose tech gate has been passed (see Technology
   // panel for the locked ones). The sim enforces this too; this is UX.
   const researchedTechs = snapshot?.playerTech?.techs;
   const factoryRecipes = (data?.recipes.filter((recipe) => recipe.building === 'factory') ?? [])
     .filter((recipe) => !recipe.requiresTech || (researchedTechs?.includes(recipe.requiresTech) ?? false));
+  const sortedStates = (snapshot?.playerStates ?? [])
+    .slice()
+    .sort((a, b) => b.factoryCount - a.factoryCount || a.name.localeCompare(b.name));
   const player = snapshot?.nations.find((nation) => nation.id === snapshot.playerNation) ?? null;
 
   if (!snapshot || !data || !player) {
@@ -41,24 +59,41 @@ export function ProductionPanel() {
       ) : null}
 
       <h3 className="atlas-heading panel-small-heading">Build Factories</h3>
+      <p className="panel-subtle">
+        Margins are live market prices: output value minus input cost per unit.
+        Green earns at today's prices; red loses.
+      </p>
       <div className="production-build-grid">
-        {snapshot.playerStates.map((state, stateIndex) => (
+        {sortedStates.map((state, stateIndex) => (
           <div key={state.id} className="production-build-row">
-            <strong>{state.name}</strong>
-            <span>Factories: {state.factoryCount}</span>
+            <div className="production-build-row__head">
+              <strong>{state.name}</strong>
+              <span>{state.factoryCount === 0 ? 'No industry yet' : `Factories: ${state.factoryCount}`}</span>
+            </div>
             <div className="production-build-actions">
-              {factoryRecipes.filter((recipe) => !recipe.requiresCoastal || state.coastal).map((recipe, recipeIndex) => (
-                <button
-                  key={`${state.id}-${recipe.key}`}
-                  type="button"
-                  className="btn btn--secondary"
-                  data-coach-id={stateIndex === 0 && recipeIndex === 0 ? 'build-factory-primary' : undefined}
-                  disabled={player.constructionBlocked}
-                  onClick={() => sendCommand({ t: 'buildFactory', state: state.id, recipe: recipe.key })}
-                >
-                  Build {recipeLabel(recipe.key)}
-                </button>
-              ))}
+              {factoryRecipes
+                .filter((recipe) => !recipe.requiresCoastal || state.coastal)
+                .map((recipe) => ({ recipe, margin: marginOf(recipe) }))
+                .sort((a, b) => b.margin - a.margin)
+                .map(({ recipe, margin }, recipeIndex) => (
+                  <button
+                    key={`${state.id}-${recipe.key}`}
+                    type="button"
+                    className="btn btn--secondary production-build-btn"
+                    data-coach-id={stateIndex === 0 && recipeIndex === 0 ? 'build-factory-primary' : undefined}
+                    disabled={player.constructionBlocked}
+                    title={chainOf(recipe)}
+                    onClick={() => sendCommand({ t: 'buildFactory', state: state.id, recipe: recipe.key })}
+                  >
+                    <span className="production-build-btn__name">{recipe.name ?? recipeLabel(recipe.key)}</span>
+                    <span className="production-build-btn__meta">
+                      <em>{chainOf(recipe)}</em>
+                      <b className={margin >= 0 ? 'positive' : 'negative'}>
+                        {margin >= 0 ? '+' : ''}£{formatNumber(margin, 2)}
+                      </b>
+                    </span>
+                  </button>
+                ))}
             </div>
           </div>
         ))}

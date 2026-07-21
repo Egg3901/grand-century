@@ -111,8 +111,15 @@ describe('E7 Concert of Europe — crises', () => {
     let sawCrisis = false;
     advanceMonths(world, 48, (w) => {
       if (w.crisis || (w.congresses?.length ?? 0) > 0) sawCrisis = true;
-      // Keep the pot boiling so the spawn gate stays open.
-      if (!w.crisis) w.tension = Math.max(w.tension ?? 0, 85);
+      // Keep the pot boiling so the spawn gate stays open — tension AND the
+      // flashpoint itself (AI rival management otherwise re-picks rivals and
+      // quietly clears the engineered rivalry, making this test fragile to
+      // any unrelated sim change).
+      if (!w.crisis) {
+        w.tension = Math.max(w.tension ?? 0, 85);
+        relation.kind = 'rivalry';
+        relation.opinion = Math.min(relation.opinion, -120);
+      }
     });
     expect(sawCrisis).toBe(true);
   }, 220_000);

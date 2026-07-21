@@ -204,12 +204,12 @@ describe('E6 recipe gating', () => {
     const state = world.states.find((candidate) => candidate.owner === world.playerNation)!;
     player.treasury = 100_000;
     const before = state.factories.length;
-    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_lumber_mill' }, noop);
+    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_machine_parts' }, noop);
     expect(state.factories.length).toBe(before); // locked
-    player.techs.push('industry_mechanized_sawmills');
-    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_lumber_mill' }, noop);
+    player.techs.push('industry_machine_tooling');
+    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_machine_parts' }, noop);
     expect(state.factories.length).toBe(before + 1);
-    expect(state.factories[state.factories.length - 1].recipe).toBe('factory_lumber_mill');
+    expect(state.factories[state.factories.length - 1].recipe).toBe('factory_machine_parts');
   });
 
   it('depth recipes (fertilizer, clothing, ammunition) gate on their techs', () => {
@@ -224,10 +224,10 @@ describe('E6 recipe gating', () => {
     applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_fertilizer' }, noop);
     expect(state.factories.length).toBe(before + 1);
 
-    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_clothing' }, noop);
+    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_cement' }, noop);
     expect(state.factories.length).toBe(before + 1);
-    player.techs.push('industry_interchangeable_parts');
-    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_clothing' }, noop);
+    player.techs.push('industry_early_railroads');
+    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_cement' }, noop);
     expect(state.factories.length).toBe(before + 2);
 
     applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_ammunition' }, noop);

@@ -38,3 +38,15 @@ arc machinery U2 reuses; pacing before Piedmont so U2 lands on a fun base).
 Existing gates (vitest suite incl. generated-mapdata invariants, Playwright
 smokes, balance envelope) plus per-slice acceptance above. Every slice
 screenshots desktop + 390×844 mobile before merge.
+
+## E-track — economy depth (opened 2026-07-21, owner: "econ very weak vs Vic2")
+
+The sim already runs the Vic2 core loop (factories buy inputs at market
+prices, pay pops, self-expand on profit, close on losses; AI builds by
+profit and job openings) — the failures were exposure and starting breadth.
+
+| # | Slice | Status |
+|---|---|---|
+| **E1** | Visible economy: build buttons show chain + live margin, sorted by profitability; 7 pre-industrial crafts un-gated (11 civilian recipes at 1820, Vic2 parity) | DONE |
+| **E2** | Market topology: national markets clearing before the world pool, tariffs that bite imports, sphere-of-influence market access, blockades cutting access | next big econ slice — validate in worldsim-style long runs before shipping |
+| **E3** | Pop purchasing depth: strata budgets visible, unemployment surfaced, artisans producing craft goods outside factories | after E2 |

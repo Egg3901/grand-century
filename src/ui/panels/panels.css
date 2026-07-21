@@ -1208,3 +1208,39 @@
 .owner-link:hover {
   text-decoration-color: currentColor;
 }
+
+/* E1 visible economy: build buttons carry the chain + live margin */
+.production-build-row__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.production-build-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  text-align: left;
+  min-width: 11.5rem;
+}
+.production-build-btn__name {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.production-build-btn__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  font-size: 0.78em;
+}
+.production-build-btn__meta em {
+  font-style: normal;
+  opacity: 0.75;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.production-build-btn__meta .positive { color: var(--gc-positive, #41764a); }
+.production-build-btn__meta .negative { color: var(--gc-negative, #a83a2e); }

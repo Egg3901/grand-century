@@ -80,16 +80,16 @@ const RECIPES: Recipe[] = [
     inputs: [input('cattle', 0.8), input('grain', 0.7)],
     output: output('canned_food', 1.0),
   },
-  // --- 0.6.0 tech-gated chains. These fill goods pops already demand but the
-  // --- world could not produce (fish, wine, furniture, machine parts,
-  // --- artillery). Each is locked behind a tech (see src/data/techs.ts).
+  // --- Pre-industrial crafts (E1): available from 1820 — a vintner estate or
+  // --- lumber mill is not 1850s technology. Only true industrial-revolution
+  // --- chains (machine parts, artillery, cement, fertilizer, ammunition)
+  // --- stay tech-gated. Vic2 parity: ~11 civilian recipes at start.
   {
     key: 'factory_fishing_wharf',
     name: 'Fishing Wharf',
     building: 'factory',
     inputs: [input('timber', 0.35)], // boats and nets
     output: output('fish', 1.0),
-    requiresTech: 'commerce_merchant_marine',
     requiresCoastal: true,
   },
   {
@@ -98,7 +98,6 @@ const RECIPES: Recipe[] = [
     building: 'factory',
     inputs: [input('grain', 0.9)],
     output: output('wine', 0.8),
-    requiresTech: 'commerce_merchant_marine',
   },
   {
     key: 'factory_lumber_mill',
@@ -106,7 +105,6 @@ const RECIPES: Recipe[] = [
     building: 'factory',
     inputs: [input('timber', 1.1)],
     output: output('lumber', 1.2),
-    requiresTech: 'industry_mechanized_sawmills',
   },
   {
     key: 'factory_furniture',
@@ -114,7 +112,6 @@ const RECIPES: Recipe[] = [
     building: 'factory',
     inputs: [input('lumber', 1.0)],
     output: output('furniture', 0.9),
-    requiresTech: 'industry_mechanized_sawmills',
   },
   {
     key: 'factory_machine_parts',
@@ -148,7 +145,6 @@ const RECIPES: Recipe[] = [
     building: 'factory',
     inputs: [input('fabric', 1.0)],
     output: output('clothes', 0.95),
-    requiresTech: 'industry_interchangeable_parts',
   },
   {
     key: 'factory_fertilizer',
@@ -164,7 +160,6 @@ const RECIPES: Recipe[] = [
     building: 'factory',
     inputs: [input('coal', 0.7), input('timber', 0.4)],
     output: output('glass', 0.9),
-    requiresTech: 'industry_organic_chemistry',
   },
   {
     key: 'factory_paper_mill',
@@ -172,7 +167,6 @@ const RECIPES: Recipe[] = [
     building: 'factory',
     inputs: [input('timber', 1.0)],
     output: output('paper', 1.1),
-    requiresTech: 'culture_empirical_science',
   },
   {
     key: 'factory_ammunition',
