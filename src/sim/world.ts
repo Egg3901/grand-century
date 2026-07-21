@@ -19,6 +19,7 @@ import { runWarDaily } from './systems/war';
 import { runBudgetMonthly, computePlayerBudget } from './systems/budget';
 import { runAiMonthly } from './systems/ai';
 import { runEventsMonthly } from './systems/events';
+import { runResearchMonthly } from './systems/research';
 import { buildSnapshot } from './snapshot';
 
 const EPOCH_YEAR = 1820;
@@ -66,6 +67,7 @@ export function advanceDay(world: World, data: GameData): void {
     runBudgetMonthly(world, data, rng);
     runPopsMonthly(world, data, rng);
     runPoliticsMonthly(world, data, rng);
+    runResearchMonthly(world, data, rng);
     runDiplomacyMonthly(world, data, rng);
     runEventsMonthly(world, data, rng);
     runAiMonthly(world, data, rng);

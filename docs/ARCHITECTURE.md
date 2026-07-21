@@ -36,7 +36,7 @@ src/sim/bootstrap.ts  createWorld(data, seed) -> initial World
 src/sim/commands.ts   applyCommand(world, data, cmd, post)
 src/sim/snapshot.ts   buildSnapshot(world, data) -> WorldSnapshot
 src/sim/detail.ts     detailProvince / detailNation (on-demand views)
-src/sim/systems/*.ts  market, economy, pops, politics, diplomacy, war, budget
+src/sim/systems/*.ts  market, economy, pops, politics, diplomacy, war, budget, ai, events, research
 src/worker/sim.worker.ts   worker entry (message loop + fixed-timestep)
 src/data/gameData.ts  baked static GameData
 src/store.ts          Zustand UI store

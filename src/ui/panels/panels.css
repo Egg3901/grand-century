@@ -754,3 +754,157 @@
     max-width: min(16rem, calc(100vw - 2rem));
   }
 }
+
+/* --- 0.6.0 Technology panel ("The Inventive Century") -------------------- */
+
+.tech-status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gc-space-2) 1.1rem;
+  margin-bottom: var(--gc-space-2);
+  padding: var(--gc-space-2) 0.55rem;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius);
+  background: rgba(255, 248, 230, 0.28);
+}
+
+.tech-status-row > div {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.tech-status-label {
+  color: var(--gc-ink-muted);
+  font-size: var(--gc-fs-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tech-status-row strong {
+  font-family: var(--gc-font-display);
+  color: var(--gc-ink);
+}
+
+.tech-current {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: var(--gc-space-3);
+  padding: var(--gc-space-2) 0.55rem;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius);
+  background: var(--gc-accent-soft);
+}
+
+.tech-current__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.tech-current__head strong {
+  font-family: var(--gc-font-display);
+  color: var(--gc-ink);
+}
+
+.tech-current__head span {
+  color: var(--gc-ink-muted);
+  font-size: var(--gc-fs-caption);
+}
+
+.tech-progress {
+  height: 0.5rem;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 248, 230, 0.5);
+}
+
+.tech-progress__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gc-accent) 0%, var(--gc-wax-highlight) 100%);
+  transition: width 0.4s ease;
+}
+
+.tech-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--gc-space-2);
+  margin-bottom: var(--gc-space-3);
+}
+
+.tech-column {
+  display: grid;
+  gap: 0.35rem;
+  align-content: start;
+}
+
+.tech-node {
+  display: grid;
+  gap: 0.15rem;
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius);
+  background: rgba(255, 248, 230, 0.28);
+  color: var(--gc-ink);
+  font-size: var(--gc-fs-caption);
+  cursor: pointer;
+}
+
+.tech-node:disabled {
+  cursor: default;
+}
+
+.tech-node.is-locked {
+  opacity: 0.55;
+}
+
+.tech-node.is-researched {
+  border-color: var(--gc-positive);
+  background: rgba(42, 74, 46, 0.1);
+}
+
+.tech-node.is-current {
+  border-color: var(--gc-accent);
+  background: var(--gc-accent-soft);
+  box-shadow: 0 0 0 1px var(--gc-accent-soft);
+}
+
+.tech-node.is-available:hover {
+  border-color: var(--gc-accent);
+  background: rgba(255, 248, 230, 0.55);
+}
+
+.tech-node__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4rem;
+  align-items: baseline;
+}
+
+.tech-node__head strong {
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-body);
+}
+
+.tech-node__year {
+  color: var(--gc-ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.tech-node__meta {
+  color: var(--gc-ink-muted);
+}
+
+.tech-node__effects {
+  color: var(--gc-ink-muted);
+}
+
+.tech-node__unlocks {
+  color: var(--gc-accent-deep);
+}
+
+.tech-invention-list li.is-owned {
+  border-color: var(--gc-positive);
+}

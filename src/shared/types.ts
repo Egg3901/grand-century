@@ -58,6 +58,10 @@ export interface Recipe {
   inputs: { good: GoodId; amount: number }[]; // <= 3 inputs (master doc §3.4)
   output: { good: GoodId; amount: number };
   building: 'rgo' | 'factory';
+  /** 0.6.0 research: recipe is buildable only once this tech is researched. */
+  requiresTech?: string;
+  /** 0.6.0 research: recipe requires a state with at least one coastal province. */
+  requiresCoastal?: boolean;
 }
 
 export type PopType =
@@ -110,6 +114,50 @@ export interface TechDef {
   category: 'army' | 'navy' | 'commerce' | 'industry' | 'culture';
   cost: number;
   effects: string[];
+  /** 0.6.0 research: earliest game year this tech may be researched. */
+  year?: number;
+  /** 0.6.0 research: tech key that must be researched first (linear columns). */
+  prereq?: string;
+  /** 0.6.0 research: typed modifiers aggregated by the research system. */
+  modifiers?: Partial<TechModifiers>;
+  /** 0.6.0 research: recipe keys this tech makes buildable. */
+  unlocksRecipes?: string[];
+}
+
+/**
+ * 0.6.0 research — the typed modifier surface techs & inventions feed into.
+ * Aggregated per nation by src/sim/systems/research.ts; consumed by economy
+ * (throughput), budget (tax efficiency), and the research system itself.
+ */
+export interface TechModifiers {
+  /** Multiplier bonus on factory output (0.06 = +6%). */
+  factoryThroughput: number;
+  /** Multiplier bonus on RGO output. */
+  rgoThroughput: number;
+  /** Multiplier bonus on monthly tax income. */
+  taxEfficiency: number;
+  /** Multiplier bonus on monthly research point gain. */
+  researchRate: number;
+  /** Flat monthly literacy gain (fraction, e.g. 0.0005). */
+  literacyRate: number;
+  /** Flat monthly prestige drip. */
+  prestigeMonthly: number;
+}
+
+/**
+ * 0.6.0 research — an invention: a discrete discovery that can fire once a
+ * prerequisite tech is researched. Rolled monthly (deterministic rng), scaled
+ * by literacy.
+ */
+export interface InventionDef {
+  key: string;
+  name: string;
+  description: string;
+  /** Tech that must be researched before this invention can fire. */
+  prereqTech: string;
+  /** Base monthly chance (before literacy scaling). */
+  monthlyChance: number;
+  modifiers?: Partial<TechModifiers>;
 }
 
 export interface FormableDefinition {
@@ -280,6 +328,8 @@ export interface GameData {
   provinceCount: number;
   nationCores?: Record<string, StateId[]>;
   formables?: FormableDefinition[];
+  /** 0.6.0 research: inventions rolled monthly once their prereq tech is in. */
+  inventions?: InventionDef[];
 }
 
 // ---------------------------------------------------------------------------
@@ -386,6 +436,12 @@ export interface Nation {
   reforms: Record<string, number>;
   /** researched tech keys */
   techs: string[];
+  /** 0.6.0 research: tech currently being researched (null/undefined = none). */
+  currentResearch?: string | null;
+  /** 0.6.0 research: points already sunk into currentResearch. */
+  researchProgress?: number;
+  /** 0.6.0 research: invention keys that have fired for this nation. */
+  inventions?: string[];
 
   taxRatePoor: number;   // 0-1 sliders
   taxRateMiddle: number;
@@ -710,6 +766,54 @@ export interface PlayerStateSummary {
   id: StateId;
   name: string;
   factoryCount: number;
+  /** 0.6.0: state contains a coastal province (gates coastal-only recipes). */
+  coastal?: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// 0.6.0 research — snapshot views for the Technology panel
+// ---------------------------------------------------------------------------
+
+export interface TechStatusView {
+  key: string;
+  name: string;
+  category: TechDef['category'];
+  cost: number;
+  year: number;
+  prereq: string | null;
+  researched: boolean;
+  /** Can be selected as current research right now. */
+  available: boolean;
+  /** Human-readable blocker when not available ('' when available/researched). */
+  reason: string;
+  effectsSummary: string[];
+  unlocksRecipes: string[];
+}
+
+export interface InventionStatusView {
+  key: string;
+  name: string;
+  description: string;
+  prereqTech: string;
+  owned: boolean;
+  /** Prereq tech researched — the invention can fire any month now. */
+  prereqMet: boolean;
+  effectsSummary: string[];
+}
+
+export interface PlayerTechView {
+  researchPoints: number;
+  /** Points generated per month at current literacy/modifiers. */
+  monthlyResearch: number;
+  current: string | null;
+  /** Points sunk into current research so far. */
+  progress: number;
+  /** Cost of current research (0 when none selected). */
+  currentCost: number;
+  techs: string[];
+  inventions: string[];
+  statuses: TechStatusView[];
+  inventionStatuses: InventionStatusView[];
 }
 
 /** Sent every rendered frame; province array feeds the map paint. */
@@ -744,6 +848,8 @@ export interface WorldSnapshot {
   pendingPlayerEvents?: PendingEvent[];
   /** Player-initiated decisions with prereq gating. */
   playerDecisions?: DecisionStatus[];
+  /** 0.6.0 research: technology tree + invention state for the player nation. */
+  playerTech?: PlayerTechView;
   /** headline numbers for the player nation's HUD */
   playerBudget: BudgetLine;
 }
@@ -817,6 +923,7 @@ export type Command =
   | { t: 'formNation'; key: string }
   | { t: 'resolveEvent'; instanceId: number; choiceId: string }
   | { t: 'takeDecision'; decision: string }
+  | { t: 'setResearch'; tech: string | null }
   | { t: 'newGame'; seed: number; playerNation: NationId }
   | { t: 'save'; slot: string }
   | { t: 'load'; slot: string }

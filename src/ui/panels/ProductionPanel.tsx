@@ -16,7 +16,11 @@ export function ProductionPanel() {
   const sendCommand = useStore((state) => state.sendCommand);
 
   const goodById = useMemo(() => new Map(data?.goods.map((good) => [good.id, good.name]) ?? []), [data]);
-  const factoryRecipes = data?.recipes.filter((recipe) => recipe.building === 'factory') ?? [];
+  // 0.6.0: only offer recipes whose tech gate has been passed (see Technology
+  // panel for the locked ones). The sim enforces this too; this is UX.
+  const researchedTechs = snapshot?.playerTech?.techs;
+  const factoryRecipes = (data?.recipes.filter((recipe) => recipe.building === 'factory') ?? [])
+    .filter((recipe) => !recipe.requiresTech || (researchedTechs?.includes(recipe.requiresTech) ?? false));
   const player = snapshot?.nations.find((nation) => nation.id === snapshot.playerNation) ?? null;
 
   if (!snapshot || !data || !player) {
@@ -43,7 +47,7 @@ export function ProductionPanel() {
             <strong>{state.name}</strong>
             <span>Factories: {state.factoryCount}</span>
             <div className="production-build-actions">
-              {factoryRecipes.map((recipe, recipeIndex) => (
+              {factoryRecipes.filter((recipe) => !recipe.requiresCoastal || state.coastal).map((recipe, recipeIndex) => (
                 <button
                   key={`${state.id}-${recipe.key}`}
                   type="button"

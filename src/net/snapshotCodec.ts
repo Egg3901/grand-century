@@ -20,6 +20,7 @@ import type {
   NationId,
   NationSummary,
   PendingEvent,
+  PlayerTechView,
   PopulationLedgerEntry,
   ProductionLedgerEntry,
   ProvinceSummary,
@@ -62,6 +63,8 @@ export interface PlayerView {
   playerFormables?: FormableStatus[];
   pendingPlayerEvents?: PendingEvent[];
   playerDecisions?: DecisionStatus[];
+  /** 0.6.0: research/tech state for this client's nation. */
+  playerTech?: PlayerTechView;
   playerBudget: BudgetLine;
 }
 
@@ -120,6 +123,7 @@ export function extractPlayerView(snap: WorldSnapshot): PlayerView {
     playerFormables: snap.playerFormables,
     pendingPlayerEvents: snap.pendingPlayerEvents,
     playerDecisions: snap.playerDecisions,
+    playerTech: snap.playerTech,
     playerBudget: snap.playerBudget,
   };
 }

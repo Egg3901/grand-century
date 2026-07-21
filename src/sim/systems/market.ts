@@ -103,7 +103,11 @@ export function buyFromMarket(
   const unitPrice = baseUnit * buyMult;
 
   const available = Math.max(0, runtime.remainingProducer + runtime.remainingStockpile);
-  const budgetLimited = unitPrice > 0 ? Math.max(0, finite(availableBudget)) / unitPrice : desired;
+  // 0.6.0 fix: an Infinity budget (factory input purchases) used to collapse to
+  // 0 via finite(), silently starving EVERY input-consuming factory since M2.
+  // Infinity now means "not budget-limited"; NaN still means broke.
+  const safeBudget = Number.isNaN(availableBudget) ? 0 : Math.max(0, availableBudget);
+  const budgetLimited = unitPrice > 0 ? safeBudget / unitPrice : desired;
   const bought = Math.min(desired, available, budgetLimited);
   const fromProducer = Math.min(bought, runtime.remainingProducer);
   const fromStockpile = Math.max(0, bought - fromProducer);

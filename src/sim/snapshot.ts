@@ -12,6 +12,7 @@ import {
 } from './systems/diplomacy';
 import { getFormableStatusesForNation } from './formables';
 import { listPlayerDecisions } from './systems/events';
+import { buildPlayerTechView } from './systems/research';
 
 function zeroBudget(): BudgetLine {
   return {
@@ -236,6 +237,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     id: state.id,
     name: state.name,
     factoryCount: state.factories.length,
+    coastal: state.provinceIds.some((provinceId) => world.provinces[provinceId]?.coastal ?? false),
   }));
 
   return {
@@ -280,6 +282,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         })),
       })),
     playerDecisions: listPlayerDecisions(world, data, world.playerNation),
+    playerTech: buildPlayerTechView(world, data, world.playerNation),
     playerBudget: zeroBudget(),
   };
 }
