@@ -97,7 +97,7 @@ def main():
         ggeom = gc_geom(f)
         if ggeom.is_empty:
             report['fallback'] += 1
-            out_feats.append({'type': 'Feature', 'properties': {'id': pid, 'n': name},
+            out_feats.append({'type': 'Feature', 'id': pid, 'properties': {'id': pid, 'n': name},
                               'geometry': f['geometry']})
             continue
         gc_cent = ggeom.centroid
@@ -222,6 +222,7 @@ def main():
 
         out_feats.append({
             'type': 'Feature',
+            'id': pid,
             'properties': {'id': pid, 'n': name},
             'geometry': geom,
         })

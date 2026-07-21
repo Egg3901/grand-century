@@ -621,7 +621,7 @@ export function GrandMap() {
   }, []);
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current || !geojson || !nationalBorders || !rivers || !lakes) return;
+    if (!containerRef.current || mapRef.current || !geojson || !nationalBorders) return;
     let alive = true;
     let createdMap: MapLibreMap | null = null;
 
@@ -667,6 +667,9 @@ export function GrandMap() {
         setMapReady(true);
         map.addSource(MAP_SOURCE_ID, {
           type: 'geojson',
+          // feature-state (fills, hover, occupation) needs a source-level feature
+          // id; the generated file only guarantees properties.id.
+          promoteId: 'id',
           data: geojson as unknown as object,
         });
         map.addSource(MAP_NATIONAL_SOURCE_ID, {
@@ -681,14 +684,18 @@ export function GrandMap() {
           type: 'geojson',
           data: { type: 'FeatureCollection', features: [] } as unknown as object,
         });
-        map.addSource(MAP_RIVERS_SOURCE_ID, {
-          type: 'geojson',
-          data: rivers as object,
-        });
-        map.addSource(MAP_LAKES_SOURCE_ID, {
-          type: 'geojson',
-          data: lakes as object,
-        });
+        if (rivers) {
+          map.addSource(MAP_RIVERS_SOURCE_ID, {
+            type: 'geojson',
+            data: rivers as object,
+          });
+        }
+        if (lakes) {
+          map.addSource(MAP_LAKES_SOURCE_ID, {
+            type: 'geojson',
+            data: lakes as object,
+          });
+        }
 
         // ---- Sea plate: engraved water, graticule, coastal aquatint --------
         const seaTile = createSeaEngravingTile();
@@ -807,37 +814,41 @@ export function GrandMap() {
         // ink shoreline; rivers are tapered ink strokes above terrain tints
         // but below province borders, so they read as plate engraving, not
         // as boundaries. Both fade in with zoom like the other engraving.
-        map.addLayer({
-          id: MAP_LAKES_FILL_LAYER,
-          type: 'fill',
-          source: MAP_LAKES_SOURCE_ID,
-          paint: {
-            'fill-color': LAKE_FILL,
-            'fill-opacity': ['interpolate', ['linear'], ['zoom'], 1.5, 0.55, 4, 0.7, 7, 0.8],
-          },
-        });
-        map.addLayer({
-          id: MAP_LAKES_LINE_LAYER,
-          type: 'line',
-          source: MAP_LAKES_SOURCE_ID,
-          layout: { 'line-join': 'round', 'line-cap': 'round' },
-          paint: {
-            'line-color': LAKE_SHORE,
-            'line-width': ['interpolate', ['linear'], ['zoom'], 1.5, 0.5, 4, 0.9, 7, 1.3],
-            'line-opacity': ['interpolate', ['linear'], ['zoom'], 1.5, 0.35, 4, 0.5, 7, 0.6],
-          },
-        });
-        map.addLayer({
-          id: MAP_RIVERS_LAYER,
-          type: 'line',
-          source: MAP_RIVERS_SOURCE_ID,
-          layout: { 'line-join': 'round', 'line-cap': 'round' },
-          paint: {
-            'line-color': RIVER_INK,
-            'line-width': ['interpolate', ['linear'], ['zoom'], 2, 0.4, 4, 0.8, 6.5, 1.6],
-            'line-opacity': ['interpolate', ['linear'], ['zoom'], 2, 0.28, 4, 0.42, 6.5, 0.55],
-          },
-        });
+        if (lakes) {
+          map.addLayer({
+            id: MAP_LAKES_FILL_LAYER,
+            type: 'fill',
+            source: MAP_LAKES_SOURCE_ID,
+            paint: {
+              'fill-color': LAKE_FILL,
+              'fill-opacity': ['interpolate', ['linear'], ['zoom'], 1.5, 0.55, 4, 0.7, 7, 0.8],
+            },
+          });
+          map.addLayer({
+            id: MAP_LAKES_LINE_LAYER,
+            type: 'line',
+            source: MAP_LAKES_SOURCE_ID,
+            layout: { 'line-join': 'round', 'line-cap': 'round' },
+            paint: {
+              'line-color': LAKE_SHORE,
+              'line-width': ['interpolate', ['linear'], ['zoom'], 1.5, 0.5, 4, 0.9, 7, 1.3],
+              'line-opacity': ['interpolate', ['linear'], ['zoom'], 1.5, 0.35, 4, 0.5, 7, 0.6],
+            },
+          });
+        }
+        if (rivers) {
+          map.addLayer({
+            id: MAP_RIVERS_LAYER,
+            type: 'line',
+            source: MAP_RIVERS_SOURCE_ID,
+            layout: { 'line-join': 'round', 'line-cap': 'round' },
+            paint: {
+              'line-color': RIVER_INK,
+              'line-width': ['interpolate', ['linear'], ['zoom'], 2, 0.4, 4, 0.8, 6.5, 1.6],
+              'line-opacity': ['interpolate', ['linear'], ['zoom'], 2, 0.28, 4, 0.42, 6.5, 0.55],
+            },
+          });
+        }
 
         // Aquatint: a whisper of engraving noise over every land fill so no
         // province reads as dead-flat vector color. Zoom-faded — invisible at
