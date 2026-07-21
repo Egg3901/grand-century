@@ -888,6 +888,7 @@ export interface NationSummary {
   tag: string;
   name: string;
   color: [number, number, number];
+  capital: ProvinceId;
   government: GovernmentType;
   rulingParty: string;
   rulingIdeology: PartyIdeology;

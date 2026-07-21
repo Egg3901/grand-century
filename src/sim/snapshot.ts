@@ -99,6 +99,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       tag: nation.tag,
       name: nation.name,
       color: nation.color,
+      capital: nation.capital,
       government: nation.government,
       rulingParty: ruling?.name ?? nation.rulingParty,
       rulingIdeology: ruling?.ideology ?? 'conservative',

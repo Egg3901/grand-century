@@ -150,15 +150,6 @@ const TERRAIN_TINTED_MODES = new Set(['political', 'military', 'cores']);
 const DEFAULT_FILL = '#b7a486';
 const MAJOR_LABEL_TAGS = new Set(['ENG', 'FRA', 'AUS', 'RUS', 'USA', 'QNG', 'OTT', 'ESP', 'BRA']);
 /** Prefer homeland landmasses over sparse colonial deserts when scoring. */
-const HOMELAND_PROVINCE_BY_TAG: Record<string, string> = {
-  ENG: 'United Kingdom',
-  FRA: 'France',
-  ESP: 'Spain',
-  POR: 'Portugal',
-  NED: 'Netherlands',
-  AUS: 'Austria',
-  OTT: 'Turkey',
-};
 const LABEL_REFRESH_DEBOUNCE_MS = 60;
 const DIPLO_COLORS = {
   self: '#6f879f',
@@ -436,19 +427,57 @@ export function GrandMap() {
   const provinceCoordById = useMemo(() => (
     new globalThis.Map<number, { lon: number; lat: number }>(WORLD_SEED.provinces.map((province) => [province.id, { lon: province.lon, lat: province.lat }]))
   ), []);
-  const nationNameByTag = useMemo(() => {
-    const names = new globalThis.Map<string, string>(WORLD_SEED.nations.map((nation) => [nation.tag, nation.name]));
+  // Labels must NOT recompute every sim tick (snapshot identity changes each
+  // frame and re-running the layout makes them flash and hop between offset
+  // slots). Ownership/name/capital data changes rarely, so derive it behind a
+  // content signature and reuse the same Map identities until it changes.
+  const labelIdentity = useMemo(() => {
+    let key = '';
     if (snapshot) {
-      for (const nation of snapshot.nations) names.set(nation.tag, nation.name);
+      for (const province of snapshot.provinces) key += `${province.owner},`;
+      key += '|';
+      for (const nation of snapshot.nations) key += `${nation.tag}:${nation.name}:${nation.gpRank}:${nation.capital},`;
     }
-    return names;
+    return key;
   }, [snapshot]);
-  const nationTagById = useMemo(() => {
-    const tags = new globalThis.Map<number, string>();
-    if (!snapshot) return tags;
-    for (const nation of snapshot.nations) tags.set(nation.id, nation.tag);
-    return tags;
-  }, [snapshot]);
+  const labelDataRef = useRef<{
+    key: string;
+    nationNameByTag: Map<string, string>;
+    nationTagById: Map<number, string>;
+    ownerTagByProvince: Map<number, string>;
+    gpRankByTag: Map<string, number>;
+    capitalByTag: Map<string, number>;
+  } | null>(null);
+  if (!labelDataRef.current || labelDataRef.current.key !== labelIdentity) {
+    const nameMap = new globalThis.Map<string, string>(WORLD_SEED.nations.map((nation) => [nation.tag, nation.name]));
+    const tagMap = new globalThis.Map<number, string>();
+    const ownerMap = new globalThis.Map<number, string>();
+    const gpMap = new globalThis.Map<string, number>();
+    const capitalMap = new globalThis.Map<string, number>(
+      WORLD_SEED.nations.map((nation) => [nation.tag, nation.capitalProvinceId]),
+    );
+    if (snapshot) {
+      for (const nation of snapshot.nations) {
+        nameMap.set(nation.tag, nation.name);
+        tagMap.set(nation.id, nation.tag);
+        gpMap.set(nation.tag, nation.gpRank);
+        if (Number.isInteger(nation.capital)) capitalMap.set(nation.tag, nation.capital);
+      }
+      for (const province of snapshot.provinces) {
+        const tag = tagMap.get(province.owner);
+        if (tag) ownerMap.set(province.id, tag);
+      }
+    }
+    labelDataRef.current = {
+      key: labelIdentity,
+      nationNameByTag: nameMap,
+      nationTagById: tagMap,
+      ownerTagByProvince: ownerMap,
+      gpRankByTag: gpMap,
+      capitalByTag: capitalMap,
+    };
+  }
+  const { nationNameByTag, ownerTagByProvince, gpRankByTag, capitalByTag } = labelDataRef.current;
   const provinceTerrainById = useMemo(() => (
     new globalThis.Map<number, string>(WORLD_SEED.provinces.map((province) => [province.id, province.terrain]))
   ), []);
@@ -473,15 +502,6 @@ export function GrandMap() {
     const capitalIds = new globalThis.Map<number, string>();
     for (const nation of WORLD_SEED.nations) {
       capitalIds.set(nation.capitalProvinceId, nation.tag);
-    }
-    // Procedural remaps reshuffle ownership, so label owners come from the
-    // live snapshot, falling back to the seed for the historical map.
-    const ownerTagByProvince = new globalThis.Map<number, string>();
-    if (snapshot) {
-      for (const province of snapshot.provinces) {
-        const tag = nationTagById.get(province.owner);
-        if (tag) ownerTagByProvince.set(province.id, tag);
-      }
     }
     const raw = WORLD_SEED.provinces.map((province) => {
       const geometry = provinceGeometryById.get(province.id);
@@ -509,7 +529,7 @@ export function GrandMap() {
         minZoom: 5.1 + (1 - normalizedProminence) * 1.35,
       };
     });
-  }, [nationTagById, provinceGeometryById, snapshot]);
+  }, [ownerTagByProvince, provinceGeometryById]);
 
   const countryLabelSeeds = useMemo<CountryLabelSeed[]>(() => {
     type NationPick = {
@@ -521,10 +541,16 @@ export function GrandMap() {
       lat: number;
     };
     const byTag = new globalThis.Map<string, NationPick>();
+    // A nation labels at its CAPITAL while it still holds it (atlas
+    // convention: empires label at the metropole, not their largest colony —
+    // this is what put "United Kingdom" over Bengal). Best-score is the
+    // fallback for lost capitals and nations without one.
+    const capitalSeedByTag = new globalThis.Map<string, { lon: number; lat: number }>();
     for (const province of provinceLabelSeeds) {
-      const homelandName = HOMELAND_PROVINCE_BY_TAG[province.ownerTag];
-      const homelandBoost = homelandName && province.name === homelandName ? 8 : 1;
-      const score = Math.log(province.area + 1) * ((province.weight + 0.1) ** 1.85) * homelandBoost;
+      if (capitalByTag.get(province.ownerTag) === province.id) {
+        capitalSeedByTag.set(province.ownerTag, { lon: province.lon, lat: province.lat });
+      }
+      const score = Math.log(province.area + 1) * ((province.weight + 0.1) ** 1.85);
       const existing = byTag.get(province.ownerTag);
       if (!existing) {
         byTag.set(province.ownerTag, {
@@ -554,14 +580,14 @@ export function GrandMap() {
         + Math.log(values.populationWeight + 1) * 0.38
         + Math.log(values.area + 1) * 0.2
       );
-      const isMajor = MAJOR_LABEL_TAGS.has(tag)
-        || (snapshot?.nations.find((nation) => nation.tag === tag)?.gpRank ?? 0) > 0;
+      const isMajor = MAJOR_LABEL_TAGS.has(tag) || (gpRankByTag.get(tag) ?? 0) > 0;
+      const anchor = capitalSeedByTag.get(tag) ?? { lon: values.lon, lat: values.lat };
       labels.push({
         tag,
         name: nationNameByTag.get(tag) ?? tag,
         color: WORLD_SEED.nations.find((nation) => nation.tag === tag)?.color ?? [90, 67, 48],
-        lon: values.lon,
-        lat: values.lat,
+        lon: anchor.lon,
+        lat: anchor.lat,
         provinceCount: values.provinceCount,
         area: values.area,
         populationWeight: values.populationWeight,
@@ -597,7 +623,7 @@ export function GrandMap() {
       return a.name.localeCompare(b.name);
     });
     return withThresholds;
-  }, [nationNameByTag, provinceLabelSeeds, snapshot]);
+  }, [capitalByTag, gpRankByTag, nationNameByTag, provinceLabelSeeds]);
 
   const bounds = useMemo(() => (geojson ? computeBounds(geojson) : null), [geojson]);
 
@@ -1542,9 +1568,12 @@ export function GrandMap() {
     const upsertCountryMarker = (label: CountryLabelSeed, size: number, opacity: number, offset: [number, number]) => {
       const shieldSize = Math.max(10, Math.round(size * 0.95));
       const shieldHtml = `<span class="nation-shield nation-shield--map">${nationShieldSvg({ tag: label.tag, color: label.color }, shieldSize)}</span>`;
+      const sig = `${label.name}|${size.toFixed(1)}|${opacity.toFixed(3)}|${offset[0]},${offset[1]}|${label.lon.toFixed(4)},${label.lat.toFixed(4)}|${label.major ? 1 : 0}`;
       const existing = countryMarkers.get(label.tag);
       if (existing) {
         const element = existing.getElement() as HTMLDivElement;
+        if (element.dataset.sig === sig) return;
+        element.dataset.sig = sig;
         element.innerHTML = `${shieldHtml}<span>${label.name}</span>`;
         element.style.fontSize = `${size.toFixed(1)}px`;
         element.style.opacity = `${opacity.toFixed(3)}`;
@@ -1558,6 +1587,7 @@ export function GrandMap() {
         return;
       }
       const el = document.createElement('div');
+      el.dataset.sig = sig;
       el.className = 'grand-map__country-label';
       if (label.major) el.classList.add('is-major');
       el.innerHTML = `${shieldHtml}<span>${label.name}</span>`;
