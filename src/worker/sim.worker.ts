@@ -49,7 +49,7 @@ function postSnapshotNow() {
 }
 
 function yearFromDay(day: number): number {
-  return 1836 + Math.floor(day / 365);
+  return 1820 + Math.floor(day / 365);
 }
 
 async function publishSaveSlots() {

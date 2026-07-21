@@ -2,6 +2,9 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gzipSync } from 'node:zlib';
+import { topology as buildTopology } from 'topojson-server';
+import { feature, neighbors as topoNeighbors } from 'topojson-client';
+import { presimplify, quantile, simplify } from 'topojson-simplify';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,13 +20,18 @@ const ADMIN0_FILE = 'ne_110m_admin_0_countries.geojson';
 
 const MIN_PROVINCES = 300;
 const MAX_PROVINCES = 800;
-const TOUCH_EPSILON = 0.045;
 const SLIVER_ABS_AREA = 0.012;
-const SOURCE_TOLERANCE = 0.025;
-const ADMIN0_TOLERANCE = 0.03;
 /** Whole-country provinces above this planar area get an organic Voronoi split. */
 const OVERSIZE_AREA_THRESHOLD = 32;
 const ORGANIC_DENSE_EDGE = 0.55;
+/** Topology-preserving simplify: quantize snaps shared edges, then shared-arc simplify. */
+const TOPO_QUANTIZE = 1e5;
+/** Fraction of smallest triangles removed; lower keeps more coastline detail. */
+const TOPO_SIMPLIFY_QUANTILE = 0.10;
+/** Densify + jitter spacing / amplitude for artificial partition chords (degrees). */
+const CUT_DENSE_EDGE = 0.15;
+/** Amplitude for post-simplify shared-arc debox (degrees). */
+const CUT_JITTER_AMPLITUDE = 0.08;
 const KEEP_LARGE_ADMINS = new Set([
   'russia',
   'united states of america',
@@ -77,6 +85,7 @@ const NATION_LIBRARY = {
   PEU: { name: 'Peru', color: [162, 126, 102], government: 'presidential_dictatorship', primaryCulture: 'french' },
   BEL: { name: 'Belgium', color: [166, 140, 100], government: 'constitutional_monarchy', primaryCulture: 'french' },
   GRE: { name: 'Kingdom of Greece', color: [132, 152, 184], government: 'absolute_monarchy', primaryCulture: 'french' },
+  // BEL/GRE/TEX remain in the library for mid-game events but are not 1820 starters.
   DEN: { name: 'Denmark', color: [170, 122, 108], government: 'absolute_monarchy', primaryCulture: 'north_german' },
   SWI: { name: 'Switzerland', color: [188, 166, 132], government: 'democracy', primaryCulture: 'south_german' },
   EGY: { name: 'Egypt', color: [158, 132, 86], government: 'absolute_monarchy', primaryCulture: 'turkish' },
@@ -103,34 +112,37 @@ const NATION_LIBRARY = {
 };
 
 const MAJOR_TAGS = ['ENG', 'FRA', 'PRU', 'AUS', 'RUS', 'USA', 'QNG', 'OTT', 'ESP', 'POR', 'NLD', 'SWE', 'SAR', 'TSC'];
+/** 1820 starters — no independent Belgium (1830), Greece (1832), or Texas (1836). */
 const REQUIRED_MINOR_TAGS = [
-  'BAV', 'SAX', 'HAN', 'WUR', 'BAD', 'HES', 'PAP', 'TUS', 'MOD', 'PAR', 'TEX',
-  'BEL', 'GRE', 'DEN', 'SWI', 'EGY', 'PER', 'AFG', 'SIA', 'KOR', 'MOR',
+  'BAV', 'SAX', 'HAN', 'WUR', 'BAD', 'HES', 'PAP', 'TUS', 'MOD', 'PAR',
+  'DEN', 'SWI', 'EGY', 'PER', 'AFG', 'SIA', 'KOR', 'MOR', 'MEX',
 ];
 
+/** Plausible 1820 political map (ISO → tag). */
 const ISO_TO_TAG = {
-  af: 'AFG', al: 'OTT', be: 'BEL', bh: 'OTT', bo: 'BOL', bt: 'BHU', ch: 'SWI', cl: 'CHL',
-  co: 'CLM', dk: 'DEN', ec: 'CLM', eg: 'EGY', et: 'ETH', ge: 'RUS', gr: 'GRE', hn: 'CLM',
+  af: 'AFG', al: 'OTT', be: 'NLD', bh: 'OTT', bo: 'ESP', bt: 'BHU', ch: 'SWI', cl: 'CHL',
+  co: 'CLM', dk: 'DEN', ec: 'CLM', eg: 'EGY', et: 'ETH', ge: 'RUS', gr: 'OTT', hn: 'ESP',
   ir: 'PER', jo: 'EGY', kh: 'CAM', kp: 'KOR', kr: 'KOR', la: 'LAO', ma: 'MOR', mm: 'BUR',
-  np: 'NEP', pa: 'CLM', pe: 'PEU', py: 'PRG', rs: 'OTT', ro: 'OTT', sd: 'EGY', sy: 'EGY',
-  th: 'SIA', uy: 'URY', ve: 'VEN', vn: 'VIE',
+  np: 'NEP', pa: 'ESP', pe: 'ESP', py: 'PRG', rs: 'OTT', ro: 'OTT', sd: 'EGY', sy: 'EGY',
+  th: 'SIA', uy: 'POR', ve: 'VEN', vn: 'VIE',
 };
 
+/** Plausible 1820 owner lookup by modern country name. */
 const COUNTRY_TO_TAG = {
   'united kingdom': 'ENG', ireland: 'ENG', canada: 'ENG', australia: 'ENG', 'new zealand': 'ENG',
   india: 'ENG', pakistan: 'ENG', bangladesh: 'ENG', 'south africa': 'ENG', nigeria: 'UNC',
-  egypt: 'EGY', france: 'FRA', belgium: 'BEL', algeria: 'FRA', germany: 'PRU', denmark: 'DEN',
+  egypt: 'EGY', france: 'FRA', belgium: 'NLD', algeria: 'OTT', germany: 'PRU', denmark: 'DEN',
   switzerland: 'SWI', 'czech republic': 'AUS', czechia: 'AUS', slovakia: 'AUS', hungary: 'AUS',
   slovenia: 'AUS', croatia: 'AUS', austria: 'AUS', russia: 'RUS', ukraine: 'RUS', belarus: 'RUS',
   lithuania: 'RUS', latvia: 'RUS', estonia: 'RUS', finland: 'RUS', kazakhstan: 'RUS', georgia: 'RUS',
   armenia: 'RUS', azerbaijan: 'RUS', 'united states of america': 'USA', 'united states': 'USA',
   china: 'QNG', mongolia: 'QNG', taiwan: 'QNG', turkey: 'OTT', syria: 'EGY', iraq: 'OTT',
   jordan: 'EGY', lebanon: 'EGY', israel: 'EGY', palestine: 'EGY', saudi: 'UNC', yemen: 'UNC',
-  greece: 'GRE', spain: 'ESP', cuba: 'ESP', philippines: 'ESP', portugal: 'POR', angola: 'POR',
+  greece: 'OTT', spain: 'ESP', cuba: 'ESP', philippines: 'ESP', portugal: 'POR', angola: 'POR',
   mozambique: 'POR', netherlands: 'NLD', indonesia: 'NLD', sweden: 'SWE', norway: 'SWE',
   italy: 'SAR', 'sardinia-piedmont': 'SAR', sicily: 'TSC', japan: 'JPN', mexico: 'MEX',
-  brazil: 'BRA', argentina: 'ARG', peru: 'PEU', chile: 'CHL', colombia: 'CLM', ecuador: 'CLM',
-  venezuela: 'VEN', bolivia: 'BOL', paraguay: 'PRG', uruguay: 'URY', iran: 'PER', persia: 'PER',
+  brazil: 'POR', argentina: 'ARG', peru: 'ESP', chile: 'CHL', colombia: 'CLM', ecuador: 'CLM',
+  venezuela: 'VEN', bolivia: 'ESP', paraguay: 'PRG', uruguay: 'POR', iran: 'PER', persia: 'PER',
   afghanistan: 'AFG', thailand: 'SIA', cambodia: 'CAM', laos: 'LAO', vietnam: 'VIE',
   myanmar: 'BUR', burma: 'BUR', korea: 'KOR', 'south korea': 'KOR', 'north korea': 'KOR',
   ethiopia: 'ETH', morocco: 'MOR', nepal: 'NEP', bhutan: 'BHU', tunisia: 'OTT', libya: 'OTT',
@@ -705,9 +717,12 @@ function ownerTagForFeature(props) {
 function historicalOwnerOverride(baseTag, lon, lat, adminName, stateName) {
   const admin = normalizeName(adminName);
   const state = normalizeName(stateName);
-  if (admin === 'united states of america' && state === 'texas') return 'TEX';
-  if (admin === 'belgium') return 'BEL';
-  if (admin === 'greece') return 'GRE';
+  // 1820: Texas is Mexican (not yet the Republic of Texas).
+  if (admin === 'united states of america' && state === 'texas') return 'MEX';
+  // 1820: Belgium still in the United Netherlands (independent 1830).
+  if (admin === 'belgium') return 'NLD';
+  // 1820: Greece still Ottoman (independent 1832).
+  if (admin === 'greece') return 'OTT';
   if (admin === 'denmark') return 'DEN';
   if (admin === 'switzerland') return 'SWI';
   if (admin === 'norway') return 'SWE';
@@ -738,7 +753,12 @@ function historicalOwnerOverride(baseTag, lon, lat, adminName, stateName) {
   }
   if (admin === 'albania') return 'OTT';
   if (admin === 'romania' || admin === 'bulgaria' || admin === 'serbia') return 'OTT';
-  if (admin === 'algeria') return 'FRA';
+  // 1820: Algiers still an Ottoman regency (French conquest 1830).
+  if (admin === 'algeria') return 'OTT';
+  // 1820 Latin America: Brazil/Uruguay still Portuguese; Peru/Bolivia still Spanish.
+  if (admin === 'brazil' || admin === 'uruguay') return 'POR';
+  if (admin === 'peru' || admin === 'bolivia') return 'ESP';
+  if (admin === 'mexico') return 'MEX';
   return baseTag;
 }
 
@@ -858,17 +878,18 @@ function deterministicUnitSort(a, b) {
   );
 }
 
-function buildParentsFromGeojson(geojson, tolerance, keyPrefix = '', forceCountryName = false) {
+function buildParentsFromGeojson(geojson, _tolerance = 0, keyPrefix = '', forceCountryName = false) {
   const features = Array.isArray(geojson.features) ? geojson.features : [];
   const parents = [];
   for (let i = 0; i < features.length; i++) {
     const feature = features[i];
     const props = feature.properties || {};
-    const simplified = simplifyGeometry(feature.geometry, tolerance);
-    const bbox = geometryBounds(simplified);
+    // Keep RAW geometry here — topology-preserving simplify runs once after all splits.
+    const geometry = feature.geometry;
+    const bbox = geometryBounds(geometry);
     if (!bbox) continue;
-    const area = Math.max(1e-6, geometryArea(simplified));
-    const centroid = geometryCentroid(simplified);
+    const area = Math.max(1e-6, geometryArea(geometry));
+    const centroid = geometryCentroid(geometry);
     const adminName = loadAdminNameFromProps(props);
     const stateName = forceCountryName ? adminName : loadNameFromProps(props);
     const ownerTag = ownerTagForFeature(props);
@@ -892,7 +913,7 @@ function buildParentsFromGeojson(geojson, tolerance, keyPrefix = '', forceCountr
       bbox,
       area,
       centroid,
-      geometry: simplified,
+      geometry,
     });
   }
   return parents.sort(deterministicParentSort);
@@ -944,17 +965,40 @@ function clipRingByAxis(ring, axis, threshold, keepLower) {
 }
 
 function clipPolygonToBBox(polygon, bbox) {
-  let ring = ensureClosedRing(polygon[0] || []);
-  if (ring.length < 4) return null;
-  ring = clipRingByAxis(ring, 'x', bbox.maxLon, true);
-  if (!ring) return null;
-  ring = clipRingByAxis(ring, 'x', bbox.minLon, false);
-  if (!ring) return null;
-  ring = clipRingByAxis(ring, 'y', bbox.maxLat, true);
-  if (!ring) return null;
-  ring = clipRingByAxis(ring, 'y', bbox.minLat, false);
-  if (!ring) return null;
-  return [ring];
+  const clipped = [];
+  for (let r = 0; r < polygon.length; r++) {
+    let ring = ensureClosedRing(polygon[r] || []);
+    if (ring.length < 4) {
+      if (r === 0) return null;
+      continue;
+    }
+    ring = clipRingByAxis(ring, 'x', bbox.maxLon, true);
+    if (!ring) {
+      if (r === 0) return null;
+      continue;
+    }
+    ring = clipRingByAxis(ring, 'x', bbox.minLon, false);
+    if (!ring) {
+      if (r === 0) return null;
+      continue;
+    }
+    ring = clipRingByAxis(ring, 'y', bbox.maxLat, true);
+    if (!ring) {
+      if (r === 0) return null;
+      continue;
+    }
+    ring = clipRingByAxis(ring, 'y', bbox.minLat, false);
+    if (!ring) {
+      if (r === 0) return null;
+      continue;
+    }
+    if (Math.abs(polygonAreaRing(ring)) <= 1e-8) {
+      if (r === 0) return null;
+      continue;
+    }
+    clipped.push(ring);
+  }
+  return clipped.length > 0 ? clipped : null;
 }
 
 function clipGeometryToBBox(geometry, bbox) {
@@ -1042,6 +1086,573 @@ function densifyGeometry(geometry, maxEdge) {
   return geometryFromPolygons(polygons);
 }
 
+function cutEdgeKey(start, end) {
+  const ax = Math.round(start[0] * 1000);
+  const ay = Math.round(start[1] * 1000);
+  const bx = Math.round(end[0] * 1000);
+  const by = Math.round(end[1] * 1000);
+  if (ax < bx || (ax === bx && ay <= by)) return `${ax}:${ay}|${bx}:${by}`;
+  return `${bx}:${by}|${ax}:${ay}`;
+}
+
+/** True for ruler-straight partition chords after topology simplify. */
+function isArtificialCutEdge(start, end, pointCount = 2) {
+  const dx = Math.abs(end[0] - start[0]);
+  const dy = Math.abs(end[1] - start[1]);
+  const len = Math.hypot(dx, dy);
+  // Axis-aligned hist cuts (Germany / Italy boxes).
+  if (dx < 1e-4 || dy < 1e-4) return len >= 0.35 && len <= 12;
+  // Simplified Voronoi chords: few points, conspicuous medium-long length.
+  if (pointCount <= 3 && len >= 1.0 && len <= 9) return true;
+  return false;
+}
+
+function jitterPointOnCut(start, end, t, salt, amplitude) {
+  const dx = end[0] - start[0];
+  const dy = end[1] - start[1];
+  const len = Math.hypot(dx, dy) || 1;
+  const nx = -dy / len;
+  const ny = dx / len;
+  const taper = Math.sin(Math.PI * t);
+  const noise = ((hashString(`${salt}:${Math.round(t * 1000)}`) % 10000) / 10000 - 0.5) * 2;
+  const mag = amplitude * taper * noise;
+  return [
+    roundCoord(start[0] + dx * t + nx * mag),
+    roundCoord(start[1] + dy * t + ny * mag),
+  ];
+}
+
+/**
+ * Debox artificial cuts by rewriting shared edges in both neighbor polygons
+ * with the same deterministic jittered polyline (edge-key salted).
+ */
+function deboxArtificialCutsInProvinces(provinceRecords) {
+  const byId = new Map(provinceRecords.map((p) => [p.id, p]));
+  const artificial = provinceRecords.filter((p) => p.artificialCuts);
+  let deboxed = 0;
+
+  const replaceEdgeInRing = (ring, start, end, replacement) => {
+    const out = [];
+    let changed = false;
+    for (let i = 0; i < ring.length - 1; i++) {
+      const a = ring[i];
+      const b = ring[i + 1];
+      const forward = Math.hypot(a[0] - start[0], a[1] - start[1]) < 1e-8
+        && Math.hypot(b[0] - end[0], b[1] - end[1]) < 1e-8;
+      const backward = Math.hypot(a[0] - end[0], a[1] - end[1]) < 1e-8
+        && Math.hypot(b[0] - start[0], b[1] - start[1]) < 1e-8;
+      if (forward) {
+        out.push(...replacement.slice(0, -1));
+        changed = true;
+      } else if (backward) {
+        out.push(...replacement.slice().reverse().slice(0, -1));
+        changed = true;
+      } else {
+        out.push(a);
+      }
+    }
+    if (!changed) return null;
+    out.push(out[0][0] === ring[ring.length - 1][0] && out[0][1] === ring[ring.length - 1][1]
+      ? out[0]
+      : ring[ring.length - 1]);
+    // Ensure closed
+    if (out.length && (out[0][0] !== out[out.length - 1][0] || out[0][1] !== out[out.length - 1][1])) {
+      out.push(out[0]);
+    }
+    return out;
+  };
+
+  const applyReplacement = (province, start, end, replacement) => {
+    const polys = toPolygons(province.geometry);
+    let any = false;
+    const next = polys.map((poly) => poly.map((ring) => {
+      const replaced = replaceEdgeInRing(ring, start, end, replacement);
+      if (replaced) {
+        any = true;
+        return replaced;
+      }
+      return ring;
+    }));
+    if (!any) return false;
+    province.geometry = geometryFromPolygons(next);
+    province.bbox = geometryBounds(province.geometry);
+    return true;
+  };
+
+  const seen = new Set();
+  for (const province of artificial) {
+    for (const neighborId of province.neighbors) {
+      const other = byId.get(neighborId);
+      if (!other?.artificialCuts || neighborId < province.id) continue;
+      const key = `${province.id}|${neighborId}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      // Collect matching exact edges
+      const edgesA = [];
+      for (const poly of toPolygons(province.geometry)) {
+        for (const ring of poly) {
+          for (let i = 0; i < ring.length - 1; i++) {
+            edgesA.push([ring[i], ring[i + 1]]);
+          }
+        }
+      }
+      for (const [a, b] of edgesA) {
+        const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+        if (!isArtificialCutEdge(a, b, 2)) continue;
+        // Confirm other has this edge
+        let matched = false;
+        for (const poly of toPolygons(other.geometry)) {
+          for (const ring of poly) {
+            for (let i = 0; i < ring.length - 1; i++) {
+              const c = ring[i];
+              const d = ring[i + 1];
+              const same = (Math.hypot(c[0] - a[0], c[1] - a[1]) < 1e-8 && Math.hypot(d[0] - b[0], d[1] - b[1]) < 1e-8)
+                || (Math.hypot(c[0] - b[0], c[1] - b[1]) < 1e-8 && Math.hypot(d[0] - a[0], d[1] - a[1]) < 1e-8);
+              if (same) matched = true;
+            }
+          }
+        }
+        if (!matched) continue;
+
+        const steps = Math.min(40, Math.max(5, Math.ceil(len / CUT_DENSE_EDGE)));
+        const salt = `cut:${cutEdgeKey(a, b)}`;
+        const jittered = [a];
+        for (let s = 1; s < steps; s++) {
+          jittered.push(jitterPointOnCut(a, b, s / steps, salt, CUT_JITTER_AMPLITUDE));
+        }
+        jittered.push(b);
+        const okA = applyReplacement(province, a, b, jittered);
+        const okB = applyReplacement(other, a, b, jittered);
+        if (okA && okB) deboxed += 1;
+      }
+    }
+  }
+  console.log(`[build-map] Deboxed shared partition edges: ${deboxed}`);
+}
+
+function roundGeometryCoords(geometry) {
+  if (!geometry) return geometry;
+  if (geometry.type === 'Polygon') {
+    return {
+      type: 'Polygon',
+      coordinates: geometry.coordinates.map((ring) => ring.map((pt) => [roundCoord(pt[0]), roundCoord(pt[1])])),
+    };
+  }
+  if (geometry.type === 'MultiPolygon') {
+    return {
+      type: 'MultiPolygon',
+      coordinates: geometry.coordinates.map((poly) => (
+        poly.map((ring) => ring.map((pt) => [roundCoord(pt[0]), roundCoord(pt[1])]))
+      )),
+    };
+  }
+  if (geometry.type === 'LineString') {
+    return {
+      type: 'LineString',
+      coordinates: geometry.coordinates.map((pt) => [roundCoord(pt[0]), roundCoord(pt[1])]),
+    };
+  }
+  if (geometry.type === 'MultiLineString') {
+    return {
+      type: 'MultiLineString',
+      coordinates: geometry.coordinates.map((line) => line.map((pt) => [roundCoord(pt[0]), roundCoord(pt[1])])),
+    };
+  }
+  return geometry;
+}
+
+function segmentIntersectionPoint(a, b, c, d) {
+  const denom = (b[0] - a[0]) * (d[1] - c[1]) - (b[1] - a[1]) * (d[0] - c[0]);
+  if (Math.abs(denom) < 1e-15) return null;
+  const t = ((c[0] - a[0]) * (d[1] - c[1]) - (c[1] - a[1]) * (d[0] - c[0])) / denom;
+  const u = ((c[0] - a[0]) * (b[1] - a[1]) - (c[1] - a[1]) * (b[0] - a[0])) / denom;
+  if (t < 1e-9 || t > 1 - 1e-9 || u < 1e-9 || u > 1 - 1e-9) return null;
+  return [roundCoord(a[0] + t * (b[0] - a[0])), roundCoord(a[1] + t * (b[1] - a[1]))];
+}
+
+function segmentsProperlyIntersectOrTouch(a, b, c, d) {
+  const o1 = orientation(a, b, c);
+  const o2 = orientation(a, b, d);
+  const o3 = orientation(c, d, a);
+  const o4 = orientation(c, d, b);
+  const eps = 1e-12;
+  if ((o1 > eps && o2 < -eps || o1 < -eps && o2 > eps)
+    && (o3 > eps && o4 < -eps || o3 < -eps && o4 > eps)) {
+    return true;
+  }
+  if (Math.abs(o1) <= eps && onSegment(a, c, b, eps)) return true;
+  if (Math.abs(o2) <= eps && onSegment(a, d, b, eps)) return true;
+  if (Math.abs(o3) <= eps && onSegment(c, a, d, eps)) return true;
+  if (Math.abs(o4) <= eps && onSegment(c, b, d, eps)) return true;
+  return false;
+}
+
+function ringHasSelfIntersection(ring) {
+  const closed = ensureClosedRing(ring).slice(0, -1);
+  if (closed.length < 4) return false;
+  for (let i = 0; i < closed.length; i++) {
+    const a = closed[i];
+    const b = closed[(i + 1) % closed.length];
+    for (let j = i + 1; j < closed.length; j++) {
+      if (Math.abs(i - j) <= 1) continue;
+      if (i === 0 && j === closed.length - 1) continue;
+      const c = closed[j];
+      const d = closed[(j + 1) % closed.length];
+      if (segmentsProperlyIntersectOrTouch(a, b, c, d)) return true;
+    }
+  }
+  return false;
+}
+
+/** Keep the largest simple loop when a ring bowties (Voronoi/clip artifact). */
+function repairSelfIntersectingRing(ring, depth = 0) {
+  const closed = ensureClosedRing(ring);
+  if (depth > 12 || closed.length < 4 || !ringHasSelfIntersection(closed)) {
+    return closed.length >= 4 ? closed : null;
+  }
+  const body = closed.slice(0, -1);
+  for (let i = 0; i < body.length; i++) {
+    const a = body[i];
+    const b = body[(i + 1) % body.length];
+    for (let j = i + 1; j < body.length; j++) {
+      if (Math.abs(i - j) <= 1) continue;
+      if (i === 0 && j === body.length - 1) continue;
+      const c = body[j];
+      const d = body[(j + 1) % body.length];
+      if (!segmentsProperlyIntersectOrTouch(a, b, c, d)) continue;
+      const hit = segmentIntersectionPoint(a, b, c, d);
+      if (hit) {
+        const loopA = [hit, ...body.slice(i + 1, j + 1), hit];
+        const loopB = [hit, ...body.slice(j + 1), ...body.slice(0, i + 1), hit];
+        const areaA = Math.abs(polygonAreaRing(ensureClosedRing(loopA)));
+        const areaB = Math.abs(polygonAreaRing(ensureClosedRing(loopB)));
+        const prefer = areaA >= areaB ? loopA : loopB;
+        return repairSelfIntersectingRing(prefer, depth + 1);
+      }
+      // Collinear / endpoint-touching spike: drop the offending vertex and retry.
+      const stripped = body.filter((_, index) => index !== ((i + 1) % body.length));
+      if (stripped.length >= 3) {
+        return repairSelfIntersectingRing(ensureClosedRing(stripped), depth + 1);
+      }
+    }
+  }
+  return closed;
+}
+
+function repairGeometrySelfIntersections(geometry) {
+  if (!geometry) return geometry;
+  if (geometry.type === 'Polygon') {
+    const rings = geometry.coordinates
+      .map((ring, index) => {
+        const repaired = repairSelfIntersectingRing(ring);
+        return repaired;
+      })
+      .filter((ring, index) => ring && (index === 0 || Math.abs(polygonAreaRing(ring)) > 1e-8));
+    if (!rings.length || !rings[0]) return null;
+    return { type: 'Polygon', coordinates: rings };
+  }
+  if (geometry.type === 'MultiPolygon') {
+    const polygons = geometry.coordinates
+      .map((poly) => {
+        const rings = poly
+          .map((ring, index) => repairSelfIntersectingRing(ring))
+          .filter((ring, index) => ring && (index === 0 || Math.abs(polygonAreaRing(ring)) > 1e-8));
+        return rings.length && rings[0] ? rings : null;
+      })
+      .filter(Boolean);
+    if (polygons.length === 0) return null;
+    if (polygons.length === 1) return { type: 'Polygon', coordinates: polygons[0] };
+    return { type: 'MultiPolygon', coordinates: polygons };
+  }
+  return geometry;
+}
+
+/** Snap coordinates so near-coincident partition cuts weld into shared arcs. */
+function snapGeometry(geometry, grid = 5000) {
+  const snap = (pt) => [
+    Math.round(pt[0] * grid) / grid,
+    Math.round(pt[1] * grid) / grid,
+  ];
+  if (!geometry) return geometry;
+  if (geometry.type === 'Polygon') {
+    return {
+      type: 'Polygon',
+      coordinates: geometry.coordinates.map((ring) => ensureClosedRing(ring.map(snap))),
+    };
+  }
+  if (geometry.type === 'MultiPolygon') {
+    return {
+      type: 'MultiPolygon',
+      coordinates: geometry.coordinates.map((poly) => poly.map((ring) => ensureClosedRing(ring.map(snap)))),
+    };
+  }
+  return geometry;
+}
+
+function absArcIndex(arcIdx) {
+  return arcIdx < 0 ? ~arcIdx : arcIdx;
+}
+
+function iterExteriorArcs(geom, visit) {
+  if (!geom || !geom.arcs) return;
+  if (geom.type === 'Polygon') {
+    for (const arcIdx of geom.arcs[0] || []) visit(absArcIndex(arcIdx));
+    return;
+  }
+  if (geom.type === 'MultiPolygon') {
+    for (const polygon of geom.arcs) {
+      for (const arcIdx of polygon[0] || []) visit(absArcIndex(arcIdx));
+    }
+  }
+}
+
+function decodeTopoArc(topo, arcIndex) {
+  const transform = topo.transform;
+  const arc = topo.arcs[arcIndex];
+  const points = [];
+  let x = 0;
+  let y = 0;
+  for (const point of arc) {
+    x += point[0];
+    y += point[1];
+    if (transform) {
+      points.push([
+        x * transform.scale[0] + transform.translate[0],
+        y * transform.scale[1] + transform.translate[1],
+      ]);
+    } else {
+      points.push([x, y]);
+    }
+  }
+  return points;
+}
+
+/**
+ * Raster land-mask coastal detection: flood-fill ocean from the map frame, then
+ * mark provinces that touch an ocean cell. Ignores interior coverage gaps.
+ */
+function computeCoastalFromLandMask(geometries) {
+  const CELL = 0.5;
+  const lon0 = -180;
+  const lat0 = -90;
+  const cols = Math.ceil(360 / CELL);
+  const rows = Math.ceil(180 / CELL);
+  const land = new Uint8Array(cols * rows);
+  const owner = new Int32Array(cols * rows);
+  owner.fill(-1);
+
+  const toCell = (lon, lat) => {
+    const c = clamp(Math.floor((lon - lon0) / CELL), 0, cols - 1);
+    const r = clamp(Math.floor((lat - lat0) / CELL), 0, rows - 1);
+    return r * cols + c;
+  };
+
+  for (let i = 0; i < geometries.length; i++) {
+    const bbox = geometryBounds(geometries[i]);
+    if (!bbox) continue;
+    const c0 = clamp(Math.floor((bbox.minLon - lon0) / CELL), 0, cols - 1);
+    const c1 = clamp(Math.floor((bbox.maxLon - lon0) / CELL), 0, cols - 1);
+    const r0 = clamp(Math.floor((bbox.minLat - lat0) / CELL), 0, rows - 1);
+    const r1 = clamp(Math.floor((bbox.maxLat - lat0) / CELL), 0, rows - 1);
+    for (let r = r0; r <= r1; r++) {
+      for (let c = c0; c <= c1; c++) {
+        const lon = lon0 + (c + 0.5) * CELL;
+        const lat = lat0 + (r + 0.5) * CELL;
+        if (pointInGeometry([lon, lat], geometries[i])) {
+          const idx = r * cols + c;
+          land[idx] = 1;
+          owner[idx] = i;
+        }
+      }
+    }
+  }
+
+  // Flood-fill ocean from the frame (and any edge water).
+  const ocean = new Uint8Array(cols * rows);
+  const stack = [];
+  const push = (idx) => {
+    if (idx < 0 || idx >= ocean.length || ocean[idx] || land[idx]) return;
+    ocean[idx] = 1;
+    stack.push(idx);
+  };
+  for (let c = 0; c < cols; c++) {
+    push(c);
+    push((rows - 1) * cols + c);
+  }
+  for (let r = 0; r < rows; r++) {
+    push(r * cols);
+    push(r * cols + cols - 1);
+  }
+  while (stack.length) {
+    const idx = stack.pop();
+    const r = Math.floor(idx / cols);
+    const c = idx - r * cols;
+    if (c > 0) push(idx - 1);
+    if (c + 1 < cols) push(idx + 1);
+    if (r > 0) push(idx - cols);
+    if (r + 1 < rows) push(idx + cols);
+  }
+
+  const coastal = new Array(geometries.length).fill(false);
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const idx = r * cols + c;
+      if (!land[idx]) continue;
+      const id = owner[idx];
+      if (id < 0 || coastal[id]) continue;
+      const neighbors = [];
+      if (c > 0) neighbors.push(idx - 1);
+      if (c + 1 < cols) neighbors.push(idx + 1);
+      if (r > 0) neighbors.push(idx - cols);
+      if (r + 1 < rows) neighbors.push(idx + cols);
+      if (neighbors.some((n) => ocean[n])) coastal[id] = true;
+    }
+  }
+  return coastal;
+}
+
+/**
+ * Weld shared borders via TopoJSON, simplify each arc once, then derive
+ * coastal flags, adjacency, and continuous national-border polylines.
+ */
+function applySharedTopology(provinceRecords) {
+  const collection = {
+    type: 'FeatureCollection',
+    features: provinceRecords.map((province) => ({
+      type: 'Feature',
+      id: province.id,
+      properties: {
+        id: province.id,
+        ownerTag: province.ownerTag,
+        n: province.name,
+        artificialCuts: Boolean(province.artificialCuts),
+      },
+      geometry: snapGeometry(province.geometry, 4000),
+    })),
+  };
+
+  let topo = buildTopology({ provinces: collection }, TOPO_QUANTIZE);
+  topo = presimplify(topo);
+  const minWeight = quantile(topo, TOPO_SIMPLIFY_QUANTILE);
+  topo = simplify(topo, minWeight);
+
+  const simplified = feature(topo, topo.objects.provinces);
+  // Topology geometry order matches the input FeatureCollection order (province id == index).
+  const features = simplified.features;
+  const neighborLists = topoNeighbors(topo.objects.provinces.geometries);
+
+  if (features.length !== provinceRecords.length) {
+    throw new Error(
+      `Topology feature count ${features.length} != province count ${provinceRecords.length}`,
+    );
+  }
+
+  const geoForMask = features.map((feat) => {
+    const rounded = roundGeometryCoords(feat.geometry);
+    return repairGeometrySelfIntersections(rounded) || rounded;
+  });
+  const coastalFlags = computeCoastalFromLandMask(geoForMask);
+
+  for (let i = 0; i < provinceRecords.length; i++) {
+    const geometry = geoForMask[i];
+    provinceRecords[i].geometry = geometry;
+    provinceRecords[i].bbox = geometryBounds(geometry);
+    provinceRecords[i].coastal = Boolean(coastalFlags[i]);
+    provinceRecords[i].neighbors = (neighborLists[i] || []).slice().sort((a, b) => a - b);
+    provinceRecords[i].segments = [];
+  }
+
+  const bridgedIslands = linkIsolatedProvinces(provinceRecords);
+  deboxArtificialCutsInProvinces(provinceRecords);
+  for (const province of provinceRecords) {
+    const repaired = repairGeometrySelfIntersections(province.geometry);
+    if (repaired) {
+      province.geometry = repaired;
+      province.bbox = geometryBounds(repaired);
+    }
+  }
+  const nationalBorders = buildNationalBordersFromProvinces(provinceRecords);
+
+  return { nationalBorders, bridgedIslands };
+}
+
+function buildNationalBordersFromProvinces(provinces) {
+  const edgeMap = new Map();
+  for (const province of provinces) {
+    for (const poly of toPolygons(province.geometry)) {
+      for (const ring of poly) {
+        for (let i = 0; i < ring.length - 1; i++) {
+          const start = [roundCoord(ring[i][0]), roundCoord(ring[i][1])];
+          const end = [roundCoord(ring[i + 1][0]), roundCoord(ring[i + 1][1])];
+          if (start[0] === end[0] && start[1] === end[1]) continue;
+          const key = cutEdgeKey(start, end);
+          let entry = edgeMap.get(key);
+          if (!entry) {
+            entry = { start, end, owners: new Set() };
+            edgeMap.set(key, entry);
+          }
+          entry.owners.add(province.ownerTag);
+        }
+      }
+    }
+  }
+  const coordinates = [];
+  for (const edge of edgeMap.values()) {
+    if (edge.owners.size < 2) continue;
+    coordinates.push([edge.start, edge.end]);
+  }
+  const used = new Set();
+  const polylines = [];
+  const endpointIndex = new Map();
+  const ptKey = (p) => `${p[0]},${p[1]}`;
+  coordinates.forEach((seg, index) => {
+    const a = ptKey(seg[0]);
+    const b = ptKey(seg[1]);
+    if (!endpointIndex.has(a)) endpointIndex.set(a, []);
+    if (!endpointIndex.has(b)) endpointIndex.set(b, []);
+    endpointIndex.get(a).push(index);
+    endpointIndex.get(b).push(index);
+  });
+  const otherEnd = (seg, pt) => (ptKey(seg[0]) === ptKey(pt) ? seg[1] : seg[0]);
+  for (let i = 0; i < coordinates.length; i++) {
+    if (used.has(i)) continue;
+    used.add(i);
+    let line = [coordinates[i][0], coordinates[i][1]];
+    let extended = true;
+    while (extended) {
+      extended = false;
+      for (const end of [0, 1]) {
+        const tip = end === 0 ? line[0] : line[line.length - 1];
+        const candidates = endpointIndex.get(ptKey(tip)) || [];
+        for (const idx of candidates) {
+          if (used.has(idx)) continue;
+          const seg = coordinates[idx];
+          if (ptKey(seg[0]) !== ptKey(tip) && ptKey(seg[1]) !== ptKey(tip)) continue;
+          used.add(idx);
+          const nxt = otherEnd(seg, tip);
+          if (end === 0) line = [nxt, ...line];
+          else line.push(nxt);
+          extended = true;
+          break;
+        }
+      }
+    }
+    if (line.length >= 2) polylines.push(line);
+  }
+  polylines.sort((a, b) => a[0][0] - b[0][0] || a[0][1] - b[0][1] || a.length - b.length);
+  return {
+    type: 'FeatureCollection',
+    features: polylines.length > 0
+      ? [{
+        type: 'Feature',
+        properties: { id: 0 },
+        geometry: { type: 'MultiLineString', coordinates: polylines },
+      }]
+      : [],
+  };
+}
+
 /** Keep the side of the perpendicular bisector closer to siteA than siteB (true Voronoi half-plane). */
 function clipRingByHalfPlane(ring, siteA, siteB) {
   const closed = ensureClosedRing(ring);
@@ -1087,6 +1698,7 @@ function clipRingByHalfPlane(ring, siteA, siteB) {
     if (!prev || prev[0] !== point[0] || prev[1] !== point[1]) deduped.push(point);
   }
   if (deduped.length < 3) return null;
+  // Leave bisector chords straight here — post-simplify shared-arc debox jitters them once.
   const closedOut = ensureClosedRing(deduped);
   if (closedOut.length < 4) return null;
   if (Math.abs(polygonAreaRing(closedOut)) < 1e-8) return null;
@@ -1317,6 +1929,7 @@ function organicSplitUnit(unit) {
     );
     if (!piece || piece.area < 1e-6) continue;
     piece.lockedOwner = Boolean(unit.lockedOwner);
+    piece.artificialCuts = true;
     units.push(piece);
   }
 
@@ -1387,6 +2000,7 @@ function unitFromGeometry(base, geometry, stateName, ownerTag, partitionKey) {
     centroid,
     bbox,
     lockedOwner: Boolean(ownerTag),
+    artificialCuts: Boolean(base.artificialCuts) || String(partitionKey).startsWith('hist-') || String(partitionKey).startsWith('organic-'),
   };
 }
 
@@ -1455,6 +2069,7 @@ function parentsToUnits(parents) {
       centroid: parent.centroid,
       bbox: parent.bbox,
       lockedOwner: false,
+      artificialCuts: false,
     });
   }
   return units.sort(deterministicUnitSort);
@@ -1504,6 +2119,7 @@ function mergeTinySlivers(units) {
     best.area += unit.area;
     best.centroid = weightedCentroid(best.polygons);
     best.bbox = geometryBounds(geometryFromPolygons(best.polygons));
+    best.artificialCuts = Boolean(best.artificialCuts) || Boolean(unit.artificialCuts);
     mergedCount += 1;
   }
 
@@ -1583,6 +2199,7 @@ function makeProvinceGeometryRecord(unit, id) {
     segments: buildSegmentsFromGeometry(geometry),
     countryKey: unit.countryKey,
     parentKey: unit.parentKey,
+    artificialCuts: Boolean(unit.artificialCuts),
   };
 }
 
@@ -1780,8 +2397,7 @@ function buildProvinceRecords(units) {
     provinceRecords.push(province);
   }
 
-  const { bridgedIslands } = buildAdjacency(provinceRecords);
-  computeCoastalFlags(provinceRecords);
+  const { nationalBorders, bridgedIslands } = applySharedTopology(provinceRecords);
   for (const state of stateRecords) {
     const ownerCounts = new Map();
     for (const provinceId of state.provinceIds) {
@@ -1794,7 +2410,7 @@ function buildProvinceRecords(units) {
     if (bestOwner) state.ownerTag = bestOwner;
   }
 
-  return { provinceRecords, stateRecords, bridgedIslands };
+  return { provinceRecords, stateRecords, bridgedIslands, nationalBorders };
 }
 
 function buildNations(provinces, states) {
@@ -1910,13 +2526,13 @@ async function loadAdmin0Geojson() {
 async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   const loaded = await loadSourceGeojson();
-  let parents = buildParentsFromGeojson(loaded.json, SOURCE_TOLERANCE);
+  let parents = buildParentsFromGeojson(loaded.json, 0);
 
   const countriesCovered = new Set(parents.map((parent) => normalizeName(parent.adminName)));
   const admin0 = await loadAdmin0Geojson();
   let admin0Appended = 0;
   if (admin0?.json) {
-    const admin0Parents = buildParentsFromGeojson(admin0.json, ADMIN0_TOLERANCE, 'ADM0-', true)
+    const admin0Parents = buildParentsFromGeojson(admin0.json, 0, 'ADM0-', true)
       .filter((parent) => !countriesCovered.has(normalizeName(parent.adminName)));
     admin0Appended = admin0Parents.length;
     parents = [...parents, ...admin0Parents].sort(deterministicParentSort);
@@ -1933,7 +2549,7 @@ async function main() {
   const organicResult = splitOversizedCountryUnits(baseUnits);
   const sliverResult = mergeTinySlivers(organicResult.units);
   assignUniqueRealNames(sliverResult.units);
-  const { provinceRecords, stateRecords, bridgedIslands } = buildProvinceRecords(sliverResult.units);
+  const { provinceRecords, stateRecords, bridgedIslands, nationalBorders } = buildProvinceRecords(sliverResult.units);
 
   if (provinceRecords.length < MIN_PROVINCES || provinceRecords.length > MAX_PROVINCES) {
     throw new Error(
@@ -1944,12 +2560,12 @@ async function main() {
   const nations = buildNations(provinceRecords, stateRecords);
   const formables = buildFormables(stateRecords);
   const geojson = compactGeojson(provinceRecords);
-  const nationalBorders = compactNationalBorders(provinceRecords);
-  const nationalBorderSegments = nationalBorders.features[0]?.geometry?.coordinates?.length ?? 0;
+  const nationalBorderParts = nationalBorders.features[0]?.geometry?.coordinates?.length ?? 0;
+  const coastalCount = provinceRecords.filter((province) => province.coastal).length;
 
   const worldSeed = {
     source: loaded.source,
-    generatedAt: '1836-01-01T00:00:00.000Z',
+    generatedAt: '1820-01-01T00:00:00.000Z',
     provinceCount: provinceRecords.length,
     provinces: provinceRecords.map((province) => ({
       id: province.id,
@@ -1998,10 +2614,11 @@ async function main() {
   console.log(`[build-map] Slivers merged: ${sliverResult.mergedCount}`);
   console.log(`[build-map] Island nearest-neighbor bridges: ${bridgedIslands}`);
   console.log(`[build-map] Provinces generated: ${provinceRecords.length}`);
+  console.log(`[build-map] Coastal provinces: ${coastalCount}`);
   console.log(`[build-map] China provinces: ${chinaCount} (QNG owned: ${qngCount})`);
   console.log(`[build-map] Sample real names: ${sampleNames.join(', ') || '(none)'}`);
   console.log(`[build-map] Numbered names remaining: ${numbered.length}`);
-  console.log(`[build-map] National border segments: ${nationalBorderSegments}`);
+  console.log(`[build-map] National border polylines: ${nationalBorderParts}`);
   console.log(`[build-map] provinces.geo.json gzip bytes: ${geoGzipBytes}`);
 }
 

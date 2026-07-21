@@ -719,7 +719,7 @@ export const EVENT_DEFS: EventDef[] = [
     id: 'border_incident',
     title: 'Border Incident',
     description: 'Shots exchanged along a disputed frontier. Newspapers demand satisfaction.',
-    trigger: { isCivilized: true, yearAtLeast: 1836 },
+    trigger: { isCivilized: true, yearAtLeast: 1820 },
     mtthMonths: 90,
     once: false,
     cooldownMonths: 60,

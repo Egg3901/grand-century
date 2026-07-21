@@ -30,7 +30,7 @@ import { startColonization } from './war';
 const STAGGER_BUCKETS = 6;
 const TREASURY_MIN = -25_000;
 const TREASURY_MAX = 5_000_000;
-const EPOCH_YEAR = 1836;
+const EPOCH_YEAR = 1820;
 const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 function monthIndexFromDay(day: number): number {

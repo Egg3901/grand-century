@@ -30,7 +30,7 @@ test('boot, play one year, open panels, declare war', async ({ page }) => {
     const text = await page.getByTestId('hud-date').textContent();
     const year = Number(text?.split('-')[0] ?? 0);
     return year;
-  }, { timeout: 20_000 }).toBeGreaterThanOrEqual(1837);
+  }, { timeout: 20_000 }).toBeGreaterThanOrEqual(1821);
 
   const panelIds = [
     'budget',
