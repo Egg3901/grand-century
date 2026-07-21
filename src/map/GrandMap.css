@@ -130,63 +130,139 @@
   font-variant: normal;
 }
 
-.grand-map__counter {
-  border: 1px solid rgba(67, 49, 35, 0.55);
-  border-radius: 999px;
-  background: rgba(245, 233, 206, 0.95);
-  color: #2f1f14;
-  font-size: 0.66rem;
-  font-weight: 700;
-  line-height: 1;
-  padding: 0.18rem 0.33rem;
-  min-width: 1.6rem;
-  min-height: 1.6rem;
+/* 0.5.2 heraldic unit counters — engraved shield (army) / naval cartouche
+   (fleet) with a strength ribbon. Static DOM, compositor-only hover. */
+.grand-map__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 2px 6px;
+  border: none;
+  background: transparent;
   cursor: pointer;
-  box-shadow: 0 1px 5px rgba(22, 13, 8, 0.28);
   touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+.grand-map__unit-body {
+  display: block;
+  line-height: 0;
+  filter: drop-shadow(0 1.5px 1.5px rgba(24, 14, 7, 0.42));
+  transition: transform 130ms ease, filter 130ms ease;
+}
+
+.grand-map__unit.is-army .grand-map__unit-body svg {
+  width: 25px;
+  height: auto;
+}
+
+.grand-map__unit.is-fleet .grand-map__unit-body svg {
+  width: 29px;
+  height: auto;
+}
+
+.grand-map__unit:hover .grand-map__unit-body {
+  transform: translateY(-1px);
+}
+
+.grand-map__unit.is-selected .grand-map__unit-body {
+  filter:
+    drop-shadow(0 0 3.5px rgba(207, 158, 66, 0.95))
+    drop-shadow(0 1.5px 1.5px rgba(24, 14, 7, 0.42));
+}
+
+.grand-map__unit-ribbon {
   font-family: var(--gc-font-display);
+  font-size: 0.58rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 4px 1px;
+  border-radius: 2px;
+  border: 1px solid rgba(58, 42, 28, 0.5);
+  background: rgba(246, 236, 212, 0.94);
+  color: #2f1f14;
+  box-shadow: 0 1px 2px rgba(24, 14, 7, 0.32);
 }
 
-.grand-map__counter.is-friendly {
-  background: rgba(199, 223, 205, 0.95);
+/* The player's units fly a wax-red ribbon; foreign units keep parchment. */
+.grand-map__unit.is-friendly .grand-map__unit-ribbon {
+  background: linear-gradient(180deg, var(--gc-wax-highlight), var(--gc-wax));
+  border-color: var(--gc-accent-deep);
+  color: #f8efe2;
 }
 
-.grand-map__counter.is-hostile {
-  background: rgba(221, 196, 181, 0.95);
+.grand-map__unit.is-hostile[data-low] .grand-map__unit-ribbon {
+  color: var(--gc-danger);
 }
 
-.grand-map__counter.is-selected {
+/* Zoom-aware: shrink tokens and drop ribbons at world zoom. */
+.grand-map[data-zoom-band='far'] .grand-map__unit-ribbon {
+  display: none;
+}
+
+.grand-map[data-zoom-band='far'] .grand-map__unit.is-army .grand-map__unit-body svg {
+  width: 20px;
+}
+
+.grand-map[data-zoom-band='far'] .grand-map__unit.is-fleet .grand-map__unit-body svg {
+  width: 23px;
+}
+
+/* Wax-seal event badges: battle / siege / blockade / rebellion. */
+.grand-map__seal {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(31, 20, 13, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #f6ecd4;
+  font-size: 12px;
+  line-height: 1;
+  background: radial-gradient(circle at 34% 30%, var(--seal-hi) 0%, var(--seal-base) 55%, var(--seal-deep) 100%);
   box-shadow:
-    0 0 0 2px rgba(28, 19, 12, 0.48),
-    0 1px 5px rgba(22, 13, 8, 0.28);
+    0 1px 3px rgba(24, 14, 7, 0.45),
+    inset 0 1px 1px rgba(255, 236, 200, 0.35),
+    inset 0 -1.5px 2px rgba(20, 10, 5, 0.4);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.grand-map__counter.is-army {
-  min-width: 2.55rem;
+.grand-map__seal.is-battle {
+  --seal-hi: #b0523e;
+  --seal-base: #8b3a2e;
+  --seal-deep: #5c211a;
 }
 
-.grand-map__counter.is-fleet {
-  min-width: 2.55rem;
+.grand-map__seal.is-siege {
+  --seal-hi: #b9863b;
+  --seal-base: #96682a;
+  --seal-deep: #63451c;
 }
 
-.grand-map__counter.is-battle {
-  background: rgba(239, 208, 184, 0.98);
+.grand-map__seal.is-blockade {
+  --seal-hi: #5f7d96;
+  --seal-base: #47637a;
+  --seal-deep: #2e4356;
 }
 
-.grand-map__counter.is-blockade {
-  background: rgba(192, 213, 228, 0.98);
+.grand-map__seal.is-rebel {
+  --seal-hi: #4f423a;
+  --seal-base: #352a23;
+  --seal-deep: #1c1410;
 }
 
-.grand-map__counter.is-siege {
-  background: rgba(236, 219, 176, 0.98);
-}
-
-.grand-map__counter.is-rebel {
-  background: rgba(114, 75, 70, 0.95);
-  color: #f6ece1;
+.grand-map__seal-glyph {
+  font-family: var(--gc-font-body);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
 }
 
 .grand-map__arrow {
@@ -205,11 +281,26 @@
     bottom: calc(env(safe-area-inset-bottom) + 5.9rem);
   }
 
-  .grand-map__counter {
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0.2rem 0.44rem;
-    font-size: 0.75rem;
+  .grand-map__unit {
+    padding: 4px 10px;
+  }
+
+  .grand-map__unit.is-army .grand-map__unit-body svg {
+    width: 32px;
+  }
+
+  .grand-map__unit.is-fleet .grand-map__unit-body svg {
+    width: 36px;
+  }
+
+  .grand-map__unit-ribbon {
+    font-size: 0.68rem;
+  }
+
+  .grand-map__seal {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
   }
 
   .grand-map__arrow {
