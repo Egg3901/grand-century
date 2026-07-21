@@ -14,6 +14,7 @@ import type {
 
 export type MapMode =
   | 'political'
+  | 'terrain'
   | 'population'
   | 'economy'
   | 'military'

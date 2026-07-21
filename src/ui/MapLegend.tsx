@@ -1,4 +1,14 @@
+import { WORLD_SEED } from '../data/generated';
+import { TERRAIN_BIOME_COLORS, TERRAIN_LEGEND_ORDER } from '../map/mapDecor';
 import { useStore } from '../store';
+
+/** Biome swatches limited to terrains that actually exist in this world. */
+const TERRAIN_SWATCHES: Array<{ label: string; color: string }> = (() => {
+  const present = new Set<string>(WORLD_SEED.provinces.map((province) => province.terrain));
+  return TERRAIN_LEGEND_ORDER
+    .filter((entry) => present.has(entry.key))
+    .map((entry) => ({ label: entry.label, color: TERRAIN_BIOME_COLORS[entry.key] ?? '#b7a486' }));
+})();
 
 const DIPLO_COLORS = {
   self: '#6f879f',
@@ -56,7 +66,9 @@ export function MapLegend() {
 
   const mapModeTitle = mapMode.replaceAll('_', ' ');
 
-  const swatches = mapMode === 'diplomatic'
+  const swatches = mapMode === 'terrain'
+    ? TERRAIN_SWATCHES
+    : mapMode === 'diplomatic'
     ? [
       { label: 'Self', color: DIPLO_COLORS.self },
       { label: 'Ally', color: DIPLO_COLORS.ally },

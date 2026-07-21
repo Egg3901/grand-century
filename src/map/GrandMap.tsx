@@ -15,16 +15,19 @@ import {
   OCEAN_LABELS,
   PROVINCE_BORDER_INK,
   SEA_BASE,
+  TERRAIN_BIOME_COLORS,
   TERRAIN_TINTS,
   TERRAIN_TINT_STRENGTH,
   WATERLINE_INK,
   createFoliageTile,
   createGraticule,
   createHachureTile,
+  createReliefTile,
   createSeaEngravingTile,
   createStippleTile,
   mixHex,
 } from './mapDecor';
+import { createSealElement, createUnitCounterElement, type SealKind } from './mapCounters';
 
 type MapLibreMap = import('maplibre-gl').Map;
 type MapLibreMarker = import('maplibre-gl').Marker;
@@ -118,6 +121,13 @@ const MAP_FOLIAGE_IMAGE = 'terrain-foliage-tile';
 const MAP_INNER_SHADE_LAYER = 'province-inner-shade';
 const MAP_MOVEMENT_SOURCE = 'movement-lines';
 const MAP_MOVEMENT_LAYER = 'movement-lines-layer';
+const MAP_FILL_FADE_LAYER = 'province-fill-fade';
+const MAP_RELIEF_LAYER = 'terrain-relief';
+const MAP_RELIEF_IMAGE = 'terrain-relief-tile';
+const MAP_RELIEF_SHADE_LAYER = 'terrain-relief-shade';
+const MAP_RELIEF_LIGHT_LAYER = 'terrain-relief-light';
+/** Duration of the mapmode cross-fade dissolve (GPU paint transition). */
+const MODE_FADE_MS = 380;
 /** Mapmodes where the terrain wash blends into the fills. */
 const TERRAIN_TINTED_MODES = new Set(['political', 'military', 'cores']);
 const DEFAULT_FILL = '#b7a486';
@@ -195,14 +205,6 @@ function blend(hex: string, amount: number): string {
     blue * (1 - clamped) + paper[2] * clamped,
   ] as [number, number, number];
   return toHexColor(mixed);
-}
-
-function toRgba(hex: string, alpha: number): string {
-  const clamped = clamp01(alpha);
-  const red = Number.parseInt(hex.slice(1, 3), 16);
-  const green = Number.parseInt(hex.slice(3, 5), 16);
-  const blue = Number.parseInt(hex.slice(5, 7), 16);
-  return `rgba(${red}, ${green}, ${blue}, ${clamped.toFixed(3)})`;
 }
 
 function bearingDegrees(from: { lon: number; lat: number }, to: { lon: number; lat: number }): number {
@@ -381,6 +383,9 @@ export function GrandMap() {
   const selectedArmyRef = useRef<number | null>(selectedArmy);
   const selectedFleetRef = useRef<number | null>(selectedFleet);
   const fillRef = useRef<Map<number, string>>(new globalThis.Map());
+  const prevMapModeRef = useRef<string | null>(null);
+  const fadeTimerRef = useRef<number | null>(null);
+  const fadeRafRef = useRef<number | null>(null);
   const markerRef = useRef<Map<string, MapLibreMarker>>(new globalThis.Map());
   const countryLabelMarkerRef = useRef<Map<string, MapLibreMarker>>(new globalThis.Map());
   const provinceLabelMarkerRef = useRef<Map<number, MapLibreMarker>>(new globalThis.Map());
@@ -698,7 +703,7 @@ export function GrandMap() {
             'line-color': WATERLINE_INK,
             'line-width': 0.9,
             'line-gap-width': ['interpolate', ['linear'], ['zoom'], 0, 2.2, 4, 4.4, 7, 7],
-            'line-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.2, 3, 0.4, 7, 0.5],
+            'line-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.12, 3, 0.4, 7, 0.5],
           },
         });
         map.addLayer({
@@ -709,7 +714,9 @@ export function GrandMap() {
             'line-color': WATERLINE_INK,
             'line-width': 0.8,
             'line-gap-width': ['interpolate', ['linear'], ['zoom'], 0, 5.4, 4, 9.4, 7, 14.5],
-            'line-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.07, 3, 0.24, 7, 0.32],
+            // Silent below z2.6 — at world zoom the outer ring makes island
+            // chains read as smudges; it fades in once archipelagos resolve.
+            'line-opacity': ['interpolate', ['linear'], ['zoom'], 2.6, 0, 3.4, 0.24, 7, 0.32],
           },
         });
 
@@ -756,6 +763,18 @@ export function GrandMap() {
           paint: {
             'fill-color': ['coalesce', ['feature-state', 'fill'], DEFAULT_FILL],
             'fill-opacity': 0.92,
+          },
+        });
+
+        // Cross-fade plate: staged next-mapmode colors dissolve in via a GPU
+        // paint transition, then commit to the base fill beneath (0.5.2).
+        map.addLayer({
+          id: MAP_FILL_FADE_LAYER,
+          type: 'fill',
+          source: MAP_SOURCE_ID,
+          paint: {
+            'fill-color': ['coalesce', ['feature-state', 'fillNext'], DEFAULT_FILL],
+            'fill-opacity': 0,
           },
         });
 
@@ -809,6 +828,57 @@ export function GrandMap() {
             paint: {
               'fill-pattern': MAP_FOLIAGE_IMAGE,
               'fill-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.14, 3, 0.2, 6, 0.24],
+            },
+          });
+        }
+
+        // ---- Relief (0.5.2): hillshade impression over mountain provinces --
+        // 1) Engraved mountain-profile marks with SE-flank shade hachures.
+        const reliefTile = createReliefTile();
+        if (reliefTile && MOUNTAIN_PROVINCE_IDS.length > 0) {
+          map.addImage(MAP_RELIEF_IMAGE, reliefTile, { pixelRatio: 2 });
+          map.addLayer({
+            id: MAP_RELIEF_LAYER,
+            type: 'fill',
+            source: MAP_SOURCE_ID,
+            filter: ['in', ['id'], ['literal', MOUNTAIN_PROVINCE_IDS]],
+            paint: {
+              'fill-pattern': MAP_RELIEF_IMAGE,
+              'fill-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.3, 3, 0.44, 6, 0.52],
+            },
+          });
+        }
+        // 2) Massif emboss: viewport-anchored light/shadow rims so ranges read
+        // as raised plate-work (NW light, SE shadow). Pure GPU translate.
+        if (MOUNTAIN_PROVINCE_IDS.length > 0) {
+          map.addLayer({
+            id: MAP_RELIEF_SHADE_LAYER,
+            type: 'line',
+            source: MAP_SOURCE_ID,
+            filter: ['in', ['id'], ['literal', MOUNTAIN_PROVINCE_IDS]],
+            layout: { 'line-join': 'round', 'line-cap': 'round' },
+            paint: {
+              'line-color': '#241809',
+              'line-width': ['interpolate', ['linear'], ['zoom'], 0, 1.6, 4, 2.6, 7, 3.4],
+              'line-blur': 2.6,
+              'line-opacity': 0.2,
+              'line-translate': [1.4, 1.9],
+              'line-translate-anchor': 'viewport',
+            },
+          });
+          map.addLayer({
+            id: MAP_RELIEF_LIGHT_LAYER,
+            type: 'line',
+            source: MAP_SOURCE_ID,
+            filter: ['in', ['id'], ['literal', MOUNTAIN_PROVINCE_IDS]],
+            layout: { 'line-join': 'round', 'line-cap': 'round' },
+            paint: {
+              'line-color': '#fff3d4',
+              'line-width': ['interpolate', ['linear'], ['zoom'], 0, 1.4, 4, 2.2, 7, 3],
+              'line-blur': 2.2,
+              'line-opacity': 0.32,
+              'line-translate': [-1.2, -1.6],
+              'line-translate-anchor': 'viewport',
             },
           });
         }
@@ -1080,7 +1150,9 @@ export function GrandMap() {
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !map.getLayer(MAP_FILL_LAYER) || !snapshot) return;
+    // mapReady in the deps re-runs this once layers exist — otherwise a
+    // paused game (no fresh snapshots) would leave the plate uncolored.
+    if (!map || !mapReady || !map.getLayer(MAP_FILL_LAYER) || !snapshot) return;
 
     const nationById = new globalThis.Map(snapshot.nations.map((nation) => [nation.id, nation]));
     const economies = snapshot.provinces.map((province) => province.economyOutput);
@@ -1107,6 +1179,14 @@ export function GrandMap() {
     const playerNation = nationById.get(snapshot.playerNation) ?? null;
     const playerCoreStates = new Set(snapshot.playerCoreStateIds ?? []);
 
+    // Mapmode switches dissolve via the fade plate; in-mode snapshot updates
+    // (game ticks) still write the base fill directly.
+    const modeChanged = prevMapModeRef.current !== null && prevMapModeRef.current !== mapMode;
+    prevMapModeRef.current = mapMode;
+    const crossfade = modeChanged && Boolean(map.getLayer(MAP_FILL_FADE_LAYER));
+    const fadeInProgress = fadeTimerRef.current !== null;
+    const stagedFills = crossfade ? new globalThis.Map<number, string>() : null;
+
     for (const province of snapshot.provinces) {
       const ownerColor = nationColorById.get(province.owner) ?? DEFAULT_FILL;
       const controllerColor = province.controller === -1
@@ -1114,10 +1194,15 @@ export function GrandMap() {
         : (nationColorById.get(province.controller) ?? ownerColor);
       let fill = ownerColor;
       const occupied = province.controller !== province.owner;
-      const occupationOpacity = occupied ? (mapMode === 'military' ? 0.54 : 0.24) : 0;
+      // Terrain is a pure geography plate — occupation stripes stay off it.
+      const occupationOpacity = occupied && mapMode !== 'terrain'
+        ? (mapMode === 'military' ? 0.54 : 0.24)
+        : 0;
       const occupationColor = occupied ? blend(controllerColor, 0.04) : controllerColor;
 
-      if (mapMode === 'population') {
+      if (mapMode === 'terrain') {
+        fill = TERRAIN_BIOME_COLORS[provinceTerrainById.get(province.id) ?? ''] ?? LAND_PAPER;
+      } else if (mapMode === 'population') {
         const needs = clamp01(province.needsMet);
         const hunger = 1 - needs;
         const red = Math.round(164 + hunger * 58);
@@ -1164,21 +1249,63 @@ export function GrandMap() {
         if (tint) fill = mixHex(fill, tint, TERRAIN_TINT_STRENGTH);
       }
 
+      if (stagedFills) {
+        stagedFills.set(province.id, fill);
+        map.setFeatureState(
+          { source: MAP_SOURCE_ID, id: province.id },
+          { fillNext: fill, occupationColor, occupationOpacity },
+        );
+        continue;
+      }
       const prevFill = fillRef.current.get(province.id);
-      if (prevFill !== fill) {
+      if (prevFill !== fill && !fadeInProgress) {
         map.setFeatureState(
           { source: MAP_SOURCE_ID, id: province.id },
           { fill, occupationColor, occupationOpacity },
         );
         fillRef.current.set(province.id, fill);
       } else {
+        // Same color, or a dissolve is mid-flight (its commit writes fills).
         map.setFeatureState(
           { source: MAP_SOURCE_ID, id: province.id },
           { occupationColor, occupationOpacity },
         );
       }
     }
-  }, [mapMode, nationColorById, provinceTerrainById, snapshot]);
+
+    if (stagedFills) {
+      if (fadeTimerRef.current !== null) window.clearTimeout(fadeTimerRef.current);
+      if (fadeRafRef.current !== null) cancelAnimationFrame(fadeRafRef.current);
+      // Snap the fade plate to invisible, then let the GPU paint transition
+      // dissolve the staged colors in over the old plate.
+      map.setPaintProperty(MAP_FILL_FADE_LAYER, 'fill-opacity-transition', { duration: 0, delay: 0 });
+      map.setPaintProperty(MAP_FILL_FADE_LAYER, 'fill-opacity', 0);
+      fadeRafRef.current = requestAnimationFrame(() => {
+        fadeRafRef.current = null;
+        if (mapRef.current !== map || !map.getLayer(MAP_FILL_FADE_LAYER)) return;
+        map.setPaintProperty(MAP_FILL_FADE_LAYER, 'fill-opacity-transition', { duration: MODE_FADE_MS, delay: 0 });
+        map.setPaintProperty(MAP_FILL_FADE_LAYER, 'fill-opacity', 0.92);
+      });
+      fadeTimerRef.current = window.setTimeout(() => {
+        fadeTimerRef.current = null;
+        if (mapRef.current !== map || !map.getLayer(MAP_FILL_FADE_LAYER)) return;
+        for (const [provinceId, stagedFill] of stagedFills.entries()) {
+          map.setFeatureState({ source: MAP_SOURCE_ID, id: provinceId }, { fill: stagedFill });
+          fillRef.current.set(provinceId, stagedFill);
+        }
+        map.setPaintProperty(MAP_FILL_FADE_LAYER, 'fill-opacity-transition', { duration: 0, delay: 0 });
+        map.setPaintProperty(MAP_FILL_FADE_LAYER, 'fill-opacity', 0);
+      }, MODE_FADE_MS + 70);
+    }
+  }, [mapMode, mapReady, nationColorById, provinceTerrainById, snapshot]);
+
+  // Clear any in-flight mapmode dissolve timers on unmount.
+  useEffect(() => () => {
+    if (fadeTimerRef.current !== null) window.clearTimeout(fadeTimerRef.current);
+    if (fadeRafRef.current !== null) cancelAnimationFrame(fadeRafRef.current);
+    fadeTimerRef.current = null;
+    fadeRafRef.current = null;
+  }, []);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -1527,7 +1654,8 @@ export function GrandMap() {
 
     const markerOffsets = (count: number): Array<[number, number]> => {
       if (count <= 1) return [[0, 0]];
-      const radius = count <= 2 ? 16 : count <= 4 ? 20 : 25;
+      // Heraldic tokens are taller than the 0.4.x pills — spread wider.
+      const radius = count <= 2 ? 20 : count <= 4 ? 26 : 32;
       const offsets: Array<[number, number]> = [];
       for (let index = 0; index < count; index++) {
         const angle = (Math.PI * 2 * index) / count;
@@ -1536,27 +1664,15 @@ export function GrandMap() {
       return offsets;
     };
 
-    const addMarker = (
+    const registerMarker = (
       key: string,
       provinceId: number,
-      text: string,
-      className: string,
+      el: HTMLElement,
+      offset: [number, number],
       onClick: () => void,
-      color?: string,
-      offset: [number, number] = [0, 0],
-      title?: string,
     ) => {
       const coord = provinceCoordById.get(provinceId);
       if (!coord) return;
-      const el = document.createElement('button');
-      el.type = 'button';
-      el.className = `grand-map__counter ${className}`;
-      el.textContent = text;
-      if (title) el.title = title;
-      if (color) {
-        el.style.background = toRgba(color, 0.82);
-        el.style.borderColor = toRgba('#312014', 0.45);
-      }
       el.addEventListener('click', (event) => {
         event.stopPropagation();
         onClick();
@@ -1566,6 +1682,16 @@ export function GrandMap() {
         .setOffset(offset)
         .addTo(map);
       allMarkers.set(key, marker);
+    };
+    const addSealMarker = (
+      key: string,
+      provinceId: number,
+      kind: SealKind,
+      title: string,
+      onClick: () => void,
+      offset: [number, number] = [0, 0],
+    ) => {
+      registerMarker(key, provinceId, createSealElement(kind, title), offset, onClick);
     };
     const addArrowMarker = (key: string, fromProvinceId: number, toProvinceId: number, color: string) => {
       const from = provinceCoordById.get(fromProvinceId);
@@ -1608,18 +1734,24 @@ export function GrandMap() {
         const selected = selectedArmy !== null && stack.armies.some((army) => army.id === selectedArmy);
         const candidate = stack.armies.find((army) => army.owner === snapshot.playerNation) ?? stack.armies[0];
         const pct = Math.round((stack.avgStrength / 1000) * 100);
-        addMarker(
+        const ownerName = snapshot.nations.find((nation) => nation.id === stack.owner)?.name ?? `${stack.owner}`;
+        registerMarker(
           `army-${provinceId}-${stack.owner}`,
           provinceId,
-          `A${stack.regiments} ${pct}%`,
-          `${friendly ? 'is-friendly' : 'is-hostile'} is-army ${selected ? 'is-selected' : ''}`.trim(),
+          createUnitCounterElement({
+            kind: 'army',
+            count: stack.regiments,
+            strengthPct: pct,
+            color: ownerColorById.get(stack.owner),
+            friendly,
+            selected,
+            title: `${ownerName} army — ${stack.regiments} regiment${stack.regiments === 1 ? '' : 's'}, ${pct}% strength`,
+          }),
+          offsets[index] ?? [0, 0],
           () => {
             setSelectedArmy(candidate.id);
             openPanelId('military');
           },
-          ownerColorById.get(stack.owner),
-          offsets[index] ?? [0, 0],
-          `${snapshot.nations.find((nation) => nation.id === stack.owner)?.name ?? stack.owner} army stack`,
         );
       });
     }
@@ -1645,24 +1777,30 @@ export function GrandMap() {
       if (stacks.length > 0) fleetStacksByProvince.set(provinceId, stacks);
     }
     for (const [provinceId, stacks] of fleetStacksByProvince.entries()) {
-      const offsets = markerOffsets(stacks.length).map(([x, y]) => [x, y + 18] as [number, number]);
+      const offsets = markerOffsets(stacks.length).map(([x, y]) => [x, y + 38] as [number, number]);
       stacks.forEach((stack, index) => {
         const friendly = stack.owner === snapshot.playerNation;
         const selected = selectedFleet !== null && stack.fleets.some((fleet) => fleet.id === selectedFleet);
         const candidate = stack.fleets.find((fleet) => fleet.owner === snapshot.playerNation) ?? stack.fleets[0];
         const pct = Math.round((stack.avgStrength / 100) * 100);
-        addMarker(
+        const ownerName = snapshot.nations.find((nation) => nation.id === stack.owner)?.name ?? `${stack.owner}`;
+        registerMarker(
           `fleet-${provinceId}-${stack.owner}`,
           provinceId,
-          `F${stack.ships} ${pct}%`,
-          `${friendly ? 'is-friendly' : 'is-hostile'} is-fleet ${selected ? 'is-selected' : ''}`.trim(),
+          createUnitCounterElement({
+            kind: 'fleet',
+            count: stack.ships,
+            strengthPct: pct,
+            color: ownerColorById.get(stack.owner),
+            friendly,
+            selected,
+            title: `${ownerName} fleet — ${stack.ships} ship${stack.ships === 1 ? '' : 's'}, ${pct}% strength`,
+          }),
+          offsets[index] ?? [0, 38],
           () => {
             setSelectedFleet(candidate.id);
             openPanelId('military');
           },
-          ownerColorById.get(stack.owner),
-          offsets[index] ?? [0, 18],
-          `${snapshot.nations.find((nation) => nation.id === stack.owner)?.name ?? stack.owner} fleet stack`,
         );
       });
     }
@@ -1681,7 +1819,7 @@ export function GrandMap() {
     for (const [provinceId, armies] of armiesByProvince.entries()) {
       const owners = Array.from(new Set(armies.filter((army) => !army.rebel).map((army) => army.owner)));
       if (!hasHostilePair(owners)) continue;
-      addMarker(`battle-${provinceId}`, provinceId, '⚔', 'is-battle', () => {
+      addSealMarker(`battle-${provinceId}`, provinceId, 'battle', 'Battle underway', () => {
         openPanelId('military');
         selectProvince(provinceId);
       });
@@ -1698,26 +1836,26 @@ export function GrandMap() {
         .filter((fleet) => (enemyByNation.get(owner)?.has(fleet.owner) ?? false))
         .reduce((sum, fleet) => sum + fleet.ships.filter((ship) => ship.type !== 'transport').length, 0);
       if (hostileFleetPower <= ownerFleetPower) continue;
-      addMarker(`blockade-${provinceId}`, provinceId, '⛵', 'is-blockade', () => {
+      addSealMarker(`blockade-${provinceId}`, provinceId, 'blockade', 'Port under blockade', () => {
         openPanelId('military');
         selectProvince(provinceId);
-      });
+      }, [0, -20]);
     }
 
     for (const province of snapshot.provinces) {
       if (province.occupation <= 0 || province.controller === province.owner) continue;
-      addMarker(`siege-${province.id}`, province.id, '🏰', 'is-siege', () => {
+      addSealMarker(`siege-${province.id}`, province.id, 'siege', 'Under siege', () => {
         openPanelId('military');
         selectProvince(province.id);
-      });
+      }, [0, -26]);
     }
 
     for (const province of snapshot.provinces) {
       if (province.controller !== -1) continue;
-      addMarker(`rebel-${province.id}`, province.id, '☠', 'is-rebel', () => {
+      addSealMarker(`rebel-${province.id}`, province.id, 'rebel', 'Rebel-held', () => {
         openPanelId('military');
         selectProvince(province.id);
-      });
+      }, [0, -26]);
     }
 
     const movementEntries = new globalThis.Map<string, {

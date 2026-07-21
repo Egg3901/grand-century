@@ -44,6 +44,38 @@ export const TERRAIN_TINTS: Record<string, string> = {
 /** How strongly terrain bleeds into political/military fills (0..1). */
 export const TERRAIN_TINT_STRENGTH = 0.2;
 
+/**
+ * Full-strength biome pigments for the Terrain mapmode — a hand-tinted
+ * physical plate. Richer than TERRAIN_TINTS (which only underpaints political
+ * fills) but still mixed toward parchment so the sheet reads as printed.
+ */
+export const TERRAIN_BIOME_COLORS: Record<string, string> = {
+  farmland: '#a3aa68',
+  plains: '#c2ae74',
+  forest: '#67865a',
+  jungle: '#49764e',
+  hills: '#ab9a70',
+  mountains: '#8b7f72',
+  desert: '#dcc088',
+  marsh: '#84957a',
+  arctic: '#e9e4d3',
+  coast: '#c8c393',
+  ocean: '#cdbc95',
+};
+
+/** Display order + labels for the Terrain-mapmode legend. */
+export const TERRAIN_LEGEND_ORDER: Array<{ key: string; label: string }> = [
+  { key: 'farmland', label: 'Farmland' },
+  { key: 'plains', label: 'Plains' },
+  { key: 'forest', label: 'Forest' },
+  { key: 'jungle', label: 'Jungle' },
+  { key: 'hills', label: 'Hills' },
+  { key: 'desert', label: 'Desert' },
+  { key: 'marsh', label: 'Marsh' },
+  { key: 'mountains', label: 'Mountains' },
+  { key: 'arctic', label: 'Arctic' },
+];
+
 /** Ocean lettering — spaced italic caps, the classic atlas convention. */
 export const OCEAN_LABELS: Array<{ name: string; lon: number; lat: number; size: number }> = [
   { name: 'Pacific Ocean', lon: -145, lat: 12, size: 1 },
@@ -203,6 +235,61 @@ export function createFoliageTile(size = 72): ImageData | null {
         ctx.moveTo(x + ox, y + oy + radius * 0.4);
         ctx.lineTo(x + ox, y + oy + radius * 1.5);
         ctx.stroke();
+      }
+    }
+  }
+  return ctx.getImageData(0, 0, size, size);
+}
+
+/**
+ * Relief tile: classic "mountain profile" marks — a peaked ridge line with
+ * fine shade hachures filling the SE flank while the NW flank stays paper.
+ * Tiled over mountain provinces it reads as an engraved hillshade: light from
+ * the upper-left, shadow falling to the lower-right. Seamless via 3x3 wrap.
+ */
+export function createReliefTile(size = 96): ImageData | null {
+  const tile = makeTileContext(size);
+  if (!tile) return null;
+  const { ctx } = tile;
+  const rng = makeRng(0x0e11ef);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  const peaks = 6;
+  for (let i = 0; i < peaks; i += 1) {
+    const x = rng() * size;
+    const y = rng() * size;
+    const width = 11 + rng() * 9;
+    const height = 6.5 + rng() * 6;
+    const lean = (rng() - 0.5) * 3;
+    const ridgeAlpha = 0.5 + rng() * 0.2;
+    for (const ox of [-size, 0, size]) {
+      for (const oy of [-size, 0, size]) {
+        const baseLeftX = x + ox - width / 2;
+        const baseRightX = x + ox + width / 2;
+        const baseY = y + oy;
+        const apexX = x + ox + lean;
+        const apexY = baseY - height;
+        // Ridge profile stroke.
+        ctx.strokeStyle = `rgba(62, 46, 29, ${ridgeAlpha.toFixed(3)})`;
+        ctx.lineWidth = 1.05;
+        ctx.beginPath();
+        ctx.moveTo(baseLeftX, baseY);
+        ctx.lineTo(apexX, apexY);
+        ctx.lineTo(baseRightX, baseY);
+        ctx.stroke();
+        // Shade hachures on the SE flank only — the hillshade impression.
+        const shades = 4;
+        for (let s = 1; s <= shades; s += 1) {
+          const t = s / (shades + 1);
+          const startX = apexX + (baseRightX - apexX) * t;
+          const startY = apexY + (baseY - apexY) * t;
+          ctx.strokeStyle = `rgba(50, 36, 22, ${(0.42 - t * 0.18).toFixed(3)})`;
+          ctx.lineWidth = 0.75;
+          ctx.beginPath();
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(startX - width * 0.14, startY + (baseY - startY) * 0.72 + 0.6);
+          ctx.stroke();
+        }
       }
     }
   }

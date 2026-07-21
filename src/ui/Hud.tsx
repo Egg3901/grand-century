@@ -20,6 +20,7 @@ const PANELS: { id: PanelId; label: string }[] = [
 ];
 const MAP_MODES: { id: MapMode; label: string }[] = [
   { id: 'political', label: 'Political' },
+  { id: 'terrain', label: 'Terrain' },
   { id: 'ruling_ideology', label: 'Ruling Ideology' },
   { id: 'unrest', label: 'Unrest' },
   { id: 'population', label: 'Population' },
