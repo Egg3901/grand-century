@@ -7,7 +7,7 @@ import {
   TOAST_STACK_CAP,
   type AlertBatch,
 } from './alertBatching';
-import { NationShield } from './components/NationShield';
+import { NationFlag } from './components/NationFlag';
 import { instantPressProps } from './instantPress';
 
 function extractNationTag(message: string): string | null {
@@ -87,7 +87,7 @@ export function EventFeed() {
             data-count={batch.count}
           >
             <div className="event-card__head">
-              {nation ? <NationShield nation={nation} size={18} /> : null}
+              {nation ? <NationFlag tag={nation.tag} color={nation.color} size={16} /> : null}
               <strong>{batch.kind.toUpperCase()}{batch.count > 1 ? ` · ${batch.count}` : ''}</strong>
             </div>
             <span>{batch.message}</span>

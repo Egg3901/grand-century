@@ -565,6 +565,15 @@
   min-width: 0;
 }
 
+/* keep the flag + name pinned together on the left — the generic
+   li > div space-between must not spread them to opposite edges
+   (matching its specificity, hence the li > div form) */
+.diplo-list li > div.diplo-row__nation,
+.gp-list li > div.gp-row__nation,
+.mil-list li > div.diplo-row__nation {
+  justify-content: flex-start;
+}
+
 .diplo-row__nation .nation-shield,
 .gp-row__nation .nation-shield {
   width: 20px;

@@ -33,6 +33,19 @@
   display: block;
 }
 
+/* Era-appropriate flag chip (public/flags). Sits inline like the shield;
+   ink keyline + faint inner shade so flat fills read as printed plates. */
+.nation-flag {
+  display: inline-block;
+  flex-shrink: 0;
+  border: 1px solid rgba(43, 38, 30, 0.55);
+  border-radius: 1.5px;
+  box-shadow: inset 0 0 3px rgba(24, 14, 7, 0.22), 0 1px 1px rgba(24, 14, 7, 0.28);
+  background: #efe6d0;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
 .hud-top__nation .nation-shield {
   width: 28px;
   height: 28px;

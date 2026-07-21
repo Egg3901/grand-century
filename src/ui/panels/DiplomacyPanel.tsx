@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { WORLD_SEED } from '../../data/generated';
 import type { NationId, WarGoalType } from '../../shared/types';
 import { useStore } from '../../store';
-import { NationShield } from '../components/NationShield';
+import { NationFlag } from '../components/NationFlag';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 const WAR_GOALS: { id: WarGoalType; label: string }[] = [
@@ -221,7 +221,7 @@ export function DiplomacyPanel() {
         {derived.rows.map((row) => (
           <li key={row.nation.id}>
             <div className="diplo-row__nation">
-              <NationShield nation={{ tag: row.nation.tag, color: row.nation.color }} size={20} />
+              <NationFlag tag={row.nation.tag} color={row.nation.color} size={18} />
               <div>
                 <strong>{row.nation.name}</strong>
                 <span>

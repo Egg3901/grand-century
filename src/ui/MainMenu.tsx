@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useStore } from '../store';
 import { buildShareUrl, copyShareLink, parseStartHash } from './permalink';
-import { nationShieldSvg } from './nationShield';
+import { NationFlag } from './components/NationFlag';
 import heroUrl from '../assets/hero.png';
 
 function yearFromDay(day: number): number {
@@ -146,10 +146,9 @@ export function MainMenu() {
                 data-testid="menu-resume"
                 onClick={resumeLatest}
               >
-                <span
-                  className="menu-resume__shield"
-                  dangerouslySetInnerHTML={{ __html: nationShieldSvg({ tag: latestSaveNation.tag, color: latestSaveNation.color }, 34) }}
-                />
+                <span className="menu-resume__shield">
+                  <NationFlag tag={latestSaveNation.tag} color={latestSaveNation.color} size={26} />
+                </span>
                 <span className="menu-resume__text">
                   <span className="menu-resume__action">Continue — {latestSaveNation.name}</span>
                   <span className="menu-resume__detail">
@@ -182,10 +181,9 @@ export function MainMenu() {
                     onClick={() => setSelectedNation(nation.id)}
                     onDoubleClick={startGame}
                   >
-                    <span
-                      className="nation-card__shield"
-                      dangerouslySetInnerHTML={{ __html: nationShieldSvg({ tag: nation.tag, color: nation.color }, 40) }}
-                    />
+                    <span className="nation-card__shield">
+                      <NationFlag tag={nation.tag} color={nation.color} size={30} />
+                    </span>
                     <span className="nation-card__name">{nation.name}</span>
                     <span className="nation-card__flavor">{flavorLine(nation.id, nation.gpRank, nation.government)}</span>
                   </button>

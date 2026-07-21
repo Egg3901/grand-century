@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useStore } from '../../store';
-import { NationShield } from '../components/NationShield';
+import { NationFlag } from '../components/NationFlag';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 export function GreatPowersPanel() {
@@ -59,7 +59,7 @@ export function GreatPowersPanel() {
           return (
             <li key={entry.nation} className={isPlayer ? 'is-player' : undefined}>
               <div className="gp-row__nation">
-                {nation ? <NationShield nation={{ tag: nation.tag, color: nation.color }} size={22} /> : null}
+                {nation ? <NationFlag tag={nation.tag} color={nation.color} size={18} /> : null}
                 <strong>
                   #{entry.rank} {nation?.name ?? `Nation ${entry.nation}`}
                 </strong>

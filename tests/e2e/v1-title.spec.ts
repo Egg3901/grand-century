@@ -13,8 +13,8 @@ test.describe('V1 title screen', () => {
     // nation grid populated with shields
     const cards = await page.locator('.nation-card').count();
     expect(cards).toBeGreaterThanOrEqual(20);
-    const shieldCount = await page.locator('.nation-card__shield svg').count();
-    expect(shieldCount).toBeGreaterThanOrEqual(20);
+    const emblemCount = await page.locator('.nation-card__shield img.nation-flag, .nation-card__shield svg').count();
+    expect(emblemCount).toBeGreaterThanOrEqual(20);
 
     // search filter
     await page.fill('[data-testid="menu-nation-search"]', 'united k');

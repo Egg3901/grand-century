@@ -15,7 +15,7 @@ import { SaveLoadPanel } from './SaveLoadPanel';
 import { FormablesPanel } from './FormablesPanel';
 import { DecisionsPanel } from './DecisionsPanel';
 import { TechnologyPanel } from './TechnologyPanel';
-import { NationShield } from '../components/NationShield';
+import { NationFlag } from '../components/NationFlag';
 import './panels.css';
 
 const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
@@ -66,7 +66,7 @@ export function PanelHost() {
         <header className="panel-host__chrome">
           <div className="panel-host__chrome-title-row">
             {showShield ? (
-              <NationShield nation={{ tag: playerNation.tag, color: playerNation.color }} size={20} />
+              <NationFlag tag={playerNation.tag} color={playerNation.color} size={18} />
             ) : null}
             <p className="panel-host__chrome-title">{PANEL_TITLES[openPanel]}</p>
           </div>
