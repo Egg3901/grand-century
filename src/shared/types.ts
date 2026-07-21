@@ -819,12 +819,20 @@ export interface MarketInvariant {
 // Full world state (lives in the worker; never sent whole to the UI raw)
 // ---------------------------------------------------------------------------
 
+/** Campaign world layout — distinct from HUD MapMode (political/terrain/…). */
+export type CampaignMapMode =
+  | 'historical'
+  | 'procedural_real'
+  | 'procedural_random';
+
 export interface World {
   day: GameDay;
   seed: number;
   rngState: number;
   speed: number;         // 0 = paused, 1..5
   playerNation: NationId;
+  /** How the starting political map was generated. */
+  mapMode?: CampaignMapMode;
 
   nations: Nation[];
   provinces: Province[];
@@ -1009,6 +1017,8 @@ export interface WorldSnapshot {
   playerNation: NationId;
   /** Campaign start seed (for shareable permalinks). */
   seed?: number;
+  /** Campaign map generation mode (for shareable permalinks / menu). */
+  mapMode?: CampaignMapMode;
   nations: NationSummary[];
   provinces: ProvinceSummary[];
   market: MarketGood[];
@@ -1125,7 +1135,7 @@ export type Command =
   // --- 0.8.0 Age of Nationalism ---
   | { t: 'setCulturePolicy'; policy: CulturePolicy }
   | { t: 'setCultureAccepted'; culture: number; accepted: boolean }
-  | { t: 'newGame'; seed: number; playerNation: NationId }
+  | { t: 'newGame'; seed: number; playerNation: NationId; mapMode?: CampaignMapMode }
   | { t: 'save'; slot: string }
   | { t: 'load'; slot: string }
   | { t: 'listSaves' };
@@ -1135,7 +1145,7 @@ export type Command =
 // ---------------------------------------------------------------------------
 
 export type ToWorker =
-  | { t: 'init'; seed: number }
+  | { t: 'init'; seed: number; mapMode?: CampaignMapMode }
   | { t: 'command'; cmd: Command }
   | { t: 'requestProvince'; id: ProvinceId }   // pull detailed province view
   | { t: 'requestNation'; id: NationId };

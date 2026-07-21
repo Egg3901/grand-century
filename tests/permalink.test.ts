@@ -8,10 +8,15 @@ describe('shareable permalinks', () => {
       nationTag: 'ENG',
       mode: undefined,
     });
+    expect(parseStartHash('#/new?seed=42&nation=fra&mode=procedural_real')).toEqual({
+      seed: 42,
+      nationTag: 'FRA',
+      mode: 'procedural_real',
+    });
     expect(parseStartHash('#/new?seed=42&nation=fra&mode=sandbox')).toEqual({
       seed: 42,
       nationTag: 'FRA',
-      mode: 'sandbox',
+      mode: 'historical',
     });
   });
 
@@ -24,11 +29,12 @@ describe('shareable permalinks', () => {
 
   it('builds BASE_URL-safe share URLs', () => {
     const url = buildShareUrl(
-      { seed: 1836, nationTag: 'ENG' },
+      { seed: 1836, nationTag: 'ENG', mode: 'procedural_random' },
       '/games/grand-century/',
     );
     expect(url).toContain('/games/grand-century/#/new?');
     expect(url).toContain('seed=1836');
     expect(url).toContain('nation=ENG');
+    expect(url).toContain('mode=procedural_random');
   });
 });

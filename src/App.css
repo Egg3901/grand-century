@@ -147,6 +147,14 @@
   text-align: center;
 }
 
+.menu-map-blurb {
+  margin: -0.35rem 0 0;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-faint);
+  text-align: left;
+  line-height: 1.35;
+}
+
 /* Multiplayer lobby */
 .lobby-card {
   width: min(36rem, calc(100vw - 2rem));

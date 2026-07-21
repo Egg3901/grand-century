@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useStore } from '../store';
 import { parseStartHash } from './permalink';
+import { DEFAULT_CAMPAIGN_MAP_MODE, parseCampaignMapMode } from '../shared/campaignMap';
 
 /**
  * If the URL hash encodes a start (`#/new?seed=&nation=`), begin that campaign
@@ -11,6 +12,7 @@ export function PermalinkBootstrap() {
   const sendCommand = useStore((state) => state.sendCommand);
   const setShowMainMenu = useStore((state) => state.setShowMainMenu);
   const applied = useRef(false);
+  const pendingRegen = useRef(false);
   const start = useMemo(() => parseStartHash(), []);
 
   useEffect(() => {
@@ -19,6 +21,19 @@ export function PermalinkBootstrap() {
 
   useEffect(() => {
     if (applied.current || !snapshot || !start) return;
+    const mapMode = parseCampaignMapMode(start.mode ?? DEFAULT_CAMPAIGN_MAP_MODE);
+    const mapMismatch = (snapshot.mapMode ?? DEFAULT_CAMPAIGN_MAP_MODE) !== mapMode
+      || (snapshot.seed ?? 0) !== start.seed;
+
+    if (mapMismatch && !pendingRegen.current) {
+      pendingRegen.current = true;
+      sendCommand({ t: 'newGame', seed: start.seed, playerNation: snapshot.playerNation, mapMode });
+      return;
+    }
+
+    if (mapMismatch) return;
+
+    pendingRegen.current = false;
     const nation = snapshot.nations.find((entry) => entry.tag === start.nationTag);
     if (!nation) {
       applied.current = true;
@@ -26,7 +41,7 @@ export function PermalinkBootstrap() {
       return;
     }
     applied.current = true;
-    sendCommand({ t: 'newGame', seed: start.seed, playerNation: nation.id });
+    sendCommand({ t: 'newGame', seed: start.seed, playerNation: nation.id, mapMode });
     setShowMainMenu(false);
   }, [snapshot, sendCommand, setShowMainMenu, start]);
 
