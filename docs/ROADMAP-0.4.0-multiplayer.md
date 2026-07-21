@@ -1,6 +1,6 @@
 # Grand Century — 0.4.0 Multiplayer (master doc)
 
-Status: PLANNED · Build AFTER 0.3.0 ships (user chose: finish 0.3.0 first). This
+Status: SHIPPED (v0.4.0, 2026-07-21) — multiplayer M0-M5 + UI overhaul delivered.
 doc locks the design so 0.4.0 can be executed directly.
 
 ## 0.4.0 has TWO tracks (per user, 2026-07-20)

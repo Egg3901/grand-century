@@ -2,6 +2,50 @@
 
 All notable changes to Grand Century are documented here.
 
+## [0.4.0] — 2026-07-21
+
+The big one: live multiplayer, a full UI + visual overhaul, a topology-fixed map,
+and a timeline rescope. Play: https://lakesidegames.net/games/grand-century/
+
+### Multiplayer (new)
+- **Session-based live multiplayer** for 2-8 players — server-authoritative sessions
+  on a Node WebSocket server; single-player is unchanged (local worker).
+- **Lobby**: create/join sessions by clicking (invite links too), nation selection
+  (competitive one-each) or teams (co-op), leader-controlled start/speed, presence.
+- **Snapshot diffing + compression + cadence cap** — bandwidth for 8 clients dropped
+  from ~94 MB/s to well under 1 MB/s; the sim no longer burns CPU while paused.
+- **Reconnect** with nation-hold grace + resync, **in-session chat**, presence HUD.
+
+### UI overhaul
+- A cohesive premium design system (parchment/ink/wax palette, self-hosted EB
+  Garamond + Source Serif, spacing/elevation tokens) applied across the HUD, every
+  panel, menus, and event popups — desktop and mobile.
+- Interactive tutorial coach, tooltips-that-trace, actionable alerts, Economy panel.
+- Mobile controls fixed (all buttons were tap-dead — pointer-events).
+
+### Visual / map overhaul (0.5.1)
+- A premium antique-atlas map: engraved sea with wave-lines + graticule + ocean
+  lettering, plate-shadow land depth, terrain-textured fills, paper grain + vignette,
+  richer pigments, letterpress labels. Map labels now render on-territory
+  (pole-of-inaccessibility placement).
+
+### Map data — borders fixed + rescope
+- **Topology-preserving simplification (TopoJSON)** — no more sliver gaps, overlaps,
+  double lines, or missing national borders; German/Italian states and France
+  de-boxed into organic regions. Fixed a gameplay bug (614/620 provinces were wrongly
+  flagged coastal → now ~46%).
+- **Rescoped to 1820-1920** (from 1836) with a plausible 1820 political map.
+
+### Performance
+- Fast test gate (unit ~9s; `test:balance`/`test:all` for long sims). Perf audit
+  drove the snapshot cadence + MP diffing work.
+
+### Notes
+- 93 tests (test:all) green. New MP server runs as a systemd service behind a Caddy
+  WebSocket route.
+
+[0.4.0]: https://github.com/Egg3901/grand-century/releases/tag/v0.4.0
+
 ## [0.3.0] — 2026-07-20
 
 Theme: deepen the war pillar, add narrative agency, pay down platform debt — plus
