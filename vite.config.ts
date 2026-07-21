@@ -10,6 +10,8 @@ function generatedDataPublicPlugin() {
   const geojsonPath = path.resolve(__dirname, 'src/data/generated/provinces.geo.json');
   const bordersPath = path.resolve(__dirname, 'src/data/generated/nationalBorders.geo.json');
   const worldSeedPath = path.resolve(__dirname, 'src/data/generated/worldSeed.json');
+  const riversPath = path.resolve(__dirname, 'src/data/generated/rivers.geo.json');
+  const lakesPath = path.resolve(__dirname, 'src/data/generated/lakes.geo.json');
   return {
     name: 'generated-data-public-path',
     configureServer(server: { middlewares: { use: (pathName: string, handler: (req: unknown, res: { setHeader: (name: string, value: string) => void; end: (body: string) => void }) => void) => void } }) {
@@ -20,6 +22,8 @@ function generatedDataPublicPlugin() {
       server.middlewares.use('/generated/provinces.geo.json', serve(geojsonPath, 'application/json'));
       server.middlewares.use('/generated/nationalBorders.geo.json', serve(bordersPath, 'application/json'));
       server.middlewares.use('/generated/worldSeed.json', serve(worldSeedPath, 'application/json'));
+      server.middlewares.use('/generated/rivers.geo.json', serve(riversPath, 'application/json'));
+      server.middlewares.use('/generated/lakes.geo.json', serve(lakesPath, 'application/json'));
     },
     generateBundle(this: { emitFile: (asset: { type: 'asset'; fileName: string; source: string }) => void }) {
       this.emitFile({
@@ -36,6 +40,16 @@ function generatedDataPublicPlugin() {
         type: 'asset',
         fileName: 'generated/worldSeed.json',
         source: fs.readFileSync(worldSeedPath, 'utf8'),
+      });
+      this.emitFile({
+        type: 'asset',
+        fileName: 'generated/rivers.geo.json',
+        source: fs.readFileSync(riversPath, 'utf8'),
+      });
+      this.emitFile({
+        type: 'asset',
+        fileName: 'generated/lakes.geo.json',
+        source: fs.readFileSync(lakesPath, 'utf8'),
       });
     },
   };

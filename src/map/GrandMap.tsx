@@ -72,6 +72,7 @@ type ProvinceLabelSeed = {
   lat: number;
   weight: number;
   area: number;
+  capital?: boolean;
   prominence: number;
   minZoom: number;
 };
@@ -133,6 +134,15 @@ const MAP_RELIEF_LIGHT_LAYER = 'terrain-relief-light';
 const MAP_AQUATINT_LAYER = 'land-aquatint';
 const MAP_AQUATINT_IMAGE = 'land-aquatint-tile';
 const MAP_PLAYER_HALO_LAYER = 'player-border-halo';
+// V6: Natural Earth water plate — engraved rivers + lakes on the land mass.
+const MAP_RIVERS_SOURCE_ID = 'ne-rivers';
+const MAP_LAKES_SOURCE_ID = 'ne-lakes';
+const MAP_LAKES_FILL_LAYER = 'ne-lakes-fill';
+const MAP_LAKES_LINE_LAYER = 'ne-lakes-shore';
+const MAP_RIVERS_LAYER = 'ne-rivers-ink';
+const RIVER_INK = '#4a5866';
+const LAKE_FILL = '#a9b7c0';
+const LAKE_SHORE = '#3d4a55';
 /** Duration of the mapmode cross-fade dissolve (GPU paint transition). */
 const MODE_FADE_MS = 380;
 /** Mapmodes where the terrain wash blends into the fills. */
@@ -400,6 +410,8 @@ export function GrandMap() {
   const provinceLabelMarkerRef = useRef<Map<number, MapLibreMarker>>(new globalThis.Map());
   const [geojson, setGeojson] = useState<ProvinceGeoJson | null>(null);
   const [nationalBorders, setNationalBorders] = useState<NationalBorderGeoJson | null>(null);
+  const [rivers, setRivers] = useState<object | null>(null);
+  const [lakes, setLakes] = useState<object | null>(null);
   const [mapReady, setMapReady] = useState(false);
   const [tooltip, setTooltip] = useState<{
     x: number;
@@ -445,10 +457,17 @@ export function GrandMap() {
   }, [geojson]);
 
   const provinceLabelSeeds = useMemo<ProvinceLabelSeed[]>(() => {
+    // V6: capital provinces — star glyph + prominence boost so the seat of
+    // government surfaces a full zoom tier before ordinary settlements.
+    const capitalIds = new globalThis.Map<number, string>();
+    for (const nation of WORLD_SEED.nations) {
+      capitalIds.set(nation.capitalProvinceId, nation.tag);
+    }
     const raw = WORLD_SEED.provinces.map((province) => {
       const geometry = provinceGeometryById.get(province.id);
       const area = Math.max(geometry?.area ?? 0, 0.01);
       const weight = Math.max(0.1, province.populationWeight);
+      const isCapital = capitalIds.has(province.id);
       return {
         id: province.id,
         name: province.name,
@@ -457,7 +476,8 @@ export function GrandMap() {
         lat: geometry?.labelLat ?? geometry?.lat ?? province.lat,
         area,
         weight,
-        prominence: Math.log(weight + 1) * 0.62 + Math.log(area + 1) * 0.38,
+        capital: isCapital,
+        prominence: Math.log(weight + 1) * 0.62 + Math.log(area + 1) * 0.38 + (isCapital ? 1.1 : 0),
       };
     });
     const minProminence = raw.reduce((minValue, province) => Math.min(minValue, province.prominence), Number.POSITIVE_INFINITY);
@@ -582,13 +602,17 @@ export function GrandMap() {
       }
     };
     const loadGeo = async () => {
-      const [provinces, borders] = await Promise.all([
+      const [provinces, borders, riverData, lakeData] = await Promise.all([
         fetchJson<ProvinceGeoJson>('provinces.geo.json'),
         fetchJson<NationalBorderGeoJson>('nationalBorders.geo.json'),
+        fetchJson<object>('rivers.geo.json'),
+        fetchJson<object>('lakes.geo.json'),
       ]);
       if (!alive) return;
       if (provinces) setGeojson(provinces);
       if (borders) setNationalBorders(borders);
+      if (riverData) setRivers(riverData);
+      if (lakeData) setLakes(lakeData);
     };
     void loadGeo();
     return () => {
@@ -597,7 +621,7 @@ export function GrandMap() {
   }, []);
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current || !geojson || !nationalBorders) return;
+    if (!containerRef.current || mapRef.current || !geojson || !nationalBorders || !rivers || !lakes) return;
     let alive = true;
     let createdMap: MapLibreMap | null = null;
 
@@ -656,6 +680,14 @@ export function GrandMap() {
         map.addSource(MAP_MOVEMENT_SOURCE, {
           type: 'geojson',
           data: { type: 'FeatureCollection', features: [] } as unknown as object,
+        });
+        map.addSource(MAP_RIVERS_SOURCE_ID, {
+          type: 'geojson',
+          data: rivers as object,
+        });
+        map.addSource(MAP_LAKES_SOURCE_ID, {
+          type: 'geojson',
+          data: lakes as object,
         });
 
         // ---- Sea plate: engraved water, graticule, coastal aquatint --------
@@ -767,6 +799,43 @@ export function GrandMap() {
           paint: {
             'fill-color': LAND_PAPER,
             'fill-opacity': 1,
+          },
+        });
+
+        // ---- Water plate (V6): engraved lakes + rivers on the land mass ---
+        // Lakes sit on the paper underlay as muted steel-blue fills with an
+        // ink shoreline; rivers are tapered ink strokes above terrain tints
+        // but below province borders, so they read as plate engraving, not
+        // as boundaries. Both fade in with zoom like the other engraving.
+        map.addLayer({
+          id: MAP_LAKES_FILL_LAYER,
+          type: 'fill',
+          source: MAP_LAKES_SOURCE_ID,
+          paint: {
+            'fill-color': LAKE_FILL,
+            'fill-opacity': ['interpolate', ['linear'], ['zoom'], 1.5, 0.55, 4, 0.7, 7, 0.8],
+          },
+        });
+        map.addLayer({
+          id: MAP_LAKES_LINE_LAYER,
+          type: 'line',
+          source: MAP_LAKES_SOURCE_ID,
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: {
+            'line-color': LAKE_SHORE,
+            'line-width': ['interpolate', ['linear'], ['zoom'], 1.5, 0.5, 4, 0.9, 7, 1.3],
+            'line-opacity': ['interpolate', ['linear'], ['zoom'], 1.5, 0.35, 4, 0.5, 7, 0.6],
+          },
+        });
+        map.addLayer({
+          id: MAP_RIVERS_LAYER,
+          type: 'line',
+          source: MAP_RIVERS_SOURCE_ID,
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: {
+            'line-color': RIVER_INK,
+            'line-width': ['interpolate', ['linear'], ['zoom'], 2, 0.4, 4, 0.8, 6.5, 1.6],
+            'line-opacity': ['interpolate', ['linear'], ['zoom'], 2, 0.28, 4, 0.42, 6.5, 0.55],
           },
         });
 
@@ -1195,7 +1264,7 @@ export function GrandMap() {
       if (import.meta.env.DEV) delete (globalThis as { __grandCenturyMap?: MapLibreMap }).__grandCenturyMap;
       setMapReady(false);
     };
-  }, [bounds, geojson, nationalBorders, provinceNameById, selectProvince, sendCommand]);
+  }, [bounds, geojson, nationalBorders, rivers, lakes, provinceNameById, selectProvince, sendCommand]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -1460,26 +1529,32 @@ export function GrandMap() {
     };
 
     const upsertProvinceMarker = (province: ProvinceLabelSeed, size: number, opacity: number) => {
+      const dotHtml = province.capital
+        ? '<i class="grand-map__province-star" aria-hidden="true">★</i>'
+        : '<i class="grand-map__province-dot" aria-hidden="true"></i>';
       const existing = provinceMarkers.get(province.id);
       if (existing) {
         const element = existing.getElement() as HTMLDivElement;
-        element.innerHTML = `<i class="grand-map__province-dot" aria-hidden="true"></i>${province.name}`;
+        element.innerHTML = `${dotHtml}${province.name}`;
         element.style.fontSize = `${size.toFixed(1)}px`;
         element.style.opacity = `${opacity.toFixed(3)}`;
         element.dataset.owner = province.ownerTag;
         element.dataset.minzoom = province.minZoom.toFixed(2);
         element.dataset.prominence = province.prominence.toFixed(3);
+        if (province.capital) element.dataset.capital = '1';
+        else delete element.dataset.capital;
         existing.setLngLat([province.lon, province.lat]);
         return;
       }
       const el = document.createElement('div');
       el.className = 'grand-map__province-label';
-      el.innerHTML = `<i class="grand-map__province-dot" aria-hidden="true"></i>${province.name}`;
+      el.innerHTML = `${dotHtml}${province.name}`;
       el.style.fontSize = `${size.toFixed(1)}px`;
       el.style.opacity = `${opacity.toFixed(3)}`;
       el.dataset.owner = province.ownerTag;
       el.dataset.minzoom = province.minZoom.toFixed(2);
       el.dataset.prominence = province.prominence.toFixed(3);
+      if (province.capital) el.dataset.capital = '1';
       const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
         .setLngLat([province.lon, province.lat])
         .addTo(map);

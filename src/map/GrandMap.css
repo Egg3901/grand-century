@@ -157,6 +157,26 @@
     0 0 2px rgba(246, 235, 206, 0.6);
 }
 
+/* Capital star (V6): the ★ beside the seat of government — the universal
+   period-atlas convention. Slightly larger than the settlement dot, ink-dark
+   with a paper halo so it reads over any nation fill. */
+.grand-map__province-star {
+  flex: none;
+  font-style: normal;
+  font-size: 0.72em;
+  line-height: 1;
+  color: #22150a;
+  text-shadow:
+    0 0 2px rgba(246, 235, 206, 0.9),
+    0 0 3px rgba(246, 235, 206, 0.7);
+}
+
+/* Capitals read as proper names, not italic settlement annotations. */
+.grand-map__province-label[data-capital='1'] {
+  font-style: normal;
+  font-weight: 600;
+}
+
 /* 0.5.2 heraldic unit counters — engraved shield (army) / naval cartouche
    (fleet) with a strength ribbon. Static DOM, compositor-only hover. */
 .grand-map__unit {
