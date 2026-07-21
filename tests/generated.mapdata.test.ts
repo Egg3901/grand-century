@@ -4,7 +4,7 @@ import { WORLD_SEED } from '../src/data/generated';
 describe('generated world seed data', () => {
   it('stays in the perf-safe province range', () => {
     expect(WORLD_SEED.provinces.length).toBeGreaterThanOrEqual(300);
-    expect(WORLD_SEED.provinces.length).toBeLessThanOrEqual(700);
+    expect(WORLD_SEED.provinces.length).toBeLessThanOrEqual(800);
   });
 
   it('ensures every province has at least one neighbor', () => {

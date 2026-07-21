@@ -35,7 +35,7 @@ test('consolidated map: real names, not boxy Europe/China', async ({ page }) => 
   test.skip(!browserReady, 'Playwright browsers unavailable in this environment.');
 
   expect(WORLD_SEED.provinceCount).toBeGreaterThanOrEqual(300);
-  expect(WORLD_SEED.provinceCount).toBeLessThanOrEqual(700);
+  expect(WORLD_SEED.provinceCount).toBeLessThanOrEqual(800);
   expect(WORLD_SEED.provinces.every((province) => !/\s\d+$/.test(province.name))).toBe(true);
 
   const chinaNames = new Set([
@@ -48,7 +48,11 @@ test('consolidated map: real names, not boxy Europe/China', async ({ page }) => 
   expect(chinaCount).toBe(31);
   expect(WORLD_SEED.provinces.some((province) => province.name === 'Bavaria')).toBe(true);
   expect(WORLD_SEED.provinces.some((province) => province.name === 'Gansu')).toBe(true);
-  expect(WORLD_SEED.provinces.some((province) => province.name === 'France')).toBe(true);
+  const frenchRegions = ['Île-de-France', 'Normandy', 'Brittany', 'Aquitaine', 'Occitanie', 'Provence'];
+  for (const name of frenchRegions) {
+    expect(WORLD_SEED.provinces.some((province) => province.name === name)).toBe(true);
+  }
+  expect(WORLD_SEED.provinces.some((province) => province.name === 'France')).toBe(false);
 
   await page.goto('/');
   await page.getByTestId('menu-new-game').click();
@@ -57,6 +61,27 @@ test('consolidated map: real names, not boxy Europe/China', async ({ page }) => 
 
   await jumpTo(page, [10, 20], 1.4);
   await page.screenshot({ path: 'artifacts/map-world-consolidated.png', fullPage: true });
+
+  await jumpTo(page, [2.3, 46.5], 5.2);
+  await page.screenshot({ path: 'artifacts/map-france-organic.png', fullPage: true });
+  const franceHovers: string[] = [];
+  for (const pos of [
+    { x: 640, y: 300 },
+    { x: 520, y: 280 },
+    { x: 480, y: 360 },
+    { x: 600, y: 420 },
+    { x: 700, y: 430 },
+    { x: 640, y: 360 },
+  ]) {
+    await hoverMap(page, pos.x, pos.y);
+    const tip = (await page.locator('.grand-map__tooltip strong').textContent())?.trim() ?? '';
+    if (tip) franceHovers.push(tip);
+  }
+  const uniqueFrance = [...new Set(franceHovers)];
+  console.log(`[verify] France hovers: ${uniqueFrance.join(', ')}`);
+  expect(uniqueFrance.some((name) => frenchRegions.includes(name))).toBe(true);
+  expect(uniqueFrance.every((name) => !/\s\d+$/.test(name))).toBe(true);
+  expect(uniqueFrance.includes('France')).toBe(false);
 
   await jumpTo(page, [8, 49], 4.6);
   await page.screenshot({ path: 'artifacts/map-western-europe.png', fullPage: true });
