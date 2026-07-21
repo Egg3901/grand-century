@@ -16,11 +16,14 @@ const ADMIN1_FILES = [
 const ADMIN0_FILE = 'ne_110m_admin_0_countries.geojson';
 
 const MIN_PROVINCES = 300;
-const MAX_PROVINCES = 700;
+const MAX_PROVINCES = 800;
 const TOUCH_EPSILON = 0.045;
 const SLIVER_ABS_AREA = 0.012;
 const SOURCE_TOLERANCE = 0.025;
 const ADMIN0_TOLERANCE = 0.03;
+/** Whole-country provinces above this planar area get an organic Voronoi split. */
+const OVERSIZE_AREA_THRESHOLD = 32;
+const ORGANIC_DENSE_EDGE = 0.55;
 const KEEP_LARGE_ADMINS = new Set([
   'russia',
   'united states of america',
@@ -31,6 +34,11 @@ const KEEP_LARGE_ADMINS = new Set([
   'india',
   'indonesia',
   'australia',
+  'south africa',
+]);
+/** Skip ice-sheet / non-playable blobs; leave as a single province. */
+const SKIP_ORGANIC_SPLIT = new Set([
+  'antarctica',
 ]);
 
 const GOV_DEFAULT = 'absolute_monarchy';
@@ -149,6 +157,254 @@ const HISTORICAL_PARTITIONS = {
     { name: 'Parma', ownerTag: 'PAR', bounds: { minLon: 9.3, maxLon: 10.6, minLat: 44.15, maxLat: 45.15 } },
     { name: 'Lombardy-Venetia', ownerTag: 'AUS', bounds: { minLon: 8.5, maxLon: 13.9, minLat: 45.05, maxLat: 47.2 } },
     { name: 'Piedmont', ownerTag: 'SAR', bounds: null },
+  ],
+};
+
+/**
+ * Real regional seeds for organic Voronoi splits of oversized single-admin countries.
+ * Coordinates are approximate historic/regional centers used only as partition sites.
+ */
+const ORGANIC_REGION_SEEDS = {
+  france: [
+    { name: 'Île-de-France', lon: 2.35, lat: 48.86 },
+    { name: 'Normandy', lon: 1.09, lat: 49.44 },
+    { name: 'Brittany', lon: -1.68, lat: 48.11 },
+    { name: 'Aquitaine', lon: -0.58, lat: 44.84 },
+    { name: 'Occitanie', lon: 1.44, lat: 43.60 },
+    { name: 'Provence', lon: 5.37, lat: 43.30 },
+  ],
+  spain: [
+    { name: 'Castile', lon: -3.70, lat: 40.42 },
+    { name: 'Andalusia', lon: -5.98, lat: 37.39 },
+    { name: 'Catalonia', lon: 2.17, lat: 41.39 },
+    { name: 'Galicia', lon: -8.54, lat: 42.88 },
+    { name: 'Valencia', lon: -0.38, lat: 39.47 },
+  ],
+  'united kingdom': [
+    { name: 'England', lon: -1.5, lat: 52.5 },
+    { name: 'Scotland', lon: -4.2, lat: 56.5 },
+    { name: 'Wales', lon: -3.8, lat: 52.3 },
+    { name: 'Ireland', lon: -7.5, lat: 53.4 },
+  ],
+  sweden: [
+    { name: 'Svealand', lon: 18.07, lat: 59.33 },
+    { name: 'Götaland', lon: 11.97, lat: 57.71 },
+    { name: 'Norrland', lon: 18.15, lat: 63.18 },
+  ],
+  norway: [
+    { name: 'Eastern Norway', lon: 10.75, lat: 59.91 },
+    { name: 'Western Norway', lon: 5.32, lat: 60.39 },
+    { name: 'Northern Norway', lon: 18.96, lat: 69.65 },
+  ],
+  poland: [
+    { name: 'Greater Poland', lon: 16.93, lat: 52.41 },
+    { name: 'Lesser Poland', lon: 19.94, lat: 50.06 },
+    { name: 'Mazovia', lon: 21.01, lat: 52.23 },
+    { name: 'Pomerania', lon: 18.65, lat: 54.35 },
+  ],
+  turkey: [
+    { name: 'Thrace', lon: 28.98, lat: 41.01 },
+    { name: 'Anatolia', lon: 32.86, lat: 39.93 },
+    { name: 'Pontus', lon: 39.72, lat: 41.00 },
+    { name: 'Cilicia', lon: 35.32, lat: 37.00 },
+  ],
+  iran: [
+    { name: 'Persia', lon: 51.39, lat: 35.69 },
+    { name: 'Khorasan', lon: 59.57, lat: 36.26 },
+    { name: 'Fars', lon: 52.53, lat: 29.59 },
+    { name: 'Azerbaijan', lon: 46.29, lat: 38.08 },
+  ],
+  egypt: [
+    { name: 'Lower Egypt', lon: 31.24, lat: 30.04 },
+    { name: 'Upper Egypt', lon: 32.90, lat: 25.69 },
+    { name: 'Western Desert', lon: 28.5, lat: 27.5 },
+  ],
+  algeria: [
+    { name: 'Algiers', lon: 3.06, lat: 36.75 },
+    { name: 'Oran', lon: -0.64, lat: 35.70 },
+    { name: 'Constantine', lon: 6.61, lat: 36.37 },
+    { name: 'Sahara', lon: 3.0, lat: 28.0 },
+  ],
+  morocco: [
+    { name: 'Maghreb', lon: -7.98, lat: 31.63 },
+    { name: 'Rif', lon: -5.0, lat: 35.2 },
+    { name: 'Souss', lon: -9.6, lat: 30.4 },
+  ],
+  libya: [
+    { name: 'Tripolitania', lon: 13.19, lat: 32.89 },
+    { name: 'Cyrenaica', lon: 20.07, lat: 32.12 },
+    { name: 'Fezzan', lon: 14.4, lat: 27.0 },
+  ],
+  mexico: [
+    { name: 'Central Mexico', lon: -99.13, lat: 19.43 },
+    { name: 'Yucatán', lon: -89.62, lat: 20.97 },
+    { name: 'Northern Mexico', lon: -106.07, lat: 28.63 },
+    { name: 'Pacific Mexico', lon: -103.35, lat: 20.66 },
+    { name: 'Gulf Mexico', lon: -96.13, lat: 19.17 },
+  ],
+  argentina: [
+    { name: 'Buenos Aires', lon: -58.38, lat: -34.60 },
+    { name: 'Patagonia', lon: -68.3, lat: -41.1 },
+    { name: 'Northwest Argentina', lon: -65.2, lat: -26.8 },
+    { name: 'Cuyo', lon: -68.85, lat: -32.89 },
+    { name: 'Litoral', lon: -60.7, lat: -31.6 },
+  ],
+  peru: [
+    { name: 'Lima', lon: -77.04, lat: -12.05 },
+    { name: 'Arequipa', lon: -71.54, lat: -16.41 },
+    { name: 'Cusco', lon: -71.97, lat: -13.53 },
+    { name: 'Amazonas', lon: -73.5, lat: -5.5 },
+  ],
+  chile: [
+    { name: 'Central Chile', lon: -70.67, lat: -33.45 },
+    { name: 'Norte Grande', lon: -70.3, lat: -23.65 },
+    { name: 'Araucanía', lon: -72.59, lat: -38.74 },
+  ],
+  japan: [
+    { name: 'Kanto', lon: 139.69, lat: 35.68 },
+    { name: 'Kansai', lon: 135.50, lat: 34.69 },
+    { name: 'Kyushu', lon: 130.40, lat: 33.59 },
+    { name: 'Tohoku', lon: 140.87, lat: 38.27 },
+  ],
+  kazakhstan: [
+    { name: 'Western Kazakhstan', lon: 51.92, lat: 47.12 },
+    { name: 'Northern Kazakhstan', lon: 71.47, lat: 51.18 },
+    { name: 'Southern Kazakhstan', lon: 76.93, lat: 43.24 },
+    { name: 'Eastern Kazakhstan', lon: 82.62, lat: 49.95 },
+    { name: 'Central Kazakhstan', lon: 67.0, lat: 48.0 },
+  ],
+  ukraine: [
+    { name: 'Kyiv', lon: 30.52, lat: 50.45 },
+    { name: 'Kharkiv', lon: 36.23, lat: 49.99 },
+    { name: 'Odessa', lon: 30.72, lat: 46.48 },
+    { name: 'Lviv', lon: 24.03, lat: 49.84 },
+  ],
+  finland: [
+    { name: 'Southern Finland', lon: 24.94, lat: 60.17 },
+    { name: 'Ostrobothnia', lon: 21.51, lat: 63.10 },
+    { name: 'Lapland', lon: 25.73, lat: 66.50 },
+  ],
+  afghanistan: [
+    { name: 'Kabul', lon: 69.17, lat: 34.53 },
+    { name: 'Herat', lon: 62.20, lat: 34.35 },
+    { name: 'Kandahar', lon: 65.72, lat: 31.61 },
+    { name: 'Balkh', lon: 67.00, lat: 36.76 },
+  ],
+  mongolia: [
+    { name: 'Ulaanbaatar', lon: 106.91, lat: 47.92 },
+    { name: 'Western Mongolia', lon: 91.64, lat: 46.1 },
+    { name: 'Eastern Mongolia', lon: 114.5, lat: 48.0 },
+    { name: 'Gobi', lon: 104.0, lat: 43.5 },
+  ],
+  'saudi arabia': [
+    { name: 'Hejaz', lon: 39.83, lat: 21.39 },
+    { name: 'Nejd', lon: 46.72, lat: 24.69 },
+    { name: 'Eastern Arabia', lon: 50.1, lat: 26.4 },
+    { name: 'Asir', lon: 42.5, lat: 18.2 },
+  ],
+  sudan: [
+    { name: 'Khartoum', lon: 32.56, lat: 15.50 },
+    { name: 'Darfur', lon: 24.2, lat: 13.5 },
+    { name: 'Kordofan', lon: 30.2, lat: 13.0 },
+    { name: 'Red Sea Coast', lon: 37.2, lat: 19.6 },
+  ],
+  ethiopia: [
+    { name: 'Shewa', lon: 38.74, lat: 9.03 },
+    { name: 'Tigray', lon: 39.47, lat: 13.50 },
+    { name: 'Oromia', lon: 39.0, lat: 7.5 },
+    { name: 'Amhara', lon: 37.4, lat: 11.6 },
+  ],
+  thailand: [
+    { name: 'Central Siam', lon: 100.50, lat: 13.76 },
+    { name: 'Northern Siam', lon: 98.99, lat: 18.79 },
+    { name: 'Isan', lon: 102.79, lat: 16.43 },
+    { name: 'Southern Siam', lon: 99.33, lat: 9.97 },
+  ],
+  myanmar: [
+    { name: 'Lower Burma', lon: 96.16, lat: 16.80 },
+    { name: 'Upper Burma', lon: 96.08, lat: 21.97 },
+    { name: 'Shan', lon: 97.4, lat: 20.8 },
+  ],
+  pakistan: [
+    { name: 'Punjab', lon: 74.36, lat: 31.55 },
+    { name: 'Sindh', lon: 67.00, lat: 24.86 },
+    { name: 'Baluchistan', lon: 67.00, lat: 30.18 },
+    { name: 'Frontier', lon: 71.52, lat: 34.01 },
+  ],
+  colombia: [
+    { name: 'Bogotá', lon: -74.07, lat: 4.71 },
+    { name: 'Caribbean Colombia', lon: -75.5, lat: 10.4 },
+    { name: 'Pacific Colombia', lon: -76.5, lat: 3.5 },
+    { name: 'Llanos', lon: -70.5, lat: 5.0 },
+  ],
+  venezuela: [
+    { name: 'Caracas', lon: -66.90, lat: 10.48 },
+    { name: 'Zulia', lon: -71.64, lat: 10.67 },
+    { name: 'Guayana', lon: -62.7, lat: 8.3 },
+    { name: 'Los Llanos', lon: -67.5, lat: 8.0 },
+  ],
+  bolivia: [
+    { name: 'La Paz', lon: -68.15, lat: -16.50 },
+    { name: 'Santa Cruz', lon: -63.18, lat: -17.78 },
+    { name: 'Altiplano', lon: -66.9, lat: -19.0 },
+  ],
+  angola: [
+    { name: 'Luanda', lon: 13.23, lat: -8.84 },
+    { name: 'Huambo', lon: 15.74, lat: -12.78 },
+    { name: 'Cuando Cubango', lon: 17.7, lat: -16.0 },
+  ],
+  mozambique: [
+    { name: 'Maputo', lon: 32.57, lat: -25.97 },
+    { name: 'Beira', lon: 34.84, lat: -19.83 },
+    { name: 'Nampula', lon: 39.27, lat: -15.12 },
+  ],
+  nigeria: [
+    { name: 'Lagos', lon: 3.38, lat: 6.52 },
+    { name: 'Kano', lon: 8.52, lat: 12.00 },
+    { name: 'Niger Delta', lon: 6.9, lat: 4.8 },
+    { name: 'Middle Belt', lon: 7.5, lat: 9.1 },
+  ],
+  madagascar: [
+    { name: 'Antananarivo', lon: 47.51, lat: -18.88 },
+    { name: 'Toamasina', lon: 49.40, lat: -18.15 },
+    { name: 'Toliara', lon: 43.67, lat: -23.35 },
+  ],
+  greenland: [
+    { name: 'West Greenland', lon: -51.7, lat: 64.2 },
+    { name: 'East Greenland', lon: -37.6, lat: 65.6 },
+    { name: 'North Greenland', lon: -46.0, lat: 77.0 },
+  ],
+  iraq: [
+    { name: 'Baghdad', lon: 44.37, lat: 33.31 },
+    { name: 'Basra', lon: 47.78, lat: 30.51 },
+    { name: 'Mosul', lon: 43.12, lat: 36.34 },
+  ],
+  'democratic republic of the congo': [
+    { name: 'Kinshasa', lon: 15.31, lat: -4.33 },
+    { name: 'Katanga', lon: 27.48, lat: -11.66 },
+    { name: 'Orientale', lon: 25.2, lat: 0.5 },
+    { name: 'Kasai', lon: 23.6, lat: -5.9 },
+    { name: 'Equateur', lon: 18.3, lat: 0.0 },
+  ],
+  mali: [
+    { name: 'Bamako', lon: -8.00, lat: 12.64 },
+    { name: 'Timbuktu', lon: -3.00, lat: 16.77 },
+    { name: 'Gao', lon: 0.04, lat: 16.27 },
+  ],
+  niger: [
+    { name: 'Niamey', lon: 2.11, lat: 13.51 },
+    { name: 'Agadez', lon: 7.99, lat: 16.97 },
+    { name: 'Zinder', lon: 8.99, lat: 13.81 },
+  ],
+  chad: [
+    { name: 'N\'Djamena', lon: 15.04, lat: 12.13 },
+    { name: 'Borkou', lon: 18.0, lat: 17.9 },
+    { name: 'Ouaddaï', lon: 21.0, lat: 13.8 },
+  ],
+  mauritania: [
+    { name: 'Nouakchott', lon: -15.98, lat: 18.07 },
+    { name: 'Adrar', lon: -11.95, lat: 20.5 },
+    { name: 'Hodh', lon: -8.0, lat: 16.5 },
   ],
 };
 
@@ -724,6 +980,373 @@ function subtractBBoxFromGeometry(geometry, bbox) {
     parts.push(...toPolygons(clipped));
   }
   return geometryFromPolygons(parts);
+}
+
+function pointInRing(point, ring) {
+  const x = point[0];
+  const y = point[1];
+  let inside = false;
+  const closed = ensureClosedRing(ring);
+  for (let i = 0, j = closed.length - 1; i < closed.length; j = i++) {
+    const xi = closed[i][0];
+    const yi = closed[i][1];
+    const xj = closed[j][0];
+    const yj = closed[j][1];
+    const intersect = ((yi > y) !== (yj > y))
+      && (x < ((xj - xi) * (y - yi)) / ((yj - yi) || 1e-15) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+
+function pointInGeometry(point, geometry) {
+  for (const polygon of toPolygons(geometry)) {
+    if (!pointInRing(point, polygon[0])) continue;
+    let inHole = false;
+    for (let h = 1; h < polygon.length; h++) {
+      if (pointInRing(point, polygon[h])) {
+        inHole = true;
+        break;
+      }
+    }
+    if (!inHole) return true;
+  }
+  return false;
+}
+
+function densifyRing(ring, maxEdge) {
+  const closed = ensureClosedRing(ring);
+  if (closed.length < 4) return closed;
+  const out = [];
+  for (let i = 0; i < closed.length - 1; i++) {
+    const a = closed[i];
+    const b = closed[i + 1];
+    out.push([roundCoord(a[0]), roundCoord(a[1])]);
+    const dx = b[0] - a[0];
+    const dy = b[1] - a[1];
+    const dist = Math.hypot(dx, dy);
+    if (dist <= maxEdge) continue;
+    const steps = Math.ceil(dist / maxEdge);
+    for (let s = 1; s < steps; s++) {
+      const t = s / steps;
+      out.push([roundCoord(a[0] + dx * t), roundCoord(a[1] + dy * t)]);
+    }
+  }
+  return ensureClosedRing(out);
+}
+
+function densifyGeometry(geometry, maxEdge) {
+  const polygons = toPolygons(geometry).map((polygon) => (
+    polygon.map((ring) => densifyRing(ring, maxEdge))
+  ));
+  return geometryFromPolygons(polygons);
+}
+
+/** Keep the side of the perpendicular bisector closer to siteA than siteB (true Voronoi half-plane). */
+function clipRingByHalfPlane(ring, siteA, siteB) {
+  const closed = ensureClosedRing(ring);
+  if (closed.length < 4) return null;
+  const ax = siteA[0];
+  const ay = siteA[1];
+  const bx = siteB[0];
+  const by = siteB[1];
+  const inside = (point) => {
+    const da = (point[0] - ax) * (point[0] - ax) + (point[1] - ay) * (point[1] - ay);
+    const db = (point[0] - bx) * (point[0] - bx) + (point[1] - by) * (point[1] - by);
+    return da <= db + 1e-12;
+  };
+  const intersect = (p, q) => {
+    const dx = q[0] - p[0];
+    const dy = q[1] - p[1];
+    const nx = 2 * (bx - ax);
+    const ny = 2 * (by - ay);
+    const rhs = (bx * bx + by * by) - (ax * ax + ay * ay);
+    const denom = nx * dx + ny * dy;
+    const t = Math.abs(denom) < 1e-15 ? 0 : (rhs - (nx * p[0] + ny * p[1])) / denom;
+    const clamped = clamp(t, 0, 1);
+    return [roundCoord(p[0] + clamped * dx), roundCoord(p[1] + clamped * dy)];
+  };
+
+  const output = [];
+  for (let i = 0; i < closed.length - 1; i++) {
+    const current = closed[i];
+    const next = closed[i + 1];
+    const currentInside = inside(current);
+    const nextInside = inside(next);
+    if (currentInside && nextInside) output.push(next);
+    else if (currentInside && !nextInside) output.push(intersect(current, next));
+    else if (!currentInside && nextInside) {
+      output.push(intersect(current, next));
+      output.push(next);
+    }
+  }
+  if (output.length < 3) return null;
+  const deduped = [];
+  for (const point of output) {
+    const prev = deduped[deduped.length - 1];
+    if (!prev || prev[0] !== point[0] || prev[1] !== point[1]) deduped.push(point);
+  }
+  if (deduped.length < 3) return null;
+  const closedOut = ensureClosedRing(deduped);
+  if (closedOut.length < 4) return null;
+  if (Math.abs(polygonAreaRing(closedOut)) < 1e-8) return null;
+  return closedOut;
+}
+
+function clipGeometryByHalfPlane(geometry, siteA, siteB) {
+  const out = [];
+  for (const polygon of toPolygons(geometry)) {
+    const outer = clipRingByHalfPlane(polygon[0], siteA, siteB);
+    if (!outer) continue;
+    const holes = [];
+    for (let h = 1; h < polygon.length; h++) {
+      const hole = clipRingByHalfPlane(polygon[h], siteA, siteB);
+      if (hole && Math.abs(polygonAreaRing(hole)) > 1e-8) holes.push(hole);
+    }
+    out.push([outer, ...holes]);
+  }
+  return geometryFromPolygons(out);
+}
+
+function voronoiPartitionGeometry(geometry, seeds) {
+  const cells = [];
+  for (let i = 0; i < seeds.length; i++) {
+    let cell = geometry;
+    for (let j = 0; j < seeds.length; j++) {
+      if (i === j) continue;
+      cell = clipGeometryByHalfPlane(cell, seeds[i], seeds[j]);
+      if (!cell) break;
+    }
+    cells.push(cell);
+  }
+  return cells;
+}
+
+function sampleInteriorPoints(geometry, salt) {
+  const bbox = geometryBounds(geometry);
+  if (!bbox) return [];
+  const width = Math.max(1e-6, bbox.maxLon - bbox.minLon);
+  const height = Math.max(1e-6, bbox.maxLat - bbox.minLat);
+  const target = clamp(Math.round((width * height) / 4), 48, 220);
+  const grid = Math.max(6, Math.ceil(Math.sqrt(target)));
+  const points = [];
+  for (let gy = 0; gy < grid; gy++) {
+    for (let gx = 0; gx < grid; gx++) {
+      const jitter = ((hashString(`${salt}:${gx}:${gy}`) % 1000) / 1000 - 0.5) * 0.35;
+      const lon = bbox.minLon + ((gx + 0.5 + jitter) / grid) * width;
+      const lat = bbox.minLat + ((gy + 0.5 - jitter) / grid) * height;
+      const point = [roundCoord(lon), roundCoord(lat)];
+      if (pointInGeometry(point, geometry)) points.push(point);
+    }
+  }
+  if (points.length === 0) {
+    const centroid = geometryCentroid(geometry);
+    if (pointInGeometry(centroid, geometry)) points.push([roundCoord(centroid[0]), roundCoord(centroid[1])]);
+  }
+  points.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  return points;
+}
+
+function farthestPointSample(candidates, count, salt) {
+  if (candidates.length === 0) return [];
+  if (candidates.length <= count) return candidates.slice();
+  const startIndex = hashString(salt) % candidates.length;
+  const chosen = [candidates[startIndex]];
+  const remaining = candidates.filter((_, index) => index !== startIndex);
+  while (chosen.length < count && remaining.length > 0) {
+    let bestIndex = 0;
+    let bestScore = -1;
+    for (let i = 0; i < remaining.length; i++) {
+      const point = remaining[i];
+      let minDist = Infinity;
+      for (const seed of chosen) {
+        const dx = point[0] - seed[0];
+        const dy = point[1] - seed[1];
+        const dist = dx * dx + dy * dy;
+        if (dist < minDist) minDist = dist;
+      }
+      if (minDist > bestScore || (minDist === bestScore && (
+        point[0] < remaining[bestIndex][0]
+        || (point[0] === remaining[bestIndex][0] && point[1] < remaining[bestIndex][1])
+      ))) {
+        bestScore = minDist;
+        bestIndex = i;
+      }
+    }
+    chosen.push(remaining.splice(bestIndex, 1)[0]);
+  }
+  return chosen;
+}
+
+function snapSeedInside(seed, geometry, candidates) {
+  if (pointInGeometry(seed, geometry)) return [roundCoord(seed[0]), roundCoord(seed[1])];
+  let best = null;
+  let bestDist = Infinity;
+  for (const candidate of candidates) {
+    const dx = candidate[0] - seed[0];
+    const dy = candidate[1] - seed[1];
+    const dist = dx * dx + dy * dy;
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = candidate;
+    }
+  }
+  if (best) return best.slice();
+  const centroid = geometryCentroid(geometry);
+  return [roundCoord(centroid[0]), roundCoord(centroid[1])];
+}
+
+function compassRegionName(countryName, seed, centroid) {
+  const dx = seed[0] - centroid[0];
+  const dy = seed[1] - centroid[1];
+  if (Math.hypot(dx, dy) < 1e-6) return `${countryName} (Central)`;
+  const angle = Math.atan2(dy, dx);
+  const sectors = [
+    'East', 'Northeast', 'North', 'Northwest',
+    'West', 'Southwest', 'South', 'Southeast',
+  ];
+  const index = Math.round(((angle + Math.PI * 2) % (Math.PI * 2)) / (Math.PI / 4)) % 8;
+  return `${countryName} (${sectors[index]})`;
+}
+
+function targetOrganicPartCount(area) {
+  if (area >= 250) return 6;
+  if (area >= 120) return 5;
+  if (area >= 70) return 4;
+  return 3;
+}
+
+function shouldOrganicSplitUnit(unit) {
+  if (KEEP_LARGE_ADMINS.has(unit.countryKey)) return false;
+  if (SKIP_ORGANIC_SPLIT.has(unit.countryKey)) return false;
+  if (unit.area < OVERSIZE_AREA_THRESHOLD) return false;
+  const wholeCountry = normalizeName(unit.stateName) === normalizeName(unit.adminName)
+    || String(unit.parentKey || '').startsWith('ADM0-');
+  return wholeCountry;
+}
+
+function resolveOrganicSeeds(unit, geometry, partCount) {
+  const country = unit.countryKey;
+  const catalog = ORGANIC_REGION_SEEDS[country];
+  const candidates = sampleInteriorPoints(geometry, `${unit.parentKey}:sample`);
+  const centroid = geometryCentroid(geometry);
+  if (catalog && catalog.length > 0) {
+    const named = catalog
+      .slice()
+      .sort((a, b) => normalizeName(a.name).localeCompare(normalizeName(b.name)) || a.lon - b.lon || a.lat - b.lat)
+      .slice(0, Math.max(partCount, Math.min(6, catalog.length)))
+      .map((entry) => ({
+        name: entry.name,
+        point: snapSeedInside([entry.lon, entry.lat], geometry, candidates),
+      }));
+    // Deduplicate snapped points that collapsed together.
+    const unique = [];
+    for (const entry of named) {
+      const clash = unique.some((other) => (
+        Math.hypot(other.point[0] - entry.point[0], other.point[1] - entry.point[1]) < 0.15
+      ));
+      if (!clash) unique.push(entry);
+    }
+    if (unique.length >= 3) return unique;
+  }
+
+  const count = clamp(partCount, 3, 6);
+  const points = farthestPointSample(candidates, count, `${unit.parentKey}:fps`);
+  return points.map((point) => ({
+    name: compassRegionName(unit.adminName || unit.stateName, point, centroid),
+    point,
+  }));
+}
+
+function assignIslandPolygonsToSeeds(polygons, seeds) {
+  const groups = seeds.map(() => []);
+  for (const polygon of polygons) {
+    const geometry = { type: 'Polygon', coordinates: polygon };
+    const centroid = geometryCentroid(geometry);
+    let best = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < seeds.length; i++) {
+      const dx = centroid[0] - seeds[i][0];
+      const dy = centroid[1] - seeds[i][1];
+      const dist = dx * dx + dy * dy;
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+    }
+    groups[best].push(polygon);
+  }
+  return groups;
+}
+
+function organicSplitUnit(unit) {
+  const baseGeometry = geometryFromPolygons(unit.polygons);
+  if (!baseGeometry) return [unit];
+  const densified = densifyGeometry(baseGeometry, ORGANIC_DENSE_EDGE);
+  const partCount = targetOrganicPartCount(unit.area);
+  const seeded = resolveOrganicSeeds(unit, densified, partCount);
+  if (seeded.length < 2) return [unit];
+
+  const seedPoints = seeded.map((entry) => entry.point);
+  // Partition the largest landmass with Voronoi half-planes; ship leftover islands to nearest seed.
+  const polygons = toPolygons(densified)
+    .slice()
+    .sort((a, b) => Math.abs(polygonAreaRing(b[0])) - Math.abs(polygonAreaRing(a[0])));
+  const mainland = polygons[0];
+  const islands = polygons.slice(1);
+  const mainlandGeometry = { type: 'Polygon', coordinates: mainland };
+  const cells = voronoiPartitionGeometry(mainlandGeometry, seedPoints);
+  const islandGroups = assignIslandPolygonsToSeeds(islands, seedPoints);
+
+  const units = [];
+  for (let i = 0; i < seeded.length; i++) {
+    const cellPolygons = [];
+    if (cells[i]) cellPolygons.push(...toPolygons(cells[i]));
+    cellPolygons.push(...islandGroups[i]);
+    if (cellPolygons.length === 0) continue;
+    const piece = unitFromGeometry(
+      {
+        ...unit,
+        parentKey: unit.parentKey,
+        countryKey: unit.countryKey,
+      },
+      geometryFromPolygons(cellPolygons),
+      seeded[i].name,
+      unit.ownerTag,
+      `organic-${normalizeName(seeded[i].name).replace(/\s+/g, '-')}`,
+    );
+    if (!piece || piece.area < 1e-6) continue;
+    piece.lockedOwner = Boolean(unit.lockedOwner);
+    units.push(piece);
+  }
+
+  if (units.length < 2) return [unit];
+  return units.sort(deterministicUnitSort);
+}
+
+function splitOversizedCountryUnits(units) {
+  const out = [];
+  let splitCountries = 0;
+  let addedParts = 0;
+  for (const unit of units) {
+    if (!shouldOrganicSplitUnit(unit)) {
+      out.push(unit);
+      continue;
+    }
+    const parts = organicSplitUnit(unit);
+    if (parts.length <= 1) {
+      out.push(unit);
+      continue;
+    }
+    splitCountries += 1;
+    addedParts += parts.length - 1;
+    out.push(...parts);
+  }
+  return {
+    units: out.sort(deterministicUnitSort),
+    splitCountries,
+    addedParts,
+  };
 }
 
 function weightedCentroid(polygons) {
@@ -1307,7 +1930,8 @@ async function main() {
   }
 
   const baseUnits = parentsToUnits(parents);
-  const sliverResult = mergeTinySlivers(baseUnits);
+  const organicResult = splitOversizedCountryUnits(baseUnits);
+  const sliverResult = mergeTinySlivers(organicResult.units);
   assignUniqueRealNames(sliverResult.units);
   const { provinceRecords, stateRecords, bridgedIslands } = buildProvinceRecords(sliverResult.units);
 
@@ -1361,14 +1985,16 @@ async function main() {
   )).length;
   const qngCount = provinceRecords.filter((province) => province.ownerTag === 'QNG').length;
   const numbered = provinceRecords.filter((province) => /\s\d+$/.test(province.name));
-  const sampleNames = ['Gansu', 'California', 'Bavaria', 'Prussia', 'France', 'Texas', 'Piedmont', 'Saxony']
+  const sampleNames = ['Gansu', 'California', 'Bavaria', 'Prussia', 'Île-de-France', 'Brittany', 'Provence', 'Texas', 'Piedmont', 'Saxony']
     .map((wanted) => provinceRecords.find((province) => province.name === wanted || province.name.startsWith(wanted))?.name)
     .filter(Boolean);
 
   const geoGzipBytes = gzipSync(JSON.stringify(geojson)).length;
   console.log(`[build-map] Source: ${loaded.source}`);
   console.log(`[build-map] Parents loaded: ${parents.length} (admin-1 + ${admin0Appended} admin-0)`);
-  console.log(`[build-map] Units before sliver merge: ${baseUnits.length}`);
+  console.log(`[build-map] Units before organic split: ${baseUnits.length}`);
+  console.log(`[build-map] Organic splits: ${organicResult.splitCountries} countries (+${organicResult.addedParts} provinces)`);
+  console.log(`[build-map] Units before sliver merge: ${organicResult.units.length}`);
   console.log(`[build-map] Slivers merged: ${sliverResult.mergedCount}`);
   console.log(`[build-map] Island nearest-neighbor bridges: ${bridgedIslands}`);
   console.log(`[build-map] Provinces generated: ${provinceRecords.length}`);
