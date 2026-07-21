@@ -2,6 +2,50 @@
 
 All notable changes to Grand Century are documented here.
 
+## [0.9.0] — 2026-07-21
+
+The visual overhaul: the game now looks like the atlas it always wanted to be.
+
+### The atlas plate (V1–V7)
+- **Title screen** — hero backdrop, searchable nation browser, resume row,
+  seed behind Advanced.
+- **Panel & HUD chrome** — engraved rules, title shields, event-kind borders,
+  wax-seal close buttons, alternating rows; typography/focus/micro-interaction
+  polish; mobile refinements.
+- **Map engraving** — deeper nation fills, land aquatint, player border halo,
+  settlement dots, real rivers (478) & lakes (324) from Natural Earth 10m,
+  capital star glyphs.
+- **Real borders, done right (V7)** — provinces rebuilt as a true Natural
+  Earth 10m tessellation (every NE admin-1 unit assigned to exactly one
+  province): 0 overlapping provinces worldwide (V6 had 150+ in Europe alone),
+  0 holes, real coastlines, national-border ink only on actual national
+  borders. Topojson-style shared-arc simplification keeps both sides of every
+  border vertex-identical.
+
+### Nation flags (1.0-U0)
+- Era-appropriate flags for all 48 nations + the German/Italian formables —
+  hand-drawn plates in a muted atlas palette (Habsburg black-gold, 25-star US,
+  pre-1910 blue-white Portugal, Bourbon Two Sicilies, Tokugawa mon) — shown in
+  the HUD, diplomacy, great powers, event feed, panel chrome, and nation
+  browser. Unknown tags (procedural nations) fall back to procedural shields.
+
+### Procedural map modes (PR #5)
+- Start on the historical map, or a seeded procedural remap — contiguous
+  reshuffled realms using real nation identities or invented countries —
+  wired through the menu, permalinks, and saves.
+
+### Fixes
+- Political fills / hover / occupation overlays render again (V6 had dropped
+  the GeoJSON feature ids that feature-state needs; promoteId guards it now).
+- Country labels anchor at each nation's CAPITAL (UK labeled over Bengal
+  before — the seed's capitals were population-picked; 20 healed to real 1820
+  capitals) and no longer flash: label layout re-ran every sim tick, now only
+  when ownership actually changes.
+- Diplomacy/great-power rows keep flag and name together; seed reroll is a
+  text button (the die glyph had no font coverage).
+
+[0.9.0]: https://github.com/Egg3901/grand-century/releases/tag/v0.9.0
+
 ## [0.8.0] — 2026-07-21
 
 Nationalism, performance, and a mobile fix pass.
