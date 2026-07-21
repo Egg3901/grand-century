@@ -673,6 +673,8 @@
     margin: 0;
     background: var(--gc-overlay-soft);
     touch-action: manipulation;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .panel-host {

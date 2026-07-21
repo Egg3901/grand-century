@@ -126,7 +126,15 @@
   color: var(--gc-ink);
 }
 
-/* Buttons */
+/* Buttons — instant taps on touch (no sticky-hover / 300ms delay) */
+button,
+[role='button'],
+.btn,
+button.btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .btn,
 button.btn {
   font-family: var(--gc-font-body);
@@ -135,15 +143,23 @@ button.btn {
   border-radius: var(--gc-radius-sm);
   padding: 0.35rem 0.75rem;
   cursor: pointer;
-  touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
   transition:
     background-color 120ms ease,
     border-color 120ms ease,
     color 120ms ease,
-    box-shadow 120ms ease;
+    box-shadow 120ms ease,
+    filter 80ms ease,
+    transform 80ms ease;
+}
+
+.btn:active,
+button.btn:active,
+button:active {
+  transform: translateY(1px);
+  filter: brightness(0.97);
+  transition-duration: 0ms;
 }
 
 .btn--primary,
@@ -156,9 +172,24 @@ button.btn--primary {
     0 2px 6px rgba(60, 20, 14, 0.28);
 }
 
-.btn--primary:hover,
-button.btn--primary:hover {
-  background: linear-gradient(180deg, #b55442, var(--gc-wax));
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover,
+  button.btn--primary:hover {
+    background: linear-gradient(180deg, #b55442, var(--gc-wax));
+  }
+
+  .btn--secondary:hover,
+  button.btn--secondary:hover {
+    background: var(--gc-parchment-warm);
+    border-color: rgba(58, 42, 28, 0.55);
+  }
+
+  .btn--ghost:hover,
+  button.btn--ghost:hover {
+    border-color: var(--gc-border-soft);
+    background: rgba(255, 248, 230, 0.35);
+    color: var(--gc-ink);
+  }
 }
 
 .btn--secondary,
@@ -169,24 +200,11 @@ button.btn--secondary {
   box-shadow: 0 1px 0 rgba(255, 248, 230, 0.5) inset;
 }
 
-.btn--secondary:hover,
-button.btn--secondary:hover {
-  background: var(--gc-parchment-warm);
-  border-color: rgba(58, 42, 28, 0.55);
-}
-
 .btn--ghost,
 button.btn--ghost {
   border: 1px solid transparent;
   background: transparent;
   color: var(--gc-ink-muted);
-}
-
-.btn--ghost:hover,
-button.btn--ghost:hover {
-  border-color: var(--gc-border-soft);
-  background: rgba(255, 248, 230, 0.35);
-  color: var(--gc-ink);
 }
 
 .btn.is-active,

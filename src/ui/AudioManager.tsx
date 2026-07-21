@@ -69,6 +69,11 @@ export function AudioManager() {
     if (!context || muteAudio) return;
     if (alerts.length <= heardCountRef.current) return;
     const latest = alerts[alerts.length - 1];
+    // Skip routine foreign-election batch tones — keeps mobile calm.
+    if (latest.kind === 'election' && /elections this month/i.test(latest.message)) {
+      heardCountRef.current = alerts.length;
+      return;
+    }
     const base = latest.kind === 'war'
       ? 180
       : latest.kind === 'peace'

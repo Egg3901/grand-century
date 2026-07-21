@@ -1,4 +1,5 @@
 import { useStore } from '../store';
+import { instantPressProps } from './instantPress';
 import './EventPopup.css';
 
 export function EventPopup() {
@@ -31,10 +32,10 @@ export function EventPopup() {
                   ? (choice.effectsSummary.join(' · ') || choice.description || choice.label)
                   : (choice.unavailableReason ?? 'Unavailable')}
                 data-testid={`event-choice-${choice.id}`}
-                onClick={() => {
+                {...instantPressProps(() => {
                   if (!choice.available) return;
                   sendCommand({ t: 'resolveEvent', instanceId: current.instanceId, choiceId: choice.id });
-                }}
+                })}
               >
                 <strong>{choice.label}</strong>
                 {choice.description ? <span>{choice.description}</span> : null}

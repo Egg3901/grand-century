@@ -294,18 +294,23 @@ export const useStore = create<UIState>((set, get) => ({
       }
       const prevPartyByNation = new Map(prev.nations.map((nation) => [nation.id, nation.rulingParty]));
       const prevTagByNation = new Map(prev.nations.map((nation) => [nation.id, nation.tag]));
+      let foreignElectionCount = 0;
       for (const nation of s.nations) {
         const oldParty = prevPartyByNation.get(nation.id);
         if (oldParty && oldParty !== nation.rulingParty) {
-          pushAlert(
-            'election',
-            `${nation.name} elected ${nation.rulingParty}.`,
-            s.day,
-            'politics',
-            'Open Politics to review party shifts and reform support.',
-            `election-${nation.id}-${nation.rulingParty}`,
-            365,
-          );
+          if (nation.id === s.playerNation) {
+            pushAlert(
+              'election',
+              `${nation.name} elected ${nation.rulingParty}.`,
+              s.day,
+              'politics',
+              'Open Politics to review party shifts and reform support.',
+              `election-${nation.id}-${nation.rulingParty}`,
+              365,
+            );
+          } else {
+            foreignElectionCount += 1;
+          }
         }
         const oldTag = prevTagByNation.get(nation.id);
         if (oldTag && oldTag !== nation.tag) {
@@ -316,6 +321,27 @@ export const useStore = create<UIState>((set, get) => ({
           } else {
             pushAlert('formation', `${nation.name} has formed.`, s.day, 'diplomacy', 'Open Diplomacy to review the balance of power.', `formation-${nation.tag}`, 3650);
           }
+        }
+      }
+      if (foreignElectionCount > 0) {
+        const monthKey = `election-foreign-${s.date.year}-${s.date.month}`;
+        const existing = alerts.find((alert) => alert.dedupeKey === monthKey);
+        if (existing) {
+          const priorCount = Number(existing.message.match(/^(\d+)/)?.[1] ?? 1);
+          existing.message = `${priorCount + foreignElectionCount} elections this month`;
+          existing.day = s.day;
+        } else {
+          pushAlert(
+            'election',
+            foreignElectionCount === 1
+              ? '1 election this month'
+              : `${foreignElectionCount} elections this month`,
+            s.day,
+            'politics',
+            'Routine foreign elections — expand in the outliner if needed.',
+            monthKey,
+            45,
+          );
         }
       }
       const playerProvinceUnrest = s.provinces.filter((province) => province.owner === s.playerNation).map((province) => province.unrestRisk);

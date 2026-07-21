@@ -61,6 +61,14 @@
   padding: 0.65rem 0.75rem;
   font-size: inherit;
   line-height: var(--gc-lh-body);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.event-popup__choice.btn:active:not(:disabled) {
+  transform: translateY(1px);
+  filter: brightness(0.97);
+  transition-duration: 0ms;
 }
 
 .event-popup__choice.btn--primary {
