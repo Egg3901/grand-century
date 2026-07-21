@@ -44,6 +44,8 @@ interface UIState {
   provinceDetail: ProvinceDetail | null;
   nationDetail: NationDetail | null;
   openPanel: PanelId;
+  /** Nation to preselect when the Diplomacy panel next opens (tap a country name). */
+  diploFocusNation: number | null;
   selectedArmy: number | null;
   selectedFleet: number | null;
   saveSlots: SaveSlotInfo[];
@@ -89,6 +91,8 @@ interface UIState {
   setMapMode: (m: MapMode) => void;
   selectProvince: (id: ProvinceId | null) => void;
   openPanelId: (p: PanelId) => void;
+  focusNationDiplomacy: (nationId: number) => void;
+  clearDiploFocus: () => void;
   setSelectedArmy: (id: number | null) => void;
   setSelectedFleet: (id: number | null) => void;
   setShowMainMenu: (visible: boolean) => void;
@@ -109,6 +113,7 @@ export const useStore = create<UIState>((set, get) => ({
   provinceDetail: null,
   nationDetail: null,
   openPanel: null,
+  diploFocusNation: null,
   selectedArmy: null,
   selectedFleet: null,
   saveSlots: [],
@@ -181,9 +186,13 @@ export const useStore = create<UIState>((set, get) => ({
         if (prevWarIds.has(war.id)) continue;
         const playerInWar = war.attackers.includes(s.playerNation) || war.defenders.includes(s.playerNation);
         if (!playerInWar) continue;
+        const nameOf = (id: number) => s.nations.find((nation) => nation.id === id)?.name ?? `Nation ${id}`;
+        const attacker = nameOf(war.attackers[0]);
+        const defender = nameOf(war.defenders[0]);
+        const attackerTag = s.nations.find((nation) => nation.id === war.attackers[0])?.tag ?? '';
         pushAlert(
           'war',
-          `War declared (War ${war.id}).`,
+          `${attacker} ${attackerTag ? `(${attackerTag}) ` : ''}declares war on ${defender}.`,
           s.day,
           'military',
           'Open Military and review War Overview.',
@@ -401,6 +410,8 @@ export const useStore = create<UIState>((set, get) => ({
     if (id !== null) get().requestProvince(id);
   },
   openPanelId: (p) => set({ openPanel: p }),
+  focusNationDiplomacy: (nationId) => set({ diploFocusNation: nationId, openPanel: 'diplomacy' }),
+  clearDiploFocus: () => set({ diploFocusNation: null }),
   setSelectedArmy: (id) => set({ selectedArmy: id, selectedFleet: null }),
   setSelectedFleet: (id) => set({ selectedFleet: id, selectedArmy: null }),
   setShowMainMenu: (visible) => set({ showMainMenu: visible }),

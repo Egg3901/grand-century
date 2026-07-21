@@ -1,10 +1,12 @@
 import { useStore } from '../../store';
+import { NationFlag } from '../components/NationFlag';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 export function ProvincePanel() {
   const detail = useStore((state) => state.provinceDetail);
   const selectedProvince = useStore((state) => state.selectedProvince);
   const snapshot = useStore((state) => state.snapshot);
+  const focusNationDiplomacy = useStore((state) => state.focusNationDiplomacy);
 
   if (selectedProvince === null) {
     return (
@@ -24,7 +26,8 @@ export function ProvincePanel() {
     );
   }
 
-  const ownerName = snapshot?.nations.find((nation) => nation.id === detail.owner)?.name ?? 'Unknown';
+  const ownerNation = snapshot?.nations.find((nation) => nation.id === detail.owner) ?? null;
+  const ownerName = ownerNation?.name ?? 'Unknown';
   const provinceSummary = snapshot?.provinces[detail.id];
   const population = provinceSummary?.population ?? detail.pops.reduce((sum, pop) => sum + pop.size, 0);
 
@@ -36,7 +39,19 @@ export function ProvincePanel() {
       <dl className="ledger-grid">
         <div>
           <dt>Owner</dt>
-          <dd>{ownerName}</dd>
+          <dd>
+            {ownerNation ? (
+              <button
+                type="button"
+                className="owner-link"
+                title={`View ${ownerName} in Diplomacy`}
+                onClick={() => focusNationDiplomacy(ownerNation.id)}
+              >
+                <NationFlag tag={ownerNation.tag} color={ownerNation.color} size={14} />
+                <span>{ownerName}</span>
+              </button>
+            ) : ownerName}
+          </dd>
         </div>
         <div>
           <dt>Population</dt>

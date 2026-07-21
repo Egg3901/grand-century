@@ -90,6 +90,9 @@
   min-height: 0;
   scrollbar-width: thin;
   scrollbar-color: var(--gc-border-soft) transparent;
+  /* iOS: momentum scrolling + make sure no ancestor gesture claims the pan */
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 .panel-card {
@@ -772,7 +775,9 @@
     right: 0.5rem;
     bottom: calc(env(safe-area-inset-bottom) + 5.75rem);
     width: auto;
-    max-height: min(70vh, calc(100vh - env(safe-area-inset-top) - 8.75rem));
+    /* dvh, not vh: iOS 100vh includes the URL bar, which pushed the sheet's
+       tail below the visual viewport — the "can't scroll to the bottom" bug */
+    max-height: min(70vh, calc(100dvh - env(safe-area-inset-top) - 8.75rem));
     pointer-events: none;
     z-index: 18;
     border-radius: var(--gc-radius-lg);
@@ -1183,4 +1188,23 @@
   flex-wrap: wrap;
   gap: 0.35rem 0.7rem;
   align-items: center;
+}
+
+/* 1.0-U1 UX: tap a country name (province dossier) to open its diplomacy view */
+.owner-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--gc-border-soft);
+  text-underline-offset: 3px;
+}
+.owner-link:hover {
+  text-decoration-color: currentColor;
 }

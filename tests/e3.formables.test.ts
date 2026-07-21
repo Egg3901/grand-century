@@ -19,6 +19,10 @@ function germanFormable() {
   return formable;
 }
 
+function jumpToYear(world: ReturnType<typeof createWorld>, year: number): void {
+  world.day = Math.max(world.day, (year - 1820) * 365 + 10);
+}
+
 function setPlayerNation(world: ReturnType<typeof createWorld>, nationId: number): void {
   world.playerNation = nationId;
   for (const nation of world.nations) nation.isPlayer = nation.id === nationId;
@@ -92,6 +96,11 @@ describe('E3 formable nations', () => {
     expect(noGpStatus.requirements.find((entry) => entry.key === 'power')?.met).toBe(false);
 
     world.nations[prussiaId].gpRank = 1;
+    const preEraStatus = evaluateNationFormable(world, GAME_DATA, prussiaId, formable);
+    expect(preEraStatus.ready).toBe(false); // era gate: no Germany in 1820
+    expect(preEraStatus.requirements.find((entry) => entry.key === 'era')?.met).toBe(false);
+
+    jumpToYear(world, 1849);
     const readyStatus = evaluateNationFormable(world, GAME_DATA, prussiaId, formable);
     expect(readyStatus.ready).toBe(true);
   });
@@ -104,6 +113,7 @@ describe('E3 formable nations', () => {
     setPlayerNation(world, prussiaId);
     satisfyGermanCoreControlBySphere(world, prussiaId);
     world.nations[prussiaId].gpRank = Math.max(1, world.nations[prussiaId].gpRank);
+    jumpToYear(world, 1849);
     const prestigeBefore = world.nations[prussiaId].prestige;
 
     const precheck = evaluateNationFormable(world, GAME_DATA, prussiaId, formable);
@@ -137,6 +147,7 @@ describe('E3 formable nations', () => {
     world.nations[prussiaId].gpRank = 1;
     world.nations[prussiaId].prestige = 500;
     world.nations[prussiaId].spheredBy = -1;
+    jumpToYear(world, 1849);
 
     let formed = false;
     for (let day = 0; day < 365 * 3; day++) {
@@ -161,6 +172,8 @@ describe('E3 formable nations', () => {
     b.nations[prussiaB].gpRank = 1;
     a.nations[prussiaA].prestige = 500;
     b.nations[prussiaB].prestige = 500;
+    jumpToYear(a, 1849);
+    jumpToYear(b, 1849);
 
     for (let day = 0; day < 365; day++) {
       advanceDay(a, GAME_DATA);

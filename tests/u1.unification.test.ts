@@ -146,6 +146,7 @@ describe('1.0-U1 — the Prussian unification arc', () => {
     const nation = world.nations[prussia];
     nation.gpRank = Math.max(1, nation.gpRank);
     nation.spheredBy = -1;
+    jumpToYear(world, 1849); // era gate: no NGF before the Springtime of Nations
 
     const ngf = formableByKey('NORTH_GERMAN_CONFEDERATION');
     transferStates(world, ngf.coreStateIds, prussia);

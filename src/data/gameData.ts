@@ -277,6 +277,9 @@ const GERMAN_CONFEDERATION_STATES = [27, 138, 176, 177, 178, 179, 180, 181, 182]
 const NORTH_GERMAN_STATES = [178, 179, 180, 181]; // Hanover, Hesse, Prussia, Saxony
 
 for (const formable of FORMABLES) {
+  // No 1821 Germany: unification waits for the Springtime of Nations. The
+  // gate shows in the Formables panel as an explicit era requirement.
+  if (formable.key === 'GERMANY' || formable.key === 'ITALY') formable.yearAtLeast = 1848;
   if (formable.key !== 'GERMANY') continue;
   formable.coreStateIds = GERMAN_CONFEDERATION_STATES.slice();
   if (!formable.candidateTags.includes('NGF')) formable.candidateTags.push('NGF');
@@ -293,6 +296,7 @@ FORMABLES.push({
   resultPrimaryCulture: 'north_german',
   candidateTags: ['PRU'],
   coreStateIds: NORTH_GERMAN_STATES.slice(),
+  yearAtLeast: 1848,
   requiredCoreShare: 1,
   requireIndependent: true,
   requireGreatPower: true,

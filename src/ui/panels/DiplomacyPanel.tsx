@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { WORLD_SEED } from '../../data/generated';
 import type { NationId, WarGoalType } from '../../shared/types';
 import { useStore } from '../../store';
@@ -35,6 +35,14 @@ export function DiplomacyPanel() {
   const [filter, setFilter] = useState<'all' | 'neighbors' | 'gp'>('neighbors');
   const [selectedGoal, setSelectedGoal] = useState<WarGoalType>('humiliate');
   const [selectedTarget, setSelectedTarget] = useState<NationId | null>(null);
+  const diploFocusNation = useStore((state) => state.diploFocusNation);
+  const clearDiploFocus = useStore((state) => state.clearDiploFocus);
+  useEffect(() => {
+    if (diploFocusNation === null) return;
+    setSelectedTarget(diploFocusNation);
+    setFilter('all'); // the tapped nation may not be a neighbor or GP
+    clearDiploFocus();
+  }, [diploFocusNation, clearDiploFocus]);
   const [selectedState, setSelectedState] = useState<number>(-1);
 
   const provinceSeedById = useMemo(() => (

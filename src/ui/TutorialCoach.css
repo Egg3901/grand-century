@@ -87,7 +87,9 @@
   .tutorial-coach__card {
     left: 0.5rem;
     right: 0.5rem;
-    bottom: calc(env(safe-area-inset-bottom) + 0.45rem);
+    /* sit ABOVE the bottom nav — the card used to cover Panels/Map/Menu,
+       locking new players out of the whole panel drawer */
+    bottom: calc(env(safe-area-inset-bottom) + 6rem);
     width: auto;
     border-radius: var(--gc-radius-lg);
   }

@@ -53,6 +53,8 @@ export function evaluateNationFormable(world: World, _data: GameData, nationId: 
     || nation.gpRank > 0
   ));
   const coreControl = controlled >= required;
+  const year = 1820 + Math.floor(world.day / 365);
+  const eraMet = !formable.yearAtLeast || year >= formable.yearAtLeast;
   const requirements: FormableStatus['requirements'] = [
     {
       key: 'candidate',
@@ -85,6 +87,16 @@ export function evaluateNationFormable(world: World, _data: GameData, nationId: 
       detail: `${controlled}/${totalCoreStates} controlled. Need ${required}.`,
     },
   ];
+  if (formable.yearAtLeast) {
+    requirements.push({
+      key: 'era',
+      label: 'The idea has matured',
+      met: eraMet,
+      detail: eraMet
+        ? 'The national idea commands the age.'
+        : `Nationalism must mature — possible from ${formable.yearAtLeast}.`,
+    });
+  }
   const ready = requirements.every((requirement) => requirement.met);
   const status: FormableStatus = {
     key: formable.key,

@@ -391,11 +391,17 @@ export function MilitaryPanel() {
               setSelectedWar(Number(event.target.value));
             }}
             >
-              {derived.wars.map((war) => (
-                <option key={war.id} value={war.id}>
-                  War {war.id}: A[{war.attackers.join(',')}] vs D[{war.defenders.join(',')}]
-                </option>
-              ))}
+              {derived.wars.map((war) => {
+                const nameOf = (id: number) => snapshot.nations.find((nation) => nation.id === id)?.name ?? `Nation ${id}`;
+                const sideLabel = (ids: number[]) => (
+                  ids.slice(0, 2).map(nameOf).join(' & ') + (ids.length > 2 ? ` +${ids.length - 2}` : '')
+                );
+                return (
+                  <option key={war.id} value={war.id}>
+                    {sideLabel(war.attackers)} vs {sideLabel(war.defenders)}
+                  </option>
+                );
+              })}
             </select>
           </label>
           {selectedWarObj ? (

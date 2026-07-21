@@ -192,6 +192,8 @@ export interface InventionDef {
 }
 
 export interface FormableDefinition {
+  /** 1.0-U1: unification needs matured nationalism — no Germany in 1821. */
+  yearAtLeast?: number;
   key: string;
   resultTag: string;
   resultName: string;
@@ -337,7 +339,7 @@ export interface DecisionStatus {
 }
 
 export interface FormableRequirementStatus {
-  key: 'candidate' | 'independent' | 'power' | 'core_control';
+  key: 'candidate' | 'independent' | 'power' | 'core_control' | 'era';
   label: string;
   met: boolean;
   detail: string;
