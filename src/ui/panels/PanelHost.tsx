@@ -12,6 +12,7 @@ import { ColonizationPanel } from './ColonizationPanel';
 import { SaveLoadPanel } from './SaveLoadPanel';
 import { FormablesPanel } from './FormablesPanel';
 import { DecisionsPanel } from './DecisionsPanel';
+import { TechnologyPanel } from './TechnologyPanel';
 import './panels.css';
 
 const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
@@ -63,6 +64,7 @@ export function PanelHost() {
           {openPanel === 'colonization' ? <ColonizationPanel /> : null}
           {openPanel === 'formables' ? <FormablesPanel /> : null}
           {openPanel === 'decisions' ? <DecisionsPanel /> : null}
+          {openPanel === 'technology' ? <TechnologyPanel /> : null}
           {openPanel === 'save_load' ? <SaveLoadPanel /> : null}
         </div>
       </aside>

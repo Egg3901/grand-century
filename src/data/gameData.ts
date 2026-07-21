@@ -1,5 +1,6 @@
 import type { FormableDefinition, GameData, GoodDef, PopNeedsDef, PopType, Recipe } from '../shared/types';
 import { PROVINCE_COUNT, WORLD_SEED } from './generated';
+import { INVENTIONS, TECHS } from './techs';
 
 const GOODS: GoodDef[] = [
   { id: 0, key: 'grain', name: 'Grain', category: 'raw', basePrice: 2.2 },
@@ -78,6 +79,58 @@ const RECIPES: Recipe[] = [
     building: 'factory',
     inputs: [input('cattle', 0.8), input('grain', 0.7)],
     output: output('canned_food', 1.0),
+  },
+  // --- 0.6.0 tech-gated chains. These fill goods pops already demand but the
+  // --- world could not produce (fish, wine, furniture, machine parts,
+  // --- artillery). Each is locked behind a tech (see src/data/techs.ts).
+  {
+    key: 'factory_fishing_wharf',
+    name: 'Fishing Wharf',
+    building: 'factory',
+    inputs: [input('timber', 0.35)], // boats and nets
+    output: output('fish', 1.0),
+    requiresTech: 'commerce_merchant_marine',
+    requiresCoastal: true,
+  },
+  {
+    key: 'factory_vintners',
+    name: 'Vintner Estate',
+    building: 'factory',
+    inputs: [input('grain', 0.9)],
+    output: output('wine', 0.8),
+    requiresTech: 'commerce_merchant_marine',
+  },
+  {
+    key: 'factory_lumber_mill',
+    name: 'Lumber Mill',
+    building: 'factory',
+    inputs: [input('timber', 1.1)],
+    output: output('lumber', 1.2),
+    requiresTech: 'industry_mechanized_sawmills',
+  },
+  {
+    key: 'factory_furniture',
+    name: 'Furniture Works',
+    building: 'factory',
+    inputs: [input('lumber', 1.0)],
+    output: output('furniture', 0.9),
+    requiresTech: 'industry_mechanized_sawmills',
+  },
+  {
+    key: 'factory_machine_parts',
+    name: 'Machine Parts Works',
+    building: 'factory',
+    inputs: [input('steel', 0.9), input('coal', 0.6)],
+    output: output('machine_parts', 0.7),
+    requiresTech: 'industry_machine_tooling',
+  },
+  {
+    key: 'factory_artillery',
+    name: 'Artillery Foundry',
+    building: 'factory',
+    inputs: [input('steel', 1.1)],
+    output: output('artillery', 0.7),
+    requiresTech: 'industry_bessemer_steel',
   },
 ];
 
@@ -297,16 +350,8 @@ export const GAME_DATA: GameData = {
       ],
     },
   ],
-  techs: [
-    { key: 'muzzle_loaded_rifles', name: 'Muzzle-loaded Rifles', category: 'army', cost: 8, effects: ['+Army attack'] },
-    { key: 'post_napoleonic_thought', name: 'Post-Napoleonic Thought', category: 'army', cost: 9, effects: ['+Army organization'] },
-    { key: 'steamers', name: 'Steamers', category: 'navy', cost: 10, effects: ['Unlock steamer hulls'] },
-    { key: 'market_structure', name: 'Market Structure', category: 'commerce', cost: 8, effects: ['+Tax efficiency'] },
-    { key: 'mechanical_production', name: 'Mechanical Production', category: 'industry', cost: 9, effects: ['+Factory throughput'] },
-    { key: 'practical_steam_engine', name: 'Practical Steam Engine', category: 'industry', cost: 11, effects: ['+RGO throughput'] },
-    { key: 'romanticism', name: 'Romanticism', category: 'culture', cost: 7, effects: ['+Prestige'] },
-    { key: 'idealism', name: 'Idealism', category: 'culture', cost: 9, effects: ['+Research points'] },
-  ],
+  techs: TECHS,
+  inventions: INVENTIONS,
   provinceCount: PROVINCE_COUNT,
   nationCores: NATION_CORES,
   formables: FORMABLES,

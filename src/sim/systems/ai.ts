@@ -20,6 +20,7 @@ import {
   startColonization,
 } from './war';
 import { formNation, getFormableStatusesForNation } from '../formables';
+import { isRecipeUnlocked } from './research';
 
 function clamp(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) return min;
@@ -540,67 +541,9 @@ function stabilizeEconomy(world: World, nationId: NationId): void {
   );
 }
 
-function isAggressivePosture(world: World, nationId: NationId): boolean {
-  const nation = world.nations[nationId];
-  if (!nation) return false;
-  if (nationAtWar(world, nationId)) return true;
-  if (nation.infamy > getInfamyLimit() * 0.65) return true;
-  return rivalIdsForNation(world, nationId).length > 0;
-}
-
-function partyTechBias(category: GameData['techs'][number]['category'], ideology: string): number {
-  if (ideology === 'reactionary' || ideology === 'fascist') {
-    if (category === 'army' || category === 'navy') return 1.1;
-    if (category === 'culture') return 0.3;
-  }
-  if (ideology === 'liberal') {
-    if (category === 'commerce' || category === 'industry') return 0.9;
-  }
-  if (ideology === 'socialist' || ideology === 'communist') {
-    if (category === 'industry') return 0.9;
-    if (category === 'army') return 0.4;
-  }
-  if (ideology === 'conservative') {
-    if (category === 'commerce' || category === 'culture') return 0.45;
-  }
-  return 0;
-}
-
-function maybeResearchTech(world: World, data: GameData, nationId: NationId, rng: Rng): void {
-  const nation = world.nations[nationId];
-  if (!nation) return;
-  const literacyGain = 1.4 + nation.literacy * 4.8 + (nation.gpRank > 0 ? 1.5 : 0);
-  nation.researchPoints = clamp(nation.researchPoints + literacyGain, 0, 10_000);
-  const available = data.techs.filter((tech) => !nation.techs.includes(tech.key) && tech.cost <= nation.researchPoints);
-  if (available.length === 0) return;
-  const aggressive = isAggressivePosture(world, nationId);
-  const party = partyByKey(nation, nation.rulingParty);
-  const ideology = party?.ideology ?? 'conservative';
-  const weights = available.map((tech) => {
-    let weight = 1;
-    if (nationAtWar(world, nationId)) {
-      if (tech.category === 'army' || tech.category === 'navy') weight += 1.8;
-    } else if (aggressive) {
-      if (tech.category === 'army' || tech.category === 'navy') weight += BALANCE.ai.aggressiveMilitaryTechBias;
-      if (tech.category === 'industry') weight += 0.45;
-    } else {
-      if (tech.category === 'industry' || tech.category === 'commerce') weight += 1.35;
-    }
-    if (nation.gpRank > 0 && tech.category === 'culture') weight += 0.4;
-    weight += partyTechBias(tech.category, ideology);
-    return weight;
-  });
-  const totalWeight = weights.reduce((sum, value) => sum + value, 0);
-  let roll = rng.next() * totalWeight;
-  for (let i = 0; i < available.length; i++) {
-    roll -= weights[i] ?? 0;
-    if (roll > 0 && i < available.length - 1) continue;
-    const chosen = available[i];
-    nation.techs.push(chosen.key);
-    nation.researchPoints = Math.max(0, nation.researchPoints - chosen.cost);
-    return;
-  }
-}
+// 0.6.0: AI tech selection & research point generation moved to
+// src/sim/systems/research.ts (runResearchMonthly), which now also covers the
+// player nation. The party/posture weighting lives on there.
 
 function maybeEnactPartyReform(world: World, data: GameData, nationId: NationId): void {
   const nation = world.nations[nationId];
@@ -629,7 +572,8 @@ function maybeBuildFactory(world: World, data: GameData, nationId: NationId): vo
   const nation = world.nations[nationId];
   if (!nation || nation.isBankrupt || nation.constructionBlocked) return;
   if (nation.treasury < BALANCE.ai.factoryTreasuryReserve) return;
-  const factoryRecipes = data.recipes.filter((recipe) => recipe.building === 'factory');
+  // 0.6.0: only recipes whose tech gate this nation has passed.
+  const factoryRecipes = data.recipes.filter((recipe) => recipe.building === 'factory' && isRecipeUnlocked(nation, recipe));
   if (factoryRecipes.length === 0) return;
   const states = world.states.filter((state) => state.owner === nationId);
   if (states.length === 0) return;
@@ -643,7 +587,9 @@ function maybeBuildFactory(world: World, data: GameData, nationId: NationId): vo
     .sort((a, b) => b.score - a.score || a.state.id - b.state.id)[0];
   if (!candidate || candidate.score < -5) return;
 
+  const stateIsCoastal = candidate.state.provinceIds.some((provinceId) => world.provinces[provinceId]?.coastal);
   const recipe = factoryRecipes
+    .filter((factoryRecipe) => !factoryRecipe.requiresCoastal || stateIsCoastal)
     .map((factoryRecipe) => {
       const outputPrice = world.market[factoryRecipe.output.good]?.price ?? 0;
       const outputValue = outputPrice * factoryRecipe.output.amount * BALANCE.economy.factoryOutputBoost;
@@ -1092,7 +1038,6 @@ export function runAiMonthly(world: World, data: GameData, rng: Rng): void {
     const heavyPlanMonth = ((monthIndex + nation.id) % BALANCE.ai.heavyPlanningStride) === 0;
 
     stabilizeEconomy(world, nation.id);
-    maybeResearchTech(world, data, nation.id, rng);
     maybePeaceOut(world, nation.id);
     manageWarMovement(world, nation.id);
     if (nationAtWar(world, nation.id)) mobilizeNation(world, nation.id);

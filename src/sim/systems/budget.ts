@@ -1,6 +1,7 @@
 import type { BudgetLine, GameData, NationId, Pop, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
+import { techModifiersFor } from './research';
 
 function finite(value: number, fallback = 0): number {
   return Number.isFinite(value) ? value : fallback;
@@ -83,12 +84,15 @@ function nationFactorySubsidies(world: World, nationId: NationId): number {
   return subsidies;
 }
 
-function computeNationBudget(world: World, nationId: NationId, mutatePopMoney: boolean): BudgetLine {
+function computeNationBudget(world: World, data: GameData, nationId: NationId, mutatePopMoney: boolean): BudgetLine {
   const nation = world.nations[nationId];
   if (!nation) return zeroBudget();
 
   const provinceIds = nationProvinceIds(world, nationId);
   const provinceIdSet = new Set(provinceIds);
+  // 0.6.0: commerce tech raises how much of the assessed tax is captured. The
+  // extra is deducted from pops like the base tax — no money is minted.
+  const taxEfficiency = 1 + Math.max(0, techModifiersFor(nation, data).taxEfficiency);
 
   let poorBase = 0;
   let middleBase = 0;
@@ -102,7 +106,7 @@ function computeNationBudget(world: World, nationId: NationId, mutatePopMoney: b
     const money = Math.max(0, finite(pop.money));
     const bracket = popBracket(pop);
     const rate = bracket === 'poor' ? nation.taxRatePoor : bracket === 'middle' ? nation.taxRateMiddle : nation.taxRateRich;
-    const tax = clamp(money * clamp(rate, 0, 1) * 0.11, 0, money);
+    const tax = clamp(money * clamp(rate, 0, 1) * 0.11 * taxEfficiency, 0, money);
     if (bracket === 'poor') {
       poorBase += money;
       poorTax += tax;
@@ -165,6 +169,7 @@ function computeNationBudget(world: World, nationId: NationId, mutatePopMoney: b
         { label: 'Middle tax', value: middleTax },
         { label: 'Rich base', value: richBase },
         { label: 'Rich tax', value: richTax },
+        { label: 'Tech tax efficiency', value: taxEfficiency },
       ],
       tariffIncome: [
         { label: 'Applied tariff flow', value: tariffIncome },
@@ -198,9 +203,9 @@ function computeNationBudget(world: World, nationId: NationId, mutatePopMoney: b
   };
 }
 
-export function runBudgetMonthly(world: World, _data: GameData, _rng: Rng): void {
+export function runBudgetMonthly(world: World, data: GameData, _rng: Rng): void {
   for (const nation of world.nations) {
-    const budget = computeNationBudget(world, nation.id, true);
+    const budget = computeNationBudget(world, data, nation.id, true);
     nation.treasury = finite(nation.treasury) + budget.net;
     if (!Number.isFinite(nation.treasury)) nation.treasury = 0;
     nation.monthlyTariffIncome = 0;
@@ -224,7 +229,7 @@ export function runBudgetMonthly(world: World, _data: GameData, _rng: Rng): void
   }
 }
 
-export function computePlayerBudget(world: World, _data: GameData, nationId: NationId): BudgetLine {
+export function computePlayerBudget(world: World, data: GameData, nationId: NationId): BudgetLine {
   const nation = world.nations[nationId];
   if (!nation) return zeroBudget();
   if (nation.lastBudget && Number.isFinite(nation.lastBudget.net)) {
@@ -233,5 +238,5 @@ export function computePlayerBudget(world: World, _data: GameData, nationId: Nat
       trace: { ...nation.lastBudget.trace },
     };
   }
-  return computeNationBudget(world, nationId, false);
+  return computeNationBudget(world, data, nationId, false);
 }

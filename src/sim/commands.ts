@@ -23,6 +23,7 @@ import {
 } from './systems/war';
 import { formNation } from './formables';
 import { resolvePendingEvent, takeDecision } from './systems/events';
+import { isRecipeUnlocked, setNationResearch } from './systems/research';
 
 type Poster = (msg: FromWorker) => void;
 type RegimentType = Regiment['type'];
@@ -261,6 +262,15 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       }
       if (nation.constructionBlocked || nation.isBankrupt) {
         log(post, 'warn', 'Construction is blocked during bankruptcy.');
+        return;
+      }
+      // 0.6.0 research gates.
+      if (!isRecipeUnlocked(nation, recipe)) {
+        log(post, 'warn', `${recipe.name} requires a technology you have not researched.`);
+        return;
+      }
+      if (recipe.requiresCoastal && !state.provinceIds.some((provinceId) => world.provinces[provinceId]?.coastal)) {
+        log(post, 'warn', `${recipe.name} can only be built in a coastal state.`);
         return;
       }
       const buildCost = 220 + state.factories.length * 45;
@@ -503,6 +513,11 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     }
     case 'takeDecision': {
       const result = takeDecision(world, data, world.playerNation, cmd.decision);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
+      return;
+    }
+    case 'setResearch': {
+      const result = setNationResearch(world, data, world.playerNation, cmd.tech);
       log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }

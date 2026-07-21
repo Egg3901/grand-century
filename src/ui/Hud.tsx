@@ -14,6 +14,7 @@ const PANELS: { id: PanelId; label: string }[] = [
   { id: 'great_powers', label: 'Great Powers' },
   { id: 'formables', label: 'Formables' },
   { id: 'decisions', label: 'Decisions' },
+  { id: 'technology', label: 'Technology' },
   { id: 'military', label: 'Military' },
   { id: 'colonization', label: 'Colonization' },
   { id: 'save_load', label: 'Save / Load' },

@@ -2,6 +2,7 @@ import type { Factory, GameData, Pop, Recipe, State, World } from '../../shared/
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
 import { buyFromMarket, computeSaleRevenue, registerSupply } from './market';
+import { techModifiersFor } from './research';
 
 function finite(value: number, fallback = 0): number {
   return Number.isFinite(value) ? value : fallback;
@@ -50,6 +51,7 @@ function buildStatePopBuckets(world: World): Map<number, Record<string, number[]
       capitalist: [],
       farmer: [],
       laborer: [],
+      aristocrat: [],
     };
     for (const provinceId of state.provinceIds) {
       const province = world.provinces[provinceId];
@@ -71,7 +73,7 @@ function totalPopSize(world: World, popIds: number[]): number {
   return total;
 }
 
-function runRgoProduction(world: World, recipes: Record<string, Recipe>): void {
+function runRgoProduction(world: World, recipes: Record<string, Recipe>, rgoTechBoost: number[]): void {
   for (const province of world.provinces) {
     const recipe = recipes[province.rgo.recipe];
     if (!recipe || recipe.building !== 'rgo') continue;
@@ -87,7 +89,9 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>): void {
     if (employed <= 0 || totalEligible <= 0) continue;
 
     const laborUnits = employed / 1000;
-    const throughput = recipe.output.amount * laborUnits * (1 + province.rgo.level * 0.1) * BALANCE.economy.rgoOutputBoost;
+    // 0.6.0: industry-tech multiplier (practical steam engine, sawmills, ...).
+    const techBoost = rgoTechBoost[province.owner] ?? 1;
+    const throughput = recipe.output.amount * laborUnits * (1 + province.rgo.level * 0.1) * BALANCE.economy.rgoOutputBoost * techBoost;
     const outputAmount = registerSupply(world, recipe.output.good, throughput);
     if (outputAmount <= 0) continue;
 
@@ -124,6 +128,7 @@ function processFactory(
   factory: Factory,
   buckets: Record<string, number[]>,
   recipes: Record<string, Recipe>,
+  factoryTechBoost: number,
 ): number {
   const recipe = recipes[factory.recipe];
   if (!recipe || recipe.building !== 'factory') return 0;
@@ -152,7 +157,10 @@ function processFactory(
     return factory.weeklyProfit;
   }
 
-  let unitTarget = (employed / 1000) * (1 + factory.level * 0.16);
+  // 0.6.0: industry/commerce-tech multiplier (mechanical production, machine
+  // tooling, electrification, inventions...). Scales output per worker; input
+  // demand scales with it too, so tech-lead industry pulls more raw goods.
+  let unitTarget = (employed / 1000) * (1 + factory.level * 0.16) * factoryTechBoost;
   let inputCost = 0;
   for (const input of recipe.inputs) {
     if (unitTarget <= 0) break;
@@ -186,10 +194,21 @@ function processFactory(
 
   const operating = BALANCE.economy.factoryOperatingBase + factory.level * BALANCE.economy.factoryOperatingPerLevel;
   const netBeforeCapital = revenue - inputCost - wagePool - operating;
-  const capitalistCut = Math.max(0, netBeforeCapital) * 0.18;
+  // 0.6.0: with the input-purchase bug fixed, factories actually profit. Route
+  // most of that profit to capitalist POPS (taxable — taxes stay the state's
+  // lever) instead of the old 18%; the state keeps a small direct share below.
+  const capitalistCut = Math.max(0, netBeforeCapital) * 0.55;
   const capitalistWeight = totalPopSize(world, capitalistIds);
-  if (capitalistWeight > 0) distributeMoney(world, capitalistIds, capitalistWeight, capitalistCut);
-  else owner.monthlyProductionIncome += capitalistCut;
+  if (capitalistWeight > 0) {
+    distributeMoney(world, capitalistIds, capitalistWeight, capitalistCut);
+  } else {
+    // No capitalists yet (they emerge via promotion): profits accrue to the
+    // landed investor class — taxable rich pops — not straight to the state.
+    const aristocratIds = buckets.aristocrat ?? [];
+    const aristocratWeight = totalPopSize(world, aristocratIds);
+    if (aristocratWeight > 0) distributeMoney(world, aristocratIds, aristocratWeight, capitalistCut);
+    else owner.monthlyProductionIncome += capitalistCut;
+  }
 
   let weeklyProfit = netBeforeCapital - capitalistCut;
   // Keep active industry from collapsing into a permanent loss trap; this acts
@@ -209,7 +228,10 @@ function processFactory(
     factory.profitableWeeks = 0;
   }
 
-  owner.monthlyProductionIncome += Math.max(0, weeklyProfit * 0.55);
+  // 0.6.0: state share of live factory profits trimmed (0.55 -> 0.15); the
+  // pre-fix 55% skim was tuned against dead factories and became a
+  // tax-independent money fountain once production woke up.
+  owner.monthlyProductionIncome += Math.max(0, weeklyProfit * 0.15);
   return weeklyProfit;
 }
 
@@ -240,7 +262,10 @@ function rebalanceFactoryLevels(state: State): void {
 export function runProductionWeekly(world: World, data: GameData, _rng: Rng): void {
   const recipes = recipeByKey(data);
   const bucketsByState = buildStatePopBuckets(world);
-  runRgoProduction(world, recipes);
+  // 0.6.0: per-nation tech throughput multipliers, computed once per weekly run.
+  const rgoTechBoost = world.nations.map((nation) => 1 + Math.max(0, techModifiersFor(nation, data).rgoThroughput));
+  const factoryTechBoost = world.nations.map((nation) => 1 + Math.max(0, techModifiersFor(nation, data).factoryThroughput));
+  runRgoProduction(world, recipes, rgoTechBoost);
   for (const state of world.states) {
     const buckets = bucketsByState.get(state.id) ?? {
       craftsman: [],
@@ -251,9 +276,10 @@ export function runProductionWeekly(world: World, data: GameData, _rng: Rng): vo
     };
     let stateProfit = 0;
     for (const factory of state.factories) {
-      stateProfit += processFactory(world, state, factory, buckets, recipes);
+      stateProfit += processFactory(world, state, factory, buckets, recipes, factoryTechBoost[state.owner] ?? 1);
     }
-    world.nations[state.owner].monthlyProductionIncome += Math.max(0, stateProfit * 0.2);
+    // 0.6.0: trimmed 0.2 -> 0.05 alongside the per-factory state share above.
+    world.nations[state.owner].monthlyProductionIncome += Math.max(0, stateProfit * 0.05);
     rebalanceFactoryLevels(state);
   }
 }

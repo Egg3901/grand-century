@@ -33,9 +33,15 @@ export const BALANCE = {
     factoryOperatingBase: 1,
     factoryOperatingPerLevel: 0.3,
     factoryWageShare: 0.28,
-    factoryInputIntensity: 0.15,
+    // 0.6.0 recalibration: these three were tuned while a bug starved every
+    // factory of inputs (output was always 0, so they had no effect). With the
+    // market fixed, the old 2.2x output * 2.2x revenue stack (~4.8x phantom
+    // revenue at 0.15 input intensity) minted money. Factories now sell at
+    // market price and consume real inputs, which also finally couples raw-good
+    // demand to industry.
+    factoryInputIntensity: 0.6,
     factoryOutputBoost: 2.2,
-    factoryRevenueMultiplier: 2.2,
+    factoryRevenueMultiplier: 1.0,
     factoryProfitFloor: 0.15,
     // National budget posture.
     armyUpkeepPerRegiment: 2.5,
