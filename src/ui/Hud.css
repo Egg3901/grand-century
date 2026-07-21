@@ -251,6 +251,10 @@
   border-bottom: 1px solid var(--gc-rule);
 }
 
+.outliner-alerts li:nth-child(even) {
+  background: rgba(255, 248, 230, 0.14);
+}
+
 .outliner-alerts .outliner-alert-action {
   border: 0;
   background: transparent;
@@ -438,6 +442,31 @@
 .event-card__members li {
   font-size: var(--gc-fs-caption);
   color: var(--gc-ink-muted);
+}
+
+/* Event kind accents — left border + subtle tint per kind. */
+.event-card.event-war {
+  border-left: 3px solid var(--gc-danger);
+}
+
+.event-card.event-rebellion {
+  border-left: 3px solid var(--gc-wax);
+}
+
+.event-card.event-formation {
+  border-left: 3px solid var(--gc-positive);
+}
+
+.event-card.event-diplomacy {
+  border-left: 3px solid var(--gc-accent);
+}
+
+.event-card.event-economy {
+  border-left: 3px solid var(--gc-leather-soft);
+}
+
+.event-card.event-crisis {
+  border-left: 3px solid var(--gc-wax-highlight);
 }
 
 .event-card.is-batched {

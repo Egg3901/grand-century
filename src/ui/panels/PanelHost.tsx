@@ -15,6 +15,7 @@ import { SaveLoadPanel } from './SaveLoadPanel';
 import { FormablesPanel } from './FormablesPanel';
 import { DecisionsPanel } from './DecisionsPanel';
 import { TechnologyPanel } from './TechnologyPanel';
+import { NationShield } from '../components/NationShield';
 import './panels.css';
 
 const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
@@ -34,11 +35,24 @@ const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
   technology: 'Technology',
 };
 
+/** Panels that show a nation shield in the chrome header. */
+const NATION_SCOPED_PANELS = new Set<PanelId>([
+  'province', 'budget', 'production', 'population', 'market', 'politics',
+  'diplomacy', 'great_powers', 'military', 'colonization', 'technology',
+  'formables', 'decisions',
+]);
+
 export function PanelHost() {
   const openPanel = useStore((state) => state.openPanel);
   const openPanelId = useStore((state) => state.openPanelId);
+  const snapshot = useStore((state) => state.snapshot);
 
   if (!openPanel) return null;
+
+  const playerNation = snapshot
+    ? snapshot.nations.find((nation) => nation.id === snapshot.playerNation) ?? null
+    : null;
+  const showShield = NATION_SCOPED_PANELS.has(openPanel) && playerNation;
 
   return (
     <>
@@ -50,7 +64,12 @@ export function PanelHost() {
       />
       <aside className="panel-host atlas-panel">
         <header className="panel-host__chrome">
-          <p className="panel-host__chrome-title">{PANEL_TITLES[openPanel]}</p>
+          <div className="panel-host__chrome-title-row">
+            {showShield ? (
+              <NationShield nation={{ tag: playerNation.tag, color: playerNation.color }} size={20} />
+            ) : null}
+            <p className="panel-host__chrome-title">{PANEL_TITLES[openPanel]}</p>
+          </div>
           <button type="button" className="panel-host__close" onClick={() => openPanelId(null)}>Done</button>
         </header>
         <div className="panel-host__body">
