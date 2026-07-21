@@ -2,6 +2,41 @@
 
 All notable changes to Grand Century are documented here.
 
+## [0.8.0] — 2026-07-21
+
+Nationalism, performance, and a mobile fix pass.
+
+### The Age of Nationalism (culture / national identity)
+- Cultures 8→32, religions 5→7. Multi-cultural empires now carry real **minorities**
+  (Austria ~31% German / 22% Hungarian / 18% Italian / 16% South-Slav / 13% Czech;
+  Russia's Poles/Finns/Balts/Ukrainians; British India; Dutch Indies; Ottoman
+  Balkans/Arab vilayets).
+- **Accepted vs non-accepted cultures** (non-accepted → more militancy, no crown
+  recruitment), **assimilation** (isolated minorities melt toward the primary culture,
+  conserving people; rate by isolation/literacy/policy), and **national movements** —
+  a boiling non-accepted culture launches a separatist independence rebellion (through
+  the existing rebellion caps). Player levers: cultural policy (exclusionary/
+  assimilationist/pluralist) + grant/revoke acceptance. New Cultures panel; province
+  dossier shows cultural makeup.
+
+### Performance
+- O(n) hot loops fixed (politics.monthly pop-bucketing + reform map; war.daily
+  indexes). GeoJSON quantized (~1.24MB → ~546KB raw). Map fill skips unchanged
+  provinces. Behavior-preserving + deterministic.
+
+### Mobile UI
+- **Fixed tap latency** — buttons now register immediately (touch-action + instant
+  `:active` feedback, no double-tap).
+- **Fixed notification spam** — routine events (elections) collapse quietly into the
+  outliner; only war / crisis / bankruptcy / your own election pop prominently.
+- Mobile polish for the new Technology & Crisis panels as sheets.
+
+### Notes
+- 141 tests (test:all) green; balance envelope held; SP + MP intact; old saves
+  self-heal. (One culture test is intermittently load-flaky — a test-infra item.)
+
+[0.8.0]: https://github.com/Egg3901/grand-century/releases/tag/v0.8.0
+
 ## [0.7.0] — 2026-07-21
 
 Deeper gameplay: great-power crisis diplomacy + a much bigger tech tree.
