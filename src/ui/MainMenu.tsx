@@ -265,7 +265,7 @@ export function MainMenu() {
                         data-testid="menu-seed-dice"
                         onClick={() => setSeedInput(String(randomSeed()))}
                       >
-                        ⚄
+                        Reroll
                       </button>
                     </span>
                   </label>
