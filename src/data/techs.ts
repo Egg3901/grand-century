@@ -1,20 +1,20 @@
 /**
- * 0.6.0 — "The Inventive Century": the full 1820-1920 technology tree and
- * invention list.
+ * 0.6.0 / 0.7.0 track B — Technology tree ("The Inventive Century" + depth).
  *
  * Design notes (see docs/ROADMAP-0.6.0.md):
- *  - Five columns (army / navy / commerce / industry / culture), each a linear
- *    prereq chain paced across the century by `year` gates and rising costs.
+ *  - Five columns (army / navy / commerce / industry / culture), prereq-chained
+ *    and year-gated across 1820→1920.
  *  - The eight pre-0.6.0 tech keys are preserved verbatim as the 1820 roots so
  *    existing saves, the bootstrap seed ('market_structure') and any string
- *    references keep working.
+ *    references keep working. All 31 M1 keys remain; depth techs are additive.
  *  - Army/navy tech keys deliberately contain the substrings that
  *    src/sim/systems/war.ts scores combat with ('army', 'navy', 'ironclad',
  *    'artillery', 'cavalry', 'guard', 'staff', 'professional', 'cannon') so the
- *    war engine deepens with the tree without touching combat code.
+ *    war engine deepens with the tree without rewriting combat math.
  *  - Typed `modifiers` are aggregated by src/sim/systems/research.ts and
- *    consumed by economy (throughput), budget (tax efficiency) and research
- *    itself. `unlocksRecipes` gates the new production chains in gameData.
+ *    consumed by economy (throughput / factory profit), budget (tax + trade),
+ *    pops (pop growth), war (movement / supply), and research itself.
+ *  - `unlocksRecipes` gates production chains in gameData.
  */
 
 import type { InventionDef, TechDef } from '../shared/types';
@@ -36,23 +36,47 @@ export const TECHS: TechDef[] = [
     effects: ['+Army combat power', '+Guard effectiveness'],
   },
   {
-    key: 'army_percussion_rifles', name: 'Percussion Rifles', category: 'army', cost: 42, year: 1842,
+    key: 'army_field_logistics', name: 'Field Logistics', category: 'army', cost: 34, year: 1838,
     prereq: 'army_professional_drill',
+    effects: ['+Army movement', '+Supply range'],
+    modifiers: { armyMovement: 0.06, supplyRange: 0.5 },
+  },
+  {
+    key: 'army_percussion_rifles', name: 'Percussion Rifles', category: 'army', cost: 42, year: 1842,
+    prereq: 'army_field_logistics',
     effects: ['+Army combat power'],
+  },
+  {
+    key: 'army_cavalry_tactics', name: 'Cavalry Tactics', category: 'army', cost: 52, year: 1848,
+    prereq: 'army_percussion_rifles',
+    effects: ['+Cavalry effectiveness', '+Army movement'],
+    modifiers: { armyMovement: 0.04 },
   },
   {
     key: 'army_rifled_artillery', name: 'Rifled Artillery', category: 'army', cost: 68, year: 1856,
-    prereq: 'army_percussion_rifles',
+    prereq: 'army_cavalry_tactics',
     effects: ['+Army combat power', '+Artillery effectiveness'],
   },
   {
-    key: 'army_breech_loaders', name: 'Breech-loading Rifles', category: 'army', cost: 98, year: 1868,
+    key: 'army_field_hospitals', name: 'Field Hospitals', category: 'army', cost: 78, year: 1860,
     prereq: 'army_rifled_artillery',
+    effects: ['+Pop growth (military hygiene)', '+Army combat power'],
+    modifiers: { popGrowth: 0.00001 },
+  },
+  {
+    key: 'army_breech_loaders', name: 'Breech-loading Rifles', category: 'army', cost: 98, year: 1868,
+    prereq: 'army_field_hospitals',
     effects: ['+Army combat power'],
   },
   {
-    key: 'army_staff_corps', name: 'Staff Corps', category: 'army', cost: 125, year: 1876,
+    key: 'army_railroad_logistics', name: 'Railroad Logistics', category: 'army', cost: 110, year: 1872,
     prereq: 'army_breech_loaders',
+    effects: ['+Army movement', '+Supply range'],
+    modifiers: { armyMovement: 0.1, supplyRange: 1.0 },
+  },
+  {
+    key: 'army_staff_corps', name: 'Staff Corps', category: 'army', cost: 125, year: 1876,
+    prereq: 'army_railroad_logistics',
     effects: ['+Army combat power', '+Guard effectiveness'],
   },
   {
@@ -61,9 +85,26 @@ export const TECHS: TechDef[] = [
     effects: ['+Army combat power'],
   },
   {
-    key: 'army_modern_cannon', name: 'Modern Cannon Doctrine', category: 'army', cost: 225, year: 1898,
+    key: 'army_smokeless_powder', name: 'Smokeless Powder', category: 'army', cost: 190, year: 1892,
     prereq: 'army_repeating_rifles',
+    effects: ['+Army combat power', 'Unlocks Ammunition Works'],
+    unlocksRecipes: ['factory_ammunition'],
+  },
+  {
+    key: 'army_modern_cannon', name: 'Modern Cannon Doctrine', category: 'army', cost: 225, year: 1898,
+    prereq: 'army_smokeless_powder',
     effects: ['+Army combat power', '+Artillery effectiveness'],
+  },
+  {
+    key: 'army_machine_guns', name: 'Machine Guns', category: 'army', cost: 255, year: 1905,
+    prereq: 'army_modern_cannon',
+    effects: ['+Army combat power'],
+  },
+  {
+    key: 'army_combined_arms', name: 'Combined Arms Doctrine', category: 'army', cost: 290, year: 1914,
+    prereq: 'army_machine_guns',
+    effects: ['+Army combat power', '+Army movement'],
+    modifiers: { armyMovement: 0.05 },
   },
 
   // --- NAVY --------------------------------------------------------------
@@ -72,13 +113,23 @@ export const TECHS: TechDef[] = [
     effects: ['Foundation of the navy column'],
   },
   {
-    key: 'navy_screw_propulsion', name: 'Screw Propulsion', category: 'navy', cost: 46, year: 1845,
+    key: 'navy_clipper_design', name: 'Clipper Design', category: 'navy', cost: 28, year: 1830,
     prereq: 'steamers',
     effects: ['+Naval combat power', '+Colonial reach'],
   },
   {
-    key: 'navy_ironclad_warships', name: 'Ironclad Warships', category: 'navy', cost: 92, year: 1862,
+    key: 'navy_screw_propulsion', name: 'Screw Propulsion', category: 'navy', cost: 46, year: 1845,
+    prereq: 'navy_clipper_design',
+    effects: ['+Naval combat power', '+Colonial reach'],
+  },
+  {
+    key: 'navy_naval_gunnery', name: 'Naval Gunnery', category: 'navy', cost: 68, year: 1855,
     prereq: 'navy_screw_propulsion',
+    effects: ['+Naval combat power'],
+  },
+  {
+    key: 'navy_ironclad_warships', name: 'Ironclad Warships', category: 'navy', cost: 92, year: 1862,
+    prereq: 'navy_naval_gunnery',
     effects: ['+Naval combat power', '+Colonial reach'],
   },
   {
@@ -87,8 +138,23 @@ export const TECHS: TechDef[] = [
     effects: ['+Naval combat power', '+Colonial reach'],
   },
   {
-    key: 'navy_dreadnought_program', name: 'Dreadnought Program', category: 'navy', cost: 240, year: 1900,
+    key: 'navy_torpedo_boats', name: 'Torpedo Boats', category: 'navy', cost: 175, year: 1888,
     prereq: 'navy_steel_shipyards',
+    effects: ['+Naval combat power'],
+  },
+  {
+    key: 'navy_dreadnought_program', name: 'Dreadnought Program', category: 'navy', cost: 240, year: 1900,
+    prereq: 'navy_torpedo_boats',
+    effects: ['+Naval combat power', '+Colonial reach'],
+  },
+  {
+    key: 'navy_oil_firing', name: 'Oil-fired Boilers', category: 'navy', cost: 270, year: 1908,
+    prereq: 'navy_dreadnought_program',
+    effects: ['+Naval combat power', '+Colonial reach'],
+  },
+  {
+    key: 'navy_battlecruiser_doctrine', name: 'Battlecruiser Doctrine', category: 'navy', cost: 310, year: 1915,
+    prereq: 'navy_oil_firing',
     effects: ['+Naval combat power', '+Colonial reach'],
   },
 
@@ -101,27 +167,57 @@ export const TECHS: TechDef[] = [
   {
     key: 'commerce_merchant_marine', name: 'Merchant Marine', category: 'commerce', cost: 32, year: 1835,
     prereq: 'market_structure',
-    effects: ['+3% tax efficiency', 'Unlocks Fishing Wharf and Vintner Estate'],
-    modifiers: { taxEfficiency: 0.03 },
+    effects: ['+3% tax efficiency', '+3% trade efficiency', 'Unlocks Fishing Wharf and Vintner Estate'],
+    modifiers: { taxEfficiency: 0.03, tradeEfficiency: 0.03 },
     unlocksRecipes: ['factory_fishing_wharf', 'factory_vintners'],
   },
   {
-    key: 'commerce_stock_exchange', name: 'Stock Exchange', category: 'commerce', cost: 62, year: 1850,
+    key: 'commerce_joint_stock', name: 'Joint-Stock Companies', category: 'commerce', cost: 48, year: 1842,
     prereq: 'commerce_merchant_marine',
-    effects: ['+5% tax efficiency', '+5% research'],
-    modifiers: { taxEfficiency: 0.05, researchRate: 0.05 },
+    effects: ['+3% factory profit', '+2% tax efficiency'],
+    modifiers: { factoryProfit: 0.03, taxEfficiency: 0.02 },
+  },
+  {
+    key: 'commerce_stock_exchange', name: 'Stock Exchange', category: 'commerce', cost: 62, year: 1850,
+    prereq: 'commerce_joint_stock',
+    effects: ['+5% tax efficiency', '+5% research', '+4% trade efficiency'],
+    modifiers: { taxEfficiency: 0.05, researchRate: 0.05, tradeEfficiency: 0.04 },
+  },
+  {
+    key: 'commerce_insurance_markets', name: 'Insurance Markets', category: 'commerce', cost: 88, year: 1858,
+    prereq: 'commerce_stock_exchange',
+    effects: ['+3% factory profit', '+3% trade efficiency'],
+    modifiers: { factoryProfit: 0.03, tradeEfficiency: 0.03 },
   },
   {
     key: 'commerce_limited_liability', name: 'Limited Liability', category: 'commerce', cost: 112, year: 1870,
-    prereq: 'commerce_stock_exchange',
+    prereq: 'commerce_insurance_markets',
     effects: ['+4% tax efficiency', '+5% factory throughput'],
     modifiers: { taxEfficiency: 0.04, factoryThroughput: 0.05 },
   },
   {
-    key: 'commerce_central_banking', name: 'Central Banking', category: 'commerce', cost: 185, year: 1890,
+    key: 'commerce_gold_standard', name: 'Gold Standard', category: 'commerce', cost: 145, year: 1878,
     prereq: 'commerce_limited_liability',
-    effects: ['+8% tax efficiency'],
-    modifiers: { taxEfficiency: 0.08 },
+    effects: ['+4% tax efficiency', '+4% trade efficiency'],
+    modifiers: { taxEfficiency: 0.04, tradeEfficiency: 0.04 },
+  },
+  {
+    key: 'commerce_central_banking', name: 'Central Banking', category: 'commerce', cost: 185, year: 1890,
+    prereq: 'commerce_gold_standard',
+    effects: ['+6% tax efficiency', '+4% factory profit'],
+    modifiers: { taxEfficiency: 0.06, factoryProfit: 0.04 },
+  },
+  {
+    key: 'commerce_modern_finance', name: 'Modern Finance', category: 'commerce', cost: 230, year: 1902,
+    prereq: 'commerce_central_banking',
+    effects: ['+5% tax efficiency', '+5% factory profit', '+5% trade efficiency'],
+    modifiers: { taxEfficiency: 0.05, factoryProfit: 0.05, tradeEfficiency: 0.05 },
+  },
+  {
+    key: 'commerce_corporate_trusts', name: 'Corporate Trusts', category: 'commerce', cost: 275, year: 1912,
+    prereq: 'commerce_modern_finance',
+    effects: ['+4% factory throughput', '+4% factory profit'],
+    modifiers: { factoryThroughput: 0.04, factoryProfit: 0.04 },
   },
 
   // --- INDUSTRY ----------------------------------------------------------
@@ -137,31 +233,77 @@ export const TECHS: TechDef[] = [
     modifiers: { rgoThroughput: 0.06 },
   },
   {
-    key: 'industry_mechanized_sawmills', name: 'Mechanized Sawmills', category: 'industry', cost: 42, year: 1838,
+    key: 'industry_early_railroads', name: 'Early Railroads', category: 'industry', cost: 36, year: 1836,
     prereq: 'practical_steam_engine',
+    effects: ['+Army movement', '+Supply range', '+3% RGO throughput', 'Unlocks Cement Works'],
+    modifiers: { armyMovement: 0.08, supplyRange: 0.75, rgoThroughput: 0.03 },
+    unlocksRecipes: ['factory_cement'],
+  },
+  {
+    key: 'industry_mechanized_sawmills', name: 'Mechanized Sawmills', category: 'industry', cost: 42, year: 1838,
+    prereq: 'industry_early_railroads',
     effects: ['+4% RGO throughput', 'Unlocks Lumber Mill and Furniture Works'],
     modifiers: { rgoThroughput: 0.04 },
     unlocksRecipes: ['factory_lumber_mill', 'factory_furniture'],
   },
   {
-    key: 'industry_machine_tooling', name: 'Machine Tooling', category: 'industry', cost: 78, year: 1855,
+    key: 'industry_interchangeable_parts', name: 'Interchangeable Parts', category: 'industry', cost: 58, year: 1848,
     prereq: 'industry_mechanized_sawmills',
+    effects: ['+5% factory throughput', 'Unlocks Clothing Mill'],
+    modifiers: { factoryThroughput: 0.05 },
+    unlocksRecipes: ['factory_clothing'],
+  },
+  {
+    key: 'industry_machine_tooling', name: 'Machine Tooling', category: 'industry', cost: 78, year: 1855,
+    prereq: 'industry_interchangeable_parts',
     effects: ['+6% factory throughput', 'Unlocks Machine Parts Works'],
     modifiers: { factoryThroughput: 0.06 },
     unlocksRecipes: ['factory_machine_parts'],
   },
   {
-    key: 'industry_bessemer_steel', name: 'Bessemer Steel', category: 'industry', cost: 118, year: 1870,
+    key: 'industry_chemical_synthesis', name: 'Chemical Synthesis', category: 'industry', cost: 95, year: 1864,
     prereq: 'industry_machine_tooling',
+    effects: ['+5% RGO throughput', 'Unlocks Fertilizer Works'],
+    modifiers: { rgoThroughput: 0.05 },
+    unlocksRecipes: ['factory_fertilizer'],
+  },
+  {
+    key: 'industry_bessemer_steel', name: 'Bessemer Steel', category: 'industry', cost: 118, year: 1870,
+    prereq: 'industry_chemical_synthesis',
     effects: ['+6% factory throughput', '+4% RGO throughput', 'Unlocks Artillery Foundry'],
     modifiers: { factoryThroughput: 0.06, rgoThroughput: 0.04 },
     unlocksRecipes: ['factory_artillery'],
   },
   {
-    key: 'industry_electrification', name: 'Electrification', category: 'industry', cost: 210, year: 1895,
+    key: 'industry_organic_chemistry', name: 'Organic Chemistry', category: 'industry', cost: 145, year: 1878,
     prereq: 'industry_bessemer_steel',
-    effects: ['+12% factory throughput'],
-    modifiers: { factoryThroughput: 0.12 },
+    effects: ['+4% factory throughput', 'Unlocks Glassworks'],
+    modifiers: { factoryThroughput: 0.04 },
+    unlocksRecipes: ['factory_glassworks'],
+  },
+  {
+    key: 'industry_oil_drilling', name: 'Oil Drilling', category: 'industry', cost: 175, year: 1886,
+    prereq: 'industry_organic_chemistry',
+    effects: ['+5% factory throughput', '+3% RGO throughput'],
+    modifiers: { factoryThroughput: 0.05, rgoThroughput: 0.03 },
+  },
+  {
+    key: 'industry_electrification', name: 'Electrification', category: 'industry', cost: 210, year: 1895,
+    prereq: 'industry_oil_drilling',
+    effects: ['+10% factory throughput'],
+    modifiers: { factoryThroughput: 0.1 },
+  },
+  {
+    key: 'industry_electrical_grid', name: 'Electrical Grid', category: 'industry', cost: 250, year: 1905,
+    prereq: 'industry_electrification',
+    effects: ['+8% factory throughput', '+Army movement'],
+    modifiers: { factoryThroughput: 0.08, armyMovement: 0.04 },
+  },
+  {
+    key: 'industry_synthetic_materials', name: 'Synthetic Materials', category: 'industry', cost: 290, year: 1914,
+    prereq: 'industry_electrical_grid',
+    effects: ['+6% factory throughput', '+4% RGO throughput'],
+    modifiers: { factoryThroughput: 0.06, rgoThroughput: 0.04 },
   },
 
   // --- CULTURE -----------------------------------------------------------
@@ -177,28 +319,59 @@ export const TECHS: TechDef[] = [
     modifiers: { researchRate: 0.1 },
   },
   {
-    key: 'culture_realist_school', name: 'The Realist School', category: 'culture', cost: 56, year: 1848,
+    key: 'culture_public_hygiene', name: 'Public Hygiene', category: 'culture', cost: 38, year: 1840,
     prereq: 'idealism',
+    effects: ['+Pop growth', '+Literacy growth'],
+    modifiers: { popGrowth: 0.000015, literacyRate: 0.0002 },
+  },
+  {
+    key: 'culture_realist_school', name: 'The Realist School', category: 'culture', cost: 56, year: 1848,
+    prereq: 'culture_public_hygiene',
     effects: ['+Literacy growth', '+Prestige drip'],
     modifiers: { literacyRate: 0.0004, prestigeMonthly: 0.1 },
   },
   {
-    key: 'culture_empirical_science', name: 'Empirical Science', category: 'culture', cost: 102, year: 1866,
+    key: 'culture_germ_theory', name: 'Germ Theory', category: 'culture', cost: 78, year: 1862,
     prereq: 'culture_realist_school',
-    effects: ['+15% research'],
+    effects: ['+Pop growth', '+5% research'],
+    modifiers: { popGrowth: 0.00002, researchRate: 0.05 },
+  },
+  {
+    key: 'culture_empirical_science', name: 'Empirical Science', category: 'culture', cost: 102, year: 1866,
+    prereq: 'culture_germ_theory',
+    effects: ['+15% research', 'Unlocks Paper Mill'],
     modifiers: { researchRate: 0.15 },
+    unlocksRecipes: ['factory_paper_mill'],
+  },
+  {
+    key: 'culture_modern_medicine', name: 'Modern Medicine', category: 'culture', cost: 128, year: 1876,
+    prereq: 'culture_empirical_science',
+    effects: ['+Pop growth', '+Literacy growth'],
+    modifiers: { popGrowth: 0.000025, literacyRate: 0.0003 },
   },
   {
     key: 'culture_mass_press', name: 'The Mass Press', category: 'culture', cost: 152, year: 1882,
-    prereq: 'culture_empirical_science',
+    prereq: 'culture_modern_medicine',
     effects: ['+Literacy growth', '+5% research'],
     modifiers: { literacyRate: 0.0008, researchRate: 0.05 },
   },
   {
-    key: 'culture_modernist_age', name: 'The Modernist Age', category: 'culture', cost: 230, year: 1900,
+    key: 'culture_social_sciences', name: 'Social Sciences', category: 'culture', cost: 185, year: 1892,
     prereq: 'culture_mass_press',
+    effects: ['+8% research', '+Prestige drip'],
+    modifiers: { researchRate: 0.08, prestigeMonthly: 0.15 },
+  },
+  {
+    key: 'culture_modernist_age', name: 'The Modernist Age', category: 'culture', cost: 230, year: 1900,
+    prereq: 'culture_social_sciences',
     effects: ['+Prestige drip', '+10% research'],
     modifiers: { prestigeMonthly: 0.4, researchRate: 0.1 },
+  },
+  {
+    key: 'culture_radio_broadcast', name: 'Radio Broadcast', category: 'culture', cost: 275, year: 1912,
+    prereq: 'culture_modernist_age',
+    effects: ['+Literacy growth', '+Prestige drip', '+5% research'],
+    modifiers: { literacyRate: 0.0004, prestigeMonthly: 0.25, researchRate: 0.05 },
   },
 ];
 
@@ -214,9 +387,19 @@ export const INVENTIONS: InventionDef[] = [
     modifiers: { rgoThroughput: 0.03 },
   },
   {
+    key: 'railway_timetables', name: 'Railway Timetables', prereqTech: 'industry_early_railroads', monthlyChance: 0.05,
+    description: 'Trains run to the minute; armies follow.',
+    modifiers: { armyMovement: 0.03, supplyRange: 0.25 },
+  },
+  {
     key: 'telegraph_networks', name: 'Telegraph Networks', prereqTech: 'commerce_stock_exchange', monthlyChance: 0.05,
     description: 'Prices and orders now travel faster than horses.',
     modifiers: { researchRate: 0.05, taxEfficiency: 0.02 },
+  },
+  {
+    key: 'antiseptic_surgery', name: 'Antiseptic Surgery', prereqTech: 'culture_germ_theory', monthlyChance: 0.045,
+    description: 'Carbolic acid keeps the wards from becoming morgues.',
+    modifiers: { popGrowth: 0.00001 },
   },
   {
     key: 'dynamite', name: 'Dynamite', prereqTech: 'industry_machine_tooling', monthlyChance: 0.04,
@@ -226,12 +409,17 @@ export const INVENTIONS: InventionDef[] = [
   {
     key: 'pasteurization', name: 'Pasteurization', prereqTech: 'culture_empirical_science', monthlyChance: 0.04,
     description: 'Food keeps; cities grow healthier.',
-    modifiers: { rgoThroughput: 0.02, literacyRate: 0.0002 },
+    modifiers: { rgoThroughput: 0.02, literacyRate: 0.0002, popGrowth: 0.000008 },
   },
   {
     key: 'naval_observatories', name: 'Naval Observatories', prereqTech: 'navy_screw_propulsion', monthlyChance: 0.04,
     description: 'Precision charts burnish the fleet’s renown.',
     modifiers: { prestigeMonthly: 0.1 },
+  },
+  {
+    key: 'double_entry_ledgers', name: 'Double-Entry Ledgers', prereqTech: 'commerce_joint_stock', monthlyChance: 0.05,
+    description: 'Every shilling finds its column.',
+    modifiers: { taxEfficiency: 0.02, factoryProfit: 0.02 },
   },
   {
     key: 'bessemer_refinements', name: 'Converter Refinements', prereqTech: 'industry_bessemer_steel', monthlyChance: 0.05,
@@ -242,6 +430,11 @@ export const INVENTIONS: InventionDef[] = [
     key: 'refrigerated_shipping', name: 'Refrigerated Shipping', prereqTech: 'commerce_limited_liability', monthlyChance: 0.04,
     description: 'Beef and grain cross oceans without spoiling.',
     modifiers: { rgoThroughput: 0.03, taxEfficiency: 0.02 },
+  },
+  {
+    key: 'haber_process', name: 'Haber Process', prereqTech: 'industry_chemical_synthesis', monthlyChance: 0.04,
+    description: 'Nitrogen from the air feeds the fields.',
+    modifiers: { rgoThroughput: 0.04 },
   },
   {
     key: 'telephone_exchange', name: 'Telephone Exchange', prereqTech: 'commerce_central_banking', monthlyChance: 0.05,
@@ -262,5 +455,25 @@ export const INVENTIONS: InventionDef[] = [
     key: 'cheap_newsprint', name: 'Cheap Newsprint', prereqTech: 'culture_mass_press', monthlyChance: 0.05,
     description: 'A paper in every parlor.',
     modifiers: { literacyRate: 0.0005 },
+  },
+  {
+    key: 'radiotelegraphy', name: 'Radiotelegraphy', prereqTech: 'culture_radio_broadcast', monthlyChance: 0.05,
+    description: 'Orders cross the sea without a cable.',
+    modifiers: { researchRate: 0.04, prestigeMonthly: 0.1 },
+  },
+  {
+    key: 'diesel_engines', name: 'Diesel Engines', prereqTech: 'industry_oil_drilling', monthlyChance: 0.04,
+    description: 'Heavy engines that sip oil instead of coal.',
+    modifiers: { factoryThroughput: 0.03, armyMovement: 0.02 },
+  },
+  {
+    key: 'machine_gun_refinements', name: 'Machine Gun Refinements', prereqTech: 'army_machine_guns', monthlyChance: 0.05,
+    description: 'Cooling jackets and belt feeds thin the ranks ahead.',
+    modifiers: { prestigeMonthly: 0.05 },
+  },
+  {
+    key: 'dreadnought_turrets', name: 'Dreadnought Turrets', prereqTech: 'navy_dreadnought_program', monthlyChance: 0.045,
+    description: 'All-big-gun broadside becomes doctrine.',
+    modifiers: { prestigeMonthly: 0.15 },
   },
 ];

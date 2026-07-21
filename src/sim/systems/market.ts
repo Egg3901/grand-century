@@ -1,6 +1,8 @@
 import type { GameData, GoodId, NationId, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
+import { GAME_DATA } from '../../data/gameData';
+import { techModifiersFor } from './research';
 
 const MIN_PRICE = BALANCE.economy.minPrice;
 const MAX_PRICE = BALANCE.economy.maxPrice;
@@ -68,8 +70,12 @@ export function computeSaleRevenue(world: World, good: GoodId, nationId: NationI
   const safeAmount = Math.max(0, finite(amount));
   const baseUnit = Math.max(MIN_PRICE, finite(marketGood.price));
   const mult = exportMultiplier(nation.tariffRate);
-  const receivedPerUnit = baseUnit * mult;
-  const tariffCut = baseUnit * safeAmount - receivedPerUnit * safeAmount;
+  // 0.7.0: trade-efficiency tech deepens the export tariff cut (seller keeps less;
+  // the extra is real money taken from the sale — no minting).
+  const tradeEfficiency = 1 + Math.max(0, techModifiersFor(nation, GAME_DATA).tradeEfficiency ?? 0);
+  const cutFraction = Math.max(0, 1 - mult);
+  const receivedPerUnit = baseUnit * (1 - cutFraction * tradeEfficiency);
+  const tariffCut = (baseUnit - receivedPerUnit) * safeAmount;
   if (tariffCut > 0) nation.monthlyTariffIncome += tariffCut;
   return receivedPerUnit * safeAmount;
 }
@@ -100,7 +106,13 @@ export function buyFromMarket(
 
   const baseUnit = Math.max(MIN_PRICE, finite(marketGood.price));
   const buyMult = importMultiplier(nation.tariffRate);
-  const unitPrice = baseUnit * buyMult;
+  // 0.7.0: trade-efficiency tech amplifies only the positive tariff margin so
+  // customs capture more of each import purchase (buyer pays the extra — no
+  // minting). Negative tariffs (import subsidies) are left untouched.
+  const tradeEfficiency = 1 + Math.max(0, techModifiersFor(nation, GAME_DATA).tradeEfficiency ?? 0);
+  const rawMargin = buyMult - 1;
+  const tariffMargin = rawMargin > 0 ? rawMargin * tradeEfficiency : rawMargin;
+  const unitPrice = baseUnit * (1 + tariffMargin);
 
   const available = Math.max(0, runtime.remainingProducer + runtime.remainingStockpile);
   // 0.6.0 fix: an Infinity budget (factory input purchases) used to collapse to
@@ -117,7 +129,7 @@ export function buyFromMarket(
   runtime.consumerBought += bought;
 
   const spent = bought * unitPrice;
-  const tariffIncome = bought * baseUnit * Math.max(0, buyMult - 1);
+  const tariffIncome = bought * baseUnit * Math.max(0, tariffMargin);
   if (tariffIncome > 0) nation.monthlyTariffIncome += tariffIncome;
 
   return {

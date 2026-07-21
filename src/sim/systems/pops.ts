@@ -2,6 +2,7 @@ import type { GameData, Pop, PopType, ProvinceId, World } from '../../shared/typ
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
 import { buyFromMarket } from './market';
+import { techModifiersFor } from './research';
 
 function finite(value: number, fallback = 0): number {
   return Number.isFinite(value) ? value : fallback;
@@ -251,7 +252,7 @@ function isAcceptedCulture(world: World, pop: Pop): boolean {
   return pop.culture === nation.primaryCulture || nation.acceptedCultures.includes(pop.culture);
 }
 
-export function runPopsMonthly(world: World, _data: GameData, rng: Rng): void {
+export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
   const scores = provinceScores(world);
   const bestDestination = new Map<number, number>();
   const bestScore = new Map<number, number>();
@@ -287,12 +288,15 @@ export function runPopsMonthly(world: World, _data: GameData, rng: Rng): void {
     const nation = world.nations[nationId];
     const literacy = nation?.literacy ?? 0;
     const healthcareLevel = nation?.reforms.healthcare ?? 0;
+    // 0.7.0: medicine / hygiene techs add a small growth-rate bonus (still
+    // clamped by maxGrowthRate so late-game pop doesn't explode).
+    const techPopGrowth = nation ? Math.max(0, techModifiersFor(nation, data).popGrowth ?? 0) : 0;
 
     const noise = (rng.next() - 0.5) * 0.0001;
     const needsScaledGrowthCap = 0.00014 + pop.needsMet * 0.000035;
     const maxGrowthRate = Math.min(BALANCE.population.maxGrowthRate, needsScaledGrowthCap);
     const growthRate = clamp(
-      -0.0009 + pop.needsMet * 0.0013 + healthcareLevel * 0.00012 + noise,
+      -0.0009 + pop.needsMet * 0.0013 + healthcareLevel * 0.00012 + techPopGrowth + noise,
       BALANCE.population.minGrowthRate,
       maxGrowthRate,
     );

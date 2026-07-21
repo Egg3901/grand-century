@@ -1,10 +1,10 @@
 /**
- * 0.6.0 — Research & Inventions ("The Inventive Century").
+ * 0.6.0 / 0.7.0 — Research & Inventions ("The Inventive Century" + depth).
  *
  * Covers: data integrity of the tree, determinism, player-directed research,
- * effect application (throughput + tax efficiency), recipe gating, AI
- * progression, year gates, and long-sim stability (no NaN / negatives /
- * runaway values).
+ * effect application (throughput, tax, factory profit, pop growth, movement,
+ * supply, trade), recipe gating, AI progression, year gates, and long-sim
+ * stability (no NaN / negatives / runaway values).
  */
 
 import { describe, expect, it } from 'vitest';
@@ -34,23 +34,40 @@ function advanceDays(world: World, days: number) {
   for (let i = 0; i < days; i++) advanceDay(world, GAME_DATA);
 }
 
+const LEGACY_TECH_KEYS = [
+  'muzzle_loaded_rifles', 'post_napoleonic_thought', 'steamers', 'market_structure',
+  'mechanical_production', 'practical_steam_engine', 'romanticism', 'idealism',
+] as const;
+
+const M1_TECH_KEYS = [
+  ...LEGACY_TECH_KEYS,
+  'army_professional_drill', 'army_percussion_rifles', 'army_rifled_artillery',
+  'army_breech_loaders', 'army_staff_corps', 'army_repeating_rifles', 'army_modern_cannon',
+  'navy_screw_propulsion', 'navy_ironclad_warships', 'navy_steel_shipyards', 'navy_dreadnought_program',
+  'commerce_merchant_marine', 'commerce_stock_exchange', 'commerce_limited_liability', 'commerce_central_banking',
+  'industry_mechanized_sawmills', 'industry_machine_tooling', 'industry_bessemer_steel', 'industry_electrification',
+  'culture_realist_school', 'culture_empirical_science', 'culture_mass_press', 'culture_modernist_age',
+] as const;
+
 describe('E6 research data integrity', () => {
   it('every prereq and unlock reference resolves; costs and years are sane', () => {
     const techKeys = new Set(GAME_DATA.techs.map((tech) => tech.key));
     const recipeKeys = new Set(GAME_DATA.recipes.map((recipe) => recipe.key));
-    expect(GAME_DATA.techs.length).toBeGreaterThanOrEqual(25);
+    expect(GAME_DATA.techs.length).toBeGreaterThanOrEqual(50);
+    expect(new Set(GAME_DATA.techs.map((tech) => tech.key)).size).toBe(GAME_DATA.techs.length);
     for (const tech of GAME_DATA.techs) {
       if (tech.prereq) expect(techKeys.has(tech.prereq)).toBe(true);
       for (const recipeKey of tech.unlocksRecipes ?? []) {
         expect(recipeKeys.has(recipeKey)).toBe(true);
       }
       expect(tech.cost).toBeGreaterThan(0);
+      expect(tech.cost).toBeLessThanOrEqual(400);
       if (tech.year !== undefined) {
         expect(tech.year).toBeGreaterThanOrEqual(1820);
         expect(tech.year).toBeLessThanOrEqual(1920);
       }
     }
-    expect(GAME_DATA.inventions?.length ?? 0).toBeGreaterThanOrEqual(10);
+    expect(GAME_DATA.inventions?.length ?? 0).toBeGreaterThanOrEqual(18);
     for (const invention of GAME_DATA.inventions ?? []) {
       expect(techKeys.has(invention.prereqTech)).toBe(true);
       expect(invention.monthlyChance).toBeGreaterThan(0);
@@ -66,13 +83,21 @@ describe('E6 research data integrity', () => {
     }
   });
 
-  it('legacy tech keys survive (saves + bootstrap seed reference them)', () => {
+  it('legacy + M1 tech keys survive (saves + bootstrap seed reference them)', () => {
     const keys = new Set(GAME_DATA.techs.map((tech) => tech.key));
-    for (const legacy of [
-      'muzzle_loaded_rifles', 'post_napoleonic_thought', 'steamers', 'market_structure',
-      'mechanical_production', 'practical_steam_engine', 'romanticism', 'idealism',
+    for (const legacy of LEGACY_TECH_KEYS) expect(keys.has(legacy)).toBe(true);
+    for (const key of M1_TECH_KEYS) expect(keys.has(key)).toBe(true);
+    expect(M1_TECH_KEYS.length).toBe(31);
+  });
+
+  it('depth techs span railroads, chemistry, medicine, electricity, finance', () => {
+    const keys = new Set(GAME_DATA.techs.map((tech) => tech.key));
+    for (const depth of [
+      'industry_early_railroads', 'industry_chemical_synthesis', 'industry_electrical_grid',
+      'culture_germ_theory', 'culture_modern_medicine', 'commerce_modern_finance',
+      'army_railroad_logistics', 'army_machine_guns', 'navy_oil_firing',
     ]) {
-      expect(keys.has(legacy)).toBe(true);
+      expect(keys.has(depth)).toBe(true);
     }
   });
 });
@@ -114,8 +139,13 @@ describe('E6 research progression', () => {
     const noPrereq = setNationResearch(world, GAME_DATA, world.playerNation, 'industry_electrification');
     expect(noPrereq.ok).toBe(false);
     const player = playerNation(world);
-    // Grant the whole industry chain below electrification; the 1895 year gate must still block in 1820.
-    player.techs.push('mechanical_production', 'practical_steam_engine', 'industry_mechanized_sawmills', 'industry_machine_tooling', 'industry_bessemer_steel');
+    // Grant the full industry chain below electrification; the 1895 year gate must still block in 1820.
+    player.techs.push(
+      'mechanical_production', 'practical_steam_engine', 'industry_early_railroads',
+      'industry_mechanized_sawmills', 'industry_interchangeable_parts', 'industry_machine_tooling',
+      'industry_chemical_synthesis', 'industry_bessemer_steel', 'industry_organic_chemistry',
+      'industry_oil_drilling',
+    );
     const tooEarly = setNationResearch(world, GAME_DATA, world.playerNation, 'industry_electrification');
     expect(tooEarly.ok).toBe(false);
     expect(tooEarly.reason).toContain('1895');
@@ -182,6 +212,31 @@ describe('E6 recipe gating', () => {
     expect(state.factories[state.factories.length - 1].recipe).toBe('factory_lumber_mill');
   });
 
+  it('depth recipes (fertilizer, clothing, ammunition) gate on their techs', () => {
+    const world = createWorld(GAME_DATA, 24);
+    const player = playerNation(world);
+    const state = world.states.find((candidate) => candidate.owner === world.playerNation)!;
+    player.treasury = 100_000;
+    const before = state.factories.length;
+    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_fertilizer' }, noop);
+    expect(state.factories.length).toBe(before);
+    player.techs.push('industry_chemical_synthesis');
+    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_fertilizer' }, noop);
+    expect(state.factories.length).toBe(before + 1);
+
+    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_clothing' }, noop);
+    expect(state.factories.length).toBe(before + 1);
+    player.techs.push('industry_interchangeable_parts');
+    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_clothing' }, noop);
+    expect(state.factories.length).toBe(before + 2);
+
+    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_ammunition' }, noop);
+    expect(state.factories.length).toBe(before + 2);
+    player.techs.push('army_smokeless_powder');
+    applyCommand(world, GAME_DATA, { t: 'buildFactory', state: state.id, recipe: 'factory_ammunition' }, noop);
+    expect(state.factories.length).toBe(before + 3);
+  });
+
   it('coastal-only recipes require a coastal state', () => {
     const world = createWorld(GAME_DATA, 22);
     const player = playerNation(world);
@@ -234,6 +289,24 @@ describe('E6 effects & stability', () => {
     expect(Number.isFinite(richPlayer.treasury)).toBe(true);
   }, 120_000);
 
+  it('depth modifiers apply: factory profit, pop growth, movement, supply, trade', () => {
+    const world = createWorld(GAME_DATA, 41);
+    const player = playerNation(world);
+    const before = techModifiersFor(player, GAME_DATA);
+    player.techs.push(
+      'commerce_joint_stock', 'commerce_insurance_markets',
+      'culture_public_hygiene', 'culture_germ_theory', 'culture_modern_medicine',
+      'industry_early_railroads', 'army_field_logistics', 'army_railroad_logistics',
+      'commerce_merchant_marine',
+    );
+    const after = techModifiersFor(player, GAME_DATA);
+    expect(after.factoryProfit ?? 0).toBeGreaterThan(before.factoryProfit ?? 0);
+    expect(after.popGrowth ?? 0).toBeGreaterThan(before.popGrowth ?? 0);
+    expect(after.armyMovement ?? 0).toBeGreaterThan(before.armyMovement ?? 0);
+    expect(after.supplyRange ?? 0).toBeGreaterThan(before.supplyRange ?? 0);
+    expect(after.tradeEfficiency ?? 0).toBeGreaterThan(before.tradeEfficiency ?? 0);
+  });
+
   it('research points per month grow with researchRate modifiers', () => {
     const world = createWorld(GAME_DATA, 32);
     const player = playerNation(world);
@@ -259,20 +332,32 @@ describe('E6 effects & stability', () => {
       expect(Number.isFinite(nation.prestige)).toBe(true);
       expect(nation.techs.length).toBeLessThanOrEqual(GAME_DATA.techs.length);
       const mods = techModifiersFor(nation, GAME_DATA);
+      expect(mods.factoryThroughput).toBeLessThan(2);
+      expect(mods.rgoThroughput).toBeLessThan(2);
+      expect(mods.taxEfficiency).toBeLessThan(2);
+      expect(mods.researchRate).toBeLessThan(2);
+      expect(mods.literacyRate).toBeLessThan(0.05);
+      expect(mods.prestigeMonthly).toBeLessThan(20);
+      expect(mods.popGrowth ?? 0).toBeLessThan(0.001);
+      expect(mods.armyMovement ?? 0).toBeLessThan(1);
+      expect(mods.supplyRange ?? 0).toBeLessThan(5);
+      expect(mods.factoryProfit ?? 0).toBeLessThan(1);
+      expect(mods.tradeEfficiency ?? 0).toBeLessThan(1);
       for (const value of Object.values(mods)) {
         expect(Number.isFinite(value)).toBe(true);
         expect(value).toBeGreaterThanOrEqual(0);
-        expect(value).toBeLessThan(2); // no absurd stacking
       }
     }
     // Market must still be conserving after two decades of new industry.
     for (const invariant of world.marketInvariants) {
       expect(invariant.ok).toBe(true);
     }
-    // Snapshot view builds cleanly late-game.
+    // Snapshot view builds cleanly late-game with prereq + ETA fields.
     const view = buildPlayerTechView(world, GAME_DATA, world.playerNation);
     expect(view.statuses.length).toBe(GAME_DATA.techs.length);
     expect(Number.isFinite(view.monthlyResearch)).toBe(true);
+    expect(view.statuses.some((status) => status.prereqName != null || status.prereq == null)).toBe(true);
+    expect(view.statuses.every((status) => status.etaMonths === null || status.etaMonths === undefined || status.etaMonths >= 0)).toBe(true);
   }, 120_000);
 
   it('year gates hold: nobody owns a post-1860 tech in 1845', () => {

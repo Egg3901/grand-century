@@ -49,6 +49,11 @@ export const ZERO_TECH_MODIFIERS: TechModifiers = Object.freeze({
   researchRate: 0,
   literacyRate: 0,
   prestigeMonthly: 0,
+  popGrowth: 0,
+  armyMovement: 0,
+  supplyRange: 0,
+  factoryProfit: 0,
+  tradeEfficiency: 0,
 });
 
 function clamp(value: number, min: number, max: number): number {
@@ -77,6 +82,11 @@ function addModifiers(total: TechModifiers, partial?: Partial<TechModifiers>): v
   total.researchRate += partial.researchRate ?? 0;
   total.literacyRate += partial.literacyRate ?? 0;
   total.prestigeMonthly += partial.prestigeMonthly ?? 0;
+  total.popGrowth = (total.popGrowth ?? 0) + (partial.popGrowth ?? 0);
+  total.armyMovement = (total.armyMovement ?? 0) + (partial.armyMovement ?? 0);
+  total.supplyRange = (total.supplyRange ?? 0) + (partial.supplyRange ?? 0);
+  total.factoryProfit = (total.factoryProfit ?? 0) + (partial.factoryProfit ?? 0);
+  total.tradeEfficiency = (total.tradeEfficiency ?? 0) + (partial.tradeEfficiency ?? 0);
 }
 
 /** Aggregate tech + invention modifiers for a nation. Cheap and cached. */
@@ -93,6 +103,11 @@ export function techModifiersFor(nation: Nation, data: GameData): TechModifiers 
     researchRate: 0,
     literacyRate: 0,
     prestigeMonthly: 0,
+    popGrowth: 0,
+    armyMovement: 0,
+    supplyRange: 0,
+    factoryProfit: 0,
+    tradeEfficiency: 0,
   };
   const techSet = new Set(nation.techs);
   for (const tech of data.techs) {
@@ -340,6 +355,11 @@ function summarizeModifiers(partial?: Partial<TechModifiers>): string[] {
   if (partial.researchRate) parts.push(`${pct(partial.researchRate)} research`);
   if (partial.literacyRate) parts.push('+literacy growth');
   if (partial.prestigeMonthly) parts.push(`+${partial.prestigeMonthly.toFixed(1)} prestige/mo`);
+  if (partial.popGrowth) parts.push('+pop growth');
+  if (partial.armyMovement) parts.push(`${pct(partial.armyMovement)} army movement`);
+  if (partial.supplyRange) parts.push(`+${partial.supplyRange.toFixed(1)} supply range`);
+  if (partial.factoryProfit) parts.push(`${pct(partial.factoryProfit)} factory profit`);
+  if (partial.tradeEfficiency) parts.push(`${pct(partial.tradeEfficiency)} trade efficiency`);
   return parts;
 }
 
@@ -360,12 +380,22 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
   }
   const year = currentYear(world.day);
   const techSet = new Set(nation.techs);
+  const techNameByKey = new Map(data.techs.map((tech) => [tech.key, tech.name]));
   const recipeNameByKey = new Map(data.recipes.map((recipe) => [recipe.key, recipe.name]));
+  const monthly = researchPointsPerMonth(nation, data);
+  const banked = Math.max(0, nation.researchPoints);
   const statuses = data.techs.map((tech) => {
     const researched = techSet.has(tech.key);
     const availability = researched
       ? { available: false, reason: '' }
       : techAvailability(nation, data, tech, year);
+    let etaMonths: number | null = null;
+    if (!researched && monthly > 0) {
+      const isCurrent = nation.currentResearch === tech.key;
+      const progress = isCurrent ? Math.max(0, nation.researchProgress ?? 0) : 0;
+      const remaining = Math.max(0, tech.cost - progress - (isCurrent || availability.available ? banked : 0));
+      etaMonths = Math.max(0, Math.ceil(remaining / monthly));
+    }
     return {
       key: tech.key,
       name: tech.name,
@@ -373,11 +403,13 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
       cost: tech.cost,
       year: tech.year ?? EPOCH_YEAR,
       prereq: tech.prereq ?? null,
+      prereqName: tech.prereq ? (techNameByKey.get(tech.prereq) ?? tech.prereq) : null,
       researched,
       available: availability.available,
       reason: researched ? '' : availability.reason,
       effectsSummary: tech.effects.slice(),
       unlocksRecipes: (tech.unlocksRecipes ?? []).map((key) => recipeNameByKey.get(key) ?? key),
+      etaMonths,
     };
   });
   const inventions = nation.inventions ?? [];
@@ -386,7 +418,7 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
     key: invention.key,
     name: invention.name,
     description: invention.description,
-    prereqTech: data.techs.find((tech) => tech.key === invention.prereqTech)?.name ?? invention.prereqTech,
+    prereqTech: techNameByKey.get(invention.prereqTech) ?? invention.prereqTech,
     owned: owned.has(invention.key),
     prereqMet: techSet.has(invention.prereqTech),
     effectsSummary: summarizeModifiers(invention.modifiers),
@@ -395,8 +427,8 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
     ? data.techs.find((tech) => tech.key === nation.currentResearch) ?? null
     : null;
   return {
-    researchPoints: Math.max(0, nation.researchPoints),
-    monthlyResearch: researchPointsPerMonth(nation, data),
+    researchPoints: banked,
+    monthlyResearch: monthly,
     current: currentDef?.key ?? null,
     progress: Math.max(0, nation.researchProgress ?? 0),
     currentCost: currentDef?.cost ?? 0,

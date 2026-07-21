@@ -132,53 +132,103 @@ const RECIPES: Recipe[] = [
     output: output('artillery', 0.7),
     requiresTech: 'industry_bessemer_steel',
   },
+  // --- 0.7.0 tech-depth chains (luxury/intermediate goods; luxury demand does
+  // --- not weight into needsMet, so early-game welfare stays intact).
+  {
+    key: 'factory_cement',
+    name: 'Cement Works',
+    building: 'factory',
+    inputs: [input('coal', 0.8), input('iron', 0.35)],
+    output: output('cement', 1.0),
+    requiresTech: 'industry_early_railroads',
+  },
+  {
+    key: 'factory_clothing',
+    name: 'Clothing Mill',
+    building: 'factory',
+    inputs: [input('fabric', 1.0)],
+    output: output('clothes', 0.95),
+    requiresTech: 'industry_interchangeable_parts',
+  },
+  {
+    key: 'factory_fertilizer',
+    name: 'Fertilizer Works',
+    building: 'factory',
+    inputs: [input('coal', 0.7), input('iron', 0.4)],
+    output: output('fertilizer', 1.0),
+    requiresTech: 'industry_chemical_synthesis',
+  },
+  {
+    key: 'factory_glassworks',
+    name: 'Glassworks',
+    building: 'factory',
+    inputs: [input('coal', 0.7), input('timber', 0.4)],
+    output: output('glass', 0.9),
+    requiresTech: 'industry_organic_chemistry',
+  },
+  {
+    key: 'factory_paper_mill',
+    name: 'Paper Mill',
+    building: 'factory',
+    inputs: [input('timber', 1.0)],
+    output: output('paper', 1.1),
+    requiresTech: 'culture_empirical_science',
+  },
+  {
+    key: 'factory_ammunition',
+    name: 'Ammunition Works',
+    building: 'factory',
+    inputs: [input('iron', 0.7), input('coal', 0.45)],
+    output: output('ammunition', 0.85),
+    requiresTech: 'army_smokeless_powder',
+  },
 ];
 
 const POP_NEEDS: Record<PopType, PopNeedsDef> = {
   farmer: {
     life: [input('grain', 0.36), input('cattle', 0.2), input('fish', 0.1)],
     everyday: [input('timber', 0.08)],
-    luxury: [input('furniture', 0.02), input('wine', 0.01)],
+    luxury: [input('furniture', 0.02), input('wine', 0.01), input('fertilizer', 0.015)],
   },
   laborer: {
     life: [input('grain', 0.35), input('cattle', 0.22), input('fish', 0.1)],
     everyday: [input('timber', 0.09)],
-    luxury: [input('furniture', 0.03), input('wine', 0.01)],
+    luxury: [input('furniture', 0.03), input('wine', 0.01), input('clothes', 0.015)],
   },
   craftsman: {
     life: [input('grain', 0.29), input('cattle', 0.19), input('fish', 0.09)],
     everyday: [input('timber', 0.08), input('fabric', 0.05)],
-    luxury: [input('furniture', 0.05), input('wine', 0.03)],
+    luxury: [input('furniture', 0.05), input('wine', 0.03), input('clothes', 0.03)],
   },
   clerk: {
     life: [input('grain', 0.27), input('cattle', 0.18), input('fish', 0.08)],
     everyday: [input('timber', 0.07), input('fabric', 0.06)],
-    luxury: [input('furniture', 0.06), input('wine', 0.04)],
+    luxury: [input('furniture', 0.06), input('wine', 0.04), input('paper', 0.025), input('clothes', 0.02)],
   },
   capitalist: {
     life: [input('grain', 0.22), input('cattle', 0.14), input('fish', 0.08)],
     everyday: [input('timber', 0.07), input('fabric', 0.08)],
-    luxury: [input('furniture', 0.1), input('machine_parts', 0.02)],
+    luxury: [input('furniture', 0.1), input('machine_parts', 0.02), input('glass', 0.03), input('cement', 0.02)],
   },
   aristocrat: {
     life: [input('grain', 0.22), input('cattle', 0.16), input('fish', 0.08)],
     everyday: [input('timber', 0.07), input('fabric', 0.08)],
-    luxury: [input('furniture', 0.11), input('artillery', 0.01)],
+    luxury: [input('furniture', 0.11), input('artillery', 0.01), input('glass', 0.04), input('wine', 0.02)],
   },
   clergy: {
     life: [input('grain', 0.28), input('cattle', 0.18), input('fish', 0.09)],
     everyday: [input('timber', 0.07), input('fabric', 0.05)],
-    luxury: [input('furniture', 0.04), input('wine', 0.02)],
+    luxury: [input('furniture', 0.04), input('wine', 0.02), input('paper', 0.02)],
   },
   soldier: {
     life: [input('grain', 0.36), input('cattle', 0.23), input('fish', 0.1)],
     everyday: [input('timber', 0.08), input('fabric', 0.04)],
-    luxury: [input('wine', 0.02), input('canned_food', 0.03)],
+    luxury: [input('wine', 0.02), input('canned_food', 0.03), input('ammunition', 0.02)],
   },
   officer: {
     life: [input('grain', 0.28), input('cattle', 0.18), input('fish', 0.09)],
     everyday: [input('timber', 0.07), input('fabric', 0.06)],
-    luxury: [input('wine', 0.05), input('small_arms', 0.02)],
+    luxury: [input('wine', 0.05), input('small_arms', 0.02), input('ammunition', 0.015)],
   },
   slave: {
     life: [input('grain', 0.31), input('cattle', 0.18), input('fish', 0.08)],

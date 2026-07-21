@@ -142,6 +142,31 @@ export interface TechModifiers {
   literacyRate: number;
   /** Flat monthly prestige drip. */
   prestigeMonthly: number;
+  /**
+   * 0.7.0 tech-depth — additive monthly pop growth-rate bonus (e.g. 0.00003).
+   * Applied in pops.ts on top of healthcare/needs; still clamped by maxGrowthRate.
+   */
+  popGrowth?: number;
+  /**
+   * 0.7.0 tech-depth — army movement speed bonus (0.1 = 10% fewer move days).
+   * Railroads / logistics techs. Applied in war.ts movementDaysForArmy.
+   */
+  armyMovement?: number;
+  /**
+   * 0.7.0 tech-depth — extra friendly-control supply range provinces.
+   * Railroads / logistics. Applied in war.ts isSupplied.
+   */
+  supplyRange?: number;
+  /**
+   * 0.7.0 tech-depth — factory revenue multiplier bonus (0.05 = +5%).
+   * Commerce/finance. Applied in economy.ts processFactory.
+   */
+  factoryProfit?: number;
+  /**
+   * 0.7.0 tech-depth — tariff income multiplier bonus (0.05 = +5%).
+   * Commerce/trade. Applied when monthly tariff income is settled in budget.
+   */
+  tradeEfficiency?: number;
 }
 
 /**
@@ -781,6 +806,8 @@ export interface TechStatusView {
   cost: number;
   year: number;
   prereq: string | null;
+  /** Display name of the prereq tech (null when none). */
+  prereqName?: string | null;
   researched: boolean;
   /** Can be selected as current research right now. */
   available: boolean;
@@ -788,6 +815,8 @@ export interface TechStatusView {
   reason: string;
   effectsSummary: string[];
   unlocksRecipes: string[];
+  /** Months to finish if started now (null when researched / no RP rate). */
+  etaMonths?: number | null;
 }
 
 export interface InventionStatusView {

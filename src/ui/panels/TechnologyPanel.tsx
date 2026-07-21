@@ -1,9 +1,10 @@
 /**
- * 0.6.0 — Technology panel ("The Inventive Century").
+ * 0.6.0 / 0.7.0 — Technology panel ("The Inventive Century" + depth).
  *
  * Five research columns paced across 1820-1920, the active research bar, and
  * the invention ledger. Pure read of `snapshot.playerTech`; the only writes
- * are `setResearch` commands.
+ * are `setResearch` commands. Columns scroll independently so a 50+ tech tree
+ * stays usable; each node shows prereq + ETA.
  */
 
 import { useMemo } from 'react';
@@ -24,6 +25,18 @@ function techStateClass(tech: TechStatusView, current: string | null): string {
   if (tech.key === current) return 'is-current';
   if (tech.available) return 'is-available';
   return 'is-locked';
+}
+
+function etaLabel(tech: TechStatusView, current: string | null): string {
+  if (tech.researched) return 'Researched';
+  if (tech.key === current) {
+    return tech.etaMonths != null ? `In progress · ~${tech.etaMonths} mo` : 'In progress';
+  }
+  if (tech.available) {
+    const eta = tech.etaMonths != null ? ` · ~${tech.etaMonths} mo` : '';
+    return `${tech.cost} pts${eta}`;
+  }
+  return tech.reason;
 }
 
 export function TechnologyPanel() {
@@ -97,6 +110,9 @@ export function TechnologyPanel() {
           <div className="tech-progress" role="progressbar" aria-valuenow={Math.round(progressPct)} aria-valuemin={0} aria-valuemax={100}>
             <div className="tech-progress__fill" style={{ width: `${progressPct}%` }} />
           </div>
+          {currentDef.prereqName ? (
+            <span className="tech-current__prereq">Built on {currentDef.prereqName}</span>
+          ) : null}
           <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'setResearch', tech: null })}>
             Halt research (bank points)
           </button>
@@ -110,34 +126,43 @@ export function TechnologyPanel() {
       <div className="tech-columns">
         {columns.map((column) => (
           <div key={column.category} className="tech-column">
-            <h3 className="atlas-heading panel-small-heading">{column.label}</h3>
-            {column.techs.map((tech) => (
-              <button
-                key={tech.key}
-                type="button"
-                data-testid={`tech-${tech.key}`}
-                className={`tech-node ${techStateClass(tech, view.current)}`}
-                disabled={!tech.available && tech.key !== view.current}
-                title={tech.researched ? 'Researched' : tech.available ? `Research ${tech.name}` : tech.reason}
-                onClick={() => {
-                  if (tech.available) sendCommand({ t: 'setResearch', tech: tech.key });
-                }}
-              >
-                <span className="tech-node__head">
-                  <strong>{tech.name}</strong>
-                  <span className="tech-node__year">{tech.year}</span>
-                </span>
-                <span className="tech-node__meta">
-                  {tech.researched ? 'Researched' : tech.key === view.current ? 'In progress' : tech.available ? `${tech.cost} pts` : tech.reason}
-                </span>
-                {tech.effectsSummary.length > 0 ? (
-                  <span className="tech-node__effects">{tech.effectsSummary.join(' · ')}</span>
-                ) : null}
-                {tech.unlocksRecipes.length > 0 ? (
-                  <span className="tech-node__unlocks">Unlocks: {tech.unlocksRecipes.join(', ')}</span>
-                ) : null}
-              </button>
-            ))}
+            <h3 className="atlas-heading panel-small-heading">
+              {column.label}
+              <span className="tech-column__count">
+                {column.techs.filter((tech) => tech.researched).length}/{column.techs.length}
+              </span>
+            </h3>
+            <div className="tech-column__scroll">
+              {column.techs.map((tech, index) => (
+                <button
+                  key={tech.key}
+                  type="button"
+                  data-testid={`tech-${tech.key}`}
+                  className={`tech-node ${techStateClass(tech, view.current)}`}
+                  disabled={!tech.available && tech.key !== view.current}
+                  title={tech.researched ? 'Researched' : tech.available ? `Research ${tech.name}` : tech.reason}
+                  onClick={() => {
+                    if (tech.available) sendCommand({ t: 'setResearch', tech: tech.key });
+                  }}
+                >
+                  {index > 0 ? <span className="tech-node__chain" aria-hidden="true" /> : null}
+                  <span className="tech-node__head">
+                    <strong>{tech.name}</strong>
+                    <span className="tech-node__year">{tech.year}</span>
+                  </span>
+                  <span className="tech-node__meta">{etaLabel(tech, view.current)}</span>
+                  {tech.prereqName && !tech.researched ? (
+                    <span className="tech-node__prereq">Requires {tech.prereqName}</span>
+                  ) : null}
+                  {tech.effectsSummary.length > 0 ? (
+                    <span className="tech-node__effects">{tech.effectsSummary.join(' · ')}</span>
+                  ) : null}
+                  {tech.unlocksRecipes.length > 0 ? (
+                    <span className="tech-node__unlocks">Unlocks: {tech.unlocksRecipes.join(', ')}</span>
+                  ) : null}
+                </button>
+              ))}
+            </div>
           </div>
         ))}
       </div>

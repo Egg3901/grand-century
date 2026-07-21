@@ -19,8 +19,10 @@ import type {
 } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
+import { GAME_DATA } from '../../data/gameData';
 import { getOrCreateRelation, setTruce } from './diplomacy';
 import { createNationParties, defaultRulingParty, defaultUpperHouse, updateMilitaryDerivedForNation } from '../politics';
+import { techModifiersFor } from './research';
 
 const MAX_REGIMENT_STRENGTH = 1000;
 const MAX_SHIP_STRENGTH = 100;
@@ -300,7 +302,11 @@ function movementDaysForArmy(world: World, army: Army, target: Province): number
   const artilleryDrag = composition.artilleryShare * 0.34;
   const guardDrill = composition.guardShare * 0.08;
   const compositionFactor = clamp(1 - cavalrySpeed + artilleryDrag - guardDrill, 0.72, 1.4);
-  return clamp(BASE_ARMY_MOVE_DAYS * terrainPenalty * compositionFactor + fortPenalty + leaderMove, 2, 15);
+  // 0.7.0: railroad / logistics tech shortens army marches.
+  const nation = world.nations[army.owner];
+  const moveBonus = nation ? Math.max(0, techModifiersFor(nation, GAME_DATA).armyMovement ?? 0) : 0;
+  const techFactor = clamp(1 - Math.min(0.35, moveBonus), 0.65, 1);
+  return clamp(BASE_ARMY_MOVE_DAYS * terrainPenalty * compositionFactor * techFactor + fortPenalty + leaderMove, 2, 15);
 }
 
 function movementDaysForFleet(world: World, fleet: Fleet, target: Province): number {
@@ -319,7 +325,9 @@ function isFriendlyControlled(world: World, nationId: NationId, provinceId: Prov
 function isSupplied(world: World, nationId: NationId, provinceId: ProvinceId): boolean {
   const nation = world.nations[nationId];
   if (!nation) return false;
-  const range = 2 + Math.floor(nation.armyOrganization);
+  // 0.7.0: railroad / logistics tech extends friendly-control supply reach.
+  const supplyBonus = Math.max(0, techModifiersFor(nation, GAME_DATA).supplyRange ?? 0);
+  const range = 2 + Math.floor(nation.armyOrganization) + Math.floor(supplyBonus);
   const visited = new Set<ProvinceId>([provinceId]);
   const queue: Array<{ id: ProvinceId; depth: number }> = [{ id: provinceId, depth: 0 }];
   while (queue.length > 0) {

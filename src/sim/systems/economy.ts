@@ -129,6 +129,7 @@ function processFactory(
   buckets: Record<string, number[]>,
   recipes: Record<string, Recipe>,
   factoryTechBoost: number,
+  factoryProfitBoost: number,
 ): number {
   const recipe = recipes[factory.recipe];
   if (!recipe || recipe.building !== 'factory') return 0;
@@ -181,8 +182,10 @@ function processFactory(
   );
   factory.lastOutput = outputAmount;
   // Balance pass: industrial value-add should beat raw extraction in the long run.
+  // 0.7.0: commerce/finance tech (factoryProfit) scales realized revenue.
   const revenue = computeSaleRevenue(world, recipe.output.good, state.owner, outputAmount)
-    * BALANCE.economy.factoryRevenueMultiplier;
+    * BALANCE.economy.factoryRevenueMultiplier
+    * factoryProfitBoost;
 
   const wagePool = revenue * BALANCE.economy.factoryWageShare;
   const clerkWages = wagePool * 0.36;
@@ -266,9 +269,10 @@ function rebalanceFactoryLevels(state: State): void {
 export function runProductionWeekly(world: World, data: GameData, _rng: Rng): void {
   const recipes = recipeByKey(data);
   const bucketsByState = buildStatePopBuckets(world);
-  // 0.6.0: per-nation tech throughput multipliers, computed once per weekly run.
+  // 0.6.0 / 0.7.0: per-nation tech throughput + factory-profit multipliers.
   const rgoTechBoost = world.nations.map((nation) => 1 + Math.max(0, techModifiersFor(nation, data).rgoThroughput));
   const factoryTechBoost = world.nations.map((nation) => 1 + Math.max(0, techModifiersFor(nation, data).factoryThroughput));
+  const factoryProfitBoost = world.nations.map((nation) => 1 + Math.max(0, techModifiersFor(nation, data).factoryProfit ?? 0));
   runRgoProduction(world, recipes, rgoTechBoost);
   for (const state of world.states) {
     const buckets = bucketsByState.get(state.id) ?? {
@@ -280,7 +284,15 @@ export function runProductionWeekly(world: World, data: GameData, _rng: Rng): vo
     };
     let stateProfit = 0;
     for (const factory of state.factories) {
-      stateProfit += processFactory(world, state, factory, buckets, recipes, factoryTechBoost[state.owner] ?? 1);
+      stateProfit += processFactory(
+        world,
+        state,
+        factory,
+        buckets,
+        recipes,
+        factoryTechBoost[state.owner] ?? 1,
+        factoryProfitBoost[state.owner] ?? 1,
+      );
     }
     // 0.6.0: trimmed alongside the per-factory skim above (see processFactory).
     world.nations[state.owner].monthlyProductionIncome += Math.max(0, stateProfit * 0.02);
