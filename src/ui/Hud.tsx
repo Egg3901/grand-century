@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useStore, type MapMode, type PanelId } from '../store';
 import { copyShareLink } from './permalink';
+import { instantPressProps } from './instantPress';
 import './Hud.css';
 
 const SPEEDS = [0, 1, 2, 3, 4, 5] as const;
@@ -41,6 +42,16 @@ function formatMoney(value: number): string {
   return `${value < 0 ? '-' : ''}\u00a3${Math.abs(value).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 }
 
+function panelCoachId(id: PanelId): string | undefined {
+  if (id === 'budget') return 'panel-budget';
+  if (id === 'production') return 'panel-production';
+  if (id === 'politics') return 'panel-politics';
+  if (id === 'diplomacy') return 'panel-diplomacy';
+  if (id === 'military') return 'panel-military';
+  if (id === 'save_load') return 'panel-save-load';
+  return undefined;
+}
+
 export function Hud() {
   const snapshot = useStore((state) => state.snapshot);
   const openPanel = useStore((state) => state.openPanel);
@@ -56,12 +67,15 @@ export function Hud() {
   const [mobilePanelsOpen, setMobilePanelsOpen] = useState(false);
   const [mobileMapModesOpen, setMobileMapModesOpen] = useState(false);
   const [shareHint, setShareHint] = useState<string | null>(null);
+  /** Optimistic speed so Play/Pause reacts before the worker snapshot returns. */
+  const [optimisticSpeed, setOptimisticSpeed] = useState<number | null>(null);
 
   const playerNation = useMemo(() => {
     if (!snapshot) return null;
     return snapshot.nations.find((nation) => nation.id === snapshot.playerNation) ?? null;
   }, [snapshot]);
-  const currentSpeed = snapshot?.speed ?? 0;
+  const snapshotSpeed = snapshot?.speed ?? 0;
+  const currentSpeed = optimisticSpeed ?? snapshotSpeed;
   const formattedDate = snapshot
     ? `${snapshot.date.year}-${String(snapshot.date.month).padStart(2, '0')}-${String(snapshot.date.day).padStart(2, '0')}`
     : '1820-01-01';
@@ -76,9 +90,15 @@ export function Hud() {
     if (openPanel) setMobilePanelsOpen(false);
   }, [openPanel]);
 
+  useEffect(() => {
+    if (optimisticSpeed === null) return;
+    if (snapshotSpeed === optimisticSpeed) setOptimisticSpeed(null);
+  }, [snapshotSpeed, optimisticSpeed]);
+
   const setSpeed = (speed: number) => {
     if (!canControlSpeed) return;
     const clamped = Math.max(0, Math.min(MAX_SPEED, speed));
+    setOptimisticSpeed(clamped);
     sendCommand({ t: 'setSpeed', speed: clamped });
   };
 
@@ -90,6 +110,10 @@ export function Hud() {
   const toggleMobileMapModes = () => {
     setMobileMapModesOpen((open) => !open);
     setMobilePanelsOpen(false);
+  };
+
+  const togglePanel = (id: Exclude<PanelId, null>) => {
+    openPanelId(openPanel === id ? null : id);
   };
 
   return (
@@ -108,7 +132,7 @@ export function Hud() {
               className={currentSpeed === speed ? 'is-active' : ''}
               disabled={!canControlSpeed}
               title={canControlSpeed ? undefined : 'Only the session leader may change speed'}
-              onClick={() => sendCommand({ t: 'setSpeed', speed })}
+              {...instantPressProps(() => setSpeed(speed))}
             >
               {speedLabel(speed)}
             </button>
@@ -121,12 +145,12 @@ export function Hud() {
             Infamy {(playerNation?.infamy ?? 0).toFixed(1)}
             {snapshot ? ` / ${snapshot.infamyLimit.toFixed(1)}` : ''}
           </span>
-          <button type="button" onClick={() => setMuteAudio(!muteAudio)}>{muteAudio ? 'Unmute' : 'Mute'}</button>
+          <button type="button" {...instantPressProps(() => setMuteAudio(!muteAudio))}>{muteAudio ? 'Unmute' : 'Mute'}</button>
           <button
             type="button"
             data-testid="hud-copy-share"
             title={shareHint ?? 'Copy share link'}
-            onClick={() => {
+            {...instantPressProps(() => {
               if (!playerNation) return;
               void copyShareLink({
                 seed: snapshot?.seed ?? 1836,
@@ -135,11 +159,11 @@ export function Hud() {
                 setShareHint(ok ? 'Copied' : 'Copy failed');
                 window.setTimeout(() => setShareHint(null), 2000);
               });
-            }}
+            })}
           >
             {shareHint ?? 'Share'}
           </button>
-          <button type="button" onClick={() => setShowMainMenu(true)}>Menu</button>
+          <button type="button" {...instantPressProps(() => setShowMainMenu(true))}>Menu</button>
         </div>
       </header>
 
@@ -149,21 +173,9 @@ export function Hud() {
             key={panel.id}
             type="button"
             data-testid={`panel-${panel.id}`}
-            data-coach-id={panel.id === 'budget'
-              ? 'panel-budget'
-              : panel.id === 'production'
-                ? 'panel-production'
-                : panel.id === 'politics'
-                  ? 'panel-politics'
-                  : panel.id === 'diplomacy'
-                    ? 'panel-diplomacy'
-                    : panel.id === 'military'
-                      ? 'panel-military'
-                      : panel.id === 'save_load'
-                        ? 'panel-save-load'
-                        : undefined}
+            data-coach-id={panelCoachId(panel.id)}
             className={openPanel === panel.id ? 'is-active' : ''}
-            onClick={() => openPanelId(openPanel === panel.id ? null : panel.id)}
+            {...instantPressProps(() => togglePanel(panel.id as Exclude<PanelId, null>))}
           >
             {panel.label}
           </button>
@@ -176,7 +188,7 @@ export function Hud() {
             key={mode.id}
             type="button"
             className={mapMode === mode.id ? 'is-active' : ''}
-            onClick={() => setMapMode(mode.id)}
+            {...instantPressProps(() => setMapMode(mode.id))}
           >
             {mode.label}
           </button>
@@ -186,12 +198,12 @@ export function Hud() {
       <header className="hud-mobile-top atlas-panel" aria-label="Mobile controls">
         <div className="hud-mobile-top__date">
           <span className="atlas-heading">Date</span>
-          <strong>{formattedDate}</strong>
+          <strong data-testid="hud-date-mobile">{formattedDate}</strong>
         </div>
         <div className="hud-mobile-top__speed" data-coach-id="speed-controls-mobile">
-          <button type="button" aria-label="Decrease speed" onClick={() => setSpeed(currentSpeed - 1)}>-</button>
-          <button type="button" onClick={() => setSpeed(currentSpeed === 0 ? 3 : 0)}>{currentSpeed === 0 ? 'Play' : 'Pause'}</button>
-          <button type="button" aria-label="Increase speed" onClick={() => setSpeed(currentSpeed + 1)}>+</button>
+          <button type="button" aria-label="Decrease speed" data-testid="mobile-speed-down" {...instantPressProps(() => setSpeed(currentSpeed - 1))}>-</button>
+          <button type="button" data-testid="mobile-speed-toggle" {...instantPressProps(() => setSpeed(currentSpeed === 0 ? 3 : 0))}>{currentSpeed === 0 ? 'Play' : 'Pause'}</button>
+          <button type="button" aria-label="Increase speed" data-testid="mobile-speed-up" {...instantPressProps(() => setSpeed(currentSpeed + 1))}>+</button>
         </div>
         <div className="hud-mobile-top__nation">
           <span>{playerNation?.name ?? 'United Kingdom'}</span>
@@ -200,27 +212,15 @@ export function Hud() {
       </header>
 
       {mobilePanelsOpen ? (
-        <nav className="hud-mobile-panel-drawer atlas-panel" aria-label="Panel drawer" data-coach-id="panel-rail-mobile">
+        <nav className="hud-mobile-panel-drawer atlas-panel" aria-label="Panel drawer" data-coach-id="panel-rail-mobile" data-testid="mobile-panel-drawer">
           {panels.map((panel) => (
             <button
               key={panel.id}
               type="button"
-              data-testid={`panel-${panel.id}`}
-              data-coach-id={panel.id === 'budget'
-                ? 'panel-budget'
-                : panel.id === 'production'
-                  ? 'panel-production'
-                  : panel.id === 'politics'
-                    ? 'panel-politics'
-                    : panel.id === 'diplomacy'
-                      ? 'panel-diplomacy'
-                      : panel.id === 'military'
-                        ? 'panel-military'
-                        : panel.id === 'save_load'
-                          ? 'panel-save-load'
-                          : undefined}
+              data-testid={`mobile-panel-${panel.id}`}
+              data-coach-id={panelCoachId(panel.id)}
               className={openPanel === panel.id ? 'is-active' : ''}
-              onClick={() => openPanelId(openPanel === panel.id ? null : panel.id)}
+              {...instantPressProps(() => togglePanel(panel.id as Exclude<PanelId, null>))}
             >
               {panel.label}
             </button>
@@ -229,16 +229,16 @@ export function Hud() {
       ) : null}
 
       {mobileMapModesOpen ? (
-        <nav className="hud-mobile-mapmodes atlas-panel" aria-label="Map mode drawer" data-coach-id="mapmodes-mobile-drawer">
+        <nav className="hud-mobile-mapmodes atlas-panel" aria-label="Map mode drawer" data-coach-id="mapmodes-mobile-drawer" data-testid="mobile-mapmodes-drawer">
           {MAP_MODES.map((mode) => (
             <button
               key={mode.id}
               type="button"
               className={mapMode === mode.id ? 'is-active' : ''}
-              onClick={() => {
+              {...instantPressProps(() => {
                 setMapMode(mode.id);
                 setMobileMapModesOpen(false);
-              }}
+              })}
             >
               {mode.label}
             </button>
@@ -247,10 +247,26 @@ export function Hud() {
       ) : null}
 
       <nav className="hud-mobile-bottom atlas-panel" aria-label="Mobile primary navigation">
-        <button type="button" className={mobilePanelsOpen ? 'is-active' : ''} data-coach-id="panels-mobile-toggle" onClick={toggleMobilePanels}>Panels</button>
-        <button type="button" className={mobileMapModesOpen ? 'is-active' : ''} data-coach-id="mapmodes-mobile-toggle" onClick={toggleMobileMapModes}>Map</button>
-        <button type="button" onClick={() => setMuteAudio(!muteAudio)}>{muteAudio ? 'Unmute' : 'Mute'}</button>
-        <button type="button" onClick={() => setShowMainMenu(true)}>Menu</button>
+        <button
+          type="button"
+          className={mobilePanelsOpen ? 'is-active' : ''}
+          data-testid="mobile-panels-toggle"
+          data-coach-id="panels-mobile-toggle"
+          {...instantPressProps(toggleMobilePanels)}
+        >
+          Panels
+        </button>
+        <button
+          type="button"
+          className={mobileMapModesOpen ? 'is-active' : ''}
+          data-testid="mobile-mapmodes-toggle"
+          data-coach-id="mapmodes-mobile-toggle"
+          {...instantPressProps(toggleMobileMapModes)}
+        >
+          Map
+        </button>
+        <button type="button" data-testid="mobile-mute" {...instantPressProps(() => setMuteAudio(!muteAudio))}>{muteAudio ? 'Unmute' : 'Mute'}</button>
+        <button type="button" data-testid="mobile-menu" {...instantPressProps(() => setShowMainMenu(true))}>Menu</button>
       </nav>
     </>
   );
