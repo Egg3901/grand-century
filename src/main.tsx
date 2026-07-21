@@ -2,13 +2,18 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import './index.css';
+import { WorkerTransport } from './net/workerTransport';
 import type { FromWorker } from './shared/types';
 import { useStore } from './store';
 
-const worker = new Worker(new URL('./worker/sim.worker.ts', import.meta.url), { type: 'module' });
+/**
+ * Single-player entry: local WorkerTransport.
+ * MP-M1 will branch here (or in a session bootstrap) to construct
+ * SocketTransport when joining/creating a multiplayer session.
+ */
+const transport = new WorkerTransport();
 
-worker.onmessage = (event: MessageEvent<FromWorker>) => {
-  const message = event.data;
+function routeFromSim(message: FromWorker) {
   const state = useStore.getState();
   switch (message.t) {
     case 'ready':
@@ -35,10 +40,11 @@ worker.onmessage = (event: MessageEvent<FromWorker>) => {
       else console.info(`[sim] ${message.msg}`);
       break;
   }
-};
+}
 
-useStore.getState().setWorker(worker);
-worker.postMessage({ t: 'init', seed: 1836 });
+transport.onMessage(routeFromSim);
+useStore.getState().setTransport(transport);
+transport.send({ t: 'init', seed: 1836 });
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

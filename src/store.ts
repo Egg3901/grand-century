@@ -1,10 +1,12 @@
 /**
- * UI-side state (Zustand). Holds the latest read-only snapshot from the worker
+ * UI-side state (Zustand). Holds the latest read-only snapshot from the sim
  * plus pure UI state (selected province, open panel, mapmode). The store NEVER
- * mutates the world — all changes go out as Commands via `sendCommand`.
+ * mutates the world — all changes go out as Commands via `sendCommand` on a
+ * SimTransport (WorkerTransport in SP; SocketTransport in MP-M1).
  */
 
 import { create } from 'zustand';
+import type { SimTransport } from './net/transport';
 import type {
   Command, GameData, NationDetail, NationId, ProvinceDetail, ProvinceId, SaveSlotInfo, WorldSnapshot,
 } from './shared/types';
@@ -48,9 +50,9 @@ interface UIState {
   alerts: UiAlert[];
   muteAudio: boolean;
 
-  worker: Worker | null;
+  transport: SimTransport | null;
 
-  setWorker: (w: Worker) => void;
+  setTransport: (t: SimTransport) => void;
   onSnapshot: (s: WorldSnapshot) => void;
   onData: (d: GameData) => void;
   onProvinceDetail: (d: ProvinceDetail) => void;
@@ -88,9 +90,9 @@ export const useStore = create<UIState>((set, get) => ({
   showMainMenu: true,
   alerts: [],
   muteAudio: true,
-  worker: null,
+  transport: null,
 
-  setWorker: (w) => set({ worker: w }),
+  setTransport: (t) => set({ transport: t }),
   onSnapshot: (s) => set((state) => {
     const ALERT_FEED_CAP = 18;
     const alerts = state.alerts.slice();
@@ -328,10 +330,10 @@ export const useStore = create<UIState>((set, get) => ({
   setShowMainMenu: (visible) => set({ showMainMenu: visible }),
   setMuteAudio: (mute) => set({ muteAudio: mute }),
 
-  sendCommand: (cmd) => get().worker?.postMessage({ t: 'command', cmd }),
-  requestProvince: (id) => get().worker?.postMessage({ t: 'requestProvince', id }),
-  requestNation: (id) => get().worker?.postMessage({ t: 'requestNation', id }),
-  requestSaves: () => get().worker?.postMessage({ t: 'command', cmd: { t: 'listSaves' } }),
+  sendCommand: (cmd) => get().transport?.send({ t: 'command', cmd }),
+  requestProvince: (id) => get().transport?.send({ t: 'requestProvince', id }),
+  requestNation: (id) => get().transport?.send({ t: 'requestNation', id }),
+  requestSaves: () => get().transport?.send({ t: 'command', cmd: { t: 'listSaves' } }),
   dismissAlert: (id) => set((state) => ({ alerts: state.alerts.filter((alert) => alert.id !== id) })),
 }));
 
