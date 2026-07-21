@@ -4,6 +4,7 @@ import './GrandMap.css';
 import { WORLD_SEED } from '../data/generated';
 import { useStore } from '../store';
 import { largestPolygon, polylabel, ringArea } from './polylabel';
+import { nationShieldSvg } from '../ui/nationShield';
 import {
   COAST_GLOW,
   COAST_INK,
@@ -73,9 +74,11 @@ type ProvinceLabelSeed = {
   prominence: number;
   minZoom: number;
 };
+
 type CountryLabelSeed = {
   tag: string;
   name: string;
+  color: [number, number, number];
   lon: number;
   lat: number;
   provinceCount: number;
@@ -510,6 +513,7 @@ export function GrandMap() {
       labels.push({
         tag,
         name: nationNameByTag.get(tag) ?? tag,
+        color: WORLD_SEED.nations.find((nation) => nation.tag === tag)?.color ?? [90, 67, 48],
         lon: values.lon,
         lat: values.lat,
         provinceCount: values.provinceCount,
@@ -1357,10 +1361,12 @@ export function GrandMap() {
     };
 
     const upsertCountryMarker = (label: CountryLabelSeed, size: number, opacity: number, offset: [number, number]) => {
+      const shieldSize = Math.max(10, Math.round(size * 0.95));
+      const shieldHtml = `<span class="nation-shield nation-shield--map">${nationShieldSvg({ tag: label.tag, color: label.color }, shieldSize)}</span>`;
       const existing = countryMarkers.get(label.tag);
       if (existing) {
         const element = existing.getElement() as HTMLDivElement;
-        element.textContent = label.name;
+        element.innerHTML = `${shieldHtml}<span>${label.name}</span>`;
         element.style.fontSize = `${size.toFixed(1)}px`;
         element.style.opacity = `${opacity.toFixed(3)}`;
         element.style.letterSpacing = `${(size * 0.05).toFixed(2)}px`;
@@ -1375,7 +1381,7 @@ export function GrandMap() {
       const el = document.createElement('div');
       el.className = 'grand-map__country-label';
       if (label.major) el.classList.add('is-major');
-      el.textContent = label.name;
+      el.innerHTML = `${shieldHtml}<span>${label.name}</span>`;
       el.style.fontSize = `${size.toFixed(1)}px`;
       el.style.opacity = `${opacity.toFixed(3)}`;
       el.style.letterSpacing = `${(size * 0.05).toFixed(2)}px`;

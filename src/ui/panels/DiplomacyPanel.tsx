@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { WORLD_SEED } from '../../data/generated';
 import type { NationId, WarGoalType } from '../../shared/types';
 import { useStore } from '../../store';
+import { NationShield } from '../components/NationShield';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 const WAR_GOALS: { id: WarGoalType; label: string }[] = [
@@ -160,7 +161,7 @@ export function DiplomacyPanel() {
           >
             {derived.rows.map((row) => (
               <option key={row.nation.id} value={row.nation.id}>
-                {row.nation.name}
+                {row.nation.tag} — {row.nation.name}
               </option>
             ))}
           </select>
@@ -219,13 +220,16 @@ export function DiplomacyPanel() {
       <ul className="panel-list diplo-list">
         {derived.rows.map((row) => (
           <li key={row.nation.id}>
-            <div>
-              <strong>{row.nation.name}</strong>
-              <span>
-                {row.relation.opinion.toFixed(0)} opinion | {relationLabel(row.relation.kind)}
-                {row.isNeighbor ? ' | neighbor' : ''}
-                {row.nation.gpRank > 0 ? ` | GP #${row.nation.gpRank}` : ''}
-              </span>
+            <div className="diplo-row__nation">
+              <NationShield nation={{ tag: row.nation.tag, color: row.nation.color }} size={20} />
+              <div>
+                <strong>{row.nation.name}</strong>
+                <span>
+                  {row.relation.opinion.toFixed(0)} opinion | {relationLabel(row.relation.kind)}
+                  {row.isNeighbor ? ' | neighbor' : ''}
+                  {row.nation.gpRank > 0 ? ` | GP #${row.nation.gpRank}` : ''}
+                </span>
+              </div>
             </div>
             <div className="diplo-buttons">
               {(() => {

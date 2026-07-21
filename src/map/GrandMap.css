@@ -107,11 +107,20 @@
 }
 
 .grand-map__country-label {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
   font-variant: small-caps;
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.07em;
   line-height: 1.1;
+}
+
+.grand-map__country-label .nation-shield {
+  display: inline-block;
+  line-height: 0;
+  filter: drop-shadow(0 1px 1px rgba(24, 14, 7, 0.35));
 }
 
 .grand-map__country-label.is-major {

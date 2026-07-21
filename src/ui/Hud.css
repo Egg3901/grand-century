@@ -22,6 +22,22 @@
   color: var(--gc-ink-faint);
 }
 
+/* V2 nation chrome — shield chip inline with text. */
+.nation-shield {
+  display: inline-block;
+  flex-shrink: 0;
+  line-height: 0;
+  filter: drop-shadow(0 1px 1px rgba(24, 14, 7, 0.28));
+}
+.nation-shield svg {
+  display: block;
+}
+
+.hud-top__nation .nation-shield {
+  width: 28px;
+  height: 28px;
+}
+
 .hud-top__section strong {
   font-family: var(--gc-font-display);
   font-size: 1.05rem;
@@ -357,6 +373,17 @@
   gap: 0.1rem;
   font-size: var(--gc-fs-small);
   pointer-events: auto;
+}
+
+.event-card__head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.event-card__head .nation-shield {
+  width: 18px;
+  height: 18px;
 }
 
 .event-card strong {

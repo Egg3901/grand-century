@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useStore, type MapMode, type PanelId } from '../store';
 import { copyShareLink } from './permalink';
 import { instantPressProps } from './instantPress';
+import { NationShield } from './components/NationShield';
 import './Hud.css';
 
 const SPEEDS = [0, 1, 2, 3, 4, 5] as const;
@@ -139,6 +140,7 @@ export function Hud() {
           ))}
         </div>
         <div className="hud-top__section hud-top__nation" data-coach-id="hud-nation">
+          {playerNation ? <NationShield nation={{ tag: playerNation.tag, color: playerNation.color }} size={28} /> : null}
           <span className="atlas-heading">{playerNation?.name ?? 'United Kingdom'}</span>
           <strong>{formatMoney(playerNation?.treasury ?? 0)}</strong>
           <span className={`hud-infamy ${playerNation && snapshot && playerNation.infamy >= snapshot.infamyLimit ? 'is-danger' : ''}`}>
@@ -206,6 +208,7 @@ export function Hud() {
           <button type="button" aria-label="Increase speed" data-testid="mobile-speed-up" {...instantPressProps(() => setSpeed(currentSpeed + 1))}>+</button>
         </div>
         <div className="hud-mobile-top__nation">
+          {playerNation ? <NationShield nation={{ tag: playerNation.tag, color: playerNation.color }} size={20} /> : null}
           <span>{playerNation?.name ?? 'United Kingdom'}</span>
           <strong>{speedLabel(currentSpeed)} · {formatMoney(playerNation?.treasury ?? 0)}</strong>
         </div>

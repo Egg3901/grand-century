@@ -7,7 +7,15 @@ import {
   TOAST_STACK_CAP,
   type AlertBatch,
 } from './alertBatching';
+import { NationShield } from './components/NationShield';
 import { instantPressProps } from './instantPress';
+
+function extractNationTag(message: string): string | null {
+  // Alert messages often begin with "TAG " or "Name (TAG)" — grab the first
+  // all-caps 2–3 letter token as the nation tag heuristic.
+  const match = message.match(/\b([A-Z]{2,3})\b/);
+  return match ? match[1] : null;
+}
 
 export function EventFeed() {
   const alerts = useStore((state) => state.alerts);
@@ -16,6 +24,15 @@ export function EventFeed() {
   const dismissAlert = useStore((state) => state.dismissAlert);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [hiddenIds, setHiddenIds] = useState<string[]>([]);
+
+  const nationByTag = useMemo(() => {
+    const map = new globalThis.Map<string, { tag: string; color: [number, number, number] }>();
+    if (!snapshot) return map;
+    for (const nation of snapshot.nations) {
+      map.set(nation.tag, { tag: nation.tag, color: nation.color });
+    }
+    return map;
+  }, [snapshot]);
 
   const playerName = useMemo(() => {
     if (!snapshot) return null;
@@ -58,51 +75,58 @@ export function EventFeed() {
 
   return (
     <div className="event-feed" data-testid="event-feed" aria-live="polite">
-      {toasts.map((batch) => (
-        <article
-          key={batch.id}
-          className={`event-card atlas-panel event-${batch.kind}${batch.count > 1 ? ' is-batched' : ''}`}
-          data-testid="event-toast"
-          data-kind={batch.kind}
-          data-count={batch.count}
-        >
-          <strong>{batch.kind.toUpperCase()}{batch.count > 1 ? ` · ${batch.count}` : ''}</strong>
-          <span>{batch.message}</span>
-          {batch.suggestion && batch.count === 1 ? <small>{batch.suggestion}</small> : null}
-          {batch.expandable ? (
-            <button
-              type="button"
-              className="event-card__expand"
-              {...instantPressProps(() => setExpandedId((id) => (id === batch.id ? null : batch.id)))}
-            >
-              {expandedId === batch.id ? 'Hide details' : 'Show details'}
-            </button>
-          ) : null}
-          {expandedId === batch.id ? (
-            <ul className="event-card__members">
-              {batch.members.map((member) => (
-                <li key={member.id}>{member.message}</li>
-              ))}
-            </ul>
-          ) : null}
-          <div className="event-card__actions">
-            {batch.panel ? (
+      {toasts.map((batch) => {
+        const tag = extractNationTag(batch.message);
+        const nation = tag ? nationByTag.get(tag) : null;
+        return (
+          <article
+            key={batch.id}
+            className={`event-card atlas-panel event-${batch.kind}${batch.count > 1 ? ' is-batched' : ''}`}
+            data-testid="event-toast"
+            data-kind={batch.kind}
+            data-count={batch.count}
+          >
+            <div className="event-card__head">
+              {nation ? <NationShield nation={nation} size={18} /> : null}
+              <strong>{batch.kind.toUpperCase()}{batch.count > 1 ? ` · ${batch.count}` : ''}</strong>
+            </div>
+            <span>{batch.message}</span>
+            {batch.suggestion && batch.count === 1 ? <small>{batch.suggestion}</small> : null}
+            {batch.expandable ? (
               <button
                 type="button"
-                {...instantPressProps(() => {
-                  openPanelId(batch.panel);
-                  dismissBatch(batch);
-                })}
+                className="event-card__expand"
+                {...instantPressProps(() => setExpandedId((id) => (id === batch.id ? null : batch.id)))}
               >
-                Open
+                {expandedId === batch.id ? 'Hide details' : 'Show details'}
               </button>
             ) : null}
-            <button type="button" {...instantPressProps(() => dismissBatch(batch))}>
-              Dismiss
-            </button>
-          </div>
-        </article>
-      ))}
+            {expandedId === batch.id ? (
+              <ul className="event-card__members">
+                {batch.members.map((member) => (
+                  <li key={member.id}>{member.message}</li>
+                ))}
+              </ul>
+            ) : null}
+            <div className="event-card__actions">
+              {batch.panel ? (
+                <button
+                  type="button"
+                  {...instantPressProps(() => {
+                    openPanelId(batch.panel);
+                    dismissBatch(batch);
+                  })}
+                >
+                  Open
+                </button>
+              ) : null}
+              <button type="button" {...instantPressProps(() => dismissBatch(batch))}>
+                Dismiss
+              </button>
+            </div>
+          </article>
+        );
+      })}
     </div>
   );
 }

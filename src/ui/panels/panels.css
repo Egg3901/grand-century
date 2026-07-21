@@ -503,6 +503,33 @@
   flex-wrap: wrap;
 }
 
+.diplo-row__nation,
+.gp-row__nation {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.diplo-row__nation .nation-shield,
+.gp-row__nation .nation-shield {
+  width: 20px;
+  height: 20px;
+}
+
+.gp-row__nation .nation-shield {
+  width: 22px;
+  height: 22px;
+}
+
+.diplo-row__nation > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  min-width: 0;
+}
+
 .diplo-list li > div span,
 .mil-list li > div span,
 .gp-list span {
