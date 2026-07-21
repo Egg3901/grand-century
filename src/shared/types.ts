@@ -79,7 +79,13 @@ export interface PopNeedsDef {
   luxury: NeedAmount[];
 }
 
-export interface CultureDef { key: string; name: string; color: [number, number, number]; }
+export interface CultureDef {
+  key: string;
+  name: string;
+  color: [number, number, number];
+  /** 0.8.0 culture: typical religion key for pops of this culture (optional). */
+  religion?: string;
+}
 export interface ReligionDef { key: string; name: string; }
 
 export type ReformCategory = 'economic' | 'political' | 'social' | 'military';
@@ -493,6 +499,12 @@ export interface Nation {
   mobilizationCapacity: number;
   armyOrganization: number;
   armyMorale: number;
+
+  // --- 0.8.0 culture (optional: old saves self-heal) ---
+  /** Stance toward non-accepted cultures. Default 'assimilationist'. */
+  culturePolicy?: CulturePolicy;
+  /** culture index -> people assimilated out of it last month (UI trace). */
+  assimilationByCulture?: Record<number, number>;
 }
 
 // ---------------------------------------------------------------------------
@@ -685,6 +697,78 @@ export interface TensionContribution {
 }
 
 // ---------------------------------------------------------------------------
+// 0.8.0 The Age of Nationalism — culture policy, assimilation, national
+// movements. All world/nation/snapshot fields for this system are OPTIONAL so
+// pre-0.8.0 saves load unchanged (culture.ts self-heals via ensureCultureState).
+// ---------------------------------------------------------------------------
+
+/**
+ * A nation's stance toward its non-accepted cultures.
+ * - exclusionary: forced assimilation — slightly faster melting, much more
+ *   resentment (militancy + movement radicalism).
+ * - assimilationist: the default 19th-century state-building posture.
+ * - pluralist: minorities live freely — little resentment, slow assimilation.
+ */
+export type CulturePolicy = 'exclusionary' | 'assimilationist' | 'pluralist';
+
+/**
+ * A national awakening: one non-accepted culture inside one nation organising
+ * toward a nation-state. Radicalism 0-100; at the top end (plus real anger) the
+ * movement launches an independence rebellion through the existing rebellion
+ * machinery (BALANCE.rebellion caps and cooldowns fully apply).
+ */
+export interface NationalMovement {
+  id: number;
+  nation: NationId;          // the empire being agitated against
+  culture: number;           // index into GameData.cultures
+  startDay: GameDay;
+  /** 0-100 organisational fervor; >= uprising threshold can rebel. */
+  radicalism: number;
+  /** States where this culture is the plurality — the claimed homeland. */
+  heartlandStateIds: StateId[];
+  /** Total pop size of the culture inside the nation (recomputed monthly). */
+  adherents: number;
+  /** Monthly-averaged militancy/consciousness of the culture's pops. */
+  militancy: number;
+  consciousness: number;
+  /** Last day this movement launched an uprising (-1 never). */
+  lastUprisingDay: GameDay;
+}
+
+/** Snapshot row: one culture inside the player nation (Cultures ledger). */
+export interface CultureLedgerEntry {
+  culture: number;
+  key: string;
+  name: string;
+  size: number;
+  /** Share of the nation's total population, 0-1. */
+  share: number;
+  primary: boolean;
+  accepted: boolean;
+  avgMilitancy: number;
+  avgConsciousness: number;
+  /** People assimilated out of this culture last month (0 for primary). */
+  assimilatedLastMonth: number;
+  /** Player may grant acceptance right now (share/mechanics gate). */
+  canAccept: boolean;
+}
+
+/** Snapshot row: a national movement inside the player nation. */
+export interface MovementView {
+  id: number;
+  culture: number;
+  cultureName: string;
+  radicalism: number;
+  adherents: number;
+  militancy: number;
+  consciousness: number;
+  heartlandStateIds: StateId[];
+  heartlandNames: string[];
+  /** True when radicalism is in the uprising band — a rebellion may fire. */
+  boiling: boolean;
+}
+
+// ---------------------------------------------------------------------------
 // Market
 // ---------------------------------------------------------------------------
 
@@ -779,6 +863,11 @@ export interface World {
   nextCrisisId?: number;
   /** No new crisis spawns before this day (cooldown after resolution). */
   crisisCooldownUntil?: GameDay;
+
+  // --- 0.8.0 culture (optional: old saves self-heal) ---
+  /** Active national movements (non-accepted cultures organising). */
+  movements?: NationalMovement[];
+  nextMovementId?: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -951,6 +1040,10 @@ export interface WorldSnapshot {
   tensionTrace?: TensionContribution[];
   activeCrisis?: Crisis | null;
   congressHistory?: CongressRecord[];
+  /** 0.8.0 culture: Cultures ledger + national movements for the player. */
+  playerCulturePolicy?: CulturePolicy;
+  playerCultures?: CultureLedgerEntry[];
+  playerMovements?: MovementView[];
   /** headline numbers for the player nation's HUD */
   playerBudget: BudgetLine;
 }
@@ -1029,6 +1122,9 @@ export type Command =
   | { t: 'crisisBackSide'; crisis: number; side: CrisisSide }
   | { t: 'crisisPressDemand'; crisis: number }
   | { t: 'crisisBackDown'; crisis: number }
+  // --- 0.8.0 Age of Nationalism ---
+  | { t: 'setCulturePolicy'; policy: CulturePolicy }
+  | { t: 'setCultureAccepted'; culture: number; accepted: boolean }
   | { t: 'newGame'; seed: number; playerNation: NationId }
   | { t: 'save'; slot: string }
   | { t: 'load'; slot: string }
@@ -1063,6 +1159,8 @@ export interface ProvinceDetail {
   rgo: RGO;
   fortLevel: number;
   navalBaseLevel: number;
+  /** 0.8.0 culture: cultural makeup of the province (largest first). */
+  cultures?: { culture: number; name: string; size: number; share: number; accepted: boolean }[];
 }
 
 export interface NationDetail {

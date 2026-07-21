@@ -21,6 +21,7 @@ import { runAiMonthly } from './systems/ai';
 import { runEventsMonthly } from './systems/events';
 import { runResearchMonthly } from './systems/research';
 import { runCrisisMonthly } from './systems/crisis';
+import { runCultureMonthly } from './systems/culture';
 import { buildSnapshot } from './snapshot';
 
 const EPOCH_YEAR = 1820;
@@ -67,6 +68,7 @@ export function advanceDay(world: World, data: GameData): void {
   if (date.day === 1) {
     runBudgetMonthly(world, data, rng);
     runPopsMonthly(world, data, rng);
+    runCultureMonthly(world, data, rng); // 0.8.0 nationalism (before politics: feeds unrest)
     runPoliticsMonthly(world, data, rng);
     runResearchMonthly(world, data, rng);
     runDiplomacyMonthly(world, data, rng);
