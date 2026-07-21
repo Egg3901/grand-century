@@ -7,6 +7,7 @@ import { ProvincePanel } from './ProvincePanel';
 import { PoliticsPanel } from './PoliticsPanel';
 import { DiplomacyPanel } from './DiplomacyPanel';
 import { GreatPowersPanel } from './GreatPowersPanel';
+import { CrisisPanel } from './CrisisPanel';
 import { MilitaryPanel } from './MilitaryPanel';
 import { ColonizationPanel } from './ColonizationPanel';
 import { SaveLoadPanel } from './SaveLoadPanel';
@@ -23,7 +24,7 @@ const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
   market: 'Market',
   politics: 'Politics',
   diplomacy: 'Diplomacy',
-  great_powers: 'Great Powers',
+  great_powers: 'Great Powers & the Concert',
   formables: 'Formables',
   decisions: 'Decisions',
   military: 'Military',
@@ -59,6 +60,7 @@ export function PanelHost() {
           {openPanel === 'market' ? <MarketPanel /> : null}
           {openPanel === 'politics' ? <PoliticsPanel /> : null}
           {openPanel === 'diplomacy' ? <DiplomacyPanel /> : null}
+          {openPanel === 'great_powers' ? <CrisisPanel /> : null}
           {openPanel === 'great_powers' ? <GreatPowersPanel /> : null}
           {openPanel === 'military' ? <MilitaryPanel /> : null}
           {openPanel === 'colonization' ? <ColonizationPanel /> : null}

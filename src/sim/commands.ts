@@ -24,6 +24,8 @@ import {
 import { formNation } from './formables';
 import { resolvePendingEvent, takeDecision } from './systems/events';
 import { isRecipeUnlocked, setNationResearch } from './systems/research';
+import { crisisLeadBackDown, joinCrisisSide, pressCrisisDemand } from './systems/crisis';
+import { Rng } from './rng';
 
 type Poster = (msg: FromWorker) => void;
 type RegimentType = Regiment['type'];
@@ -518,6 +520,23 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     }
     case 'setResearch': {
       const result = setNationResearch(world, data, world.playerNation, cmd.tech);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
+      return;
+    }
+    case 'crisisBackSide': {
+      const result = joinCrisisSide(world, world.playerNation, cmd.crisis, cmd.side);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
+      return;
+    }
+    case 'crisisPressDemand': {
+      const result = pressCrisisDemand(world, world.playerNation, cmd.crisis);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
+      return;
+    }
+    case 'crisisBackDown': {
+      const rng = new Rng(world.rngState);
+      const result = crisisLeadBackDown(world, rng, world.playerNation, cmd.crisis);
+      world.rngState = rng.state;
       log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }

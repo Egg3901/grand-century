@@ -871,7 +871,8 @@ function transferStateTo(world: World, stateId: StateId, nationId: NationId): vo
   }
 }
 
-function applyWarGoal(world: World, goal: WarGoal): void {
+/** Enforce a war goal's effects (also reused by 0.7.0 congress settlements). */
+export function applyWarGoal(world: World, goal: WarGoal): void {
   const holder = world.nations[goal.holder];
   const target = world.nations[goal.target];
   if (!holder || !target) return;

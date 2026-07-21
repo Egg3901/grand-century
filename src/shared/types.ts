@@ -604,6 +604,62 @@ export interface InfluenceTarget {
 }
 
 // ---------------------------------------------------------------------------
+// 0.7.0 Concert of Europe — world tension, flashpoint crises, congresses.
+// All world/snapshot fields for this system are OPTIONAL so pre-0.7.0 saves
+// load unchanged (the crisis system self-heals missing state).
+// ---------------------------------------------------------------------------
+
+export type CrisisType = 'sphere_contest' | 'containment' | 'humiliation';
+export type CrisisSide = 'attacker' | 'defender';
+
+/**
+ * A single active international crisis (world singleton, Vic2-HoD style).
+ * Two great-power leads press/resist a concrete demand over a subject nation;
+ * other GPs may back either side while temperature climbs toward a showdown.
+ */
+export interface Crisis {
+  id: number;
+  type: CrisisType;
+  /** The nation the crisis is about (sphere target, infamous power, rival). */
+  subject: NationId;
+  /** Demand the attacker side enforces on victory. */
+  demand: WarGoalType;
+  stateId: StateId;          // -1 unless demand is state-specific
+  attackerLead: NationId;
+  defenderLead: NationId;
+  /** Full sides, leads included. */
+  attackerBackers: NationId[];
+  defenderBackers: NationId[];
+  startDay: GameDay;
+  /** Unresolved by this day -> showdown (congress or war). */
+  deadlineDay: GameDay;
+  /** 0-100 escalation; 100 forces the showdown early. */
+  temperature: number;
+  /** Leads that pressed the demand (blocks their AI from backing down). */
+  pressedBy: NationId[];
+}
+
+/** Ledger entry for a resolved crisis — the Concert's public record. */
+export interface CongressRecord {
+  id: number;
+  name: string;
+  day: GameDay;
+  type: CrisisType;
+  subject: NationId;
+  /** 'congress' = peaceful settlement, 'war' = blocs went to war, 'fizzle' = collapsed. */
+  outcome: 'congress' | 'war' | 'fizzle';
+  winnerLead: NationId;      // -1 when no winner (war/fizzle)
+  loserLead: NationId;       // -1 when no loser
+  detail: string;
+}
+
+/** One labelled contribution to world tension (UI trace tooltip). */
+export interface TensionContribution {
+  label: string;
+  value: number;
+}
+
+// ---------------------------------------------------------------------------
 // Market
 // ---------------------------------------------------------------------------
 
@@ -687,6 +743,17 @@ export interface World {
   nextWarId: WarId;
   nextRebellionId: number;
   nextPopId: PopId;
+
+  // --- 0.7.0 Concert of Europe (optional: old saves self-heal) ---
+  /** World tension 0-100; high tension breeds crises. */
+  tension?: number;
+  /** The single active crisis, if any. */
+  crisis?: Crisis | null;
+  /** Recent resolved crises, newest last (capped). */
+  congresses?: CongressRecord[];
+  nextCrisisId?: number;
+  /** No new crisis spawns before this day (cooldown after resolution). */
+  crisisCooldownUntil?: GameDay;
 }
 
 // ---------------------------------------------------------------------------
@@ -850,6 +917,11 @@ export interface WorldSnapshot {
   playerDecisions?: DecisionStatus[];
   /** 0.6.0 research: technology tree + invention state for the player nation. */
   playerTech?: PlayerTechView;
+  /** 0.7.0 Concert: world tension 0-100 with trace, active crisis, history. */
+  worldTension?: number;
+  tensionTrace?: TensionContribution[];
+  activeCrisis?: Crisis | null;
+  congressHistory?: CongressRecord[];
   /** headline numbers for the player nation's HUD */
   playerBudget: BudgetLine;
 }
@@ -924,6 +996,10 @@ export type Command =
   | { t: 'resolveEvent'; instanceId: number; choiceId: string }
   | { t: 'takeDecision'; decision: string }
   | { t: 'setResearch'; tech: string | null }
+  // --- 0.7.0 Concert of Europe ---
+  | { t: 'crisisBackSide'; crisis: number; side: CrisisSide }
+  | { t: 'crisisPressDemand'; crisis: number }
+  | { t: 'crisisBackDown'; crisis: number }
   | { t: 'newGame'; seed: number; playerNation: NationId }
   | { t: 'save'; slot: string }
   | { t: 'load'; slot: string }

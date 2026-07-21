@@ -13,6 +13,7 @@ import {
 import { getFormableStatusesForNation } from './formables';
 import { listPlayerDecisions } from './systems/events';
 import { buildPlayerTechView } from './systems/research';
+import { computeTensionContributions, getWorldTension } from './systems/crisis';
 
 function zeroBudget(): BudgetLine {
   return {
@@ -283,6 +284,18 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       })),
     playerDecisions: listPlayerDecisions(world, data, world.playerNation),
     playerTech: buildPlayerTechView(world, data, world.playerNation),
+    // 0.7.0 Concert of Europe
+    worldTension: getWorldTension(world),
+    tensionTrace: computeTensionContributions(world),
+    activeCrisis: world.crisis
+      ? {
+        ...world.crisis,
+        attackerBackers: world.crisis.attackerBackers.slice(),
+        defenderBackers: world.crisis.defenderBackers.slice(),
+        pressedBy: world.crisis.pressedBy.slice(),
+      }
+      : null,
+    congressHistory: (world.congresses ?? []).map((record) => ({ ...record })),
     playerBudget: zeroBudget(),
   };
 }
