@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { attachTransport } from '../bootTransport';
+import { buildMpUrl, randomSessionId } from '../net/mpJoin';
+import { resolveSocketUrl, SocketTransport } from '../net/socketTransport';
 import { useStore } from '../store';
 import { buildShareUrl, copyShareLink, parseStartHash } from './permalink';
 
@@ -9,6 +12,7 @@ export function MainMenu() {
   const hashStart = useMemo(() => parseStartHash(), []);
   const [seedInput, setSeedInput] = useState(() => String(hashStart?.seed ?? snapshot?.seed ?? 1836));
   const [shareStatus, setShareStatus] = useState<string | null>(null);
+  const [mpStatus, setMpStatus] = useState<string | null>(null);
   const nations = useMemo(() => (snapshot?.nations ?? []).slice().sort((a, b) => a.name.localeCompare(b.name)), [snapshot]);
   const defaultNation = useMemo(() => {
     if (hashStart?.nationTag) {
@@ -50,6 +54,23 @@ export function MainMenu() {
     const ok = await copyShareLink({ seed, nationTag: selectedTag });
     setShareStatus(ok ? 'Link copied.' : buildShareUrl({ seed, nationTag: selectedTag }));
     window.setTimeout(() => setShareStatus(null), 3500);
+  };
+
+  /** Host a multiplayer session (MP-M1 minimal — full lobby is MP-M2). */
+  const startMultiplayer = () => {
+    const parsedSeed = Number(seedInput);
+    const seed = Number.isFinite(parsedSeed) ? Math.max(1, Math.floor(parsedSeed)) : 1836;
+    const sessionId = randomSessionId();
+    const join = { sessionId, nationTag: selectedTag, seed };
+    const url = buildMpUrl(join);
+    window.location.hash = `#/mp?session=${encodeURIComponent(sessionId)}&nation=${encodeURIComponent(selectedTag)}&seed=${seed}`;
+    const transport = new SocketTransport(resolveSocketUrl(), {
+      join: { t: 'join', sessionId, nation: selectedTag, seed },
+    });
+    attachTransport(transport);
+    setShowMainMenu(false);
+    setMpStatus(`Session ${sessionId} — share: ${url}`);
+    window.setTimeout(() => setMpStatus(null), 12_000);
   };
 
   return (
@@ -102,8 +123,17 @@ export function MainMenu() {
           >
             Copy share link
           </button>
+          <button
+            type="button"
+            className="btn btn--secondary"
+            data-testid="menu-multiplayer"
+            onClick={startMultiplayer}
+          >
+            Multiplayer
+          </button>
         </div>
         {shareStatus ? <p className="menu-share-status" data-testid="menu-share-status">{shareStatus}</p> : null}
+        {mpStatus ? <p className="menu-share-status" data-testid="menu-mp-status">{mpStatus}</p> : null}
       </section>
     </div>
   );

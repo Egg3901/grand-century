@@ -35,5 +35,11 @@ export default defineConfig({
       reuseExistingServer: true,
       timeout: 180_000,
     },
+    {
+      command: 'PORT=3412 npm run server',
+      url: 'http://127.0.0.1:3412',
+      reuseExistingServer: true,
+      timeout: 60_000,
+    },
   ],
 });

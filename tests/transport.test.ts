@@ -44,7 +44,6 @@ describe('WorkerTransport', () => {
 
   it('clears the handler and terminates an owned worker on dispose', () => {
     const worker = mockWorker();
-    // Injected worker is not owned — terminate should not be called.
     const transport = new WorkerTransport(worker);
     transport.onMessage(() => undefined);
     transport.dispose();
@@ -53,11 +52,59 @@ describe('WorkerTransport', () => {
   });
 });
 
-describe('SocketTransport stub', () => {
-  it('throws not-implemented on send/onMessage (MP-M1 placeholder)', () => {
-    const transport = new SocketTransport('ws://localhost/mp');
-    expect(() => transport.send({ t: 'init', seed: 1 })).toThrow(/MP-M1/);
-    expect(() => transport.onMessage(() => undefined)).toThrow(/MP-M1/);
-    expect(() => transport.dispose()).not.toThrow();
+describe('SocketTransport', () => {
+  it('sends join on open and routes FromWorker messages', () => {
+    type Handler = (event: { data?: unknown }) => void;
+    const listeners = new Map<string, Handler[]>();
+    const sent: string[] = [];
+    let readyState = 0;
+
+    class FakeWS {
+      readyState = 0;
+      addEventListener(type: string, fn: Handler) {
+        const list = listeners.get(type) ?? [];
+        list.push(fn);
+        listeners.set(type, list);
+      }
+      send(data: string) {
+        sent.push(data);
+      }
+      close() {
+        readyState = 3;
+        this.readyState = 3;
+      }
+    }
+
+    const transport = new SocketTransport('ws://test', {
+      join: { t: 'join', sessionId: 's', nation: 'ENG', seed: 1 },
+      WebSocketImpl: FakeWS as unknown as typeof WebSocket,
+    });
+
+    const received: FromWorker[] = [];
+    transport.onMessage((msg) => received.push(msg));
+
+    // open
+    readyState = 1;
+    const fake = (transport as unknown as { ws: { readyState: number } }).ws;
+    fake.readyState = 1;
+    for (const fn of listeners.get('open') ?? []) fn({});
+    expect(sent[0]).toContain('"t":"join"');
+
+    transport.send({ t: 'command', cmd: { t: 'setSpeed', speed: 1 } });
+    expect(sent.some((s) => s.includes('setSpeed'))).toBe(true);
+
+    // joined ack ignored
+    for (const fn of listeners.get('message') ?? []) {
+      fn({ data: JSON.stringify({ t: 'joined', sessionId: 's', nationId: 0, nationTag: 'ENG', leader: true }) });
+    }
+    expect(received).toEqual([]);
+
+    for (const fn of listeners.get('message') ?? []) {
+      fn({ data: JSON.stringify({ t: 'log', level: 'info', msg: 'hi' }) });
+    }
+    expect(received).toEqual([{ t: 'log', level: 'info', msg: 'hi' }]);
+
+    transport.dispose();
+    expect(readyState).toBe(3);
   });
 });

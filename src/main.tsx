@@ -2,49 +2,35 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import './index.css';
+import { attachTransport } from './bootTransport';
+import { parseMpHash } from './net/mpJoin';
+import { resolveSocketUrl, SocketTransport } from './net/socketTransport';
 import { WorkerTransport } from './net/workerTransport';
-import type { FromWorker } from './shared/types';
 import { useStore } from './store';
 
 /**
- * Single-player entry: local WorkerTransport.
- * MP-M1 will branch here (or in a session bootstrap) to construct
- * SocketTransport when joining/creating a multiplayer session.
+ * Transport selection (MP-M1):
+ * - `#/mp?session=&nation=&seed=` → SocketTransport (shared session server)
+ * - otherwise → WorkerTransport (single-player, unchanged)
  */
-const transport = new WorkerTransport();
+const mp = parseMpHash();
 
-function routeFromSim(message: FromWorker) {
-  const state = useStore.getState();
-  switch (message.t) {
-    case 'ready':
-      state.onData(message.data);
-      break;
-    case 'snapshot':
-      state.onSnapshot(message.snapshot);
-      break;
-    case 'provinceDetail':
-      state.onProvinceDetail(message.detail);
-      break;
-    case 'nationDetail':
-      state.onNationDetail(message.detail);
-      break;
-    case 'saveSlots':
-      state.onSaveSlots(message.slots);
-      break;
-    case 'saveStatus':
-      state.onSaveStatus(message);
-      break;
-    case 'log':
-      if (message.level === 'error') console.error(`[sim] ${message.msg}`);
-      else if (message.level === 'warn') console.warn(`[sim] ${message.msg}`);
-      else console.info(`[sim] ${message.msg}`);
-      break;
-  }
+if (mp) {
+  const transport = new SocketTransport(resolveSocketUrl(), {
+    join: {
+      t: 'join',
+      sessionId: mp.sessionId,
+      nation: mp.nationTag,
+      seed: mp.seed,
+    },
+  });
+  attachTransport(transport);
+  useStore.getState().setShowMainMenu(false);
+} else {
+  const transport = new WorkerTransport();
+  attachTransport(transport);
+  transport.send({ t: 'init', seed: 1836 });
 }
-
-transport.onMessage(routeFromSim);
-useStore.getState().setTransport(transport);
-transport.send({ t: 'init', seed: 1836 });
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
