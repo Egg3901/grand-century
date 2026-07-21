@@ -2,6 +2,35 @@
 
 All notable changes to Grand Century are documented here.
 
+## [0.6.0] — 2026-07-21
+
+"The Inventive Century" — a real technology & invention system for the 1820-1920
+industrial arc.
+
+### Technology & inventions (new)
+- A **player-directed tech tree**: 31 techs in 5 year-gated prereq columns + 12
+  inventions. Research points, selection, ETA, and an idle auto-pick so no one stalls.
+  (Previously the player literally could not research — it was AI-only.)
+- **Tech effects now actually apply**: factory throughput (economy), tax efficiency
+  (budget, deducted from pops — no minted money), and army/navy quality (war).
+  Formerly dead display strings.
+- **New tech-gated production chains** fill previously-inert goods (fish, wine,
+  furniture, machine parts, artillery) — no more permanent unmet needs.
+- New **Technology panel** (5 period-styled columns, progress + invention ledger);
+  Production offers only unlocked recipes.
+
+### Critical economy fix
+- **Every input-consuming factory had produced zero output since the M2 economy**
+  (`buyFromMarket` clamped Infinity→0). Fixed — the industrial economy is now alive,
+  with a factory recalibration routing value to worker pops while taxes stay the
+  state's lever. Pops remain believably fed (balance envelope green).
+
+### Notes
+- Strictly additive types (old saves load unchanged); pure/DOM-free so it runs in
+  both single-player and the multiplayer server. 110 tests (test:all) green.
+
+[0.6.0]: https://github.com/Egg3901/grand-century/releases/tag/v0.6.0
+
 ## [0.5.0] — 2026-07-21
 
 The visual overhaul — the map now reads as a premium antique atlas.
