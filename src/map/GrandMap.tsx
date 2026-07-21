@@ -3,6 +3,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import './GrandMap.css';
 import { WORLD_SEED } from '../data/generated';
 import { useStore } from '../store';
+import { largestPolygon, polylabel, ringArea } from './polylabel';
 
 type MapLibreMap = import('maplibre-gl').Map;
 type MapLibreMarker = import('maplibre-gl').Marker;
@@ -33,6 +34,9 @@ type ProvinceGeometryMetrics = {
   lon: number;
   lat: number;
   area: number;
+  /** Pole-of-inaccessibility on the province's largest polygon. */
+  labelLon: number;
+  labelLat: number;
 };
 type ProvinceLabelSeed = {
   id: number;
@@ -75,23 +79,17 @@ const MAP_MOVEMENT_SOURCE = 'movement-lines';
 const MAP_MOVEMENT_LAYER = 'movement-lines-layer';
 const DEFAULT_FILL = '#b7a486';
 const MAJOR_LABEL_TAGS = new Set(['ENG', 'FRA', 'AUS', 'RUS', 'USA', 'QNG', 'OTT', 'ESP', 'BRA']);
-const MAJOR_LABEL_TUNING: Record<string, {
-  minZoom?: number;
-  lonOffset?: number;
-  latOffset?: number;
-  preferredOffset?: [number, number];
-}> = {
-  ENG: { minZoom: 1.04, preferredOffset: [-18, -18] },
-  FRA: { minZoom: 1.12, preferredOffset: [-18, -8] },
-  AUS: { minZoom: 1.36, lonOffset: 0.35, latOffset: 0.2, preferredOffset: [24, -16] },
-  OTT: { minZoom: 1.48, lonOffset: 0.5, latOffset: -0.2, preferredOffset: [36, 14] },
-  ESP: { minZoom: 1.26, lonOffset: -0.4, latOffset: -0.2, preferredOffset: [-30, 18] },
-  RUS: { minZoom: 0.92, preferredOffset: [0, -24] },
-  USA: { minZoom: 0.96, preferredOffset: [0, -16] },
-  QNG: { minZoom: 0.96, preferredOffset: [0, -16] },
-  BRA: { minZoom: 1.06, preferredOffset: [16, -10] },
+/** Prefer homeland landmasses over sparse colonial deserts when scoring. */
+const HOMELAND_PROVINCE_BY_TAG: Record<string, string> = {
+  ENG: 'United Kingdom',
+  FRA: 'France',
+  ESP: 'Spain',
+  POR: 'Portugal',
+  NED: 'Netherlands',
+  AUS: 'Austria',
+  OTT: 'Turkey',
 };
-const LABEL_REFRESH_DEBOUNCE_MS = 90;
+const LABEL_REFRESH_DEBOUNCE_MS = 60;
 const DIPLO_COLORS = {
   self: '#6f879f',
   ally: '#7c9472',
@@ -217,11 +215,17 @@ function polygonAreaCentroid(polygon: number[][][]): ProvinceGeometryMetrics | n
     lonAcc += ringStats.lon * ringStats.area;
     latAcc += ringStats.lat * ringStats.area;
   }
+  const largest = polygon[0] ? [polygon[0], ...polygon.slice(1)] : null;
+  const pole = largest && largest[0] && largest[0].length >= 4
+    ? polylabel(largest as [number, number][][], 0.02)
+    : null;
   if (Math.abs(areaAcc) > 1e-8) {
     return {
       lon: lonAcc / areaAcc,
       lat: latAcc / areaAcc,
       area: Math.abs(areaAcc),
+      labelLon: pole?.lon ?? lonAcc / areaAcc,
+      labelLat: pole?.lat ?? latAcc / areaAcc,
     };
   }
   const outerRing = polygon[0] ?? [];
@@ -236,13 +240,26 @@ function polygonAreaCentroid(polygon: number[][][]): ProvinceGeometryMetrics | n
     lon: lon / outerRing.length,
     lat: lat / outerRing.length,
     area: 0.01,
+    labelLon: pole?.lon ?? lon / outerRing.length,
+    labelLat: pole?.lat ?? lat / outerRing.length,
   };
 }
 
 function geometryAreaCentroid(
   geometry: ProvinceGeoJson['features'][number]['geometry'],
 ): ProvinceGeometryMetrics | null {
-  if (geometry.type === 'Polygon') return polygonAreaCentroid(geometry.coordinates as number[][][]);
+  const bestPoly = largestPolygon(geometry);
+  const pole = bestPoly ? polylabel(bestPoly, 0.02) : null;
+  if (geometry.type === 'Polygon') {
+    const stats = polygonAreaCentroid(geometry.coordinates as number[][][]);
+    if (!stats) return null;
+    return {
+      ...stats,
+      labelLon: pole?.lon ?? stats.labelLon,
+      labelLat: pole?.lat ?? stats.labelLat,
+      area: bestPoly?.[0] ? Math.max(stats.area, ringArea(bestPoly[0])) : stats.area,
+    };
+  }
   let areaAcc = 0;
   let lonAcc = 0;
   let latAcc = 0;
@@ -258,6 +275,8 @@ function geometryAreaCentroid(
     lon: lonAcc / areaAcc,
     lat: latAcc / areaAcc,
     area: areaAcc,
+    labelLon: pole?.lon ?? lonAcc / areaAcc,
+    labelLat: pole?.lat ?? latAcc / areaAcc,
   };
 }
 
@@ -361,8 +380,8 @@ export function GrandMap() {
         id: province.id,
         name: province.name,
         ownerTag: province.ownerTag,
-        lon: geometry?.lon ?? province.lon,
-        lat: geometry?.lat ?? province.lat,
+        lon: geometry?.labelLon ?? geometry?.lon ?? province.lon,
+        lat: geometry?.labelLat ?? geometry?.lat ?? province.lat,
         area,
         weight,
         prominence: Math.log(weight + 1) * 0.62 + Math.log(area + 1) * 0.38,
@@ -374,42 +393,49 @@ export function GrandMap() {
       const normalizedProminence = normalizeAcrossRange(province.prominence, minProminence, maxProminence);
       return {
         ...province,
-        minZoom: 5.35 + (1 - normalizedProminence) * 1.2,
+        minZoom: 5.1 + (1 - normalizedProminence) * 1.35,
       };
     });
   }, [provinceGeometryById]);
 
   const countryLabelSeeds = useMemo<CountryLabelSeed[]>(() => {
-    type NationAccum = {
+    type NationPick = {
       provinceCount: number;
       populationWeight: number;
       area: number;
-      lonArea: number;
-      latArea: number;
+      bestScore: number;
+      lon: number;
+      lat: number;
     };
-    const accumByTag = new globalThis.Map<string, NationAccum>();
+    const byTag = new globalThis.Map<string, NationPick>();
     for (const province of provinceLabelSeeds) {
-      const ownerTag = province.ownerTag;
-      const area = Math.max(province.area, 0.01);
-      const populationWeight = Math.max(province.weight, 0.1);
-      const existing = accumByTag.get(ownerTag) ?? {
-        provinceCount: 0,
-        populationWeight: 0,
-        area: 0,
-        lonArea: 0,
-        latArea: 0,
-      };
+      const homelandName = HOMELAND_PROVINCE_BY_TAG[province.ownerTag];
+      const homelandBoost = homelandName && province.name === homelandName ? 8 : 1;
+      const score = Math.log(province.area + 1) * ((province.weight + 0.1) ** 1.85) * homelandBoost;
+      const existing = byTag.get(province.ownerTag);
+      if (!existing) {
+        byTag.set(province.ownerTag, {
+          provinceCount: 1,
+          populationWeight: province.weight,
+          area: province.area,
+          bestScore: score,
+          lon: province.lon,
+          lat: province.lat,
+        });
+        continue;
+      }
       existing.provinceCount += 1;
-      existing.populationWeight += populationWeight;
-      existing.area += area;
-      existing.lonArea += province.lon * area;
-      existing.latArea += province.lat * area;
-      accumByTag.set(ownerTag, existing);
+      existing.populationWeight += province.weight;
+      existing.area += province.area;
+      if (score > existing.bestScore) {
+        existing.bestScore = score;
+        existing.lon = province.lon;
+        existing.lat = province.lat;
+      }
     }
     const labels: CountryLabelSeed[] = [];
-    for (const [tag, values] of accumByTag.entries()) {
-      if (values.provinceCount === 0 || values.area <= 0) continue;
-      const tuning = MAJOR_LABEL_TUNING[tag];
+    for (const [tag, values] of byTag.entries()) {
+      if (values.provinceCount === 0) continue;
       const prominence = (
         Math.log(values.provinceCount + 1) * 0.42
         + Math.log(values.populationWeight + 1) * 0.38
@@ -418,8 +444,8 @@ export function GrandMap() {
       labels.push({
         tag,
         name: nationNameByTag.get(tag) ?? tag,
-        lon: (values.lonArea / values.area) + (tuning?.lonOffset ?? 0),
-        lat: (values.latArea / values.area) + (tuning?.latOffset ?? 0),
+        lon: values.lon,
+        lat: values.lat,
         provinceCount: values.provinceCount,
         area: values.area,
         populationWeight: values.populationWeight,
@@ -433,19 +459,16 @@ export function GrandMap() {
     const maxProminence = nonMajorProminence.length > 0 ? Math.max(...nonMajorProminence) : 1;
     const withThresholds = labels.map((label) => {
       if (label.major) {
-        return {
-          ...label,
-          minZoom: MAJOR_LABEL_TUNING[label.tag]?.minZoom ?? 0.94,
-        };
+        return { ...label, minZoom: 0.75 };
       }
       const normalizedProminence = normalizeAcrossRange(label.prominence, minProminence, maxProminence);
       const tierBase = normalizedProminence >= 0.72
-        ? 2.05
+        ? 2.0
         : normalizedProminence >= 0.48
-          ? 2.75
+          ? 2.7
           : normalizedProminence >= 0.27
-            ? 3.45
-            : 4.12;
+            ? 3.4
+            : 4.05;
       return {
         ...label,
         minZoom: tierBase + (1 - normalizedProminence) * 0.24,
@@ -858,37 +881,40 @@ export function GrandMap() {
 
     const countryMarkers = countryLabelMarkerRef.current;
     const provinceMarkers = provinceLabelMarkerRef.current;
-    const majorOffsets: Array<[number, number]> = [
-      [0, 0],
-      [0, -24],
-      [22, -8],
-      [-22, -8],
-      [0, 24],
-      [30, 0],
-      [-30, 0],
-      [32, -20],
-      [-32, -20],
-      [32, 20],
-      [-32, 20],
-      [0, -38],
-      [0, 38],
-      [44, 0],
-      [-44, 0],
-      [54, -18],
-      [-54, -18],
-      [54, 18],
-      [-54, 18],
-    ];
-    const standardOffsets: Array<[number, number]> = [
+    const offsets: Array<[number, number]> = [
       [0, 0],
       [0, -18],
-      [18, -6],
-      [-18, -6],
       [0, 18],
-      [26, 0],
-      [-26, 0],
+      [18, -10],
+      [-18, -10],
+      [18, 10],
+      [-18, 10],
+      [0, -32],
+      [0, 32],
+      [30, 0],
+      [-30, 0],
+      [26, -22],
+      [-26, 22],
     ];
     let refreshTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const measureEl = document.createElement('div');
+    measureEl.setAttribute('aria-hidden', 'true');
+    measureEl.dataset.gcMeasure = '1';
+    measureEl.style.cssText = 'position:absolute;left:-99999px;top:0;visibility:hidden;white-space:nowrap;pointer-events:none;font-family:var(--gc-font-display),serif;';
+    document.body.appendChild(measureEl);
+    const measureLabel = (text: string, size: number, major: boolean, province = false) => {
+      measureEl.style.fontSize = `${size.toFixed(1)}px`;
+      measureEl.style.fontWeight = major ? '700' : province ? '500' : '600';
+      measureEl.style.letterSpacing = province ? '0.02em' : `${(size * 0.05).toFixed(2)}px`;
+      measureEl.style.textTransform = province ? 'none' : 'uppercase';
+      measureEl.style.fontVariant = province ? 'normal' : 'small-caps';
+      measureEl.textContent = text;
+      const width = Math.max(8, measureEl.offsetWidth);
+      const height = Math.max(8, measureEl.offsetHeight);
+      measureEl.textContent = '';
+      return { width, height };
+    };
 
     const upsertCountryMarker = (label: CountryLabelSeed, size: number, opacity: number, offset: [number, number]) => {
       const existing = countryMarkers.get(label.tag);
@@ -951,11 +977,14 @@ export function GrandMap() {
     };
 
     const refreshLabels = () => {
-      if (!map.isStyleLoaded()) return;
+      // Do NOT gate on map.isStyleLoaded() — MapLibre 5 with an inline glyph-less
+      // style can leave that flag false forever, which previously rendered 0 labels.
       const zoom = map.getZoom();
       const canvas = map.getCanvas();
-      const viewportWidth = canvas.clientWidth;
-      const viewportHeight = canvas.clientHeight;
+      const viewportWidth = canvas.clientWidth || map.getContainer().clientWidth;
+      const viewportHeight = canvas.clientHeight || map.getContainer().clientHeight;
+      if (viewportWidth < 8 || viewportHeight < 8) return;
+
       const isProjectedVisible = (point: { x: number; y: number }, padding: number) => (
         point.x >= -padding
         && point.x <= viewportWidth + padding
@@ -966,92 +995,98 @@ export function GrandMap() {
       const occupiedBoxes: ScreenBox[] = [];
       const keepCountry = new Set<string>();
       const keepProvince = new Set<number>();
-      const countryOpacity = clamp01((6.05 - zoom) / 1.1);
+      const countryOpacity = clamp01((6.2 - zoom) / 1.15);
 
       if (countryOpacity > 0.01) {
-        const regionFocusZoom = zoom >= 5.35;
+        const regionFocusZoom = zoom >= 5.2;
         const countries = countryLabelSeeds
-          .filter((label) => zoom >= label.minZoom - 0.35)
-          .filter((label) => !regionFocusZoom || (!label.major && label.minZoom >= 3.2));
+          .filter((label) => zoom >= label.minZoom - 0.4)
+          .filter((label) => !regionFocusZoom || (!label.major && label.minZoom >= 3.0));
         countries.sort((a, b) => {
-          if (a.major && b.major) return a.prominence - b.prominence;
           if (a.major !== b.major) return a.major ? -1 : 1;
           if (a.minZoom !== b.minZoom) return a.minZoom - b.minZoom;
           return b.prominence - a.prominence;
         });
         for (const label of countries) {
           const point = map.project([label.lon, label.lat]);
-          if (!isProjectedVisible(point, label.major ? 170 : 96)) continue;
-          const appearOpacity = clamp01((zoom - label.minZoom + 0.38) / 0.6);
+          if (!isProjectedVisible(point, label.major ? 200 : 110)) continue;
+          const appearOpacity = clamp01((zoom - label.minZoom + 0.45) / 0.55);
           if (!label.major && appearOpacity <= 0.01) continue;
 
-          const zoomScale = 1 - clamp01((zoom - 1.6) / 5.4) * 0.22;
-          const baseSize = 10.4 + Math.log(label.prominence + 1) * 2.0 + (label.major ? 1.55 : 0);
-          const majorDensityScale = label.major && zoom >= 3 ? 0.78 : 1;
-          const targetSize = Math.max(10, Math.min(24, baseSize * zoomScale * majorDensityScale));
-          const majorWidthAddon = zoom <= 1.9 ? 18 : 13;
-          const majorPadding = zoom <= 1.9 ? 9.5 : zoom <= 3.2 ? 7.2 : 5.6;
-          const baseWidth = Math.max(64, label.name.length * targetSize * 0.52 + (label.major ? majorWidthAddon : 8));
-          const baseHeight = Math.max(16, targetSize * 1.34);
-          const preferredOffset = label.major ? MAJOR_LABEL_TUNING[label.tag]?.preferredOffset : undefined;
-          const baseOffsets = label.major ? majorOffsets : standardOffsets;
-          const offsets = preferredOffset
-            ? [preferredOffset, ...baseOffsets.filter(([x, y]) => x !== preferredOffset[0] || y !== preferredOffset[1])]
-            : baseOffsets;
-          const shrinkSteps = label.major ? [1, 0.9, 0.8, 0.72, 0.64] : [1];
+          const zoomScale = 1 - clamp01((zoom - 1.4) / 5.2) * 0.22;
+          const worldCompact = zoom <= 2 ? 0.72 : 1;
+          const baseSize = (10 + Math.log(label.prominence + 1) * 1.45 + (label.major ? 1.2 : 0)) * worldCompact;
+          const targetSize = Math.max(9.5, Math.min(22, baseSize * zoomScale));
+          const shrinkSteps = label.major ? [1, 0.9, 0.8, 0.7, 0.6] : [1, 0.88];
           let placed: { box: ScreenBox; size: number; offset: [number, number] } | null = null;
           for (const shrink of shrinkSteps) {
-            const width = baseWidth * shrink;
-            const height = baseHeight * shrink;
             const size = targetSize * shrink;
+            const measured = measureLabel(label.name, size, label.major);
             for (const offset of offsets) {
-              const box = makeScreenBox(point.x + offset[0], point.y + offset[1], width, height, label.major ? majorPadding : 6.2);
-              if (!insideViewport(box, viewportWidth, viewportHeight, label.major ? 120 : 80)) continue;
+              const box = makeScreenBox(
+                point.x + offset[0],
+                point.y + offset[1],
+                measured.width,
+                measured.height,
+                label.major ? 5 : 4,
+              );
+              if (!insideViewport(box, viewportWidth, viewportHeight, label.major ? 140 : 72)) continue;
               if (occupiedBoxes.some((other) => intersects(box, other))) continue;
               placed = { box, size, offset };
               break;
             }
             if (placed) break;
           }
+          if (!placed && label.major && zoom <= 2.4) {
+            const size = Math.max(8.8, targetSize * 0.55);
+            const measured = measureLabel(label.name, size, true);
+            for (const offset of offsets) {
+              const box = makeScreenBox(point.x + offset[0], point.y + offset[1], measured.width, measured.height, 3);
+              if (!insideViewport(box, viewportWidth, viewportHeight, 140)) continue;
+              if (occupiedBoxes.some((other) => intersects(box, other))) continue;
+              placed = { box, size, offset };
+              break;
+            }
+          }
           if (!placed) continue;
           occupiedBoxes.push(placed.box);
           const opacity = label.major
-            ? Math.min(1, Math.max(0.74, countryOpacity) * (0.88 + appearOpacity * 0.12))
-            : Math.max(0.22, countryOpacity * appearOpacity * 0.95);
+            ? Math.min(1, Math.max(0.82, countryOpacity) * (0.9 + appearOpacity * 0.1))
+            : Math.max(0.28, countryOpacity * appearOpacity * 0.95);
           if (opacity <= 0.01) continue;
           keepCountry.add(label.tag);
           upsertCountryMarker(label, placed.size, opacity, placed.offset);
         }
       }
-      const provinceOpacity = clamp01((zoom - 5.35) / 0.65) * 0.95;
+
+      const provinceOpacity = clamp01((zoom - 5.05) / 0.7) * 0.96;
       const provinceCountByOwner = new globalThis.Map<string, number>();
 
       if (provinceOpacity > 0.01) {
-        const maxLabels = zoom < 6 ? 120 : zoom < 6.8 ? 220 : 320;
+        const maxLabels = zoom < 5.8 ? 100 : zoom < 6.6 ? 200 : 320;
         const candidates = provinceLabelSeeds
-          .filter((province) => zoom >= province.minZoom - 0.25)
+          .filter((province) => zoom >= province.minZoom - 0.3)
           .sort((a, b) => (b.prominence - a.prominence) || a.name.localeCompare(b.name));
         for (const province of candidates) {
           if (keepProvince.size >= maxLabels) break;
           const point = map.project([province.lon, province.lat]);
-          if (!isProjectedVisible(point, 64)) continue;
-          const appearOpacity = clamp01((zoom - province.minZoom + 0.34) / 0.5);
+          if (!isProjectedVisible(point, 72)) continue;
+          const appearOpacity = clamp01((zoom - province.minZoom + 0.35) / 0.5);
           if (appearOpacity <= 0.01) continue;
-          const baseSize = 8.4 + clamp01((zoom - 5) / 3.4) * 2.45 + Math.min(1.5, Math.log(province.weight + 1) * 0.5);
-          const size = Math.max(8.8, Math.min(13.8, baseSize));
-          const width = Math.max(44, province.name.length * size * 0.5);
-          const height = Math.max(12, size * 1.2);
-          const box = makeScreenBox(point.x, point.y, width, height, 4.5);
-          if (!insideViewport(box, viewportWidth, viewportHeight, 64)) continue;
+          const baseSize = 8.6 + clamp01((zoom - 5) / 3.2) * 2.3 + Math.min(1.4, Math.log(province.weight + 1) * 0.45);
+          const size = Math.max(8.8, Math.min(14, baseSize));
+          const measured = measureLabel(province.name, size, false, true);
+          const box = makeScreenBox(point.x, point.y, measured.width, measured.height, 3.5);
+          if (!insideViewport(box, viewportWidth, viewportHeight, 56)) continue;
           if (occupiedBoxes.some((other) => intersects(box, other))) continue;
           occupiedBoxes.push(box);
           keepProvince.add(province.id);
           provinceCountByOwner.set(province.ownerTag, (provinceCountByOwner.get(province.ownerTag) ?? 0) + 1);
-          upsertProvinceMarker(province, size, Math.max(0.24, provinceOpacity * appearOpacity));
+          upsertProvinceMarker(province, size, Math.max(0.28, provinceOpacity * appearOpacity));
         }
       }
 
-      if (zoom >= 5.3) {
+      if (zoom >= 5.15) {
         for (const [ownerTag, count] of provinceCountByOwner.entries()) {
           if (count < 2) continue;
           keepCountry.delete(ownerTag);
@@ -1082,13 +1117,22 @@ export function GrandMap() {
     map.on('moveend', scheduleRefresh);
     map.on('zoomend', scheduleRefresh);
     map.on('resize', scheduleRefresh);
+    const onIdleOnce = () => {
+      scheduleRefresh(0);
+      map.off('idle', onIdleOnce);
+    };
+    map.on('idle', onIdleOnce);
     scheduleRefresh(0);
+    // fitBounds animates after load — refresh again once it settles
+    scheduleRefresh(750);
 
     return () => {
       if (refreshTimer !== null) clearTimeout(refreshTimer);
+      measureEl.remove();
       map.off('moveend', scheduleRefresh);
       map.off('zoomend', scheduleRefresh);
       map.off('resize', scheduleRefresh);
+      map.off('idle', onIdleOnce);
       for (const marker of countryMarkers.values()) marker.remove();
       countryMarkers.clear();
       for (const marker of provinceMarkers.values()) marker.remove();

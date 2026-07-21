@@ -7,7 +7,7 @@
 
 .tutorial-coach__spotlight {
   position: fixed;
-  border-radius: 12px;
+  border-radius: var(--gc-radius);
   border: 2px solid rgba(238, 216, 176, 0.92);
   box-shadow:
     0 0 0 9999px rgba(14, 9, 6, 0.62),
@@ -21,11 +21,11 @@
   right: 1rem;
   bottom: 1rem;
   width: min(24rem, calc(100vw - 1.5rem));
-  border-radius: 12px;
-  padding: 0.75rem 0.85rem;
+  border-radius: var(--gc-radius-lg);
+  padding: 0.85rem 0.95rem;
   pointer-events: auto;
   display: grid;
-  gap: 0.45rem;
+  gap: 0.5rem;
 }
 
 .tutorial-coach__progress {
@@ -36,23 +36,28 @@
 }
 
 .tutorial-coach__progress strong {
-  font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, serif;
-  font-size: 1rem;
+  font-family: var(--gc-font-display);
+  font-size: 1.05rem;
+  letter-spacing: var(--gc-tracking-label);
 }
 
 .tutorial-coach__progress span {
-  font-size: 0.75rem;
-  color: #5d4431;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-faint);
+  font-family: var(--gc-font-display);
+  letter-spacing: var(--gc-tracking-caps);
+  text-transform: uppercase;
 }
 
 .tutorial-coach__card p {
   margin: 0;
-  font-size: 0.84rem;
-  color: #2d2118;
+  font-size: var(--gc-fs-small);
+  color: var(--gc-ink);
+  line-height: var(--gc-lh-body);
 }
 
 .tutorial-coach__hint {
-  color: #4a3628;
+  color: var(--gc-ink-muted);
 }
 
 .tutorial-coach__actions {
@@ -62,12 +67,20 @@
 }
 
 .tutorial-coach__actions button {
-  border: 1px solid rgba(83, 58, 41, 0.35);
-  border-radius: 999px;
-  background: rgba(236, 220, 188, 0.84);
-  color: #251b12;
+  border: 1px solid var(--gc-border);
+  border-radius: var(--gc-radius-sm);
+  background: rgba(247, 237, 214, 0.88);
+  color: var(--gc-ink);
   cursor: pointer;
-  padding: 0.26rem 0.72rem;
+  padding: 0.3rem 0.8rem;
+  font-family: var(--gc-font-display);
+  letter-spacing: 0.03em;
+}
+
+.tutorial-coach__actions button:last-child {
+  border-color: var(--gc-accent-deep);
+  background: linear-gradient(180deg, var(--gc-wax-highlight), var(--gc-wax));
+  color: #f8efe2;
 }
 
 @media (max-width: 768px) {
@@ -76,7 +89,7 @@
     right: 0.5rem;
     bottom: calc(env(safe-area-inset-bottom) + 0.45rem);
     width: auto;
-    border-radius: 14px;
+    border-radius: var(--gc-radius-lg);
   }
 
   .tutorial-coach__card p {

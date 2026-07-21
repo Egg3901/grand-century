@@ -24,3 +24,4 @@ content/raw/
 *.sln
 *.sw?
 docs/season-report.json
+artifacts/

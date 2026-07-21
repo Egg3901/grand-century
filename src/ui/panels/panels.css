@@ -5,46 +5,107 @@
   width: min(31rem, calc(100vw - 14rem));
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0;
   z-index: 18;
+  border-radius: var(--gc-radius-lg);
+  overflow: hidden;
+  max-height: calc(100vh - 6.5rem);
+  pointer-events: auto;
 }
 
 .panel-host-backdrop {
   display: none;
 }
 
+.panel-host__chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gc-space-2);
+  padding: 0.55rem 0.75rem 0.45rem;
+  border-bottom: 1px solid var(--gc-rule);
+  background:
+    linear-gradient(180deg, rgba(255, 250, 235, 0.45), transparent),
+    rgba(239, 227, 198, 0.55);
+  flex-shrink: 0;
+}
+
+.panel-host__chrome-title {
+  margin: 0;
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-h3);
+  letter-spacing: var(--gc-tracking-caps);
+  text-transform: uppercase;
+  color: var(--gc-ink-faint);
+}
+
 .panel-host__close {
-  display: none;
-  border: 1px solid rgba(83, 58, 41, 0.35);
-  border-radius: 999px;
-  background: rgba(236, 220, 188, 0.94);
-  color: #251b12;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gc-border);
+  border-radius: var(--gc-radius-sm);
+  background: linear-gradient(180deg, var(--gc-wax-highlight), var(--gc-wax));
+  color: #f8efe2;
   cursor: pointer;
   touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
+  padding: 0.28rem 0.75rem;
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-small);
+  letter-spacing: 0.04em;
+  box-shadow:
+    0 1px 0 rgba(255, 220, 200, 0.22) inset,
+    0 1px 4px rgba(60, 20, 14, 0.22);
+}
+
+.panel-host__close:hover {
+  filter: brightness(1.05);
+}
+
+.panel-host__body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  flex: 1;
+  min-height: 0;
 }
 
 .panel-card {
-  border-radius: 12px;
-  padding: 0.9rem 1rem;
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  padding: 0.85rem 1rem 1rem;
+}
+
+.panel-host .panel-card.atlas-panel {
+  background: transparent;
+  background-image: none;
+  border: 0;
+  box-shadow: none;
 }
 
 .panel-card h2 {
-  margin: 0 0 0.4rem;
-  font-size: 1.03rem;
+  margin: 0 0 0.55rem;
+  font-size: var(--gc-fs-h2);
+  letter-spacing: var(--gc-tracking-label);
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--gc-rule);
 }
 
 .panel-subtle {
   margin: 0.18rem 0;
-  color: #3f2f22;
+  color: var(--gc-ink-muted);
 }
 
 .panel-small-heading {
   margin-top: 0.8rem;
   margin-bottom: 0.25rem;
-  font-size: 0.77rem;
+  font-size: var(--gc-fs-h3);
+  letter-spacing: var(--gc-tracking-caps);
+  color: var(--gc-ink-faint);
 }
 
 .panel-list {
@@ -81,15 +142,15 @@
 
 .budget-net {
   margin: 0.75rem 0 0;
-  font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, serif;
+  font-family: var(--gc-font-display);
 }
 
 .budget-net.positive {
-  color: #234620;
+  color: var(--gc-positive);
 }
 
 .budget-net.negative {
-  color: #6a241f;
+  color: var(--gc-danger);
 }
 
 .bankruptcy-pill {
@@ -116,6 +177,7 @@
 
 .slider-grid input[type='range'] {
   width: 100%;
+  accent-color: var(--gc-wax);
 }
 
 .trace-value-wrap {
@@ -202,11 +264,12 @@
 }
 
 .production-build-actions button {
-  border: 1px solid rgba(67, 49, 35, 0.25);
-  background: rgba(240, 227, 201, 0.9);
-  border-radius: 999px;
+  border: 1px solid var(--gc-border);
+  background: rgba(247, 237, 214, 0.9);
+  border-radius: var(--gc-radius-sm);
   padding: 0.15rem 0.5rem;
   font-size: 0.72rem;
+  color: var(--gc-ink);
 }
 
 .production-build-actions button:disabled {
@@ -255,11 +318,11 @@
 }
 
 .diplo-controls select {
-  border: 1px solid rgba(72, 49, 35, 0.24);
-  border-radius: 7px;
-  background: rgba(242, 229, 201, 0.92);
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius-sm);
+  background: rgba(252, 245, 228, 0.92);
   padding: 0.22rem 0.35rem;
-  color: #2f2219;
+  color: var(--gc-ink);
 }
 
 .diplo-action-row {
@@ -271,11 +334,12 @@
 
 .diplo-action-row button,
 .diplo-buttons button {
-  border: 1px solid rgba(67, 49, 35, 0.25);
-  background: rgba(240, 227, 201, 0.9);
-  border-radius: 999px;
+  border: 1px solid var(--gc-border);
+  background: rgba(247, 237, 214, 0.9);
+  border-radius: var(--gc-radius-sm);
   padding: 0.16rem 0.52rem;
   font-size: 0.72rem;
+  color: var(--gc-ink);
 }
 
 .diplo-action-row button:disabled,
@@ -339,11 +403,11 @@
 .mil-grid select,
 .mil-grid input,
 .mil-label select {
-  border: 1px solid rgba(72, 49, 35, 0.24);
-  border-radius: 7px;
-  background: rgba(242, 229, 201, 0.92);
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius-sm);
+  background: rgba(252, 245, 228, 0.92);
   padding: 0.22rem 0.35rem;
-  color: #2f2219;
+  color: var(--gc-ink);
 }
 
 .mil-actions {
@@ -353,11 +417,12 @@
 }
 
 .mil-actions button {
-  border: 1px solid rgba(67, 49, 35, 0.25);
-  background: rgba(240, 227, 201, 0.9);
-  border-radius: 999px;
+  border: 1px solid var(--gc-border);
+  background: rgba(247, 237, 214, 0.9);
+  border-radius: var(--gc-radius-sm);
   padding: 0.16rem 0.52rem;
   font-size: 0.72rem;
+  color: var(--gc-ink);
 }
 
 .mil-list li {
@@ -436,7 +501,7 @@
     border: 0;
     padding: 0;
     margin: 0;
-    background: rgba(18, 13, 9, 0.24);
+    background: var(--gc-overlay-soft);
     touch-action: manipulation;
   }
 
@@ -449,30 +514,26 @@
     max-height: min(70vh, calc(100vh - env(safe-area-inset-top) - 8.75rem));
     pointer-events: none;
     z-index: 18;
+    border-radius: var(--gc-radius-lg);
   }
 
-  .panel-host .panel-card {
-    position: relative;
+  .panel-host__chrome,
+  .panel-host__body {
     pointer-events: auto;
-    max-height: inherit;
-    overflow-y: auto;
-    border-radius: 16px;
-    padding: 1rem;
-    padding-top: 2.9rem;
   }
 
   .panel-host__close {
-    display: inline-flex;
-    position: absolute;
-    top: 0.5rem;
-    right: 0.6rem;
-    z-index: 1;
-    align-items: center;
-    justify-content: center;
     min-width: 44px;
     min-height: 44px;
     padding: 0.25rem 0.85rem;
     font-size: 0.84rem;
+  }
+
+  .panel-host .panel-card {
+    position: relative;
+    max-height: none;
+    overflow: visible;
+    padding: 0.85rem 1rem 1rem;
   }
 
   .panel-card h2 {

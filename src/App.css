@@ -1,7 +1,10 @@
 .app-shell {
   position: fixed;
   inset: 0;
-  background: #e8dcc0;
+  background:
+    var(--gc-vignette),
+    radial-gradient(ellipse at 30% 20%, rgba(255, 248, 230, 0.35), transparent 55%),
+    var(--gc-sea);
 }
 
 .hud-layer {
@@ -13,88 +16,148 @@
 .loading-veil {
   position: absolute;
   inset: 0;
-  background: rgba(32, 24, 16, 0.42);
-  color: #f8edd6;
+  background: var(--gc-overlay);
+  color: var(--gc-parchment-warm);
   display: grid;
   place-content: center;
   text-align: center;
-  gap: 0.35rem;
-  letter-spacing: 0.04em;
+  gap: var(--gc-space-2);
+  letter-spacing: var(--gc-tracking-label);
+  z-index: 50;
 }
 
 .loading-veil h1 {
-  font-size: 2rem;
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-h1);
   margin: 0;
+  letter-spacing: var(--gc-tracking-caps);
+  text-transform: uppercase;
 }
 
 .loading-veil p {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--gc-fs-body);
+  color: rgba(247, 237, 214, 0.88);
 }
 
 .map-loading {
   position: absolute;
   inset: 0;
-  background: #ddcfb1;
+  background:
+    var(--gc-vignette),
+    var(--gc-sea);
 }
 
 .menu-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(27, 17, 10, 0.52);
+  background:
+    radial-gradient(ellipse at center, rgba(40, 26, 16, 0.35), var(--gc-overlay)),
+    var(--gc-overlay);
   display: grid;
   place-items: center;
   z-index: 20;
+  padding: var(--gc-space-4);
 }
 
 .menu-card {
-  width: min(28rem, calc(100vw - 2rem));
-  border-radius: 14px;
-  padding: 1rem 1.1rem;
+  width: min(30rem, calc(100vw - 2rem));
+  border-radius: var(--gc-radius-lg);
+  padding: var(--gc-space-5) var(--gc-space-4);
   display: grid;
-  gap: 0.5rem;
+  gap: var(--gc-space-3);
+  position: relative;
+}
+
+.menu-card::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: calc(var(--gc-radius-lg) - 4px);
+  pointer-events: none;
 }
 
 .menu-card h1 {
   margin: 0;
-  font-size: 1.6rem;
+  font-size: clamp(1.75rem, 4vw, 2.15rem);
+  text-align: center;
+  letter-spacing: 0.12em;
 }
 
-.menu-card p {
+.menu-card > p {
   margin: 0;
+  text-align: center;
+  color: var(--gc-ink-muted);
+  font-size: var(--gc-fs-body);
 }
 
 .menu-card label {
   display: grid;
-  gap: 0.22rem;
-  font-size: 0.86rem;
+  gap: var(--gc-space-1);
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-h3);
+  letter-spacing: var(--gc-tracking-caps);
+  text-transform: uppercase;
+  color: var(--gc-ink-muted);
 }
 
 .menu-card select,
 .menu-card input {
-  border: 1px solid rgba(72, 49, 35, 0.24);
-  border-radius: 7px;
-  background: rgba(242, 229, 201, 0.92);
-  padding: 0.38rem 0.45rem;
-  color: #2f2219;
+  font-family: var(--gc-font-body);
+  font-size: var(--gc-fs-body);
+  text-transform: none;
+  letter-spacing: normal;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius-sm);
+  background: rgba(252, 245, 228, 0.92);
+  padding: 0.45rem 0.55rem;
+  color: var(--gc-ink);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset;
+}
+
+.menu-card select:focus,
+.menu-card input:focus {
+  outline: 2px solid rgba(122, 46, 36, 0.35);
+  outline-offset: 1px;
 }
 
 .menu-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--gc-space-2);
+  justify-content: center;
+  margin-top: var(--gc-space-1);
 }
 
 .menu-actions button {
-  border: 1px solid rgba(67, 49, 35, 0.25);
-  background: rgba(240, 227, 201, 0.9);
-  border-radius: 999px;
-  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--gc-border);
+  background: rgba(247, 237, 214, 0.9);
+  border-radius: var(--gc-radius-sm);
+  padding: 0.45rem 0.9rem;
+  color: var(--gc-ink);
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: 0 1px 0 rgba(255, 248, 230, 0.5) inset;
+}
+
+.menu-actions button[data-testid='menu-new-game'] {
+  border-color: var(--gc-accent-deep);
+  background: linear-gradient(180deg, var(--gc-wax-highlight), var(--gc-wax));
+  color: #f8efe2;
+  box-shadow:
+    0 1px 0 rgba(255, 220, 200, 0.22) inset,
+    0 2px 6px rgba(60, 20, 14, 0.28);
+}
+
+.menu-actions button:hover {
+  filter: brightness(1.04);
 }
 
 .menu-share-status {
   margin: 0;
-  font-size: 0.78rem;
-  color: #5a4634;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-faint);
   word-break: break-all;
+  text-align: center;
 }
