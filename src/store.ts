@@ -2,11 +2,12 @@
  * UI-side state (Zustand). Holds the latest read-only snapshot from the sim
  * plus pure UI state (selected province, open panel, mapmode). The store NEVER
  * mutates the world — all changes go out as Commands via `sendCommand` on a
- * SimTransport (WorkerTransport in SP; SocketTransport in MP-M1).
+ * SimTransport (WorkerTransport in SP; SocketTransport / LobbyClient in MP).
  */
 
 import { create } from 'zustand';
 import type { SimTransport } from './net/transport';
+import type { LobbyPlayerInfo, SessionMode } from './net/sessionProtocol';
 import type {
   Command, GameData, NationDetail, NationId, ProvinceDetail, ProvinceId, SaveSlotInfo, WorldSnapshot,
 } from './shared/types';
@@ -47,12 +48,29 @@ interface UIState {
   saveSlots: SaveSlotInfo[];
   saveStatus: { action: 'save' | 'load' | 'autosave'; slot: string; ok: boolean; msg: string } | null;
   showMainMenu: boolean;
+  /** Multiplayer lobby browser / session room (MP-M2). */
+  showLobby: boolean;
   alerts: UiAlert[];
   muteAudio: boolean;
+
+  /** True when connected via SocketTransport / LobbyClient (not WorkerTransport). */
+  multiplayer: boolean;
+  mpSessionId: string | null;
+  mpMode: SessionMode | null;
+  mpIsLeader: boolean;
+  mpPlayers: LobbyPlayerInfo[];
 
   transport: SimTransport | null;
 
   setTransport: (t: SimTransport) => void;
+  setShowLobby: (visible: boolean) => void;
+  setMultiplayerMeta: (meta: {
+    multiplayer: boolean;
+    sessionId?: string | null;
+    mode?: SessionMode | null;
+    isLeader?: boolean;
+    players?: LobbyPlayerInfo[];
+  }) => void;
   onSnapshot: (s: WorldSnapshot) => void;
   onData: (d: GameData) => void;
   onProvinceDetail: (d: ProvinceDetail) => void;
@@ -88,11 +106,25 @@ export const useStore = create<UIState>((set, get) => ({
   saveSlots: [],
   saveStatus: null,
   showMainMenu: true,
+  showLobby: false,
   alerts: [],
   muteAudio: true,
+  multiplayer: false,
+  mpSessionId: null,
+  mpMode: null,
+  mpIsLeader: false,
+  mpPlayers: [],
   transport: null,
 
   setTransport: (t) => set({ transport: t }),
+  setShowLobby: (visible) => set({ showLobby: visible }),
+  setMultiplayerMeta: (meta) => set((state) => ({
+    multiplayer: meta.multiplayer,
+    mpSessionId: meta.sessionId !== undefined ? meta.sessionId : state.mpSessionId,
+    mpMode: meta.mode !== undefined ? meta.mode : state.mpMode,
+    mpIsLeader: meta.isLeader !== undefined ? meta.isLeader : state.mpIsLeader,
+    mpPlayers: meta.players !== undefined ? meta.players : state.mpPlayers,
+  })),
   onSnapshot: (s) => set((state) => {
     const ALERT_FEED_CAP = 18;
     const alerts = state.alerts.slice();
@@ -330,13 +362,26 @@ export const useStore = create<UIState>((set, get) => ({
   setShowMainMenu: (visible) => set({ showMainMenu: visible }),
   setMuteAudio: (mute) => set({ muteAudio: mute }),
 
-  sendCommand: (cmd) => get().transport?.send({ t: 'command', cmd }),
+  sendCommand: (cmd) => {
+    const state = get();
+    // Privacy: never allow switching player nation over the wire in MP.
+    if (state.multiplayer && cmd.t === 'setPlayerNation') return;
+    // Speed authority is enforced server-side (leader only); UI disables controls for non-leaders.
+    state.transport?.send({ t: 'command', cmd });
+  },
   requestProvince: (id) => get().transport?.send({ t: 'requestProvince', id }),
-  requestNation: (id) => get().transport?.send({ t: 'requestNation', id }),
-  requestSaves: () => get().transport?.send({ t: 'command', cmd: { t: 'listSaves' } }),
+  requestNation: (id) => {
+    const state = get();
+    // Privacy: private nation detail only for the client's own seat.
+    if (state.multiplayer && state.snapshot && id !== state.snapshot.playerNation) return;
+    state.transport?.send({ t: 'requestNation', id });
+  },
+  requestSaves: () => {
+    if (get().multiplayer) return; // save/load disabled in MP
+    get().transport?.send({ t: 'command', cmd: { t: 'listSaves' } });
+  },
   dismissAlert: (id) => set((state) => ({ alerts: state.alerts.filter((alert) => alert.id !== id) })),
 }));
 
-if (import.meta.env.DEV) {
-  (globalThis as { __grandCenturyStore?: typeof useStore }).__grandCenturyStore = useStore;
-}
+// Exposed for Playwright / harness (SP + MP).
+(globalThis as { __grandCenturyStore?: typeof useStore }).__grandCenturyStore = useStore;

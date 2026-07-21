@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildMpUrl, parseMpHash, randomSessionId } from '../src/net/mpJoin';
+import { buildLobbyInviteUrl, buildMpUrl, parseLobbyHash, parseMpHash, randomSessionId } from '../src/net/mpJoin';
 import { resolveSocketUrl } from '../src/net/socketTransport';
 
 describe('mp join hash', () => {
@@ -19,6 +19,14 @@ describe('mp join hash', () => {
     expect(url).toContain('#/mp?');
     expect(url).toContain(`session=${id}`);
     expect(url).toContain('nation=FRA');
+  });
+
+  it('parses and builds lobby invite links', () => {
+    expect(parseLobbyHash('#/lobby?session=xyz789')).toEqual({ sessionId: 'xyz789' });
+    expect(parseLobbyHash('#/mp?session=xyz789&nation=ENG')).toBeNull();
+    const url = buildLobbyInviteUrl('xyz789', '/games/grand-century/');
+    expect(url).toContain('#/lobby?');
+    expect(url).toContain('session=xyz789');
   });
 });
 

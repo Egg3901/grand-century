@@ -1,7 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { attachTransport } from '../bootTransport';
-import { buildMpUrl, randomSessionId } from '../net/mpJoin';
-import { resolveSocketUrl, SocketTransport } from '../net/socketTransport';
 import { useStore } from '../store';
 import { buildShareUrl, copyShareLink, parseStartHash } from './permalink';
 
@@ -9,10 +6,11 @@ export function MainMenu() {
   const snapshot = useStore((state) => state.snapshot);
   const sendCommand = useStore((state) => state.sendCommand);
   const setShowMainMenu = useStore((state) => state.setShowMainMenu);
+  const setShowLobby = useStore((state) => state.setShowLobby);
+  const multiplayer = useStore((state) => state.multiplayer);
   const hashStart = useMemo(() => parseStartHash(), []);
   const [seedInput, setSeedInput] = useState(() => String(hashStart?.seed ?? snapshot?.seed ?? 1836));
   const [shareStatus, setShareStatus] = useState<string | null>(null);
-  const [mpStatus, setMpStatus] = useState<string | null>(null);
   const nations = useMemo(() => (snapshot?.nations ?? []).slice().sort((a, b) => a.name.localeCompare(b.name)), [snapshot]);
   const defaultNation = useMemo(() => {
     if (hashStart?.nationTag) {
@@ -40,6 +38,11 @@ export function MainMenu() {
     ?? 'ENG';
 
   const startGame = () => {
+    if (multiplayer) {
+      // In an active MP session, Continue just closes the menu.
+      setShowMainMenu(false);
+      return;
+    }
     const parsedSeed = Number(seedInput);
     const seed = Number.isFinite(parsedSeed) ? Math.max(1, Math.floor(parsedSeed)) : 1836;
     sendCommand({ t: 'newGame', seed, playerNation: selectedNation });
@@ -56,84 +59,81 @@ export function MainMenu() {
     window.setTimeout(() => setShareStatus(null), 3500);
   };
 
-  /** Host a multiplayer session (MP-M1 minimal — full lobby is MP-M2). */
-  const startMultiplayer = () => {
-    const parsedSeed = Number(seedInput);
-    const seed = Number.isFinite(parsedSeed) ? Math.max(1, Math.floor(parsedSeed)) : 1836;
-    const sessionId = randomSessionId();
-    const join = { sessionId, nationTag: selectedTag, seed };
-    const url = buildMpUrl(join);
-    window.location.hash = `#/mp?session=${encodeURIComponent(sessionId)}&nation=${encodeURIComponent(selectedTag)}&seed=${seed}`;
-    const transport = new SocketTransport(resolveSocketUrl(), {
-      join: { t: 'join', sessionId, nation: selectedTag, seed },
-    });
-    attachTransport(transport);
+  const openMultiplayer = () => {
     setShowMainMenu(false);
-    setMpStatus(`Session ${sessionId} — share: ${url}`);
-    window.setTimeout(() => setMpStatus(null), 12_000);
+    setShowLobby(true);
   };
 
   return (
     <div className="menu-overlay">
       <section className="menu-card atlas-panel">
         <h1 className="atlas-heading">Grand Century</h1>
-        <p>Select a nation and begin a new campaign.</p>
-        <label>
-          Nation
-          <select className="gc-select" data-testid="menu-nation-select" value={selectedNation} onChange={(event) => setSelectedNation(Number(event.target.value))}>
-            {nations.map((nation) => (
-              <option key={nation.id} value={nation.id}>
-                {nation.name} ({nation.tag})
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Seed
-          <input className="gc-input" data-testid="menu-seed-input" value={seedInput} onChange={(event) => setSeedInput(event.target.value)} />
-        </label>
+        <p>{multiplayer ? 'Multiplayer session in progress.' : 'Select a nation and begin a new campaign.'}</p>
+        {!multiplayer ? (
+          <>
+            <label>
+              Nation
+              <select className="gc-select" data-testid="menu-nation-select" value={selectedNation} onChange={(event) => setSelectedNation(Number(event.target.value))}>
+                {nations.map((nation) => (
+                  <option key={nation.id} value={nation.id}>
+                    {nation.name} ({nation.tag})
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Seed
+              <input className="gc-input" data-testid="menu-seed-input" value={seedInput} onChange={(event) => setSeedInput(event.target.value)} />
+            </label>
+          </>
+        ) : null}
         <div className="menu-actions">
-          <button
-            type="button"
-            className="btn btn--primary"
-            data-testid="menu-new-game"
-            onClick={startGame}
-          >
-            New Game
-          </button>
+          {!multiplayer ? (
+            <button
+              type="button"
+              className="btn btn--primary"
+              data-testid="menu-new-game"
+              onClick={startGame}
+            >
+              New Game
+            </button>
+          ) : null}
           <button type="button" className="btn btn--secondary" onClick={() => setShowMainMenu(false)}>
             Continue
           </button>
-          <button
-            type="button"
-            className="btn btn--ghost"
-            data-testid="menu-replay-tutorial"
-            onClick={() => {
-              window.dispatchEvent(new CustomEvent('gc:replay-tutorial'));
-              setShowMainMenu(false);
-            }}
-          >
-            Replay Tutorial
-          </button>
-          <button
-            type="button"
-            className="btn btn--ghost"
-            data-testid="menu-copy-share"
-            onClick={() => { void onCopyShare(); }}
-          >
-            Copy share link
-          </button>
-          <button
-            type="button"
-            className="btn btn--secondary"
-            data-testid="menu-multiplayer"
-            onClick={startMultiplayer}
-          >
-            Multiplayer
-          </button>
+          {!multiplayer ? (
+            <>
+              <button
+                type="button"
+                className="btn btn--ghost"
+                data-testid="menu-replay-tutorial"
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('gc:replay-tutorial'));
+                  setShowMainMenu(false);
+                }}
+              >
+                Replay Tutorial
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost"
+                data-testid="menu-copy-share"
+                onClick={() => { void onCopyShare(); }}
+              >
+                Copy share link
+              </button>
+              <button
+                type="button"
+                className="btn btn--secondary"
+                data-testid="menu-multiplayer"
+                onClick={openMultiplayer}
+              >
+                Multiplayer
+              </button>
+            </>
+          ) : null}
         </div>
         {shareStatus ? <p className="menu-share-status" data-testid="menu-share-status">{shareStatus}</p> : null}
-        {mpStatus ? <p className="menu-share-status" data-testid="menu-mp-status">{mpStatus}</p> : null}
       </section>
     </div>
   );

@@ -90,17 +90,26 @@ test('two clients share one multiplayer world', async () => {
   expect(metaA?.tag).toBe('ENG');
   expect(metaB?.tag).toBe('FRA');
 
-  // Leader (first joiner = ENG / pageA) advances time, then pauses for a stable compare.
+  // Also fix M1 e2e: while running, don't require exact day equality mid-flight
   await sendCommand(pageA, { t: 'setSpeed', speed: 5 });
   await expect.poll(async () => {
     const [a, b] = await Promise.all([readDay(pageA), readDay(pageB)]);
-    return a > dayA0 && b > dayB0 && a === b;
+    return a > dayA0 && b > dayB0;
   }, { timeout: 20_000 }).toBe(true);
 
   await sendCommand(pageA, { t: 'setSpeed', speed: 0 });
   await expect.poll(async () => {
-    const [a, b] = await Promise.all([readDay(pageA), readDay(pageB)]);
-    return a === b;
+    const speeds = await Promise.all([
+      pageA.evaluate(() => {
+        const s = (globalThis as { __grandCenturyStore?: { getState: () => { snapshot: { speed: number; day: number } | null } } }).__grandCenturyStore?.getState().snapshot;
+        return s ? { speed: s.speed, day: s.day } : null;
+      }),
+      pageB.evaluate(() => {
+        const s = (globalThis as { __grandCenturyStore?: { getState: () => { snapshot: { speed: number; day: number } | null } } }).__grandCenturyStore?.getState().snapshot;
+        return s ? { speed: s.speed, day: s.day } : null;
+      }),
+    ]);
+    return speeds[0]?.speed === 0 && speeds[1]?.speed === 0 && speeds[0]?.day === speeds[1]?.day;
   }, { timeout: 10_000 }).toBe(true);
 
   const dayShared = await readDay(pageA);

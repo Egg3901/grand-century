@@ -1,12 +1,18 @@
 /**
- * Multiplayer join permalinks — `#/mp?session=&nation=&seed=`
- * Hash-routed so they work under any BASE_URL.
+ * Multiplayer join permalinks — hash-routed so they work under any BASE_URL.
+ *
+ * - `#/mp?session=&nation=&seed=` — M1 shortcut: join/create running seat
+ * - `#/lobby?session=` — M2 invite: open lobby browser seated in that session
  */
 
 export interface MpJoinParams {
   sessionId: string;
   nationTag: string;
   seed: number;
+}
+
+export interface LobbyInviteParams {
+  sessionId: string;
 }
 
 const DEFAULT_SEED = 1836;
@@ -38,6 +44,19 @@ export function parseMpHash(hash: string = typeof window !== 'undefined' ? windo
   return { sessionId, nationTag, seed };
 }
 
+/** Read `#/lobby?session=` invite link. */
+export function parseLobbyHash(
+  hash: string = typeof window !== 'undefined' ? window.location.hash : '',
+): LobbyInviteParams | null {
+  if (!hash || hash === '#' || hash === '#/') return null;
+  const route = parseRoute(hash);
+  if (route !== 'lobby') return null;
+  const params = parseHashQuery(hash);
+  const sessionId = (params.get('session') ?? params.get('id') ?? '').trim();
+  if (!sessionId) return null;
+  return { sessionId };
+}
+
 export function buildMpUrl(
   params: MpJoinParams,
   baseUrl: string = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || '/',
@@ -49,6 +68,18 @@ export function buildMpUrl(
   query.set('nation', params.nationTag.toUpperCase());
   query.set('seed', String(params.seed));
   return `${origin}${base}#/mp?${query.toString()}`;
+}
+
+/** Invite link into the lobby room (no nation — joiner picks in UI). */
+export function buildLobbyInviteUrl(
+  sessionId: string,
+  baseUrl: string = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || '/',
+): string {
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  const query = new URLSearchParams();
+  query.set('session', sessionId);
+  return `${origin}${base}#/lobby?${query.toString()}`;
 }
 
 export function randomSessionId(): string {

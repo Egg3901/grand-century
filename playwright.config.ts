@@ -38,7 +38,7 @@ export default defineConfig({
     {
       command: 'PORT=3412 npm run server',
       url: 'http://127.0.0.1:3412',
-      reuseExistingServer: true,
+      reuseExistingServer: !process.env.CI,
       timeout: 60_000,
     },
   ],

@@ -146,3 +146,126 @@
   word-break: break-all;
   text-align: center;
 }
+
+/* Multiplayer lobby */
+.lobby-card {
+  width: min(36rem, calc(100vw - 2rem));
+  max-height: min(92vh, 52rem);
+  overflow: auto;
+}
+
+.lobby-card--room {
+  width: min(34rem, calc(100vw - 2rem));
+}
+
+.lobby-section {
+  display: grid;
+  gap: var(--gc-space-2);
+  padding-top: var(--gc-space-2);
+  border-top: 1px solid var(--gc-rule);
+}
+
+.lobby-section__title {
+  margin: 0;
+  font-size: var(--gc-fs-h3);
+  letter-spacing: var(--gc-tracking-caps);
+}
+
+.lobby-empty {
+  margin: 0;
+  font-size: var(--gc-fs-small);
+  color: var(--gc-ink-faint);
+  text-align: center;
+}
+
+.lobby-session-list,
+.lobby-player-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--gc-space-2);
+}
+
+.lobby-session-list li,
+.lobby-player-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gc-space-2);
+  padding: var(--gc-space-2) var(--gc-space-3);
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius-sm);
+  background: rgba(252, 245, 228, 0.55);
+}
+
+.lobby-player-list li.is-you {
+  border-color: var(--gc-accent);
+  background: var(--gc-accent-soft);
+}
+
+.lobby-meta {
+  display: block;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-faint);
+}
+
+.lobby-session-list strong {
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-body);
+}
+
+/* In-game presence */
+.presence-hud {
+  position: absolute;
+  top: calc(var(--gc-space-4) + 3.6rem);
+  right: var(--gc-space-4);
+  z-index: 12;
+  width: min(14rem, calc(100vw - 2rem));
+  padding: var(--gc-space-3);
+  border-radius: var(--gc-radius);
+  pointer-events: none;
+}
+
+.presence-hud .atlas-heading {
+  margin: 0;
+  font-size: var(--gc-fs-caption);
+}
+
+.presence-hud__meta {
+  margin: 0.15rem 0 0.45rem;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-faint);
+}
+
+.presence-hud ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.presence-hud li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: var(--gc-fs-small);
+}
+
+.presence-hud__seat {
+  color: var(--gc-ink-muted);
+  font-family: var(--gc-font-display);
+}
+
+@media (max-width: 720px) {
+  .presence-hud {
+    top: auto;
+    bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    right: var(--gc-space-2);
+    left: auto;
+    width: min(11.5rem, 46vw);
+    padding: var(--gc-space-2);
+  }
+}
+

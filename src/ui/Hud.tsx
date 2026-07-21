@@ -49,6 +49,8 @@ export function Hud() {
   const setShowMainMenu = useStore((state) => state.setShowMainMenu);
   const muteAudio = useStore((state) => state.muteAudio);
   const setMuteAudio = useStore((state) => state.setMuteAudio);
+  const multiplayer = useStore((state) => state.multiplayer);
+  const mpIsLeader = useStore((state) => state.mpIsLeader);
   const [mobilePanelsOpen, setMobilePanelsOpen] = useState(false);
   const [mobileMapModesOpen, setMobileMapModesOpen] = useState(false);
   const [shareHint, setShareHint] = useState<string | null>(null);
@@ -62,11 +64,18 @@ export function Hud() {
     ? `${snapshot.date.year}-${String(snapshot.date.month).padStart(2, '0')}-${String(snapshot.date.day).padStart(2, '0')}`
     : '1836-01-01';
 
+  const panels = useMemo(
+    () => (multiplayer ? PANELS.filter((p) => p.id !== 'save_load') : PANELS),
+    [multiplayer],
+  );
+  const canControlSpeed = !multiplayer || mpIsLeader;
+
   useEffect(() => {
     if (openPanel) setMobilePanelsOpen(false);
   }, [openPanel]);
 
   const setSpeed = (speed: number) => {
+    if (!canControlSpeed) return;
     const clamped = Math.max(0, Math.min(MAX_SPEED, speed));
     sendCommand({ t: 'setSpeed', speed: clamped });
   };
@@ -95,6 +104,8 @@ export function Hud() {
               type="button"
               data-testid={`speed-${speed}`}
               className={currentSpeed === speed ? 'is-active' : ''}
+              disabled={!canControlSpeed}
+              title={canControlSpeed ? undefined : 'Only the session leader may change speed'}
               onClick={() => sendCommand({ t: 'setSpeed', speed })}
             >
               {speedLabel(speed)}
@@ -131,7 +142,7 @@ export function Hud() {
       </header>
 
       <nav className="hud-rail atlas-panel" aria-label="Panels" data-coach-id="panel-rail-desktop">
-        {PANELS.map((panel) => (
+        {panels.map((panel) => (
           <button
             key={panel.id}
             type="button"
@@ -188,7 +199,7 @@ export function Hud() {
 
       {mobilePanelsOpen ? (
         <nav className="hud-mobile-panel-drawer atlas-panel" aria-label="Panel drawer" data-coach-id="panel-rail-mobile">
-          {PANELS.map((panel) => (
+          {panels.map((panel) => (
             <button
               key={panel.id}
               type="button"
