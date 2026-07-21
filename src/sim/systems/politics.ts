@@ -1,8 +1,7 @@
-import type { GameData, RebelDemand, World } from '../../shared/types';
+import type { GameData, Pop, RebelDemand, ReformDef, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
 import {
-  aggregateReformDemand,
   computeReformLegality,
   ideologyFromPop,
   isElectiveGovernment,
@@ -13,7 +12,6 @@ import {
   reformDemandForPop,
   updateMilitaryDerivedForNation,
   updateNationalLiteracyAndConsciousness,
-  updateStateUnrest,
 } from '../politics';
 
 const EPOCH_YEAR = 1820;
@@ -26,9 +24,69 @@ function currentYear(day: number): number {
   return EPOCH_YEAR + Math.floor(day / 365);
 }
 
-function pickElectionParty(world: World, data: GameData, nationId: number, rng: Rng): void {
+/** Precompute reform defs by key once per monthly tick (avoids repeated `.find`). */
+function reformsByKeyMap(data: GameData): Map<string, ReformDef> {
+  const map = new Map<string, ReformDef>();
+  for (const reform of data.reforms) map.set(reform.key, reform);
+  return map;
+}
+
+/**
+ * Bucket pops by current province owner once per month.
+ * Index is nationId → pops; empty nations get `[]`.
+ */
+function bucketPopsByNation(world: World): Pop[][] {
+  const buckets: Pop[][] = Array.from({ length: world.nations.length }, () => []);
+  for (const pop of world.pops) {
+    if (pop.size <= 0) continue;
+    const province = world.provinces[pop.provinceId];
+    if (!province) continue;
+    const owner = province.owner;
+    if (owner < 0 || owner >= buckets.length) continue;
+    buckets[owner].push(pop);
+  }
+  return buckets;
+}
+
+function aggregateReformDemandFromPops(
+  pops: Pop[],
+  nation: World['nations'][number],
+  data: GameData,
+): Map<string, number> {
+  const demand = new Map<string, number>();
+  let totalWeight = 0;
+  for (const pop of pops) {
+    if (pop.size <= 0) continue;
+    const wanted = reformDemandForPop(pop, nation, data);
+    if (!wanted) continue;
+    const weight = pop.size * (0.45 + (1 - pop.needsMet) * 0.55);
+    demand.set(wanted, (demand.get(wanted) ?? 0) + weight);
+    totalWeight += weight;
+  }
+  if (totalWeight <= 0) return demand;
+  for (const [key, value] of demand.entries()) demand.set(key, value / totalWeight);
+  return demand;
+}
+
+function pickElectionParty(
+  world: World,
+  data: GameData,
+  nationId: number,
+  rng: Rng,
+  nationPops: Pop[],
+  reformsByKey: Map<string, ReformDef>,
+): void {
   const nation = world.nations[nationId];
   if (!nation || !isElectiveGovernment(nation.government) || currentYear(world.day) < nation.nextElectionYear) return;
+  // Match prior early-exit: need at least one owned province (even if pops are empty).
+  let ownsProvince = false;
+  for (const province of world.provinces) {
+    if (province.owner === nationId) {
+      ownsProvince = true;
+      break;
+    }
+  }
+  if (!ownsProvince) return;
 
   const franchise = Math.max(0, Math.floor(nation.reforms.voting_franchise ?? 0));
   const voteTotals = new Map<string, number>();
@@ -40,13 +98,11 @@ function pickElectionParty(world: World, data: GameData, nationId: number, rng: 
     communist: 0,
     fascist: 0,
   };
-  const ownedProvinceIds = new Set(world.provinces.filter((province) => province.owner === nationId).map((province) => province.id));
-  if (ownedProvinceIds.size === 0) return;
 
   for (const party of nation.parties) voteTotals.set(party.key, rng.next() * 1e-3);
 
-  for (const pop of world.pops) {
-    if (pop.size <= 0 || !ownedProvinceIds.has(pop.provinceId)) continue;
+  for (const pop of nationPops) {
+    if (pop.size <= 0) continue;
     const franchiseWeight = popSupportsFranchise(pop.type, franchise);
     if (franchiseWeight <= 0) continue;
 
@@ -58,7 +114,7 @@ function pickElectionParty(world: World, data: GameData, nationId: number, rng: 
     for (const party of nation.parties) {
       let score = party.ideology === ideology ? 1 : 0.58;
       if (demand) {
-        const reform = data.reforms.find((candidate) => candidate.key === demand);
+        const reform = reformsByKey.get(demand);
         if (reform) {
           const next = (nation.reforms[demand] ?? 0) + 1;
           score += (party.positions[demand] ?? 0) >= next ? 0.36 : -0.14;
@@ -136,21 +192,25 @@ function driftUpperHouse(world: World, nationId: number): void {
   });
 }
 
-function applySuppressionEffects(world: World, data: GameData, nationId: number): void {
+function applySuppressionEffects(
+  world: World,
+  data: GameData,
+  nationId: number,
+  nationPops: Pop[],
+  reformsByKey: Map<string, ReformDef>,
+  demand: Map<string, number>,
+): void {
   const nation = world.nations[nationId];
-  if (!nation) return;
-  const ownedProvinceIds = new Set(world.provinces.filter((province) => province.owner === nationId).map((province) => province.id));
-  if (ownedProvinceIds.size === 0) return;
+  if (!nation || nationPops.length === 0) return;
   const suppression = politicalSuppression(nation, data);
-  const demand = aggregateReformDemand(world, data, nationId);
 
-  for (const pop of world.pops) {
-    if (pop.size <= 0 || !ownedProvinceIds.has(pop.provinceId)) continue;
+  for (const pop of nationPops) {
+    if (pop.size <= 0) continue;
     const wanted = reformDemandForPop(pop, nation, data);
     const blockedSupport = wanted ? demand.get(wanted) ?? 0 : 0;
     let deniedPressure = 0;
     if (wanted) {
-      const reform = data.reforms.find((candidate) => candidate.key === wanted);
+      const reform = reformsByKey.get(wanted);
       if (reform) {
         const next = (nation.reforms[wanted] ?? 0) + 1;
         const legality = computeReformLegality(world, data, nation, reform, next);
@@ -191,7 +251,13 @@ function dominantMinorityCultureInState(world: World, nationId: number, stateId:
   };
 }
 
-function chooseRebelDemand(world: World, data: GameData, nationId: number, stateId: number): RebelDemand {
+function chooseRebelDemand(
+  world: World,
+  data: GameData,
+  nationId: number,
+  stateId: number,
+  reformsByKey: Map<string, ReformDef>,
+): RebelDemand {
   const nation = world.nations[nationId];
   const state = world.states[stateId];
   if (!nation || !state) {
@@ -215,7 +281,7 @@ function chooseRebelDemand(world: World, data: GameData, nationId: number, state
   const topDemand = Array.from(reformPressure.entries())
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
   if (topDemand && totalWeight > 0) {
-    const reform = data.reforms.find((candidate) => candidate.key === topDemand[0]);
+    const reform = reformsByKey.get(topDemand[0]);
     if (reform) {
       const next = (nation.reforms[reform.key] ?? 0) + 1;
       const legality = computeReformLegality(world, data, nation, reform, next);
@@ -247,7 +313,12 @@ function chooseRebelDemand(world: World, data: GameData, nationId: number, state
   };
 }
 
-function spawnRebellionIfNeeded(world: World, data: GameData, nationId: number): void {
+function spawnRebellionIfNeeded(
+  world: World,
+  data: GameData,
+  nationId: number,
+  reformsByKey: Map<string, ReformDef>,
+): void {
   if (!Array.isArray(world.rebellions)) world.rebellions = [];
   if (!Number.isFinite(world.nextRebellionId)) world.nextRebellionId = 1;
   const activeRebellions = world.rebellions.filter((rebellion) => rebellion.status === 'active');
@@ -289,7 +360,7 @@ function spawnRebellionIfNeeded(world: World, data: GameData, nationId: number):
 
     const province = world.provinces[bestProvince];
     if (!province) continue;
-    const demand = chooseRebelDemand(world, data, nationId, state.id);
+    const demand = chooseRebelDemand(world, data, nationId, state.id, reformsByKey);
     const existing = world.rebellions.find((rebellion) => (
       rebellion.status === 'active'
       && rebellion.targetNation === nationId
@@ -339,14 +410,70 @@ function spawnRebellionIfNeeded(world: World, data: GameData, nationId: number):
   }
 }
 
+/** Behavior-identical to `updateStateUnrest`, but reuses pre-bucketed pops + demand. */
+function updateStateUnrestForNation(
+  world: World,
+  data: GameData,
+  nationId: number,
+  reformsByKey: Map<string, ReformDef>,
+  demand: Map<string, number>,
+): void {
+  const nation = world.nations[nationId];
+  if (!nation) return;
+  const suppression = politicalSuppression(nation, data);
+  const blockedDemand = Array.from(demand.entries()).reduce((sum, [reformKey, support]) => {
+    const reform = reformsByKey.get(reformKey);
+    if (!reform) return sum;
+    const next = Math.max(0, Math.floor(nation.reforms[reformKey] ?? 0) + 1);
+    const legality = computeReformLegality(world, data, nation, reform, next);
+    return sum + (legality.legal ? 0 : support);
+  }, 0);
+
+  for (const state of world.states) {
+    if (state.owner !== nationId) continue;
+    let unmetNeed = 0;
+    let popCount = 0;
+    let militancyTotal = 0;
+    for (const provinceId of state.provinceIds) {
+      const province = world.provinces[provinceId];
+      if (!province) continue;
+      for (const popId of province.popIds) {
+        const pop = world.pops[popId];
+        if (!pop || pop.size <= 0) continue;
+        unmetNeed += 1 - clamp(pop.needsMet, 0, 1);
+        militancyTotal += clamp(pop.militancy, 0, 10);
+        popCount += 1;
+      }
+    }
+    const unmet = popCount > 0 ? unmetNeed / popCount : 0;
+    const militancy = popCount > 0 ? militancyTotal / popCount : 0;
+    const pressure = clamp((militancy - 3.5) * 0.09 + unmet * 0.35 + suppression * 0.25 + blockedDemand * 0.45, 0, 1.4);
+    state.unrestRisk = clamp(state.unrestRisk * 0.72 + pressure * 0.4, 0, 2);
+  }
+}
+
 export function runPoliticsMonthly(world: World, data: GameData, rng: Rng): void {
+  const reformsByKey = reformsByKeyMap(data);
+  const popsByNation = bucketPopsByNation(world);
+  const demandByNation: Array<Map<string, number>> = world.nations.map((nation) => (
+    aggregateReformDemandFromPops(popsByNation[nation.id] ?? [], nation, data)
+  ));
+
   for (const nation of world.nations) {
-    pickElectionParty(world, data, nation.id, rng);
+    const nationPops = popsByNation[nation.id] ?? [];
+    pickElectionParty(world, data, nation.id, rng, nationPops, reformsByKey);
     driftUpperHouse(world, nation.id);
-    applySuppressionEffects(world, data, nation.id);
+    applySuppressionEffects(world, data, nation.id, nationPops, reformsByKey, demandByNation[nation.id] ?? new Map());
     updateNationalLiteracyAndConsciousness(world, nation.id);
     updateMilitaryDerivedForNation(world, nation.id);
   }
-  for (const nation of world.nations) updateStateUnrest(world, data, nation.id);
-  for (const nation of world.nations) spawnRebellionIfNeeded(world, data, nation.id);
+  // Re-bucket after suppression mutates militancy/consciousness (sizes unchanged; owners unchanged).
+  // Demand must reflect post-suppression pop state for unrest — recompute from same buckets
+  // (pop sizes/needsMet unchanged by suppression; reformDemandForPop uses consciousness/militancy).
+  for (const nation of world.nations) {
+    const nationPops = popsByNation[nation.id] ?? [];
+    const demand = aggregateReformDemandFromPops(nationPops, nation, data);
+    updateStateUnrestForNation(world, data, nation.id, reformsByKey, demand);
+  }
+  for (const nation of world.nations) spawnRebellionIfNeeded(world, data, nation.id, reformsByKey);
 }

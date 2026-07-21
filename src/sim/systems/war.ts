@@ -240,7 +240,7 @@ export function getGeneralPool(world: World, nationId: NationId): Leader[] {
 }
 
 export function assignGeneralToArmy(world: World, nationId: NationId, armyId: ArmyId): { ok: boolean; reason: string } {
-  const army = world.armies.find((candidate) => candidate.id === armyId);
+  const army = armiesByIdMap(world).get(armyId);
   if (!army || army.owner !== nationId || army.rebel) return { ok: false, reason: 'Army unavailable for general assignment.' };
   const pool = getGeneralPool(world, nationId);
   if (pool.length === 0) return { ok: false, reason: 'No generals available.' };
@@ -287,7 +287,22 @@ function fleetsByProvince(world: World): Map<ProvinceId, Fleet[]> {
   return byProvince;
 }
 
-function isArmyEmbarked(world: World, armyId: ArmyId): boolean {
+function armiesByIdMap(world: World): Map<ArmyId, Army> {
+  const byId = new Map<ArmyId, Army>();
+  for (const army of world.armies) byId.set(army.id, army);
+  return byId;
+}
+
+function embarkedArmyIdSet(world: World): Set<ArmyId> {
+  const embarked = new Set<ArmyId>();
+  for (const fleet of world.fleets) {
+    if (fleet.embarkedArmy >= 0) embarked.add(fleet.embarkedArmy);
+  }
+  return embarked;
+}
+
+function isArmyEmbarked(world: World, armyId: ArmyId, embarkedIds?: Set<ArmyId>): boolean {
+  if (embarkedIds) return embarkedIds.has(armyId);
   return world.fleets.some((fleet) => fleet.embarkedArmy === armyId);
 }
 
@@ -612,8 +627,8 @@ function resolveLandBattle(
   return { attackerLosses, defenderLosses, attackerBroken, defenderBroken };
 }
 
-function resolveRebelCombat(world: World, rng: Rng, provinceId: ProvinceId): void {
-  const armies = world.armies.filter((army) => army.location === provinceId);
+function resolveRebelCombat(world: World, rng: Rng, provinceId: ProvinceId, armiesAtProvince?: Army[]): void {
+  const armies = armiesAtProvince ?? world.armies.filter((army) => army.location === provinceId);
   const rebels = armies.filter((army) => army.rebel);
   if (rebels.length === 0) return;
   for (const rebel of rebels) {
@@ -633,7 +648,15 @@ function resolveRebelCombat(world: World, rng: Rng, provinceId: ProvinceId): voi
   }
 }
 
-function resolveFleetBattle(world: World, rng: Rng, _war: War, location: ProvinceId, attackerFleets: Fleet[], defenderFleets: Fleet[]): { attackerLosses: number; defenderLosses: number } {
+function resolveFleetBattle(
+  world: World,
+  rng: Rng,
+  _war: War,
+  location: ProvinceId,
+  attackerFleets: Fleet[],
+  defenderFleets: Fleet[],
+  armiesById: Map<ArmyId, Army>,
+): { attackerLosses: number; defenderLosses: number } {
   const attackerPower = attackerFleets.reduce((sum, fleet) => sum + fleetCombatPower(fleet), 0);
   const defenderPower = defenderFleets.reduce((sum, fleet) => sum + fleetCombatPower(fleet), 0);
   if (attackerPower <= 0 || defenderPower <= 0) return { attackerLosses: 0, defenderLosses: 0 };
@@ -675,7 +698,7 @@ function resolveFleetBattle(world: World, rng: Rng, _war: War, location: Provinc
   for (const fleet of attackerFleets) {
     if (fleet.ships.length > 0) continue;
     if (fleet.embarkedArmy >= 0) {
-      const embarked = world.armies.find((army) => army.id === fleet.embarkedArmy);
+      const embarked = armiesById.get(fleet.embarkedArmy);
       if (embarked) embarked.regiments = [];
     }
     fleet.embarkedArmy = -1;
@@ -684,7 +707,7 @@ function resolveFleetBattle(world: World, rng: Rng, _war: War, location: Provinc
   for (const fleet of defenderFleets) {
     if (fleet.ships.length > 0) continue;
     if (fleet.embarkedArmy >= 0) {
-      const embarked = world.armies.find((army) => army.id === fleet.embarkedArmy);
+      const embarked = armiesById.get(fleet.embarkedArmy);
       if (embarked) embarked.regiments = [];
     }
     fleet.embarkedArmy = -1;
@@ -694,10 +717,10 @@ function resolveFleetBattle(world: World, rng: Rng, _war: War, location: Provinc
   return { attackerLosses, defenderLosses };
 }
 
-function updateArmyMovement(world: World): void {
+function updateArmyMovement(world: World, embarkedIds: Set<ArmyId>): void {
   for (const army of world.armies) {
     if (army.regiments.length <= 0) continue;
-    if (isArmyEmbarked(world, army.id)) continue;
+    if (isArmyEmbarked(world, army.id, embarkedIds)) continue;
     if (army.moveTarget < 0) continue;
     const province = world.provinces[army.location];
     const target = world.provinces[army.moveTarget];
@@ -716,7 +739,7 @@ function updateArmyMovement(world: World): void {
   }
 }
 
-function updateFleetMovement(world: World): void {
+function updateFleetMovement(world: World, armiesById: Map<ArmyId, Army>): void {
   for (const fleet of world.fleets) {
     if (fleet.ships.length <= 0) continue;
     if (fleet.moveTarget < 0) continue;
@@ -734,7 +757,7 @@ function updateFleetMovement(world: World): void {
       fleet.moveTarget = -1;
       fleet.moveProgress = 0;
       if (fleet.embarkedArmy >= 0) {
-        const embarked = world.armies.find((army) => army.id === fleet.embarkedArmy);
+        const embarked = armiesById.get(fleet.embarkedArmy);
         if (embarked) embarked.location = fleet.location;
       }
     }
@@ -823,12 +846,11 @@ function calculateCapitalScore(world: World, war: War): number {
   return score;
 }
 
-function calculateBlockadeScore(world: World, war: War): number {
+function calculateBlockadeScore(world: World, war: War, fleetsByProv: Map<ProvinceId, Fleet[]>): number {
   let score = 0;
-  const fleets = fleetsByProvince(world);
   for (const province of world.provinces) {
     if (!province.coastal) continue;
-    const localFleets = fleets.get(province.id) ?? [];
+    const localFleets = fleetsByProv.get(province.id) ?? [];
     if (localFleets.length === 0) continue;
     const attackerPower = localFleets
       .filter((fleet) => war.attackers.includes(fleet.owner))
@@ -842,12 +864,12 @@ function calculateBlockadeScore(world: World, war: War): number {
   return score;
 }
 
-function updateWarScores(world: World): void {
+function updateWarScores(world: World, fleetsByProv: Map<ProvinceId, Fleet[]>): void {
   const runtime = ensureRuntime(world);
   for (const war of world.wars) {
     const occupation = calculateOccupationScore(world, war);
     const capital = calculateCapitalScore(world, war);
-    const blockade = calculateBlockadeScore(world, war);
+    const blockade = calculateBlockadeScore(world, war, fleetsByProv);
     const battle = runtime.battleScoreByWar.get(war.id) ?? 0;
     const exhaustionTerm = (war.defenderExhaustion - war.attackerExhaustion) * 0.35;
     war.score = clamp(occupation + capital + blockade + battle + exhaustionTerm, -100, 100);
@@ -986,8 +1008,13 @@ export function offerPeaceTerms(
   return { ok: true, reason: `Peace enforced (${requested.length} goals).` };
 }
 
-function resolveWarBattles(world: World, rng: Rng): void {
-  const byProvince = armiesByProvince(world);
+function resolveWarBattles(
+  world: World,
+  rng: Rng,
+  byProvince: Map<ProvinceId, Army[]>,
+  fleetsByProv: Map<ProvinceId, Fleet[]>,
+  armiesById: Map<ArmyId, Army>,
+): void {
   for (const war of world.wars) {
     let attackerCasualties = 0;
     let defenderCasualties = 0;
@@ -1004,11 +1031,11 @@ function resolveWarBattles(world: World, rng: Rng): void {
       addBattleScore(world, war.id, clamp(delta, -1.5, 1.5));
     }
 
-    for (const [provinceId, fleets] of fleetsByProvince(world).entries()) {
+    for (const [provinceId, fleets] of fleetsByProv.entries()) {
       const attackerFleets = fleets.filter((fleet) => war.attackers.includes(fleet.owner) && fleet.ships.length > 0);
       const defenderFleets = fleets.filter((fleet) => war.defenders.includes(fleet.owner) && fleet.ships.length > 0);
       if (attackerFleets.length === 0 || defenderFleets.length === 0) continue;
-      const result = resolveFleetBattle(world, rng, war, provinceId, attackerFleets, defenderFleets);
+      const result = resolveFleetBattle(world, rng, war, provinceId, attackerFleets, defenderFleets, armiesById);
       attackerCasualties += result.attackerLosses;
       defenderCasualties += result.defenderLosses;
       addBattleScore(world, war.id, clamp((result.defenderLosses - result.attackerLosses) * 0.01, -1.2, 1.2));
@@ -1018,11 +1045,10 @@ function resolveWarBattles(world: World, rng: Rng): void {
     war.defenderExhaustion = clamp(war.defenderExhaustion + 0.025 + defenderCasualties * 0.00028, 0, 100);
   }
 
-  for (const provinceId of byProvince.keys()) resolveRebelCombat(world, rng, provinceId);
+  for (const [provinceId, armies] of byProvince.entries()) resolveRebelCombat(world, rng, provinceId, armies);
 }
 
-function updateSieges(world: World): void {
-  const byProvince = armiesByProvince(world);
+function updateSieges(world: World, byProvince: Map<ProvinceId, Army[]>): void {
   const enemyMap = warEnemyMap(world);
   for (const [provinceId, armies] of byProvince.entries()) {
     const province = world.provinces[provinceId];
@@ -1077,10 +1103,10 @@ function updateSieges(world: World): void {
   }
 }
 
-function updateSupplyAndAttrition(world: World): void {
+function updateSupplyAndAttrition(world: World, embarkedIds: Set<ArmyId>): void {
   for (const army of world.armies) {
     if (army.regiments.length === 0 || army.rebel) continue;
-    if (isArmyEmbarked(world, army.id)) continue;
+    if (isArmyEmbarked(world, army.id, embarkedIds)) continue;
     reinforceArmy(world, army);
     if (!isSupplied(world, army.owner, army.location)) applyUnsuppliedAttrition(army);
     cleanupArmy(army);
@@ -1256,8 +1282,9 @@ export function demobilizeNation(world: World, nationId: NationId): void {
   const runtime = ensureRuntime(world);
   runtime.mobilizedNations.delete(nationId);
   const ids = mobilizedSetFor(runtime, nationId);
+  const byId = armiesByIdMap(world);
   for (const armyId of ids) {
-    const army = world.armies.find((candidate) => candidate.id === armyId);
+    const army = byId.get(armyId);
     if (!army) continue;
     for (const regiment of army.regiments) {
       const source = popById(world, regiment.sourcePop);
@@ -1270,8 +1297,10 @@ export function demobilizeNation(world: World, nationId: NationId): void {
 }
 
 export function canEmbarkArmy(world: World, fleetId: FleetId, armyId: ArmyId): { ok: boolean; reason: string } {
-  const fleet = world.fleets.find((candidate) => candidate.id === fleetId);
-  const army = world.armies.find((candidate) => candidate.id === armyId);
+  const fleetsById = new Map(world.fleets.map((fleet) => [fleet.id, fleet]));
+  const armiesById = armiesByIdMap(world);
+  const fleet = fleetsById.get(fleetId);
+  const army = armiesById.get(armyId);
   if (!fleet || !army) return { ok: false, reason: 'Fleet or army missing.' };
   if (fleet.owner !== army.owner) return { ok: false, reason: 'Fleet and army must share owner.' };
   if (fleet.location !== army.location) return { ok: false, reason: 'Fleet and army must be in same province.' };
@@ -1313,7 +1342,7 @@ export function hasNavalSupremacyForLanding(world: World, nationId: NationId, ta
 export function disembarkFromFleet(world: World, fleetId: FleetId, targetProvinceId: ProvinceId): { ok: boolean; reason: string } {
   const fleet = world.fleets.find((candidate) => candidate.id === fleetId);
   if (!fleet || fleet.embarkedArmy < 0) return { ok: false, reason: 'No embarked army on this fleet.' };
-  const army = world.armies.find((candidate) => candidate.id === fleet.embarkedArmy);
+  const army = armiesByIdMap(world).get(fleet.embarkedArmy);
   const target = world.provinces[targetProvinceId];
   const seaProvince = world.provinces[fleet.location];
   if (!army || !target || !seaProvince) return { ok: false, reason: 'Invalid disembark target.' };
@@ -1333,13 +1362,14 @@ export function disembarkFromFleet(world: World, fleetId: FleetId, targetProvinc
 
 function updateMobilizationUpkeep(world: World): void {
   const runtime = ensureRuntime(world);
+  const byId = armiesByIdMap(world);
   for (const nationId of runtime.mobilizedNations) {
     const nation = world.nations[nationId];
     if (!nation) continue;
     const armyIds = mobilizedSetFor(runtime, nationId);
     let mobilizedRegiments = 0;
     for (const armyId of armyIds) {
-      const army = world.armies.find((candidate) => candidate.id === armyId);
+      const army = byId.get(armyId);
       if (!army) continue;
       mobilizedRegiments += army.regiments.length;
     }
@@ -1613,24 +1643,32 @@ export function runWarDaily(world: World, data: GameData, rng: Rng): void {
     }
     if (world.day % 30 !== 0) return;
     const byProvince = armiesByProvince(world);
-    for (const provinceId of byProvince.keys()) resolveRebelCombat(world, rng, provinceId);
+    for (const [provinceId, armies] of byProvince.entries()) resolveRebelCombat(world, rng, provinceId, armies);
     updateRebellions(world, data);
     cleanupDestroyedForces(world);
     capRebelArmies(world);
     for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id);
     return;
   }
-  updateArmyMovement(world);
-  updateFleetMovement(world);
-  updateSupplyAndAttrition(world);
-  resolveWarBattles(world, rng);
-  updateSieges(world);
+  const armiesById = armiesByIdMap(world);
+  const embarkedIds = embarkedArmyIdSet(world);
+  updateArmyMovement(world, embarkedIds);
+  updateFleetMovement(world, armiesById);
+  // Rebuild location indexes after movement for battles / sieges / scores.
+  const byProvince = armiesByProvince(world);
+  const fleetsByProv = fleetsByProvince(world);
+  const embarkedAfterMove = embarkedArmyIdSet(world);
+  updateSupplyAndAttrition(world, embarkedAfterMove);
+  resolveWarBattles(world, rng, byProvince, fleetsByProv, armiesById);
+  // Battles can retreat armies — rebuild province index before sieges.
+  const byProvinceAfterBattle = armiesByProvince(world);
+  updateSieges(world, byProvinceAfterBattle);
   updateMobilizationUpkeep(world);
   updateColonialClaims(world);
   if ((world.rebellions?.length ?? 0) > 0 && world.day % 3 === 0) updateRebellions(world, data);
   cleanupDestroyedForces(world);
   capRebelArmies(world);
-  updateWarScores(world);
+  updateWarScores(world, fleetsByProv);
   maybeAutoPeace(world);
   normalizeWarPostPeace(world);
 }

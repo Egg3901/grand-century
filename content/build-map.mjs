@@ -471,6 +471,45 @@ function roundCoord(value) {
   return Math.round(value * 1_000_000) / 1_000_000;
 }
 
+/** Display-only coordinate quantize for shipped GeoJSON (~3 decimals ≈ 111m). */
+const GEOJSON_EXPORT_DECIMALS = 3;
+const GEOJSON_EXPORT_FACTOR = 10 ** GEOJSON_EXPORT_DECIMALS;
+
+function quantizeExportCoord(value) {
+  return Math.round(value * GEOJSON_EXPORT_FACTOR) / GEOJSON_EXPORT_FACTOR;
+}
+
+function quantizeExportGeometry(geometry) {
+  if (!geometry) return geometry;
+  if (geometry.type === 'Polygon') {
+    return {
+      type: 'Polygon',
+      coordinates: geometry.coordinates.map((ring) => ring.map((pt) => [quantizeExportCoord(pt[0]), quantizeExportCoord(pt[1])])),
+    };
+  }
+  if (geometry.type === 'MultiPolygon') {
+    return {
+      type: 'MultiPolygon',
+      coordinates: geometry.coordinates.map((poly) => (
+        poly.map((ring) => ring.map((pt) => [quantizeExportCoord(pt[0]), quantizeExportCoord(pt[1])]))
+      )),
+    };
+  }
+  if (geometry.type === 'LineString') {
+    return {
+      type: 'LineString',
+      coordinates: geometry.coordinates.map((pt) => [quantizeExportCoord(pt[0]), quantizeExportCoord(pt[1])]),
+    };
+  }
+  if (geometry.type === 'MultiLineString') {
+    return {
+      type: 'MultiLineString',
+      coordinates: geometry.coordinates.map((line) => line.map((pt) => [quantizeExportCoord(pt[0]), quantizeExportCoord(pt[1])])),
+    };
+  }
+  return geometry;
+}
+
 function ensureClosedRing(ring) {
   if (ring.length === 0) return ring;
   const first = ring[0];
@@ -2487,7 +2526,8 @@ function compactGeojson(provinces) {
         id: province.id,
         n: province.name,
       },
-      geometry: province.geometry,
+      // Quantize only the shipped map geometry — worldSeed lon/lat/neighbors stay full-precision.
+      geometry: quantizeExportGeometry(province.geometry),
     })),
   };
 }
@@ -2592,7 +2632,14 @@ async function main() {
   };
 
   await writeFile(path.join(OUT_DIR, 'provinces.geo.json'), `${JSON.stringify(geojson)}\n`, 'utf8');
-  await writeFile(path.join(OUT_DIR, 'nationalBorders.geo.json'), `${JSON.stringify(nationalBorders)}\n`, 'utf8');
+  const nationalBordersExport = {
+    type: 'FeatureCollection',
+    features: nationalBorders.features.map((feat) => ({
+      ...feat,
+      geometry: quantizeExportGeometry(feat.geometry),
+    })),
+  };
+  await writeFile(path.join(OUT_DIR, 'nationalBorders.geo.json'), `${JSON.stringify(nationalBordersExport)}\n`, 'utf8');
   await writeFile(path.join(OUT_DIR, 'worldSeed.json'), `${JSON.stringify(worldSeed)}\n`, 'utf8');
 
   const chinaCount = provinceRecords.filter((province) => (

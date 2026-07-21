@@ -355,8 +355,7 @@ function warObjectiveProvinces(world: World, nationId: NationId, enemies: Set<Na
   return Array.from(objectives).sort((a, b) => a - b);
 }
 
-function armyReadiness(world: World, armyId: number): { avgOrg: number; avgStrength: number } {
-  const army = world.armies.find((candidate) => candidate.id === armyId);
+function armyReadiness(army: { regiments: Array<{ organization: number; strength: number }> } | null | undefined): { avgOrg: number; avgStrength: number } {
   if (!army || army.regiments.length === 0) return { avgOrg: 0, avgStrength: 0 };
   let org = 0;
   let strength = 0;
@@ -378,11 +377,12 @@ function manageWarMovement(world: World, nationId: NationId): void {
   const capital = nation.capital;
   const objectives = warObjectiveProvinces(world, nationId, enemies);
   const threatened = collectThreatenedHomeProvinces(world, nationId, enemies);
-  const enemyArmyProvinces = new Set<ProvinceId>(
-    world.armies
-      .filter((army) => enemies.has(army.owner) && !army.rebel && army.regiments.length > 0)
-      .map((army) => army.location),
-  );
+  const enemyArmyProvinces = new Set<ProvinceId>();
+  for (const army of world.armies) {
+    if (enemies.has(army.owner) && !army.rebel && army.regiments.length > 0) {
+      enemyArmyProvinces.add(army.location);
+    }
+  }
   let issuedMoves = 0;
 
   for (const army of world.armies) {
@@ -390,7 +390,7 @@ function manageWarMovement(world: World, nationId: NationId): void {
     if (army.moveTarget >= 0) continue;
     if (!army.leader) assignGeneralToArmy(world, nationId, army.id);
 
-    const readiness = armyReadiness(world, army.id);
+    const readiness = armyReadiness(army);
     const weak = readiness.avgOrg < BALANCE.ai.warRetreatOrgThreshold || readiness.avgStrength < BALANCE.ai.warRetreatStrengthThreshold;
     if (weak) {
       const fallback = nearestFriendlySupplyProvince(world, nationId, army.location, enemies);

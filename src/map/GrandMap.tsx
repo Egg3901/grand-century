@@ -27,7 +27,7 @@ import {
   createStippleTile,
   mixHex,
 } from './mapDecor';
-import { createSealElement, createUnitCounterElement, type SealKind } from './mapCounters';
+import { createSealElement, createUnitCounterElement } from './mapCounters';
 
 type MapLibreMap = import('maplibre-gl').Map;
 type MapLibreMarker = import('maplibre-gl').Marker;
@@ -383,10 +383,12 @@ export function GrandMap() {
   const selectedArmyRef = useRef<number | null>(selectedArmy);
   const selectedFleetRef = useRef<number | null>(selectedFleet);
   const fillRef = useRef<Map<number, string>>(new globalThis.Map());
+  const occupationRef = useRef<Map<number, string>>(new globalThis.Map());
   const prevMapModeRef = useRef<string | null>(null);
   const fadeTimerRef = useRef<number | null>(null);
   const fadeRafRef = useRef<number | null>(null);
   const markerRef = useRef<Map<string, MapLibreMarker>>(new globalThis.Map());
+  const markerSigRef = useRef<Map<string, string>>(new globalThis.Map());
   const countryLabelMarkerRef = useRef<Map<string, MapLibreMarker>>(new globalThis.Map());
   const provinceLabelMarkerRef = useRef<Map<number, MapLibreMarker>>(new globalThis.Map());
   const [geojson, setGeojson] = useState<ProvinceGeoJson | null>(null);
@@ -1251,6 +1253,8 @@ export function GrandMap() {
 
       if (stagedFills) {
         stagedFills.set(province.id, fill);
+        const occKey = `${occupationColor}|${occupationOpacity}`;
+        occupationRef.current.set(province.id, occKey);
         map.setFeatureState(
           { source: MAP_SOURCE_ID, id: province.id },
           { fillNext: fill, occupationColor, occupationOpacity },
@@ -1258,19 +1262,22 @@ export function GrandMap() {
         continue;
       }
       const prevFill = fillRef.current.get(province.id);
-      if (prevFill !== fill && !fadeInProgress) {
-        map.setFeatureState(
-          { source: MAP_SOURCE_ID, id: province.id },
-          { fill, occupationColor, occupationOpacity },
-        );
+      const occKey = `${occupationColor}|${occupationOpacity}`;
+      const prevOcc = occupationRef.current.get(province.id);
+      const fillChanged = prevFill !== fill && !fadeInProgress;
+      const occChanged = prevOcc !== occKey;
+      if (!fillChanged && !occChanged) continue;
+      const stateUpdate: Record<string, string | number> = {};
+      if (fillChanged) {
+        stateUpdate.fill = fill;
         fillRef.current.set(province.id, fill);
-      } else {
-        // Same color, or a dissolve is mid-flight (its commit writes fills).
-        map.setFeatureState(
-          { source: MAP_SOURCE_ID, id: province.id },
-          { occupationColor, occupationOpacity },
-        );
       }
+      if (occChanged) {
+        stateUpdate.occupationColor = occupationColor;
+        stateUpdate.occupationOpacity = occupationOpacity;
+        occupationRef.current.set(province.id, occKey);
+      }
+      map.setFeatureState({ source: MAP_SOURCE_ID, id: province.id }, stateUpdate);
     }
 
     if (stagedFills) {
@@ -1617,8 +1624,8 @@ export function GrandMap() {
     if (!map || !snapshot || !maplibregl) return;
 
     const allMarkers = markerRef.current;
-    for (const marker of allMarkers.values()) marker.remove();
-    allMarkers.clear();
+    const markerSigs = markerSigRef.current;
+    const keepKeys = new Set<string>();
     const movementSource = map.getSource(MAP_MOVEMENT_SOURCE) as
       | { setData: (data: object) => void }
       | undefined;
@@ -1654,7 +1661,6 @@ export function GrandMap() {
 
     const markerOffsets = (count: number): Array<[number, number]> => {
       if (count <= 1) return [[0, 0]];
-      // Heraldic tokens are taller than the 0.4.x pills — spread wider.
       const radius = count <= 2 ? 20 : count <= 4 ? 26 : 32;
       const offsets: Array<[number, number]> = [];
       for (let index = 0; index < count; index++) {
@@ -1664,47 +1670,41 @@ export function GrandMap() {
       return offsets;
     };
 
-    const registerMarker = (
+    const upsertMarker = (
       key: string,
+      signature: string,
       provinceId: number,
       el: HTMLElement,
       offset: [number, number],
       onClick: () => void,
+      lngLat?: [number, number],
     ) => {
-      const coord = provinceCoordById.get(provinceId);
+      keepKeys.add(key);
+      const existing = allMarkers.get(key);
+      if (existing && markerSigs.get(key) === signature) {
+        existing.setOffset(offset);
+        if (lngLat) existing.setLngLat(lngLat);
+        return;
+      }
+      if (existing) {
+        existing.remove();
+        allMarkers.delete(key);
+      }
+      const coord = lngLat ?? (() => {
+        const c = provinceCoordById.get(provinceId);
+        return c ? [c.lon, c.lat] as [number, number] : null;
+      })();
       if (!coord) return;
       el.addEventListener('click', (event) => {
         event.stopPropagation();
         onClick();
       });
       const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
-        .setLngLat([coord.lon, coord.lat])
+        .setLngLat(coord)
         .setOffset(offset)
         .addTo(map);
       allMarkers.set(key, marker);
-    };
-    const addSealMarker = (
-      key: string,
-      provinceId: number,
-      kind: SealKind,
-      title: string,
-      onClick: () => void,
-      offset: [number, number] = [0, 0],
-    ) => {
-      registerMarker(key, provinceId, createSealElement(kind, title), offset, onClick);
-    };
-    const addArrowMarker = (key: string, fromProvinceId: number, toProvinceId: number, color: string) => {
-      const from = provinceCoordById.get(fromProvinceId);
-      const to = provinceCoordById.get(toProvinceId);
-      if (!from || !to) return;
-      const el = document.createElement('div');
-      el.className = 'grand-map__arrow';
-      el.style.color = color;
-      el.style.transform = `rotate(${bearingDegrees(from, to)}deg)`;
-      const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
-        .setLngLat([(from.lon + to.lon) / 2, (from.lat + to.lat) / 2])
-        .addTo(map);
-      allMarkers.set(key, marker);
+      markerSigs.set(key, signature);
     };
 
     const armyStacksByProvince = new globalThis.Map<number, Array<{ owner: number; armies: typeof snapshot.armies; regiments: number; avgStrength: number }>>();
@@ -1735,8 +1735,12 @@ export function GrandMap() {
         const candidate = stack.armies.find((army) => army.owner === snapshot.playerNation) ?? stack.armies[0];
         const pct = Math.round((stack.avgStrength / 1000) * 100);
         const ownerName = snapshot.nations.find((nation) => nation.id === stack.owner)?.name ?? `${stack.owner}`;
-        registerMarker(
-          `army-${provinceId}-${stack.owner}`,
+        const key = `army-${provinceId}-${stack.owner}`;
+        const offset = offsets[index] ?? [0, 0];
+        const signature = `army|${provinceId}|${stack.owner}|${stack.regiments}|${pct}|${friendly ? 1 : 0}|${selected ? 1 : 0}|${candidate.id}|${offset[0]},${offset[1]}`;
+        upsertMarker(
+          key,
+          signature,
           provinceId,
           createUnitCounterElement({
             kind: 'army',
@@ -1747,7 +1751,7 @@ export function GrandMap() {
             selected,
             title: `${ownerName} army — ${stack.regiments} regiment${stack.regiments === 1 ? '' : 's'}, ${pct}% strength`,
           }),
-          offsets[index] ?? [0, 0],
+          offset,
           () => {
             setSelectedArmy(candidate.id);
             openPanelId('military');
@@ -1784,8 +1788,12 @@ export function GrandMap() {
         const candidate = stack.fleets.find((fleet) => fleet.owner === snapshot.playerNation) ?? stack.fleets[0];
         const pct = Math.round((stack.avgStrength / 100) * 100);
         const ownerName = snapshot.nations.find((nation) => nation.id === stack.owner)?.name ?? `${stack.owner}`;
-        registerMarker(
-          `fleet-${provinceId}-${stack.owner}`,
+        const key = `fleet-${provinceId}-${stack.owner}`;
+        const offset = offsets[index] ?? [0, 38];
+        const signature = `fleet|${provinceId}|${stack.owner}|${stack.ships}|${pct}|${friendly ? 1 : 0}|${selected ? 1 : 0}|${candidate.id}|${offset[0]},${offset[1]}`;
+        upsertMarker(
+          key,
+          signature,
           provinceId,
           createUnitCounterElement({
             kind: 'fleet',
@@ -1796,7 +1804,7 @@ export function GrandMap() {
             selected,
             title: `${ownerName} fleet — ${stack.ships} ship${stack.ships === 1 ? '' : 's'}, ${pct}% strength`,
           }),
-          offsets[index] ?? [0, 38],
+          offset,
           () => {
             setSelectedFleet(candidate.id);
             openPanelId('military');
@@ -1819,7 +1827,8 @@ export function GrandMap() {
     for (const [provinceId, armies] of armiesByProvince.entries()) {
       const owners = Array.from(new Set(armies.filter((army) => !army.rebel).map((army) => army.owner)));
       if (!hasHostilePair(owners)) continue;
-      addSealMarker(`battle-${provinceId}`, provinceId, 'battle', 'Battle underway', () => {
+      const key = `battle-${provinceId}`;
+      upsertMarker(key, key, provinceId, createSealElement('battle', 'Battle underway'), [0, 0], () => {
         openPanelId('military');
         selectProvince(provinceId);
       });
@@ -1836,26 +1845,29 @@ export function GrandMap() {
         .filter((fleet) => (enemyByNation.get(owner)?.has(fleet.owner) ?? false))
         .reduce((sum, fleet) => sum + fleet.ships.filter((ship) => ship.type !== 'transport').length, 0);
       if (hostileFleetPower <= ownerFleetPower) continue;
-      addSealMarker(`blockade-${provinceId}`, provinceId, 'blockade', 'Port under blockade', () => {
+      const key = `blockade-${provinceId}`;
+      upsertMarker(key, key, provinceId, createSealElement('blockade', 'Port under blockade'), [0, -20], () => {
         openPanelId('military');
         selectProvince(provinceId);
-      }, [0, -20]);
+      });
     }
 
     for (const province of snapshot.provinces) {
       if (province.occupation <= 0 || province.controller === province.owner) continue;
-      addSealMarker(`siege-${province.id}`, province.id, 'siege', 'Under siege', () => {
+      const key = `siege-${province.id}`;
+      upsertMarker(key, key, province.id, createSealElement('siege', 'Under siege'), [0, -26], () => {
         openPanelId('military');
         selectProvince(province.id);
-      }, [0, -26]);
+      });
     }
 
     for (const province of snapshot.provinces) {
       if (province.controller !== -1) continue;
-      addSealMarker(`rebel-${province.id}`, province.id, 'rebel', 'Rebel-held', () => {
+      const key = `rebel-${province.id}`;
+      upsertMarker(key, key, province.id, createSealElement('rebel', 'Rebel-held'), [0, -26], () => {
         openPanelId('military');
         selectProvince(province.id);
-      }, [0, -26]);
+      });
     }
 
     const movementEntries = new globalThis.Map<string, {
@@ -1892,7 +1904,13 @@ export function GrandMap() {
       const to = provinceCoordById.get(entry.to);
       if (!from || !to) return [];
       const color = ownerColorById.get(entry.owner) ?? '#4f3a2b';
-      addArrowMarker(`arrow-${entry.owner}-${entry.from}-${entry.to}-${entry.width}`, entry.from, entry.to, color);
+      const arrowKey = `arrow-${entry.owner}-${entry.from}-${entry.to}-${entry.width}`;
+      const mid: [number, number] = [(from.lon + to.lon) / 2, (from.lat + to.lat) / 2];
+      const el = document.createElement('div');
+      el.className = 'grand-map__arrow';
+      el.style.color = color;
+      el.style.transform = `rotate(${bearingDegrees(from, to)}deg)`;
+      upsertMarker(arrowKey, `${arrowKey}|${color}|${mid[0]},${mid[1]}`, entry.from, el, [0, 0], () => {}, mid);
       return [{
         type: 'Feature',
         geometry: {
@@ -1911,11 +1929,12 @@ export function GrandMap() {
       features: movementFeatures,
     });
 
-    return () => {
-      for (const marker of allMarkers.values()) marker.remove();
-      allMarkers.clear();
-      movementSource?.setData({ type: 'FeatureCollection', features: [] });
-    };
+    for (const [key, marker] of allMarkers.entries()) {
+      if (keepKeys.has(key)) continue;
+      marker.remove();
+      allMarkers.delete(key);
+      markerSigs.delete(key);
+    }
   }, [
     nationColorById,
     openPanelId,
@@ -1927,6 +1946,18 @@ export function GrandMap() {
     setSelectedFleet,
     snapshot,
   ]);
+
+  // Unmount-only teardown for unit/seal markers (diffing lives across snapshot updates).
+  useEffect(() => () => {
+    for (const marker of markerRef.current.values()) marker.remove();
+    markerRef.current.clear();
+    markerSigRef.current.clear();
+    const map = mapRef.current;
+    const movementSource = map?.getSource(MAP_MOVEMENT_SOURCE) as
+      | { setData: (data: object) => void }
+      | undefined;
+    movementSource?.setData({ type: 'FeatureCollection', features: [] });
+  }, []);
 
   useEffect(() => {
     const map = mapRef.current;
