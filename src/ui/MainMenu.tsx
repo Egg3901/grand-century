@@ -3,6 +3,12 @@ import { useStore } from '../store';
 import { buildShareUrl, copyShareLink, parseStartHash } from './permalink';
 import { NationFlag } from './components/NationFlag';
 import heroUrl from '../assets/hero.png';
+import {
+  CAMPAIGN_MAP_MODES,
+  DEFAULT_CAMPAIGN_MAP_MODE,
+  parseCampaignMapMode,
+  type CampaignMapMode,
+} from '../shared/campaignMap';
 
 function yearFromDay(day: number): number {
   return 1820 + Math.floor(day / 365);
@@ -10,6 +16,11 @@ function yearFromDay(day: number): number {
 
 function randomSeed(): number {
   return Math.floor(Math.random() * 899999) + 100000;
+}
+
+function parseSeed(raw: string): number {
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) ? Math.max(1, Math.floor(parsed)) : 1836;
 }
 
 export function MainMenu() {
@@ -21,6 +32,7 @@ export function MainMenu() {
   const saveSlots = useStore((state) => state.saveSlots);
   const hashStart = useMemo(() => parseStartHash(), []);
   const [seedInput, setSeedInput] = useState(() => String(hashStart?.seed ?? snapshot?.seed ?? 1836));
+  const [mapMode, setMapMode] = useState<CampaignMapMode>(() => parseCampaignMapMode(hashStart?.mode ?? snapshot?.mapMode));
   const [shareStatus, setShareStatus] = useState<string | null>(null);
   const [nationFilter, setNationFilter] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -77,15 +89,25 @@ export function MainMenu() {
     ? (snapshot?.nations.find((nation) => nation.id === latestSave.playerNation) ?? null)
     : null;
 
+  // Procedural previews replace the nation list — keep the selection valid.
+  useEffect(() => {
+    if (!snapshot || nations.length === 0) return;
+    if (nations.some((nation) => nation.id === selectedNation)) return;
+    setSelectedNation(snapshot.playerNation ?? nations[0]?.id ?? 0);
+  }, [snapshot, nations, selectedNation]);
+
   if (!snapshot) return null;
 
   const selectedTag = nations.find((nation) => nation.id === selectedNation)?.tag
     ?? snapshot.nations.find((nation) => nation.id === selectedNation)?.tag
     ?? 'ENG';
 
-  const parsedSeed = () => {
-    const parsed = Number(seedInput);
-    return Number.isFinite(parsed) ? Math.max(1, Math.floor(parsed)) : 1836;
+  const parsedSeed = () => parseSeed(seedInput);
+
+  const mapModeBlurb = CAMPAIGN_MAP_MODES.find((entry) => entry.id === mapMode)?.blurb ?? '';
+
+  const previewWorld = (nextMode: CampaignMapMode, nextSeed: number, playerNation = selectedNation) => {
+    sendCommand({ t: 'newGame', seed: nextSeed, playerNation, mapMode: nextMode });
   };
 
   const startGame = () => {
@@ -95,9 +117,10 @@ export function MainMenu() {
       return;
     }
     const seed = parsedSeed();
-    sendCommand({ t: 'newGame', seed, playerNation: selectedNation });
+    sendCommand({ t: 'newGame', seed, playerNation: selectedNation, mapMode });
     const tag = nations.find((nation) => nation.id === selectedNation)?.tag ?? selectedTag;
-    window.location.hash = `#/new?seed=${seed}&nation=${encodeURIComponent(tag)}`;
+    const modeQuery = mapMode === DEFAULT_CAMPAIGN_MAP_MODE ? '' : `&mode=${encodeURIComponent(mapMode)}`;
+    window.location.hash = `#/new?seed=${seed}&nation=${encodeURIComponent(tag)}${modeQuery}`;
     setShowMainMenu(false);
   };
 
@@ -109,8 +132,13 @@ export function MainMenu() {
 
   const onCopyShare = async () => {
     const seed = parsedSeed();
-    const ok = await copyShareLink({ seed, nationTag: selectedTag });
-    setShareStatus(ok ? 'Link copied.' : buildShareUrl({ seed, nationTag: selectedTag }));
+    const params = {
+      seed,
+      nationTag: selectedTag,
+      mode: mapMode === DEFAULT_CAMPAIGN_MAP_MODE ? undefined : mapMode,
+    };
+    const ok = await copyShareLink(params);
+    setShareStatus(ok ? 'Link copied.' : buildShareUrl(params));
     window.setTimeout(() => setShareStatus(null), 3500);
   };
 
@@ -206,6 +234,26 @@ export function MainMenu() {
               </button>
               {showAdvanced ? (
                 <div className="menu-advanced__body">
+                  <label>
+                    Map
+                    <select
+                      className="gc-select"
+                      data-testid="menu-map-mode-select"
+                      value={mapMode}
+                      onChange={(event) => {
+                        const next = parseCampaignMapMode(event.target.value);
+                        setMapMode(next);
+                        previewWorld(next, parsedSeed());
+                      }}
+                    >
+                      {CAMPAIGN_MAP_MODES.map((mode) => (
+                        <option key={mode.id} value={mode.id}>
+                          {mode.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <p className="menu-map-blurb" data-testid="menu-map-mode-blurb">{mapModeBlurb}</p>
                   <label>
                     Seed
                     <span className="menu-advanced__seed-row">

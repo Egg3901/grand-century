@@ -9,6 +9,8 @@ export interface SeedNation {
   capitalProvinceId: number;
   primaryCulture: string;
   coreStateIds?: number[];
+  /** Optional 1–8 rank for procedural maps (overrides historical GP tag list). */
+  greatPowerRank?: number;
 }
 
 export interface SeedFormable {

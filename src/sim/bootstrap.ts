@@ -11,9 +11,12 @@ import type {
   State,
   Terrain,
   World,
+  CampaignMapMode,
 } from '../shared/types';
 import { Rng } from './rng';
-import { WORLD_SEED } from '../data/generated';
+import { WORLD_SEED, type WorldSeedData } from '../data/generated';
+import { DEFAULT_CAMPAIGN_MAP_MODE } from '../shared/campaignMap';
+import { resolveWorldSeed } from './proceduralWorld';
 import {
   createNationParties,
   defaultRulingParty,
@@ -430,8 +433,8 @@ function nationReforms(data: GameData): Record<string, number> {
   return Object.fromEntries(data.reforms.map((reform) => [reform.key, 0]));
 }
 
-function capitalId(id: number): number {
-  if (id >= 0 && id < WORLD_SEED.provinceCount) return id;
+function capitalId(worldSeed: WorldSeedData, id: number): number {
+  if (id >= 0 && id < worldSeed.provinceCount) return id;
   return 0;
 }
 
@@ -440,8 +443,15 @@ function primaryCultureKeyFor(tag: string, seedPrimary: string): string {
   return PRIMARY_CULTURE_OVERRIDE[tag] || seedPrimary || CULTURE_BY_TAG[tag] || 'british';
 }
 
-function createNations(data: GameData): Nation[] {
-  return WORLD_SEED.nations.map((seed, id) => ({
+function gpRankFor(seed: { tag: string; greatPowerRank?: number }): number {
+  if (seed.greatPowerRank && seed.greatPowerRank > 0) return seed.greatPowerRank;
+  return GP_ORDER.includes(seed.tag) ? GP_ORDER.indexOf(seed.tag) + 1 : 0;
+}
+
+function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
+  return worldSeed.nations.map((seed, id) => {
+    const gpRank = gpRankFor(seed);
+    return {
     coreStateIds: Array.from(new Set((data.nationCores?.[seed.tag] ?? seed.coreStateIds ?? []).slice())).sort((a, b) => a - b),
     id,
     tag: seed.tag,
@@ -457,11 +467,11 @@ function createNations(data: GameData): Nation[] {
     lastElectionYear: 1816,
     nextElectionYear: isElectiveGovernment(seed.government) ? 1820 + (id % 4) : Number.MAX_SAFE_INTEGER,
     electionLastResult: 'No election held yet.',
-    capital: capitalId(seed.capitalProvinceId),
-    treasury: 2600 + (GP_ORDER.length - Math.min(GP_ORDER.length, GP_ORDER.indexOf(seed.tag) + 1 || GP_ORDER.length)) * 380,
-    prestige: GP_ORDER.includes(seed.tag) ? 25 + Math.max(0, 8 - GP_ORDER.indexOf(seed.tag)) * 5 : 6,
+    capital: capitalId(worldSeed, seed.capitalProvinceId),
+    treasury: 2600 + (gpRank > 0 ? (9 - gpRank) * 380 : 0),
+    prestige: gpRank > 0 ? 25 + Math.max(0, 8 - gpRank) * 5 : 6,
     infamy: 0,
-    literacy: seed.government === 'uncivilized' ? 0.12 : GP_ORDER.includes(seed.tag) ? 0.45 : 0.26,
+    literacy: seed.government === 'uncivilized' ? 0.12 : gpRank > 0 ? 0.45 : 0.26,
     nationalConsciousness: 1.2,
     researchPoints: 0,
     reforms: nationReforms(data),
@@ -473,12 +483,12 @@ function createNations(data: GameData): Nation[] {
     taxRateMiddle: 0.35,
     taxRateRich: 0.25,
     tariffRate: 0.1,
-    gpRank: GP_ORDER.includes(seed.tag) ? GP_ORDER.indexOf(seed.tag) + 1 : 0,
+    gpRank,
     spheredBy: -1 as NationId,
     sphereMembers: [],
     colonialPoints: 0,
     isCivilized: seed.government !== 'uncivilized',
-    isPlayer: seed.tag === 'ENG',
+    isPlayer: false,
     isBankrupt: false,
     bankruptcyMonths: 0,
     constructionBlocked: false,
@@ -493,11 +503,12 @@ function createNations(data: GameData): Nation[] {
     // 0.8.0 culture
     culturePolicy: 'assimilationist' as const,
     assimilationByCulture: {},
-  }));
+  };
+  });
 }
 
-function createStates(tagToNationId: Record<string, number>): State[] {
-  return WORLD_SEED.states.map((stateSeed) => ({
+function createStates(worldSeed: WorldSeedData, tagToNationId: Record<string, number>): State[] {
+  return worldSeed.states.map((stateSeed) => ({
     id: stateSeed.id,
     name: stateSeed.name,
     owner: tagToNationId[stateSeed.ownerTag] ?? 0,
@@ -509,12 +520,12 @@ function createStates(tagToNationId: Record<string, number>): State[] {
   }));
 }
 
-function createProvinces(rng: Rng, tagToNationId: Record<string, number>): { provinces: Province[]; runtime: ProvinceSeedRuntime[] } {
+function createProvinces(worldSeed: WorldSeedData, rng: Rng, tagToNationId: Record<string, number>): { provinces: Province[]; runtime: ProvinceSeedRuntime[] } {
   const provinces: Province[] = [];
   const runtime: ProvinceSeedRuntime[] = [];
-  const validIds = new Set(WORLD_SEED.provinces.map((province) => province.id));
+  const validIds = new Set(worldSeed.provinces.map((province) => province.id));
 
-  for (const seed of WORLD_SEED.provinces) {
+  for (const seed of worldSeed.provinces) {
     const owner = tagToNationId[seed.ownerTag] ?? 0;
     const terrain = seed.terrain as Terrain;
     const recipe = RGO_GOOD_TO_RECIPE[seed.rgoGood] ?? RGO_RECIPES[seed.id % RGO_RECIPES.length];
@@ -548,10 +559,10 @@ function createProvinces(rng: Rng, tagToNationId: Record<string, number>): { pro
   return { provinces, runtime };
 }
 
-function addFactorySeeds(states: State[], rng: Rng): void {
+function addFactorySeeds(worldSeed: WorldSeedData, states: State[], rng: Rng): void {
   states.forEach((state, index) => {
-    const ownerTag = WORLD_SEED.nations[state.owner]?.tag ?? '';
-    if (!INDUSTRIAL_TAGS.has(ownerTag)) return;
+    const ownerTag = worldSeed.nations[state.owner]?.tag ?? '';
+    if (!INDUSTRIAL_TAGS.has(ownerTag) && !worldSeed.nations[state.owner]?.greatPowerRank) return;
     if (state.provinceIds.length === 0 || rng.next() < 0.34) return;
     const primaryRecipe = FACTORY_RECIPES[index % FACTORY_RECIPES.length];
     const factory: Factory = {
@@ -668,11 +679,11 @@ function provinceCultureSlices(
   return kept.length > 0 ? kept : [{ culture: primary, religion: primaryReligion, weight: 1 }];
 }
 
-function createPops(worldProvinces: Province[], provinceRuntime: ProvinceSeedRuntime[], nations: Nation[], data: GameData, rng: Rng): Pop[] {
+function createPops(worldSeed: WorldSeedData, worldProvinces: Province[], provinceRuntime: ProvinceSeedRuntime[], nations: Nation[], data: GameData, rng: Rng): Pop[] {
   const pops: Pop[] = [];
   const religionByNation = nations.map((nation) => religionIndex(data, RELIGION_BY_TAG[nation.tag] || 'protestant'));
   const runtimeByProvince = new Map(provinceRuntime.map((item) => [item.id, item]));
-  const seedByProvince = new Map(WORLD_SEED.provinces.map((seed) => [seed.id, seed]));
+  const seedByProvince = new Map(worldSeed.provinces.map((seed) => [seed.id, seed]));
   const provinceOwnerBySeedId = new Map(worldProvinces.map((province) => [province.id, province.owner]));
   // Pop classes that split into cultural cohorts; the rest take one culture.
   const SPLIT_TYPES = new Set<PopType>(['farmer', 'laborer', 'craftsman']);
@@ -734,7 +745,7 @@ function createPops(worldProvinces: Province[], provinceRuntime: ProvinceSeedRun
   return pops;
 }
 
-function createRelations(): DiploRelation[] {
+function createRelations(worldSeed: WorldSeedData, rng: Rng): DiploRelation[] {
   const relations: DiploRelation[] = [];
   const alliancePairs = new Set<string>([
     'ENG:POR',
@@ -746,17 +757,27 @@ function createRelations(): DiploRelation[] {
     'RUS:OTT',
     'USA:ENG',
   ]);
-  for (let a = 0; a < WORLD_SEED.nations.length; a++) {
-    for (let b = a + 1; b < WORLD_SEED.nations.length; b++) {
-      const tagA = WORLD_SEED.nations[a]?.tag ?? '';
-      const tagB = WORLD_SEED.nations[b]?.tag ?? '';
+  for (let a = 0; a < worldSeed.nations.length; a++) {
+    for (let b = a + 1; b < worldSeed.nations.length; b++) {
+      const tagA = worldSeed.nations[a]?.tag ?? '';
+      const tagB = worldSeed.nations[b]?.tag ?? '';
       const key = `${tagA}:${tagB}`;
       const reverse = `${tagB}:${tagA}`;
-      const kind = alliancePairs.has(key) || alliancePairs.has(reverse)
+      let kind: DiploRelation['kind'] = alliancePairs.has(key) || alliancePairs.has(reverse)
         ? 'alliance'
         : rivalryPairs.has(key) || rivalryPairs.has(reverse)
           ? 'rivalry'
           : 'neutral';
+      // Procedural maps: sprinkle a few seeded alliances/rivalries among GPs.
+      if (kind === 'neutral') {
+        const gpA = worldSeed.nations[a]?.greatPowerRank ?? 0;
+        const gpB = worldSeed.nations[b]?.greatPowerRank ?? 0;
+        if (gpA > 0 && gpB > 0) {
+          const roll = rng.next();
+          if (roll < 0.12) kind = 'alliance';
+          else if (roll < 0.28) kind = 'rivalry';
+        }
+      }
       relations.push({
         a,
         b,
@@ -769,21 +790,31 @@ function createRelations(): DiploRelation[] {
   return relations;
 }
 
-export function createWorld(data: GameData, seed: number): World {
+export function createWorld(
+  data: GameData,
+  seed: number,
+  mapMode: CampaignMapMode = DEFAULT_CAMPAIGN_MAP_MODE,
+): World {
+  const worldSeed = resolveWorldSeed(WORLD_SEED, seed, mapMode);
   const rng = new Rng(seed >>> 0);
-  const nations = createNations(data);
+  const nations = createNations(data, worldSeed);
   const tagToNationId = Object.fromEntries(nations.map((nation) => [nation.tag, nation.id])) as Record<string, number>;
-  const states = createStates(tagToNationId);
-  const { provinces, runtime } = createProvinces(rng, tagToNationId);
-  addFactorySeeds(states, rng);
-  const pops = createPops(provinces, runtime, nations, data, rng);
+  const states = createStates(worldSeed, tagToNationId);
+  const { provinces, runtime } = createProvinces(worldSeed, rng, tagToNationId);
+  addFactorySeeds(worldSeed, states, rng);
+  const pops = createPops(worldSeed, provinces, runtime, nations, data, rng);
+
+  const defaultPlayer = tagToNationId.ENG
+    ?? nations.find((nation) => (worldSeed.nations[nation.id]?.greatPowerRank ?? 0) === 1)?.id
+    ?? 0;
 
   const world: World = {
     day: 0,
     seed: seed >>> 0,
     rngState: rng.state,
     speed: 1,
-    playerNation: tagToNationId.ENG ?? 0,
+    playerNation: defaultPlayer,
+    mapMode,
     nations,
     provinces,
     states,
@@ -830,7 +861,7 @@ export function createWorld(data: GameData, seed: number): World {
     fleets: [],
     wars: [],
     rebellions: [],
-    relations: createRelations(),
+    relations: createRelations(worldSeed, rng),
     pendingEvents: [],
     eventLastFired: {},
     decisionLastTaken: {},
@@ -850,6 +881,7 @@ export function createWorld(data: GameData, seed: number): World {
     movements: [],
     nextMovementId: 1,
   };
+  if (nations[defaultPlayer]) nations[defaultPlayer].isPlayer = true;
   for (const nation of world.nations) {
     const ownedStates = world.states
       .filter((state) => state.owner === nation.id)

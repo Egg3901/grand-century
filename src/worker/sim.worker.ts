@@ -10,7 +10,7 @@
  */
 
 /// <reference lib="webworker" />
-import type { FromWorker, ToWorker, World, GameData, Command } from '../shared/types';
+import type { FromWorker, ToWorker, World, GameData, Command, CampaignMapMode } from '../shared/types';
 import { advanceDay, snapshot } from '../sim/world';
 import { createWorld } from '../sim/bootstrap';
 import { applyCommand } from '../sim/commands';
@@ -18,6 +18,9 @@ import { GAME_DATA } from '../data/gameData';
 import { detailProvince, detailNation } from '../sim/detail';
 import { deserializeWorld, serializeWorld } from '../sim/persistence';
 import { listSaveSlots, readSaveSlot, writeSaveSlot } from './saveSlots';
+import { DEFAULT_CAMPAIGN_MAP_MODE, parseCampaignMapMode } from '../shared/campaignMap';
+import { resolveWorldSeed } from '../sim/proceduralWorld';
+import { WORLD_SEED } from '../data/generated';
 
 const ctx: DedicatedWorkerGlobalScope = self as unknown as DedicatedWorkerGlobalScope;
 
@@ -41,15 +44,40 @@ function post(m: FromWorker) {
   ctx.postMessage(m);
 }
 
+function gameDataForMapMode(mapMode: CampaignMapMode, seed: number): GameData {
+  if (mapMode === 'historical') return GAME_DATA;
+  const worldSeed = resolveWorldSeed(WORLD_SEED, seed, mapMode);
+  return {
+    ...GAME_DATA,
+    formables: [],
+    nationCores: Object.fromEntries(
+      worldSeed.nations.map((nation) => [nation.tag, (nation.coreStateIds ?? []).slice()]),
+    ),
+  };
+}
+
+function yearFromDay(day: number): number {
+  return 1820 + Math.floor(day / 365);
+}
+
+function startWorld(seed: number, mapMode: CampaignMapMode, playerNation?: number): void {
+  data = gameDataForMapMode(mapMode, seed);
+  world = createWorld(data, seed, mapMode);
+  if (playerNation !== undefined && world.nations[playerNation]) {
+    world.playerNation = playerNation;
+  }
+  const active = world.playerNation;
+  world.nations.forEach((nation) => {
+    nation.isPlayer = nation.id === active;
+  });
+  lastAutosaveYear = yearFromDay(world.day);
+}
+
 function postSnapshotNow() {
   if (!world) return;
   post({ t: 'snapshot', snapshot: snapshot(world, data) });
   pendingSnapshot = false;
   snapshotAcc = 0;
-}
-
-function yearFromDay(day: number): number {
-  return 1820 + Math.floor(day / 365);
 }
 
 async function publishSaveSlots() {
@@ -89,6 +117,8 @@ async function loadWorldFromSlot(slot: string) {
     }
     const loaded = deserializeWorld(payload);
     world = loaded.world;
+    if (!world.mapMode) world.mapMode = DEFAULT_CAMPAIGN_MAP_MODE;
+    data = gameDataForMapMode(world.mapMode, world.seed);
     lastAutosaveYear = yearFromDay(world.day);
     postSnapshotNow();
     post({ t: 'saveStatus', action: 'load', slot, ok: true, msg: 'load complete' });
@@ -150,13 +180,14 @@ function scheduleNext() {
 ctx.onmessage = (e: MessageEvent<ToWorker>) => {
   const msg = e.data;
   switch (msg.t) {
-    case 'init':
-      world = createWorld(data, msg.seed);
-      lastAutosaveYear = yearFromDay(world.day);
+    case 'init': {
+      const mapMode = parseCampaignMapMode(msg.mapMode);
+      startWorld(msg.seed, mapMode);
       post({ t: 'ready', data });
       postSnapshotNow();
       void publishSaveSlots();
       break;
+    }
     case 'command':
       if (world) handleCommand(msg.cmd);
       break;
@@ -172,13 +203,8 @@ ctx.onmessage = (e: MessageEvent<ToWorker>) => {
 function handleCommand(cmd: Command) {
   if (!world) return;
   if (cmd.t === 'newGame') {
-    world = createWorld(data, cmd.seed);
-    world.playerNation = cmd.playerNation;
-    const playerNation = world.playerNation;
-    world.nations.forEach((nation) => {
-      nation.isPlayer = nation.id === playerNation;
-    });
-    lastAutosaveYear = yearFromDay(world.day);
+    const mapMode = parseCampaignMapMode(cmd.mapMode);
+    startWorld(cmd.seed, mapMode, cmd.playerNation);
     postSnapshotNow();
     return;
   }
