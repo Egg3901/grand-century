@@ -3,6 +3,8 @@
  * (e.g. /games/grand-century/#/new?seed=1836&nation=ENG).
  */
 
+import { parseCampaignMapMode } from '../shared/campaignMap';
+
 export interface GameStartParams {
   seed: number;
   nationTag: string;
@@ -34,7 +36,8 @@ export function parseStartHash(hash: string = typeof window !== 'undefined' ? wi
   const seed = Number.isFinite(seedRaw) ? Math.max(1, Math.floor(seedRaw)) : DEFAULT_SEED;
   const nationTag = (params.get('nation') ?? params.get('tag') ?? '').trim().toUpperCase();
   if (!nationTag) return null;
-  const mode = params.get('mode')?.trim() || undefined;
+  const modeRaw = params.get('mode')?.trim() || undefined;
+  const mode = modeRaw ? parseCampaignMapMode(modeRaw) : undefined;
   return { seed, nationTag, mode };
 }
 
@@ -45,7 +48,7 @@ export function buildShareUrl(params: GameStartParams, baseUrl: string = import.
   const query = new URLSearchParams();
   query.set('seed', String(params.seed));
   query.set('nation', params.nationTag.toUpperCase());
-  if (params.mode) query.set('mode', params.mode);
+  if (params.mode) query.set('mode', parseCampaignMapMode(params.mode));
   return `${origin}${base}#/new?${query.toString()}`;
 }
 

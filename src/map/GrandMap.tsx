@@ -417,12 +417,23 @@ export function GrandMap() {
   const provinceCoordById = useMemo(() => (
     new globalThis.Map<number, { lon: number; lat: number }>(WORLD_SEED.provinces.map((province) => [province.id, { lon: province.lon, lat: province.lat }]))
   ), []);
-  const nationNameByTag = useMemo(() => (
-    new globalThis.Map<string, string>(WORLD_SEED.nations.map((nation) => [nation.tag, nation.name]))
-  ), []);
+  const nationNameByTag = useMemo(() => {
+    const names = new globalThis.Map<string, string>(WORLD_SEED.nations.map((nation) => [nation.tag, nation.name]));
+    if (snapshot) {
+      for (const nation of snapshot.nations) names.set(nation.tag, nation.name);
+    }
+    return names;
+  }, [snapshot]);
+  const nationTagById = useMemo(() => {
+    const tags = new globalThis.Map<number, string>();
+    if (!snapshot) return tags;
+    for (const nation of snapshot.nations) tags.set(nation.id, nation.tag);
+    return tags;
+  }, [snapshot]);
   const provinceTerrainById = useMemo(() => (
     new globalThis.Map<number, string>(WORLD_SEED.provinces.map((province) => [province.id, province.terrain]))
   ), []);
+  const campaignMapMode = snapshot?.mapMode ?? 'historical';
 
   const provinceGeometryById = useMemo(() => {
     const map = new globalThis.Map<number, ProvinceGeometryMetrics>();
@@ -438,6 +449,13 @@ export function GrandMap() {
   }, [geojson]);
 
   const provinceLabelSeeds = useMemo<ProvinceLabelSeed[]>(() => {
+    const ownerTagByProvince = new globalThis.Map<number, string>();
+    if (snapshot) {
+      for (const province of snapshot.provinces) {
+        const tag = nationTagById.get(province.owner);
+        if (tag) ownerTagByProvince.set(province.id, tag);
+      }
+    }
     const raw = WORLD_SEED.provinces.map((province) => {
       const geometry = provinceGeometryById.get(province.id);
       const area = Math.max(geometry?.area ?? 0, 0.01);
@@ -445,7 +463,7 @@ export function GrandMap() {
       return {
         id: province.id,
         name: province.name,
-        ownerTag: province.ownerTag,
+        ownerTag: ownerTagByProvince.get(province.id) ?? province.ownerTag,
         lon: geometry?.labelLon ?? geometry?.lon ?? province.lon,
         lat: geometry?.labelLat ?? geometry?.lat ?? province.lat,
         area,
@@ -462,7 +480,7 @@ export function GrandMap() {
         minZoom: 5.1 + (1 - normalizedProminence) * 1.35,
       };
     });
-  }, [provinceGeometryById]);
+  }, [nationTagById, provinceGeometryById, snapshot]);
 
   const countryLabelSeeds = useMemo<CountryLabelSeed[]>(() => {
     type NationPick = {
@@ -507,6 +525,8 @@ export function GrandMap() {
         + Math.log(values.populationWeight + 1) * 0.38
         + Math.log(values.area + 1) * 0.2
       );
+      const isMajor = MAJOR_LABEL_TAGS.has(tag)
+        || (snapshot?.nations.find((nation) => nation.tag === tag)?.gpRank ?? 0) > 0;
       labels.push({
         tag,
         name: nationNameByTag.get(tag) ?? tag,
@@ -517,7 +537,7 @@ export function GrandMap() {
         populationWeight: values.populationWeight,
         prominence,
         minZoom: 4.4,
-        major: MAJOR_LABEL_TAGS.has(tag),
+        major: isMajor,
       });
     }
     const nonMajorProminence = labels.filter((label) => !label.major).map((label) => label.prominence);
@@ -547,7 +567,7 @@ export function GrandMap() {
       return a.name.localeCompare(b.name);
     });
     return withThresholds;
-  }, [nationNameByTag, provinceLabelSeeds]);
+  }, [nationNameByTag, provinceLabelSeeds, snapshot]);
 
   const bounds = useMemo(() => (geojson ? computeBounds(geojson) : null), [geojson]);
 
@@ -1149,6 +1169,19 @@ export function GrandMap() {
       setMapReady(false);
     };
   }, [bounds, geojson, nationalBorders, provinceNameById, selectProvince, sendCommand]);
+
+  // Historical national-border polylines don't match reshuffled ownership.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady) return;
+    const showBorders = campaignMapMode === 'historical';
+    if (map.getLayer(MAP_NATIONAL_BAND_LAYER)) {
+      map.setLayoutProperty(MAP_NATIONAL_BAND_LAYER, 'visibility', showBorders ? 'visible' : 'none');
+    }
+    if (map.getLayer(MAP_NATIONAL_LINE_LAYER)) {
+      map.setLayoutProperty(MAP_NATIONAL_LINE_LAYER, 'visibility', showBorders ? 'visible' : 'none');
+    }
+  }, [campaignMapMode, mapReady]);
 
   useEffect(() => {
     const map = mapRef.current;

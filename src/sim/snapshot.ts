@@ -248,6 +248,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     speed: world.speed,
     playerNation: world.playerNation,
     seed: world.seed,
+    mapMode: world.mapMode,
     nations,
     provinces,
     market: world.market.map((good) => ({ ...good })),
