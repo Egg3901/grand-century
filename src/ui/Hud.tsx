@@ -62,7 +62,7 @@ export function Hud() {
   const currentSpeed = snapshot?.speed ?? 0;
   const formattedDate = snapshot
     ? `${snapshot.date.year}-${String(snapshot.date.month).padStart(2, '0')}-${String(snapshot.date.day).padStart(2, '0')}`
-    : '1836-01-01';
+    : '1820-01-01';
 
   const panels = useMemo(
     () => (multiplayer ? PANELS.filter((p) => p.id !== 'save_load') : PANELS),

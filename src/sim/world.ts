@@ -21,7 +21,7 @@ import { runAiMonthly } from './systems/ai';
 import { runEventsMonthly } from './systems/events';
 import { buildSnapshot } from './snapshot';
 
-const EPOCH_YEAR = 1836;
+const EPOCH_YEAR = 1820;
 const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 export function dayToDate(day: GameDay): GameDate {

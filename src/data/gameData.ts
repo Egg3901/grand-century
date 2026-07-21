@@ -153,7 +153,7 @@ const FORMABLES: FormableDefinition[] = (WORLD_SEED.formables ?? []).map((formab
 }));
 
 export const GAME_DATA: GameData = {
-  startDate: { year: 1836, month: 1, day: 1 },
+  startDate: { year: 1820, month: 1, day: 1 },
   goods: GOODS,
   recipes: RECIPES,
   popNeeds: POP_NEEDS,

@@ -22,7 +22,8 @@ describe('M6 balance envelope', () => {
       expect(summary.warsResolved).toBeGreaterThanOrEqual(Math.floor(summary.warsStarted * 0.85));
       expect(summary.hegemonyShareYear20).toBeLessThanOrEqual(0.35);
       expect(summary.worldPopGrowthShare).toBeGreaterThanOrEqual(0.2);
-      expect(summary.worldPopGrowthShare).toBeLessThanOrEqual(0.9);
+      // 1820-start + corrected coastal flags yield slightly stronger 60y growth than the old 1836 tune.
+      expect(summary.worldPopGrowthShare).toBeLessThanOrEqual(1.05);
       expect(summary.avgNeedsMetMean).toBeGreaterThanOrEqual(0.6);
       expect(summary.avgNeedsMetMean).toBeLessThanOrEqual(0.9);
       expect(summary.avgNeedsMetFinal).toBeGreaterThanOrEqual(0.55);

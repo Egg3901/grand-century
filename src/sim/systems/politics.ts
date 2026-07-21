@@ -16,7 +16,7 @@ import {
   updateStateUnrest,
 } from '../politics';
 
-const EPOCH_YEAR = 1836;
+const EPOCH_YEAR = 1820;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));

@@ -36,7 +36,7 @@ function raiseMilitancy(world: ReturnType<typeof createWorld>, nationId: number,
 }
 
 function jumpToYear(world: ReturnType<typeof createWorld>, year: number): void {
-  world.day = Math.max(0, (year - 1836) * 365);
+  world.day = Math.max(0, (year - 1820) * 365);
 }
 
 function snapshotEventHistory(world: ReturnType<typeof createWorld>): string {
