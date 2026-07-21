@@ -84,17 +84,37 @@ does not restructure the deliberately fragile world-market clearing math.
   factories produce, input chains clear through the market, and the
   conservation invariants still hold.
 - **Factory economy recalibration** (required by the fix — the old constants
-  only ever ran against zero output):
-  - `src/sim/balance.ts`: `factoryRevenueMultiplier` 2.2 → 1.0 (factories sell
-    at market price; the old 2.2×output × 2.2×revenue stack minted ~4.8x
-    phantom revenue), `factoryInputIntensity` 0.15 → 0.6 (real input
-    consumption — raw-good demand is finally coupled to industry).
-  - `src/sim/systems/economy.ts`: profits route to capitalist pops (cut 0.18 →
-    0.55), falling back to **aristocrats** (the seeded world has no capitalists
-    until promotion creates them) before the state; the state's direct skim
-    drops 0.55 → 0.15 per factory and 0.2 → 0.05 per state, restoring taxes as
-    the state's primary lever (a zero-tax overextended nation can go bankrupt
-    again — the m2 gate).
+  only ever ran against zero output). Verified against the full 60-year balance
+  gate (both seeds) and the m2 bankruptcy gate:
+  - `src/sim/balance.ts`:
+    - `factoryRevenueMultiplier` 2.2 → 2.0 (trim the phantom-revenue stack a
+      touch; factories are very profitable but no longer print money into the
+      treasury — see below).
+    - `factoryWageShare` 0.28 → 0.45 — the decisive welfare knob. With
+      factories finally producing, more value must reach the craftsman / clerk /
+      laborer pops that buy food instead of pooling in capitalist/aristocrat
+      pops. This is what keeps late-game pops fed (`avgNeedsMetFinal`).
+    - `rgoOutputBoost` 1.2 → 1.5 — raw-good (especially food) supply now has to
+      keep pace with a century of population growth AND factory input demand;
+      the extra RGO throughput holds food prices down over 60 years.
+  - `src/sim/systems/economy.ts`: factory value flows to **pops** — capitalist
+    cut 0.18 → 0.55, falling back to **aristocrats** (the seeded world has no
+    capitalists until promotion creates them) before the state. The state's
+    tax-independent skim drops to a vestigial 0.03 per factory / 0.02 per state
+    (was 0.55 / 0.2): the pre-fix skim was tuned against dead factories and, once
+    production woke up, became a money fountain that made a zero-tax
+    overextended nation un-bankruptable. **Taxes are now the state's lever on
+    industry** — the intended design — and the m2 bankruptcy gate passes again.
+  - Net effect on the balance envelope (worst seed 6602, 60y): `avgNeedsMetMean`
+    **0.542 → 0.690**, `avgNeedsMetFinal` **0.460 → 0.616**,
+    `highMilitancyShareFinal` 0.46 → 0.29 — all back inside their bands; wars,
+    hegemony, rebellions, inflation and pop-growth bands unchanged and green.
+
+  Note on the regression's true cause: it was **not** tech-gating starving pops
+  (every gated recipe produces a good — fish/wine/furniture/machine-parts/
+  artillery — that had *zero* production before, so gating them only *adds*
+  supply). It was the market bugfix waking up factories inside an economy that
+  had been silently tuned around them being dead.
 
 **Data** (`src/data/techs.ts`, wired in `src/data/gameData.ts`):
 - **31 techs** in 5 columns (army/navy/commerce/industry/culture), linear prereq

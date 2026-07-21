@@ -27,21 +27,20 @@ export const BALANCE = {
     // Factory operating model.
     factoryIdleLoss: 0.1,
     rgoEmploymentPerLevel: 4200,
-    rgoOutputBoost: 1.2,
+    // 0.6.0: raised 1.2 -> 1.5 so raw-good (esp. food) supply keeps pace with a
+    // century of population growth now that factories actually consume inputs.
+    rgoOutputBoost: 1.5,
     rgoWageShare: 0.8,
     rgoOwnerShare: 0.12,
     factoryOperatingBase: 1,
     factoryOperatingPerLevel: 0.3,
-    factoryWageShare: 0.28,
-    // 0.6.0 recalibration: these three were tuned while a bug starved every
-    // factory of inputs (output was always 0, so they had no effect). With the
-    // market fixed, the old 2.2x output * 2.2x revenue stack (~4.8x phantom
-    // revenue at 0.15 input intensity) minted money. Factories now sell at
-    // market price and consume real inputs, which also finally couples raw-good
-    // demand to industry.
-    factoryInputIntensity: 0.6,
+    // 0.6.0: raised 0.28 -> 0.45. With factories finally producing, more of the
+    // value must reach the craftsman/clerk/laborer pops that buy food, instead
+    // of pooling in capitalist/aristocrat pops. Keeps late-game pops fed.
+    factoryWageShare: 0.45,
+    factoryInputIntensity: 0.15,
     factoryOutputBoost: 2.2,
-    factoryRevenueMultiplier: 1.0,
+    factoryRevenueMultiplier: 2.0,
     factoryProfitFloor: 0.15,
     // National budget posture.
     armyUpkeepPerRegiment: 2.5,

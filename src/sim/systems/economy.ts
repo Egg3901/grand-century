@@ -228,10 +228,14 @@ function processFactory(
     factory.profitableWeeks = 0;
   }
 
-  // 0.6.0: state share of live factory profits trimmed (0.55 -> 0.15); the
-  // pre-fix 55% skim was tuned against dead factories and became a
-  // tax-independent money fountain once production woke up.
-  owner.monthlyProductionIncome += Math.max(0, weeklyProfit * 0.15);
+  // 0.6.0: the old 0.55 direct skim of factory profit into the treasury was
+  // tuned against DEAD factories (the input-purchase bug meant output was always
+  // 0). Once production woke up it became a tax-independent money fountain that
+  // made a zero-tax overextended nation un-bankruptable. Factory value now flows
+  // to POPS (wages + the capitalist/aristocrat cut above) and the state captures
+  // it only through taxes — the intended lever. A vestigial skim keeps
+  // state-capitalism flavour without swamping the budget.
+  owner.monthlyProductionIncome += Math.max(0, weeklyProfit * 0.03);
   return weeklyProfit;
 }
 
@@ -278,8 +282,8 @@ export function runProductionWeekly(world: World, data: GameData, _rng: Rng): vo
     for (const factory of state.factories) {
       stateProfit += processFactory(world, state, factory, buckets, recipes, factoryTechBoost[state.owner] ?? 1);
     }
-    // 0.6.0: trimmed 0.2 -> 0.05 alongside the per-factory state share above.
-    world.nations[state.owner].monthlyProductionIncome += Math.max(0, stateProfit * 0.05);
+    // 0.6.0: trimmed alongside the per-factory skim above (see processFactory).
+    world.nations[state.owner].monthlyProductionIncome += Math.max(0, stateProfit * 0.02);
     rebalanceFactoryLevels(state);
   }
 }
