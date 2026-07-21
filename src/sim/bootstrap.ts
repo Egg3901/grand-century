@@ -489,6 +489,12 @@ export function createWorld(data: GameData, seed: number): World {
     nextWarId: 1,
     nextRebellionId: 1,
     nextPopId: pops.length,
+    // 0.7.0 Concert of Europe
+    tension: 15,
+    crisis: null,
+    congresses: [],
+    nextCrisisId: 1,
+    crisisCooldownUntil: 0,
   };
   for (const nation of world.nations) {
     const ownedStates = world.states

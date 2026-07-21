@@ -956,3 +956,56 @@
     max-height: 18rem;
   }
 }
+/* --- 0.7.0 Concert of Europe (CrisisPanel) --- */
+
+.crisis-tension-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 0.35rem 0 0.3rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.crisis-tension-label {
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-body);
+  letter-spacing: 0.02em;
+}
+
+.crisis-meter {
+  height: 0.55rem;
+  border: 1px solid var(--gc-border);
+  border-radius: 0.3rem;
+  background: var(--gc-paper-deep);
+  overflow: hidden;
+  margin-bottom: 0.7rem;
+}
+
+.crisis-meter__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gc-positive), var(--gc-leather-soft));
+  transition: width 0.4s ease;
+}
+
+.crisis-meter__fill--hot {
+  background: linear-gradient(90deg, var(--gc-wax), var(--gc-danger));
+}
+
+.crisis-card {
+  border: 1px solid var(--gc-border);
+  border-radius: 0.4rem;
+  background: var(--gc-accent-soft);
+  padding: 0.55rem 0.7rem 0.7rem;
+  margin: 0.4rem 0 0.6rem;
+}
+
+.crisis-history li > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.crisis-history li span {
+  color: var(--gc-ink-muted);
+}
