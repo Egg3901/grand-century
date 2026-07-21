@@ -284,3 +284,92 @@ input[type='range'].gc-slider {
   border-bottom-color: var(--gc-wax);
   background: rgba(255, 248, 230, 0.35);
 }
+
+/* ---- V5: typography, focus, micro-interactions, motion ------------------ */
+
+/* Keyboard focus: engraved wax ring — visible everywhere, mouse stays clean. */
+:focus-visible {
+  outline: 2px solid rgba(139, 58, 46, 0.75);
+  outline-offset: 2px;
+  border-radius: var(--gc-radius-sm);
+}
+
+.atlas-panel :focus-visible,
+.menu-card :focus-visible {
+  outline-color: rgba(139, 58, 46, 0.85);
+  box-shadow: 0 0 0 3px rgba(139, 58, 46, 0.14);
+}
+
+/* Fluid type: panels breathe slightly with viewport width instead of a hard
+   mobile/desktop step. */
+:root {
+  --gc-fs-h1: clamp(1.55rem, 1.25rem + 1.4vw, 1.85rem);
+  --gc-fs-h2: clamp(1.05rem, 0.95rem + 0.5vw, 1.2rem);
+  --gc-fs-body: clamp(0.86rem, 0.82rem + 0.2vw, 0.92rem);
+}
+
+/* Tab underline grows in from the left — a press of the engraver's burin. */
+.gc-tab {
+  position: relative;
+  transition:
+    color 140ms ease,
+    background-color 140ms ease;
+}
+
+.gc-tab::after {
+  content: '';
+  position: absolute;
+  left: 0.55rem;
+  right: 0.55rem;
+  bottom: -2px;
+  height: 2px;
+  background: var(--gc-wax);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gc-tab.is-active {
+  border-bottom-color: transparent;
+}
+
+.gc-tab.is-active::after {
+  transform: scaleX(1);
+}
+
+/* Panel/list-row hover lift on fine pointers — paper rising off the desk. */
+@media (hover: hover) and (pointer: fine) {
+  .diplo-list li,
+  .lobby-session-list li,
+  .lobby-player-list li {
+    transition:
+      background-color 130ms ease,
+      box-shadow 130ms ease,
+      transform 130ms ease;
+  }
+
+  .diplo-list li:hover,
+  .lobby-session-list li:hover,
+  .lobby-player-list li:hover {
+    background: rgba(255, 248, 230, 0.6);
+    box-shadow: 0 2px 8px rgba(28, 18, 10, 0.1);
+  }
+
+  .gc-tab:hover {
+    color: var(--gc-ink);
+    background: rgba(255, 248, 230, 0.3);
+  }
+}
+
+/* Respect reduced motion: kill every transition/animation except opacity
+   fades of the loading veil (they convey boot progress, not decoration). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
