@@ -241,12 +241,20 @@ const NATION_CORES = Object.fromEntries(
   WORLD_SEED.nations.map((nation) => [nation.tag, (nation.coreStateIds ?? []).slice().sort((a, b) => a - b)]),
 ) as Record<string, number[]>;
 
+/**
+ * 0.8.0: the generated seed predates the expanded culture table — patch formable
+ * result cultures here rather than regenerating the baked world data.
+ */
+const FORMABLE_CULTURE_OVERRIDE: Record<string, string> = {
+  ITALY: 'italian',
+};
+
 const FORMABLES: FormableDefinition[] = (WORLD_SEED.formables ?? []).map((formable) => ({
   key: formable.key,
   resultTag: formable.resultTag,
   resultName: formable.resultName,
   resultColor: formable.resultColor,
-  resultPrimaryCulture: formable.resultPrimaryCulture,
+  resultPrimaryCulture: FORMABLE_CULTURE_OVERRIDE[formable.key] ?? formable.resultPrimaryCulture,
   candidateTags: formable.candidateTags.slice(),
   coreStateIds: formable.coreStateIds.slice().sort((a, b) => a - b),
   requiredCoreShare: formable.requiredCoreShare,
@@ -260,15 +268,42 @@ export const GAME_DATA: GameData = {
   goods: GOODS,
   recipes: RECIPES,
   popNeeds: POP_NEEDS,
+  // 0.8.0: the original 8 cultures MUST keep their indices (pops store culture
+  // as an index and saves bake it in) — new cultures are appended only.
   cultures: [
-    { key: 'british', name: 'British', color: [170, 170, 190] },
-    { key: 'french', name: 'French', color: [142, 164, 196] },
-    { key: 'north_german', name: 'North German', color: [160, 160, 170] },
-    { key: 'south_german', name: 'South German', color: [174, 154, 136] },
-    { key: 'russian', name: 'Russian', color: [156, 142, 174] },
-    { key: 'yankee', name: 'Yankee', color: [156, 176, 178] },
-    { key: 'han', name: 'Han', color: [176, 164, 132] },
-    { key: 'turkish', name: 'Turkish', color: [168, 148, 132] },
+    { key: 'british', name: 'British', color: [170, 170, 190], religion: 'protestant' },
+    { key: 'french', name: 'French', color: [142, 164, 196], religion: 'catholic' },
+    { key: 'north_german', name: 'North German', color: [160, 160, 170], religion: 'protestant' },
+    { key: 'south_german', name: 'South German', color: [174, 154, 136], religion: 'catholic' },
+    { key: 'russian', name: 'Russian', color: [156, 142, 174], religion: 'orthodox' },
+    { key: 'yankee', name: 'Yankee', color: [156, 176, 178], religion: 'protestant' },
+    { key: 'han', name: 'Han', color: [176, 164, 132], religion: 'confucian' },
+    { key: 'turkish', name: 'Turkish', color: [168, 148, 132], religion: 'sunni' },
+    // --- 0.8.0 Age of Nationalism additions (append-only) ---
+    { key: 'irish', name: 'Irish', color: [110, 158, 110], religion: 'catholic' },
+    { key: 'polish', name: 'Polish', color: [188, 146, 152], religion: 'catholic' },
+    { key: 'hungarian', name: 'Hungarian', color: [148, 176, 138], religion: 'catholic' },
+    { key: 'czech', name: 'Czech', color: [164, 148, 118], religion: 'catholic' },
+    { key: 'italian', name: 'Italian', color: [150, 178, 156], religion: 'catholic' },
+    { key: 'south_slavic', name: 'South Slavic', color: [138, 152, 178], religion: 'orthodox' },
+    { key: 'greek', name: 'Greek', color: [132, 168, 188], religion: 'orthodox' },
+    { key: 'romanian', name: 'Romanian', color: [182, 168, 128], religion: 'orthodox' },
+    { key: 'ukrainian', name: 'Ukrainian', color: [178, 178, 128], religion: 'orthodox' },
+    { key: 'baltic', name: 'Baltic', color: [146, 170, 168], religion: 'protestant' },
+    { key: 'finnish', name: 'Finnish', color: [160, 184, 184], religion: 'protestant' },
+    { key: 'scandinavian', name: 'Scandinavian', color: [152, 168, 190], religion: 'protestant' },
+    { key: 'iberian', name: 'Iberian', color: [190, 160, 120], religion: 'catholic' },
+    { key: 'caucasian', name: 'Caucasian', color: [172, 146, 146], religion: 'orthodox' },
+    { key: 'central_asian', name: 'Central Asian', color: [188, 172, 144], religion: 'sunni' },
+    { key: 'arabic', name: 'Arabic', color: [178, 162, 116], religion: 'sunni' },
+    { key: 'persian', name: 'Persian', color: [166, 150, 168], religion: 'sunni' },
+    { key: 'south_asian', name: 'South Asian', color: [192, 156, 128], religion: 'hindu' },
+    { key: 'malay', name: 'Malay', color: [150, 172, 146], religion: 'sunni' },
+    { key: 'indochinese', name: 'Indochinese', color: [168, 180, 144], religion: 'buddhist' },
+    { key: 'japanese', name: 'Japanese', color: [186, 158, 158], religion: 'buddhist' },
+    { key: 'korean', name: 'Korean', color: [162, 174, 162], religion: 'confucian' },
+    { key: 'latin_american', name: 'Latin American', color: [178, 170, 140], religion: 'catholic' },
+    { key: 'african', name: 'African', color: [158, 146, 122], religion: 'sunni' },
   ],
   religions: [
     { key: 'protestant', name: 'Protestant' },
@@ -276,6 +311,9 @@ export const GAME_DATA: GameData = {
     { key: 'orthodox', name: 'Orthodox' },
     { key: 'sunni', name: 'Sunni' },
     { key: 'confucian', name: 'Confucian' },
+    // --- 0.8.0 additions (append-only; indices are baked into saves) ---
+    { key: 'hindu', name: 'Hindu' },
+    { key: 'buddhist', name: 'Buddhist' },
   ],
   reforms: [
     {

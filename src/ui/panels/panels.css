@@ -1009,3 +1009,87 @@
 .crisis-history li span {
   color: var(--gc-ink-muted);
 }
+
+/* --- 0.8.0 Cultures panel (appended; culture agent owns this block) --- */
+
+.culture-policy-row {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.culture-policy-btn {
+  flex: 1;
+  min-width: 7rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--gc-border);
+  border-radius: 0.35rem;
+  background: var(--gc-accent-soft);
+  color: var(--gc-ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.culture-policy-btn--active {
+  background: var(--gc-leather-soft);
+  border-color: var(--gc-ink-muted);
+  font-weight: 600;
+}
+
+.culture-badge {
+  font-size: 0.72rem;
+  padding: 0.08rem 0.4rem;
+  border: 1px solid var(--gc-border);
+  border-radius: 0.6rem;
+  color: var(--gc-ink-muted);
+  white-space: nowrap;
+}
+
+.culture-badge--primary,
+.culture-badge--accepted {
+  color: var(--gc-positive);
+  border-color: var(--gc-positive);
+}
+
+.culture-accept-btn {
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--gc-border);
+  border-radius: 0.35rem;
+  background: var(--gc-accent-soft);
+  color: var(--gc-ink);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.culture-accept-btn--revoke {
+  color: var(--gc-danger);
+}
+
+.culture-radical-bar {
+  height: 0.45rem;
+  border: 1px solid var(--gc-border);
+  border-radius: 0.3rem;
+  overflow: hidden;
+  background: var(--gc-accent-soft);
+  margin: 0.25rem 0;
+}
+
+.culture-radical-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gc-positive), var(--gc-leather-soft));
+  transition: width 0.4s ease;
+}
+
+.culture-radical-fill--hot {
+  background: linear-gradient(90deg, var(--gc-wax), var(--gc-danger));
+}
+
+.culture-list li > div,
+.culture-movement-list li > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.7rem;
+  align-items: center;
+}

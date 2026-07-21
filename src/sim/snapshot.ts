@@ -14,6 +14,7 @@ import { getFormableStatusesForNation } from './formables';
 import { listPlayerDecisions } from './systems/events';
 import { buildPlayerTechView } from './systems/research';
 import { computeTensionContributions, getWorldTension } from './systems/crisis';
+import { buildCultureLedger, buildMovementViews, culturePolicyOf } from './systems/culture';
 
 function zeroBudget(): BudgetLine {
   return {
@@ -296,6 +297,10 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       }
       : null,
     congressHistory: (world.congresses ?? []).map((record) => ({ ...record })),
+    // 0.8.0 Age of Nationalism
+    playerCulturePolicy: playerNation ? culturePolicyOf(playerNation) : 'assimilationist',
+    playerCultures: buildCultureLedger(world, data, world.playerNation),
+    playerMovements: buildMovementViews(world, data, world.playerNation),
     playerBudget: zeroBudget(),
   };
 }

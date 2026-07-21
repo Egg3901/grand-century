@@ -51,7 +51,7 @@ const RELIGION_BY_TAG: Record<string, string> = {
   SWE: 'protestant',
   SAR: 'catholic',
   TSC: 'catholic',
-  JPN: 'confucian',
+  JPN: 'buddhist',
   BRA: 'catholic',
   ARG: 'catholic',
   PER: 'sunni',
@@ -63,16 +63,16 @@ const RELIGION_BY_TAG: Record<string, string> = {
   SWI: 'catholic',
   EGY: 'sunni',
   AFG: 'sunni',
-  SIA: 'confucian',
+  SIA: 'buddhist',
   KOR: 'confucian',
   MOR: 'sunni',
   ETH: 'orthodox',
-  NEP: 'confucian',
-  BHU: 'confucian',
-  BUR: 'confucian',
-  VIE: 'confucian',
-  CAM: 'confucian',
-  LAO: 'confucian',
+  NEP: 'hindu',
+  BHU: 'buddhist',
+  BUR: 'buddhist',
+  VIE: 'buddhist',
+  CAM: 'buddhist',
+  LAO: 'buddhist',
   CHL: 'catholic',
   CLM: 'catholic',
   VEN: 'catholic',
@@ -83,6 +83,252 @@ const RELIGION_BY_TAG: Record<string, string> = {
   UNC: 'confucian',
   UNA: 'confucian',
 };
+
+/**
+ * 0.8.0 — historical primary-culture fixes now that the culture table is no
+ * longer 8 entries wide. Takes precedence over the (coarse) generated seed.
+ * Original 8-culture assignments that were already right are not repeated here.
+ */
+const PRIMARY_CULTURE_OVERRIDE: Record<string, string> = {
+  ESP: 'iberian',
+  POR: 'iberian',
+  SAR: 'italian',
+  TSC: 'italian',
+  TUS: 'italian',
+  PAP: 'italian',
+  MOD: 'italian',
+  PAR: 'italian',
+  DEN: 'scandinavian',
+  SWE: 'scandinavian',
+  PER: 'persian',
+  EGY: 'arabic',
+  MOR: 'arabic',
+  ETH: 'african',
+  AFG: 'central_asian',
+  JPN: 'japanese',
+  KOR: 'korean',
+  VIE: 'indochinese',
+  SIA: 'indochinese',
+  CAM: 'indochinese',
+  LAO: 'indochinese',
+  BUR: 'indochinese',
+  NEP: 'south_asian',
+  BHU: 'south_asian',
+  MEX: 'latin_american',
+  BRA: 'latin_american',
+  ARG: 'latin_american',
+  CHL: 'latin_american',
+  CLM: 'latin_american',
+  VEN: 'latin_american',
+  BOL: 'latin_american',
+  PRG: 'latin_american',
+  URY: 'latin_american',
+  PEU: 'latin_american',
+};
+
+/** One seeded minority share; remainder of the province stays owner-primary. */
+interface MinorityRule {
+  culture: string;
+  share: number;
+  /** Religion key override (else the culture's typical religion is used). */
+  religion?: string;
+}
+
+/**
+ * 0.8.0 — the cultural fault lines of 1820, keyed by generated province name
+ * (names are unique in the baked seed). These are the *named* historical
+ * minority regions; broad colonial sweeps are handled by geography below.
+ */
+const MINORITY_RULES: Record<string, MinorityRule[]> = {
+  // --- British Isles ---
+  Ireland: [{ culture: 'irish', share: 0.85 }],
+  'Ireland (United Kingdom)': [{ culture: 'irish', share: 0.6 }],
+  // --- British North America / Africa ---
+  Quebec: [{ culture: 'french', share: 0.76 }],
+  'New Brunswick': [{ culture: 'french', share: 0.32 }],
+  'Eastern Cape': [{ culture: 'african', share: 0.78, religion: 'protestant' }],
+  'Free State': [{ culture: 'african', share: 0.7, religion: 'protestant' }],
+  Gauteng: [{ culture: 'african', share: 0.74, religion: 'protestant' }],
+  'KwaZulu-Natal': [{ culture: 'african', share: 0.82, religion: 'protestant' }],
+  Limpopo: [{ culture: 'african', share: 0.86, religion: 'protestant' }],
+  Mpumalanga: [{ culture: 'african', share: 0.82, religion: 'protestant' }],
+  'North West': [{ culture: 'african', share: 0.8, religion: 'protestant' }],
+  'Northern Cape': [{ culture: 'african', share: 0.72, religion: 'protestant' }],
+  'Western Cape': [{ culture: 'african', share: 0.62, religion: 'protestant' }],
+  // --- Low Countries ---
+  Belgium: [{ culture: 'french', share: 0.55 }],
+  // --- Habsburg lands ---
+  Hungary: [{ culture: 'hungarian', share: 0.86 }],
+  Czechia: [{ culture: 'czech', share: 0.72 }],
+  Slovakia: [{ culture: 'czech', share: 0.5 }, { culture: 'hungarian', share: 0.3 }],
+  Croatia: [{ culture: 'south_slavic', share: 0.84, religion: 'catholic' }],
+  Slovenia: [{ culture: 'south_slavic', share: 0.72, religion: 'catholic' }],
+  'Lombardy-Venetia': [{ culture: 'italian', share: 0.88 }],
+  // --- Prussia (Posen) ---
+  Prussia: [{ culture: 'polish', share: 0.14 }],
+  // --- Russian Empire ---
+  'Greater Poland': [{ culture: 'polish', share: 0.88 }],
+  'Lesser Poland': [{ culture: 'polish', share: 0.88 }],
+  Mazovia: [{ culture: 'polish', share: 0.88 }],
+  Pomerania: [{ culture: 'polish', share: 0.7 }, { culture: 'north_german', share: 0.18 }],
+  Lithuania: [{ culture: 'baltic', share: 0.82, religion: 'catholic' }],
+  Latvia: [{ culture: 'baltic', share: 0.8 }],
+  Estonia: [{ culture: 'baltic', share: 0.8 }],
+  Lapland: [{ culture: 'finnish', share: 0.88 }],
+  Ostrobothnia: [{ culture: 'finnish', share: 0.88 }],
+  'Southern Finland': [{ culture: 'finnish', share: 0.86 }],
+  Belarus: [{ culture: 'ukrainian', share: 0.72 }],
+  Kyiv: [{ culture: 'ukrainian', share: 0.84 }],
+  Kharkiv: [{ culture: 'ukrainian', share: 0.78 }],
+  Lviv: [{ culture: 'ukrainian', share: 0.7 }, { culture: 'polish', share: 0.16 }],
+  Odessa: [{ culture: 'ukrainian', share: 0.7 }],
+  Kaliningrad: [{ culture: 'north_german', share: 0.65 }],
+  'Central Kazakhstan': [{ culture: 'central_asian', share: 0.9 }],
+  'Eastern Kazakhstan': [{ culture: 'central_asian', share: 0.9 }],
+  'Northern Kazakhstan': [{ culture: 'central_asian', share: 0.85 }],
+  'Southern Kazakhstan': [{ culture: 'central_asian', share: 0.9 }],
+  'Western Kazakhstan': [{ culture: 'central_asian', share: 0.9 }],
+  Armenia: [{ culture: 'caucasian', share: 0.88 }],
+  Azerbaijan: [{ culture: 'turkish', share: 0.6, religion: 'sunni' }, { culture: 'caucasian', share: 0.25 }],
+  Georgia: [{ culture: 'caucasian', share: 0.88 }],
+  'Chechen Republic': [{ culture: 'caucasian', share: 0.85, religion: 'sunni' }],
+  'Republic of Dagestan': [{ culture: 'caucasian', share: 0.85, religion: 'sunni' }],
+  'Republic of Ingushetia': [{ culture: 'caucasian', share: 0.85, religion: 'sunni' }],
+  'Kabardino-Balkaria': [{ culture: 'caucasian', share: 0.8, religion: 'sunni' }],
+  'Republic of North Ossetia-Alania': [{ culture: 'caucasian', share: 0.8 }],
+  'Republic of Adygea': [{ culture: 'caucasian', share: 0.75, religion: 'sunni' }],
+  'Karachay-Cherkess Republic': [{ culture: 'caucasian', share: 0.75, religion: 'sunni' }],
+  'Autonomous Republic of Crimea': [{ culture: 'turkish', share: 0.4 }, { culture: 'ukrainian', share: 0.2 }],
+  Sevastopol: [{ culture: 'turkish', share: 0.3 }, { culture: 'ukrainian', share: 0.25 }],
+  'Republic of Tatarstan': [{ culture: 'central_asian', share: 0.55 }],
+  Bashkortostan: [{ culture: 'central_asian', share: 0.55 }],
+  // --- Ottoman Empire ---
+  Greece: [{ culture: 'greek', share: 0.9 }],
+  Bulgaria: [{ culture: 'south_slavic', share: 0.78 }],
+  'Republic of Serbia': [{ culture: 'south_slavic', share: 0.88 }],
+  Romania: [{ culture: 'romanian', share: 0.88 }],
+  Albania: [{ culture: 'south_slavic', share: 0.3 }, { culture: 'greek', share: 0.25 }],
+  Thrace: [{ culture: 'greek', share: 0.25 }],
+  Anatolia: [{ culture: 'greek', share: 0.12 }],
+  Pontus: [{ culture: 'greek', share: 0.3 }],
+  Cilicia: [{ culture: 'caucasian', share: 0.22 }],
+  Baghdad: [{ culture: 'arabic', share: 0.93 }],
+  Basra: [{ culture: 'arabic', share: 0.93 }],
+  Mosul: [{ culture: 'arabic', share: 0.85 }],
+  Algiers: [{ culture: 'arabic', share: 0.94 }],
+  Constantine: [{ culture: 'arabic', share: 0.94 }],
+  Oran: [{ culture: 'arabic', share: 0.94 }],
+  Sahara: [{ culture: 'arabic', share: 0.94 }],
+  Tunisia: [{ culture: 'arabic', share: 0.94 }],
+  Cyrenaica: [{ culture: 'arabic', share: 0.94 }],
+  Fezzan: [{ culture: 'arabic', share: 0.94 }],
+  Tripolitania: [{ culture: 'arabic', share: 0.94 }],
+  // --- Egypt's Sudanese south ---
+  'South Sudan (Northeast)': [{ culture: 'african', share: 0.9 }],
+  'South Sudan (Southeast)': [{ culture: 'african', share: 0.9 }],
+  'South Sudan (West)': [{ culture: 'african', share: 0.9 }],
+  Darfur: [{ culture: 'african', share: 0.85 }],
+  Kordofan: [{ culture: 'african', share: 0.8 }],
+  // --- Persia ---
+  'Azerbaijan (Iran)': [{ culture: 'turkish', share: 0.6 }],
+  // --- Qing frontiers ---
+  Tibet: [{ culture: 'central_asian', share: 0.9, religion: 'buddhist' }],
+  Xinjiang: [{ culture: 'central_asian', share: 0.85 }],
+  'Inner Mongolia': [{ culture: 'central_asian', share: 0.7, religion: 'buddhist' }],
+  'Eastern Mongolia': [{ culture: 'central_asian', share: 0.85, religion: 'buddhist' }],
+  'Western Mongolia': [{ culture: 'central_asian', share: 0.85, religion: 'buddhist' }],
+  Gobi: [{ culture: 'central_asian', share: 0.85, religion: 'buddhist' }],
+  Ulaanbaatar: [{ culture: 'central_asian', share: 0.85, religion: 'buddhist' }],
+  // --- Mexico's Texan settlers ---
+  Texas: [{ culture: 'yankee', share: 0.35, religion: 'protestant' }],
+  // --- Portugal's African coast ---
+  'Cuando Cubango': [{ culture: 'african', share: 0.92 }],
+  Huambo: [{ culture: 'african', share: 0.92 }],
+  Luanda: [{ culture: 'african', share: 0.88 }],
+  Beira: [{ culture: 'african', share: 0.92 }],
+  Maputo: [{ culture: 'african', share: 0.9 }],
+  Nampula: [{ culture: 'african', share: 0.92 }],
+};
+
+/** Pakistan/Bengal provinces of British India follow Islam, not Hinduism. */
+const SOUTH_ASIAN_SUNNI = new Set([
+  'Baluchistan', 'Frontier', 'Punjab (Pakistan)', 'Sindh', 'Bangladesh', 'Jammu and Kashmir',
+]);
+
+/**
+ * Broad colonial-sweep classifier (owner-scoped). Returns the native culture
+ * for provinces the named-rule table does not cover.
+ */
+function colonialMinorityFor(ownerTag: string, name: string, lon: number, lat: number): MinorityRule[] | null {
+  // British India: everything ENG owns in the subcontinent box.
+  if (ownerTag === 'ENG' && lon >= 60 && lon <= 98 && lat >= 5 && lat <= 35.5) {
+    return [{ culture: 'south_asian', share: 0.97, religion: SOUTH_ASIAN_SUNNI.has(name) ? 'sunni' : 'hindu' }];
+  }
+  // Dutch East Indies.
+  if (ownerTag === 'NLD' && lon >= 94 && lon <= 142 && lat >= -12 && lat <= 7) {
+    return [{ culture: 'malay', share: 0.96 }];
+  }
+  // Spanish possessions: the Americas and the Philippines.
+  if (ownerTag === 'ESP' && lon >= -120 && lon <= -55) {
+    return [{ culture: 'latin_american', share: 0.85 }];
+  }
+  if (ownerTag === 'ESP' && name === 'Philippines') {
+    return [{ culture: 'malay', share: 0.9, religion: 'catholic' }];
+  }
+  // Portuguese Brazil.
+  if (ownerTag === 'POR' && lon >= -76 && lon <= -30) {
+    return [{ culture: 'latin_american', share: 0.88 }];
+  }
+  return null;
+}
+
+/** Placeholder tags: pops there are natives, not subjects of a real empire. */
+const PLACEHOLDER_TAGS = new Set(['UNC', 'UNA', 'COL']);
+
+const PLACEHOLDER_NAME_RULES: Record<string, string> = {
+  Moldova: 'romanian',
+  'Bosnia and Herzegovina': 'south_slavic',
+  Kosovo: 'south_slavic',
+  Montenegro: 'south_slavic',
+  'North Macedonia': 'south_slavic',
+  Luxembourg: 'french',
+  Iceland: 'scandinavian',
+  'East Greenland': 'scandinavian',
+  'North Greenland': 'scandinavian',
+  'West Greenland': 'scandinavian',
+  Cyprus: 'greek',
+  'Northern Cyprus': 'greek',
+  'Sri Lanka': 'south_asian',
+  Kuwait: 'arabic',
+  Oman: 'arabic',
+  Qatar: 'arabic',
+  'United Arab Emirates': 'arabic',
+  Hejaz: 'arabic',
+  Nejd: 'arabic',
+  Asir: 'arabic',
+  'Eastern Arabia': 'arabic',
+  'Yemen (East)': 'arabic',
+  'Yemen (North)': 'arabic',
+  'Yemen (West)': 'arabic',
+  Kyrgyzstan: 'central_asian',
+  Tajikistan: 'central_asian',
+  'Turkmenistan (East)': 'central_asian',
+  'Turkmenistan (North)': 'central_asian',
+  'Turkmenistan (Northwest)': 'central_asian',
+  'Uzbekistan (East)': 'central_asian',
+  'Uzbekistan (Northwest)': 'central_asian',
+  'Uzbekistan (Southeast)': 'central_asian',
+};
+
+/** Native culture for provinces owned by map-placeholder tags (UNC/UNA/COL). */
+function placeholderCultureFor(name: string, lon: number, lat: number): string | null {
+  const named = PLACEHOLDER_NAME_RULES[name];
+  if (named) return named;
+  if (lon >= -20 && lon <= 52 && lat >= -36 && lat <= 20) return 'african';
+  if (lon >= 95 && lon <= 170 && lat >= -12) return 'malay';
+  if (lon >= -100 && lon <= -55 && lat >= -60 && lat <= 30) return 'latin_american';
+  return null;
+}
 const CULTURE_BY_TAG: Record<string, string> = {
   ENG: 'british',
   FRA: 'french',
@@ -189,6 +435,11 @@ function capitalId(id: number): number {
   return 0;
 }
 
+/** 0.8.0: historical override wins, then the generated seed, then the fallback. */
+function primaryCultureKeyFor(tag: string, seedPrimary: string): string {
+  return PRIMARY_CULTURE_OVERRIDE[tag] || seedPrimary || CULTURE_BY_TAG[tag] || 'british';
+}
+
 function createNations(data: GameData): Nation[] {
   return WORLD_SEED.nations.map((seed, id) => ({
     coreStateIds: Array.from(new Set((data.nationCores?.[seed.tag] ?? seed.coreStateIds ?? []).slice())).sort((a, b) => a - b),
@@ -196,8 +447,8 @@ function createNations(data: GameData): Nation[] {
     tag: seed.tag,
     name: seed.name,
     color: seed.color,
-    primaryCulture: cultureIndex(data, seed.primaryCulture || CULTURE_BY_TAG[seed.tag] || 'british'),
-    acceptedCultures: [cultureIndex(data, seed.primaryCulture || CULTURE_BY_TAG[seed.tag] || 'british')],
+    primaryCulture: cultureIndex(data, primaryCultureKeyFor(seed.tag, seed.primaryCulture)),
+    acceptedCultures: [cultureIndex(data, primaryCultureKeyFor(seed.tag, seed.primaryCulture))],
     government: seed.government,
     rulingParty: defaultRulingParty(seed.government),
     parties: createNationParties(),
@@ -239,6 +490,9 @@ function createNations(data: GameData): Nation[] {
     mobilizationCapacity: 0,
     armyOrganization: 0.84,
     armyMorale: 0.9,
+    // 0.8.0 culture
+    culturePolicy: 'assimilationist' as const,
+    assimilationByCulture: {},
   }));
 }
 
@@ -334,16 +588,104 @@ function addFactorySeeds(states: State[], rng: Rng): void {
   });
 }
 
+/** One (culture, religion, weight) slice of a province's population. */
+interface CultureSlice {
+  culture: number;
+  religion: number;
+  weight: number;
+}
+
+/**
+ * 0.8.0 — the cultural makeup of a seeded province: named historical minority
+ * regions first, then broad colonial sweeps, then native cultures under the
+ * placeholder tags, then light border blending with foreign neighbours.
+ * Deterministic (pure function of the baked seed + game data).
+ */
+function provinceCultureSlices(
+  seed: { name: string; ownerTag: string; lon: number; lat: number; neighbors: number[] },
+  nations: Nation[],
+  ownerId: number,
+  religionByNation: number[],
+  provinceOwnerBySeedId: Map<number, number>,
+  data: GameData,
+): CultureSlice[] {
+  const owner = nations[ownerId];
+  const primary = owner.primaryCulture;
+  const primaryReligion = religionByNation[ownerId] ?? 0;
+  const cultureReligion = (cultureIdx: number, override?: string): number => {
+    if (override) return religionIndex(data, override);
+    const key = data.cultures[cultureIdx]?.religion;
+    return key ? religionIndex(data, key) : primaryReligion;
+  };
+
+  // Native population under map-placeholder tags: one homogeneous native slice.
+  if (PLACEHOLDER_TAGS.has(seed.ownerTag)) {
+    const nativeKey = placeholderCultureFor(seed.name, seed.lon, seed.lat);
+    const native = nativeKey ? cultureIndex(data, nativeKey, primary) : primary;
+    return [{ culture: native, religion: cultureReligion(native), weight: 1 }];
+  }
+
+  const rules = MINORITY_RULES[seed.name]
+    ?? colonialMinorityFor(seed.ownerTag, seed.name, seed.lon, seed.lat)
+    ?? [];
+  const slices: CultureSlice[] = [];
+  let minorityTotal = 0;
+  for (const rule of rules) {
+    const culture = cultureIndex(data, rule.culture, primary);
+    if (culture === primary) continue;
+    const weight = clamp(rule.share, 0, 0.98);
+    slices.push({ culture, religion: cultureReligion(culture, rule.religion), weight });
+    minorityTotal += weight;
+  }
+
+  // Border blending: the largest same-continent foreign neighbour culture
+  // seeps across the border (Alsace, the marches...). Named rules win.
+  if (slices.length === 0 && owner.isCivilized) {
+    for (const neighborId of seed.neighbors) {
+      const neighborOwner = provinceOwnerBySeedId.get(neighborId);
+      if (neighborOwner === undefined || neighborOwner === ownerId) continue;
+      const other = nations[neighborOwner];
+      if (!other || !other.isCivilized || other.primaryCulture === primary) continue;
+      slices.push({
+        culture: other.primaryCulture,
+        religion: cultureReligion(other.primaryCulture),
+        weight: 0.12,
+      });
+      minorityTotal += 0.12;
+      break; // one blended culture max
+    }
+  }
+
+  minorityTotal = Math.min(minorityTotal, 0.98);
+  slices.unshift({ culture: primary, religion: primaryReligion, weight: 1 - minorityTotal });
+  // Largest first; keep at most 3 slices, ignore slivers under 10%.
+  const kept = slices
+    .filter((slice) => slice.weight >= 0.1)
+    .sort((a, b) => b.weight - a.weight || a.culture - b.culture)
+    .slice(0, 3);
+  const total = kept.reduce((sum, slice) => sum + slice.weight, 0);
+  for (const slice of kept) slice.weight /= Math.max(1e-9, total);
+  return kept.length > 0 ? kept : [{ culture: primary, religion: primaryReligion, weight: 1 }];
+}
+
 function createPops(worldProvinces: Province[], provinceRuntime: ProvinceSeedRuntime[], nations: Nation[], data: GameData, rng: Rng): Pop[] {
   const pops: Pop[] = [];
   const religionByNation = nations.map((nation) => religionIndex(data, RELIGION_BY_TAG[nation.tag] || 'protestant'));
   const runtimeByProvince = new Map(provinceRuntime.map((item) => [item.id, item]));
+  const seedByProvince = new Map(WORLD_SEED.provinces.map((seed) => [seed.id, seed]));
+  const provinceOwnerBySeedId = new Map(worldProvinces.map((province) => [province.id, province.owner]));
+  // Pop classes that split into cultural cohorts; the rest take one culture.
+  const SPLIT_TYPES = new Set<PopType>(['farmer', 'laborer', 'craftsman']);
   for (const province of worldProvinces) {
     const nation = nations[province.owner];
     const runtime = runtimeByProvince.get(province.id);
     const weight = runtime?.weight ?? 1;
-    const culture = nation.primaryCulture;
     const religion = religionByNation[province.owner] ?? 0;
+    const seed = seedByProvince.get(province.id);
+    const slices: CultureSlice[] = seed
+      ? provinceCultureSlices(seed, nations, province.owner, religionByNation, provinceOwnerBySeedId, data)
+      : [{ culture: nation.primaryCulture, religion, weight: 1 }];
+    const plurality = slices[0];
     const density = Math.max(0.3, weight * (province.terrain === 'desert' ? 0.62 : 1));
     const basePopulation = Math.max(2200, Math.floor((7000 + rng.next() * 16000) * density));
     const sizeShareByType: Record<PopType, number> = {
@@ -361,23 +703,32 @@ function createPops(worldProvinces: Province[], provinceRuntime: ProvinceSeedRun
     for (let i = 0; i < POP_TYPES.length; i++) {
       const type = POP_TYPES[i];
       const share = sizeShareByType[type] ?? 0.05;
-      const size = Math.max(80, Math.floor(basePopulation * share * (0.9 + rng.next() * 0.25)));
-      const pop: Pop = {
-        id: pops.length,
-        type,
-        provinceId: province.id,
-        size,
-        culture,
-        religion,
-        money: 8 + rng.next() * 25,
-        militancy: 0.8 + rng.next() * 1.4,
-        consciousness: 0.6 + rng.next() * 1.6,
-        needsMet: 0.55 + rng.next() * 0.35,
-        lastGrowth: 0,
-        ideology: Math.floor(rng.next() * 4),
-      };
-      province.popIds.push(pop.id);
-      pops.push(pop);
+      const typeSize = Math.max(80, Math.floor(basePopulation * share * (0.9 + rng.next() * 0.25)));
+      // Soldiers serve the crown; local elites belong to the local plurality.
+      const cohorts: CultureSlice[] = type === 'soldier'
+        ? [{ culture: nation.primaryCulture, religion, weight: 1 }]
+        : SPLIT_TYPES.has(type)
+          ? slices
+          : [plurality];
+      for (const cohort of cohorts) {
+        const size = Math.max(60, Math.floor(typeSize * cohort.weight));
+        const pop: Pop = {
+          id: pops.length,
+          type,
+          provinceId: province.id,
+          size,
+          culture: cohort.culture,
+          religion: cohort.religion,
+          money: 8 + rng.next() * 25,
+          militancy: 0.8 + rng.next() * 1.4,
+          consciousness: 0.6 + rng.next() * 1.6,
+          needsMet: 0.55 + rng.next() * 0.35,
+          lastGrowth: 0,
+          ideology: Math.floor(rng.next() * 4),
+        };
+        province.popIds.push(pop.id);
+        pops.push(pop);
+      }
     }
   }
   return pops;
@@ -495,6 +846,9 @@ export function createWorld(data: GameData, seed: number): World {
     congresses: [],
     nextCrisisId: 1,
     crisisCooldownUntil: 0,
+    // 0.8.0 Age of Nationalism
+    movements: [],
+    nextMovementId: 1,
   };
   for (const nation of world.nations) {
     const ownedStates = world.states

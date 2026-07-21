@@ -2,6 +2,7 @@ import { useStore, type PanelId } from '../../store';
 import { BudgetPanel } from './BudgetPanel';
 import { MarketPanel } from './MarketPanel';
 import { PopulationPanel } from './PopulationPanel';
+import { CulturePanel } from './CulturePanel';
 import { ProductionPanel } from './ProductionPanel';
 import { ProvincePanel } from './ProvincePanel';
 import { PoliticsPanel } from './PoliticsPanel';
@@ -56,6 +57,7 @@ export function PanelHost() {
           {openPanel === 'province' ? <ProvincePanel /> : null}
           {openPanel === 'budget' ? <BudgetPanel /> : null}
           {openPanel === 'population' ? <PopulationPanel /> : null}
+          {openPanel === 'population' ? <CulturePanel /> : null}
           {openPanel === 'production' ? <ProductionPanel /> : null}
           {openPanel === 'market' ? <MarketPanel /> : null}
           {openPanel === 'politics' ? <PoliticsPanel /> : null}

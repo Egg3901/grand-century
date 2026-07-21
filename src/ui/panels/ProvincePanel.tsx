@@ -88,6 +88,22 @@ export function ProvincePanel() {
           </li>
         ))}
       </ul>
+
+      {detail.cultures && detail.cultures.length > 0 ? (
+        <>
+          <h3 className="atlas-heading panel-small-heading">Cultures</h3>
+          <ul className="panel-list">
+            {detail.cultures.map((entry) => (
+              <li key={entry.culture}>
+                <span className={entry.accepted ? undefined : 'unrest'}>
+                  {entry.name}{entry.accepted ? '' : ' (non-accepted)'}
+                </span>
+                <span>{`${entry.size.toLocaleString()} (${(entry.share * 100).toFixed(0)}%)`}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
     </section>
   );
 }

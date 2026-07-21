@@ -29,7 +29,7 @@ interface PopAggregate {
   count: number;
 }
 
-export function detailProvince(world: World, _data: GameData, id: ProvinceId): ProvinceDetail {
+export function detailProvince(world: World, data: GameData, id: ProvinceId): ProvinceDetail {
   const province = world.provinces[id];
   if (!province) {
     return {
@@ -67,6 +67,26 @@ export function detailProvince(world: World, _data: GameData, id: ProvinceId): P
     byType.set(pop.type, existing);
   }
 
+  // 0.8.0 culture: cultural makeup of the province (largest first).
+  const owner = world.nations[province.owner];
+  const byCulture = new Map<number, number>();
+  let cultureTotal = 0;
+  for (const popId of province.popIds) {
+    const pop = world.pops[popId];
+    if (!pop || pop.size <= 0) continue;
+    byCulture.set(pop.culture, (byCulture.get(pop.culture) ?? 0) + pop.size);
+    cultureTotal += pop.size;
+  }
+  const cultures = Array.from(byCulture.entries())
+    .map(([culture, size]) => ({
+      culture,
+      name: data.cultures[culture]?.name ?? `Culture ${culture}`,
+      size,
+      share: cultureTotal > 0 ? size / cultureTotal : 0,
+      accepted: Boolean(owner) && (culture === owner.primaryCulture || owner.acceptedCultures.includes(culture)),
+    }))
+    .sort((a, b) => b.size - a.size);
+
   return {
     id: province.id,
     name: province.name,
@@ -82,6 +102,7 @@ export function detailProvince(world: World, _data: GameData, id: ProvinceId): P
     rgo: { ...province.rgo },
     fortLevel: province.fortLevel,
     navalBaseLevel: province.navalBaseLevel,
+    cultures,
   };
 }
 
