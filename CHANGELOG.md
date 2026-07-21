@@ -2,6 +2,26 @@
 
 All notable changes to Grand Century are documented here.
 
+## [0.5.0] — 2026-07-21
+
+The visual overhaul — the map now reads as a premium antique atlas.
+
+### Map rendering (0.5.1 + 0.5.2)
+- Engraved sea with wave-lines, graticule, coastal aquatint + waterline rings, and
+  spaced-italic ocean lettering; opaque land underlay + SE plate-shadow depth;
+  paper grain + mottle + vignette + page-light varnish; de-washed nation pigments;
+  letterpress labels placed on-territory (pole of inaccessibility).
+- **Terrain mapmode** — an 11-biome hand-tinted physical plate (deserts, plains,
+  forest/jungle, slate mountains, arctic) with engraved terrain textures + legend.
+- **Heraldic map counters** — engraved heater-shield army tokens vs round naval
+  cartouches, owner pigment + strength ribbons, wax-seal battle/siege/blockade
+  badges (replacing the old text pills).
+- **Engraved relief/hillshade** for mountain provinces (NW light), mapmode
+  cross-fade transitions, archipelago waterline cleanup.
+- Fixed a race that could leave the map uncolored if paused before load.
+
+[0.5.0]: https://github.com/Egg3901/grand-century/releases/tag/v0.5.0
+
 ## [0.4.0] — 2026-07-21
 
 The big one: live multiplayer, a full UI + visual overhaul, a topology-fixed map,
