@@ -7,7 +7,9 @@ Type=simple
 User=root
 WorkingDirectory=/root/grand-century
 Environment=PORT=3412
-ExecStart=/usr/bin/env npm run server
+# systemd has a minimal PATH; node/npm live in /root/.local/bin (tsx needs node too).
+Environment=PATH=/root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/root/.local/bin/npm run server
 Restart=always
 RestartSec=3
 
