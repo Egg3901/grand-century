@@ -7,7 +7,7 @@
 
 import { create } from 'zustand';
 import type { SimTransport } from './net/transport';
-import type { LobbyPlayerInfo, SessionMode } from './net/sessionProtocol';
+import type { LobbyPlayerInfo, PresencePlayer, SessionMode } from './net/sessionProtocol';
 import type {
   Command, GameData, NationDetail, NationId, ProvinceDetail, ProvinceId, SaveSlotInfo, WorldSnapshot,
 } from './shared/types';
@@ -59,6 +59,10 @@ interface UIState {
   mpMode: SessionMode | null;
   mpIsLeader: boolean;
   mpPlayers: LobbyPlayerInfo[];
+  /** Live presence (connected/disconnected) for in-game HUD. */
+  mpPresence: PresencePlayer[];
+  /** Recent in-session chat lines. */
+  mpChat: { from: string; name: string; text: string; at: number }[];
 
   transport: SimTransport | null;
 
@@ -71,6 +75,9 @@ interface UIState {
     isLeader?: boolean;
     players?: LobbyPlayerInfo[];
   }) => void;
+  setPresence: (players: PresencePlayer[]) => void;
+  pushChat: (line: { from: string; name: string; text: string; at: number }) => void;
+  sendChat: (text: string) => void;
   onSnapshot: (s: WorldSnapshot) => void;
   onData: (d: GameData) => void;
   onProvinceDetail: (d: ProvinceDetail) => void;
@@ -114,6 +121,8 @@ export const useStore = create<UIState>((set, get) => ({
   mpMode: null,
   mpIsLeader: false,
   mpPlayers: [],
+  mpPresence: [],
+  mpChat: [],
   transport: null,
 
   setTransport: (t) => set({ transport: t }),
@@ -125,6 +134,14 @@ export const useStore = create<UIState>((set, get) => ({
     mpIsLeader: meta.isLeader !== undefined ? meta.isLeader : state.mpIsLeader,
     mpPlayers: meta.players !== undefined ? meta.players : state.mpPlayers,
   })),
+  setPresence: (players) => set({ mpPresence: players }),
+  pushChat: (line) => set((state) => ({
+    mpChat: [...state.mpChat, line].slice(-40),
+  })),
+  sendChat: (text) => {
+    const t = get().transport as { sendChat?: (s: string) => void } | null;
+    t?.sendChat?.(text);
+  },
   onSnapshot: (s) => set((state) => {
     const ALERT_FEED_CAP = 18;
     const alerts = state.alerts.slice();

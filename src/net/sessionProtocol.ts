@@ -1,11 +1,12 @@
 /**
- * Multiplayer session + lobby envelope (MP-M1 / MP-M2).
+ * Multiplayer session + lobby envelope (MP-M1 … MP-M5).
  *
  * Does NOT change ToWorker / FromWorker shapes in src/shared/types.ts.
- * Lobby messages live here; the sim wire protocol reuses worker messages.
+ * Lobby / presence / chat / snapshot-diff messages live here.
  */
 
 import type { FromWorker, ToWorker } from '../shared/types';
+import type { PlayerView, SharedSnapshot, SharedSnapshotDiff } from './snapshotCodec';
 
 export type SessionMode = 'competitive' | 'coop';
 export type SessionPhase = 'lobby' | 'running';
@@ -123,6 +124,20 @@ export interface LeaveSessionMessage {
   t: 'leaveSession';
 }
 
+/** Client → server: in-session chat line. */
+export interface ChatSendMessage {
+  t: 'chat';
+  text: string;
+}
+
+/** Client → server: rejoin a running seat after disconnect (grace window). */
+export interface ReconnectMessage {
+  t: 'reconnect';
+  sessionId: string;
+  /** Previous client id from the server (held during grace). */
+  clientId: string;
+}
+
 export type LobbyClientMessage =
   | CreateSessionMessage
   | ListSessionsMessage
@@ -133,12 +148,69 @@ export type LobbyClientMessage =
   | LeaderStartMessage
   | LeaveSessionMessage;
 
-export type ClientToServer = SessionJoinMessage | LobbyClientMessage | ToWorker;
+export interface PresencePlayer {
+  clientId: string;
+  name: string;
+  nationTag: string | null;
+  team: number | null;
+  leader: boolean;
+  connected: boolean;
+}
+
+export interface PresenceMessage {
+  t: 'presence';
+  sessionId: string;
+  players: PresencePlayer[];
+}
+
+export interface ChatRelayMessage {
+  t: 'chat';
+  sessionId: string;
+  from: string;
+  name: string;
+  text: string;
+  at: number;
+}
+
+/** Initial / resync shared world snapshot (no per-client private fields). */
+export interface SnapshotFullMessage {
+  t: 'snapshotFull';
+  seq: number;
+  shared: SharedSnapshot;
+}
+
+/** Sparse shared snapshot update vs seq baseSeq. */
+export interface SnapshotDiffMessage {
+  t: 'snapshotDiff';
+  seq: number;
+  baseSeq: number;
+  diff: SharedSnapshotDiff;
+}
+
+/** Per-client private snapshot overlay (budget / events / etc.). */
+export interface PlayerViewMessage {
+  t: 'playerView';
+  seq: number;
+  view: PlayerView;
+}
+
+export type ClientToServer =
+  | SessionJoinMessage
+  | ReconnectMessage
+  | LobbyClientMessage
+  | ChatSendMessage
+  | ToWorker;
+
 export type ServerToClient =
   | SessionJoinedMessage
   | LobbyStateMessage
   | SessionListMessage
   | SessionCreatedMessage
+  | PresenceMessage
+  | ChatRelayMessage
+  | SnapshotFullMessage
+  | SnapshotDiffMessage
+  | PlayerViewMessage
   | FromWorker;
 
 export function isSessionJoinMessage(msg: unknown): msg is SessionJoinMessage {
@@ -186,6 +258,44 @@ export function isLobbyClientMessage(msg: unknown): msg is LobbyClientMessage {
     || t === 'leaderStart'
     || t === 'leaveSession'
   );
+}
+
+export function isChatSendMessage(msg: unknown): msg is ChatSendMessage {
+  if (!msg || typeof msg !== 'object') return false;
+  const m = msg as Record<string, unknown>;
+  return m.t === 'chat' && typeof m.text === 'string';
+}
+
+export function isReconnectMessage(msg: unknown): msg is ReconnectMessage {
+  if (!msg || typeof msg !== 'object') return false;
+  const m = msg as Record<string, unknown>;
+  return m.t === 'reconnect' && typeof m.sessionId === 'string' && typeof m.clientId === 'string';
+}
+
+export function isPresenceMessage(msg: unknown): msg is PresenceMessage {
+  if (!msg || typeof msg !== 'object') return false;
+  return (msg as { t?: string }).t === 'presence';
+}
+
+export function isChatRelayMessage(msg: unknown): msg is ChatRelayMessage {
+  if (!msg || typeof msg !== 'object') return false;
+  const m = msg as Record<string, unknown>;
+  return m.t === 'chat' && typeof m.from === 'string' && typeof m.text === 'string';
+}
+
+export function isSnapshotFullMessage(msg: unknown): msg is SnapshotFullMessage {
+  if (!msg || typeof msg !== 'object') return false;
+  return (msg as { t?: string }).t === 'snapshotFull';
+}
+
+export function isSnapshotDiffMessage(msg: unknown): msg is SnapshotDiffMessage {
+  if (!msg || typeof msg !== 'object') return false;
+  return (msg as { t?: string }).t === 'snapshotDiff';
+}
+
+export function isPlayerViewMessage(msg: unknown): msg is PlayerViewMessage {
+  if (!msg || typeof msg !== 'object') return false;
+  return (msg as { t?: string }).t === 'playerView';
 }
 
 /** True if a ServerToClient message is part of the sim protocol (not lobby). */

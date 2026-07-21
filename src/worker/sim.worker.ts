@@ -2,6 +2,11 @@
  * Worker entry — the sim runs entirely off the main thread (master doc §4).
  * Receives Commands, runs a fixed-timestep tick loop, and posts snapshots.
  * Imports nothing from the DOM or UI.
+ *
+ * Snapshot cadence (perf P0 / MP-M4):
+ * - Do NOT post while paused/unchanged.
+ * - Post immediately when a command changes state.
+ * - Cap running cadence to ~8 Hz regardless of tick speed.
  */
 
 /// <reference lib="webworker" />
@@ -22,11 +27,25 @@ let acc = 0;
 let lastAutosaveYear = -1;
 let saveBusy = false;
 
+/** Cap UI snapshot rate while the clock is running (smooth, not 30 Hz). */
+const SNAPSHOT_HZ = 8;
+const SNAPSHOT_MIN_INTERVAL = 1 / SNAPSHOT_HZ;
+
+let pendingSnapshot = false;
+let snapshotAcc = 0;
+
 // days advanced per real second at each speed
 const SPEED_DAYS_PER_SEC = [0, 2, 5, 12, 30, 90];
 
 function post(m: FromWorker) {
   ctx.postMessage(m);
+}
+
+function postSnapshotNow() {
+  if (!world) return;
+  post({ t: 'snapshot', snapshot: snapshot(world, data) });
+  pendingSnapshot = false;
+  snapshotAcc = 0;
 }
 
 function yearFromDay(day: number): number {
@@ -71,7 +90,7 @@ async function loadWorldFromSlot(slot: string) {
     const loaded = deserializeWorld(payload);
     world = loaded.world;
     lastAutosaveYear = yearFromDay(world.day);
-    post({ t: 'snapshot', snapshot: snapshot(world, data) });
+    postSnapshotNow();
     post({ t: 'saveStatus', action: 'load', slot, ok: true, msg: 'load complete' });
     await publishSaveSlots();
   } catch (error) {
@@ -89,9 +108,9 @@ async function loadWorldFromSlot(slot: string) {
 
 function tick(dtSeconds: number) {
   if (!world) return;
+  let steps = 0;
   if (world.speed > 0) {
     acc += dtSeconds * SPEED_DAYS_PER_SEC[world.speed];
-    let steps = 0;
     while (acc >= 1 && steps < 400) {
       advanceDay(world, data);
       acc -= 1;
@@ -104,10 +123,18 @@ function tick(dtSeconds: number) {
     const autosaveSlot = `autosave-${(year % 3) + 1}`;
     void saveCurrentWorld(autosaveSlot, 'autosave');
   }
-  post({ t: 'snapshot', snapshot: snapshot(world, data) });
+
+  // Only schedule a snapshot when the world actually advanced.
+  if (steps > 0) pendingSnapshot = true;
+
+  if (!pendingSnapshot) return;
+  snapshotAcc += dtSeconds;
+  if (snapshotAcc >= SNAPSHOT_MIN_INTERVAL) {
+    postSnapshotNow();
+  }
 }
 
-// drive the loop at ~30fps of sim/snapshot cadence
+// drive the loop at ~30 Hz for sim accumulation; snapshots are cadence-capped
 let last = 0;
 function loop(now: number) {
   const dt = last ? (now - last) / 1000 : 0;
@@ -127,7 +154,7 @@ ctx.onmessage = (e: MessageEvent<ToWorker>) => {
       world = createWorld(data, msg.seed);
       lastAutosaveYear = yearFromDay(world.day);
       post({ t: 'ready', data });
-      post({ t: 'snapshot', snapshot: snapshot(world, data) });
+      postSnapshotNow();
       void publishSaveSlots();
       break;
     case 'command':
@@ -152,7 +179,7 @@ function handleCommand(cmd: Command) {
       nation.isPlayer = nation.id === playerNation;
     });
     lastAutosaveYear = yearFromDay(world.day);
-    post({ t: 'snapshot', snapshot: snapshot(world, data) });
+    postSnapshotNow();
     return;
   }
   if (cmd.t === 'save') {
@@ -168,6 +195,14 @@ function handleCommand(cmd: Command) {
     return;
   }
   applyCommand(world, data, cmd, post);
+  // Command changed state — push immediately so pause/tax/etc. feel responsive.
+  postSnapshotNow();
 }
 
 scheduleNext();
+
+/** Test hooks (Node unit tests import this module via vitest). */
+export const __test = {
+  get pendingSnapshot() { return pendingSnapshot; },
+  postSnapshotNow,
+};

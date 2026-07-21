@@ -5,6 +5,7 @@ import { PanelHost } from './ui/panels/PanelHost';
 import { MainMenu } from './ui/MainMenu';
 import { LobbyScreen } from './ui/Lobby';
 import { PresenceHud } from './ui/PresenceHud';
+import { ChatHud } from './ui/ChatHud';
 import { PermalinkBootstrap } from './ui/PermalinkBootstrap';
 import { Outliner } from './ui/Outliner';
 import { EventFeed } from './ui/EventFeed';
@@ -36,6 +37,7 @@ function App() {
         <AudioManager />
         <Hud />
         <PresenceHud />
+        <ChatHud />
         <Outliner />
         <MapLegend />
         <EventFeed />

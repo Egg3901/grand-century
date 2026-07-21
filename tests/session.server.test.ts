@@ -34,23 +34,22 @@ describe('GameSession running (MP-M1 compat)', () => {
     expect(fromWorker(a.messages).some((m) => m.t === 'ready')).toBe(true);
     expect(fromWorker(b.messages).some((m) => m.t === 'ready')).toBe(true);
 
-    const snapA0 = fromWorker(a.messages).filter((m) => m.t === 'snapshot').at(-1);
-    const snapB0 = fromWorker(b.messages).filter((m) => m.t === 'snapshot').at(-1);
-    expect(snapA0?.t).toBe('snapshot');
-    expect(snapB0?.t).toBe('snapshot');
-    if (snapA0?.t !== 'snapshot' || snapB0?.t !== 'snapshot') return;
-    expect(snapA0.snapshot.day).toBe(snapB0.snapshot.day);
-    expect(snapA0.snapshot.playerNation).toBe(ja.nationId);
-    expect(snapB0.snapshot.playerNation).toBe(jb.nationId);
+    const snapA0 = session.reconstructFor('a');
+    const snapB0 = session.reconstructFor('b');
+    expect(snapA0).not.toBeNull();
+    expect(snapB0).not.toBeNull();
+    expect(snapA0!.day).toBe(snapB0!.day);
+    expect(snapA0!.playerNation).toBe(ja.nationId);
+    expect(snapB0!.playerNation).toBe(jb.nationId);
 
     session.handleMessage('a', { t: 'command', cmd: { t: 'setSpeed', speed: 5 } });
     session.tick(1.0);
+    for (let i = 0; i < 5; i++) session.tick(0.4);
 
-    const snapA1 = fromWorker(a.messages).filter((m) => m.t === 'snapshot').at(-1);
-    const snapB1 = fromWorker(b.messages).filter((m) => m.t === 'snapshot').at(-1);
-    if (snapA1?.t !== 'snapshot' || snapB1?.t !== 'snapshot') throw new Error('missing snapshot');
-    expect(snapA1.snapshot.day).toBe(snapB1.snapshot.day);
-    expect(snapA1.snapshot.day).toBeGreaterThan(snapA0.snapshot.day);
+    const snapA1 = session.reconstructFor('a');
+    const snapB1 = session.reconstructFor('b');
+    expect(snapA1!.day).toBe(snapB1!.day);
+    expect(snapA1!.day).toBeGreaterThan(snapA0!.day);
   });
 
   it('rejects speed changes from non-leader', () => {
@@ -156,21 +155,22 @@ describe('Lobby (MP-M2)', () => {
     expect(fromWorker(a.messages).some((m) => m.t === 'ready')).toBe(true);
     expect(fromWorker(b.messages).some((m) => m.t === 'ready')).toBe(true);
 
-    const snapA = fromWorker(a.messages).filter((m) => m.t === 'snapshot').at(-1);
-    const snapB = fromWorker(b.messages).filter((m) => m.t === 'snapshot').at(-1);
-    if (snapA?.t !== 'snapshot' || snapB?.t !== 'snapshot') throw new Error('no snap');
-    expect(snapA.snapshot.day).toBe(snapB.snapshot.day);
-    expect(snapA.snapshot.nations.find((n) => n.tag === 'ENG')?.id).toBe(snapA.snapshot.playerNation);
-    expect(snapB.snapshot.nations.find((n) => n.tag === 'FRA')?.id).toBe(snapB.snapshot.playerNation);
+    const snapA = session.reconstructFor('a');
+    const snapB = session.reconstructFor('b');
+    expect(snapA).not.toBeNull();
+    expect(snapB).not.toBeNull();
+    expect(snapA!.day).toBe(snapB!.day);
+    expect(snapA!.nations.find((n) => n.tag === 'ENG')?.id).toBe(snapA!.playerNation);
+    expect(snapB!.nations.find((n) => n.tag === 'FRA')?.id).toBe(snapB!.playerNation);
 
     // Shared world advances after start
     session.handleMessage('a', { t: 'command', cmd: { t: 'setSpeed', speed: 5 } });
     session.tick(0.5);
-    const dayA = fromWorker(a.messages).filter((m) => m.t === 'snapshot').at(-1);
-    const dayB = fromWorker(b.messages).filter((m) => m.t === 'snapshot').at(-1);
-    if (dayA?.t !== 'snapshot' || dayB?.t !== 'snapshot') throw new Error('no day snap');
-    expect(dayA.snapshot.day).toBe(dayB.snapshot.day);
-    expect(dayA.snapshot.day).toBeGreaterThan(snapA.snapshot.day);
+    for (let i = 0; i < 5; i++) session.tick(0.4);
+    const dayA = session.reconstructFor('a');
+    const dayB = session.reconstructFor('b');
+    expect(dayA!.day).toBe(dayB!.day);
+    expect(dayA!.day).toBeGreaterThan(snapA!.day);
   });
 
   it('does not tick while in lobby phase', () => {
@@ -271,15 +271,25 @@ describe('Lobby (MP-M2)', () => {
 });
 
 describe('SessionManager', () => {
-  it('GCs empty sessions on leave', () => {
+  it('keeps running sessions during reconnect grace on leave', () => {
     const mgr = new SessionManager();
     const session = mgr.getOrCreate('gone', 1836);
     const a = collect();
     session.join('a', 'ENG', a.send);
     expect(mgr.size).toBe(1);
     mgr.leave('gone', 'a');
+    expect(mgr.size).toBe(1);
+    expect(mgr.get('gone')!.heldSeats.has('a')).toBe(true);
+  });
+
+  it('GCs empty sessions on hardLeave', () => {
+    const mgr = new SessionManager();
+    const session = mgr.getOrCreate('gone2', 1836);
+    const a = collect();
+    session.join('a', 'ENG', a.send);
+    mgr.hardLeave('gone2', 'a');
     expect(mgr.size).toBe(0);
-    expect(mgr.get('gone')).toBeUndefined();
+    expect(mgr.get('gone2')).toBeUndefined();
   });
 
   it('GCs empty lobby sessions', () => {

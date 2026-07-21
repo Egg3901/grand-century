@@ -1,29 +1,36 @@
 /**
- * WebSocket client for MP lobby + in-game transport (MP-M2).
+ * WebSocket client for MP lobby + in-game transport (MP-M2 … MP-M5).
  *
  * One connection covers create/join lobby → nation/team/ready → leaderStart →
- * then acts as SimTransport for ToWorker / FromWorker.
+ * then acts as SimTransport for ToWorker / FromWorker (with snapshot diffs).
  */
 
 import type { FromWorker, ToWorker } from '../shared/types';
 import type { SimTransport } from './transport';
 import {
+  isChatRelayMessage,
   isFromWorkerMessage,
   isLobbyStateMessage,
+  isPresenceMessage,
   isSessionCreatedMessage,
   isSessionJoinedMessage,
   isSessionListMessage,
   type LobbyClientMessage,
   type LobbyStateMessage,
+  type PresencePlayer,
   type SessionListEntry,
   type SessionMode,
   type ServerToClient,
 } from './sessionProtocol';
+import { decodeWireBrowser } from './snapshotCodec';
+import { applyServerSnapshotMessage, createApplierState } from './snapshotApplier';
 import { resolveSocketUrl } from './socketTransport';
 
 export type LobbyStateHandler = (state: LobbyStateMessage) => void;
 export type SessionListHandler = (sessions: SessionListEntry[]) => void;
 export type LobbyErrorHandler = (msg: string) => void;
+export type PresenceHandler = (players: PresencePlayer[]) => void;
+export type ChatHandler = (msg: { from: string; name: string; text: string; at: number }) => void;
 
 export interface LobbyClientOptions {
   url?: string;
@@ -32,7 +39,7 @@ export interface LobbyClientOptions {
 }
 
 export class LobbyClient implements SimTransport {
-  private readonly ws: WebSocket;
+  private ws: WebSocket;
   private readonly pending: unknown[] = [];
   private open = false;
   private disposed = false;
@@ -41,63 +48,105 @@ export class LobbyClient implements SimTransport {
   private listHandler: SessionListHandler | null = null;
   private errorHandler: LobbyErrorHandler | null = null;
   private createdHandler: ((sessionId: string) => void) | null = null;
+  private presenceHandler: PresenceHandler | null = null;
+  private chatHandler: ChatHandler | null = null;
+  private readonly applier = createApplierState();
+  private clientId: string | null = null;
+  private readonly url: string;
+  private readonly WS: typeof WebSocket;
   lastLobby: LobbyStateMessage | null = null;
   sessionId: string | null = null;
   playerName: string;
 
   constructor(options: LobbyClientOptions = {}) {
-    const WS = options.WebSocketImpl ?? WebSocket;
-    const url = options.url ?? resolveSocketUrl();
+    this.WS = options.WebSocketImpl ?? WebSocket;
+    this.url = options.url ?? resolveSocketUrl();
     this.playerName = options.playerName?.trim() || 'Player';
-    this.ws = new WS(url);
+    this.ws = new this.WS(this.url);
+    this.bindSocket(this.ws);
+  }
 
-    this.ws.addEventListener('open', () => {
+  private bindSocket(ws: WebSocket): void {
+    ws.binaryType = 'arraybuffer';
+
+    ws.addEventListener('open', () => {
       if (this.disposed) return;
       this.open = true;
       for (const msg of this.pending) {
-        this.ws.send(JSON.stringify(msg));
+        ws.send(JSON.stringify(msg));
       }
       this.pending.length = 0;
     });
 
-    this.ws.addEventListener('message', (event: MessageEvent) => {
+    ws.addEventListener('message', (event: MessageEvent) => {
       if (this.disposed) return;
-      let raw: unknown = event.data;
-      if (typeof raw === 'string') {
-        try {
-          raw = JSON.parse(raw) as ServerToClient;
-        } catch {
-          return;
-        }
-      }
-
-      if (isLobbyStateMessage(raw)) {
-        this.lastLobby = raw;
-        this.sessionId = raw.sessionId;
-        this.lobbyHandler?.(raw);
-        return;
-      }
-      if (isSessionListMessage(raw)) {
-        this.listHandler?.(raw.sessions);
-        return;
-      }
-      if (isSessionCreatedMessage(raw)) {
-        this.sessionId = raw.sessionId;
-        this.createdHandler?.(raw.sessionId);
-        return;
-      }
-      if (isSessionJoinedMessage(raw)) {
-        // Seat ack at game start — sim ready/snapshot follow.
-        return;
-      }
-      if (isFromWorkerMessage(raw)) {
-        if (raw.t === 'log' && (raw.level === 'error' || raw.level === 'warn')) {
-          this.errorHandler?.(raw.msg);
-        }
-        this.simHandler?.(raw);
-        return;
-      }
+      this.enqueueRaw(event.data);
     });
+  }
+
+  private chain: Promise<void> = Promise.resolve();
+
+  private enqueueRaw(data: unknown): void {
+    this.chain = this.chain.then(() => this.handleRaw(data)).catch(() => undefined);
+  }
+
+  private async handleRaw(data: unknown): Promise<void> {
+    let raw: unknown;
+    try {
+      raw = await decodeWireBrowser(data);
+    } catch {
+      return;
+    }
+
+    if (
+      raw
+      && typeof raw === 'object'
+      && (raw as { t?: string }).t === 'log'
+      && typeof (raw as { msg?: string }).msg === 'string'
+    ) {
+      const m = /clientId:(\S+)/.exec((raw as { msg: string }).msg);
+      if (m) this.clientId = m[1]!;
+    }
+
+    if (isLobbyStateMessage(raw)) {
+      this.lastLobby = raw;
+      this.sessionId = raw.sessionId;
+      this.lobbyHandler?.(raw);
+      return;
+    }
+    if (isSessionListMessage(raw)) {
+      this.listHandler?.(raw.sessions);
+      return;
+    }
+    if (isSessionCreatedMessage(raw)) {
+      this.sessionId = raw.sessionId;
+      this.createdHandler?.(raw.sessionId);
+      return;
+    }
+    if (isSessionJoinedMessage(raw)) {
+      return;
+    }
+    if (isPresenceMessage(raw)) {
+      this.presenceHandler?.(raw.players);
+      return;
+    }
+    if (isChatRelayMessage(raw)) {
+      this.chatHandler?.(raw);
+      return;
+    }
+
+    const snap = applyServerSnapshotMessage(this.applier, raw as ServerToClient);
+    if (snap) {
+      this.simHandler?.(snap);
+      return;
+    }
+
+    if (isFromWorkerMessage(raw)) {
+      if (raw.t === 'log' && (raw.level === 'error' || raw.level === 'warn')) {
+        this.errorHandler?.(raw.msg);
+      }
+      this.simHandler?.(raw);
+    }
   }
 
   private wire(msg: unknown): void {
@@ -124,6 +173,14 @@ export class LobbyClient implements SimTransport {
 
   onLobbyError(handler: LobbyErrorHandler): void {
     this.errorHandler = handler;
+  }
+
+  onPresence(handler: PresenceHandler): void {
+    this.presenceHandler = handler;
+  }
+
+  onChat(handler: ChatHandler): void {
+    this.chatHandler = handler;
   }
 
   createSession(opts: {
@@ -177,6 +234,14 @@ export class LobbyClient implements SimTransport {
     this.lastLobby = null;
   }
 
+  sendChat(text: string): void {
+    this.wire({ t: 'chat', text });
+  }
+
+  getClientId(): string | null {
+    return this.clientId;
+  }
+
   // --- SimTransport -------------------------------------------------------
 
   send(msg: ToWorker): void {
@@ -194,6 +259,8 @@ export class LobbyClient implements SimTransport {
     this.listHandler = null;
     this.errorHandler = null;
     this.createdHandler = null;
+    this.presenceHandler = null;
+    this.chatHandler = null;
     this.pending.length = 0;
     try {
       this.ws.close();

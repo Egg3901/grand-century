@@ -1,26 +1,29 @@
 /**
- * Grand Century session server (MP-M1 / MP-M2).
+ * Grand Century session server (MP-M1 … MP-M5).
  *
- * Node + `ws`. Lobby protocol + one sim instance per running session.
- * Protocol: lobby envelope + session join + ToWorker / FromWorker.
+ * Node + `ws`. Lobby + authoritative sim + diffed/compressed snapshots.
  *
  *   PORT=3412 npm run server
  *
  * HTTP:
  *   GET /           — health
  *   GET /sessions   — open lobbies (JSON)
+ *   GET /stats      — bandwidth counters (JSON)
  */
 
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { WebSocketServer, type WebSocket } from 'ws';
 import {
+  isChatSendMessage,
   isLobbyClientMessage,
+  isReconnectMessage,
   isSessionJoinMessage,
   isToWorkerMessage,
   type CreateSessionMessage,
   type ServerToClient,
   type SessionMode,
 } from '../src/net/sessionProtocol.ts';
+import { decodeWire, encodeWire } from '../src/net/snapshotCodec.ts';
 import { SessionManager } from './session.ts';
 
 const PORT = Number(process.env.PORT ?? 3412);
@@ -34,22 +37,19 @@ interface SocketState {
 
 let nextClientSeq = 1;
 
-function send(ws: WebSocket, msg: ServerToClient): void {
-  if (ws.readyState === ws.OPEN) {
-    ws.send(JSON.stringify(msg));
+function send(ws: WebSocket, msg: ServerToClient, sessionId?: string | null): void {
+  if (ws.readyState !== ws.OPEN) return;
+  const payload = encodeWire(msg);
+  const bytes = typeof payload === 'string' ? new TextEncoder().encode(payload).length : payload.byteLength;
+  if (sessionId) {
+    manager.get(sessionId)?.recordWireBytes(bytes);
   }
+  ws.send(payload);
 }
 
-function readJsonBody(req: IncomingMessage): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = [];
-    req.on('data', (c) => chunks.push(c as Buffer));
-    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
-    req.on('error', reject);
-  });
+function bindSend(ws: WebSocket, sessionId: string): (msg: ServerToClient) => void {
+  return (msg) => send(ws, msg, sessionId);
 }
-
-void readJsonBody; // reserved for future POST create
 
 function handleHttp(req: IncomingMessage, res: ServerResponse): void {
   const url = req.url ?? '/';
@@ -57,7 +57,7 @@ function handleHttp(req: IncomingMessage, res: ServerResponse): void {
 
   if (req.method === 'GET' && (path === '/' || path === '')) {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Grand Century session server (MP-M2)\n');
+    res.end('Grand Century session server (MP-M5)\n');
     return;
   }
 
@@ -71,7 +71,16 @@ function handleHttp(req: IncomingMessage, res: ServerResponse): void {
     return;
   }
 
-  if (req.method === 'OPTIONS' && path === '/sessions') {
+  if (req.method === 'GET' && path === '/stats') {
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    });
+    res.end(JSON.stringify({ sessions: manager.collectStats() }));
+    return;
+  }
+
+  if (req.method === 'OPTIONS' && (path === '/sessions' || path === '/stats')) {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, OPTIONS',
@@ -91,15 +100,16 @@ const httpServer = createServer((req, res) => {
 
 const wss = new WebSocketServer({ server: httpServer });
 
-function leaveCurrent(state: SocketState): void {
+function leaveCurrent(state: SocketState, hard = false): void {
   if (state.sessionId) {
-    manager.leave(state.sessionId, state.clientId);
+    if (hard) manager.hardLeave(state.sessionId, state.clientId);
+    else manager.leave(state.sessionId, state.clientId);
     state.sessionId = null;
   }
 }
 
 function handleCreateSession(ws: WebSocket, state: SocketState, msg: CreateSessionMessage): void {
-  leaveCurrent(state);
+  leaveCurrent(state, true);
   const mode: SessionMode = msg.mode === 'coop' ? 'coop' : 'competitive';
   const seed = Number.isFinite(msg.seed) ? Math.max(1, Math.floor(msg.seed)) : 1836;
   const session = manager.createLobby({
@@ -108,15 +118,14 @@ function handleCreateSession(ws: WebSocket, state: SocketState, msg: CreateSessi
     mode,
     maxPlayers: msg.maxPlayers,
   });
-  const result = session.joinLobby(state.clientId, msg.playerName, (out) => send(ws, out));
+  const result = session.joinLobby(state.clientId, msg.playerName, bindSend(ws, session.id));
   if (!result.ok) {
     send(ws, { t: 'log', level: 'error', msg: result.error ?? 'create failed' });
-    manager.leave(session.id, state.clientId);
+    manager.hardLeave(session.id, state.clientId);
     return;
   }
   state.sessionId = session.id;
-  send(ws, { t: 'sessionCreated', sessionId: session.id });
-  // joinLobby already broadcast lobbyState
+  send(ws, { t: 'sessionCreated', sessionId: session.id }, session.id);
 }
 
 wss.on('connection', (ws) => {
@@ -125,12 +134,53 @@ wss.on('connection', (ws) => {
     sessionId: null,
   };
 
-  ws.on('message', (data) => {
+  // Tell the client its assigned id (for reconnect).
+  send(ws, { t: 'log', level: 'info', msg: `clientId:${state.clientId}` });
+
+  ws.on('message', (data, isBinary) => {
     let msg: unknown;
     try {
-      msg = JSON.parse(String(data));
+      if (isBinary) {
+        msg = decodeWire(data as Buffer);
+      } else {
+        msg = JSON.parse(String(data));
+      }
     } catch {
       send(ws, { t: 'log', level: 'error', msg: 'invalid JSON' });
+      return;
+    }
+
+    // --- Reconnect --------------------------------------------------------
+    if (isReconnectMessage(msg)) {
+      leaveCurrent(state, true);
+      const session = manager.get(msg.sessionId);
+      if (!session) {
+        send(ws, { t: 'log', level: 'error', msg: 'session not found' });
+        return;
+      }
+      const reconnectId = msg.clientId;
+      const result = session.reconnect(reconnectId, bindSend(ws, msg.sessionId));
+      if (!result.ok) {
+        send(ws, { t: 'log', level: 'error', msg: result.error ?? 'reconnect failed' });
+        return;
+      }
+      state.clientId = reconnectId;
+      state.sessionId = msg.sessionId;
+      return;
+    }
+
+    // --- Chat -------------------------------------------------------------
+    if (isChatSendMessage(msg)) {
+      if (!state.sessionId) {
+        send(ws, { t: 'log', level: 'warn', msg: 'not in a session' });
+        return;
+      }
+      const session = manager.get(state.sessionId);
+      if (!session) {
+        send(ws, { t: 'log', level: 'error', msg: 'session gone' });
+        return;
+      }
+      session.handleChat(state.clientId, msg.text);
       return;
     }
 
@@ -144,13 +194,13 @@ wss.on('connection', (ws) => {
           send(ws, { t: 'sessionList', sessions: manager.listOpenLobbies() });
           return;
         case 'joinLobby': {
-          leaveCurrent(state);
+          leaveCurrent(state, true);
           const session = manager.get(msg.sessionId);
           if (!session) {
             send(ws, { t: 'log', level: 'error', msg: 'session not found' });
             return;
           }
-          const result = session.joinLobby(state.clientId, msg.playerName, (out) => send(ws, out));
+          const result = session.joinLobby(state.clientId, msg.playerName, bindSend(ws, msg.sessionId));
           if (!result.ok) {
             send(ws, { t: 'log', level: 'error', msg: result.error ?? 'join failed' });
             return;
@@ -159,7 +209,7 @@ wss.on('connection', (ws) => {
           return;
         }
         case 'leaveSession':
-          leaveCurrent(state);
+          leaveCurrent(state, true);
           return;
         case 'selectNation':
         case 'selectTeam':
@@ -189,21 +239,17 @@ wss.on('connection', (ws) => {
 
     // --- M1 join permalink ----------------------------------------------
     if (isSessionJoinMessage(msg)) {
-      leaveCurrent(state);
+      leaveCurrent(state, true);
       const seed = Number.isFinite(msg.seed) ? Math.max(1, Math.floor(msg.seed!)) : 1836;
       const existing = manager.get(msg.sessionId);
-      // Joining an open lobby via permalink seats in lobby with nation picked.
-      // Creating a new id (or joining a running session) uses the running path.
       const session = existing ?? manager.getOrCreate(msg.sessionId, seed);
-      const result = session.join(state.clientId, msg.nation, (out) => send(ws, out));
+      const result = session.join(state.clientId, msg.nation, bindSend(ws, msg.sessionId));
       if (!result.ok) {
         send(ws, { t: 'log', level: 'error', msg: result.error ?? 'join failed' });
         return;
       }
       state.sessionId = msg.sessionId;
-      // Running joins already send `joined`; lobby joins get lobbyState only.
       if (session.phase === 'lobby') {
-        // Permalink into lobby: auto-ready so leader can start once others ready.
         session.setReady(state.clientId, true);
       }
       return;
@@ -228,11 +274,11 @@ wss.on('connection', (ws) => {
   });
 
   ws.on('close', () => {
-    leaveCurrent(state);
+    leaveCurrent(state, false);
   });
 });
 
-// Fixed-timestep loop (~30 Hz), same cadence as the worker.
+// Fixed-timestep loop (~30 Hz tick, snapshot cadence capped inside session).
 let last = performance.now();
 setInterval(() => {
   const now = performance.now();

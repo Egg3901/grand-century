@@ -79,6 +79,12 @@ export function LobbyScreen({ initialSessionId = null }: LobbyScreenProps) {
       setStatus(msg);
       window.setTimeout(() => setStatus(null), 4000);
     });
+    client.onPresence((players) => {
+      useStore.getState().setPresence(players);
+    });
+    client.onChat((line) => {
+      useStore.getState().pushChat(line);
+    });
   };
 
   const ensureClient = (): LobbyClient => {

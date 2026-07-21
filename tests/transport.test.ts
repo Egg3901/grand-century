@@ -53,7 +53,7 @@ describe('WorkerTransport', () => {
 });
 
 describe('SocketTransport', () => {
-  it('sends join on open and routes FromWorker messages', () => {
+  it('sends join on open and routes FromWorker messages', async () => {
     type Handler = (event: { data?: unknown }) => void;
     const listeners = new Map<string, Handler[]>();
     const sent: string[] = [];
@@ -61,6 +61,7 @@ describe('SocketTransport', () => {
 
     class FakeWS {
       readyState = 0;
+      binaryType = 'blob';
       addEventListener(type: string, fn: Handler) {
         const list = listeners.get(type) ?? [];
         list.push(fn);
@@ -78,6 +79,7 @@ describe('SocketTransport', () => {
     const transport = new SocketTransport('ws://test', {
       join: { t: 'join', sessionId: 's', nation: 'ENG', seed: 1 },
       WebSocketImpl: FakeWS as unknown as typeof WebSocket,
+      autoReconnect: false,
     });
 
     const received: FromWorker[] = [];
@@ -97,11 +99,13 @@ describe('SocketTransport', () => {
     for (const fn of listeners.get('message') ?? []) {
       fn({ data: JSON.stringify({ t: 'joined', sessionId: 's', nationId: 0, nationTag: 'ENG', leader: true }) });
     }
+    await Promise.resolve();
     expect(received).toEqual([]);
 
     for (const fn of listeners.get('message') ?? []) {
       fn({ data: JSON.stringify({ t: 'log', level: 'info', msg: 'hi' }) });
     }
+    await expect.poll(() => received.length, { timeout: 1000 }).toBe(1);
     expect(received).toEqual([{ t: 'log', level: 'info', msg: 'hi' }]);
 
     transport.dispose();

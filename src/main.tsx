@@ -25,6 +25,26 @@ if (mp) {
       nation: mp.nationTag,
       seed: mp.seed,
     },
+    onPresence: (players) => {
+      const store = useStore.getState();
+      store.setPresence(players);
+      const myTag = mp.nationTag.toUpperCase();
+      const self = players.find((p) => p.nationTag === myTag);
+      store.setMultiplayerMeta({
+        multiplayer: true,
+        sessionId: mp.sessionId,
+        isLeader: Boolean(self?.leader),
+        players: players.map((p) => ({
+          clientId: p.clientId,
+          name: p.name,
+          nationTag: p.nationTag,
+          team: p.team,
+          ready: true,
+          leader: p.leader,
+        })),
+      });
+    },
+    onChat: (line) => useStore.getState().pushChat(line),
   });
   attachTransport(transport);
   useStore.getState().setShowMainMenu(false);
@@ -32,7 +52,7 @@ if (mp) {
     multiplayer: true,
     sessionId: mp.sessionId,
     mode: 'competitive',
-    isLeader: true, // corrected when joined if we tracked it; leader authority still server-side
+    isLeader: true,
     players: [],
   });
 } else {

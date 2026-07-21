@@ -511,3 +511,128 @@
     padding: 0.45rem 0.55rem;
   }
 }
+
+/* --- Multiplayer presence + chat (MP-M5) --------------------------------- */
+.presence-hud {
+  position: absolute;
+  top: 4.5rem;
+  right: 0.75rem;
+  width: min(14rem, calc(100vw - 1.5rem));
+  padding: 0.55rem 0.7rem;
+  z-index: 12;
+  font-size: var(--gc-fs-small);
+}
+
+.presence-hud > .atlas-heading {
+  margin: 0 0 0.15rem;
+  font-size: var(--gc-fs-caption);
+}
+
+.presence-hud__meta {
+  margin: 0 0 0.35rem;
+  color: var(--gc-ink-faint);
+  font-size: var(--gc-fs-caption);
+}
+
+.presence-hud ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.presence-hud li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.presence-hud__dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--gc-positive);
+}
+
+.presence-hud li.is-disconnected {
+  color: var(--gc-ink-faint);
+}
+
+.presence-hud li.is-disconnected .presence-hud__dot {
+  background: var(--gc-ink-faint);
+}
+
+.presence-hud__seat {
+  color: var(--gc-ink-muted);
+  font-size: var(--gc-fs-caption);
+}
+
+.chat-hud {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  width: min(18rem, calc(100vw - 1.5rem));
+  padding: 0.55rem 0.7rem;
+  z-index: 12;
+  display: grid;
+  gap: 0.4rem;
+  font-size: var(--gc-fs-small);
+}
+
+.chat-hud__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.chat-hud__head > .atlas-heading {
+  margin: 0;
+  font-size: var(--gc-fs-caption);
+}
+
+.chat-hud__lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 8rem;
+  overflow-y: auto;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.chat-hud__lines li {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.chat-hud__lines strong {
+  color: var(--gc-accent-deep);
+  font-size: var(--gc-fs-caption);
+}
+
+.chat-hud__empty {
+  color: var(--gc-ink-faint);
+}
+
+.chat-hud__form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem;
+}
+
+.chat-hud__form input {
+  font-family: var(--gc-font-body);
+  font-size: var(--gc-fs-small);
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius-sm);
+  background: var(--gc-parchment-warm);
+  color: var(--gc-ink);
+  padding: 0.3rem 0.45rem;
+}
+
+.chat-hud.is-collapsed {
+  width: auto;
+}
