@@ -296,6 +296,39 @@ export function createReliefTile(size = 96): ImageData | null {
   return ctx.getImageData(0, 0, size, size);
 }
 
+/**
+ * Aquatint tile: ultra-fine engraving noise (short dashed strokes at random
+ * angles) that breaks up flat vector fills. Invisible at world zoom; at
+ * regional zoom it reads as the plate's tooth.
+ */
+export function createAquatintTile(size = 128): ImageData | null {
+  const tile = makeTileContext(size);
+  if (!tile) return null;
+  const { ctx } = tile;
+  const rng = makeRng(0xa47);
+  ctx.lineCap = 'round';
+  const strokes = 260;
+  for (let i = 0; i < strokes; i += 1) {
+    const x = rng() * size;
+    const y = rng() * size;
+    const length = 0.8 + rng() * 2.4;
+    const angle = rng() * Math.PI * 2;
+    const dx = Math.cos(angle) * length;
+    const dy = Math.sin(angle) * length;
+    ctx.strokeStyle = `rgba(72, 52, 34, ${(0.10 + rng() * 0.14).toFixed(3)})`;
+    ctx.lineWidth = 0.55 + rng() * 0.35;
+    for (const ox of [-size, 0, size]) {
+      for (const oy of [-size, 0, size]) {
+        ctx.beginPath();
+        ctx.moveTo(x + ox - dx / 2, y + oy - dy / 2);
+        ctx.lineTo(x + ox + dx / 2, y + oy + dy / 2);
+        ctx.stroke();
+      }
+    }
+  }
+  return ctx.getImageData(0, 0, size, size);
+}
+
 type GraticuleGeoJson = {
   type: 'FeatureCollection';
   features: Array<{

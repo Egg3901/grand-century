@@ -20,6 +20,7 @@ import {
   TERRAIN_TINTS,
   TERRAIN_TINT_STRENGTH,
   WATERLINE_INK,
+  createAquatintTile,
   createFoliageTile,
   createGraticule,
   createHachureTile,
@@ -129,6 +130,9 @@ const MAP_RELIEF_LAYER = 'terrain-relief';
 const MAP_RELIEF_IMAGE = 'terrain-relief-tile';
 const MAP_RELIEF_SHADE_LAYER = 'terrain-relief-shade';
 const MAP_RELIEF_LIGHT_LAYER = 'terrain-relief-light';
+const MAP_AQUATINT_LAYER = 'land-aquatint';
+const MAP_AQUATINT_IMAGE = 'land-aquatint-tile';
+const MAP_PLAYER_HALO_LAYER = 'player-border-halo';
 /** Duration of the mapmode cross-fade dissolve (GPU paint transition). */
 const MODE_FADE_MS = 380;
 /** Mapmodes where the terrain wash blends into the fills. */
@@ -169,13 +173,13 @@ function toHexColor(rgb: [number, number, number]): string {
 }
 
 function muteColor(rgb: [number, number, number]): string {
-  // Keep nation colors richer than 0.4.x (0.25 parchment felt washed out):
-  // a light 14% parchment wash harmonizes without draining the pigment.
+  // Richer nation fills for the engraved plate: only a 10% parchment wash
+  // keeps pigments deep enough to read against the terrain tinting.
   const parchment: [number, number, number] = [232, 220, 192];
   const mixed: [number, number, number] = [
-    parchment[0] * 0.14 + rgb[0] * 0.86,
-    parchment[1] * 0.14 + rgb[1] * 0.86,
-    parchment[2] * 0.14 + rgb[2] * 0.86,
+    parchment[0] * 0.10 + rgb[0] * 0.90,
+    parchment[1] * 0.10 + rgb[1] * 0.90,
+    parchment[2] * 0.10 + rgb[2] * 0.90,
   ];
   return toHexColor(mixed);
 }
@@ -625,7 +629,11 @@ export function GrandMap() {
       });
       createdMap = map;
       mapRef.current = map;
-      if (import.meta.env.DEV) (globalThis as { __grandCenturyMap?: MapLibreMap }).__grandCenturyMap = map;
+      if (import.meta.env.DEV) {
+        const g = globalThis as { __grandCenturyMap?: MapLibreMap; __gcSetMapMode?: (mode: string) => void };
+        g.__grandCenturyMap = map;
+        g.__gcSetMapMode = (mode) => useStore.getState().setMapMode(mode as never);
+      }
       map.dragRotate.disable();
       map.touchZoomRotate.disableRotation();
       map.keyboard.disableRotation();
@@ -761,6 +769,23 @@ export function GrandMap() {
             'fill-opacity': 1,
           },
         });
+
+        // Aquatint: a whisper of engraving noise over every land fill so no
+        // province reads as dead-flat vector color. Zoom-faded — invisible at
+        // world zoom, perceptible only as texture up close.
+        const aquatintTile = createAquatintTile();
+        if (aquatintTile) {
+          map.addImage(MAP_AQUATINT_IMAGE, aquatintTile, { pixelRatio: 2 });
+          map.addLayer({
+            id: MAP_AQUATINT_LAYER,
+            type: 'fill',
+            source: MAP_SOURCE_ID,
+            paint: {
+              'fill-pattern': MAP_AQUATINT_IMAGE,
+              'fill-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0, 3.2, 0.05, 5.5, 0.09, 7, 0.12],
+            },
+          });
+        }
 
         map.addLayer({
           id: MAP_FILL_LAYER,
@@ -936,6 +961,24 @@ export function GrandMap() {
               7.2,
               0.72,
             ],
+          },
+        });
+
+        // Player border halo: a soft warm glow hugging the player's provinces
+        // so their empire reads instantly on the political plate. Source is
+        // the province polygons (the static national-borders MultiLineString
+        // carries no per-nation attribution); the visible set + opacity are
+        // driven from the snapshot effect below.
+        map.addLayer({
+          id: MAP_PLAYER_HALO_LAYER,
+          type: 'line',
+          source: MAP_SOURCE_ID,
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: {
+            'line-color': '#c99a58',
+            'line-width': ['interpolate', ['linear'], ['zoom'], 0, 4.5, 3, 7, 6, 11],
+            'line-blur': 4.5,
+            'line-opacity': 0,
           },
         });
 
@@ -1310,6 +1353,24 @@ export function GrandMap() {
     }
   }, [mapMode, mapReady, nationColorById, provinceTerrainById, snapshot]);
 
+  // Player border halo: keep the glowing set in sync with ownership, and
+  // only show it on the political plate — on thematic plates it would lie.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady || !map.getLayer(MAP_PLAYER_HALO_LAYER) || !snapshot) return;
+    const playerIds: number[] = [];
+    for (const province of snapshot.provinces) {
+      if (province.owner === snapshot.playerNation) playerIds.push(province.id);
+    }
+    const ids = playerIds.length > 0 ? playerIds : [-1];
+    map.setPaintProperty(MAP_PLAYER_HALO_LAYER, 'line-opacity', [
+      'case',
+      ['in', ['id'], ['literal', ids]],
+      mapMode === 'political' ? 0.42 : 0,
+      0,
+    ]);
+  }, [mapMode, mapReady, snapshot]);
+
   // Clear any in-flight mapmode dissolve timers on unmount.
   useEffect(() => () => {
     if (fadeTimerRef.current !== null) window.clearTimeout(fadeTimerRef.current);
@@ -1354,7 +1415,10 @@ export function GrandMap() {
       measureEl.style.textTransform = province ? 'none' : 'uppercase';
       measureEl.style.fontVariant = province ? 'normal' : 'small-caps';
       measureEl.textContent = text;
-      const width = Math.max(8, measureEl.offsetWidth);
+      // Province labels carry a settlement dot + flex gap (0.34em + 0.28em);
+      // pad the measured box so the collision grid matches what renders.
+      const dotPad = province ? size * 0.62 + 2 : 0;
+      const width = Math.max(8, measureEl.offsetWidth + dotPad);
       const height = Math.max(8, measureEl.offsetHeight);
       measureEl.textContent = '';
       return { width, height };
@@ -1399,7 +1463,7 @@ export function GrandMap() {
       const existing = provinceMarkers.get(province.id);
       if (existing) {
         const element = existing.getElement() as HTMLDivElement;
-        element.textContent = province.name;
+        element.innerHTML = `<i class="grand-map__province-dot" aria-hidden="true"></i>${province.name}`;
         element.style.fontSize = `${size.toFixed(1)}px`;
         element.style.opacity = `${opacity.toFixed(3)}`;
         element.dataset.owner = province.ownerTag;
@@ -1410,7 +1474,7 @@ export function GrandMap() {
       }
       const el = document.createElement('div');
       el.className = 'grand-map__province-label';
-      el.textContent = province.name;
+      el.innerHTML = `<i class="grand-map__province-dot" aria-hidden="true"></i>${province.name}`;
       el.style.fontSize = `${size.toFixed(1)}px`;
       el.style.opacity = `${opacity.toFixed(3)}`;
       el.dataset.owner = province.ownerTag;
