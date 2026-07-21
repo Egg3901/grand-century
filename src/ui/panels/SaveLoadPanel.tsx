@@ -26,48 +26,51 @@ export function SaveLoadPanel() {
   return (
     <section className="panel-card atlas-panel" data-coach-id="save-panel">
       <h2 className="atlas-heading">Save / Load</h2>
-      <p className="panel-subtle">Autosave rotates every sim-year across `autosave-1..3`.</p>
+      <p className="panel-subtle">Autosave rotates every sim-year across autosave-1..3. Named slots are manual.</p>
       {saveStatus ? (
-        <p className={`panel-subtle ${saveStatus.ok ? 'positive' : 'negative'}`}>
+        <p className={`bankruptcy-pill ${saveStatus.ok ? '' : 'is-bankrupt'}`}>
           {saveStatus.action} [{saveStatus.slot}]: {saveStatus.msg}
         </p>
       ) : null}
 
-      <div className="mil-grid">
+      <h3 className="atlas-heading panel-small-heading">Named Slot</h3>
+      <div className="save-controls">
         <label>
           Slot
           <input
             type="text"
+            className="gc-input"
             value={slotName}
             onChange={(event) => setSlotName(event.target.value.trimStart())}
             placeholder="slot-1"
           />
         </label>
         <div className="mil-actions">
-          <button type="button" disabled={slotName.trim().length === 0} onClick={() => sendCommand({ t: 'save', slot: slotName.trim() })}>
+          <button type="button" className="btn btn--primary" disabled={slotName.trim().length === 0} onClick={() => sendCommand({ t: 'save', slot: slotName.trim() })}>
             Save
           </button>
-          <button type="button" disabled={slotName.trim().length === 0} onClick={() => sendCommand({ t: 'load', slot: slotName.trim() })}>
+          <button type="button" className="btn btn--secondary" disabled={slotName.trim().length === 0} onClick={() => sendCommand({ t: 'load', slot: slotName.trim() })}>
             Load
           </button>
-          <button type="button" onClick={() => requestSaves()}>
+          <button type="button" className="btn btn--ghost" onClick={() => requestSaves()}>
             Refresh Slots
           </button>
         </div>
       </div>
 
+      <h3 className="atlas-heading panel-small-heading">Available Slots</h3>
       <ul className="panel-list mil-list">
         {saveSlots.map((slot) => (
           <li key={slot.slot}>
             <div>
               <strong>{slot.slot}</strong>
               <span>
-                {dayToDate(slot.day)} | {new Date(slot.updatedAt).toLocaleString()} | {playerNameById.get(slot.playerNation) ?? `Nation ${slot.playerNation}`}
+                {dayToDate(slot.day)} · {new Date(slot.updatedAt).toLocaleString()} · {playerNameById.get(slot.playerNation) ?? `Nation ${slot.playerNation}`}
               </span>
             </div>
             <div className="mil-actions">
-              <button type="button" onClick={() => sendCommand({ t: 'load', slot: slot.slot })}>Load</button>
-              <button type="button" onClick={() => sendCommand({ t: 'save', slot: slot.slot })}>Overwrite</button>
+              <button type="button" className="btn btn--primary" onClick={() => sendCommand({ t: 'load', slot: slot.slot })}>Load</button>
+              <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'save', slot: slot.slot })}>Overwrite</button>
             </div>
           </li>
         ))}
@@ -76,4 +79,3 @@ export function SaveLoadPanel() {
     </section>
   );
 }
-

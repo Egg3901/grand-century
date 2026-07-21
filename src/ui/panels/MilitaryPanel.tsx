@@ -157,7 +157,7 @@ export function MilitaryPanel() {
       <div className="mil-grid">
         <label>
           Raise Army In
-          <select value={recruitProvince} onChange={(event) => setRecruitProvince(Number(event.target.value))}>
+          <select className="gc-select" value={recruitProvince} onChange={(event) => setRecruitProvince(Number(event.target.value))}>
             {derived.ownedProvinces.map((provinceId) => (
               <option key={provinceId} value={provinceId}>{provinceNameById.get(provinceId) ?? `Province ${provinceId}`}</option>
             ))}
@@ -169,6 +169,7 @@ export function MilitaryPanel() {
             type="number"
             min={0}
             max={16}
+            className="gc-input"
             value={recruitPlan.infantry}
             onChange={(event) => setRecruitPlan((prev) => ({ ...prev, infantry: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
           />
@@ -179,6 +180,7 @@ export function MilitaryPanel() {
             type="number"
             min={0}
             max={16}
+            className="gc-input"
             value={recruitPlan.cavalry}
             onChange={(event) => setRecruitPlan((prev) => ({ ...prev, cavalry: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
           />
@@ -189,6 +191,7 @@ export function MilitaryPanel() {
             type="number"
             min={0}
             max={16}
+            className="gc-input"
             value={recruitPlan.artillery}
             onChange={(event) => setRecruitPlan((prev) => ({ ...prev, artillery: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
           />
@@ -199,6 +202,7 @@ export function MilitaryPanel() {
             type="number"
             min={0}
             max={16}
+            className="gc-input"
             value={recruitPlan.guard}
             onChange={(event) => setRecruitPlan((prev) => ({ ...prev, guard: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
           />
@@ -206,14 +210,15 @@ export function MilitaryPanel() {
         <div className="mil-actions">
           <button
             type="button"
+            className="btn btn--primary"
             disabled={recruitProvince < 0}
             onClick={() => sendCommand({ t: 'recruitArmyWithComposition', province: recruitProvince, composition: recruitPlan })}
           >
             Recruit Composition
           </button>
-          <button type="button" disabled={recruitProvince < 0} onClick={() => sendCommand({ t: 'recruitArmy', province: recruitProvince })}>Quick Infantry Draft</button>
-          <button type="button" onClick={() => sendCommand({ t: 'mobilize' })}>Mobilize</button>
-          <button type="button" onClick={() => sendCommand({ t: 'demobilize' })}>Demobilize</button>
+          <button type="button" className="btn btn--secondary" disabled={recruitProvince < 0} onClick={() => sendCommand({ t: 'recruitArmy', province: recruitProvince })}>Quick Infantry Draft</button>
+          <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'mobilize' })}>Mobilize</button>
+          <button type="button" className="btn btn--ghost" onClick={() => sendCommand({ t: 'demobilize' })}>Demobilize</button>
         </div>
       </div>
       <p className="panel-subtle">
@@ -223,7 +228,7 @@ export function MilitaryPanel() {
       <div className="mil-grid">
         <label>
           Build Fleet In
-          <select value={fleetProvince} onChange={(event) => setFleetProvince(Number(event.target.value))}>
+          <select className="gc-select" value={fleetProvince} onChange={(event) => setFleetProvince(Number(event.target.value))}>
             {derived.coastalProvinces.map((provinceId) => (
               <option key={provinceId} value={provinceId}>{provinceNameById.get(provinceId) ?? `Province ${provinceId}`}</option>
             ))}
@@ -231,7 +236,7 @@ export function MilitaryPanel() {
         </label>
         <label>
           Ship
-          <select value={fleetType} onChange={(event) => setFleetType(event.target.value as Ship['type'])}>
+          <select className="gc-select" value={fleetType} onChange={(event) => setFleetType(event.target.value as Ship['type'])}>
             <option value="transport">Transport</option>
             <option value="frigate">Frigate</option>
             <option value="manofwar">Man-o-war</option>
@@ -244,12 +249,13 @@ export function MilitaryPanel() {
             type="number"
             min={1}
             max={8}
+            className="gc-input"
             value={fleetCount}
             onChange={(event) => setFleetCount(Math.max(1, Math.min(8, Number(event.target.value) || 1)))}
           />
         </label>
         <div className="mil-actions">
-          <button type="button" disabled={fleetProvince < 0} onClick={() => sendCommand({ t: 'buildFleet', province: fleetProvince, shipType: fleetType, count: fleetCount })}>
+          <button type="button" className="btn btn--primary" disabled={fleetProvince < 0} onClick={() => sendCommand({ t: 'buildFleet', province: fleetProvince, shipType: fleetType, count: fleetCount })}>
             Build Fleet
           </button>
         </div>
@@ -308,11 +314,12 @@ export function MilitaryPanel() {
               </span>
             </div>
             <div className="mil-actions">
-              <button type="button" onClick={() => setSelectedArmy(army.id)}>Select</button>
-              <button type="button" onClick={() => sendCommand({ t: 'assignGeneral', army: army.id })}>Assign General</button>
+              <button type="button" className="btn btn--secondary" onClick={() => setSelectedArmy(army.id)}>Select</button>
+              <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'assignGeneral', army: army.id })}>Assign General</button>
               {derived.fleets.some((fleet) => fleet.location === army.location && fleet.embarkedArmy < 0) ? (
                 <button
                   type="button"
+                  className="btn btn--secondary"
                   onClick={() => {
                     const fleet = derived.fleets.find((candidate) => candidate.location === army.location && candidate.embarkedArmy < 0);
                     if (fleet) sendCommand({ t: 'embarkArmy', fleet: fleet.id, army: army.id });
@@ -339,9 +346,10 @@ export function MilitaryPanel() {
               </span>
             </div>
             <div className="mil-actions">
-              <button type="button" onClick={() => setSelectedFleet(fleet.id)}>Select</button>
+              <button type="button" className="btn btn--secondary" onClick={() => setSelectedFleet(fleet.id)}>Select</button>
               <button
                 type="button"
+                className="btn btn--secondary"
                 disabled={fleet.embarkedArmy < 0 || selectedProvince === null}
                 onClick={() => selectedProvince !== null && sendCommand({ t: 'disembarkArmy', fleet: fleet.id, target: selectedProvince })}
               >
@@ -379,7 +387,7 @@ export function MilitaryPanel() {
         <>
           <label className="mil-label">
             Active War
-            <select value={selectedWar} onChange={(event) => {
+            <select className="gc-select" value={selectedWar} onChange={(event) => {
               setSelectedWar(Number(event.target.value));
             }}
             >

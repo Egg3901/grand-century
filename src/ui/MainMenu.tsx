@@ -59,7 +59,7 @@ export function MainMenu() {
         <p>Select a nation and begin a new campaign.</p>
         <label>
           Nation
-          <select data-testid="menu-nation-select" value={selectedNation} onChange={(event) => setSelectedNation(Number(event.target.value))}>
+          <select className="gc-select" data-testid="menu-nation-select" value={selectedNation} onChange={(event) => setSelectedNation(Number(event.target.value))}>
             {nations.map((nation) => (
               <option key={nation.id} value={nation.id}>
                 {nation.name} ({nation.tag})
@@ -69,21 +69,23 @@ export function MainMenu() {
         </label>
         <label>
           Seed
-          <input data-testid="menu-seed-input" value={seedInput} onChange={(event) => setSeedInput(event.target.value)} />
+          <input className="gc-input" data-testid="menu-seed-input" value={seedInput} onChange={(event) => setSeedInput(event.target.value)} />
         </label>
         <div className="menu-actions">
           <button
             type="button"
+            className="btn btn--primary"
             data-testid="menu-new-game"
             onClick={startGame}
           >
             New Game
           </button>
-          <button type="button" onClick={() => setShowMainMenu(false)}>
+          <button type="button" className="btn btn--secondary" onClick={() => setShowMainMenu(false)}>
             Continue
           </button>
           <button
             type="button"
+            className="btn btn--ghost"
             data-testid="menu-replay-tutorial"
             onClick={() => {
               window.dispatchEvent(new CustomEvent('gc:replay-tutorial'));
@@ -94,6 +96,7 @@ export function MainMenu() {
           </button>
           <button
             type="button"
+            className="btn btn--ghost"
             data-testid="menu-copy-share"
             onClick={() => { void onCopyShare(); }}
           >

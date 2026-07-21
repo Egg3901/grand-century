@@ -18,14 +18,39 @@ export function PopulationPanel() {
   }
 
   const total = snapshot.playerPopulation.reduce((sum, entry) => sum + entry.size, 0);
+  const topAgitation = snapshot.playerReformAgitation.slice(0, 3);
 
   return (
     <section className="panel-card atlas-panel">
-      <h2 className="atlas-heading">Population</h2>
-      <p className="panel-subtle">Player population: {total.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
-      <p className="panel-subtle">
-        Top agitation: {snapshot.playerReformAgitation.slice(0, 3).map((entry) => `${entry.reform.replaceAll('_', ' ')} ${pct(entry.support)}`).join(' | ') || 'Low'}
-      </p>
+      <h2 className="atlas-heading">Population Census</h2>
+      <p className="panel-subtle">National pop totals by class, with needs, militancy, and agitation pressure.</p>
+
+      <dl className="ledger-grid">
+        <div>
+          <dt>Total Population</dt>
+          <dd>{total.toLocaleString(undefined, { maximumFractionDigits: 0 })}</dd>
+        </div>
+        <div>
+          <dt>Pop Classes</dt>
+          <dd>{snapshot.playerPopulation.length}</dd>
+        </div>
+      </dl>
+
+      <h3 className="atlas-heading panel-small-heading">Top Agitation</h3>
+      {topAgitation.length === 0 ? (
+        <p className="panel-subtle status-positive">Reform pressure is currently low.</p>
+      ) : (
+        <ul className="panel-list">
+          {topAgitation.map((entry) => (
+            <li key={entry.reform}>
+              <span>{entry.reform.replaceAll('_', ' ')}</span>
+              <span className={entry.support >= 0.4 ? 'unrest' : undefined}>{pct(entry.support)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <h3 className="atlas-heading panel-small-heading">Classes</h3>
       <ul className="panel-list population-list">
         {snapshot.playerPopulation.map((entry) => (
           <li key={entry.type}>
@@ -47,7 +72,7 @@ export function PopulationPanel() {
                   ]}
                 />
               </span>
-              <span>
+              <span className={entry.avgMilitancy >= 4 ? 'unrest' : undefined}>
                 Mil{' '}
                 <TraceTooltip
                   value={entry.avgMilitancy.toFixed(2)}
@@ -71,7 +96,11 @@ export function PopulationPanel() {
                   ]}
                 />
               </span>
-              <span>{entry.agitatingFor.length > 0 ? `Agitating: ${entry.agitatingFor.map((reform) => reform.replaceAll('_', ' ')).join(', ')}` : 'Agitating: none'}</span>
+              <span className={entry.agitatingFor.length > 0 ? 'unrest' : undefined}>
+                {entry.agitatingFor.length > 0
+                  ? `Agitating: ${entry.agitatingFor.map((reform) => reform.replaceAll('_', ' ')).join(', ')}`
+                  : 'Agitating: none'}
+              </span>
               <span className={entry.growth >= 0 ? 'positive' : 'negative'}>
                 Growth{' '}
                 <TraceTooltip

@@ -45,7 +45,7 @@ export function PeaceConference({ war }: PeaceConferenceProps) {
   const playerWinning = winningSide.includes(playerNation);
 
   return (
-    <section className="peace-conference atlas-panel">
+    <section className="peace-conference">
       <h4 className="atlas-heading panel-small-heading">Peace Conference</h4>
       <p className="panel-subtle">
         Warscore (your side): {playerScore.toFixed(1)} | Remaining: {(maxSpend - selectedCost).toFixed(1)}
@@ -82,18 +82,19 @@ export function PeaceConference({ war }: PeaceConferenceProps) {
         <p className="panel-subtle">Your side is not currently winning this war. You can still propose white peace.</p>
       ) : null}
       <div className="mil-actions">
-        <button type="button" onClick={() => sendCommand({ t: 'offerPeace', war: war.id, goalsToEnforce: [] })}>
+        <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'offerPeace', war: war.id, goalsToEnforce: [] })}>
           White Peace
         </button>
         <button
           type="button"
+          className="btn btn--primary"
           disabled={selectedGoals.length === 0 || overBudget}
           onClick={() => sendCommand({ t: 'offerPeace', war: war.id, goalsToEnforce: selectedGoals })}
         >
           Enforce Bundle
         </button>
       </div>
-      {overBudget ? <p className="panel-subtle">Selected bundle exceeds available warscore.</p> : null}
+      {overBudget ? <p className="panel-subtle status-danger">Selected bundle exceeds available warscore.</p> : null}
     </section>
   );
 }

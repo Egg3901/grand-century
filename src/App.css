@@ -103,7 +103,9 @@
 }
 
 .menu-card select,
-.menu-card input {
+.menu-card input,
+.menu-card .gc-select,
+.menu-card .gc-input {
   font-family: var(--gc-font-body);
   font-size: var(--gc-fs-body);
   text-transform: none;
@@ -117,7 +119,9 @@
 }
 
 .menu-card select:focus,
-.menu-card input:focus {
+.menu-card input:focus,
+.menu-card .gc-select:focus,
+.menu-card .gc-input:focus {
   outline: 2px solid rgba(122, 46, 36, 0.35);
   outline-offset: 1px;
 }
@@ -130,28 +134,9 @@
   margin-top: var(--gc-space-1);
 }
 
-.menu-actions button {
-  border: 1px solid var(--gc-border);
-  background: rgba(247, 237, 214, 0.9);
-  border-radius: var(--gc-radius-sm);
+.menu-actions .btn {
   padding: 0.45rem 0.9rem;
-  color: var(--gc-ink);
-  cursor: pointer;
-  touch-action: manipulation;
-  box-shadow: 0 1px 0 rgba(255, 248, 230, 0.5) inset;
-}
-
-.menu-actions button[data-testid='menu-new-game'] {
-  border-color: var(--gc-accent-deep);
-  background: linear-gradient(180deg, var(--gc-wax-highlight), var(--gc-wax));
-  color: #f8efe2;
-  box-shadow:
-    0 1px 0 rgba(255, 220, 200, 0.22) inset,
-    0 2px 6px rgba(60, 20, 14, 0.28);
-}
-
-.menu-actions button:hover {
-  filter: brightness(1.04);
+  font-size: var(--gc-fs-small);
 }
 
 .menu-share-status {

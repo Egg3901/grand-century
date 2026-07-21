@@ -31,29 +31,54 @@ export function ProvincePanel() {
   return (
     <section className="panel-card atlas-panel">
       <h2 className="atlas-heading">{detail.name}</h2>
-      <p className="panel-subtle">Owner: {ownerName}</p>
-      <p className="panel-subtle">
-        Population:{' '}
-        <TraceTooltip
-          value={population.toLocaleString()}
-          trace={detail.pops.map((pop) => ({ label: pop.type, value: pop.size }))}
-        />
-      </p>
-      <p className="panel-subtle">Terrain: {detail.terrain}</p>
-      <p className="panel-subtle">RGO: {detail.rgo.recipe.replace('rgo_', '').replace('_', ' ')}</p>
-      <p className="panel-subtle">Fort: {detail.fortLevel} | Naval Base: {detail.navalBaseLevel}</p>
-      {provinceSummary ? (
-        <p className="panel-subtle">
-          Militancy:{' '}
-          <TraceTooltip
-            value={provinceSummary.militancy.toFixed(2)}
-            trace={[
-              { label: 'Unrest risk', value: provinceSummary.unrestRisk },
-              { label: 'Needs met', value: provinceSummary.needsMet },
-            ]}
-          />
-        </p>
-      ) : null}
+      <p className="panel-subtle">Provincial dossier for the selected map tile.</p>
+
+      <dl className="ledger-grid">
+        <div>
+          <dt>Owner</dt>
+          <dd>{ownerName}</dd>
+        </div>
+        <div>
+          <dt>Population</dt>
+          <dd>
+            <TraceTooltip
+              value={population.toLocaleString()}
+              trace={detail.pops.map((pop) => ({ label: pop.type, value: pop.size }))}
+            />
+          </dd>
+        </div>
+        <div>
+          <dt>Terrain</dt>
+          <dd>{detail.terrain}</dd>
+        </div>
+        <div>
+          <dt>RGO</dt>
+          <dd>{detail.rgo.recipe.replace('rgo_', '').replace('_', ' ')}</dd>
+        </div>
+        <div>
+          <dt>Fort</dt>
+          <dd>{detail.fortLevel}</dd>
+        </div>
+        <div>
+          <dt>Naval Base</dt>
+          <dd>{detail.navalBaseLevel}</dd>
+        </div>
+        {provinceSummary ? (
+          <div>
+            <dt>Militancy</dt>
+            <dd className={provinceSummary.militancy >= 4 ? 'unrest' : undefined}>
+              <TraceTooltip
+                value={provinceSummary.militancy.toFixed(2)}
+                trace={[
+                  { label: 'Unrest risk', value: provinceSummary.unrestRisk },
+                  { label: 'Needs met', value: provinceSummary.needsMet },
+                ]}
+              />
+            </dd>
+          </div>
+        ) : null}
+      </dl>
+
       <h3 className="atlas-heading panel-small-heading">Population</h3>
       <ul className="panel-list">
         {detail.pops.map((pop) => (

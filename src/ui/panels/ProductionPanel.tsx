@@ -32,7 +32,11 @@ export function ProductionPanel() {
     <section className="panel-card atlas-panel">
       <h2 className="atlas-heading">Production</h2>
       <p className="panel-subtle">Weekly output and profitability across RGOs and factories.</p>
+      {player.constructionBlocked ? (
+        <p className="bankruptcy-pill is-bankrupt">Construction blocked — resolve bankruptcy before expanding industry.</p>
+      ) : null}
 
+      <h3 className="atlas-heading panel-small-heading">Build Factories</h3>
       <div className="production-build-grid">
         {snapshot.playerStates.map((state, stateIndex) => (
           <div key={state.id} className="production-build-row">
@@ -43,6 +47,7 @@ export function ProductionPanel() {
                 <button
                   key={`${state.id}-${recipe.key}`}
                   type="button"
+                  className="btn btn--secondary"
                   data-coach-id={stateIndex === 0 && recipeIndex === 0 ? 'build-factory-primary' : undefined}
                   disabled={player.constructionBlocked}
                   onClick={() => sendCommand({ t: 'buildFactory', state: state.id, recipe: recipe.key })}
@@ -55,50 +60,55 @@ export function ProductionPanel() {
         ))}
       </div>
 
-      <ul className="panel-list production-list">
-        {snapshot.playerProduction.map((entry, index) => (
-          <li key={`${entry.kind}-${entry.locationName}-${entry.recipe}-${index}`}>
-            <div>
-              <strong>{entry.locationName}</strong>
-              <span>{entry.kind.toUpperCase()} {recipeLabel(entry.recipe)}</span>
-            </div>
-            <div>
-              <span>{goodById.get(entry.outputGood) ?? `Good ${entry.outputGood}`}</span>
-              <span>
-                Jobs{' '}
-                <TraceTooltip
-                  value={formatNumber(entry.employment, 0)}
-                  trace={[
-                    { label: 'Building level', value: entry.level },
-                    { label: 'Output amount', value: entry.outputAmount },
-                  ]}
-                />
-              </span>
-              <span>
-                Output{' '}
-                <TraceTooltip
-                  value={formatNumber(entry.outputAmount, 2)}
-                  trace={[
-                    { label: 'Employment', value: entry.employment },
-                    { label: 'Building level', value: entry.level },
-                  ]}
-                />
-              </span>
-              <span className={entry.profit >= 0 ? 'positive' : 'negative'}>
-                Profit{' '}
-                <TraceTooltip
-                  value={`${entry.profit >= 0 ? '+' : ''}${formatNumber(entry.profit, 2)}`}
-                  trace={[
-                    { label: 'Output amount', value: entry.outputAmount },
-                    { label: 'Employment', value: entry.employment },
-                    { label: 'Building level', value: entry.level },
-                  ]}
-                />
-              </span>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <h3 className="atlas-heading panel-small-heading">Active Sites</h3>
+      {snapshot.playerProduction.length === 0 ? (
+        <p className="panel-subtle">No active production sites yet.</p>
+      ) : (
+        <ul className="panel-list production-list">
+          {snapshot.playerProduction.map((entry, index) => (
+            <li key={`${entry.kind}-${entry.locationName}-${entry.recipe}-${index}`}>
+              <div>
+                <strong>{entry.locationName}</strong>
+                <span className="gc-chip">{entry.kind.toUpperCase()} · {recipeLabel(entry.recipe)}</span>
+              </div>
+              <div>
+                <span>{goodById.get(entry.outputGood) ?? `Good ${entry.outputGood}`}</span>
+                <span>
+                  Jobs{' '}
+                  <TraceTooltip
+                    value={formatNumber(entry.employment, 0)}
+                    trace={[
+                      { label: 'Building level', value: entry.level },
+                      { label: 'Output amount', value: entry.outputAmount },
+                    ]}
+                  />
+                </span>
+                <span>
+                  Output{' '}
+                  <TraceTooltip
+                    value={formatNumber(entry.outputAmount, 2)}
+                    trace={[
+                      { label: 'Employment', value: entry.employment },
+                      { label: 'Building level', value: entry.level },
+                    ]}
+                  />
+                </span>
+                <span className={entry.profit >= 0 ? 'positive' : 'negative'}>
+                  Profit{' '}
+                  <TraceTooltip
+                    value={`${entry.profit >= 0 ? '+' : ''}${formatNumber(entry.profit, 2)}`}
+                    trace={[
+                      { label: 'Output amount', value: entry.outputAmount },
+                      { label: 'Employment', value: entry.employment },
+                      { label: 'Building level', value: entry.level },
+                    ]}
+                  />
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }

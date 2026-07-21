@@ -47,38 +47,72 @@ export function PoliticsPanel() {
     <section className="panel-card atlas-panel">
       <h2 className="atlas-heading">Politics</h2>
       <p className="panel-subtle">
-        {detail.government.replaceAll('_', ' ')} | Ruling party: {detail.rulingParty} ({detail.rulingIdeology})
+        {detail.government.replaceAll('_', ' ')} · Ruling party: {detail.rulingParty} ({detail.rulingIdeology})
       </p>
-      <p className="panel-subtle">
-        Infamy{' '}
-        <TraceTooltip
-          value={detail.infamy.toFixed(1)}
-          trace={[
-            { label: 'Infamy limit', value: detail.infamyLimit },
-            { label: 'Coalition size', value: detail.coalitionAgainst.length },
-          ]}
-        />{' '}
-        | Avg militancy{' '}
-        <TraceTooltip
-          value={detail.avgMilitancy.toFixed(2)}
-          trace={detail.stateUnrest.slice(0, 4).map((entry) => ({ label: entry.name, value: entry.militancy }))}
-        />{' '}
-        | Avg consciousness{' '}
-        <TraceTooltip
-          value={detail.avgConsciousness.toFixed(2)}
-          trace={[
-            { label: 'National consciousness', value: detail.avgConsciousness },
-            { label: 'Average militancy', value: detail.avgMilitancy },
-            { label: 'Top reform demand', value: detail.topReformDemands[0]?.support ?? 0 },
-          ]}
-        />
-      </p>
-      <p className="panel-subtle">
-        Election: {detail.election.elective ? `${detail.election.yearsToNext}y to next (${detail.election.nextYear})` : 'Not elective'} | Last: {detail.election.lastResult}
-      </p>
-      <p className="panel-subtle">
-        Mobilization cap {detail.military.mobilizationCapacity} | Standing cap {detail.military.standingRegimentCapacity} | Org x{detail.military.armyOrganization.toFixed(2)} | Morale x{detail.military.armyMorale.toFixed(2)}
-      </p>
+
+      <dl className="ledger-grid">
+        <div>
+          <dt>Infamy</dt>
+          <dd className={detail.infamy >= detail.infamyLimit ? 'status-danger' : undefined}>
+            <TraceTooltip
+              value={detail.infamy.toFixed(1)}
+              trace={[
+                { label: 'Infamy limit', value: detail.infamyLimit },
+                { label: 'Coalition size', value: detail.coalitionAgainst.length },
+              ]}
+            />
+            <span className="ledger-suffix"> / {detail.infamyLimit.toFixed(1)}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>Avg Militancy</dt>
+          <dd className={detail.avgMilitancy >= 4 ? 'unrest' : undefined}>
+            <TraceTooltip
+              value={detail.avgMilitancy.toFixed(2)}
+              trace={detail.stateUnrest.slice(0, 4).map((entry) => ({ label: entry.name, value: entry.militancy }))}
+            />
+          </dd>
+        </div>
+        <div>
+          <dt>Avg Consciousness</dt>
+          <dd>
+            <TraceTooltip
+              value={detail.avgConsciousness.toFixed(2)}
+              trace={[
+                { label: 'National consciousness', value: detail.avgConsciousness },
+                { label: 'Average militancy', value: detail.avgMilitancy },
+                { label: 'Top reform demand', value: detail.topReformDemands[0]?.support ?? 0 },
+              ]}
+            />
+          </dd>
+        </div>
+        <div>
+          <dt>Election</dt>
+          <dd>
+            {detail.election.elective
+              ? `${detail.election.yearsToNext}y · ${detail.election.nextYear}`
+              : 'Not elective'}
+          </dd>
+        </div>
+        <div>
+          <dt>Last Result</dt>
+          <dd>{detail.election.lastResult}</dd>
+        </div>
+        <div>
+          <dt>Mobilization Cap</dt>
+          <dd>{detail.military.mobilizationCapacity}</dd>
+        </div>
+        <div>
+          <dt>Standing Cap</dt>
+          <dd>{detail.military.standingRegimentCapacity}</dd>
+        </div>
+        <div>
+          <dt>Org / Morale</dt>
+          <dd>
+            ×{detail.military.armyOrganization.toFixed(2)} · ×{detail.military.armyMorale.toFixed(2)}
+          </dd>
+        </div>
+      </dl>
 
       <h3 className="atlas-heading panel-small-heading">Upper House</h3>
       <ul className="panel-list">
@@ -100,31 +134,33 @@ export function PoliticsPanel() {
         ))}
         {detail.topReformDemands.length === 0 ? <li><span>No major agitation</span><span>0%</span></li> : null}
       </ul>
-      <ul className="panel-list">
+      <ul className="panel-list mil-list">
         {detail.stateUnrest.slice(0, 3).map((entry) => (
           <li key={entry.stateId}>
-            <span>
-              {entry.name} risk{' '}
-              <TraceTooltip
-                value={entry.risk.toFixed(2)}
-                trace={[
-                  { label: 'State militancy', value: entry.militancy },
-                  { label: 'National consciousness', value: detail.avgConsciousness },
-                  { label: 'Reform pressure', value: detail.topReformDemands[0]?.support ?? 0 },
-                ]}
-              />
-            </span>
-            <span>
-              Mil{' '}
-              <TraceTooltip
-                value={entry.militancy.toFixed(2)}
-                trace={[
-                  { label: 'State militancy', value: entry.militancy },
-                  { label: 'State unrest risk', value: entry.risk },
-                  { label: 'National militancy', value: detail.avgMilitancy },
-                ]}
-              />
-            </span>
+            <div>
+              <strong>{entry.name}</strong>
+              <span>
+                Risk{' '}
+                <TraceTooltip
+                  value={entry.risk.toFixed(2)}
+                  trace={[
+                    { label: 'State militancy', value: entry.militancy },
+                    { label: 'National consciousness', value: detail.avgConsciousness },
+                    { label: 'Reform pressure', value: detail.topReformDemands[0]?.support ?? 0 },
+                  ]}
+                />
+                {' · '}
+                Mil{' '}
+                <TraceTooltip
+                  value={entry.militancy.toFixed(2)}
+                  trace={[
+                    { label: 'State militancy', value: entry.militancy },
+                    { label: 'State unrest risk', value: entry.risk },
+                    { label: 'National militancy', value: detail.avgMilitancy },
+                  ]}
+                />
+              </span>
+            </div>
           </li>
         ))}
       </ul>
@@ -145,7 +181,7 @@ export function PoliticsPanel() {
                       {reform.options.map((option, level) => {
                         if (level <= current) {
                           return (
-                            <button key={option.key} type="button" disabled>
+                            <button key={option.key} type="button" className="btn btn--ghost" disabled>
                               {option.name} (Enacted)
                             </button>
                           );
@@ -157,6 +193,7 @@ export function PoliticsPanel() {
                           <button
                             key={option.key}
                             type="button"
+                            className={legal ? 'btn btn--primary' : 'btn btn--secondary'}
                             data-coach-id={legal ? 'reform-action' : undefined}
                             disabled={!legal}
                             title={`${reason} | Support ${pct(next?.support ?? 0)} / ${pct(next?.requiredSupport ?? 0)} | Cost ${money(next?.costMoney ?? 0)} + ${next?.costPrestige.toFixed(1) ?? '0.0'} prestige`}

@@ -120,7 +120,7 @@ export function DiplomacyPanel() {
   return (
     <section className="panel-card atlas-panel">
       <h2 className="atlas-heading">Diplomacy</h2>
-      <p className="panel-subtle">
+      <p className={`panel-subtle ${playerInfamy >= snapshot.infamyLimit ? 'status-danger' : ''}`}>
         Infamy{' '}
         <TraceTooltip
           value={playerInfamy.toFixed(1)}
@@ -134,7 +134,7 @@ export function DiplomacyPanel() {
         {playerInfamy >= snapshot.infamyLimit ? ' - Warning: containment coalitions are likely.' : ''}
       </p>
       {snapshot.coalitionAgainstPlayer.length > 0 ? (
-        <p className="panel-subtle">
+        <p className="panel-subtle status-danger">
           Coalition risk: {snapshot.coalitionAgainstPlayer.map((nationId) => derived.nationById.get(nationId)?.tag ?? nationId).join(', ')}
         </p>
       ) : null}
@@ -142,7 +142,7 @@ export function DiplomacyPanel() {
       <div className="diplo-controls">
         <label>
           Filter
-          <select value={filter} onChange={(event) => setFilter(event.target.value as 'all' | 'neighbors' | 'gp')}>
+          <select className="gc-select" value={filter} onChange={(event) => setFilter(event.target.value as 'all' | 'neighbors' | 'gp')}>
             <option value="neighbors">Neighbors + GPs</option>
             <option value="gp">Great Powers</option>
             <option value="all">All Nations</option>
@@ -151,6 +151,7 @@ export function DiplomacyPanel() {
         <label>
           War Target
           <select
+            className="gc-select"
             value={targetId ?? -1}
             onChange={(event) => {
               const next = Number(event.target.value);
@@ -166,13 +167,14 @@ export function DiplomacyPanel() {
         </label>
         <label>
           War Goal
-          <select value={selectedGoal} onChange={(event) => setSelectedGoal(event.target.value as WarGoalType)}>
+          <select className="gc-select" value={selectedGoal} onChange={(event) => setSelectedGoal(event.target.value as WarGoalType)}>
             {WAR_GOALS.map((goal) => <option key={goal.id} value={goal.id}>{goal.label}</option>)}
           </select>
         </label>
         <label>
           State
           <select
+            className="gc-select"
             value={effectiveState}
             onChange={(event) => setSelectedState(Number(event.target.value))}
             disabled={STATELESS_GOALS.has(selectedGoal)}
@@ -196,6 +198,7 @@ export function DiplomacyPanel() {
       <div className="diplo-action-row">
         <button
           type="button"
+          className="btn btn--secondary"
           disabled={targetId === null || stateRequiredMissing}
           onClick={() => targetId !== null && sendCommand({ t: 'fabricateCB', target: targetId, goal: selectedGoal, state: effectiveState })}
         >
@@ -203,6 +206,7 @@ export function DiplomacyPanel() {
         </button>
         <button
           type="button"
+          className="btn btn--primary"
           data-testid="diplo-declare-war"
           disabled={targetId === null || truceBlocks || stateRequiredMissing}
           onClick={() => targetId !== null && sendCommand({ t: 'declareWar', target: targetId, goal: selectedGoal, state: effectiveState })}
@@ -233,12 +237,13 @@ export function DiplomacyPanel() {
                 const canCancel = row.relation.kind === 'alliance' || row.relation.kind === 'guarantee' || row.relation.kind === 'rivalry';
                 return (
                   <>
-                    <button type="button" onClick={() => setSelectedTarget(row.nation.id)}>Target</button>
-                    <button type="button" onClick={() => sendCommand({ t: 'proposeAlliance', target: row.nation.id })}>Alliance</button>
-                    <button type="button" onClick={() => sendCommand({ t: 'offerGuarantee', target: row.nation.id })}>Guarantee</button>
-                    <button type="button" onClick={() => sendCommand({ t: 'addRival', target: row.nation.id })}>Rival</button>
+                    <button type="button" className="btn btn--secondary" onClick={() => setSelectedTarget(row.nation.id)}>Target</button>
+                    <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'proposeAlliance', target: row.nation.id })}>Alliance</button>
+                    <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'offerGuarantee', target: row.nation.id })}>Guarantee</button>
+                    <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'addRival', target: row.nation.id })}>Rival</button>
                     <button
                       type="button"
+                      className="btn btn--ghost"
                       disabled={!canCancel}
                       onClick={() => sendCommand({ t: 'cancelRelation', target: row.nation.id, kind: cancelKind })}
                     >
@@ -248,7 +253,7 @@ export function DiplomacyPanel() {
                 );
               })()}
               {playerNation?.gpRank && playerNation.gpRank > 0 && row.nation.gpRank === 0 ? (
-                <button type="button" onClick={() => sendCommand({ t: 'influenceNation', target: row.nation.id, spend: 1 })}>
+                <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'influenceNation', target: row.nation.id, spend: 1 })}>
                   Influence
                 </button>
               ) : null}

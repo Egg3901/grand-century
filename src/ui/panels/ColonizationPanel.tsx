@@ -70,7 +70,7 @@ export function ColonizationPanel() {
                 <span>Owners: {state.ownerTags.join(', ')}</span>
               </div>
               <div className="mil-actions">
-                <button type="button" onClick={() => sendCommand({ t: 'colonize', state: state.id })}>Plant Claim</button>
+                <button type="button" className="btn btn--primary" onClick={() => sendCommand({ t: 'colonize', state: state.id })}>Plant Claim</button>
               </div>
             </li>
           ))}
@@ -83,7 +83,9 @@ export function ColonizationPanel() {
           <li key={state.id}>
             <div>
               <strong>{state.name}</strong>
-              <span>{state.fullyOwned ? 'Fully controlled' : 'Partially contested'}</span>
+              <span className={state.fullyOwned ? 'status-positive' : 'status-danger'}>
+                {state.fullyOwned ? 'Fully controlled' : 'Partially contested'}
+              </span>
             </div>
           </li>
         ))}

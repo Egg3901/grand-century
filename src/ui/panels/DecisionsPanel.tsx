@@ -38,6 +38,7 @@ export function DecisionsPanel() {
               <div className="production-build-actions">
                 <button
                   type="button"
+                  className={decision.available ? 'btn btn--primary' : 'btn btn--secondary'}
                   disabled={!decision.available}
                   title={decision.available ? `Take ${decision.title}` : decision.reason}
                   onClick={() => sendCommand({ t: 'takeDecision', decision: decision.id })}

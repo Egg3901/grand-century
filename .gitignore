@@ -25,3 +25,4 @@ content/raw/
 *.sw?
 docs/season-report.json
 artifacts/
+test-results/

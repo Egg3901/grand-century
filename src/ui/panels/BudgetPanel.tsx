@@ -28,6 +28,7 @@ export function BudgetPanel() {
           <span>Poor Tax {(player.taxRatePoor * 100).toFixed(0)}%</span>
           <input
             type="range"
+            className="gc-slider"
             data-coach-id="budget-tax-slider"
             min={0}
             max={1}
@@ -40,6 +41,7 @@ export function BudgetPanel() {
           <span>Middle Tax {(player.taxRateMiddle * 100).toFixed(0)}%</span>
           <input
             type="range"
+            className="gc-slider"
             min={0}
             max={1}
             step={0.01}
@@ -51,6 +53,7 @@ export function BudgetPanel() {
           <span>Rich Tax {(player.taxRateRich * 100).toFixed(0)}%</span>
           <input
             type="range"
+            className="gc-slider"
             min={0}
             max={1}
             step={0.01}
@@ -62,6 +65,7 @@ export function BudgetPanel() {
           <span>Tariff {(player.tariffRate * 100).toFixed(0)}%</span>
           <input
             type="range"
+            className="gc-slider"
             min={-1}
             max={1}
             step={0.01}

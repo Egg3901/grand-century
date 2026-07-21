@@ -53,7 +53,9 @@ export function FormablesPanel() {
             <ul className="panel-list">
               {status.requirements.map((requirement) => (
                 <li key={requirement.key}>
-                  <span>{requirement.met ? 'Met' : 'Missing'} - {requirement.label}</span>
+                  <span className={requirement.met ? 'status-positive' : 'status-danger'}>
+                    {requirement.met ? 'Met' : 'Missing'} - {requirement.label}
+                  </span>
                   <span>{requirement.detail}</span>
                 </li>
               ))}
@@ -64,6 +66,7 @@ export function FormablesPanel() {
             <div className="production-build-actions">
               <button
                 type="button"
+                className={status.ready ? 'btn btn--primary' : 'btn btn--secondary'}
                 disabled={!status.ready}
                 title={status.ready ? `Form ${status.name}` : status.reason}
                 onClick={() => sendCommand({ t: 'formNation', key: status.key })}

@@ -37,54 +37,61 @@ export function MarketPanel() {
   return (
     <section className="panel-card atlas-panel">
       <h2 className="atlas-heading">World Market</h2>
-      <table className="market-table">
-        <thead>
-          <tr>
-            <th>Good</th>
-            <th>Price</th>
-            <th>Supply</th>
-            <th>Demand</th>
-            <th>Trend</th>
-          </tr>
-        </thead>
-        <tbody>
-          {snapshot.market.map((good) => {
-            const trace = [
-              { label: 'Base price', value: good.priceTrace.basePrice },
-              { label: 'Demand ratio', value: good.priceTrace.ratio },
-              { label: 'Demand', value: good.priceTrace.requestedDemand },
-              { label: 'Effective supply', value: good.priceTrace.effectiveSupply },
-              { label: 'Stockpile start', value: good.priceTrace.stockpileStart },
-              { label: 'Stockpile end', value: good.priceTrace.stockpileEnd },
-            ];
-            return (
-              <tr key={good.good}>
-                <td>{goodById.get(good.good) ?? `Good ${good.good}`}</td>
-                <td><TraceTooltip value={`£${good.price.toFixed(2)}`} trace={trace} /></td>
-                <td>
-                  <TraceTooltip
-                    value={good.supply.toFixed(1)}
-                    trace={[
-                      { label: 'Producer supply', value: good.priceTrace.effectiveSupply },
-                      { label: 'Stockpile start', value: good.priceTrace.stockpileStart },
-                    ]}
-                  />
-                </td>
-                <td>
-                  <TraceTooltip
-                    value={good.demand.toFixed(1)}
-                    trace={[
-                      { label: 'Requested demand', value: good.priceTrace.requestedDemand },
-                      { label: 'Demand ratio', value: good.priceTrace.ratio },
-                    ]}
-                  />
-                </td>
-                <td><Sparkline values={good.trend} /></td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <p className="panel-subtle">Global prices, supply, and demand. Hover a figure for pricing trace inputs.</p>
+
+      <div className="market-table-wrap">
+        <table className="market-table">
+          <thead>
+            <tr>
+              <th>Good</th>
+              <th>Price</th>
+              <th>Supply</th>
+              <th>Demand</th>
+              <th>Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            {snapshot.market.map((good) => {
+              const trace = [
+                { label: 'Base price', value: good.priceTrace.basePrice },
+                { label: 'Demand ratio', value: good.priceTrace.ratio },
+                { label: 'Demand', value: good.priceTrace.requestedDemand },
+                { label: 'Effective supply', value: good.priceTrace.effectiveSupply },
+                { label: 'Stockpile start', value: good.priceTrace.stockpileStart },
+                { label: 'Stockpile end', value: good.priceTrace.stockpileEnd },
+              ];
+              const tight = good.demand > good.supply * 1.05;
+              return (
+                <tr key={good.good}>
+                  <td>{goodById.get(good.good) ?? `Good ${good.good}`}</td>
+                  <td className={tight ? 'status-danger' : undefined}>
+                    <TraceTooltip value={`£${good.price.toFixed(2)}`} trace={trace} />
+                  </td>
+                  <td>
+                    <TraceTooltip
+                      value={good.supply.toFixed(1)}
+                      trace={[
+                        { label: 'Producer supply', value: good.priceTrace.effectiveSupply },
+                        { label: 'Stockpile start', value: good.priceTrace.stockpileStart },
+                      ]}
+                    />
+                  </td>
+                  <td>
+                    <TraceTooltip
+                      value={good.demand.toFixed(1)}
+                      trace={[
+                        { label: 'Requested demand', value: good.priceTrace.requestedDemand },
+                        { label: 'Demand ratio', value: good.priceTrace.ratio },
+                      ]}
+                    />
+                  </td>
+                  <td><Sparkline values={good.trend} /></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }
