@@ -2,6 +2,33 @@
 
 All notable changes to Grand Century are documented here.
 
+## [0.7.0] — 2026-07-21
+
+Deeper gameplay: great-power crisis diplomacy + a much bigger tech tree.
+
+### The Concert of Europe (new headline system)
+- **Great-power crisis diplomacy** — the world accumulates **tension**; tension
+  ignites **flashpoint crises** (sphere contests, containment, humiliations); great
+  powers **take sides**; each crisis ends either at a peaceful **congress** (demand
+  enforced, big prestige swings) or, when blocs are balanced and both press, a
+  **great war** (bloc-vs-bloc, resolved by the existing war machinery).
+- New **Crisis panel** inside "Great Powers & the Concert": tension meter, live
+  crisis card with Back Attacker / Back Defender / Press Demand / Back Down, and a
+  congress ledger. Emergent texture: ~18-22 crises per 60-year campaign, most
+  resolved at congress, the occasional catastrophic great war.
+
+### Technology depth
+- The tech tree roughly doubled (~80 entries): railroads, chemistry, medicine,
+  electricity, naval/army modernization and more, with more wired effects
+  (movement/supply, pop health, tax/trade/profit, war stats) and new inventions +
+  production chains.
+
+### Notes
+- Additive types (old saves self-heal); pure/DOM-free so both run in single-player
+  and the multiplayer server. 120 tests (test:all) green; balance envelope held.
+
+[0.7.0]: https://github.com/Egg3901/grand-century/releases/tag/v0.7.0
+
 ## [0.6.0] — 2026-07-21
 
 "The Inventive Century" — a real technology & invention system for the 1820-1920
