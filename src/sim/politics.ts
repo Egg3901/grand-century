@@ -201,6 +201,17 @@ export const REFORM_FATIGUE_GAIN_BY_CATEGORY: Record<ReformCategory, number> = {
   economic: 0.05,
   military: 0.03,
 };
+/**
+ * At full fatigue, subtract this from raw UH support before the threshold check.
+ * ~20pp is enough that a second same-sitting reform usually fails unless the
+ * chamber is near-unanimous.
+ */
+export const REFORM_FATIGUE_MAX_SUPPORT_PENALTY = 0.2;
+/**
+ * At full fatigue, multiply treasury/prestige cost by (1 + this).
+ * Caps at 2.25× — expensive enough to deter spam even when UH still clears.
+ */
+export const REFORM_FATIGUE_MAX_COST_MULTIPLIER_EXTRA = 1.25;
 
 export function nationReformFatigue(nation: Nation): number {
   return clamp(nation.reformFatigue ?? 0, 0, REFORM_FATIGUE_MAX);
@@ -228,6 +239,17 @@ export function decayReformFatigue(nation: Nation): void {
     return;
   }
   nation.reformFatigue = Math.max(0, Number((current - REFORM_FATIGUE_DECAY_PER_MONTH).toFixed(4)));
+}
+
+/** Effective UH support after fatigue penalty (for legality / UI). */
+export function fatiguedReformSupport(rawSupport: number, fatigue: number): number {
+  const penalty = clamp(fatigue, 0, REFORM_FATIGUE_MAX) * REFORM_FATIGUE_MAX_SUPPORT_PENALTY;
+  return clamp(rawSupport - penalty, 0, 1);
+}
+
+/** Cost multiplier from fatigue (1 at rest, up to 1 + MAX_COST_MULTIPLIER_EXTRA). */
+export function reformFatigueCostMultiplier(fatigue: number): number {
+  return 1 + clamp(fatigue, 0, REFORM_FATIGUE_MAX) * REFORM_FATIGUE_MAX_COST_MULTIPLIER_EXTRA;
 }
 
 export function politicalSuppression(nation: Nation, data: GameData): number {
@@ -428,9 +450,16 @@ export function computeReformLegality(
   const maxAllowedByDef = maxLevel(reform);
   const clampedTarget = clamp(Math.floor(targetLevel), 0, maxAllowedByDef);
   const next = nextLevel(nation, reform.key);
-  const support = reformSupportInUpperHouse(nation, reform.key, clampedTarget);
+  const fatigue = nationReformFatigue(nation);
+  const rawSupport = reformSupportInUpperHouse(nation, reform.key, clampedTarget);
+  const support = fatiguedReformSupport(rawSupport, fatigue);
   const requiredSupport = reformSupportThreshold(nation.government, reform.category);
-  const costs = reformCost(reform.category, clampedTarget);
+  const baseCosts = reformCost(reform.category, clampedTarget);
+  const costMult = reformFatigueCostMultiplier(fatigue);
+  const costs = {
+    money: Math.round(baseCosts.money * costMult),
+    prestige: Number((baseCosts.prestige * costMult).toFixed(2)),
+  };
 
   if (clampedTarget <= current) {
     return {
