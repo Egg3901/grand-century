@@ -1,8 +1,57 @@
 import { useStore } from '../../store';
 import { TraceTooltip } from '../components/TraceTooltip';
+import {
+  POP_COMPOSITION_HEIGHT,
+  POP_COMPOSITION_WIDTH,
+  populationComposition,
+  shareToSvgX,
+  type PopShareSegment,
+} from '../populationComposition';
 
 function pct(value: number): string {
   return `${(Math.max(0, Math.min(1, value)) * 100).toFixed(1)}%`;
+}
+
+function PopulationCompositionChart({ segments }: { segments: PopShareSegment[] }) {
+  if (segments.length === 0) return null;
+
+  return (
+    <figure className="pop-composition" data-testid="pop-composition-chart">
+      <svg
+        className="pop-composition__bar"
+        viewBox={`0 0 ${POP_COMPOSITION_WIDTH} ${POP_COMPOSITION_HEIGHT}`}
+        preserveAspectRatio="none"
+        role="img"
+        aria-label="Population composition by class"
+      >
+        {segments.map((segment, index) => {
+          const x = shareToSvgX(segment.offset);
+          const width = Math.max(segment.share > 0 ? 0.4 : 0, shareToSvgX(segment.share));
+          return (
+            <rect
+              key={segment.type}
+              className={`pop-composition__seg pop-composition__seg--${index % 6}`}
+              x={x}
+              y={0}
+              width={width}
+              height={POP_COMPOSITION_HEIGHT}
+              data-type={segment.type}
+              data-share={segment.share.toFixed(4)}
+            />
+          );
+        })}
+      </svg>
+      <ul className="pop-composition__legend">
+        {segments.map((segment, index) => (
+          <li key={segment.type}>
+            <span className={`pop-composition__swatch pop-composition__seg--${index % 6}`} aria-hidden="true" />
+            <span className="pop-composition__label">{segment.type}</span>
+            <span className="pop-composition__share">{pct(segment.share)}</span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  );
 }
 
 export function PopulationPanel() {
@@ -18,6 +67,7 @@ export function PopulationPanel() {
   }
 
   const total = snapshot.playerPopulation.reduce((sum, entry) => sum + entry.size, 0);
+  const composition = populationComposition(snapshot.playerPopulation);
   const topAgitation = snapshot.playerReformAgitation.slice(0, 3);
   const mobility = snapshot.playerPopMobility;
   const hasMobility = Boolean(
@@ -79,6 +129,7 @@ export function PopulationPanel() {
       )}
 
       <h3 className="atlas-heading panel-small-heading">Classes</h3>
+      <PopulationCompositionChart segments={composition} />
       <ul className="panel-list population-list">
         {snapshot.playerPopulation.map((entry) => (
           <li key={entry.type}>

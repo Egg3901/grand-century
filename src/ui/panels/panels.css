@@ -447,7 +447,64 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Market table */
+/* Population composition stacked bar (hand-rolled SVG, no chart lib) */
+.pop-composition {
+  margin: 0 0 var(--gc-space-2);
+  padding: 0;
+}
+
+.pop-composition__bar {
+  display: block;
+  width: 100%;
+  height: 0.7rem;
+  border: 1px solid var(--gc-border);
+  border-radius: var(--gc-radius-sm);
+  background: var(--gc-accent-soft);
+  overflow: hidden;
+}
+
+.pop-composition__legend {
+  list-style: none;
+  margin: var(--gc-space-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-muted);
+}
+
+.pop-composition__legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.pop-composition__swatch {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 1px;
+  border: 1px solid var(--gc-border-soft);
+  flex-shrink: 0;
+}
+
+.pop-composition__label {
+  text-transform: capitalize;
+}
+
+.pop-composition__share {
+  color: var(--gc-ink);
+}
+
+.pop-composition__seg--0 { fill: var(--gc-leather); background: var(--gc-leather); }
+.pop-composition__seg--1 { fill: var(--gc-leather-soft); background: var(--gc-leather-soft); }
+.pop-composition__seg--2 { fill: var(--gc-wax); background: var(--gc-wax); }
+.pop-composition__seg--3 { fill: var(--gc-accent); background: var(--gc-accent); }
+.pop-composition__seg--4 { fill: var(--gc-positive); background: var(--gc-positive); }
+.pop-composition__seg--5 { fill: var(--gc-ink-muted); background: var(--gc-ink-muted); }
+
+/* Market table */}
 .market-table {
   width: 100%;
   border-collapse: collapse;
