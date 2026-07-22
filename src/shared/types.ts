@@ -399,6 +399,8 @@ export interface RGO {
   recipe: string;        // Recipe.key with building 'rgo'
   level: number;         // capacity
   employed: number;
+  /** Last weekly owner+state share after wages (not a fabricated proxy). */
+  weeklyProfit: number;
 }
 
 /** 1.0-U5: one yearly line of the player's campaign, recorded by the sim. */

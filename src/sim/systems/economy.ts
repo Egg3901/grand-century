@@ -86,7 +86,10 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>, rgoTech
     const capacity = Math.max(0, finite(province.rgo.level, 1)) * BALANCE.economy.rgoEmploymentPerLevel;
     const employed = Math.min(totalEligible, capacity);
     province.rgo.employed = employed;
-    if (employed <= 0 || totalEligible <= 0) continue;
+    if (employed <= 0 || totalEligible <= 0) {
+      province.rgo.weeklyProfit = 0;
+      continue;
+    }
 
     const laborUnits = employed / 1000;
     // 0.6.0: industry-tech multiplier (practical steam engine, sawmills, ...).
@@ -100,6 +103,8 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>, rgoTech
     const wagePool = grossRevenue * BALANCE.economy.rgoWageShare;
     const ownerPool = grossRevenue * BALANCE.economy.rgoOwnerShare;
     const statePool = Math.max(0, grossRevenue - wagePool - ownerPool);
+    // Ledger profit = residual after wages (owner rent + vestigial state share).
+    province.rgo.weeklyProfit = ownerPool + statePool;
     world.nations[nationId].monthlyProductionIncome += statePool;
 
     const employedShare = employed / totalEligible;

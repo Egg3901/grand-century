@@ -542,6 +542,7 @@ function createProvinces(worldSeed: WorldSeedData, rng: Rng, tagToNationId: Reco
         recipe,
         level,
         employed,
+        weeklyProfit: 0,
       },
       fortLevel: terrain === 'mountains' || terrain === 'hills' ? 1 : 0,
       navalBaseLevel: seed.coastal && (seed.ownerTag === 'ENG' || seed.ownerTag === 'USA' || seed.ownerTag === 'NLD') ? 1 : 0,

@@ -192,7 +192,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         outputGood: rgoOutputByRecipe[province.rgo.recipe] ?? 0,
         outputAmount: (province.rgo.employed / 1000) * (recipeByKey.get(province.rgo.recipe)?.output.amount ?? 0),
         employment: province.rgo.employed,
-        profit: province.rgo.employed * 0.0025,
+        profit: province.rgo.weeklyProfit,
         level: province.rgo.level,
       })),
     ...playerOwnedStates.flatMap((state) => state.factories.map((factory) => {
