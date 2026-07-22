@@ -337,6 +337,8 @@ export interface DecisionStatus {
   reason: string;
   costSummary: string[];
   effectsSummary: string[];
+  /** Core-share progress, arc position, next unlock — for the Decisions panel. */
+  progressLines?: string[];
 }
 
 export interface FormableRequirementStatus {

@@ -29,6 +29,11 @@ import { addColonialPointsModifier, COLONIAL_CLAIM_COST, startColonization } fro
 
 const STAGGER_BUCKETS = 6;
 const TREASURY_MIN = -25_000;
+/** National decision arcs shown as chain progress on the Decisions panel. */
+const DECISION_CHAIN_IDS: string[][] = [
+  ['zollverein', 'german_question', 'brothers_war'],
+  ['il_risorgimento', 'french_entente', 'expedition_of_the_thousand', 'rome_question'],
+];
 const TREASURY_MAX = 5_000_000;
 const EPOCH_YEAR = 1820;
 const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -137,6 +142,48 @@ function hasUncolonizedAdjacent(world: World, nationId: NationId): boolean {
   return false;
 }
 
+function decisionTitle(id: string): string {
+  return DECISION_DEFS.find((entry) => entry.id === id)?.title ?? id.replace(/_/g, ' ');
+}
+
+function buildDecisionProgressLines(
+  world: World,
+  data: GameData,
+  nation: Nation,
+  decision: DecisionDef,
+): string[] {
+  const lines: string[] = [];
+  for (const req of decision.prerequisites) {
+    if (req.t !== 'formableCoreShareAtLeast') continue;
+    const status = getFormableStatusesForNation(world, data, nation.id)
+      .find((entry) => entry.key === req.key);
+    const share = status && status.totalCoreStates > 0
+      ? status.controlledCoreStates / status.totalCoreStates
+      : 0;
+    const have = Math.round(share * 100);
+    const need = Math.round(req.share * 100);
+    const cores = status
+      ? `${status.controlledCoreStates}/${status.totalCoreStates}`
+      : '0/0';
+    lines.push(`${req.key} cores ${cores} (${have}% / need ${need}%)`);
+  }
+
+  const chain = DECISION_CHAIN_IDS.find((ids) => ids.includes(decision.id));
+  if (chain) {
+    const titles = chain.map(decisionTitle);
+    const idx = chain.indexOf(decision.id);
+    lines.push(`Arc: ${titles.map((title, i) => (i === idx ? `[${title}]` : title)).join(' → ')}`);
+    for (let i = idx + 1; i < chain.length; i += 1) {
+      const nextId = chain[i];
+      if (world.decisionLastTaken[`${nextId}:${nation.id}`] === undefined) {
+        lines.push(`Next unlock: ${titles[i]}`);
+        break;
+      }
+    }
+  }
+  return lines;
+}
+
 function hasFormableCandidate(world: World, data: GameData, nationId: NationId): boolean {
   const statuses = getFormableStatusesForNation(world, data, nationId);
   return statuses.length > 0;
@@ -240,7 +287,10 @@ export function checkRequirement(
         : 0;
       return share >= req.share
         ? { ok: true, reason: '' }
-        : { ok: false, reason: `Control ${Math.round(req.share * 100)}% of the unification cores` };
+        : {
+          ok: false,
+          reason: `Control ${Math.round(req.share * 100)}% of the unification cores (now ${Math.round(share * 100)}%)`,
+        };
     }
     default:
       return { ok: true, reason: '' };
@@ -882,30 +932,28 @@ export function evaluateDecision(
     };
   }
 
+  const progressLines = buildDecisionProgressLines(world, data, nation, decision);
+  const base = {
+    id: decision.id,
+    title: decision.title,
+    description: decision.description,
+    costSummary,
+    effectsSummary,
+    progressLines: progressLines.length > 0 ? progressLines : undefined,
+  };
+
   const key = historyKey(decision.id, nationId);
   const last = world.decisionLastTaken[key];
   if (decision.once && last !== undefined) {
-    return {
-      id: decision.id,
-      title: decision.title,
-      description: decision.description,
-      available: false,
-      reason: 'Already taken',
-      costSummary,
-      effectsSummary,
-    };
+    return { ...base, available: false, reason: 'Already taken' };
   }
   if (last !== undefined && decision.cooldownMonths) {
     const elapsed = monthsBetween(last, world.day);
     if (elapsed < decision.cooldownMonths) {
       return {
-        id: decision.id,
-        title: decision.title,
-        description: decision.description,
+        ...base,
         available: false,
         reason: `Cooldown: ${decision.cooldownMonths - elapsed} months`,
-        costSummary,
-        effectsSummary,
       };
     }
   }
@@ -913,50 +961,18 @@ export function evaluateDecision(
   for (const req of decision.prerequisites) {
     const result = checkRequirement(world, data, nation, req);
     if (!result.ok) {
-      return {
-        id: decision.id,
-        title: decision.title,
-        description: decision.description,
-        available: false,
-        reason: result.reason,
-        costSummary,
-        effectsSummary,
-      };
+      return { ...base, available: false, reason: result.reason };
     }
   }
 
   if ((decision.cost.treasury ?? 0) > 0 && nation.treasury < (decision.cost.treasury ?? 0)) {
-    return {
-      id: decision.id,
-      title: decision.title,
-      description: decision.description,
-      available: false,
-      reason: `Need £${decision.cost.treasury}`,
-      costSummary,
-      effectsSummary,
-    };
+    return { ...base, available: false, reason: `Need £${decision.cost.treasury}` };
   }
   if ((decision.cost.prestige ?? 0) > 0 && nation.prestige < (decision.cost.prestige ?? 0)) {
-    return {
-      id: decision.id,
-      title: decision.title,
-      description: decision.description,
-      available: false,
-      reason: `Need ${decision.cost.prestige} prestige`,
-      costSummary,
-      effectsSummary,
-    };
+    return { ...base, available: false, reason: `Need ${decision.cost.prestige} prestige` };
   }
 
-  return {
-    id: decision.id,
-    title: decision.title,
-    description: decision.description,
-    available: true,
-    reason: 'Available',
-    costSummary,
-    effectsSummary,
-  };
+  return { ...base, available: true, reason: 'Available' };
 }
 
 export function listPlayerDecisions(world: World, data: GameData, nationId: NationId): DecisionStatus[] {
