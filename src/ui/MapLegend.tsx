@@ -103,6 +103,12 @@ export function MapLegend() {
             { label: 'Unowned core', color: '#8e4d46' },
             { label: 'Non-core', color: '#b8ab90' },
           ]
+          : mapMode === 'culture'
+            ? [
+              { label: 'Plurality culture', color: '#9d886b' },
+              { label: 'High non-accepted', color: '#8a5f46' },
+              { label: 'Movement heartland', color: '#8e4d46' },
+            ]
           : mapMode === 'political'
             ? [
               { label: 'Nation fill', color: '#9d886b' },

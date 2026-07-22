@@ -21,14 +21,15 @@ export type MapMode =
   | 'diplomatic'
   | 'unrest'
   | 'ruling_ideology'
-  | 'cores';
+  | 'cores'
+  | 'culture';
 export type PanelId =
-  | null | 'budget' | 'population' | 'market' | 'politics' | 'diplomacy'
+  | null | 'budget' | 'population' | 'cultures' | 'market' | 'politics' | 'diplomacy'
   | 'great_powers' | 'military' | 'production' | 'technology' | 'province' | 'colonization' | 'save_load' | 'formables' | 'decisions';
 
 export interface UiAlert {
   id: string;
-  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save' | 'formation' | 'unrest' | 'event' | 'market' | 'crisis';
+  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save' | 'formation' | 'unrest' | 'event' | 'market' | 'crisis' | 'culture';
   day: number;
   message: string;
   panel: Exclude<PanelId, null> | null;
@@ -445,6 +446,24 @@ export const useStore = create<UIState>((set, get) => ({
             'Open Politics and enact stabilizing reforms or cut taxes.',
             'high-unrest',
             120,
+          );
+        }
+      }
+      // Culture: alert when a player movement newly crosses the boiling gates.
+      {
+        const prevBoiling = new Set(
+          (prev.playerMovements ?? []).filter((movement) => movement.boiling).map((movement) => movement.id),
+        );
+        for (const movement of s.playerMovements ?? []) {
+          if (!movement.boiling || prevBoiling.has(movement.id)) continue;
+          pushAlert(
+            'culture',
+            `${movement.cultureName} movement is boiling — uprising imminent.`,
+            s.day,
+            'cultures',
+            'Open Cultures: grant acceptance, flip pluralist, or prepare for rebels.',
+            `culture-boil-${movement.id}`,
+            180,
           );
         }
       }
