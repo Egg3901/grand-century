@@ -21,7 +21,7 @@ import {
 } from './systems/diplomacy';
 import { getFormableStatusesForNation } from './formables';
 import { getPlayerBalanceOfPowerView, listPlayerDecisions } from './systems/events';
-import { buildPlayerTechView } from './systems/research';
+import { buildPlayerTechView, techModifiersFor } from './systems/research';
 import {
   buildCrisisShowdownView,
   computeTensionContributions,
@@ -37,6 +37,19 @@ import {
   listColonialClaimViews,
 } from './systems/war';
 
+function clamp01(value: number): number {
+  return Math.max(0, Math.min(1, value));
+}
+
+/** Factory-density urbanization proxy used by the pop consciousness formula. */
+function provinceUrbanization(world: World, provinceId: number): number {
+  const province = world.provinces[provinceId];
+  if (!province) return 0;
+  const state = world.states[province.stateId];
+  if (!state) return 0;
+  const factoryLevel = state.factories.reduce((sum, factory) => sum + factory.level, 0);
+  return clamp01(factoryLevel / Math.max(1, state.provinceIds.length * 10));
+}
 function zeroBudget(): BudgetLine {
   return {
     taxIncome: 0,
@@ -276,6 +289,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     life: number;
     everyday: number;
     luxury: number;
+    urban: number;
     scarce: Map<number, { fillSum: number; weight: number }>;
     ideology: Record<string, number>;
     agitating: Map<string, number>;
@@ -297,6 +311,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         life: 0,
         everyday: 0,
         luxury: 0,
+        urban: 0,
         scarce: new Map(),
         ideology: {} as Record<string, number>,
         agitating: new Map<string, number>(),
@@ -310,6 +325,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       bucket.life += pop.lifeNeedsFrac ?? pop.needsMet;
       bucket.everyday += pop.everydayNeedsFrac ?? pop.needsMet;
       bucket.luxury += pop.luxuryNeedsFrac ?? 1;
+      bucket.urban += provinceUrbanization(world, pop.provinceId);
       for (const scarce of pop.scarceGoods ?? []) {
         const prior = bucket.scarce.get(scarce.good) ?? { fillSum: 0, weight: 0 };
         prior.fillSum += scarce.fill;
@@ -325,6 +341,11 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       playerPopulationMap.set(key, bucket);
     }
   }
+  const literacy = playerNation?.literacy ?? 0;
+  const healthcareLevel = playerNation?.reforms.healthcare ?? 0;
+  const techPopGrowth = playerNation
+    ? Math.max(0, techModifiersFor(playerNation, data).popGrowth ?? 0)
+    : 0;
   const playerPopulation = Array.from(playerPopulationMap.entries())
     .map(([type, bucket]) => {
       const dominantIdeology = (Object.entries(bucket.ideology).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'conservative') as PartyIdeology;
@@ -339,10 +360,15 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         })
         .sort((a, b) => a.fill - b.fill)
         .slice(0, 4);
+      const avgNeedsMet = bucket.count > 0 ? bucket.needs / bucket.count : 0;
+      const avgLuxuryNeeds = bucket.count > 0 ? bucket.luxury / bucket.count : 0;
+      const avgUrban = bucket.count > 0 ? bucket.urban / bucket.count : 0;
+      const needsScaledGrowthCap = 0.00014 + avgNeedsMet * 0.000035;
+      const growthCap = Math.min(BALANCE.population.maxGrowthRate, needsScaledGrowthCap);
       return {
         type: type as PopType,
         size: bucket.size,
-        avgNeedsMet: bucket.count > 0 ? bucket.needs / bucket.count : 0,
+        avgNeedsMet,
         avgMilitancy: bucket.count > 0 ? bucket.mil / bucket.count : 0,
         avgConsciousness: bucket.count > 0 ? bucket.con / bucket.count : 0,
         dominantIdeology,
@@ -350,8 +376,25 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         growth: bucket.growth,
         avgLifeNeeds: bucket.count > 0 ? bucket.life / bucket.count : 0,
         avgEverydayNeeds: bucket.count > 0 ? bucket.everyday / bucket.count : 0,
-        avgLuxuryNeeds: bucket.count > 0 ? bucket.luxury / bucket.count : 0,
+        avgLuxuryNeeds,
         scarceGoods,
+        growthDrivers: [
+          { label: 'Needs contribution', value: avgNeedsMet * 0.0013 },
+          { label: 'Healthcare reform', value: healthcareLevel * 0.00012 },
+          { label: 'Medicine tech', value: techPopGrowth },
+          { label: 'Base rate', value: -0.0009 },
+          { label: 'Growth cap', value: growthCap },
+          { label: 'Monthly delta', value: bucket.growth },
+        ],
+        consciousnessDrivers: [
+          { label: 'Literacy (monthly)', value: literacy * BALANCE.population.monthlyConsciousnessLiteracy },
+          { label: 'Urban (monthly)', value: avgUrban * BALANCE.population.monthlyConsciousnessUrban },
+          { label: 'Needs penalty', value: -(1 - avgNeedsMet) * BALANCE.population.monthlyConsciousnessNeedPenalty },
+          { label: 'Literacy (weekly)', value: literacy * 0.03 },
+          { label: 'Urban (weekly)', value: avgUrban * 0.02 },
+          { label: 'Luxury (weekly)', value: avgLuxuryNeeds * 0.01 },
+          { label: 'Unmet (weekly)', value: -(1 - avgNeedsMet) * 0.01 },
+        ],
       };
     })
     .sort((a, b) => b.size - a.size);

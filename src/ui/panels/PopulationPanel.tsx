@@ -92,11 +92,9 @@ export function PopulationPanel() {
                 Con{' '}
                 <TraceTooltip
                   value={entry.avgConsciousness.toFixed(2)}
-                  trace={[
+                  trace={entry.consciousnessDrivers ?? [
                     { label: 'Average consciousness', value: entry.avgConsciousness },
                     { label: 'Needs met', value: entry.avgNeedsMet },
-                    { label: 'Reform demands', value: entry.agitatingFor.length },
-                    { label: 'Population size', value: entry.size },
                   ]}
                 />
               </span>
@@ -109,7 +107,7 @@ export function PopulationPanel() {
                 Growth{' '}
                 <TraceTooltip
                   value={`${entry.growth >= 0 ? '+' : ''}${entry.growth.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
-                  trace={[
+                  trace={entry.growthDrivers ?? [
                     { label: 'Monthly growth', value: entry.growth },
                     { label: 'Population size', value: entry.size },
                   ]}

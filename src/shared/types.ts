@@ -1123,6 +1123,10 @@ export interface PopulationLedgerEntry {
   avgLuxuryNeeds?: number;
   /** Worst-filled basket goods for this class (fill 0–1), for Needs tooltips. */
   scarceGoods?: { key: string; name: string; fill: number }[];
+  /** Growth-rate formula inputs for the Growth tooltip. */
+  growthDrivers?: TraceLine[];
+  /** Consciousness formula inputs for the Con tooltip. */
+  consciousnessDrivers?: TraceLine[];
 }
 
 export interface PlayerStateSummary {
