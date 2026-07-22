@@ -335,6 +335,17 @@ FORMABLES.push({
 // the Schleswig crises (1848-1864) when Sweden-Norway seriously weighed
 // military union with Denmark — the same 'Springtime of Nations' era gate
 // GERMANY/ITALY use.
+//
+// BALANCE FIX: requiredCoreShare must exceed the dominant member's own solo
+// share of the combined state list, or the "union" is a content-free
+// calendar checkbox. Sweden alone already owns 6 of these 7 states (85.7%)
+// from bootstrap, so the original 0.7 threshold was cleared automatically at
+// game start with zero player/AI action — it fired at exactly 1848 in every
+// seed tested, a scripted date, not an achievement. With only 7 total states
+// (a 6-vs-1 split), there is no fractional threshold between "Sweden alone"
+// (0.857) and "both fully" (1.0) — requiredCoreShare: 1 is the only value
+// that closes the loophole, matching NORTH_GERMAN_CONFEDERATION's own
+// precedent for a similarly lopsided two-member union.
 const SCANDINAVIAN_UNION_STATES = [144, 359, 360, 361, 513, 514, 515];
 FORMABLES.push({
   key: 'SCANDINAVIAN_UNION',
@@ -345,16 +356,23 @@ FORMABLES.push({
   candidateTags: ['SWE', 'DEN'],
   coreStateIds: SCANDINAVIAN_UNION_STATES.slice(),
   yearAtLeast: 1848,
-  requiredCoreShare: 0.7,
+  requiredCoreShare: 1,
   requireIndependent: true,
   requireGreatPower: false,
   prestigeReward: 40,
 });
 
 // Iberian Union: "Iberismo" peaked during Spain's 1868 Glorious Revolution,
-// when union with Portugal was seriously debated in the Cortes. Lower core
-// share than GERMANY/ITALY — 51 states between the two nations is a much
-// larger territorial ask than either German unification arc.
+// when union with Portugal was seriously debated in the Cortes.
+//
+// BALANCE FIX: same bug class as Scandinavia — Portugal alone already owns
+// 35 of these 51 states (68.6%) from bootstrap, so the original 0.6
+// threshold was cleared automatically at game start, firing at exactly 1868
+// in every seed tested regardless of play. Unlike Scandinavia's 6-vs-1
+// split, 51 states leaves real room for a middle ground: 0.85 requires
+// Portugal to also secure the large majority of Spain's territory (roughly
+// 14 of Spain's 16 states), a substantial but not maximal conquest — a real
+// bar without demanding literal 100% down to the last province.
 const IBERIAN_UNION_STATES = [
   35, 36, 37, 136, 193, 368, 375, 376, 377, 378, 379, 502, 503, 504, 505, 506,
   9, 10, 11, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
@@ -369,7 +387,7 @@ FORMABLES.push({
   candidateTags: ['ESP', 'POR'],
   coreStateIds: IBERIAN_UNION_STATES.slice(),
   yearAtLeast: 1868,
-  requiredCoreShare: 0.6,
+  requiredCoreShare: 0.85,
   requireIndependent: true,
   requireGreatPower: false,
   prestigeReward: 45,
