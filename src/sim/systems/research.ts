@@ -312,10 +312,11 @@ function tickNationResearch(world: World, data: GameData, nation: Nation, year: 
   // 4. Inventions.
   rollInventions(nation, data, rng);
 
-  // 5. Modifier drips.
+  // 5. Modifier drips. Literacy soft-lands like politics schools: rate × (1−lit).
   const modifiers = techModifiersFor(nation, data);
   if (modifiers.literacyRate > 0) {
-    nation.literacy = clamp(nation.literacy + modifiers.literacyRate, 0, 0.98);
+    const literacyGain = modifiers.literacyRate * (1 - clamp(nation.literacy, 0, 1));
+    nation.literacy = clamp(nation.literacy + literacyGain, 0, 0.98);
   }
   if (modifiers.prestigeMonthly > 0) {
     nation.prestige = clamp(nation.prestige + modifiers.prestigeMonthly, 0, 10_000);
