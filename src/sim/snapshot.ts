@@ -42,32 +42,39 @@ function zeroBudget(): BudgetLine {
   };
 }
 
-function provincePopulation(world: World, popIds: number[]): number {
-  let total = 0;
-  for (const popId of popIds) total += Math.max(0, world.pops[popId]?.size ?? 0);
-  return total;
+interface ProvincePopStats {
+  population: number;
+  militancy: number;
+  needsMet: number;
+  growth: number;
+  outputProxy: number;
 }
 
-function provinceMilitancy(world: World, popIds: number[]): number {
-  if (popIds.length === 0) return 0;
-  let total = 0;
-  for (const popId of popIds) total += Math.max(0, world.pops[popId]?.militancy ?? 0);
-  return total / popIds.length;
-}
-
-function provinceNeeds(world: World, popIds: number[]): { needsMet: number; growth: number; outputProxy: number } {
-  if (popIds.length === 0) return { needsMet: 0, growth: 0, outputProxy: 0 };
+/**
+ * Population / militancy / needs / growth / output for one province in a single
+ * pop pass (was three separate passes over the same popIds per province, per
+ * snapshot). Accumulation order is unchanged so results are bit-identical to the
+ * old provincePopulation / provinceMilitancy / provinceNeeds trio.
+ */
+function provincePopStats(world: World, popIds: number[]): ProvincePopStats {
+  if (popIds.length === 0) return { population: 0, militancy: 0, needsMet: 0, growth: 0, outputProxy: 0 };
+  let population = 0;
+  let militancySum = 0;
   let needs = 0;
   let growth = 0;
   let outputProxy = 0;
   for (const popId of popIds) {
     const pop = world.pops[popId];
+    population += Math.max(0, pop?.size ?? 0);
+    militancySum += Math.max(0, pop?.militancy ?? 0);
     if (!pop) continue;
     needs += Math.max(0, pop.needsMet);
     growth += Number.isFinite(pop.lastGrowth) ? pop.lastGrowth : 0;
     outputProxy += Math.max(0, pop.money) * 0.002;
   }
   return {
+    population,
+    militancy: militancySum / popIds.length,
     needsMet: needs / popIds.length,
     growth,
     outputProxy,
@@ -80,18 +87,43 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       .filter((recipe) => recipe.building === 'rgo')
       .map((recipe) => [recipe.key, recipe.output.good]),
   ) as Record<string, number>;
+  // One recipe-by-key index instead of data.recipes.find(...) per province (and
+  // per player factory) — that was an O(recipes) linear scan on every province.
+  const recipeByKey = new Map(data.recipes.map((recipe) => [recipe.key, recipe]));
+
+  // Per-owner aggregates in single passes: province counts + owned-pop militancy
+  // and owned-state unrest, bucketed by owner in world order. Replaces the
+  // per-nation world.provinces.filter / world.states.filter / flatMap+reduce
+  // (O(nations x (provinces+states)) every snapshot). Same accumulation order
+  // per owner ⇒ bit-identical averages.
+  const nationCount = world.nations.length;
+  const ownedProvinceCount = new Array<number>(nationCount).fill(0);
+  const ownedPopIdCount = new Array<number>(nationCount).fill(0);
+  const ownedPopMilitancySum = new Array<number>(nationCount).fill(0);
+  const ownedStateCount = new Array<number>(nationCount).fill(0);
+  const ownedStateUnrestSum = new Array<number>(nationCount).fill(0);
+  for (const province of world.provinces) {
+    const owner = province.owner;
+    if (owner < 0 || owner >= nationCount) continue;
+    ownedProvinceCount[owner]++;
+    for (const popId of province.popIds) {
+      ownedPopIdCount[owner]++;
+      ownedPopMilitancySum[owner] += world.pops[popId]?.militancy ?? 0;
+    }
+  }
+  for (const state of world.states) {
+    const owner = state.owner;
+    if (owner < 0 || owner >= nationCount) continue;
+    ownedStateCount[owner]++;
+    ownedStateUnrestSum[owner] += state.unrestRisk;
+  }
 
   const powerByNation = new Map(world.nations.map((nation) => [nation.id, getNationPowerBreakdown(world, nation.id)]));
   const nations: NationSummary[] = world.nations.map((nation) => {
-    const owned = world.provinces.filter((province) => province.owner === nation.id);
-    const popCount = owned.flatMap((province) => province.popIds);
-    const avgMilitancy = popCount.length > 0
-      ? popCount.reduce((sum, popId) => sum + (world.pops[popId]?.militancy ?? 0), 0) / popCount.length
-      : 0;
-    const ownedStates = world.states.filter((state) => state.owner === nation.id);
-    const avgUnrest = ownedStates.length > 0
-      ? ownedStates.reduce((sum, state) => sum + state.unrestRisk, 0) / ownedStates.length
-      : 0;
+    const popIdCount = ownedPopIdCount[nation.id];
+    const avgMilitancy = popIdCount > 0 ? ownedPopMilitancySum[nation.id] / popIdCount : 0;
+    const stateCount = ownedStateCount[nation.id];
+    const avgUnrest = stateCount > 0 ? ownedStateUnrestSum[nation.id] / stateCount : 0;
     const ruling = partyByKey(nation, nation.rulingParty);
     const power = powerByNation.get(nation.id) ?? { industry: 0, military: 0, score: 0 };
     return {
@@ -113,7 +145,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       spheredBy: nation.spheredBy,
       sphereMembers: nation.sphereMembers.slice().sort((a, b) => a - b),
       atWar: world.wars.some((war) => war.attackers.includes(nation.id) || war.defenders.includes(nation.id)),
-      numProvinces: owned.length,
+      numProvinces: ownedProvinceCount[nation.id],
       militancy: avgMilitancy,
       unrest: avgUnrest,
       taxRatePoor: nation.taxRatePoor,
@@ -127,20 +159,20 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
   });
 
   const provinces: ProvinceSummary[] = world.provinces.map((province) => {
-    const needs = provinceNeeds(world, province.popIds);
+    const stats = provincePopStats(world, province.popIds);
     const rgoGood = rgoOutputByRecipe[province.rgo.recipe] ?? 0;
-    const rgoOutput = (province.rgo.employed / 1000) * (data.recipes.find((recipe) => recipe.key === province.rgo.recipe)?.output.amount ?? 0);
+    const rgoOutput = (province.rgo.employed / 1000) * (recipeByKey.get(province.rgo.recipe)?.output.amount ?? 0);
     return {
       id: province.id,
       owner: province.owner,
       controller: province.controller,
       stateId: province.stateId,
-      population: provincePopulation(world, province.popIds),
-      militancy: provinceMilitancy(world, province.popIds),
+      population: stats.population,
+      militancy: stats.militancy,
       unrestRisk: world.states[province.stateId]?.unrestRisk ?? 0,
-      needsMet: needs.needsMet,
-      growth: needs.growth,
-      economyOutput: rgoOutput + needs.outputProxy,
+      needsMet: stats.needsMet,
+      growth: stats.growth,
+      economyOutput: rgoOutput + stats.outputProxy,
       rgoGood,
       fortLevel: province.fortLevel,
       occupation: province.occupationProgress,
@@ -158,13 +190,13 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         locationName: province.name,
         recipe: province.rgo.recipe,
         outputGood: rgoOutputByRecipe[province.rgo.recipe] ?? 0,
-        outputAmount: (province.rgo.employed / 1000) * (data.recipes.find((recipe) => recipe.key === province.rgo.recipe)?.output.amount ?? 0),
+        outputAmount: (province.rgo.employed / 1000) * (recipeByKey.get(province.rgo.recipe)?.output.amount ?? 0),
         employment: province.rgo.employed,
         profit: province.rgo.employed * 0.0025,
         level: province.rgo.level,
       })),
     ...playerOwnedStates.flatMap((state) => state.factories.map((factory) => {
-      const recipe = data.recipes.find((candidate) => candidate.key === factory.recipe);
+      const recipe = recipeByKey.get(factory.recipe);
       return {
         kind: 'factory' as const,
         locationName: state.name,
