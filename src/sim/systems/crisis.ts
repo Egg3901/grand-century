@@ -456,13 +456,22 @@ function resolveCongress(world: World, rng: Rng, crisis: Crisis, winnerSide: Cri
   }
 
   if (winnerSide === 'attacker') {
-    applyWarGoal(world, {
-      holder: crisis.attackerLead,
-      target: crisis.subject,
-      type: crisis.demand,
-      stateId: crisis.stateId,
-      scoreValue: getWarGoalRule(crisis.demand).score,
-    });
+    // BALANCE: peaceful congress cannot demote a GP and wipe spheres via
+    // cut_down_to_size — that nuclear outcome requires a crisis war.
+    if (crisis.demand === 'cut_down_to_size') {
+      const subject = world.nations[crisis.subject];
+      const attacker = world.nations[crisis.attackerLead];
+      if (subject) subject.prestige = Math.max(0, subject.prestige - 12);
+      if (attacker) attacker.prestige += 2;
+    } else {
+      applyWarGoal(world, {
+        holder: crisis.attackerLead,
+        target: crisis.subject,
+        type: crisis.demand,
+        stateId: crisis.stateId,
+        scoreValue: getWarGoalRule(crisis.demand).score,
+      });
+    }
   }
 
   const relation = getOrCreateRelation(world, crisis.attackerLead, crisis.defenderLead);
