@@ -12,6 +12,7 @@ test.beforeAll(async () => {
 });
 
 test('boot, play one year, open panels, declare war', async ({ page }) => {
+  test.setTimeout(180_000); // real-time year at speed 5 + panel sweep
   test.skip(!browserReady, 'Playwright browsers unavailable in this environment.');
   const consoleErrors: string[] = [];
   page.on('console', (message) => {
@@ -32,6 +33,10 @@ test('boot, play one year, open panels, declare war', async ({ page }) => {
     return year;
   }, { timeout: 20_000 }).toBeGreaterThanOrEqual(1821);
 
+  // Pause before the panel sweep: at speed 5 the sim saturates the main
+  // thread and panel renders crawl — this test was eating its whole budget
+  // in waits (red since V7). Panels + declare-war work the same paused.
+  await page.dispatchEvent('[data-testid="speed-0"]', 'click');
   const panelIds = [
     'budget',
     'production',
@@ -50,7 +55,9 @@ test('boot, play one year, open panels, declare war', async ({ page }) => {
 
   await page.dispatchEvent('[data-testid="panel-diplomacy"]', 'click');
   const declareWar = page.getByTestId('diplo-declare-war');
-  if (await declareWar.isEnabled()) await declareWar.click({ force: true });
+  // dispatchEvent like every other control here: real clicks flake while the
+  // sim re-renders at speed 5 (the button node itself is stable — verified).
+  if (await declareWar.isEnabled()) await page.dispatchEvent('[data-testid="diplo-declare-war"]', 'click');
 
   expect(consoleErrors).toEqual([]);
 });

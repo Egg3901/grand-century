@@ -180,6 +180,7 @@
 /* 0.5.2 heraldic unit counters — engraved shield (army) / naval cartouche
    (fleet) with a strength ribbon. Static DOM, compositor-only hover. */
 .grand-map__unit {
+  position: relative; /* anchors the U4 flag chip */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -359,4 +360,17 @@
   .grand-map__tooltip {
     display: none;
   }
+}
+
+/* U4: nation flag chip on unit counters */
+.grand-map__unit-flag {
+  position: absolute;
+  top: -4px;
+  left: -6px;
+  width: 16px;
+  height: 11px;
+  border: 1px solid rgba(43, 38, 30, 0.7);
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgba(12, 8, 5, 0.4);
+  pointer-events: none;
 }

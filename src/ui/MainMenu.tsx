@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useStore } from '../store';
 import { buildShareUrl, copyShareLink, parseStartHash } from './permalink';
 import { NationFlag } from './components/NationFlag';
-import heroUrl from '../assets/hero.png';
 import {
   CAMPAIGN_MAP_MODES,
   DEFAULT_CAMPAIGN_MAP_MODE,
@@ -155,7 +154,7 @@ export function MainMenu() {
   };
 
   return (
-    <div className="menu-overlay menu-overlay--hero" style={{ backgroundImage: `url(${heroUrl})` }}>
+    <div className="menu-overlay menu-overlay--hero">
       <section className="menu-card menu-card--title atlas-panel">
         <header className="menu-title">
           <h1 className="menu-title__name">Grand Century</h1>

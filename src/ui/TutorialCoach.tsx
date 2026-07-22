@@ -237,7 +237,12 @@ export function TutorialCoach() {
           }}
         />
       ) : null}
-      <aside className="tutorial-coach__card atlas-panel" role="dialog" aria-live="polite" aria-label="First session coach">
+      <aside
+        className={`tutorial-coach__card atlas-panel${openPanel !== null ? ' is-panel-open' : ''}`}
+        role="dialog"
+        aria-live="polite"
+        aria-label="First session coach"
+      >
         <div className="tutorial-coach__progress">
           <strong>{currentStep.title}</strong>
           <span>{progress}</span>

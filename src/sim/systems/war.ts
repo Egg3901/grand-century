@@ -1,4 +1,5 @@
 import type {
+  BattleReport,
   Army,
   ArmyId,
   Fleet,
@@ -552,7 +553,7 @@ function resolveLandBattle(
   provinceId: ProvinceId,
   attackers: Army[],
   defenders: Army[],
-): { attackerLosses: number; defenderLosses: number; attackerBroken: boolean; defenderBroken: boolean } {
+): { attackerLosses: number; defenderLosses: number; attackerBroken: boolean; defenderBroken: boolean; factors?: BattleReport['factors'] } {
   const province = world.provinces[provinceId];
   const terrain = province?.terrain ?? 'plains';
   const attackerUnits = sideRegiments(attackers);
@@ -624,7 +625,17 @@ function resolveLandBattle(
     }
   }
 
-  return { attackerLosses, defenderLosses, attackerBroken, defenderBroken };
+  // U4: attacker-minus-defender edges per factor, scaled comparably so the
+  // report can name the decisive one. Terrain/fort always favor the defender.
+  const factors: BattleReport['factors'] = {
+    roll: attackerRoll - defenderRoll,
+    organization: (attackerOrg - defenderOrg) * 6,
+    leadership: leaderAtk.attack * 1.6 - leaderDef.attack * 1.45,
+    technology: attackerTech * 0.95 - defenderTech * 0.9,
+    terrain: -terrainDef * 8,
+    fort: -(province?.fortLevel ?? 0) * 0.4 * 8,
+  };
+  return { attackerLosses, defenderLosses, attackerBroken, defenderBroken, factors };
 }
 
 function resolveRebelCombat(world: World, rng: Rng, provinceId: ProvinceId, armiesAtProvince?: Army[]): void {
@@ -1025,6 +1036,26 @@ function resolveWarBattles(
       const result = resolveLandBattle(world, rng, war, provinceId, attackers, defenders);
       attackerCasualties += result.attackerLosses;
       defenderCasualties += result.defenderLosses;
+      if (result.factors) {
+        world.recentBattles = world.recentBattles ?? [];
+        world.recentBattles.push({
+          day: world.day,
+          provinceId,
+          provinceName: world.provinces[provinceId]?.name ?? `Province ${provinceId}`,
+          warId: war.id,
+          attackerNation: attackers[0].owner,
+          defenderNation: defenders[0].owner,
+          attackerLosses: result.attackerLosses,
+          defenderLosses: result.defenderLosses,
+          outcome: result.defenderBroken && !result.attackerBroken
+            ? 'attacker_victory'
+            : result.attackerBroken && !result.defenderBroken
+              ? 'defender_victory'
+              : 'clash',
+          factors: result.factors,
+        });
+        if (world.recentBattles.length > 24) world.recentBattles.splice(0, world.recentBattles.length - 24);
+      }
       if (result.attackerBroken && !result.defenderBroken) addBattleScore(world, war.id, -3.4);
       else if (result.defenderBroken && !result.attackerBroken) addBattleScore(world, war.id, 3.4);
       const delta = (result.defenderLosses - result.attackerLosses) * 0.005;

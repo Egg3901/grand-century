@@ -105,3 +105,13 @@
     touch-action: manipulation;
   }
 }
+
+/* U4 (#6): with a panel open, the card slides to the bottom-left so it never
+   sits on panel buttons (desktop panels live on the right). */
+@media (min-width: 769px) {
+  .tutorial-coach__card.is-panel-open {
+    right: auto;
+    left: 1rem;
+    max-width: 19rem;
+  }
+}

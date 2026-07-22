@@ -276,6 +276,9 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerStates,
     playerCoreStateIds,
     playerFormables,
+    recentBattles: (world.recentBattles ?? [])
+      .filter((battle) => battle.attackerNation === world.playerNation || battle.defenderNation === world.playerNation)
+      .slice(-8),
     pendingPlayerEvents: (world.pendingEvents ?? [])
       .filter((event) => event.nationId === world.playerNation)
       .map((event) => ({

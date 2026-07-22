@@ -200,6 +200,42 @@ export const useStore = create<UIState>((set, get) => ({
           365,
         );
       }
+      // U4: battle reports — name the outcome AND the decisive factor.
+      const prevBattleKeys = new Set((prev.recentBattles ?? []).map((b) => `${b.day}:${b.provinceId}:${b.warId}`));
+      for (const battle of s.recentBattles ?? []) {
+        const key = `${battle.day}:${battle.provinceId}:${battle.warId}`;
+        if (prevBattleKeys.has(key)) continue;
+        if (battle.outcome === 'clash') continue; // only decided engagements toast
+        const playerIsAttacker = battle.attackerNation === s.playerNation;
+        const playerWon = (battle.outcome === 'attacker_victory') === playerIsAttacker;
+        const enemyId = playerIsAttacker ? battle.defenderNation : battle.attackerNation;
+        const enemy = s.nations.find((nation) => nation.id === enemyId)?.name ?? 'the enemy';
+        // decisive factor from the player's perspective (flip sign if defending)
+        const sign = playerIsAttacker ? 1 : -1;
+        const entries = Object.entries(battle.factors) as Array<[string, number]>;
+        const decisive = entries.reduce((best, entry) => (Math.abs(entry[1]) > Math.abs(best[1]) ? entry : best));
+        const helpedPlayer = decisive[1] * sign > 0;
+        const FACTOR_TEXT: Record<string, [string, string]> = {
+          roll: ['fortune favored our arms', 'the dice went against us'],
+          organization: ['superior organization told', 'our lines were disordered'],
+          leadership: ['the general carried the day', 'we were outgeneraled'],
+          technology: ['better guns and drill decided it', 'their guns and drill outmatched ours'],
+          terrain: ['the ground fought for us', 'the ground fought against us'],
+          fort: ['the fortress held firm', 'their fortress blunted the assault'],
+        };
+        const why = (FACTOR_TEXT[decisive[0]] ?? ['', ''])[helpedPlayer ? 0 : 1];
+        const ourLosses = playerIsAttacker ? battle.attackerLosses : battle.defenderLosses;
+        const theirLosses = playerIsAttacker ? battle.defenderLosses : battle.attackerLosses;
+        pushAlert(
+          'war',
+          `${playerWon ? 'Victory' : 'Defeat'} at ${battle.provinceName} against ${enemy} — ${why}. Losses ${Math.round(ourLosses)} to ${Math.round(theirLosses)}.`,
+          s.day,
+          'military',
+          playerWon ? 'Press the advantage while their line reforms.' : 'Regroup — broken armies rally at reduced organization.',
+          `battle-${key}`,
+          0,
+        );
+      }
       for (const war of prev.wars) {
         if (currWarIds.has(war.id)) continue;
         const playerInWar = war.attackers.includes(s.playerNation) || war.defenders.includes(s.playerNation);

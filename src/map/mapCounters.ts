@@ -28,6 +28,8 @@ export type UnitCounterOptions = {
   friendly: boolean;
   selected: boolean;
   title?: string;
+  /** Nation tag for the flag chip (validated A-Z 2-3). */
+  tag?: string;
 };
 
 function safeColor(color: string | undefined, fallback: string): string {
@@ -98,6 +100,17 @@ export function createUnitCounterElement(options: UnitCounterOptions): HTMLButto
     `<span class="grand-map__unit-body">${options.kind === 'army' ? armySvg(options.count, field) : fleetSvg(options.count, field)}</span>`
     + `<span class="grand-map__unit-ribbon">${pct}%</span>`
   );
+  // U4: a tiny flag chip answers "whose army is that?" at a glance — the
+  // shield pigment alone never did.
+  if (options.tag && /^[A-Z]{2,3}$/.test(options.tag)) {
+    const flag = document.createElement('img');
+    flag.className = 'grand-map__unit-flag';
+    flag.src = `${import.meta.env.BASE_URL}flags/${options.tag}.svg`;
+    flag.alt = '';
+    flag.draggable = false;
+    flag.addEventListener('error', () => flag.remove());
+    el.appendChild(flag);
+  }
   return el;
 }
 

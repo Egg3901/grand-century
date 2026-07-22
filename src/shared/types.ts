@@ -401,6 +401,27 @@ export interface RGO {
   employed: number;
 }
 
+/** 1.0-U4: battle outcome record with the WHY — factor edges attacker-minus-defender. */
+export interface BattleReport {
+  day: GameDay;
+  provinceId: ProvinceId;
+  provinceName: string;
+  warId: WarId;
+  attackerNation: NationId;
+  defenderNation: NationId;
+  attackerLosses: number;
+  defenderLosses: number;
+  outcome: 'attacker_victory' | 'defender_victory' | 'clash';
+  factors: {
+    roll: number;
+    organization: number;
+    leadership: number;
+    technology: number;
+    terrain: number;
+    fort: number;
+  };
+}
+
 export interface Factory {
   recipe: string;        // Recipe.key with building 'factory'
   level: number;
@@ -865,6 +886,8 @@ export interface World {
   eventLastFired: Record<string, GameDay>;
   /** `${decisionId}:${nationId}` -> last taken day */
   decisionLastTaken: Record<string, GameDay>;
+  /** 1.0-U4: rolling battle log (capped); source for player battle alerts. */
+  recentBattles?: BattleReport[];
   nextEventInstanceId: number;
 
   nextArmyId: ArmyId;
@@ -1054,6 +1077,8 @@ export interface WorldSnapshot {
   playerFormables?: FormableStatus[];
   /** Pending events for the player nation (popup queue). */
   pendingPlayerEvents?: PendingEvent[];
+  /** 1.0-U4: battles involving the player, newest last (for alerts). */
+  recentBattles?: BattleReport[];
   /** Player-initiated decisions with prereq gating. */
   playerDecisions?: DecisionStatus[];
   /** 0.6.0 research: technology tree + invention state for the player nation. */

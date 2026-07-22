@@ -482,6 +482,7 @@ export function GrandMap() {
     new globalThis.Map<number, string>(WORLD_SEED.provinces.map((province) => [province.id, province.terrain]))
   ), []);
   const campaignMapMode = snapshot?.mapMode ?? 'historical';
+  const showMainMenu = useStore((state) => state.showMainMenu);
 
   const provinceGeometryById = useMemo(() => {
     const map = new globalThis.Map<number, ProvinceGeometryMetrics>();
@@ -626,6 +627,48 @@ export function GrandMap() {
   }, [capitalByTag, gpRankByTag, nationNameByTag, provinceLabelSeeds]);
 
   const bounds = useMemo(() => (geojson ? computeBounds(geojson) : null), [geojson]);
+
+  // U4: title tour — while the menu is up, drift the camera on slow
+  // zoomed-in pans across the world's stages (Ken Burns, Paradox-style).
+  // Stops the moment the menu closes; the nation-focus effect then takes over.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady || !showMainMenu) return;
+    const STOPS: Array<[number, number, number]> = [
+      [2.3, 48.8, 4.6],    // Paris & the Rhine
+      [12.5, 42.0, 4.4],   // Italy
+      [28.9, 41.0, 4.3],   // the Bosphorus
+      [77.2, 24.0, 4.0],   // India
+      [116.4, 36.0, 3.9],  // China
+      [-74.0, 6.0, 3.9],   // New Granada & the Caribbean
+      [-77.0, 39.0, 4.2],  // the American seaboard
+      [-3.7, 51.0, 4.5],   // Britain & Iberia
+    ];
+    let stop = Math.floor(Math.random() * STOPS.length);
+    let cancelled = false;
+    const glide = () => {
+      if (cancelled) return;
+      const [lon, lat, zoom] = STOPS[stop % STOPS.length];
+      stop += 1;
+      map.easeTo({
+        center: [lon + (Math.random() - 0.5) * 4, lat + (Math.random() - 0.5) * 2],
+        zoom,
+        duration: 26_000,
+        easing: (t) => t, // linear drift, no easing pulse
+        essential: false,
+      });
+    };
+    const onMoveEnd = () => {
+      if (!cancelled) window.setTimeout(glide, 400);
+    };
+    map.easeTo({ center: STOPS[stop % STOPS.length].slice(0, 2) as [number, number], zoom: 3.4, duration: 2_400 });
+    map.on('moveend', onMoveEnd);
+    return () => {
+      cancelled = true;
+      map.off('moveend', onMoveEnd);
+      map.stop();
+    };
+  }, [mapReady, showMainMenu]);
 
   useEffect(() => {
     snapshotRef.current = snapshot;
@@ -1955,10 +1998,11 @@ export function GrandMap() {
         const selected = selectedArmy !== null && stack.armies.some((army) => army.id === selectedArmy);
         const candidate = stack.armies.find((army) => army.owner === snapshot.playerNation) ?? stack.armies[0];
         const pct = Math.round((stack.avgStrength / 1000) * 100);
-        const ownerName = snapshot.nations.find((nation) => nation.id === stack.owner)?.name ?? `${stack.owner}`;
+        const ownerNation = snapshot.nations.find((nation) => nation.id === stack.owner);
+        const ownerName = ownerNation?.name ?? `${stack.owner}`;
         const key = `army-${provinceId}-${stack.owner}`;
         const offset = offsets[index] ?? [0, 0];
-        const signature = `army|${provinceId}|${stack.owner}|${stack.regiments}|${pct}|${friendly ? 1 : 0}|${selected ? 1 : 0}|${candidate.id}|${offset[0]},${offset[1]}`;
+        const signature = `army|${provinceId}|${stack.owner}|${ownerNation?.tag ?? ''}|${stack.regiments}|${pct}|${friendly ? 1 : 0}|${selected ? 1 : 0}|${candidate.id}|${offset[0]},${offset[1]}`;
         upsertMarker(
           key,
           signature,
@@ -1970,6 +2014,7 @@ export function GrandMap() {
             color: ownerColorById.get(stack.owner),
             friendly,
             selected,
+            tag: ownerNation?.tag,
             title: `${ownerName} army — ${stack.regiments} regiment${stack.regiments === 1 ? '' : 's'}, ${pct}% strength`,
           }),
           offset,
@@ -2009,15 +2054,17 @@ export function GrandMap() {
         const candidate = stack.fleets.find((fleet) => fleet.owner === snapshot.playerNation) ?? stack.fleets[0];
         const pct = Math.round((stack.avgStrength / 100) * 100);
         const ownerName = snapshot.nations.find((nation) => nation.id === stack.owner)?.name ?? `${stack.owner}`;
+        const fleetOwnerTag = snapshot.nations.find((nation) => nation.id === stack.owner)?.tag;
         const key = `fleet-${provinceId}-${stack.owner}`;
         const offset = offsets[index] ?? [0, 38];
-        const signature = `fleet|${provinceId}|${stack.owner}|${stack.ships}|${pct}|${friendly ? 1 : 0}|${selected ? 1 : 0}|${candidate.id}|${offset[0]},${offset[1]}`;
+        const signature = `fleet|${provinceId}|${stack.owner}|${fleetOwnerTag ?? ''}|${stack.ships}|${pct}|${friendly ? 1 : 0}|${selected ? 1 : 0}|${candidate.id}|${offset[0]},${offset[1]}`;
         upsertMarker(
           key,
           signature,
           provinceId,
           createUnitCounterElement({
             kind: 'fleet',
+            tag: fleetOwnerTag,
             count: stack.ships,
             strengthPct: pct,
             color: ownerColorById.get(stack.owner),
