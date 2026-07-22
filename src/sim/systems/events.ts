@@ -614,6 +614,8 @@ function fireEvent(
       choices: buildChoiceViews(world, data, nation, event.choices),
     };
     world.pendingEvents.push(pending);
+    // Auto-pause so the player can read choices without racing the clock.
+    world.speed = 0;
     return;
   }
 

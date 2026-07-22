@@ -9,6 +9,8 @@
   padding: 0.55rem 1.1rem;
   border-radius: var(--gc-radius);
   min-width: min(92vw, 980px);
+  /* Above EventPopup layer so Pause/Play stay reachable mid-dispatch. */
+  z-index: 30;
 }
 
 .hud-top__section {
@@ -534,7 +536,7 @@
     top: calc(env(safe-area-inset-top) + 0.45rem);
     left: 0.5rem;
     right: 0.5rem;
-    z-index: 19;
+    z-index: 30;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 0.45rem 0.7rem;
