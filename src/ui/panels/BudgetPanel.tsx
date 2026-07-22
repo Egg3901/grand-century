@@ -1,5 +1,6 @@
 import { useStore } from '../../store';
 import { BALANCE } from '../../sim/balance';
+import { exportKeepRate, importPriceMultiplier } from '../../sim/systems/market';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 function formatMoney(value: number): string {
@@ -20,6 +21,9 @@ export function BudgetPanel() {
       </section>
     );
   }
+
+  const importMult = importPriceMultiplier(player.tariffRate);
+  const exportKeep = exportKeepRate(player.tariffRate);
 
   return (
     <section className="panel-card atlas-panel">
@@ -63,7 +67,13 @@ export function BudgetPanel() {
           />
         </label>
         <label>
-          <span>Tariff {(player.tariffRate * 100).toFixed(0)}%</span>
+          <span>
+            Tariff {(player.tariffRate * 100).toFixed(0)}%
+            {' · '}
+            imports ×{importMult.toFixed(2)}
+            {' · '}
+            exporters keep {(exportKeep * 100).toFixed(0)}%
+          </span>
           <input
             type="range"
             className="gc-slider"
