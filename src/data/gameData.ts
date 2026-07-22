@@ -438,10 +438,10 @@ export const GAME_DATA: GameData = {
       category: 'social',
       name: 'Pension System',
       options: [
-        { key: 'none', name: 'No Pensions', effects: ['Old-age insecurity fuels unrest'] },
-        { key: 'guild', name: 'Guild Pensions', effects: ['Limited coverage for urban workers'] },
-        { key: 'state', name: 'State Pensions', effects: ['Broader social stability'] },
-        { key: 'comprehensive', name: 'Comprehensive Pensions', effects: ['Strong militancy relief for labor pops'] },
+        { key: 'none', name: 'No Pensions', effects: ['No monthly militancy relief for workers'] },
+        { key: 'guild', name: 'Guild Pensions', effects: ['−0.018 mil/mo for farmer/laborer/craftsman'] },
+        { key: 'state', name: 'State Pensions', effects: ['−0.035 mil/mo for farmer/laborer/craftsman'] },
+        { key: 'comprehensive', name: 'Comprehensive Pensions', effects: ['−0.055 mil/mo for farmer/laborer/craftsman'] },
       ],
     },
     {
@@ -449,10 +449,10 @@ export const GAME_DATA: GameData = {
       category: 'social',
       name: 'Labor Safety',
       options: [
-        { key: 'none', name: 'No Safety Code', effects: ['Low factory regulation'] },
-        { key: 'basic', name: 'Basic Safety Code', effects: ['Limited workplace inspections'] },
-        { key: 'inspectorate', name: 'Inspectorate', effects: ['Lower unrest in industrial workers'] },
-        { key: 'modern_code', name: 'Modern Safety Code', effects: ['Strong labor protection and stability'] },
+        { key: 'none', name: 'No Safety Code', effects: ['No workplace militancy relief'] },
+        { key: 'basic', name: 'Basic Safety Code', effects: ['−0.012 mil/mo laborer/craftsman (−0.004 farmer)'] },
+        { key: 'inspectorate', name: 'Inspectorate', effects: ['−0.028 mil/mo laborer/craftsman (−0.010 farmer)'] },
+        { key: 'modern_code', name: 'Modern Safety Code', effects: ['−0.045 mil/mo laborer/craftsman (−0.016 farmer)'] },
       ],
     },
     {

@@ -212,6 +212,11 @@ function applySuppressionEffects(
   const nation = world.nations[nationId];
   if (!nation || nationPops.length === 0) return;
   const suppression = politicalSuppression(nation, data);
+  const pensionLevel = clamp(Math.floor(nation.reforms.pension_system ?? 0), 0, 3);
+  const laborLevel = clamp(Math.floor(nation.reforms.labor_safety ?? 0), 0, 3);
+  // BALANCE: social reforms now relieve worker militancy (were prestige sinks).
+  const pensionRelief = [0, 0.018, 0.035, 0.055][pensionLevel] ?? 0;
+  const laborRelief = [0, 0.012, 0.028, 0.045][laborLevel] ?? 0;
 
   for (const pop of nationPops) {
     if (pop.size <= 0) continue;
@@ -228,7 +233,17 @@ function applySuppressionEffects(
           : BALANCE.population.deniedReformBasePressure + blockedSupport * BALANCE.population.deniedReformSupportPressure;
       }
     }
-    pop.militancy = clamp(pop.militancy + suppression * BALANCE.population.suppressionMilitancyImpact + deniedPressure, 0, 10);
+    let socialRelief = 0;
+    if (pop.type === 'farmer' || pop.type === 'laborer' || pop.type === 'craftsman') {
+      socialRelief = pensionRelief;
+      if (pop.type === 'laborer' || pop.type === 'craftsman') socialRelief += laborRelief;
+      else socialRelief += laborRelief * 0.35; // farmers get a thin labor-code spillover
+    }
+    pop.militancy = clamp(
+      pop.militancy + suppression * BALANCE.population.suppressionMilitancyImpact + deniedPressure - socialRelief,
+      0,
+      10,
+    );
     pop.consciousness = clamp(pop.consciousness + suppression * 0.03 + blockedSupport * 0.08, 0, 10);
   }
 }
