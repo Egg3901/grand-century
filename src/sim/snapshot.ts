@@ -1,4 +1,5 @@
 import type { BudgetLine, GameData, NationSummary, PartyIdeology, PopType, ProvinceSummary, World, WorldSnapshot } from '../shared/types';
+import { BALANCE } from './balance';
 import { dayToDate } from './world';
 import { ideologyFromPop, partyByKey, reformDemandForPop, topReformDemandEntries } from './politics';
 import {
@@ -185,16 +186,27 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
   const playerProduction = [
     ...world.provinces
       .filter((province) => province.owner === world.playerNation)
-      .map((province) => ({
-        kind: 'rgo' as const,
-        locationName: province.name,
-        recipe: province.rgo.recipe,
-        outputGood: rgoOutputByRecipe[province.rgo.recipe] ?? 0,
-        outputAmount: (province.rgo.employed / 1000) * (recipeByKey.get(province.rgo.recipe)?.output.amount ?? 0),
-        employment: province.rgo.employed,
-        profit: province.rgo.weeklyProfit,
-        level: province.rgo.level,
-      })),
+      .map((province) => {
+        const capacity = Math.max(0, province.rgo.level) * BALANCE.economy.rgoEmploymentPerLevel;
+        return {
+          kind: 'rgo' as const,
+          locationName: province.name,
+          recipe: province.rgo.recipe,
+          outputGood: rgoOutputByRecipe[province.rgo.recipe] ?? 0,
+          outputAmount: (province.rgo.employed / 1000) * (recipeByKey.get(province.rgo.recipe)?.output.amount ?? 0),
+          employment: province.rgo.employed,
+          profit: province.rgo.weeklyProfit,
+          level: province.rgo.level,
+          capacity,
+          inputCost: 0,
+          wages: 0,
+          operating: 0,
+          inputFill: 1,
+          cashReserve: 0,
+          profitableWeeks: 0,
+          lossWeeks: 0,
+        };
+      }),
     ...playerOwnedStates.flatMap((state) => state.factories.map((factory) => {
       const recipe = recipeByKey.get(factory.recipe);
       return {
@@ -206,6 +218,14 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         employment: factory.employed,
         profit: factory.weeklyProfit,
         level: factory.level,
+        capacity: factory.lastCapacity || Math.max(1, factory.level) * 2300,
+        inputCost: factory.lastInputCost,
+        wages: factory.lastWages,
+        operating: factory.lastOperating,
+        inputFill: factory.lastInputFill,
+        cashReserve: factory.cashReserve,
+        profitableWeeks: factory.profitableWeeks,
+        lossWeeks: factory.lossWeeks,
       };
     })),
   ];

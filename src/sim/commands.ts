@@ -295,6 +295,11 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
         lastOutput: 0,
         profitableWeeks: 0,
         lossWeeks: 0,
+        lastInputCost: 0,
+        lastWages: 0,
+        lastOperating: 0,
+        lastCapacity: 2300,
+        lastInputFill: 1,
       });
       return;
     }

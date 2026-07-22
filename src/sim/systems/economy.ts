@@ -153,10 +153,15 @@ function processFactory(
   factory.employed = employed;
   factory.workerShare = employedCrafts;
   factory.clerkShare = employedClerks;
+  factory.lastCapacity = capacity;
 
   if (employed <= 0) {
     factory.weeklyProfit = -BALANCE.economy.factoryIdleLoss;
     factory.lastOutput = 0;
+    factory.lastInputCost = 0;
+    factory.lastWages = 0;
+    factory.lastOperating = BALANCE.economy.factoryIdleLoss;
+    factory.lastInputFill = 0;
     factory.profitTrend = finite(factory.profitTrend) * 0.78 - 0.3;
     factory.lossWeeks += 1;
     factory.profitableWeeks = 0;
@@ -168,6 +173,7 @@ function processFactory(
   // demand scales with it too, so tech-lead industry pulls more raw goods.
   let unitTarget = (employed / 1000) * (1 + factory.level * 0.16) * factoryTechBoost;
   let inputCost = 0;
+  let inputFill = 1;
   for (const input of recipe.inputs) {
     if (unitTarget <= 0) break;
     // Balance pass: factories consume fewer inputs per output unit so they can
@@ -176,6 +182,7 @@ function processFactory(
     const purchase = buyFromMarket(world, state.owner, input.good, needed, Number.POSITIVE_INFINITY);
     inputCost += purchase.spent;
     const ratio = needed > 0 ? purchase.bought / needed : 1;
+    inputFill = Math.min(inputFill, ratio);
     if (ratio < 1) unitTarget *= ratio;
   }
   unitTarget = Math.max(0, unitTarget);
@@ -201,6 +208,10 @@ function processFactory(
   distributeMoney(world, clerkIds, clerkWeight, clerkWages);
 
   const operating = BALANCE.economy.factoryOperatingBase + factory.level * BALANCE.economy.factoryOperatingPerLevel;
+  factory.lastInputCost = inputCost;
+  factory.lastWages = wagePool;
+  factory.lastOperating = operating;
+  factory.lastInputFill = inputFill;
   const netBeforeCapital = revenue - inputCost - wagePool - operating;
   // 0.6.0: with the input-purchase bug fixed, factories actually profit. Route
   // most of that profit to capitalist POPS (taxable — taxes stay the state's

@@ -579,6 +579,11 @@ function addFactorySeeds(worldSeed: WorldSeedData, states: State[], rng: Rng): v
       lastOutput: 0,
       profitableWeeks: 0,
       lossWeeks: 0,
+      lastInputCost: 0,
+      lastWages: 0,
+      lastOperating: 0,
+      lastCapacity: 2300,
+      lastInputFill: 1,
     };
     state.factories.push(factory);
     if (index % 3 === 0 && rng.next() > 0.38) {
@@ -595,6 +600,11 @@ function addFactorySeeds(worldSeed: WorldSeedData, states: State[], rng: Rng): v
         lastOutput: 0,
         profitableWeeks: 0,
         lossWeeks: 0,
+        lastInputCost: 0,
+        lastWages: 0,
+        lastOperating: 0,
+        lastCapacity: 2300,
+        lastInputFill: 1,
       });
     }
   });

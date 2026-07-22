@@ -130,48 +130,85 @@ export function ProductionPanel() {
         <p className="panel-subtle">No active production sites yet.</p>
       ) : (
         <ul className="panel-list production-list">
-          {snapshot.playerProduction.map((entry, index) => (
-            <li key={`${entry.kind}-${entry.locationName}-${entry.recipe}-${index}`}>
-              <div>
-                <strong>{entry.locationName}</strong>
-                <span className="gc-chip">{entry.kind.toUpperCase()} · {recipeLabel(entry.recipe)}</span>
-              </div>
-              <div>
-                <span>{goodById.get(entry.outputGood) ?? `Good ${entry.outputGood}`}</span>
-                <span>
-                  Jobs{' '}
-                  <TraceTooltip
-                    value={formatNumber(entry.employment, 0)}
-                    trace={[
-                      { label: 'Building level', value: entry.level },
-                      { label: 'Output amount', value: entry.outputAmount },
-                    ]}
-                  />
-                </span>
-                <span>
-                  Output{' '}
-                  <TraceTooltip
-                    value={formatNumber(entry.outputAmount, 2)}
-                    trace={[
-                      { label: 'Employment', value: entry.employment },
-                      { label: 'Building level', value: entry.level },
-                    ]}
-                  />
-                </span>
-                <span className={entry.profit >= 0 ? 'positive' : 'negative'}>
-                  Profit{' '}
-                  <TraceTooltip
-                    value={`${entry.profit >= 0 ? '+' : ''}${formatNumber(entry.profit, 2)}`}
-                    trace={[
-                      { label: 'Output amount', value: entry.outputAmount },
-                      { label: 'Employment', value: entry.employment },
-                      { label: 'Building level', value: entry.level },
-                    ]}
-                  />
-                </span>
-              </div>
-            </li>
-          ))}
+          {snapshot.playerProduction.map((entry, index) => {
+            const jobShortage = Math.max(0, entry.capacity - entry.employment);
+            const inputShortage = entry.kind === 'factory' ? Math.max(0, 1 - entry.inputFill) : 0;
+            const weeksToExpand = entry.kind === 'factory'
+              ? Math.max(0, 10 - entry.profitableWeeks)
+              : 0;
+            const weeksToShrink = entry.kind === 'factory' && entry.level > 1
+              ? Math.max(0, 8 - entry.lossWeeks)
+              : 0;
+            const weeksToClose = entry.kind === 'factory' && entry.level <= 1
+              ? Math.max(0, 10 - entry.lossWeeks)
+              : 0;
+            return (
+              <li key={`${entry.kind}-${entry.locationName}-${entry.recipe}-${index}`}>
+                <div>
+                  <strong>{entry.locationName}</strong>
+                  <span className="gc-chip">{entry.kind.toUpperCase()} · {recipeLabel(entry.recipe)}</span>
+                </div>
+                <div>
+                  <span>{goodById.get(entry.outputGood) ?? `Good ${entry.outputGood}`}</span>
+                  <span>
+                    Jobs{' '}
+                    <TraceTooltip
+                      value={`${formatNumber(entry.employment, 0)} / ${formatNumber(entry.capacity, 0)}`}
+                      trace={[
+                        { label: 'Employed', value: entry.employment },
+                        { label: 'Capacity', value: entry.capacity },
+                        { label: 'Job openings', value: jobShortage },
+                        { label: 'Building level', value: entry.level },
+                        ...(entry.kind === 'factory'
+                          ? [{ label: 'Input fill %', value: entry.inputFill * 100 }]
+                          : []),
+                      ]}
+                    />
+                  </span>
+                  <span>
+                    Output{' '}
+                    <TraceTooltip
+                      value={formatNumber(entry.outputAmount, 2)}
+                      trace={[
+                        { label: 'Employment', value: entry.employment },
+                        { label: 'Building level', value: entry.level },
+                        ...(entry.kind === 'factory'
+                          ? [{ label: 'Input shortage %', value: inputShortage * 100 }]
+                          : []),
+                      ]}
+                    />
+                  </span>
+                  <span className={entry.profit >= 0 ? 'positive' : 'negative'}>
+                    Profit{' '}
+                    <TraceTooltip
+                      value={`${entry.profit >= 0 ? '+' : ''}${formatNumber(entry.profit, 2)}`}
+                      trace={
+                        entry.kind === 'factory'
+                          ? [
+                              { label: 'Input cost', value: entry.inputCost },
+                              { label: 'Wages', value: entry.wages },
+                              { label: 'Operating', value: entry.operating },
+                              { label: 'Weekly profit', value: entry.profit },
+                              { label: 'Cash reserve', value: entry.cashReserve },
+                              { label: 'Profitable weeks', value: entry.profitableWeeks },
+                              { label: 'Loss weeks', value: entry.lossWeeks },
+                              { label: 'Weeks to auto-expand (need 10 + cash>70)', value: weeksToExpand },
+                              ...(entry.level > 1
+                                ? [{ label: 'Weeks to auto-shrink (need 8 losses)', value: weeksToShrink }]
+                                : [{ label: 'Weeks to auto-close (need 10 losses + cash/jobs)', value: weeksToClose }]),
+                            ]
+                          : [
+                              { label: 'Weekly owner+state share', value: entry.profit },
+                              { label: 'Employment', value: entry.employment },
+                              { label: 'Building level', value: entry.level },
+                            ]
+                      }
+                    />
+                  </span>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
     </section>

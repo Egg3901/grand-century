@@ -452,6 +452,13 @@ export interface Factory {
   lastOutput: number;
   profitableWeeks: number;
   lossWeeks: number;
+  /** Last-week P&L / employment diagnostics for Production panel traces. */
+  lastInputCost: number;
+  lastWages: number;
+  lastOperating: number;
+  lastCapacity: number;
+  /** 0–1 fraction of needed inputs actually purchased last week. */
+  lastInputFill: number;
 }
 
 export interface Province {
@@ -995,6 +1002,16 @@ export interface ProductionLedgerEntry {
   employment: number;
   profit: number;
   level: number;
+  /** Employment capacity (RGO level×4200 / factory level×2300). */
+  capacity: number;
+  inputCost: number;
+  wages: number;
+  operating: number;
+  /** 0–1 input fill; 1 when no shortage (RGOs always 1). */
+  inputFill: number;
+  cashReserve: number;
+  profitableWeeks: number;
+  lossWeeks: number;
 }
 
 export interface PopulationLedgerEntry {
