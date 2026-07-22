@@ -345,7 +345,8 @@ function choiceAvailable(
   return { ok: true, reason: '' };
 }
 
-function buildChoiceViews(
+/** Fresh choice gates + summaries for a pending event (treasury may have changed since fire). */
+export function buildChoiceViews(
   world: World,
   data: GameData,
   nation: Nation,
