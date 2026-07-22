@@ -167,6 +167,9 @@ describe('E8 culture — non-accepted pressure & assimilation', () => {
     const measure = (policy: 'exclusionary' | 'pluralist'): number => {
       const world = createWorld(GAME_DATA, 888);
       const rus = nationByTag(world, 'RUS');
+      // Policy flips now cost prestige + cooldown (intentional balance change).
+      rus.prestige = 50;
+      rus.culturePolicyChangedDay = -1;
       setCulturePolicy(world, rus.id, policy);
       for (const pop of world.pops) {
         pop.consciousness = 0.5;
@@ -203,6 +206,9 @@ describe('E8 culture — national movements & uprisings', () => {
     const world = createWorld(GAME_DATA, seed);
     const aus = nationByTag(world, 'AUS');
     const hungarian = cultureIdx('hungarian');
+    // Policy flips now cost prestige + cooldown (intentional balance change).
+    aus.prestige = 50;
+    aus.culturePolicyChangedDay = -1;
     setCulturePolicy(world, aus.id, 'exclusionary');
     for (const pop of world.pops) {
       const province = world.provinces[pop.provinceId];
@@ -259,7 +265,12 @@ describe('E8 culture — national movements & uprisings', () => {
 
   it('never exceeds world/nation rebellion caps even with many angry minorities', () => {
     const world = createWorld(GAME_DATA, 1850);
-    for (const nation of world.nations) setCulturePolicy(world, nation.id, 'exclusionary');
+    // Policy flips now cost prestige + cooldown (intentional balance change).
+    for (const nation of world.nations) {
+      nation.prestige = 50;
+      nation.culturePolicyChangedDay = -1;
+      setCulturePolicy(world, nation.id, 'exclusionary');
+    }
     for (const pop of world.pops) {
       pop.consciousness = 7;
       pop.militancy = 7;

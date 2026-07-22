@@ -574,6 +574,8 @@ export interface Nation {
   culturePolicy?: CulturePolicy;
   /** culture index -> people assimilated out of it last month (UI trace). */
   assimilationByCulture?: Record<number, number>;
+  /** Day culture policy was last changed (-1 never). */
+  culturePolicyChangedDay?: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -878,6 +880,23 @@ export interface CultureLedgerEntry {
   assimilatedLastMonth: number;
   /** Player may grant acceptance right now (share/mechanics gate). */
   canAccept: boolean;
+  /** Prestige cost to grant acceptance (0 if not grantable). */
+  acceptCost: number;
+  /** Nation prestige after paying acceptCost. */
+  prestigeAfterAccept: number;
+  /** Estimated soldier-eligible pop unlocked by acceptance. */
+  manpowerPreview: number;
+  /** Why acceptance is blocked (empty when canAccept). */
+  acceptBlockedReason: string;
+  /** Assimilation rate factor breakdown (non-accepted only). */
+  assimilationFactors?: {
+    surround: number;
+    literacy: number;
+    policy: number;
+    religion: number;
+    resistance: number;
+    rate: number;
+  };
 }
 
 /** Snapshot row: a national movement inside the player nation. */
@@ -891,8 +910,21 @@ export interface MovementView {
   consciousness: number;
   heartlandStateIds: StateId[];
   heartlandNames: string[];
-  /** True when radicalism is in the uprising band — a rebellion may fire. */
+  /**
+   * True when both uprising gates clear: radicalism >= 85 AND militancy >= 4.2.
+   */
   boiling: boolean;
+  /** Which uprising gate still blocks (null when boiling). */
+  gateBlocked: 'radicalism' | 'militancy' | null;
+  /** Monthly radicalism delta terms (why it is rising/falling). */
+  radicalDelta: {
+    base: number;
+    consciousness: number;
+    militancy: number;
+    needs: number;
+    policy: number;
+    total: number;
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -1081,6 +1113,14 @@ export interface ProvinceSummary {
   rgoGood: GoodId;
   fortLevel: number;
   occupation: number;
+  /** Plurality culture index in the province (-1 if empty). */
+  pluralityCulture?: number;
+  /** Share of plurality culture, 0-1. */
+  pluralityShare?: number;
+  /** Non-accepted (vs owner nation) pop share, 0-1. */
+  nonAcceptedShare?: number;
+  /** True when this province's state is a player-movement heartland. */
+  cultureHeartland?: boolean;
 }
 
 export interface ProductionLedgerEntry {
@@ -1261,6 +1301,10 @@ export interface WorldSnapshot {
   congressHistory?: CongressRecord[];
   /** 0.8.0 culture: Cultures ledger + national movements for the player. */
   playerCulturePolicy?: CulturePolicy;
+  /** Days remaining before culture policy can be flipped again. */
+  playerCulturePolicyCooldownDays?: number;
+  /** Prestige cost of the next culture-policy flip. */
+  playerCulturePolicyCost?: number;
   playerCultures?: CultureLedgerEntry[];
   playerMovements?: MovementView[];
   /** Active colonial claims (progress races). */
