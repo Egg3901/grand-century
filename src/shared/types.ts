@@ -974,6 +974,9 @@ export interface NationSummary {
   taxRateMiddle: number;
   taxRateRich: number;
   tariffRate: number;
+  /** Effective setTariff / slider band from trade_policy reform. */
+  tariffMin: number;
+  tariffMax: number;
   isBankrupt: boolean;
   bankruptcyMonths: number;
   constructionBlocked: boolean;

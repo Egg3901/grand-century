@@ -144,3 +144,21 @@ export const BALANCE = {
   },
 } as const;
 
+/**
+ * Tariff slider band from trade_policy reform level (0–3).
+ * Nested inside the AI min/max envelope so free-trade / protectionism matter.
+ */
+export function tariffBandForTradePolicy(level: number): { min: number; max: number } {
+  const aiMin = BALANCE.ai.minTariff;
+  const aiMax = BALANCE.ai.maxTariff;
+  const safe = Math.max(0, Math.min(3, Math.floor(Number.isFinite(level) ? level : 2)));
+  const bands: [number, number][] = [
+    [0.05, aiMax],   // protectionism
+    [-0.05, 0.30],   // mercantilism
+    [-0.15, 0.25],   // balanced_trade
+    [aiMin, 0.10],   // free_trade
+  ];
+  const [lo, hi] = bands[safe]!;
+  return { min: Math.max(aiMin, lo), max: Math.min(aiMax, Math.max(lo, hi)) };
+}
+

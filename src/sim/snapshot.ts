@@ -1,5 +1,5 @@
 import type { BudgetLine, GameData, NationSummary, PartyIdeology, PopType, ProvinceSummary, World, WorldSnapshot } from '../shared/types';
-import { BALANCE } from './balance';
+import { BALANCE, tariffBandForTradePolicy } from './balance';
 import { dayToDate } from './world';
 import { ideologyFromPop, partyByKey, reformDemandForPop, topReformDemandEntries } from './politics';
 import {
@@ -127,6 +127,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     const avgUnrest = stateCount > 0 ? ownedStateUnrestSum[nation.id] / stateCount : 0;
     const ruling = partyByKey(nation, nation.rulingParty);
     const power = powerByNation.get(nation.id) ?? { industry: 0, military: 0, score: 0 };
+    const tariffBand = tariffBandForTradePolicy(nation.reforms.trade_policy ?? 0);
     return {
       id: nation.id,
       tag: nation.tag,
@@ -153,6 +154,8 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       taxRateMiddle: nation.taxRateMiddle,
       taxRateRich: nation.taxRateRich,
       tariffRate: nation.tariffRate,
+      tariffMin: tariffBand.min,
+      tariffMax: tariffBand.max,
       isBankrupt: nation.isBankrupt,
       bankruptcyMonths: nation.bankruptcyMonths,
       constructionBlocked: nation.constructionBlocked,

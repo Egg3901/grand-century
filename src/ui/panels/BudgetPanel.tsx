@@ -77,8 +77,8 @@ export function BudgetPanel() {
           <input
             type="range"
             className="gc-slider"
-            min={BALANCE.ai.minTariff}
-            max={BALANCE.ai.maxTariff}
+            min={player.tariffMin}
+            max={player.tariffMax}
             step={0.01}
             value={player.tariffRate}
             onChange={(event) => sendCommand({ t: 'setTariff', rate: Number(event.target.value) })}

@@ -1,5 +1,5 @@
 import type { Command, FromWorker, GameData, NationId, Regiment, War, WarGoal, World } from '../shared/types';
-import { BALANCE } from './balance';
+import { tariffBandForTradePolicy } from './balance';
 import { computeReformLegality, partyLabel, reformDemandForPop, updateMilitaryDerivedForNation } from './politics';
 import {
   beginCbFabrication,
@@ -218,8 +218,9 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     case 'setTariff': {
       const nation = world.nations[world.playerNation];
       if (!nation) return;
-      // Player band mirrors AI economic posture (BALANCE.ai min/max tariff).
-      nation.tariffRate = clamp(cmd.rate, BALANCE.ai.minTariff, BALANCE.ai.maxTariff);
+      // BALANCE: trade_policy reform clamps the legal tariff band (nested in AI envelope).
+      const band = tariffBandForTradePolicy(nation.reforms.trade_policy ?? 0);
+      nation.tariffRate = clamp(cmd.rate, band.min, band.max);
       return;
     }
     case 'enactReform': {
@@ -235,6 +236,10 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       nation.treasury -= legality.costMoney;
       nation.prestige = Math.max(0, nation.prestige - legality.costPrestige);
       nation.reforms[cmd.reform] = targetLevel;
+      if (cmd.reform === 'trade_policy') {
+        const band = tariffBandForTradePolicy(targetLevel);
+        nation.tariffRate = clamp(nation.tariffRate, band.min, band.max);
+      }
 
       let appeased = 0;
       for (const province of world.provinces) {
