@@ -1,5 +1,5 @@
 import type { Command, FromWorker, GameData, NationId, Regiment, War, WarGoal, World } from '../shared/types';
-import { tariffBandForTradePolicy } from './balance';
+import { BALANCE, tariffBandForTradePolicy } from './balance';
 import { computeReformLegality, partyLabel, reformDemandForPop, updateMilitaryDerivedForNation } from './politics';
 import {
   beginCbFabrication,
@@ -222,6 +222,20 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       // BALANCE: trade_policy reform clamps the legal tariff band (nested in AI envelope).
       const band = tariffBandForTradePolicy(nation.reforms.trade_policy ?? 0);
       nation.tariffRate = clamp(cmd.rate, band.min, band.max);
+      return;
+    }
+    case 'setStockpileOrder': {
+      const nation = world.nations[world.playerNation];
+      if (!nation) return;
+      if (!nation.stockpileOrders) nation.stockpileOrders = {};
+      if (cmd.mode === 'off') {
+        delete nation.stockpileOrders[cmd.good];
+      } else {
+        nation.stockpileOrders[cmd.good] = {
+          mode: cmd.mode,
+          dailyAmount: clamp(cmd.dailyAmount, 0, BALANCE.economy.stockpileOrderMaxDaily),
+        };
+      }
       return;
     }
     case 'enactReform': {

@@ -14,6 +14,7 @@ import type {
   Fleet,
   FormableStatus,
   GameDate,
+  GoodId,
   GreatPowerStanding,
   InfluenceTarget,
   AllianceAcceptancePreview,
@@ -28,6 +29,7 @@ import type {
   ProvinceSummary,
   Rebellion,
   StateId,
+  StockpileOrder,
   War,
   WarGoalType,
   WorldSnapshot,
@@ -80,6 +82,8 @@ export interface PlayerView {
   /** 0.6.0: research/tech state for this client's nation. */
   playerTech?: PlayerTechView;
   playerBudget: BudgetLine;
+  playerStockpile: Record<GoodId, number>;
+  playerStockpileOrders: Record<GoodId, StockpileOrder>;
 }
 
 /** Sparse diff vs a previously sent SharedSnapshot. */
@@ -151,6 +155,8 @@ export function extractPlayerView(snap: WorldSnapshot): PlayerView {
     playerDecisions: snap.playerDecisions,
     playerTech: snap.playerTech,
     playerBudget: snap.playerBudget,
+    playerStockpile: snap.playerStockpile,
+    playerStockpileOrders: snap.playerStockpileOrders,
   };
 }
 

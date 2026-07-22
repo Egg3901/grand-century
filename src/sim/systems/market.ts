@@ -151,6 +151,45 @@ export function buyFromMarket(
   };
 }
 
+/**
+ * National stockpile buy/sell standing orders — the classic Vic2 trade
+ * lever that was entirely missing (players could only watch the world
+ * market, never act in it beyond the tariff slider). A nation can order a
+ * good bought INTO its own reserve (drawing on its treasury, at world
+ * price + tariff, same as any other buyer) or sold FROM its reserve (adding
+ * real supply to the world pool, same tariff/customs path as a factory
+ * sale) at a standing daily rate. Runs once per market week, alongside
+ * production/pops, so stockpile orders participate in that week's price
+ * discovery like anything else — a large buy order visibly tightens a
+ * good, a large sell order visibly floods it.
+ */
+export function runStockpileOrders(world: World, _data: GameData, _rng: Rng): void {
+  for (const nation of world.nations) {
+    const orders = nation.stockpileOrders;
+    if (!orders) continue;
+    for (const key of Object.keys(orders)) {
+      const good = Number(key);
+      const order = orders[good];
+      if (!order || !(order.dailyAmount > 0)) continue;
+      const weeklyAmount = order.dailyAmount * 7;
+      if (order.mode === 'buy') {
+        const result = buyFromMarket(world, nation.id, good, weeklyAmount, Math.max(0, nation.treasury));
+        if (result.bought <= 0) continue;
+        nation.treasury = Math.max(0, nation.treasury - result.spent);
+        if (!nation.stockpile) nation.stockpile = {};
+        nation.stockpile[good] = Math.max(0, (nation.stockpile[good] ?? 0) + result.bought);
+      } else {
+        const available = Math.max(0, nation.stockpile?.[good] ?? 0);
+        const sellAmount = Math.min(weeklyAmount, available);
+        if (sellAmount <= 0) continue;
+        registerSupply(world, good, sellAmount);
+        nation.treasury += computeSaleRevenue(world, good, nation.id, sellAmount);
+        nation.stockpile![good] = Math.max(0, available - sellAmount);
+      }
+    }
+  }
+}
+
 export function runMarketDaily(world: World, data: GameData, _rng: Rng): void {
   for (let i = 0; i < world.market.length; i++) {
     const marketGood = world.market[i];

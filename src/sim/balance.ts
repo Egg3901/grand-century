@@ -51,6 +51,8 @@ export const BALANCE = {
     reformUpkeepPerLevel: 4.2,
     bankruptcyEnterTreasury: -1800,
     bankruptcyExitTreasury: 550,
+    // National stockpile buy/sell standing orders.
+    stockpileOrderMaxDaily: 40,
   },
   population: {
     minGrowthRate: -0.006,

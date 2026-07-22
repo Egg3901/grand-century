@@ -10,7 +10,7 @@
 
 import type { GameData, GameDate, GameDay, World, WorldSnapshot } from '../shared/types';
 import { Rng } from './rng';
-import { beginMarketWeek, runMarketDaily, runMarketWeekly } from './systems/market';
+import { beginMarketWeek, runMarketDaily, runMarketWeekly, runStockpileOrders } from './systems/market';
 import { runProductionWeekly } from './systems/economy';
 import { runPopsWeekly, runPopsMonthly } from './systems/pops';
 import { runPoliticsMonthly } from './systems/politics';
@@ -61,6 +61,7 @@ export function advanceDay(world: World, data: GameData): void {
     beginMarketWeek(world);
     runProductionWeekly(world, data, rng);
     runPopsWeekly(world, data, rng);
+    runStockpileOrders(world, data, rng);
     runMarketWeekly(world, data, rng);
   }
 
