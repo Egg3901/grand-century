@@ -84,6 +84,19 @@ function nationFactorySubsidies(world: World, nationId: NationId): number {
   return subsidies;
 }
 
+/** Credit loss-making factories with the subsidy amount billed to the treasury. */
+function creditFactorySubsidies(world: World, nationId: NationId, multiplier: number): void {
+  for (const state of world.states) {
+    if (state.owner !== nationId) continue;
+    for (const factory of state.factories) {
+      const weeklyLoss = Math.max(0, -finite(factory.weeklyProfit));
+      const subsidy = weeklyLoss * 3.6 * multiplier;
+      if (subsidy <= 0) continue;
+      factory.cashReserve = Math.max(-400, finite(factory.cashReserve) + subsidy);
+    }
+  }
+}
+
 function computeNationBudget(world: World, data: GameData, nationId: NationId, mutatePopMoney: boolean): BudgetLine {
   const nation = world.nations[nationId];
   if (!nation) return zeroBudget();
@@ -211,6 +224,9 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
 export function runBudgetMonthly(world: World, data: GameData, _rng: Rng): void {
   for (const nation of world.nations) {
     const budget = computeNationBudget(world, data, nation.id, true);
+    // BALANCE: subsidies previously drained treasury without bailing plants.
+    // Credit cashReserve with the same post-bankruptcy amount billed above.
+    creditFactorySubsidies(world, nation.id, nation.isBankrupt ? 0.3 : 1);
     nation.treasury = finite(nation.treasury) + budget.net;
     if (!Number.isFinite(nation.treasury)) nation.treasury = 0;
     nation.monthlyTariffIncome = 0;
