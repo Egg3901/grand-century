@@ -235,13 +235,7 @@ export function runBudgetMonthly(world: World, data: GameData, _rng: Rng): void 
 }
 
 export function computePlayerBudget(world: World, data: GameData, nationId: NationId): BudgetLine {
-  const nation = world.nations[nationId];
-  if (!nation) return zeroBudget();
-  if (nation.lastBudget && Number.isFinite(nation.lastBudget.net)) {
-    return {
-      ...nation.lastBudget,
-      trace: { ...nation.lastBudget.trace },
-    };
-  }
+  // Always recompute with mutatePopMoney:false so tax/tariff slider changes
+  // project the ledger immediately instead of echoing stale lastBudget.
   return computeNationBudget(world, data, nationId, false);
 }
