@@ -16,6 +16,7 @@ import { FormablesPanel } from './FormablesPanel';
 import { DecisionsPanel } from './DecisionsPanel';
 import { TechnologyPanel } from './TechnologyPanel';
 import { NationFlag } from '../components/NationFlag';
+import { resolvePanelChromeNation } from './panelChromeNation';
 import './panels.css';
 
 const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
@@ -47,13 +48,14 @@ export function PanelHost() {
   const openPanel = useStore((state) => state.openPanel);
   const openPanelId = useStore((state) => state.openPanelId);
   const snapshot = useStore((state) => state.snapshot);
+  const selectedProvince = useStore((state) => state.selectedProvince);
+  const provinceDetail = useStore((state) => state.provinceDetail);
 
   if (!openPanel) return null;
 
-  const playerNation = snapshot
-    ? snapshot.nations.find((nation) => nation.id === snapshot.playerNation) ?? null
+  const chromeNation = NATION_SCOPED_PANELS.has(openPanel)
+    ? resolvePanelChromeNation(openPanel, snapshot, selectedProvince, provinceDetail)
     : null;
-  const showShield = NATION_SCOPED_PANELS.has(openPanel) && playerNation;
 
   return (
     <>
@@ -66,8 +68,8 @@ export function PanelHost() {
       <aside className="panel-host atlas-panel">
         <header className="panel-host__chrome">
           <div className="panel-host__chrome-title-row">
-            {showShield ? (
-              <NationFlag tag={playerNation.tag} color={playerNation.color} size={18} />
+            {chromeNation ? (
+              <NationFlag tag={chromeNation.tag} color={chromeNation.color} size={18} />
             ) : null}
             <p className="panel-host__chrome-title">{PANEL_TITLES[openPanel]}</p>
           </div>
