@@ -1,9 +1,11 @@
-import type { BudgetLine, GameData, NationSummary, PartyIdeology, PopType, ProvinceSummary, World, WorldSnapshot } from '../shared/types';
+import type { BudgetLine, GameData, NationSummary, PartyIdeology, PopType, ProvinceSummary, WarGoalType, World, WorldSnapshot } from '../shared/types';
 import { dayToDate } from './world';
 import { ideologyFromPop, partyByKey, reformDemandForPop, topReformDemandEntries } from './politics';
 import {
   getCbsForNation,
   getCoalitionAgainst,
+  getDiplomaticPoints,
+  getFabricateCbCost,
   getGreatPowerStandings,
   getInfluencePool,
   getInfluenceTargetsForNation,
@@ -289,6 +291,12 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     relations: world.relations.map((relation) => ({ ...relation })),
     greatPowers: getGreatPowerStandings(world).map((entry) => ({ ...entry, sphereMembers: entry.sphereMembers.slice() })),
     playerCbs: getCbsForNation(world, world.playerNation).map((cb) => ({ ...cb })),
+    playerDiplomaticPoints: getDiplomaticPoints(world, world.playerNation),
+    fabricateCbCostByGoal: (['annex_state', 'liberate_state', 'humiliate', 'add_to_sphere', 'take_colony', 'cut_down_to_size'] as WarGoalType[])
+      .reduce((acc, goal) => {
+        acc[goal] = getFabricateCbCost(goal);
+        return acc;
+      }, {} as Record<WarGoalType, number>),
     playerInfluencePool: getInfluencePool(world, world.playerNation),
     playerInfluenceTargets: getInfluenceTargetsForNation(world, world.playerNation).map((entry) => ({ ...entry })),
     infamyLimit: getInfamyLimit(),

@@ -142,6 +142,21 @@ export function DiplomacyPanel() {
         / {snapshot.infamyLimit.toFixed(1)}
         {playerInfamy >= snapshot.infamyLimit ? ' - Warning: containment coalitions are likely.' : ''}
       </p>
+      <p className="panel-subtle">
+        Diplomatic points{' '}
+        <TraceTooltip
+          value={(snapshot.playerDiplomaticPoints ?? 0).toFixed(1)}
+          trace={[
+            { label: 'Current points', value: snapshot.playerDiplomaticPoints ?? 0 },
+            { label: 'Cap', value: 120 },
+            { label: `Fabricate ${selectedGoal} cost`, value: snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0 },
+          ]}
+        />
+        {' '}/ 120
+        {' — '}
+        Fabricate cost for {WAR_GOALS.find((g) => g.id === selectedGoal)?.label ?? selectedGoal}:{' '}
+        {(snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0).toFixed(1)} DP
+      </p>
       {snapshot.coalitionAgainstPlayer.length > 0 ? (
         <p className="panel-subtle status-danger">
           Coalition risk: {snapshot.coalitionAgainstPlayer.map((nationId) => derived.nationById.get(nationId)?.tag ?? nationId).join(', ')}
@@ -208,10 +223,19 @@ export function DiplomacyPanel() {
         <button
           type="button"
           className="btn btn--secondary"
-          disabled={targetId === null || stateRequiredMissing}
+          disabled={
+            targetId === null
+            || stateRequiredMissing
+            || (snapshot.playerDiplomaticPoints ?? 0) < (snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0)
+          }
+          title={
+            (snapshot.playerDiplomaticPoints ?? 0) < (snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0)
+              ? `Need ${(snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0).toFixed(1)} diplomatic points`
+              : undefined
+          }
           onClick={() => targetId !== null && sendCommand({ t: 'fabricateCB', target: targetId, goal: selectedGoal, state: effectiveState })}
         >
-          Fabricate CB
+          Fabricate CB ({(snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0).toFixed(0)} DP)
         </button>
         <button
           type="button"

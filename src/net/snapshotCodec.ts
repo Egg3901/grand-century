@@ -27,6 +27,7 @@ import type {
   Rebellion,
   StateId,
   War,
+  WarGoalType,
   WorldSnapshot,
 } from '../shared/types';
 
@@ -52,6 +53,8 @@ export interface SharedSnapshot {
 export interface PlayerView {
   playerNation: NationId;
   playerCbs: CasusBelli[];
+  playerDiplomaticPoints: number;
+  fabricateCbCostByGoal: Record<WarGoalType, number>;
   playerInfluencePool: number;
   playerInfluenceTargets: InfluenceTarget[];
   coalitionAgainstPlayer: NationId[];
@@ -112,6 +115,8 @@ export function extractPlayerView(snap: WorldSnapshot): PlayerView {
   return {
     playerNation: snap.playerNation,
     playerCbs: snap.playerCbs,
+    playerDiplomaticPoints: snap.playerDiplomaticPoints,
+    fabricateCbCostByGoal: snap.fabricateCbCostByGoal,
     playerInfluencePool: snap.playerInfluencePool,
     playerInfluenceTargets: snap.playerInfluenceTargets,
     coalitionAgainstPlayer: snap.coalitionAgainstPlayer,

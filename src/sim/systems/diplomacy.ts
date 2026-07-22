@@ -544,6 +544,15 @@ export function getWarGoalRule(goal: WarGoalType): WarGoalRule {
   return WAR_GOAL_RULES[goal];
 }
 
+/** Diplomatic-point cost to begin fabricating a CB for this goal. */
+export function getFabricateCbCost(goal: WarGoalType): number {
+  return Number((10 + WAR_GOAL_RULES[goal].score * 0.35).toFixed(2));
+}
+
+export function getDiplomaticPoints(world: World, nationId: NationId): number {
+  return Number((ensureRuntime(world).diplomaticPoints[nationId] ?? 0).toFixed(2));
+}
+
 export function getInfamyLimit(): number {
   return INFAMY_LIMIT;
 }

@@ -1081,6 +1081,10 @@ export interface WorldSnapshot {
   relations: DiploRelation[];
   greatPowers: GreatPowerStanding[];
   playerCbs: CasusBelli[];
+  /** Player diplomatic points (0–120); spent to fabricate CBs. */
+  playerDiplomaticPoints: number;
+  /** Fabricate-CB cost by war goal (mirrors sim `getFabricateCbCost`). */
+  fabricateCbCostByGoal: Record<WarGoalType, number>;
   playerInfluencePool: number;
   playerInfluenceTargets: InfluenceTarget[];
   infamyLimit: number;
