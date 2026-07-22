@@ -394,10 +394,10 @@ export const GAME_DATA: GameData = {
       category: 'political',
       name: 'Upper House Composition',
       options: [
-        { key: 'appointed', name: 'Appointed Chamber', effects: ['Ruler appoints most upper-house seats'] },
-        { key: 'estate_weighted', name: 'Estate Weighted', effects: ['Landowners retain structural advantage'] },
-        { key: 'mixed', name: 'Mixed Chamber', effects: ['Urban elites and professionals gain influence'] },
-        { key: 'proportional', name: 'Proportional Chamber', effects: ['Upper-house mirrors ideology vote shares'] },
+        { key: 'appointed', name: 'Appointed Chamber', effects: ['Sticky UH; slow drift; appointed authoritarian bias'] },
+        { key: 'estate_weighted', name: 'Estate Weighted', effects: ['Mostly sticky UH; mild election influence'] },
+        { key: 'mixed', name: 'Mixed Chamber', effects: ['Balanced election blend and monthly drift'] },
+        { key: 'proportional', name: 'Proportional Chamber', effects: ['UH tracks ideology votes and pop ideology faster'] },
       ],
     },
     {

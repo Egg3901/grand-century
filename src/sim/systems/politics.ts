@@ -12,6 +12,7 @@ import {
   reformDemandForPop,
   updateMilitaryDerivedForNation,
   updateNationalLiteracyAndConsciousness,
+  upperHouseCompositionWeights,
 } from '../politics';
 
 const EPOCH_YEAR = 1820;
@@ -146,13 +147,19 @@ function pickElectionParty(
 
   const ideologyTotal = Object.values(ideologyVotes).reduce((sum, value) => sum + value, 0);
   if (ideologyTotal > 0) {
+    const uh = upperHouseCompositionWeights(nation.reforms.upper_house_composition ?? 0);
+    const retain = uh.electionRetain;
+    const vote = uh.electionVote;
+    // Extreme ideologies stay stickier under appointed chambers.
+    const extremeRetain = Math.min(0.85, retain + 0.1);
+    const extremeVote = 1 - extremeRetain;
     nation.upperHouse = normalizeUpperHouse({
-      reactionary: nation.upperHouse.reactionary * 0.55 + (ideologyVotes.reactionary / ideologyTotal) * 0.45,
-      conservative: nation.upperHouse.conservative * 0.55 + (ideologyVotes.conservative / ideologyTotal) * 0.45,
-      liberal: nation.upperHouse.liberal * 0.55 + (ideologyVotes.liberal / ideologyTotal) * 0.45,
-      socialist: nation.upperHouse.socialist * 0.55 + (ideologyVotes.socialist / ideologyTotal) * 0.45,
-      communist: nation.upperHouse.communist * 0.65 + (ideologyVotes.communist / ideologyTotal) * 0.35,
-      fascist: nation.upperHouse.fascist * 0.65 + (ideologyVotes.fascist / ideologyTotal) * 0.35,
+      reactionary: nation.upperHouse.reactionary * retain + (ideologyVotes.reactionary / ideologyTotal) * vote,
+      conservative: nation.upperHouse.conservative * retain + (ideologyVotes.conservative / ideologyTotal) * vote,
+      liberal: nation.upperHouse.liberal * retain + (ideologyVotes.liberal / ideologyTotal) * vote,
+      socialist: nation.upperHouse.socialist * retain + (ideologyVotes.socialist / ideologyTotal) * vote,
+      communist: nation.upperHouse.communist * extremeRetain + (ideologyVotes.communist / ideologyTotal) * extremeVote,
+      fascist: nation.upperHouse.fascist * extremeRetain + (ideologyVotes.fascist / ideologyTotal) * extremeVote,
     });
   }
 }
@@ -180,8 +187,10 @@ function driftUpperHouse(world: World, nationId: number): void {
     }
   }
   if (total <= 0) return;
-  const drift = isElectiveGovernment(nation.government) ? 0.22 : 0.09;
-  const authoritarianBonus = isElectiveGovernment(nation.government) ? 0 : 0.05;
+  const uh = upperHouseCompositionWeights(nation.reforms.upper_house_composition ?? 0);
+  const drift = isElectiveGovernment(nation.government) ? uh.driftElective : uh.driftAuthoritarian;
+  // Non-elective governments keep the floor bias; appointed chambers add more.
+  const authoritarianBonus = (isElectiveGovernment(nation.government) ? 0 : 0.05) + uh.authoritarianBias;
   nation.upperHouse = normalizeUpperHouse({
     reactionary: nation.upperHouse.reactionary * (1 - drift) + (weighted.reactionary / total + authoritarianBonus) * drift,
     conservative: nation.upperHouse.conservative * (1 - drift) + (weighted.conservative / total + authoritarianBonus * 0.8) * drift,

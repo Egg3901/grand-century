@@ -71,6 +71,30 @@ export function isElectiveGovernment(government: GovernmentType): boolean {
   return ELECTIVE_GOVERNMENTS.has(government);
 }
 
+/**
+ * Upper-house composition reform → election blend / monthly drift weights.
+ * Level 0 appointed keeps the chamber sticky with authoritarian bias;
+ * level 3 proportional tracks ideology votes and pop ideology faster.
+ */
+export function upperHouseCompositionWeights(level: number): {
+  electionRetain: number;
+  electionVote: number;
+  driftElective: number;
+  driftAuthoritarian: number;
+  /** Extra reactionary/conservative pull on monthly drift (appointed seats). */
+  authoritarianBias: number;
+} {
+  const clamped = clamp(Math.floor(level), 0, 3);
+  const electionRetain = [0.72, 0.62, 0.55, 0.38][clamped] ?? 0.55;
+  return {
+    electionRetain,
+    electionVote: 1 - electionRetain,
+    driftElective: [0.1, 0.16, 0.22, 0.3][clamped] ?? 0.22,
+    driftAuthoritarian: [0.05, 0.07, 0.09, 0.14][clamped] ?? 0.09,
+    authoritarianBias: [0.07, 0.045, 0.02, 0][clamped] ?? 0.02,
+  };
+}
+
 export function partyLabel(nation: Nation, partyKey: string): string {
   return nation.parties.find((party) => party.key === partyKey)?.name ?? partyKey;
 }
