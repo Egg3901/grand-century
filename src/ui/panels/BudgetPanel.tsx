@@ -1,10 +1,78 @@
 import { useStore } from '../../store';
 import { BALANCE } from '../../sim/balance';
 import { exportKeepRate, importPriceMultiplier } from '../../sim/systems/market';
+import type { BudgetLine } from '../../shared/types';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 function formatMoney(value: number): string {
   return `${value < 0 ? '-' : ''}\u00a3${Math.abs(value).toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+}
+
+type ChartSegment = { label: string; value: number; tone: 'income' | 'expense' };
+
+function BudgetBreakdownChart({ budget }: { budget: BudgetLine }) {
+  const income: ChartSegment[] = [
+    { label: 'Tax', value: Math.max(0, budget.taxIncome), tone: 'income' },
+    { label: 'Tariff', value: Math.max(0, budget.tariffIncome), tone: 'income' },
+    { label: 'Production', value: Math.max(0, budget.productionIncome), tone: 'income' },
+  ];
+  const expenses: ChartSegment[] = [
+    { label: 'Army', value: Math.max(0, budget.armyUpkeep), tone: 'expense' },
+    { label: 'Subsidies', value: Math.max(0, budget.subsidySpend), tone: 'expense' },
+    { label: 'Overhead', value: Math.max(0, budget.constructionSpend), tone: 'expense' },
+    { label: 'Admin', value: Math.max(0, budget.adminSpend), tone: 'expense' },
+    { label: 'Reform', value: Math.max(0, budget.reformUpkeep), tone: 'expense' },
+  ];
+
+  const incomeTotal = income.reduce((sum, s) => sum + s.value, 0);
+  const expenseTotal = expenses.reduce((sum, s) => sum + s.value, 0);
+  const scale = Math.max(incomeTotal, expenseTotal, 1e-6);
+  const width = 240;
+  const rowH = 12;
+  const gap = 8;
+  const height = rowH * 2 + gap;
+
+  const renderRow = (segments: ChartSegment[], y: number) => {
+    let x = 0;
+    return segments.map((segment) => {
+      const w = (segment.value / scale) * width;
+      const el = w <= 0 ? null : (
+        <rect
+          key={segment.label}
+          className={`budget-chart__seg budget-chart__seg--${segment.tone}`}
+          x={x}
+          y={y}
+          width={Math.max(w, 0.8)}
+          height={rowH}
+          aria-label={`${segment.label}: ${formatMoney(segment.tone === 'expense' ? -segment.value : segment.value)}`}
+        >
+          <title>{`${segment.label}: ${formatMoney(segment.tone === 'expense' ? -segment.value : segment.value)}`}</title>
+        </rect>
+      );
+      x += w;
+      return el;
+    });
+  };
+
+  return (
+    <div className="budget-chart" data-testid="budget-breakdown-chart">
+      <p className="budget-chart__label">Ledger shape</p>
+      <svg
+        className="budget-chart__svg"
+        viewBox={`0 0 ${width} ${height}`}
+        preserveAspectRatio="none"
+        role="img"
+        aria-label={`Income ${formatMoney(incomeTotal)}, expenses ${formatMoney(-expenseTotal)}`}
+      >
+        {renderRow(income, 0)}
+        {renderRow(expenses, rowH + gap)}
+      </svg>
+      <div className="budget-chart__legend">
+        <span className="budget-chart__legend-item budget-chart__legend-item--income">Income {formatMoney(incomeTotal)}</span>
+        <span className="budget-chart__legend-item budget-chart__legend-item--expense">Expenses {formatMoney(-expenseTotal)}</span>
+      </div>
+    </div>
+  );
 }
 
 export function BudgetPanel() {
@@ -85,9 +153,13 @@ export function BudgetPanel() {
           />
         </label>
       </div>
+      <BudgetBreakdownChart budget={budget} />
       <dl className="ledger-grid">
         <div><dt>Tax Income</dt><dd><TraceTooltip value={formatMoney(budget.taxIncome)} trace={budget.trace.taxIncome} /></dd></div>
-        <div><dt>Tariff Income</dt><dd><TraceTooltip value={formatMoney(budget.tariffIncome)} trace={budget.trace.tariffIncome} /></dd></div>
+        <div data-testid="budget-row-tariff-income">
+          <dt>Tariff Income</dt>
+          <dd><TraceTooltip value={formatMoney(budget.tariffIncome)} trace={budget.trace.tariffIncome} /></dd>
+        </div>
         <div><dt>Production</dt><dd><TraceTooltip value={formatMoney(budget.productionIncome)} trace={budget.trace.productionIncome} /></dd></div>
         <div><dt>Army / Navy Upkeep</dt><dd><TraceTooltip value={formatMoney(-budget.armyUpkeep)} trace={budget.trace.armyUpkeep} /></dd></div>
         <div><dt>Factory Subsidies</dt><dd><TraceTooltip value={formatMoney(-budget.subsidySpend)} trace={budget.trace.subsidySpend} /></dd></div>

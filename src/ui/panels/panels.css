@@ -278,6 +278,76 @@
   background: rgba(138, 43, 34, 0.1);
 }
 
+.budget-chart {
+  margin: 0 0 var(--gc-space-3);
+  padding: var(--gc-space-2) 0.55rem;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius);
+  background: rgba(255, 248, 230, 0.28);
+}
+
+.budget-chart__label {
+  margin: 0 0 0.35rem;
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-caption);
+  letter-spacing: var(--gc-tracking-caps);
+  text-transform: uppercase;
+  color: var(--gc-ink-faint);
+}
+
+.budget-chart__svg {
+  display: block;
+  width: 100%;
+  height: 2rem;
+}
+
+.budget-chart__seg--income {
+  fill: var(--gc-positive);
+  opacity: 0.72;
+}
+
+.budget-chart__seg--expense {
+  fill: var(--gc-wax);
+  opacity: 0.78;
+}
+
+.budget-chart__seg + .budget-chart__seg {
+  stroke: var(--gc-parchment);
+  stroke-width: 0.6;
+}
+
+.budget-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.35rem;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.budget-chart__legend-item--income::before,
+.budget-chart__legend-item--expense::before {
+  content: '';
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-right: 0.3rem;
+  border-radius: 1px;
+  vertical-align: -0.05rem;
+}
+
+.budget-chart__legend-item--income::before {
+  background: var(--gc-positive);
+  opacity: 0.72;
+}
+
+.budget-chart__legend-item--expense::before {
+  background: var(--gc-wax);
+  opacity: 0.78;
+}
+
 .slider-grid {
   display: grid;
   gap: var(--gc-space-2);
@@ -296,7 +366,6 @@
 .slider-grid input[type='range'],
 .slider-grid .gc-slider {
   width: 100%;
-  accent-color: var(--gc-wax);
 }
 
 /* Trace tooltips */
@@ -312,25 +381,26 @@
 }
 
 .trace-tooltip {
+  --trace-dx: 0px;
   position: absolute;
-  z-index: 30;
+  z-index: 40;
   left: 0;
   top: calc(100% + 0.35rem);
   min-width: 13rem;
-  max-width: 18rem;
+  max-width: min(18rem, calc(100vw - 1rem));
   padding: 0.55rem 0.65rem;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(4px);
-  transition: opacity 120ms ease, transform 120ms ease;
+  transform: translateX(var(--trace-dx)) translateY(4px);
+  transition: opacity 120ms ease;
   border-radius: var(--gc-radius);
   font-family: var(--gc-font-body);
 }
 
-.trace-value-wrap:hover .trace-tooltip,
-.trace-value-wrap:focus-within .trace-tooltip {
+.trace-value-wrap.is-open .trace-tooltip {
   opacity: 1;
-  transform: translateY(0);
+  pointer-events: auto;
+  transform: translateX(var(--trace-dx)) translateY(0);
 }
 
 .trace-value-display:focus-visible {
