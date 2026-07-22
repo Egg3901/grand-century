@@ -607,6 +607,8 @@ export interface Army {
   hostileTo: NationId;
   rebellionId?: number;
   rebelDemand?: RebelDemand | null;
+  /** Snapshot/display: in supply range of friendly control. */
+  supplied?: boolean;
 }
 
 export interface Ship {

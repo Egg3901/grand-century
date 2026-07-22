@@ -310,7 +310,14 @@ export function MilitaryPanel() {
                 {army.leader ? ` | ${army.leader.name}` : ' | No general'}
                 {' '}| {formatRegimentCount(regimentCountByType([army]))}
                 {' '}| {army.moveTarget >= 0 ? `Order: ${provinceNameById.get(army.moveTarget) ?? army.moveTarget}` : 'Order: Hold'}
-                {' '}| {avgRegimentStrength(army) < 930 ? 'Reinforcing' : 'Combat ready'}
+                {' '}| <span className={army.supplied === false ? 'status-danger' : 'status-positive'}>
+                  {army.supplied === false ? 'Unsupplied' : 'Supplied'}
+                </span>
+                {army.supplied !== false
+                  && avgRegimentStrength(army) < 1000
+                  && snapshot.provinces[army.location]?.controller === army.owner
+                  ? ' | Reinforcing'
+                  : ''}
               </span>
             </div>
             <div className="mil-actions">

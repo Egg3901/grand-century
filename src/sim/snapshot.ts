@@ -15,6 +15,7 @@ import { listPlayerDecisions } from './systems/events';
 import { buildPlayerTechView } from './systems/research';
 import { computeTensionContributions, getWorldTension } from './systems/crisis';
 import { buildCultureLedger, buildMovementViews, culturePolicyOf } from './systems/culture';
+import { isSupplied } from './systems/war';
 
 function zeroBudget(): BudgetLine {
   return {
@@ -299,7 +300,18 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerInfluenceTargets: getInfluenceTargetsForNation(world, world.playerNation).map((entry) => ({ ...entry })),
     infamyLimit: getInfamyLimit(),
     coalitionAgainstPlayer: getCoalitionAgainst(world, world.playerNation),
-    armies: world.armies.map((army) => ({ ...army, regiments: army.regiments.map((regiment) => ({ ...regiment })), leader: army.leader ? { ...army.leader } : null })),
+    armies: world.armies.map((army) => {
+      const embarked = world.fleets.some((fleet) => fleet.embarkedArmy === army.id);
+      const supplied = army.rebel || army.regiments.length === 0 || embarked
+        ? true
+        : (army.supplied ?? isSupplied(world, army.owner, army.location));
+      return {
+        ...army,
+        regiments: army.regiments.map((regiment) => ({ ...regiment })),
+        leader: army.leader ? { ...army.leader } : null,
+        supplied,
+      };
+    }),
     fleets: world.fleets.map((fleet) => ({ ...fleet, ships: fleet.ships.map((ship) => ({ ...ship })) })),
     rebellions: world.rebellions.map((rebellion) => ({
       ...rebellion,

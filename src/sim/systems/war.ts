@@ -344,7 +344,7 @@ function isFriendlyControlled(world: World, nationId: NationId, provinceId: Prov
   return province.controller === nationId || province.owner === nationId;
 }
 
-function isSupplied(world: World, nationId: NationId, provinceId: ProvinceId): boolean {
+export function isSupplied(world: World, nationId: NationId, provinceId: ProvinceId): boolean {
   const nation = world.nations[nationId];
   if (!nation) return false;
   // 0.7.0: railroad / logistics tech extends friendly-control supply reach.
@@ -1169,11 +1169,18 @@ function updateSieges(world: World, byProvince: Map<ProvinceId, Army[]>): void {
 
 function updateSupplyAndAttrition(world: World, embarkedIds: Set<ArmyId>): void {
   for (const army of world.armies) {
-    if (army.regiments.length === 0 || army.rebel) continue;
-    if (isArmyEmbarked(world, army.id, embarkedIds)) continue;
+    if (army.regiments.length === 0 || army.rebel) {
+      army.supplied = true;
+      continue;
+    }
+    if (isArmyEmbarked(world, army.id, embarkedIds)) {
+      army.supplied = true;
+      continue;
+    }
     // Supply topology is unchanged by reinforcement, so compute it once and
     // reuse for both reinforcement and attrition (was two BFS per army/day).
     const supplied = isSupplied(world, army.owner, army.location);
+    army.supplied = supplied;
     reinforceArmy(world, army, supplied);
     if (!supplied) applyUnsuppliedAttrition(army);
     cleanupArmy(army);
