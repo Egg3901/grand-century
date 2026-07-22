@@ -312,6 +312,7 @@
 }
 
 .trace-tooltip {
+  --trace-dx: 0px;
   position: absolute;
   z-index: 30;
   left: 0;
@@ -321,16 +322,24 @@
   padding: 0.55rem 0.65rem;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(4px);
+  transform: translateX(var(--trace-dx)) translateY(4px);
   transition: opacity 120ms ease, transform 120ms ease;
   border-radius: var(--gc-radius);
   font-family: var(--gc-font-body);
 }
 
-.trace-value-wrap:hover .trace-tooltip,
-.trace-value-wrap:focus-within .trace-tooltip {
+.trace-value-wrap.is-open .trace-tooltip {
   opacity: 1;
-  transform: translateY(0);
+  pointer-events: auto;
+  transform: translateX(var(--trace-dx)) translateY(0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .trace-value-wrap:hover .trace-tooltip {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(var(--trace-dx)) translateY(0);
+  }
 }
 
 .trace-value-display:focus-visible {
