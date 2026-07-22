@@ -19,9 +19,15 @@ function Sparkline({ values }: { values: number[] }) {
   );
 }
 
+/** Default standing-order rate (units/day) when the player clicks Buy/Sell —
+ * matches BALANCE.economy.stockpileOrderMaxDaily's order of magnitude without
+ * needing a bespoke amount-input widget per row. */
+const DEFAULT_STOCKPILE_DAILY_AMOUNT = 15;
+
 export function MarketPanel() {
   const snapshot = useStore((state) => state.snapshot);
   const data = useStore((state) => state.data);
+  const sendCommand = useStore((state) => state.sendCommand);
 
   const goodById = useMemo(() => new Map(data?.goods.map((good) => [good.id, good.name]) ?? []), [data]);
 
@@ -50,11 +56,15 @@ export function MarketPanel() {
               <th>Sold</th>
               <th>Stockpile</th>
               <th>Unmet</th>
-              <th>Trend</th>
+              <th className="market-table__trend">Trend</th>
+              <th>Your Reserve</th>
+              <th>Standing Order</th>
             </tr>
           </thead>
           <tbody>
             {snapshot.market.map((good) => {
+              const reserve = snapshot.playerStockpile?.[good.good] ?? 0;
+              const order = snapshot.playerStockpileOrders?.[good.good];
               const trace = [
                 { label: 'Base price', value: good.priceTrace.basePrice },
                 { label: 'Demand ratio', value: good.priceTrace.ratio },
@@ -101,7 +111,40 @@ export function MarketPanel() {
                   <td className={good.unmet > 0.5 ? 'status-danger' : undefined}>
                     {good.unmet.toFixed(1)}
                   </td>
-                  <td><Sparkline values={good.trend} /></td>
+                  <td className="market-table__trend"><Sparkline values={good.trend} /></td>
+                  <td>{reserve.toFixed(1)}</td>
+                  <td className="market-order-cell">
+                    <button
+                      type="button"
+                      className={`btn btn--secondary btn--xs${order?.mode === 'buy' ? ' is-active' : ''}`}
+                      title={`Buy ${DEFAULT_STOCKPILE_DAILY_AMOUNT}/day into your national reserve`}
+                      onClick={() => sendCommand({
+                        t: 'setStockpileOrder', good: good.good, mode: 'buy', dailyAmount: DEFAULT_STOCKPILE_DAILY_AMOUNT,
+                      })}
+                    >
+                      Buy
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn btn--secondary btn--xs${order?.mode === 'sell' ? ' is-active' : ''}`}
+                      title={`Sell ${DEFAULT_STOCKPILE_DAILY_AMOUNT}/day from your national reserve`}
+                      onClick={() => sendCommand({
+                        t: 'setStockpileOrder', good: good.good, mode: 'sell', dailyAmount: DEFAULT_STOCKPILE_DAILY_AMOUNT,
+                      })}
+                    >
+                      Sell
+                    </button>
+                    {order ? (
+                      <button
+                        type="button"
+                        className="btn btn--ghost btn--xs"
+                        title="Stop this standing order"
+                        onClick={() => sendCommand({ t: 'setStockpileOrder', good: good.good, mode: 'off', dailyAmount: 0 })}
+                      >
+                        Off
+                      </button>
+                    ) : null}
+                  </td>
                 </tr>
               );
             })}

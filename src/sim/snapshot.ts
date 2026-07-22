@@ -489,6 +489,8 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       }),
     infamyLimit: getInfamyLimit(),
     coalitionAgainstPlayer: getCoalitionAgainst(world, world.playerNation),
+    playerStockpile: { ...(world.nations[world.playerNation]?.stockpile ?? {}) },
+    playerStockpileOrders: { ...(world.nations[world.playerNation]?.stockpileOrders ?? {}) },
     ninthPowerScore: getNinthPowerScore(world),
     playerPowerScore: getNationPowerBreakdown(world, world.playerNation).score,
     rivalryDpCost: getRivalryDpCost(),

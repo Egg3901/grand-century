@@ -588,6 +588,18 @@ export interface Nation {
   assimilationByCulture?: Record<number, number>;
   /** Day culture policy was last changed (-1 never). */
   culturePolicyChangedDay?: number;
+
+  // --- national stockpile: a per-nation reserve of goods (separate from the
+  // world stockpile on MarketGood), built/drawn down via standing buy/sell
+  // orders against the world market. Old saves self-heal (undefined = empty).
+  stockpile?: Record<GoodId, number>;
+  stockpileOrders?: Record<GoodId, StockpileOrder>;
+}
+
+export interface StockpileOrder {
+  mode: 'buy' | 'sell';
+  /** Units/day the standing order tries to move — clamped to a sane band on set. */
+  dailyAmount: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -1325,6 +1337,10 @@ export interface WorldSnapshot {
   playerAlliancePreviews: AllianceAcceptancePreview[];
   infamyLimit: number;
   coalitionAgainstPlayer: NationId[];
+  /** Player's national stockpile per good (units held in reserve). */
+  playerStockpile: Record<GoodId, number>;
+  /** Player's standing buy/sell orders per good. */
+  playerStockpileOrders: Record<GoodId, StockpileOrder>;
   /** Score of the #9 nation — gap to this is the GP rank chase. */
   ninthPowerScore: number;
   /** Player's current power score (GP formula). */
@@ -1430,6 +1446,7 @@ export type Command =
   | { t: 'setPlayerNation'; nation: NationId }
   | { t: 'setTax'; bracket: 'poor' | 'middle' | 'rich'; rate: number }
   | { t: 'setTariff'; rate: number }
+  | { t: 'setStockpileOrder'; good: GoodId; mode: 'buy' | 'sell' | 'off'; dailyAmount: number }
   | { t: 'enactReform'; reform: string; level: number }
   | { t: 'buildFactory'; state: StateId; recipe: string }
   | { t: 'recruitArmy'; province: ProvinceId }
