@@ -21,7 +21,13 @@ import {
 import { getFormableStatusesForNation } from './formables';
 import { listPlayerDecisions } from './systems/events';
 import { buildPlayerTechView } from './systems/research';
-import { computeTensionContributions, getWorldTension } from './systems/crisis';
+import {
+  buildCrisisShowdownView,
+  computeTensionContributions,
+  computeTensionDecay,
+  getWorldTension,
+  listCrisisCandidates,
+} from './systems/crisis';
 import { buildCultureLedger, buildMovementViews, culturePolicyOf } from './systems/culture';
 
 function zeroBudget(): BudgetLine {
@@ -361,7 +367,21 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerTech: buildPlayerTechView(world, data, world.playerNation),
     // 0.7.0 Concert of Europe
     worldTension: getWorldTension(world),
-    tensionTrace: computeTensionContributions(world),
+    tensionTrace: (() => {
+      const pressure = computeTensionContributions(world);
+      const decay = computeTensionDecay(world.tension ?? 15);
+      return [
+        ...pressure,
+        { label: 'Natural decay', value: Number((-decay).toFixed(2)) },
+      ];
+    })(),
+    tensionDecay: computeTensionDecay(world.tension ?? 15),
+    tensionNetDelta: (() => {
+      const pressure = computeTensionContributions(world).reduce((sum, entry) => sum + entry.value, 0);
+      const decay = computeTensionDecay(world.tension ?? 15);
+      return Number((pressure - decay).toFixed(2));
+    })(),
+    crisisCooldownUntil: world.crisisCooldownUntil ?? 0,
     activeCrisis: world.crisis
       ? {
         ...world.crisis,
@@ -370,6 +390,8 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         pressedBy: world.crisis.pressedBy.slice(),
       }
       : null,
+    crisisShowdown: world.crisis ? buildCrisisShowdownView(world, world.crisis) : null,
+    crisisCandidates: world.crisis ? [] : listCrisisCandidates(world, 5),
     congressHistory: (world.congresses ?? []).map((record) => ({ ...record })),
     // 0.8.0 Age of Nationalism
     playerCulturePolicy: playerNation ? culturePolicyOf(playerNation) : 'assimilationist',

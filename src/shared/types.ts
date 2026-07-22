@@ -753,6 +753,31 @@ export interface TensionContribution {
   value: number;
 }
 
+/** Idle flashpoint ranking for the Concert panel. */
+export interface CrisisCandidateView {
+  type: CrisisType;
+  subject: NationId;
+  demand: WarGoalType;
+  attackerLead: NationId;
+  defenderLead: NationId;
+  score: number;
+}
+
+/** Active-crisis brinkmanship readout for the Concert panel. */
+export interface CrisisShowdownView {
+  attackerPower: number;
+  defenderPower: number;
+  powerRatio: number;
+  showdownThreshold: number;
+  forecast: 'congress_attacker' | 'congress_defender' | 'war';
+  pressTemperature: number;
+  pressTempAfter: number;
+  backDownWinnerLeadPrestige: number;
+  backDownLoserLeadPrestige: number;
+  demandEnforceOnAttackerWin: boolean;
+  peacefulContainmentLimited: boolean;
+}
+
 // ---------------------------------------------------------------------------
 // 0.8.0 The Age of Nationalism — culture policy, assimilation, national
 // movements. All world/nation/snapshot fields for this system are OPTIONAL so
@@ -1136,7 +1161,13 @@ export interface WorldSnapshot {
   /** 0.7.0 Concert: world tension 0-100 with trace, active crisis, history. */
   worldTension?: number;
   tensionTrace?: TensionContribution[];
+  /** Next-month tension decay and net Δ (pressure − decay). */
+  tensionDecay?: number;
+  tensionNetDelta?: number;
+  crisisCooldownUntil?: number;
   activeCrisis?: Crisis | null;
+  crisisShowdown?: CrisisShowdownView | null;
+  crisisCandidates?: CrisisCandidateView[];
   congressHistory?: CongressRecord[];
   /** 0.8.0 culture: Cultures ledger + national movements for the player. */
   playerCulturePolicy?: CulturePolicy;

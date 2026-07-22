@@ -29,6 +29,13 @@ function tensionMood(tension: number): { label: string; className: string } {
   return { label: 'The concert holds', className: 'status-positive' };
 }
 
+function forecastLabel(forecast: string | undefined): string {
+  if (forecast === 'congress_attacker') return 'Congress for the pressing side';
+  if (forecast === 'congress_defender') return 'Congress for the resisting side';
+  if (forecast === 'war') return 'Balanced blocs — war if showdown hits now';
+  return 'Unknown';
+}
+
 export function CrisisPanel() {
   const snapshot = useStore((state) => state.snapshot);
   const sendCommand = useStore((state) => state.sendCommand);
@@ -42,9 +49,15 @@ export function CrisisPanel() {
   const tension = snapshot.worldTension ?? 0;
   const mood = tensionMood(tension);
   const crisis = snapshot.activeCrisis ?? null;
+  const showdown = snapshot.crisisShowdown ?? null;
   const history = (snapshot.congressHistory ?? []).slice().reverse();
+  const candidates = snapshot.crisisCandidates ?? [];
   const player = nationById.get(snapshot.playerNation);
   const playerIsGp = Boolean(player?.gpRank && player.gpRank > 0);
+  const cooldownUntil = snapshot.crisisCooldownUntil ?? 0;
+  const cooldownLeft = Math.max(0, cooldownUntil - snapshot.day);
+  const tensionDecay = snapshot.tensionDecay ?? 0;
+  const tensionNet = snapshot.tensionNetDelta ?? 0;
 
   const name = (id: number) => nationById.get(id)?.name ?? `Nation ${id}`;
   const tags = (ids: number[]) => ids.map((id) => nationById.get(id)?.tag ?? String(id)).join(', ');
@@ -57,6 +70,7 @@ export function CrisisPanel() {
   const playerIsLead = Boolean(crisis
     && (crisis.attackerLead === snapshot.playerNation || crisis.defenderLead === snapshot.playerNation));
   const playerPressed = Boolean(crisis && crisis.pressedBy.includes(snapshot.playerNation));
+  const playerIsAttackerLead = Boolean(crisis && crisis.attackerLead === snapshot.playerNation);
 
   return (
     <section className="panel-card atlas-panel">
@@ -76,6 +90,11 @@ export function CrisisPanel() {
           {' '}/ 100
         </span>
       </div>
+      <p className="panel-subtle">
+        Net Δ {tensionNet >= 0 ? '+' : ''}{tensionNet.toFixed(1)}
+        {' '}(decay −{tensionDecay.toFixed(1)}
+        {cooldownLeft > 0 ? ` · cooldown ${cooldownLeft}d` : ' · ready to spawn'})
+      </p>
       <div className="crisis-meter" role="img" aria-label={`World tension ${tension.toFixed(0)} of 100`}>
         <div
           className={`crisis-meter__fill ${tension >= 45 ? 'crisis-meter__fill--hot' : ''}`}
@@ -112,10 +131,44 @@ export function CrisisPanel() {
               <dt>Resisting side</dt>
               <dd>{tags(crisis.defenderBackers)}</dd>
             </div>
+            {showdown ? (
+              <>
+                <div>
+                  <dt>Attacker power</dt>
+                  <dd>{showdown.attackerPower.toFixed(0)}</dd>
+                </div>
+                <div>
+                  <dt>Defender power</dt>
+                  <dd>{showdown.defenderPower.toFixed(0)}</dd>
+                </div>
+                <div>
+                  <dt>Power ratio</dt>
+                  <dd>
+                    <TraceTooltip
+                      value={showdown.powerRatio.toFixed(2)}
+                      trace={[
+                        { label: 'Attacker / defender', value: showdown.powerRatio },
+                        { label: 'Congress threshold', value: showdown.showdownThreshold },
+                      ]}
+                    />
+                    {' '}(need {showdown.showdownThreshold.toFixed(2)}× for congress)
+                  </dd>
+                </div>
+                <div>
+                  <dt>If showdown now</dt>
+                  <dd className={showdown.forecast === 'war' ? 'status-danger' : 'status-positive'}>
+                    {forecastLabel(showdown.forecast)}
+                  </dd>
+                </div>
+              </>
+            ) : null}
           </dl>
           <p className="panel-subtle">
             At the showdown, a clearly stronger bloc forces a congress settlement; balanced blocs go to war.
             {playerSide ? ` You are backing the ${playerSide === 'attacker' ? 'pressing' : 'resisting'} side.` : ''}
+            {showdown?.peacefulContainmentLimited
+              ? ' Peaceful containment humiliates prestige only — full GP demotion requires war.'
+              : ''}
           </p>
           <div className="diplo-action-row">
             {playerIsGp && !playerSide ? (
@@ -142,25 +195,57 @@ export function CrisisPanel() {
                   type="button"
                   className="btn btn--primary"
                   disabled={playerPressed}
+                  title={
+                    showdown
+                      ? `Temperature → ${showdown.pressTempAfter.toFixed(0)}; blocks AI-style early fold; accelerates showdown`
+                      : undefined
+                  }
                   onClick={() => sendCommand({ t: 'crisisPressDemand', crisis: crisis.id })}
                 >
-                  {playerPressed ? 'Demand Pressed' : 'Press the Demand'}
+                  {playerPressed
+                    ? 'Demand Pressed'
+                    : `Press the Demand (+${showdown?.pressTemperature ?? 18} temp)`}
                 </button>
                 <button
                   type="button"
                   className="btn btn--ghost"
+                  title={
+                    showdown
+                      ? playerIsAttackerLead
+                        ? `You concede: opponent +${showdown.backDownWinnerLeadPrestige} prestige, you −${showdown.backDownLoserLeadPrestige}; demand withdrawn`
+                        : `You concede: opponent +${showdown.backDownWinnerLeadPrestige} prestige, you −${showdown.backDownLoserLeadPrestige}; demand enforced`
+                      : undefined
+                  }
                   onClick={() => sendCommand({ t: 'crisisBackDown', crisis: crisis.id })}
                 >
-                  Back Down
+                  Back Down (−{showdown?.backDownLoserLeadPrestige.toFixed(0) ?? '?'} prestige)
                 </button>
               </>
             ) : null}
           </div>
         </div>
       ) : (
-        <p className="panel-subtle">
-          No active crisis. {tension >= 35 ? 'Flashpoints are smoldering — a crisis may erupt any month.' : 'The chancelleries are quiet.'}
-        </p>
+        <>
+          <p className="panel-subtle">
+            No active crisis. {tension >= 35 ? 'Flashpoints are smoldering — a crisis may erupt any month.' : 'The chancelleries are quiet.'}
+          </p>
+          {candidates.length > 0 ? (
+            <>
+              <h3 className="atlas-heading panel-small-heading">Smoldering Flashpoints</h3>
+              <ul className="panel-list">
+                {candidates.map((candidate) => (
+                  <li key={`${candidate.type}-${candidate.subject}-${candidate.attackerLead}`}>
+                    <strong>{CRISIS_TYPE_LABEL[candidate.type] ?? candidate.type}</strong>
+                    <span>
+                      {' '}over {name(candidate.subject)} — {name(candidate.attackerLead)} vs {name(candidate.defenderLead)}
+                      {' '}(score {candidate.score.toFixed(0)})
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
+        </>
       )}
 
       <h3 className="atlas-heading panel-small-heading">Congress Ledger</h3>

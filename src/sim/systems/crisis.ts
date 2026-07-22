@@ -49,6 +49,38 @@ const AI_BACKDOWN_RATIO = 0.62;
 const JOIN_SCORE_THRESHOLD = 45;
 const PRESS_TEMPERATURE = 18;
 
+/** Exported for UI forecast copy (congress vs war at showdown). */
+export function getShowdownPowerRatio(): number {
+  return SHOWDOWN_POWER_RATIO;
+}
+
+export function getPressTemperature(): number {
+  return PRESS_TEMPERATURE;
+}
+
+export function getSpawnTensionFloor(): number {
+  return SPAWN_TENSION_FLOOR;
+}
+
+/** Monthly tension decay that will apply at the next Concert tick. */
+export function computeTensionDecay(tension: number): number {
+  return Number((2.2 + tension * 0.06).toFixed(2));
+}
+
+export function computeBlocPower(world: World, members: NationId[]): number {
+  let total = 0;
+  for (const id of members) total += Math.max(0, getNationPowerBreakdown(world, id).score);
+  return Math.max(1, total);
+}
+
+export type CrisisShowdownForecast = 'congress_attacker' | 'congress_defender' | 'war';
+
+export function forecastCrisisShowdown(attackerPower: number, defenderPower: number): CrisisShowdownForecast {
+  if (attackerPower >= defenderPower * SHOWDOWN_POWER_RATIO) return 'congress_attacker';
+  if (defenderPower >= attackerPower * SHOWDOWN_POWER_RATIO) return 'congress_defender';
+  return 'war';
+}
+
 function clamp(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) return min;
   return Math.max(min, Math.min(max, value));
@@ -250,6 +282,61 @@ function findCrisisCandidates(world: World, ownedCount: number[]): CrisisCandida
   ));
 }
 
+/** Ranked flashpoints for idle Concert UI (same ranking used for spawn). */
+export function listCrisisCandidates(world: World, limit = 5): Array<{
+  type: CrisisType;
+  subject: NationId;
+  demand: WarGoalType;
+  attackerLead: NationId;
+  defenderLead: NationId;
+  score: number;
+}> {
+  ensureCrisisState(world);
+  const ownedCount = ownedProvinceCounts(world);
+  return findCrisisCandidates(world, ownedCount)
+    .slice(0, Math.max(0, limit))
+    .map((candidate) => ({
+      type: candidate.type,
+      subject: candidate.subject,
+      demand: candidate.demand,
+      attackerLead: candidate.attackerLead,
+      defenderLead: candidate.defenderLead,
+      score: Number(candidate.score.toFixed(1)),
+    }));
+}
+
+export function buildCrisisShowdownView(world: World, crisis: Crisis): {
+  attackerPower: number;
+  defenderPower: number;
+  powerRatio: number;
+  showdownThreshold: number;
+  forecast: CrisisShowdownForecast;
+  pressTemperature: number;
+  pressTempAfter: number;
+  backDownWinnerLeadPrestige: number;
+  backDownLoserLeadPrestige: number;
+  demandEnforceOnAttackerWin: boolean;
+  peacefulContainmentLimited: boolean;
+} {
+  const attackerPower = Number(computeBlocPower(world, crisis.attackerBackers).toFixed(1));
+  const defenderPower = Number(computeBlocPower(world, crisis.defenderBackers).toFixed(1));
+  const ratio = Number((attackerPower / Math.max(1, defenderPower)).toFixed(2));
+  const pressTempAfter = clamp(crisis.temperature + PRESS_TEMPERATURE, 0, 100);
+  return {
+    attackerPower,
+    defenderPower,
+    powerRatio: ratio,
+    showdownThreshold: SHOWDOWN_POWER_RATIO,
+    forecast: forecastCrisisShowdown(attackerPower, defenderPower),
+    pressTemperature: PRESS_TEMPERATURE,
+    pressTempAfter,
+    backDownWinnerLeadPrestige: Number((10 + crisis.temperature * 0.1).toFixed(1)),
+    backDownLoserLeadPrestige: Number((8 + crisis.temperature * 0.08).toFixed(1)),
+    demandEnforceOnAttackerWin: true,
+    peacefulContainmentLimited: crisis.demand === 'cut_down_to_size',
+  };
+}
+
 function spawnCrisis(world: World, rng: Rng, candidate: CrisisCandidate): void {
   const crisis: Crisis = {
     id: world.nextCrisisId ?? 1,
@@ -284,9 +371,7 @@ function crisisSideOf(crisis: Crisis, nationId: NationId): CrisisSide | null {
 }
 
 function blocPower(world: World, members: NationId[]): number {
-  let total = 0;
-  for (const id of members) total += Math.max(0, getNationPowerBreakdown(world, id).score);
-  return Math.max(1, total);
+  return computeBlocPower(world, members);
 }
 
 function aiEvaluateJoin(world: World, crisis: Crisis, gp: NationId): CrisisSide | null {
@@ -518,9 +603,10 @@ function runActiveCrisis(world: World, rng: Rng, crisis: Crisis, ownedCount: num
 
   // Showdown: boiling point or deadline reached.
   if (crisis.temperature >= 100 || world.day >= crisis.deadlineDay) {
-    if (attackerPower >= defenderPower * SHOWDOWN_POWER_RATIO) {
+    const forecast = forecastCrisisShowdown(attackerPower, defenderPower);
+    if (forecast === 'congress_attacker') {
       resolveCongress(world, rng, crisis, 'attacker');
-    } else if (defenderPower >= attackerPower * SHOWDOWN_POWER_RATIO) {
+    } else if (forecast === 'congress_defender') {
       resolveCongress(world, rng, crisis, 'defender');
     } else {
       igniteCrisisWar(world, rng, crisis);
