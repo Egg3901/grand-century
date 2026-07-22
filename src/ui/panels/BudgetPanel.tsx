@@ -89,7 +89,7 @@ export function BudgetPanel() {
         <div><dt>Tax Income</dt><dd><TraceTooltip value={formatMoney(budget.taxIncome)} trace={budget.trace.taxIncome} /></dd></div>
         <div><dt>Tariff Income</dt><dd><TraceTooltip value={formatMoney(budget.tariffIncome)} trace={budget.trace.tariffIncome} /></dd></div>
         <div><dt>Production</dt><dd><TraceTooltip value={formatMoney(budget.productionIncome)} trace={budget.trace.productionIncome} /></dd></div>
-        <div><dt>Army Upkeep</dt><dd><TraceTooltip value={formatMoney(-budget.armyUpkeep)} trace={budget.trace.armyUpkeep} /></dd></div>
+        <div><dt>Army / Navy Upkeep</dt><dd><TraceTooltip value={formatMoney(-budget.armyUpkeep)} trace={budget.trace.armyUpkeep} /></dd></div>
         <div><dt>Factory Subsidies</dt><dd><TraceTooltip value={formatMoney(-budget.subsidySpend)} trace={budget.trace.subsidySpend} /></dd></div>
         <div><dt>Provincial Overhead</dt><dd><TraceTooltip value={formatMoney(-budget.constructionSpend)} trace={budget.trace.constructionSpend} /></dd></div>
         <div><dt>Administration</dt><dd><TraceTooltip value={formatMoney(-budget.adminSpend)} trace={budget.trace.adminSpend} /></dd></div>

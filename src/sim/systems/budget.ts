@@ -137,12 +137,13 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
   // Signed: positive customs duties, negative import-subsidy outlays.
   const tariffIncome = finite(nation.monthlyTariffIncome);
   const productionIncome = Math.max(0, finite(nation.monthlyProductionIncome));
-  const armyUpkeep = world.armies
+  const armyOnlyUpkeep = world.armies
     .filter((army) => army.owner === nationId)
-    .reduce((total, army) => total + army.regiments.length * BALANCE.economy.armyUpkeepPerRegiment, 0)
-    + world.fleets
-      .filter((fleet) => fleet.owner === nationId)
-      .reduce((total, fleet) => total + fleet.ships.length * BALANCE.economy.navyUpkeepPerShip, 0);
+    .reduce((total, army) => total + army.regiments.length * BALANCE.economy.armyUpkeepPerRegiment, 0);
+  const navyOnlyUpkeep = world.fleets
+    .filter((fleet) => fleet.owner === nationId)
+    .reduce((total, fleet) => total + fleet.ships.length * BALANCE.economy.navyUpkeepPerShip, 0);
+  const armyUpkeep = armyOnlyUpkeep + navyOnlyUpkeep;
   const subsidySpend = nationFactorySubsidies(world, nationId);
   const constructionSpend = nation.constructionBlocked ? 0 : provinceIds.length * BALANCE.economy.constructionSpendPerProvince;
   const adminSpend = nationPopulation(world, nationId) * BALANCE.economy.adminSpendPerPopulation
@@ -197,7 +198,8 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
         { label: 'State-owned profits', value: productionIncome },
       ],
       armyUpkeep: [
-        { label: 'Army + navy upkeep base', value: armyUpkeep },
+        { label: 'Army upkeep base', value: armyOnlyUpkeep },
+        { label: 'Navy upkeep base', value: navyOnlyUpkeep },
         { label: 'Bankruptcy multiplier', value: bankruptcyCut },
       ],
       subsidySpend: [
