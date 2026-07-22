@@ -659,7 +659,7 @@
   line-height: var(--gc-lh-tight);
 }
 
-/* Market table */}
+/* Market table */
 .market-table {
   width: 100%;
   border-collapse: collapse;
@@ -1466,7 +1466,7 @@
   text-decoration-color: var(--gc-accent);
 }
 
-/* 1.0-U1 UX: tap a country name (province dossier) to open its diplomacy view */}
+/* 1.0-U1 UX: tap a country name (province dossier) to open its diplomacy view */
 .owner-link {
   display: inline-flex;
   align-items: center;
