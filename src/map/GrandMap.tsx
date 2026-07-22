@@ -372,6 +372,7 @@ function insideViewport(box: ScreenBox, width: number, height: number, padding: 
 
 export function GrandMap() {
   const snapshot = useStore((state) => state.snapshot);
+  const data = useStore((state) => state.data);
   const mapMode = useStore((state) => state.mapMode);
   const selectProvince = useStore((state) => state.selectProvince);
   const selectedArmy = useStore((state) => state.selectedArmy);
@@ -1483,6 +1484,19 @@ export function GrandMap() {
         if (!isCore) fill = blend(ownerColor, 0.6);
         else if (province.owner === snapshot.playerNation) fill = blend('#4e8a5e', 0.2);
         else fill = blend('#8e4d46', 0.18);
+      } else if (mapMode === 'culture') {
+        const nonAccepted = Math.max(0, Math.min(1, province.nonAcceptedShare ?? 0));
+        const cultureIdx = province.pluralityCulture ?? -1;
+        const cultureColor = cultureIdx >= 0 && data?.cultures[cultureIdx]
+          ? toHexColor(data.cultures[cultureIdx].color)
+          : ownerColor;
+        // Base: plurality culture wash; heat non-accepted share; heartlands hot.
+        fill = blend(cultureColor, 0.22 + nonAccepted * 0.35);
+        if (province.cultureHeartland && province.owner === snapshot.playerNation) {
+          fill = blend('#8e4d46', 0.1);
+        } else if (nonAccepted >= 0.45) {
+          fill = blend('#8a5f46', 0.28 - nonAccepted * 0.1);
+        }
       }
 
       if (TERRAIN_TINTED_MODES.has(mapMode)) {
@@ -1545,7 +1559,7 @@ export function GrandMap() {
         map.setPaintProperty(MAP_FILL_FADE_LAYER, 'fill-opacity', 0);
       }, MODE_FADE_MS + 70);
     }
-  }, [mapMode, mapReady, nationColorById, provinceTerrainById, snapshot]);
+  }, [mapMode, mapReady, nationColorById, provinceTerrainById, snapshot, data]);
 
   // Player border halo: keep the glowing set in sync with ownership, and
   // only show it on the political plate — on thematic plates it would lie.

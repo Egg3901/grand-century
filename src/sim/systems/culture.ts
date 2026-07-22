@@ -85,6 +85,10 @@ export const CULTURE_TUNING = {
   adherentsPerRegiment: 150_000,
   /** Grant-acceptance effects. */
   acceptPrestigeCost: 8,
+  /** Extra prestige per already-accepted non-primary culture (escalating). */
+  acceptPrestigePerAccepted: 6,
+  /** Soft cap on accepted non-primary cultures (beyond primary). */
+  acceptMaxExtra: 4,
   acceptMilitancyRelief: 1.5,
   acceptRadicalismRelief: 40,
   /** Revoke-acceptance effects. */
@@ -92,6 +96,9 @@ export const CULTURE_TUNING = {
   revokeRadicalismSpike: 15,
   /** Minimum share of national pop to be allowed to grant acceptance. */
   acceptMinShare: 0.02,
+  /** Cultural policy flip: prestige cost and cooldown (days). */
+  policyPrestigeCost: 4,
+  policyCooldownDays: 365,
 } as const;
 
 function clamp(value: number, min: number, max: number): number {
@@ -567,17 +574,36 @@ function maybeLaunchUprising(world: World, data: GameData, movement: NationalMov
 // Commands (called from commands.ts on the player nation)
 // ---------------------------------------------------------------------------
 
-export function setCulturePolicy(world: World, nationId: NationId, policy: CulturePolicy): void {
-  ensureCultureState(world);
-  const nation = world.nations[nationId];
-  if (!nation) return;
-  if (policy !== 'exclusionary' && policy !== 'assimilationist' && policy !== 'pluralist') return;
-  nation.culturePolicy = policy;
-}
-
 export interface AcceptanceResult {
   ok: boolean;
   reason: string;
+}
+
+export function setCulturePolicy(world: World, nationId: NationId, policy: CulturePolicy): AcceptanceResult {
+  ensureCultureState(world);
+  const nation = world.nations[nationId];
+  if (!nation) return { ok: false, reason: 'Unknown nation.' };
+  if (policy !== 'exclusionary' && policy !== 'assimilationist' && policy !== 'pluralist') {
+    return { ok: false, reason: 'Unknown culture policy.' };
+  }
+  if (culturePolicyOf(nation) === policy) return { ok: false, reason: 'Already the active culture policy.' };
+  const last = nation.culturePolicyChangedDay ?? -1;
+  if (last >= 0 && world.day - last < CULTURE_TUNING.policyCooldownDays) {
+    const yearsLeft = Math.ceil((CULTURE_TUNING.policyCooldownDays - (world.day - last)) / 365);
+    return { ok: false, reason: `Culture policy on cooldown (${yearsLeft}y remaining).` };
+  }
+  if (nation.prestige < CULTURE_TUNING.policyPrestigeCost) {
+    return { ok: false, reason: `Requires ${CULTURE_TUNING.policyPrestigeCost} prestige.` };
+  }
+  nation.prestige = Math.max(0, nation.prestige - CULTURE_TUNING.policyPrestigeCost);
+  nation.culturePolicy = policy;
+  nation.culturePolicyChangedDay = world.day;
+  return { ok: true, reason: `Cultural policy set to ${policy} (−${CULTURE_TUNING.policyPrestigeCost} prestige).` };
+}
+
+export function acceptPrestigeCostFor(nation: { acceptedCultures: number[]; primaryCulture: number }): number {
+  const extras = nation.acceptedCultures.filter((culture) => culture !== nation.primaryCulture).length;
+  return CULTURE_TUNING.acceptPrestigeCost + extras * CULTURE_TUNING.acceptPrestigePerAccepted;
 }
 
 export function setCultureAccepted(world: World, data: GameData, nationId: NationId, culture: number, accepted: boolean): AcceptanceResult {
@@ -602,8 +628,16 @@ export function setCultureAccepted(world: World, data: GameData, nationId: Natio
     if (total <= 0 || cultureSize / total < CULTURE_TUNING.acceptMinShare) {
       return { ok: false, reason: 'Too few people of this culture live in the nation.' };
     }
+    const extras = nation.acceptedCultures.filter((entry) => entry !== nation.primaryCulture).length;
+    if (extras >= CULTURE_TUNING.acceptMaxExtra) {
+      return { ok: false, reason: `At most ${CULTURE_TUNING.acceptMaxExtra} accepted cultures beyond the primary.` };
+    }
+    const cost = acceptPrestigeCostFor(nation);
+    if (nation.prestige < cost) {
+      return { ok: false, reason: `Requires ${cost} prestige (have ${nation.prestige.toFixed(1)}).` };
+    }
     nation.acceptedCultures = Array.from(new Set([...nation.acceptedCultures, culture])).sort((a, b) => a - b);
-    nation.prestige = Math.max(0, nation.prestige - CULTURE_TUNING.acceptPrestigeCost);
+    nation.prestige = Math.max(0, nation.prestige - cost);
     for (const pop of world.pops) {
       if (pop.size <= 0 || pop.culture !== culture) continue;
       const province = world.provinces[pop.provinceId];
@@ -615,7 +649,7 @@ export function setCultureAccepted(world: World, data: GameData, nationId: Natio
         movement.radicalism = clamp(movement.radicalism - CULTURE_TUNING.acceptRadicalismRelief, 0, 100);
       }
     }
-    return { ok: true, reason: `${data.cultures[culture].name} culture granted full acceptance.` };
+    return { ok: true, reason: `${data.cultures[culture].name} culture granted full acceptance (−${cost} prestige).` };
   }
 
   nation.acceptedCultures = nation.acceptedCultures.filter((entry) => entry !== culture);
@@ -640,8 +674,62 @@ export function setCultureAccepted(world: World, data: GameData, nationId: Natio
 export function buildCultureLedger(world: World, data: GameData, nationId: NationId): CultureLedgerEntry[] {
   const nation = world.nations[nationId];
   if (!nation) return [];
+  ensureCultureState(world);
   const byCulture = new Map<number, CultureAggregate>();
+  const factorAcc = new Map<number, {
+    surround: number;
+    literacy: number;
+    policy: number;
+    religion: number;
+    resistance: number;
+    rate: number;
+    weight: number;
+  }>();
   let total = 0;
+  const policy = culturePolicyOf(nation);
+  const movementByKey = new Map<string, NationalMovement>();
+  for (const movement of world.movements ?? []) {
+    if (movement.nation === nationId) movementByKey.set(`${movement.nation}:${movement.culture}`, movement);
+  }
+
+  // Province accepted-share (same definition as monthly assimilation surround).
+  const provinceSurround = new Float64Array(world.provinces.length);
+  for (const province of world.provinces) {
+    if (province.owner !== nationId) continue;
+    let provTotal = 0;
+    let acceptedSize = 0;
+    for (const popId of province.popIds) {
+      const pop = world.pops[popId];
+      if (!pop || pop.size <= 0) continue;
+      provTotal += pop.size;
+      if (pop.culture === nation.primaryCulture || nation.acceptedCultures.includes(pop.culture)) {
+        acceptedSize += pop.size;
+      }
+    }
+    provinceSurround[province.id] = provTotal > 0 ? acceptedSize / provTotal : 0;
+  }
+
+  // Nation religion proxy (largest primary-culture religion).
+  let stateReligion = -1;
+  {
+    const byReligion = new Map<number, number>();
+    for (const pop of world.pops) {
+      if (pop.size <= 0 || pop.culture !== nation.primaryCulture) continue;
+      const province = world.provinces[pop.provinceId];
+      if (!province || province.owner !== nationId) continue;
+      byReligion.set(pop.religion, (byReligion.get(pop.religion) ?? 0) + pop.size);
+    }
+    let best = -1;
+    let bestSize = -1;
+    for (const [religion, size] of byReligion) {
+      if (size > bestSize || (size === bestSize && religion < best)) {
+        bestSize = size;
+        best = religion;
+      }
+    }
+    stateReligion = best;
+  }
+
   for (const pop of world.pops) {
     if (pop.size <= 0) continue;
     const province = world.provinces[pop.provinceId];
@@ -653,13 +741,64 @@ export function buildCultureLedger(world: World, data: GameData, nationId: Natio
     agg.militancy += pop.militancy * pop.size;
     agg.consciousness += pop.consciousness * pop.size;
     agg.needsMet += pop.needsMet * pop.size;
+
+    if (pop.culture === nation.primaryCulture || nation.acceptedCultures.includes(pop.culture)) continue;
+    const movement = movementByKey.get(`${nationId}:${pop.culture}`);
+    const movementResistance = movement ? clamp(1 - movement.radicalism / 110, 0.05, 1) : 1;
+    const surroundFactor = Math.pow(clamp(provinceSurround[province.id], 0, 1), 1.5);
+    const literacyFactor = 0.5 + clamp(nation.literacy, 0, 1);
+    const religionDiffers = stateReligion >= 0 && pop.religion !== stateReligion;
+    const religionFactor = religionDiffers ? CULTURE_TUNING.assimilationReligionPenalty : 1;
+    const policyFactor = CULTURE_TUNING.assimilationPolicy[policy];
+    const rate = CULTURE_TUNING.assimilationBase
+      * surroundFactor
+      * literacyFactor
+      * policyFactor
+      * religionFactor
+      * movementResistance;
+    let acc = factorAcc.get(pop.culture);
+    if (!acc) {
+      factorAcc.set(pop.culture, acc = {
+        surround: 0, literacy: 0, policy: 0, religion: 0, resistance: 0, rate: 0, weight: 0,
+      });
+    }
+    acc.surround += surroundFactor * pop.size;
+    acc.literacy += literacyFactor * pop.size;
+    acc.policy += policyFactor * pop.size;
+    acc.religion += religionFactor * pop.size;
+    acc.resistance += movementResistance * pop.size;
+    acc.rate += rate * pop.size;
+    acc.weight += pop.size;
   }
+
   const assimilationTrace = nation.assimilationByCulture ?? {};
+  const extrasAccepted = nation.acceptedCultures.filter((c) => c !== nation.primaryCulture).length;
+  const nextAcceptCost = acceptPrestigeCostFor(nation);
+  const manpowerByCulture = new Map<number, number>();
+  for (const pop of world.pops) {
+    if (pop.size <= 0) continue;
+    if (pop.type === 'soldier' || pop.type === 'officer' || pop.type === 'aristocrat' || pop.type === 'capitalist') continue;
+    const province = world.provinces[pop.provinceId];
+    if (!province || province.owner !== nationId) continue;
+    manpowerByCulture.set(pop.culture, (manpowerByCulture.get(pop.culture) ?? 0) + pop.size);
+  }
+
   return Array.from(byCulture.entries())
     .map(([culture, agg]) => {
       const def = data.cultures[culture];
       const primary = culture === nation.primaryCulture;
       const accepted = primary || nation.acceptedCultures.includes(culture);
+      const shareOk = total > 0 && agg.size / total >= CULTURE_TUNING.acceptMinShare;
+      const atCap = extrasAccepted >= CULTURE_TUNING.acceptMaxExtra;
+      const canAfford = nation.prestige >= nextAcceptCost;
+      let acceptBlockedReason = '';
+      if (primary) acceptBlockedReason = 'Primary culture is always accepted.';
+      else if (accepted) acceptBlockedReason = '';
+      else if (!shareOk) acceptBlockedReason = 'Community too small to grant acceptance.';
+      else if (atCap) acceptBlockedReason = `Accepted-culture cap (${CULTURE_TUNING.acceptMaxExtra}) reached.`;
+      else if (!canAfford) acceptBlockedReason = `Need ${nextAcceptCost} prestige (have ${nation.prestige.toFixed(1)}).`;
+      const canAccept = !primary && !accepted && shareOk && !atCap && canAfford;
+      const factors = factorAcc.get(culture);
       return {
         culture,
         key: def?.key ?? `culture_${culture}`,
@@ -671,27 +810,89 @@ export function buildCultureLedger(world: World, data: GameData, nationId: Natio
         avgMilitancy: agg.size > 0 ? agg.militancy / agg.size : 0,
         avgConsciousness: agg.size > 0 ? agg.consciousness / agg.size : 0,
         assimilatedLastMonth: primary ? 0 : (assimilationTrace[culture] ?? 0),
-        canAccept: !accepted && total > 0 && agg.size / total >= CULTURE_TUNING.acceptMinShare,
+        canAccept,
+        acceptCost: primary || accepted ? 0 : nextAcceptCost,
+        prestigeAfterAccept: primary || accepted
+          ? nation.prestige
+          : Math.max(0, nation.prestige - nextAcceptCost),
+        manpowerPreview: primary || accepted ? 0 : (manpowerByCulture.get(culture) ?? 0),
+        acceptBlockedReason,
+        assimilationFactors: factors && factors.weight > 0
+          ? {
+            surround: factors.surround / factors.weight,
+            literacy: factors.literacy / factors.weight,
+            policy: factors.policy / factors.weight,
+            religion: factors.religion / factors.weight,
+            resistance: factors.resistance / factors.weight,
+            rate: factors.rate / factors.weight,
+          }
+          : undefined,
       };
     })
     .sort((a, b) => b.size - a.size);
 }
 
 export function buildMovementViews(world: World, data: GameData, nationId: NationId): MovementView[] {
+  const nation = world.nations[nationId];
+  const policy = nation ? culturePolicyOf(nation) : 'assimilationist';
   return (world.movements ?? [])
     .filter((movement) => movement.nation === nationId)
-    .map((movement) => ({
-      id: movement.id,
-      culture: movement.culture,
-      cultureName: data.cultures[movement.culture]?.name ?? `Culture ${movement.culture}`,
-      radicalism: movement.radicalism,
-      adherents: movement.adherents,
-      militancy: movement.militancy,
-      consciousness: movement.consciousness,
-      heartlandStateIds: movement.heartlandStateIds.slice(),
-      heartlandNames: movement.heartlandStateIds
-        .map((stateId) => world.states[stateId]?.name ?? `State ${stateId}`),
-      boiling: movement.radicalism >= CULTURE_TUNING.uprisingRadicalism * 0.85,
-    }))
+    .map((movement) => {
+      const accepted = nation ? isAccepted(world, nationId, movement.culture) : false;
+      const avgNeeds = (() => {
+        let needs = 0;
+        let size = 0;
+        for (const pop of world.pops) {
+          if (pop.size <= 0 || pop.culture !== movement.culture) continue;
+          const province = world.provinces[pop.provinceId];
+          if (!province || province.owner !== nationId) continue;
+          needs += pop.needsMet * pop.size;
+          size += pop.size;
+        }
+        return size > 0 ? needs / size : 0;
+      })();
+      const conTerm = movement.consciousness * CULTURE_TUNING.radicalPerConsciousness;
+      const milTerm = movement.militancy * CULTURE_TUNING.radicalPerMilitancy;
+      const needsTerm = -(avgNeeds * CULTURE_TUNING.radicalNeedsRelief);
+      const policyTerm = accepted ? -CULTURE_TUNING.radicalAcceptedDecay : CULTURE_TUNING.radicalPolicy[policy];
+      const base = accepted ? 0 : CULTURE_TUNING.radicalBase;
+      const total = accepted
+        ? -CULTURE_TUNING.radicalAcceptedDecay
+        : base + conTerm + milTerm + policyTerm + needsTerm;
+      const radOk = movement.radicalism >= CULTURE_TUNING.uprisingRadicalism;
+      const milOk = movement.militancy >= CULTURE_TUNING.uprisingMilitancy;
+      const boiling = radOk && milOk;
+      let gateBlocked: MovementView['gateBlocked'] = null;
+      if (!boiling) {
+        if (!radOk && !milOk) gateBlocked = movement.radicalism / CULTURE_TUNING.uprisingRadicalism
+          <= movement.militancy / CULTURE_TUNING.uprisingMilitancy
+          ? 'radicalism'
+          : 'militancy';
+        else if (!radOk) gateBlocked = 'radicalism';
+        else gateBlocked = 'militancy';
+      }
+      return {
+        id: movement.id,
+        culture: movement.culture,
+        cultureName: data.cultures[movement.culture]?.name ?? `Culture ${movement.culture}`,
+        radicalism: movement.radicalism,
+        adherents: movement.adherents,
+        militancy: movement.militancy,
+        consciousness: movement.consciousness,
+        heartlandStateIds: movement.heartlandStateIds.slice(),
+        heartlandNames: movement.heartlandStateIds
+          .map((stateId) => world.states[stateId]?.name ?? `State ${stateId}`),
+        boiling,
+        gateBlocked,
+        radicalDelta: {
+          base,
+          consciousness: conTerm,
+          militancy: milTerm,
+          needs: needsTerm,
+          policy: policyTerm,
+          total,
+        },
+      };
+    })
     .sort((a, b) => b.radicalism - a.radicalism);
 }

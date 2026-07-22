@@ -29,7 +29,7 @@ import {
   getWorldTension,
   listCrisisCandidates,
 } from './systems/crisis';
-import { buildCultureLedger, buildMovementViews, culturePolicyOf } from './systems/culture';
+import { buildCultureLedger, buildMovementViews, culturePolicyOf, CULTURE_TUNING } from './systems/culture';
 import {
   colonialReachKind,
   computeColonialPointsBreakdown,
@@ -212,6 +212,28 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     const stats = provincePopStats(world, province.popIds);
     const rgoGood = rgoOutputByRecipe[province.rgo.recipe] ?? 0;
     const rgoOutput = (province.rgo.employed / 1000) * (recipeByKey.get(province.rgo.recipe)?.output.amount ?? 0);
+    const ownerNation = world.nations[province.owner];
+    let pluralityCulture = -1;
+    let pluralitySize = 0;
+    let nonAccepted = 0;
+    const cultureSizes = new Map<number, number>();
+    for (const popId of province.popIds) {
+      const pop = world.pops[popId];
+      if (!pop || pop.size <= 0) continue;
+      cultureSizes.set(pop.culture, (cultureSizes.get(pop.culture) ?? 0) + pop.size);
+      if (ownerNation
+        && pop.culture !== ownerNation.primaryCulture
+        && !(ownerNation.acceptedCultures ?? []).includes(pop.culture)) {
+        nonAccepted += pop.size;
+      }
+    }
+    for (const [culture, size] of cultureSizes) {
+      if (size > pluralitySize || (size === pluralitySize && culture < pluralityCulture)) {
+        pluralitySize = size;
+        pluralityCulture = culture;
+      }
+    }
+    const popTotal = stats.population;
     return {
       id: province.id,
       owner: province.owner,
@@ -226,8 +248,26 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       rgoGood,
       fortLevel: province.fortLevel,
       occupation: province.occupationProgress,
+      pluralityCulture,
+      pluralityShare: popTotal > 0 && pluralityCulture >= 0 ? pluralitySize / popTotal : 0,
+      nonAcceptedShare: popTotal > 0 ? nonAccepted / popTotal : 0,
+      cultureHeartland: false,
     };
   });
+
+  // Mark player-movement heartland provinces for the culture mapmode.
+  {
+    const heartlandStates = new Set<number>();
+    for (const movement of world.movements ?? []) {
+      if (movement.nation !== world.playerNation) continue;
+      for (const stateId of movement.heartlandStateIds) heartlandStates.add(stateId);
+    }
+    if (heartlandStates.size > 0) {
+      for (const province of provinces) {
+        if (heartlandStates.has(province.stateId)) province.cultureHeartland = true;
+      }
+    }
+  }
 
   const playerOwnedStates = world.states.filter((state) => state.owner === world.playerNation);
   const playerCoreStateIds = world.nations[world.playerNation]?.coreStateIds?.slice().sort((a, b) => a - b) ?? [];
@@ -551,6 +591,13 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     congressHistory: (world.congresses ?? []).map((record) => ({ ...record })),
     // 0.8.0 Age of Nationalism
     playerCulturePolicy: playerNation ? culturePolicyOf(playerNation) : 'assimilationist',
+    playerCulturePolicyCooldownDays: (() => {
+      if (!playerNation) return 0;
+      const last = playerNation.culturePolicyChangedDay ?? -1;
+      if (last < 0) return 0;
+      return Math.max(0, CULTURE_TUNING.policyCooldownDays - (world.day - last));
+    })(),
+    playerCulturePolicyCost: CULTURE_TUNING.policyPrestigeCost,
     playerCultures: buildCultureLedger(world, data, world.playerNation),
     playerMovements: buildMovementViews(world, data, world.playerNation),
     colonialClaims,

@@ -555,8 +555,8 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       return;
     }
     case 'setCulturePolicy': {
-      setCulturePolicy(world, world.playerNation, cmd.policy);
-      log(post, 'info', `Cultural policy set to ${cmd.policy}.`);
+      const result = setCulturePolicy(world, world.playerNation, cmd.policy);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }
     case 'setCultureAccepted': {

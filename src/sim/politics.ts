@@ -71,6 +71,30 @@ export function isElectiveGovernment(government: GovernmentType): boolean {
   return ELECTIVE_GOVERNMENTS.has(government);
 }
 
+/**
+ * Upper-house composition reform → election blend / monthly drift weights.
+ * Level 0 appointed keeps the chamber sticky with authoritarian bias;
+ * level 3 proportional tracks ideology votes and pop ideology faster.
+ */
+export function upperHouseCompositionWeights(level: number): {
+  electionRetain: number;
+  electionVote: number;
+  driftElective: number;
+  driftAuthoritarian: number;
+  /** Extra reactionary/conservative pull on monthly drift (appointed seats). */
+  authoritarianBias: number;
+} {
+  const clamped = clamp(Math.floor(level), 0, 3);
+  const electionRetain = [0.72, 0.62, 0.55, 0.38][clamped] ?? 0.55;
+  return {
+    electionRetain,
+    electionVote: 1 - electionRetain,
+    driftElective: [0.1, 0.16, 0.22, 0.3][clamped] ?? 0.22,
+    driftAuthoritarian: [0.05, 0.07, 0.09, 0.14][clamped] ?? 0.09,
+    authoritarianBias: [0.07, 0.045, 0.02, 0][clamped] ?? 0.02,
+  };
+}
+
 export function partyLabel(nation: Nation, partyKey: string): string {
   return nation.parties.find((party) => party.key === partyKey)?.name ?? partyKey;
 }
@@ -534,4 +558,58 @@ export function updateStateUnrest(world: World, data: GameData, nationId: number
 
 export function yearsToElection(date: GameDate, nation: Nation): number {
   return Math.max(0, nation.nextElectionYear - date.year);
+}
+
+/** Real sim effect for a reform level (null = flavor-only / demand gate). */
+export function reformMechanicalEffect(reformKey: string, level: number): string | null {
+  const lv = clamp(Math.floor(level), 0, 3);
+  switch (reformKey) {
+    case 'voting_franchise':
+      return [
+        'Estates only — most pops have no ballot',
+        'Landed: aristocrats/capitalists/officers vote heavily',
+        'Wealth: middle strata gain ballots; laborers weak',
+        'Universal: full franchise weight for all pop types',
+      ][lv] ?? null;
+    case 'press_rights':
+      return 'Lowers politicalSuppression (with franchise); no consciousness diffusion yet';
+    case 'upper_house_composition':
+      return [
+        'Election retain 72%; slow drift; appointed authoritarian bias',
+        'Election retain 62%; mild drift',
+        'Election retain 55%; balanced drift',
+        'Election retain 38%; fast ideology tracking',
+      ][lv] ?? null;
+    case 'school_system':
+      return `Literacy gain ≈ ${(0.0005 + lv * 0.0012).toFixed(4)}/mo × (1−literacy)`;
+    case 'healthcare':
+      return lv === 0 ? 'No healthcare growth bonus' : `Pop growth bonus +${(0.00012 * lv).toFixed(5)}/mo`;
+    case 'pension_system': {
+      const relief = [0, 0.018, 0.035, 0.055][lv] ?? 0;
+      return relief <= 0 ? 'No worker militancy relief' : `−${relief.toFixed(3)} mil/mo farmer/laborer/craftsman`;
+    }
+    case 'labor_safety': {
+      const relief = [0, 0.012, 0.028, 0.045][lv] ?? 0;
+      return relief <= 0 ? 'No workplace militancy relief' : `−${relief.toFixed(3)} mil/mo laborer/craftsman`;
+    }
+    case 'conscription_level':
+      return [
+        '0.8 regiments/1k soldiers · 2% mobilizable',
+        '1.1 regiments/1k · 5% mobilizable',
+        '1.55 regiments/1k · 10% mobilizable',
+        '2.0 regiments/1k · 18% mobilizable',
+      ][lv] ?? null;
+    case 'army_professionalism':
+      return [
+        'Org ×0.84 · Morale ×0.90',
+        'Org ×1.00 · Morale ×1.00',
+        'Org ×1.15 · Morale ×1.12',
+        'Org ×1.30 · Morale ×1.25',
+      ][lv] ?? null;
+    case 'economic_policy':
+    case 'trade_policy':
+      return 'Demand/party position only (no market hook yet)';
+    default:
+      return null;
+  }
 }

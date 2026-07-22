@@ -4,7 +4,7 @@ import { TraceTooltip } from '../components/TraceTooltip';
 
 /**
  * 0.8.0 — The Cultures ledger: national makeup, acceptance, culture policy and
- * national movements. Rendered alongside the Population census (PanelHost).
+ * national movements.
  */
 
 const POLICIES: { id: CulturePolicy; label: string; blurb: string }[] = [
@@ -15,6 +15,11 @@ const POLICIES: { id: CulturePolicy; label: string; blurb: string }[] = [
 
 function pct(value: number): string {
   return `${(Math.max(0, Math.min(1, value)) * 100).toFixed(1)}%`;
+}
+
+function signed(value: number): string {
+  const fixed = value.toFixed(2);
+  return value > 0 ? `+${fixed}` : fixed;
 }
 
 export function CulturePanel() {
@@ -33,6 +38,10 @@ export function CulturePanel() {
   const policy = snapshot.playerCulturePolicy ?? 'assimilationist';
   const cultures = snapshot.playerCultures;
   const movements = snapshot.playerMovements ?? [];
+  const player = snapshot.nations.find((nation) => nation.id === snapshot.playerNation);
+  const prestige = player?.prestige ?? 0;
+  const policyCost = snapshot.playerCulturePolicyCost ?? 4;
+  const policyCooldown = snapshot.playerCulturePolicyCooldownDays ?? 0;
 
   return (
     <section className="panel-card atlas-panel">
@@ -43,18 +52,37 @@ export function CulturePanel() {
       </p>
 
       <h3 className="atlas-heading panel-small-heading">Cultural Policy</h3>
+      <p className="panel-subtle">
+        Flip cost {policyCost} prestige
+        {policyCooldown > 0
+          ? ` · cooldown ${Math.ceil(policyCooldown / 365)}y remaining`
+          : ' · ready'}
+        {' · '}
+        Prestige {prestige.toFixed(1)}
+      </p>
       <div className="culture-policy-row">
-        {POLICIES.map((entry) => (
-          <button
-            key={entry.id}
-            type="button"
-            className={`culture-policy-btn${policy === entry.id ? ' culture-policy-btn--active' : ''}`}
-            title={entry.blurb}
-            onClick={() => sendCommand({ t: 'setCulturePolicy', policy: entry.id })}
-          >
-            {entry.label}
-          </button>
-        ))}
+        {POLICIES.map((entry) => {
+          const active = policy === entry.id;
+          const blocked = !active && (policyCooldown > 0 || prestige < policyCost);
+          return (
+            <button
+              key={entry.id}
+              type="button"
+              className={`culture-policy-btn${active ? ' culture-policy-btn--active' : ''}`}
+              title={
+                active
+                  ? entry.blurb
+                  : blocked
+                    ? `${entry.blurb} (unavailable: ${policyCooldown > 0 ? 'cooldown' : 'prestige'})`
+                    : `${entry.blurb} (−${policyCost} prestige)`
+              }
+              disabled={blocked}
+              onClick={() => sendCommand({ t: 'setCulturePolicy', policy: entry.id })}
+            >
+              {entry.label}
+            </button>
+          );
+        })}
       </div>
       <p className="panel-subtle">{POLICIES.find((entry) => entry.id === policy)?.blurb}</p>
 
@@ -63,40 +91,49 @@ export function CulturePanel() {
         <p className="panel-subtle status-positive">No separatist movement is organising.</p>
       ) : (
         <ul className="panel-list culture-movement-list">
-          {movements.map((movement) => (
-            <li key={movement.id}>
-              <div>
-                <strong>{movement.cultureName} movement</strong>
-                <span className={movement.boiling ? 'unrest' : undefined}>
-                  {movement.boiling ? 'On the brink of rebellion' : 'Organising'}
-                </span>
-              </div>
-              <div className="culture-radical-bar" title={`Radicalism ${movement.radicalism.toFixed(0)} / 100`}>
-                <div
-                  className={`culture-radical-fill${movement.boiling ? ' culture-radical-fill--hot' : ''}`}
-                  style={{ width: `${Math.max(2, Math.min(100, movement.radicalism))}%` }}
-                />
-              </div>
-              <div>
-                <span>
-                  Radicalism{' '}
-                  <TraceTooltip
-                    value={movement.radicalism.toFixed(0)}
-                    trace={[
-                      { label: 'Radicalism (0-100)', value: movement.radicalism },
-                      { label: 'Avg militancy', value: movement.militancy },
-                      { label: 'Avg consciousness', value: movement.consciousness },
-                      { label: 'Adherents', value: movement.adherents },
-                    ]}
+          {movements.map((movement) => {
+            const gateLabel = movement.boiling
+              ? 'On the brink of rebellion'
+              : movement.gateBlocked === 'radicalism'
+                ? `Needs radicalism ≥ 85 (at ${movement.radicalism.toFixed(0)})`
+                : movement.gateBlocked === 'militancy'
+                  ? `Needs militancy ≥ 4.2 (at ${movement.militancy.toFixed(2)})`
+                  : 'Organising';
+            return (
+              <li key={movement.id}>
+                <div>
+                  <strong>{movement.cultureName} movement</strong>
+                  <span className={movement.boiling ? 'unrest' : undefined}>{gateLabel}</span>
+                </div>
+                <div className="culture-radical-bar" title={`Radicalism ${movement.radicalism.toFixed(0)} / 100`}>
+                  <div
+                    className={`culture-radical-fill${movement.boiling ? ' culture-radical-fill--hot' : ''}`}
+                    style={{ width: `${Math.max(2, Math.min(100, movement.radicalism))}%` }}
                   />
-                </span>
-                <span>{movement.adherents.toLocaleString(undefined, { maximumFractionDigits: 0 })} adherents</span>
-                <span>
-                  Heartland: {movement.heartlandNames.length > 0 ? movement.heartlandNames.join(', ') : 'dispersed'}
-                </span>
-              </div>
-            </li>
-          ))}
+                </div>
+                <div>
+                  <span>
+                    Radicalism{' '}
+                    <TraceTooltip
+                      value={`${movement.radicalism.toFixed(0)} (${signed(movement.radicalDelta.total)}/mo)`}
+                      trace={[
+                        { label: 'Base', value: movement.radicalDelta.base },
+                        { label: 'Consciousness term', value: movement.radicalDelta.consciousness },
+                        { label: 'Militancy term', value: movement.radicalDelta.militancy },
+                        { label: 'Needs relief', value: movement.radicalDelta.needs },
+                        { label: 'Policy term', value: movement.radicalDelta.policy },
+                        { label: 'Total Δ/mo', value: movement.radicalDelta.total },
+                      ]}
+                    />
+                  </span>
+                  <span>{movement.adherents.toLocaleString(undefined, { maximumFractionDigits: 0 })} adherents</span>
+                  <span>
+                    Heartland: {movement.heartlandNames.length > 0 ? movement.heartlandNames.join(', ') : 'dispersed'}
+                  </span>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
 
@@ -127,8 +164,12 @@ export function CulturePanel() {
                     value={`${entry.assimilatedLastMonth.toLocaleString(undefined, { maximumFractionDigits: 0 })}/mo`}
                     trace={[
                       { label: 'Assimilated last month', value: entry.assimilatedLastMonth },
-                      { label: 'Community size', value: entry.size },
-                      { label: 'Share of nation', value: entry.share },
+                      { label: 'Surround^1.5', value: entry.assimilationFactors?.surround ?? 0 },
+                      { label: 'Literacy factor', value: entry.assimilationFactors?.literacy ?? 0 },
+                      { label: 'Policy factor', value: entry.assimilationFactors?.policy ?? 0 },
+                      { label: 'Religion factor', value: entry.assimilationFactors?.religion ?? 0 },
+                      { label: 'Movement resistance', value: entry.assimilationFactors?.resistance ?? 0 },
+                      { label: 'Rate', value: entry.assimilationFactors?.rate ?? 0 },
                     ]}
                   />
                 </span>
@@ -142,16 +183,24 @@ export function CulturePanel() {
                   >
                     Revoke acceptance
                   </button>
-                ) : entry.canAccept ? (
+                ) : (
                   <button
                     type="button"
                     className="culture-accept-btn"
-                    title="Grant full acceptance: calms this people and admits them to the army, at a cost of prestige."
+                    disabled={!entry.canAccept}
+                    title={
+                      entry.canAccept
+                        ? `Grant acceptance: −${entry.acceptCost} prestige (→ ${entry.prestigeAfterAccept.toFixed(1)}); `
+                          + `mil −1.5; radical −40; unlocks ~${entry.manpowerPreview.toLocaleString(undefined, { maximumFractionDigits: 0 })} recruitable pops.`
+                        : entry.acceptBlockedReason || 'Cannot grant acceptance.'
+                    }
                     onClick={() => sendCommand({ t: 'setCultureAccepted', culture: entry.culture, accepted: true })}
                   >
-                    Grant acceptance
+                    {entry.canAccept
+                      ? `Grant (−${entry.acceptCost} prest · +${entry.manpowerPreview.toLocaleString(undefined, { maximumFractionDigits: 0 })} pool)`
+                      : 'Grant acceptance'}
                   </button>
-                ) : null
+                )
               ) : null}
             </div>
           </li>

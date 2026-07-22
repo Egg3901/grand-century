@@ -12,6 +12,7 @@ import {
   reformDemandForPop,
   updateMilitaryDerivedForNation,
   updateNationalLiteracyAndConsciousness,
+  upperHouseCompositionWeights,
 } from '../politics';
 
 const EPOCH_YEAR = 1820;
@@ -139,20 +140,34 @@ function pickElectionParty(
   const totalVotes = Array.from(voteTotals.values()).reduce((sum, value) => sum + value, 0);
   const winnerVotes = voteTotals.get(winner) ?? 0;
   const winnerShare = totalVotes > 0 ? winnerVotes / totalVotes : 0;
+  const ideologyTotal = Object.values(ideologyVotes).reduce((sum, value) => sum + value, 0);
   nation.rulingParty = winner;
   nation.lastElectionYear = currentYear(world.day);
   nation.nextElectionYear = nation.lastElectionYear + Math.max(3, nation.electionIntervalYears);
   nation.electionLastResult = `${partyByKey(nation, winner)?.name ?? winner} won ${(winnerShare * 100).toFixed(1)}%`;
-
-  const ideologyTotal = Object.values(ideologyVotes).reduce((sum, value) => sum + value, 0);
+  nation.electionWinnerShare = winnerShare;
   if (ideologyTotal > 0) {
+    nation.electionIdeologyShares = {
+      reactionary: ideologyVotes.reactionary / ideologyTotal,
+      conservative: ideologyVotes.conservative / ideologyTotal,
+      liberal: ideologyVotes.liberal / ideologyTotal,
+      socialist: ideologyVotes.socialist / ideologyTotal,
+      communist: ideologyVotes.communist / ideologyTotal,
+      fascist: ideologyVotes.fascist / ideologyTotal,
+    };
+    const uh = upperHouseCompositionWeights(nation.reforms.upper_house_composition ?? 0);
+    const retain = uh.electionRetain;
+    const vote = uh.electionVote;
+    // Extreme ideologies stay stickier under appointed chambers.
+    const extremeRetain = Math.min(0.85, retain + 0.1);
+    const extremeVote = 1 - extremeRetain;
     nation.upperHouse = normalizeUpperHouse({
-      reactionary: nation.upperHouse.reactionary * 0.55 + (ideologyVotes.reactionary / ideologyTotal) * 0.45,
-      conservative: nation.upperHouse.conservative * 0.55 + (ideologyVotes.conservative / ideologyTotal) * 0.45,
-      liberal: nation.upperHouse.liberal * 0.55 + (ideologyVotes.liberal / ideologyTotal) * 0.45,
-      socialist: nation.upperHouse.socialist * 0.55 + (ideologyVotes.socialist / ideologyTotal) * 0.45,
-      communist: nation.upperHouse.communist * 0.65 + (ideologyVotes.communist / ideologyTotal) * 0.35,
-      fascist: nation.upperHouse.fascist * 0.65 + (ideologyVotes.fascist / ideologyTotal) * 0.35,
+      reactionary: nation.upperHouse.reactionary * retain + (ideologyVotes.reactionary / ideologyTotal) * vote,
+      conservative: nation.upperHouse.conservative * retain + (ideologyVotes.conservative / ideologyTotal) * vote,
+      liberal: nation.upperHouse.liberal * retain + (ideologyVotes.liberal / ideologyTotal) * vote,
+      socialist: nation.upperHouse.socialist * retain + (ideologyVotes.socialist / ideologyTotal) * vote,
+      communist: nation.upperHouse.communist * extremeRetain + (ideologyVotes.communist / ideologyTotal) * extremeVote,
+      fascist: nation.upperHouse.fascist * extremeRetain + (ideologyVotes.fascist / ideologyTotal) * extremeVote,
     });
   }
 }
@@ -180,8 +195,10 @@ function driftUpperHouse(world: World, nationId: number): void {
     }
   }
   if (total <= 0) return;
-  const drift = isElectiveGovernment(nation.government) ? 0.22 : 0.09;
-  const authoritarianBonus = isElectiveGovernment(nation.government) ? 0 : 0.05;
+  const uh = upperHouseCompositionWeights(nation.reforms.upper_house_composition ?? 0);
+  const drift = isElectiveGovernment(nation.government) ? uh.driftElective : uh.driftAuthoritarian;
+  // Non-elective governments keep the floor bias; appointed chambers add more.
+  const authoritarianBonus = (isElectiveGovernment(nation.government) ? 0 : 0.05) + uh.authoritarianBias;
   nation.upperHouse = normalizeUpperHouse({
     reactionary: nation.upperHouse.reactionary * (1 - drift) + (weighted.reactionary / total + authoritarianBonus) * drift,
     conservative: nation.upperHouse.conservative * (1 - drift) + (weighted.conservative / total + authoritarianBonus * 0.8) * drift,
@@ -203,6 +220,11 @@ function applySuppressionEffects(
   const nation = world.nations[nationId];
   if (!nation || nationPops.length === 0) return;
   const suppression = politicalSuppression(nation, data);
+  const pensionLevel = clamp(Math.floor(nation.reforms.pension_system ?? 0), 0, 3);
+  const laborLevel = clamp(Math.floor(nation.reforms.labor_safety ?? 0), 0, 3);
+  // BALANCE: social reforms now relieve worker militancy (were prestige sinks).
+  const pensionRelief = [0, 0.018, 0.035, 0.055][pensionLevel] ?? 0;
+  const laborRelief = [0, 0.012, 0.028, 0.045][laborLevel] ?? 0;
 
   for (const pop of nationPops) {
     if (pop.size <= 0) continue;
@@ -219,7 +241,17 @@ function applySuppressionEffects(
           : BALANCE.population.deniedReformBasePressure + blockedSupport * BALANCE.population.deniedReformSupportPressure;
       }
     }
-    pop.militancy = clamp(pop.militancy + suppression * BALANCE.population.suppressionMilitancyImpact + deniedPressure, 0, 10);
+    let socialRelief = 0;
+    if (pop.type === 'farmer' || pop.type === 'laborer' || pop.type === 'craftsman') {
+      socialRelief = pensionRelief;
+      if (pop.type === 'laborer' || pop.type === 'craftsman') socialRelief += laborRelief;
+      else socialRelief += laborRelief * 0.35; // farmers get a thin labor-code spillover
+    }
+    pop.militancy = clamp(
+      pop.militancy + suppression * BALANCE.population.suppressionMilitancyImpact + deniedPressure - socialRelief,
+      0,
+      10,
+    );
     pop.consciousness = clamp(pop.consciousness + suppression * 0.03 + blockedSupport * 0.08, 0, 10);
   }
 }
