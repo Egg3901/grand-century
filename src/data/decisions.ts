@@ -161,4 +161,75 @@ export const DECISION_DEFS: DecisionDef[] = [
     ],
     cooldownMonths: 120,
   },
+
+  // ---- 1.0-U2: the Risorgimento (Piedmont arc) ------------------------------
+  {
+    id: 'il_risorgimento',
+    title: 'Champion the Risorgimento',
+    description: 'Turin declares itself the sword of Italian unity. Pamphlets, salons, and very pointed operas follow.',
+    prerequisites: [
+      { t: 'tagIn', tags: ['SAR'] },
+      { t: 'yearAtLeast', value: 1840 },
+      { t: 'isGreatPower' },
+    ],
+    cost: { treasury: 200 },
+    effects: [
+      { t: 'prestige', amount: 10 },
+      { t: 'consciousness', amount: 0.5 },
+      { t: 'opinionWithTags', tags: ['TSC', 'PAP', 'MOD', 'PAR', 'TUS'], amount: 40 },
+      { t: 'opinionWithTags', tags: ['AUS'], amount: -35 },
+    ],
+    once: true,
+  },
+  {
+    id: 'french_entente',
+    title: 'Court the French Entente',
+    description: 'Plombières in spirit: Paris fears Vienna more than Turin. Buy her friendship — Lombardy will cost blood either way.',
+    prerequisites: [
+      { t: 'tagIn', tags: ['SAR'] },
+      { t: 'decisionTaken', id: 'il_risorgimento' },
+    ],
+    cost: { treasury: 300, prestige: 5 },
+    effects: [
+      { t: 'opinionWithTags', tags: ['FRA'], amount: 70 },
+      { t: 'grantCasusBelli', targetTag: 'AUS', goal: 'humiliate', monthsValid: 48 },
+      { t: 'infamy', amount: 1.5 },
+    ],
+    once: true,
+  },
+  {
+    id: 'expedition_of_the_thousand',
+    title: 'Sail the Expedition of the Thousand',
+    description: 'A thousand red shirts for Sicily. Officially, Turin knows nothing about it.',
+    prerequisites: [
+      { t: 'tagIn', tags: ['SAR'] },
+      { t: 'decisionTaken', id: 'il_risorgimento' },
+      { t: 'formableCoreShareAtLeast', key: 'ITALY', share: 0.28 },
+    ],
+    cost: { prestige: 5 },
+    effects: [
+      { t: 'grantCasusBelli', targetTag: 'TSC', goal: 'add_to_sphere', monthsValid: 36 },
+      { t: 'grantCasusBelli', targetTag: 'TSC', goal: 'humiliate', monthsValid: 36 },
+      { t: 'prestige', amount: 8 },
+      { t: 'infamy', amount: 1 },
+    ],
+    once: true,
+  },
+  {
+    id: 'rome_question',
+    title: 'Pose the Roman Question',
+    description: 'Italy without Rome is a body without a head — but France garrisons the Holy City, and Paris will not smile on this.',
+    prerequisites: [
+      { t: 'tagIn', tags: ['SAR', 'ITA'] },
+      { t: 'decisionTaken', id: 'expedition_of_the_thousand' },
+      { t: 'formableCoreShareAtLeast', key: 'ITALY', share: 0.5 },
+    ],
+    cost: { prestige: 10 },
+    effects: [
+      { t: 'grantCasusBelli', targetTag: 'PAP', goal: 'add_to_sphere', monthsValid: 36 },
+      { t: 'opinionWithTags', tags: ['FRA'], amount: -45 },
+      { t: 'infamy', amount: 2 },
+    ],
+    once: true,
+  },
 ];

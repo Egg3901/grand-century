@@ -2,6 +2,56 @@
 
 All notable changes to Grand Century are documented here.
 
+## [1.0.0] — 2026-07-22
+
+The Unification Arc. A campaign now has a beginning, a story, and an end.
+
+### The arcs
+- **Prussia** — Found the Zollverein, raise the German Question, force the
+  Brothers' War (free CBs vs Austria). North German Confederation as the
+  historical stepping stone; Germany from 1848 (the era gate shows in the
+  Formables panel). GERMANY cores healed to the actual German Confederation.
+- **Piedmont** — Champion the Risorgimento, court the French entente,
+  sail the Expedition of the Thousand, pose the Roman Question (France
+  will not smile on it). ITALY cores now include Austrian Lombardy-Venetia:
+  fight Vienna for it, or unite every last minor.
+- **AI nations play the arcs too** — the AI now takes national decisions
+  (conservatively, deterministically); AI Austria competes for
+  grossdeutsch; balance-of-power pressure makes the great powers watch any
+  near-unifier.
+
+### The visible economy (E1)
+- Build buttons carry production chains and LIVE per-unit margins at
+  market prices, sorted most-profitable-first. 11 civilian industries
+  from 1820 (pre-industrial crafts un-gated).
+
+### War readability (U4)
+- Battle reports name the WHY (dice, organization, leadership,
+  technology, terrain, fortress) from the player's perspective.
+- Nation flag chips on every army and fleet counter.
+- War alerts and the war list name belligerents, not ids.
+
+### The finish line (U5)
+- A yearly campaign chronicle; at 1920 (or on elimination) it becomes a
+  recap of atlas plates — territory, population, prestige curves, wars
+  fought, best rank — with "keep playing" always available.
+
+### Pacing (U3)
+- Century-probe harness (`npm run probe:pacing`) encoding the pacing
+  contract: no dead decades, anchored prices, era-gated unifications.
+- Great-power score rebalanced (diminishing industrial returns): the GP
+  table moved twice in 80 years before; rank churn is back.
+- Prussia healed: real 1820 population weight and coal (Silesia, the
+  Ruhr) instead of a uniform-weight timber lot.
+
+### Also
+- Living title screen: the camera drifts across the world behind the
+  title card. Era-appropriate nation flags everywhere (U0). Tap a
+  country name to open its diplomacy view. Mobile panel scrolling fixed
+  (iOS dvh); tutorial coach never blocks the nav.
+
+[1.0.0]: https://github.com/Egg3901/grand-century/releases/tag/v1.0.0
+
 ## [0.9.0] — 2026-07-21
 
 The visual overhaul: the game now looks like the atlas it always wanted to be.

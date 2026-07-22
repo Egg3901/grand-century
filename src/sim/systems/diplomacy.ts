@@ -253,7 +253,11 @@ function computePowerScores(world: World): PowerScoreEntry[] {
       industry: Number(industry[nation.id].toFixed(2)),
       military: Number(military[nation.id].toFixed(2)),
       prestige: Number(nation.prestige.toFixed(2)),
-      score: Number((industry[nation.id] + military[nation.id] + nation.prestige).toFixed(2)),
+      // U3: sqrt on industry — raw factory totals grew unboundedly and
+      // drowned military (100:1) and prestige, freezing the GP table for
+      // eighty straight years in century probes. Diminishing industrial
+      // returns let armament and prestige actually move rankings.
+      score: Number((Math.sqrt(Math.max(0, industry[nation.id])) * 9 + military[nation.id] * 2.5 + nation.prestige).toFixed(2)),
     }))
     .sort((a, b) => (b.score - a.score) || (a.nation - b.nation));
 }

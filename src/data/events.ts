@@ -998,4 +998,33 @@ export const EVENT_DEFS: EventDef[] = [
       },
     ],
   },
+
+  // ---- 1.0-U2: Risorgimento flavor ------------------------------------------
+  {
+    id: 'viva_verdi',
+    title: 'Viva V.E.R.D.I.',
+    description: 'The opera crowds chant the composer\'s name — and everyone understands the acrostic: Vittorio Emanuele Re D\'Italia.',
+    trigger: { tags: ['SAR', 'ITA'], decisionTaken: 'il_risorgimento' },
+    mtthMonths: 40,
+    once: true,
+    choices: [
+      {
+        id: 'embrace',
+        label: 'Let them sing',
+        effects: [
+          { t: 'consciousness', amount: 0.5 },
+          { t: 'prestige', amount: 5 },
+        ],
+        aiWeight: 2,
+      },
+      {
+        id: 'hush',
+        label: 'Quiet the theatres',
+        effects: [
+          { t: 'militancy', amount: -0.2 },
+          { t: 'prestige', amount: -2 },
+        ],
+      },
+    ],
+  },
 ];

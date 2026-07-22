@@ -77,7 +77,46 @@ export function advanceDay(world: World, data: GameData): void {
     runAiMonthly(world, data, rng);
   }
 
+  // --- yearly (U5): one chronicle line per elapsed year --------------------
+  if (world.day % 365 === 0) recordChronicle(world);
+
   world.rngState = rng.state;
+}
+
+/** U5: append this year's line of the player's story. Cheap — runs yearly. */
+function recordChronicle(world: World): void {
+  const nation = world.nations[world.playerNation];
+  if (!nation) return;
+  world.chronicle = world.chronicle ?? [];
+  world.chronicleWarIds = world.chronicleWarIds ?? [];
+  const knownWars = new Set(world.chronicleWarIds);
+  for (const war of world.wars) {
+    if ((war.attackers.includes(world.playerNation) || war.defenders.includes(world.playerNation)) && !knownWars.has(war.id)) {
+      world.chronicleWarIds.push(war.id);
+      knownWars.add(war.id);
+    }
+  }
+  let provinces = 0;
+  let population = 0;
+  for (const province of world.provinces) {
+    if (province.owner !== world.playerNation) continue;
+    provinces += 1;
+    for (const popId of province.popIds) population += world.pops[popId]?.size ?? 0;
+  }
+  world.chronicle.push({
+    year: 1820 + Math.floor(world.day / 365),
+    tag: nation.tag,
+    name: nation.name,
+    provinces,
+    population,
+    treasury: Math.round(nation.treasury),
+    prestige: Math.round(nation.prestige),
+    gpRank: nation.gpRank,
+    techs: nation.techs.length,
+    warsActive: world.wars.filter((war) => war.attackers.includes(world.playerNation) || war.defenders.includes(world.playerNation)).length,
+    infamy: Number(nation.infamy.toFixed(1)),
+  });
+  if (world.chronicle.length > 120) world.chronicle.splice(0, world.chronicle.length - 120);
 }
 
 export function snapshot(world: World, data: GameData): WorldSnapshot {

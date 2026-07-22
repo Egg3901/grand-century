@@ -738,7 +738,33 @@ export function runEventsMonthly(world: World, data: GameData, rng: Rng): void {
     const nation = world.nations[nationId];
     if (!nation) continue;
     tryFireForNation(world, data, nation, rng);
+    if (!nation.isPlayer) maybeTakeAiDecision(world, data, nation, rng);
   }
+}
+
+/**
+ * U3 pacing: AI nations use the decisions system too — before this, all 47
+ * AI nations ignored it entirely (no industrialization pushes, no amnesties,
+ * and AI Prussia could never walk the unification arc). Conservative policy:
+ * a monthly chance, one decision at a time, never below the AI's factory
+ * treasury reserve, and deterministic through the world rng.
+ */
+const AI_DECISION_CHANCE = 0.22;
+const AI_TREASURY_FLOOR = 900;
+
+function maybeTakeAiDecision(world: World, data: GameData, nation: Nation, rng: Rng): void {
+  if (rng.next() > AI_DECISION_CHANCE) return;
+  if (!nation.isCivilized) return;
+  const available = DECISION_DEFS.filter((decision) => {
+    const status = evaluateDecision(world, data, nation.id, decision);
+    if (!status.available) return false;
+    const cost = decision.cost.treasury ?? 0;
+    if (cost > 0 && (nation.treasury - cost < AI_TREASURY_FLOOR || cost > nation.treasury * 0.25)) return false;
+    return true;
+  });
+  if (available.length === 0) return;
+  const pick = available[Math.floor(rng.next() * available.length) % available.length];
+  takeDecision(world, data, nation.id, pick.id);
 }
 
 export function resolvePendingEvent(

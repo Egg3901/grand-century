@@ -1,7 +1,7 @@
 {
   "name": "grand-century",
   "private": true,
-  "version": "0.9.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,7 +14,8 @@
     "test:e2e": "playwright test",
     "lint": "oxlint",
     "preview": "vite preview",
-    "server": "tsx server/index.ts"
+    "server": "tsx server/index.ts",
+    "probe:pacing": "PACING=1 vitest run tests/pacing.century.test.ts"
   },
   "dependencies": {
     "fflate": "^0.8.3",

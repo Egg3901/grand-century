@@ -13,6 +13,7 @@ import { EventPopup } from './ui/EventPopup';
 import { MapLegend } from './ui/MapLegend';
 import { AudioManager } from './ui/AudioManager';
 import { TutorialCoach } from './ui/TutorialCoach';
+import { CampaignRecap } from './ui/CampaignRecap';
 import { parseLobbyHash } from './net/mpJoin';
 import { useStore } from './store';
 
@@ -44,6 +45,7 @@ function App() {
         <EventPopup />
         <PanelHost />
         <TutorialCoach />
+        <CampaignRecap />
       </div>
       {!snapshot || !data ? (
         <div className="loading-veil">

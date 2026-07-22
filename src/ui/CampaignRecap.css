@@ -1,0 +1,110 @@
+/* U5 — end-of-campaign recap plates */
+.recap-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(ellipse at 50% 32%, rgba(22, 14, 9, 0.35), rgba(22, 14, 9, 0.78) 80%);
+}
+
+.recap-card {
+  width: min(38rem, calc(100vw - 1.5rem));
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  padding: 1.4rem 1.6rem 1.2rem;
+  border-radius: var(--gc-radius-lg);
+  text-align: center;
+}
+
+.recap-kicker {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gc-ink-faint);
+}
+
+.recap-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 0.35rem 0 0;
+}
+
+.recap-title-row h1 {
+  margin: 0;
+  font-family: var(--gc-font-display);
+  font-size: 1.9rem;
+}
+
+.recap-subtitle {
+  margin: 0.3rem 0 0.9rem;
+  color: var(--gc-ink-faint);
+}
+
+.recap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+
+.recap-stat {
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius);
+  padding: 0.55rem 0.4rem;
+  display: grid;
+  gap: 0.1rem;
+}
+
+.recap-stat b {
+  font-family: var(--gc-font-display);
+  font-size: 1.35rem;
+}
+
+.recap-stat span {
+  font-size: 0.74rem;
+  color: var(--gc-ink-faint);
+}
+
+.recap-charts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1.1rem;
+}
+
+.recap-charts figure {
+  margin: 0;
+}
+
+.recap-charts svg {
+  width: 100%;
+  height: 44px;
+}
+
+.recap-charts path {
+  fill: none;
+  stroke: var(--gc-accent, #8a5f46);
+  stroke-width: 1.8;
+}
+
+.recap-charts figcaption {
+  font-size: 0.72rem;
+  color: var(--gc-ink-faint);
+  margin-top: 0.15rem;
+}
+
+.recap-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+@media (max-width: 768px) {
+  .recap-grid, .recap-charts { grid-template-columns: repeat(2, 1fr); }
+  .recap-card { padding: 1rem; }
+}

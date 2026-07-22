@@ -274,6 +274,12 @@ for (const formable of FORMABLES) {
   // No 1821 Germany: unification waits for the Springtime of Nations. The
   // gate shows in the Formables panel as an explicit era requirement.
   if (formable.key === 'GERMANY' || formable.key === 'ITALY') formable.yearAtLeast = 1848;
+  if (formable.key === 'ITALY' && !formable.coreStateIds.includes(274)) {
+    // U2: the Risorgimento runs through Austrian Lombardy-Venetia. 6 of 7
+    // cores — take Lombardy from Vienna, or unite every last minor.
+    formable.coreStateIds.push(274);
+    formable.coreStateIds.sort((a, b) => a - b);
+  }
   if (formable.key !== 'GERMANY') continue;
   formable.coreStateIds = GERMAN_CONFEDERATION_STATES.slice();
   if (!formable.candidateTags.includes('NGF')) formable.candidateTags.push('NGF');

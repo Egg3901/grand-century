@@ -401,6 +401,21 @@ export interface RGO {
   employed: number;
 }
 
+/** 1.0-U5: one yearly line of the player's campaign, recorded by the sim. */
+export interface ChronicleEntry {
+  year: number;
+  tag: string;
+  name: string;
+  provinces: number;
+  population: number;
+  treasury: number;
+  prestige: number;
+  gpRank: number;
+  techs: number;
+  warsActive: number;
+  infamy: number;
+}
+
 /** 1.0-U4: battle outcome record with the WHY — factor edges attacker-minus-defender. */
 export interface BattleReport {
   day: GameDay;
@@ -888,6 +903,10 @@ export interface World {
   decisionLastTaken: Record<string, GameDay>;
   /** 1.0-U4: rolling battle log (capped); source for player battle alerts. */
   recentBattles?: BattleReport[];
+  /** 1.0-U5: yearly campaign chronicle for the player nation. */
+  chronicle?: ChronicleEntry[];
+  /** 1.0-U5: distinct wars the player has fought (ids, cumulative). */
+  chronicleWarIds?: number[];
   nextEventInstanceId: number;
 
   nextArmyId: ArmyId;
@@ -1079,6 +1098,10 @@ export interface WorldSnapshot {
   pendingPlayerEvents?: PendingEvent[];
   /** 1.0-U4: battles involving the player, newest last (for alerts). */
   recentBattles?: BattleReport[];
+  /** 1.0-U5: campaign chronicle + end state for the recap screen. */
+  chronicle?: ChronicleEntry[];
+  chronicleWarsFought?: number;
+  campaignOver?: 'century' | 'eliminated' | null;
   /** Player-initiated decisions with prereq gating. */
   playerDecisions?: DecisionStatus[];
   /** 0.6.0 research: technology tree + invention state for the player nation. */

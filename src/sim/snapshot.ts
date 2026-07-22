@@ -276,6 +276,13 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerStates,
     playerCoreStateIds,
     playerFormables,
+    chronicle: world.chronicle ?? [],
+    chronicleWarsFought: (world.chronicleWarIds ?? []).length,
+    campaignOver: (() => {
+      if (world.day >= 100 * 365) return 'century' as const;
+      const alive = world.provinces.some((province) => province.owner === world.playerNation);
+      return alive ? null : ('eliminated' as const);
+    })(),
     recentBattles: (world.recentBattles ?? [])
       .filter((battle) => battle.attackerNation === world.playerNation || battle.defenderNation === world.playerNation)
       .slice(-8),
