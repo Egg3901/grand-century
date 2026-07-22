@@ -310,6 +310,46 @@ function nationSoldierDemand(world: World): Map<number, number> {
   return result;
 }
 
+/** Elite/order-preserving classes resist ideological drift almost entirely —
+ * matches their existing treatment elsewhere (rich tax bracket, high political
+ * weight, franchise access at low suffrage levels). */
+function isIdeologyResistantClass(popType: PopType): boolean {
+  return popType === 'aristocrat' || popType === 'officer' || popType === 'clergy';
+}
+
+/**
+ * Pop ideology (pop.ideology, an index 0-3 into reactionary/conservative/
+ * liberal/socialist) was assigned once at bootstrap by pure RNG and never
+ * touched again — a century of rising consciousness, militancy, and hardship
+ * had zero effect on the electorate, so elections/upper-house composition
+ * converged on a frozen random-at-seed lottery instead of reflecting decades
+ * of social change. This is a slow, probabilistic monthly step (not a hard
+ * assignment) so a single bad month can't swing a pop's politics — it takes
+ * sustained pressure over years to shift a cohort, same timescale as the
+ * existing craftsman/soldier promotion rates in this file.
+ */
+function driftPopIdeology(pop: Pop, rng: Rng): void {
+  const resistant = isIdeologyResistantClass(pop.type);
+  const radicalPressure = clamp(
+    pop.consciousness * BALANCE.population.ideologyConsciousnessWeight
+    + pop.militancy * BALANCE.population.ideologyMilitancyWeight
+    + (1 - pop.needsMet) * BALANCE.population.ideologyUnmetNeedsWeight
+    - (resistant ? BALANCE.population.ideologyEliteResistance : 0),
+    0,
+    1,
+  );
+  const radicalChance = radicalPressure * BALANCE.population.ideologyRadicalDriftScale;
+  const reactionaryChance = resistant
+    ? BALANCE.population.ideologyEliteReactionaryChance
+    : BALANCE.population.ideologyReactionaryBaselineChance;
+  const roll = rng.next();
+  if (roll < radicalChance && pop.ideology < 3) {
+    pop.ideology += 1;
+  } else if (roll > 1 - reactionaryChance && pop.ideology > 0) {
+    pop.ideology -= 1;
+  }
+}
+
 function isAcceptedCulture(world: World, pop: Pop): boolean {
   const nationId = provinceOwner(world, pop.provinceId);
   const nation = world.nations[nationId];
@@ -396,6 +436,7 @@ export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
       0,
       10,
     );
+    driftPopIdeology(pop, rng);
 
     if ((pop.type === 'farmer' || pop.type === 'laborer') && pop.size > 250) {
       const destination = bestDestination.get(nationId);

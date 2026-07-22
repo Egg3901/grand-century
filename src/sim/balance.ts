@@ -71,6 +71,20 @@ export const BALANCE = {
     deniedReformBasePressure: 0.05,
     deniedReformSupportPressure: 0.08,
     legalReformRelief: 0.01,
+    // Ideology drift (pop.ideology was frozen forever at bootstrap otherwise —
+    // elections/upper-house would converge on a random-at-seed lottery instead
+    // of reflecting a century of rising consciousness/militancy/hardship). This
+    // rolls once per pop per MONTH for up to 1200 months in a century, so even
+    // small per-month probabilities compound hard — tuned so a genuinely
+    // miserable, radicalized cohort can plausibly reach socialist within its
+    // lifetime, while a comfortable cohort stays put or slowly mellows.
+    ideologyConsciousnessWeight: 0.02,
+    ideologyMilitancyWeight: 0.015,
+    ideologyUnmetNeedsWeight: 0.08,
+    ideologyEliteResistance: 0.3,
+    ideologyRadicalDriftScale: 0.008,
+    ideologyReactionaryBaselineChance: 0.0006,
+    ideologyEliteReactionaryChance: 0.01,
   },
   rebellion: {
     worldActiveCap: 8,
