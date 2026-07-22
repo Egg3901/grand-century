@@ -979,6 +979,8 @@ export interface NationSummary {
   isBankrupt: boolean;
   constructionBlocked: boolean;
   mobilizationCapacity: number;
+  /** Standing peacetime regiment cap (from soldier pops / reforms). */
+  standingRegimentCapacity?: number;
 }
 
 export interface ProvinceSummary {

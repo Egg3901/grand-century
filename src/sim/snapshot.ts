@@ -156,6 +156,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       isBankrupt: nation.isBankrupt,
       constructionBlocked: nation.constructionBlocked,
       mobilizationCapacity: nation.mobilizationCapacity,
+      standingRegimentCapacity: nation.standingRegimentCapacity,
     };
   });
 

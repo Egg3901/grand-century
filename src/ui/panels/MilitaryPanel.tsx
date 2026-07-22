@@ -120,6 +120,9 @@ export function MilitaryPanel() {
   const selectedArmyComposition = regimentCountByType(selectedArmyStack);
   const totalFieldRegiments = derived.armies.reduce((sum, army) => sum + army.regiments.length, 0);
   const reserveCapacity = derived.playerSummary?.mobilizationCapacity ?? 0;
+  const standingCap = derived.playerSummary?.standingRegimentCapacity ?? 0;
+  const mobilizeRaise = Math.max(0, reserveCapacity - Math.max(0, totalFieldRegiments - standingCap));
+  const mobilizeCost = mobilizeRaise * 14;
   const warCombat = selectedWarObj ? (() => {
     const attackerArmies = snapshot.armies.filter((army) => selectedWarObj.attackers.includes(army.owner));
     const defenderArmies = snapshot.armies.filter((army) => selectedWarObj.defenders.includes(army.owner));
@@ -217,12 +220,16 @@ export function MilitaryPanel() {
             Recruit Composition
           </button>
           <button type="button" className="btn btn--secondary" disabled={recruitProvince < 0} onClick={() => sendCommand({ t: 'recruitArmy', province: recruitProvince })}>Quick Infantry Draft</button>
-          <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'mobilize' })}>Mobilize</button>
+          <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'mobilize' })}>
+            Mobilize{mobilizeRaise > 0 ? ` (+${mobilizeRaise} / £${mobilizeCost})` : ''}
+          </button>
           <button type="button" className="btn btn--ghost" onClick={() => sendCommand({ t: 'demobilize' })}>Demobilize</button>
         </div>
       </div>
       <p className="panel-subtle">
-        Field regiments: {totalFieldRegiments} | Reserve mobilization capacity: {reserveCapacity} | Composition rules: cavalry requires conscription I, artillery requires conscription I + professionalism I, guard requires conscription II + professionalism II.
+        Field regiments: {totalFieldRegiments} / standing cap {standingCap} | Reserve mobilization capacity: {reserveCapacity}
+        {mobilizeRaise > 0 ? ` | Mobilize would raise ~${mobilizeRaise} regiments for £${mobilizeCost}` : ' | No mobilize headroom'}
+        {' '}| Composition rules: cavalry requires conscription I, artillery requires conscription I + professionalism I, guard requires conscription II + professionalism II.
       </p>
 
       <div className="mil-grid">
