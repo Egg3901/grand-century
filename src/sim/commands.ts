@@ -11,6 +11,7 @@ import {
   hasActiveTruce,
   setRelationKindByCommand,
   spendInfluence,
+  tryAddRivalry,
 } from './systems/diplomacy';
 import {
   assignGeneralToArmy,
@@ -420,8 +421,8 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     }
     case 'addRival': {
       if (!world.nations[cmd.target] || cmd.target === world.playerNation) return;
-      setRelationKindByCommand(world, world.playerNation, cmd.target, 'rivalry');
-      log(post, 'info', `${world.nations[cmd.target].name} is now marked as a rival.`);
+      const result = tryAddRivalry(world, world.playerNation, cmd.target);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }
     case 'cancelRelation': {

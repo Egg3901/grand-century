@@ -1108,6 +1108,10 @@ export interface WorldSnapshot {
   ninthPowerScore: number;
   /** Player's current power score (GP formula). */
   playerPowerScore: number;
+  /** DP cost / concurrent cap for declaring rivalries. */
+  rivalryDpCost: number;
+  rivalryCap: number;
+  playerRivalryCount: number;
   armies: Army[];
   fleets: Fleet[];
   rebellions: Rebellion[];

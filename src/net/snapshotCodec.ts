@@ -64,6 +64,9 @@ export interface PlayerView {
   playerAlliancePreviews: AllianceAcceptancePreview[];
   coalitionAgainstPlayer: NationId[];
   playerPowerScore: number;
+  rivalryDpCost: number;
+  rivalryCap: number;
+  playerRivalryCount: number;
   playerProduction: ProductionLedgerEntry[];
   playerPopulation: PopulationLedgerEntry[];
   playerReformAgitation: { reform: string; support: number }[];
@@ -132,6 +135,9 @@ export function extractPlayerView(snap: WorldSnapshot): PlayerView {
     playerAlliancePreviews: snap.playerAlliancePreviews,
     coalitionAgainstPlayer: snap.coalitionAgainstPlayer,
     playerPowerScore: snap.playerPowerScore,
+    rivalryDpCost: snap.rivalryDpCost,
+    rivalryCap: snap.rivalryCap,
+    playerRivalryCount: snap.playerRivalryCount,
     playerProduction: snap.playerProduction,
     playerPopulation: snap.playerPopulation,
     playerReformAgitation: snap.playerReformAgitation,

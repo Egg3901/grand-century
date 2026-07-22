@@ -15,6 +15,10 @@ const TRUCE_DURATION_DAYS = 365 * 5;
 const ALLIANCE_DURATION_DAYS = 365 * 10;
 const CB_DURATION_DAYS = 365 * 2;
 const INFAMY_LIMIT = 18;
+/** Diplomatic-point cost to declare a rivalry (player command path). */
+const RIVALRY_DP_COST = 12;
+/** Max concurrent rivalries a nation may hold via addRival. */
+const RIVALRY_CAP = 4;
 
 type RelationCommandKind = 'alliance' | 'guarantee' | 'rivalry' | 'neutral';
 
@@ -598,6 +602,42 @@ export function setRelationKindByCommand(
         : opinionBetween(world, a, b);
   const expiry = kind === 'alliance' ? world.day + ALLIANCE_DURATION_DAYS : -1;
   return setRelation(world, a, b, kind, baseOpinion, expiry);
+}
+
+function countRivalries(world: World, nationId: NationId): number {
+  return world.relations.filter((relation) => (
+    relation.kind === 'rivalry' && (relation.a === nationId || relation.b === nationId)
+  )).length;
+}
+
+export function getRivalryDpCost(): number {
+  return RIVALRY_DP_COST;
+}
+
+export function getRivalryCap(): number {
+  return RIVALRY_CAP;
+}
+
+/**
+ * Player-facing rivalry with a DP cost and concurrent cap so free rivalry
+ * spam cannot manufacture Concert tension without tradeoff.
+ */
+export function tryAddRivalry(world: World, a: NationId, b: NationId): { ok: boolean; reason: string } {
+  if (!world.nations[a] || !world.nations[b] || a === b) {
+    return { ok: false, reason: 'Invalid rivalry target.' };
+  }
+  const existing = relationForNations(world, a, b);
+  if (existing?.kind === 'rivalry') return { ok: false, reason: 'Already rivals.' };
+  if (countRivalries(world, a) >= RIVALRY_CAP) {
+    return { ok: false, reason: `Rivalry cap reached (${RIVALRY_CAP}). Cancel one first.` };
+  }
+  const runtime = ensureRuntime(world);
+  if (runtime.diplomaticPoints[a] < RIVALRY_DP_COST) {
+    return { ok: false, reason: `Need ${RIVALRY_DP_COST} diplomatic points to declare a rivalry.` };
+  }
+  runtime.diplomaticPoints[a] -= RIVALRY_DP_COST;
+  setRelationKindByCommand(world, a, b, 'rivalry');
+  return { ok: true, reason: `${world.nations[b].name} is now marked as a rival (−${RIVALRY_DP_COST} DP).` };
 }
 
 export function evaluateAllianceAcceptance(world: World, proposer: NationId, target: NationId): { accepted: boolean; score: number } {

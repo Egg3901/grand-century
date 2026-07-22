@@ -14,6 +14,8 @@ import {
   getNationPowerBreakdown,
   getNinthPowerScore,
   getPendingCbsForNation,
+  getRivalryCap,
+  getRivalryDpCost,
   getWarGoalInfamyUse,
 } from './systems/diplomacy';
 import { getFormableStatusesForNation } from './formables';
@@ -315,6 +317,12 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     coalitionAgainstPlayer: getCoalitionAgainst(world, world.playerNation),
     ninthPowerScore: getNinthPowerScore(world),
     playerPowerScore: getNationPowerBreakdown(world, world.playerNation).score,
+    rivalryDpCost: getRivalryDpCost(),
+    rivalryCap: getRivalryCap(),
+    playerRivalryCount: world.relations.filter((relation) => (
+      relation.kind === 'rivalry'
+      && (relation.a === world.playerNation || relation.b === world.playerNation)
+    )).length,
     armies: world.armies.map((army) => ({ ...army, regiments: army.regiments.map((regiment) => ({ ...regiment })), leader: army.leader ? { ...army.leader } : null })),
     fleets: world.fleets.map((fleet) => ({ ...fleet, ships: fleet.ships.map((ship) => ({ ...ship })) })),
     rebellions: world.rebellions.map((rebellion) => ({

@@ -319,7 +319,19 @@ export function DiplomacyPanel() {
                       Alliance
                     </button>
                     <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'offerGuarantee', target: row.nation.id })}>Guarantee</button>
-                    <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'addRival', target: row.nation.id })}>Rival</button>
+                    <button
+                      type="button"
+                      className="btn btn--secondary"
+                      disabled={
+                        (snapshot.playerRivalryCount ?? 0) >= (snapshot.rivalryCap ?? 4)
+                        || (snapshot.playerDiplomaticPoints ?? 0) < (snapshot.rivalryDpCost ?? 12)
+                        || row.relation.kind === 'rivalry'
+                      }
+                      title={`Costs ${snapshot.rivalryDpCost ?? 12} DP · ${snapshot.playerRivalryCount ?? 0}/${snapshot.rivalryCap ?? 4} rivalries`}
+                      onClick={() => sendCommand({ t: 'addRival', target: row.nation.id })}
+                    >
+                      Rival ({snapshot.rivalryDpCost ?? 12} DP)
+                    </button>
                     <button
                       type="button"
                       className="btn btn--ghost"
