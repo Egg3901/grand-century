@@ -33,6 +33,12 @@ const MOBILIZED_UPKEEP_DAILY = 0.16;
 const COLONIAL_CLAIM_COST = 32;
 const REBELLION_PROGRESS_TO_ENFORCE = 85;
 const REBEL_SIEGE_BASE_DAILY = 0.022;
+/** White peace is free when |score| is within this band (stalemate). */
+const WHITE_PEACE_SCORE_BAND = 10;
+/** Both sides at/above this exhaustion → free white peace. */
+const WHITE_PEACE_MUTUAL_EXHAUSTION = 75;
+/** Prestige paid by the offering nation when white-peacing outside free conditions. */
+const WHITE_PEACE_PRESTIGE_FEE = 6;
 
 const REGIMENT_ROLE: Record<Army['regiments'][number]['type'], {
   offense: number;
@@ -971,8 +977,28 @@ export function offerPeaceTerms(
   const offeringDefenders = war.defenders.includes(offeringNation);
   if (!offeringAttackers && !offeringDefenders) return { ok: false, reason: 'Nation is not in this war.' };
   if (goalsToEnforce.length === 0) {
+    const mutualExhaustion = war.attackerExhaustion >= WHITE_PEACE_MUTUAL_EXHAUSTION
+      && war.defenderExhaustion >= WHITE_PEACE_MUTUAL_EXHAUSTION;
+    const scoreBand = Math.abs(war.score) <= WHITE_PEACE_SCORE_BAND;
+    if (mutualExhaustion || scoreBand) {
+      endWar(world, warId);
+      return {
+        ok: true,
+        reason: mutualExhaustion
+          ? 'White peace signed (mutual exhaustion).'
+          : 'White peace signed (warscore stalemate).',
+      };
+    }
+    // Escape hatch closed: quitting outside free conditions costs prestige.
+    const quitter = world.nations[offeringNation];
+    if (quitter) {
+      quitter.prestige = Math.max(0, quitter.prestige - WHITE_PEACE_PRESTIGE_FEE);
+    }
     endWar(world, warId);
-    return { ok: true, reason: 'White peace signed.' };
+    return {
+      ok: true,
+      reason: `White peace signed (−${WHITE_PEACE_PRESTIGE_FEE} prestige).`,
+    };
   }
   const requested = goalsToEnforce
     .map((index) => war.goals[index])
