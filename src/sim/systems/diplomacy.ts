@@ -763,7 +763,16 @@ export function getInfluenceTargetsForNation(world: World, nationId: NationId): 
   const runtime = ensureRuntime(world);
   return runtime.influence
     .filter((entry) => entry.gp === nationId && entry.points > 0)
-    .map((entry) => ({ target: entry.target, points: Number(entry.points.toFixed(1)) }))
+    .map((entry) => {
+      const rivalPressure = runtime.influence
+        .filter((rival) => rival.target === entry.target && rival.gp !== nationId && rival.points > 0.001)
+        .reduce((max, rival) => Math.max(max, rival.points), 0);
+      return {
+        target: entry.target,
+        points: Number(entry.points.toFixed(1)),
+        rivalPressure: Number(rivalPressure.toFixed(1)),
+      };
+    })
     .sort((a, b) => (b.points - a.points) || (a.target - b.target));
 }
 

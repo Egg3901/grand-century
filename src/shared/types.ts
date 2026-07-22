@@ -686,6 +686,8 @@ export interface GreatPowerStanding {
 export interface InfluenceTarget {
   target: NationId;
   points: number;
+  /** Highest rival GP influence on the same target (0 if uncontested). */
+  rivalPressure: number;
 }
 
 // ---------------------------------------------------------------------------
