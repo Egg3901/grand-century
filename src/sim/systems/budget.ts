@@ -190,7 +190,7 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
         { label: 'Applied tariff flow', value: tariffIncome },
         { label: 'Tariff slider', value: nation.tariffRate },
         {
-          label: 'Tech trade efficiency',
+          label: 'Tech tariff yield',
           value: 1 + Math.max(0, techModifiersFor(nation, data).tradeEfficiency ?? 0),
         },
       ],

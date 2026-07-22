@@ -881,6 +881,33 @@
   color: var(--gc-ink);
 }
 
+.tech-breakdown,
+.tech-bonuses {
+  margin-bottom: var(--gc-space-2);
+  padding: 0.35rem 0.55rem 0.55rem;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius);
+  background: rgba(255, 248, 230, 0.18);
+}
+
+.tech-breakdown p {
+  margin: 0.2rem 0 0;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink);
+  line-height: 1.45;
+}
+
+.tech-bonuses__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.65rem;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink);
+}
+
 .tech-current {
   display: grid;
   gap: 0.35rem;

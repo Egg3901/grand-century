@@ -24,6 +24,7 @@ import type {
   Nation,
   NationId,
   PlayerTechView,
+  ResearchPointBreakdown,
   TechDef,
   TechModifiers,
   World,
@@ -158,11 +159,31 @@ export function isRecipeUnlocked(nation: Nation, recipe: { requiresTech?: string
 // Point generation & AI target selection
 // ---------------------------------------------------------------------------
 
+const RESEARCH_FLAT_BASE = 1.4;
+const RESEARCH_LITERACY_WEIGHT = 4.8;
+const RESEARCH_GP_BONUS = 1.5;
+
+/** Formula parts behind monthly research point gain (display + sim). */
+export function researchPointBreakdown(nation: Nation, data: GameData): ResearchPointBreakdown {
+  const literacy = clamp(nation.literacy, 0, 1);
+  const literacyBonus = literacy * RESEARCH_LITERACY_WEIGHT;
+  const gpBonus = nation.gpRank > 0 ? RESEARCH_GP_BONUS : 0;
+  const base = RESEARCH_FLAT_BASE + literacyBonus + gpBonus;
+  const researchRate = Math.max(0, techModifiersFor(nation, data).researchRate);
+  return {
+    flatBase: RESEARCH_FLAT_BASE,
+    literacy,
+    literacyBonus,
+    gpBonus,
+    base,
+    researchRate,
+    monthly: base * (1 + researchRate),
+  };
+}
+
 /** Monthly research point gain (pre-0.6.0 formula, scaled by researchRate). */
 export function researchPointsPerMonth(nation: Nation, data: GameData): number {
-  const base = 1.4 + clamp(nation.literacy, 0, 1) * 4.8 + (nation.gpRank > 0 ? 1.5 : 0);
-  const modifiers = techModifiersFor(nation, data);
-  return base * (1 + Math.max(0, modifiers.researchRate));
+  return researchPointBreakdown(nation, data).monthly;
 }
 
 function nationAtWar(world: World, nationId: NationId): boolean {
@@ -291,10 +312,11 @@ function tickNationResearch(world: World, data: GameData, nation: Nation, year: 
   // 4. Inventions.
   rollInventions(nation, data, rng);
 
-  // 5. Modifier drips.
+  // 5. Modifier drips. Literacy soft-lands like politics schools: rate × (1−lit).
   const modifiers = techModifiersFor(nation, data);
   if (modifiers.literacyRate > 0) {
-    nation.literacy = clamp(nation.literacy + modifiers.literacyRate, 0, 0.98);
+    const literacyGain = modifiers.literacyRate * (1 - clamp(nation.literacy, 0, 1));
+    nation.literacy = clamp(nation.literacy + literacyGain, 0, 0.98);
   }
   if (modifiers.prestigeMonthly > 0) {
     nation.prestige = clamp(nation.prestige + modifiers.prestigeMonthly, 0, 10_000);
@@ -359,7 +381,7 @@ function summarizeModifiers(partial?: Partial<TechModifiers>): string[] {
   if (partial.armyMovement) parts.push(`${pct(partial.armyMovement)} army movement`);
   if (partial.supplyRange) parts.push(`+${partial.supplyRange.toFixed(1)} supply range`);
   if (partial.factoryProfit) parts.push(`${pct(partial.factoryProfit)} factory profit`);
-  if (partial.tradeEfficiency) parts.push(`${pct(partial.tradeEfficiency)} trade efficiency`);
+  if (partial.tradeEfficiency) parts.push(`${pct(partial.tradeEfficiency)} tariff yield`);
   return parts;
 }
 
@@ -369,6 +391,16 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
     return {
       researchPoints: 0,
       monthlyResearch: 0,
+      researchBreakdown: {
+        flatBase: RESEARCH_FLAT_BASE,
+        literacy: 0,
+        literacyBonus: 0,
+        gpBonus: 0,
+        base: RESEARCH_FLAT_BASE,
+        researchRate: 0,
+        monthly: RESEARCH_FLAT_BASE,
+      },
+      modifiers: { ...ZERO_TECH_MODIFIERS },
       current: null,
       progress: 0,
       currentCost: 0,
@@ -382,7 +414,9 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
   const techSet = new Set(nation.techs);
   const techNameByKey = new Map(data.techs.map((tech) => [tech.key, tech.name]));
   const recipeNameByKey = new Map(data.recipes.map((recipe) => [recipe.key, recipe.name]));
-  const monthly = researchPointsPerMonth(nation, data);
+  const breakdown = researchPointBreakdown(nation, data);
+  const monthly = breakdown.monthly;
+  const modifiers = techModifiersFor(nation, data);
   const banked = Math.max(0, nation.researchPoints);
   const statuses = data.techs.map((tech) => {
     const researched = techSet.has(tech.key);
@@ -414,21 +448,29 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
   });
   const inventions = nation.inventions ?? [];
   const owned = new Set(inventions);
-  const inventionStatuses = (data.inventions ?? []).map((invention) => ({
-    key: invention.key,
-    name: invention.name,
-    description: invention.description,
-    prereqTech: techNameByKey.get(invention.prereqTech) ?? invention.prereqTech,
-    owned: owned.has(invention.key),
-    prereqMet: techSet.has(invention.prereqTech),
-    effectsSummary: summarizeModifiers(invention.modifiers),
-  }));
+  const literacyScale = 0.5 + clamp(nation.literacy, 0, 1);
+  const inventionStatuses = (data.inventions ?? []).map((invention) => {
+    const isOwned = owned.has(invention.key);
+    const prereqMet = techSet.has(invention.prereqTech);
+    return {
+      key: invention.key,
+      name: invention.name,
+      description: invention.description,
+      prereqTech: techNameByKey.get(invention.prereqTech) ?? invention.prereqTech,
+      owned: isOwned,
+      prereqMet,
+      effectsSummary: summarizeModifiers(invention.modifiers),
+      monthlyChance: !isOwned && prereqMet ? invention.monthlyChance * literacyScale : null,
+    };
+  });
   const currentDef = nation.currentResearch
     ? data.techs.find((tech) => tech.key === nation.currentResearch) ?? null
     : null;
   return {
     researchPoints: banked,
     monthlyResearch: monthly,
+    researchBreakdown: breakdown,
+    modifiers: { ...modifiers },
     current: currentDef?.key ?? null,
     progress: Math.max(0, nation.researchProgress ?? 0),
     currentCost: currentDef?.cost ?? 0,
