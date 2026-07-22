@@ -220,10 +220,32 @@ describe('E4 events & decisions', () => {
     const industrialization = DECISION_DEFS.find((d) => d.id === 'encourage_industrialization')!;
     const blocked = evaluateDecision(world, GAME_DATA, nationId, industrialization);
     expect(blocked.available).toBe(false);
-    expect(blocked.reason.toLowerCase()).toMatch(/treasury|1838|available/);
+    expect(blocked.reason.toLowerCase()).toMatch(/treasury|1838|available|factory/);
 
     jumpToYear(world, 1840);
     nation.treasury = 500;
+    // BALANCE: encourage_industrialization now requires an existing factory.
+    const ownedState = world.states.find((state) => state.owner === nationId);
+    expect(ownedState).toBeTruthy();
+    ownedState!.factories.push({
+      recipe: 'factory_furniture',
+      level: 1,
+      employed: 0,
+      stockpileIn: 0,
+      profitTrend: 0,
+      weeklyProfit: 0,
+      cashReserve: 0,
+      workerShare: 0,
+      clerkShare: 0,
+      lastOutput: 0,
+      profitableWeeks: 0,
+      lossWeeks: 0,
+      lastInputCost: 0,
+      lastWages: 0,
+      lastOperating: 0,
+      lastCapacity: 0,
+      lastInputFill: 0,
+    });
     const open = evaluateDecision(world, GAME_DATA, nationId, industrialization);
     expect(open.available).toBe(true);
 

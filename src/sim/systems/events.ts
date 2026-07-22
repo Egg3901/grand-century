@@ -216,6 +216,10 @@ export function checkRequirement(
       return nation.literacy >= req.value
         ? { ok: true, reason: '' }
         : { ok: false, reason: `Need ${(req.value * 100).toFixed(0)}% literacy` };
+    case 'minFactoryCount':
+      return factoryCount(world, nation.id) >= req.value
+        ? { ok: true, reason: '' }
+        : { ok: false, reason: req.value <= 1 ? 'Need at least one factory' : `Need ${req.value}+ factories` };
     case 'hasFormableCandidate':
       return hasFormableCandidate(world, data, nation.id)
         ? { ok: true, reason: '' }
