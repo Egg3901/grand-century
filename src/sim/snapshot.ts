@@ -273,6 +273,10 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     con: number;
     growth: number;
     count: number;
+    life: number;
+    everyday: number;
+    luxury: number;
+    scarce: Map<number, { fillSum: number; weight: number }>;
     ideology: Record<string, number>;
     agitating: Map<string, number>;
   }>();
@@ -290,7 +294,11 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         con: 0,
         growth: 0,
         count: 0,
-        ideology: {},
+        life: 0,
+        everyday: 0,
+        luxury: 0,
+        scarce: new Map(),
+        ideology: {} as Record<string, number>,
         agitating: new Map<string, number>(),
       };
       bucket.size += pop.size;
@@ -299,6 +307,15 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       bucket.con += pop.consciousness;
       bucket.growth += pop.lastGrowth;
       bucket.count += 1;
+      bucket.life += pop.lifeNeedsFrac ?? pop.needsMet;
+      bucket.everyday += pop.everydayNeedsFrac ?? pop.needsMet;
+      bucket.luxury += pop.luxuryNeedsFrac ?? 1;
+      for (const scarce of pop.scarceGoods ?? []) {
+        const prior = bucket.scarce.get(scarce.good) ?? { fillSum: 0, weight: 0 };
+        prior.fillSum += scarce.fill;
+        prior.weight += 1;
+        bucket.scarce.set(scarce.good, prior);
+      }
       const ideology = ideologyFromPop(pop);
       bucket.ideology[ideology] = (bucket.ideology[ideology] ?? 0) + pop.size;
       if (playerNation) {
@@ -311,6 +328,17 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
   const playerPopulation = Array.from(playerPopulationMap.entries())
     .map(([type, bucket]) => {
       const dominantIdeology = (Object.entries(bucket.ideology).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'conservative') as PartyIdeology;
+      const scarceGoods = Array.from(bucket.scarce.entries())
+        .map(([goodId, entry]) => {
+          const def = data.goods[goodId];
+          return {
+            key: def?.key ?? `good_${goodId}`,
+            name: def?.name ?? `Good ${goodId}`,
+            fill: entry.weight > 0 ? entry.fillSum / entry.weight : 1,
+          };
+        })
+        .sort((a, b) => a.fill - b.fill)
+        .slice(0, 4);
       return {
         type: type as PopType,
         size: bucket.size,
@@ -320,6 +348,10 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         dominantIdeology,
         agitatingFor: Array.from(bucket.agitating.entries()).sort((a, b) => b[1] - a[1]).slice(0, 2).map(([reform]) => reform),
         growth: bucket.growth,
+        avgLifeNeeds: bucket.count > 0 ? bucket.life / bucket.count : 0,
+        avgEverydayNeeds: bucket.count > 0 ? bucket.everyday / bucket.count : 0,
+        avgLuxuryNeeds: bucket.count > 0 ? bucket.luxury / bucket.count : 0,
+        scarceGoods,
       };
     })
     .sort((a, b) => b.size - a.size);

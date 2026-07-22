@@ -401,6 +401,14 @@ export interface Pop {
   lastGrowth: number;    // monthly growth delta from last monthly tick
   /** ideology/issue leanings summed to 1; kept compact for perf */
   ideology: number;      // index into a small ideology enum for shallow model
+  /** Last weekly life-needs fill fraction (0–1). Optional for old saves. */
+  lifeNeedsFrac?: number;
+  /** Last weekly everyday-needs fill fraction (0–1). */
+  everydayNeedsFrac?: number;
+  /** Last weekly luxury-needs fill fraction (0–1). */
+  luxuryNeedsFrac?: number;
+  /** Goods with unmet demand last weekly tick (worst fills first, capped). */
+  scarceGoods?: { good: GoodId; fill: number }[];
 }
 
 export interface RGO {
@@ -1109,6 +1117,12 @@ export interface PopulationLedgerEntry {
   dominantIdeology: PartyIdeology;
   agitatingFor: string[];
   growth: number;
+  /** Size-aware class averages of last weekly need-tier fills (0–1). */
+  avgLifeNeeds?: number;
+  avgEverydayNeeds?: number;
+  avgLuxuryNeeds?: number;
+  /** Worst-filled basket goods for this class (fill 0–1), for Needs tooltips. */
+  scarceGoods?: { key: string; name: string; fill: number }[];
 }
 
 export interface PlayerStateSummary {

@@ -63,6 +63,10 @@ function createPop(world: World, source: Pop, provinceId: number, targetType: Po
     needsMet: source.needsMet,
     lastGrowth: 0,
     ideology: source.ideology,
+    lifeNeedsFrac: source.lifeNeedsFrac,
+    everydayNeedsFrac: source.everydayNeedsFrac,
+    luxuryNeedsFrac: source.luxuryNeedsFrac,
+    scarceGoods: source.scarceGoods?.map((entry) => ({ ...entry })),
   };
   world.pops.push(newPop);
   const province = world.provinces[provinceId];
@@ -141,6 +145,7 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
     let everydayMet = 0;
     let luxuryNeed = 0;
     let luxuryMet = 0;
+    const scarce: { good: number; fill: number }[] = [];
 
     for (const need of needs.life) {
       const desired = Math.max(0, need.amount * units);
@@ -148,6 +153,10 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
       const purchase = buyFromMarket(world, nationId, need.good, desired, pop.money);
       pop.money = Math.max(0, pop.money - purchase.spent);
       lifeMet += purchase.bought;
+      if (desired > 0) {
+        const fill = purchase.bought / desired;
+        if (fill < 0.98) scarce.push({ good: need.good, fill });
+      }
     }
     for (const need of needs.everyday) {
       const desired = Math.max(0, need.amount * units);
@@ -155,6 +164,10 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
       const purchase = buyFromMarket(world, nationId, need.good, desired, pop.money);
       pop.money = Math.max(0, pop.money - purchase.spent);
       everydayMet += purchase.bought;
+      if (desired > 0) {
+        const fill = purchase.bought / desired;
+        if (fill < 0.98) scarce.push({ good: need.good, fill });
+      }
     }
     for (const need of needs.luxury) {
       const desired = Math.max(0, need.amount * units);
@@ -162,11 +175,20 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
       const purchase = buyFromMarket(world, nationId, need.good, desired, pop.money);
       pop.money = Math.max(0, pop.money - purchase.spent);
       luxuryMet += purchase.bought;
+      if (desired > 0) {
+        const fill = purchase.bought / desired;
+        if (fill < 0.98) scarce.push({ good: need.good, fill });
+      }
     }
 
     const lifeFrac = lifeNeed > 0 ? lifeMet / lifeNeed : 1;
     const everydayFrac = everydayNeed > 0 ? everydayMet / everydayNeed : 1;
     const luxuryFrac = luxuryNeed > 0 ? luxuryMet / luxuryNeed : 1;
+    pop.lifeNeedsFrac = clamp(lifeFrac, 0, 1);
+    pop.everydayNeedsFrac = clamp(everydayFrac, 0, 1);
+    pop.luxuryNeedsFrac = clamp(luxuryFrac, 0, 1);
+    scarce.sort((a, b) => a.fill - b.fill);
+    pop.scarceGoods = scarce.slice(0, 4);
     const combinedNeeds = clamp(lifeFrac * 0.72 + everydayFrac * 0.28, 0, 1);
     pop.needsMet = clamp(
       pop.needsMet * BALANCE.population.weeklyNeedsPreviousWeight

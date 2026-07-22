@@ -65,10 +65,14 @@ export function PopulationPanel() {
                 <TraceTooltip
                   value={pct(entry.avgNeedsMet)}
                   trace={[
-                    { label: 'Average needs met', value: entry.avgNeedsMet },
-                    { label: 'Population size', value: entry.size },
-                    { label: 'Militancy', value: entry.avgMilitancy },
-                    { label: 'Monthly growth', value: entry.growth },
+                    { label: 'Life needs', value: entry.avgLifeNeeds ?? entry.avgNeedsMet },
+                    { label: 'Everyday needs', value: entry.avgEverydayNeeds ?? entry.avgNeedsMet },
+                    { label: 'Luxury needs', value: entry.avgLuxuryNeeds ?? 1 },
+                    { label: 'Welfare score', value: entry.avgNeedsMet },
+                    ...(entry.scarceGoods ?? []).map((good) => ({
+                      label: `Scarce: ${good.name}`,
+                      value: good.fill,
+                    })),
                   ]}
                 />
               </span>
