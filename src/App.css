@@ -540,3 +540,9 @@
   }
 }
 
+
+/* U4 polish: while the title menu is up, the HUD steps offstage — a title
+   screen is the map and the card, not date bars and outliners. */
+.hud-layer--backstage {
+  visibility: hidden;
+}

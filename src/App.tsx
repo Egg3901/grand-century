@@ -34,7 +34,7 @@ function App() {
       <Suspense fallback={<div className="map-loading" />}>
         <LazyGrandMap />
       </Suspense>
-      <div className="hud-layer">
+      <div className={`hud-layer${showMainMenu ? ' hud-layer--backstage' : ''}`}>
         <AudioManager />
         <Hud />
         <PresenceHud />
