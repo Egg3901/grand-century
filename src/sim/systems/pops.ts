@@ -1,4 +1,4 @@
-import type { GameData, Pop, PopType, ProvinceId, World } from '../../shared/types';
+import type { GameData, Pop, PopMobilityLedger, PopType, ProvinceId, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
 import { buyFromMarket } from './market';
@@ -10,6 +10,29 @@ function finite(value: number, fallback = 0): number {
 
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
+}
+
+function emptyMobilityLedger(day: number): PopMobilityLedger {
+  return { day, migrated: 0, migrations: [], conversions: [] };
+}
+
+function recordMigration(world: World, pop: Pop, amount: number): void {
+  if (amount <= 0 || !world.popMobilityLedger) return;
+  if (provinceOwner(world, pop.provinceId) !== world.playerNation) return;
+  const ledger = world.popMobilityLedger;
+  ledger.migrated += amount;
+  const row = ledger.migrations.find((entry) => entry.type === pop.type);
+  if (row) row.amount += amount;
+  else ledger.migrations.push({ type: pop.type, amount });
+}
+
+function recordConversion(world: World, pop: Pop, targetType: PopType, amount: number): void {
+  if (amount <= 0 || !world.popMobilityLedger || targetType === pop.type) return;
+  if (provinceOwner(world, pop.provinceId) !== world.playerNation) return;
+  const ledger = world.popMobilityLedger;
+  const row = ledger.conversions.find((entry) => entry.from === pop.type && entry.to === targetType);
+  if (row) row.amount += amount;
+  else ledger.conversions.push({ from: pop.type, to: targetType, amount });
 }
 
 function passiveIncome(popType: PopType, size: number): number {
@@ -63,6 +86,10 @@ function createPop(world: World, source: Pop, provinceId: number, targetType: Po
     needsMet: source.needsMet,
     lastGrowth: 0,
     ideology: source.ideology,
+    lifeNeedsFrac: source.lifeNeedsFrac,
+    everydayNeedsFrac: source.everydayNeedsFrac,
+    luxuryNeedsFrac: source.luxuryNeedsFrac,
+    scarceGoods: source.scarceGoods?.map((entry) => ({ ...entry })),
   };
   world.pops.push(newPop);
   const province = world.provinces[provinceId];
@@ -83,9 +110,27 @@ function mergeOrCreatePop(world: World, source: Pop, provinceId: number, targetT
   });
   if (mergeId !== undefined) {
     const target = world.pops[mergeId];
+    const priorSize = Math.max(0, target.size);
+    const incoming = Math.max(0, size);
+    const totalSize = priorSize + incoming;
     target.size += size;
     target.money += money;
-    target.needsMet = clamp((target.needsMet + source.needsMet) * 0.5, 0, 1);
+    if (totalSize > 0) {
+      target.needsMet = clamp(
+        (target.needsMet * priorSize + source.needsMet * incoming) / totalSize,
+        0,
+        1,
+      );
+      const targetLife = target.lifeNeedsFrac ?? target.needsMet;
+      const sourceLife = source.lifeNeedsFrac ?? source.needsMet;
+      target.lifeNeedsFrac = clamp((targetLife * priorSize + sourceLife * incoming) / totalSize, 0, 1);
+      const targetEveryday = target.everydayNeedsFrac ?? target.needsMet;
+      const sourceEveryday = source.everydayNeedsFrac ?? source.needsMet;
+      target.everydayNeedsFrac = clamp((targetEveryday * priorSize + sourceEveryday * incoming) / totalSize, 0, 1);
+      const targetLuxury = target.luxuryNeedsFrac ?? 1;
+      const sourceLuxury = source.luxuryNeedsFrac ?? 1;
+      target.luxuryNeedsFrac = clamp((targetLuxury * priorSize + sourceLuxury * incoming) / totalSize, 0, 1);
+    }
     return;
   }
   createPop(world, source, provinceId, targetType, size, money);
@@ -94,6 +139,7 @@ function mergeOrCreatePop(world: World, source: Pop, provinceId: number, targetT
 function convertPopPortion(world: World, pop: Pop, targetType: PopType, amount: number): number {
   const converted = Math.max(0, Math.floor(Math.min(pop.size, finite(amount))));
   if (converted <= 0 || targetType === pop.type) return 0;
+  recordConversion(world, pop, targetType, converted);
   const sourceSize = Math.max(1, pop.size);
   const moneyShare = pop.money * (converted / sourceSize);
   pop.size -= converted;
@@ -105,6 +151,7 @@ function convertPopPortion(world: World, pop: Pop, targetType: PopType, amount: 
 function migratePop(world: World, pop: Pop, destination: number, amount: number): number {
   const moved = Math.max(0, Math.floor(Math.min(pop.size, finite(amount))));
   if (moved <= 0 || destination === pop.provinceId) return 0;
+  recordMigration(world, pop, moved);
   const sourceSize = Math.max(1, pop.size);
   const moneyShare = pop.money * (moved / sourceSize);
   pop.size -= moved;
@@ -141,6 +188,7 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
     let everydayMet = 0;
     let luxuryNeed = 0;
     let luxuryMet = 0;
+    const scarce: { good: number; fill: number }[] = [];
 
     for (const need of needs.life) {
       const desired = Math.max(0, need.amount * units);
@@ -148,6 +196,10 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
       const purchase = buyFromMarket(world, nationId, need.good, desired, pop.money);
       pop.money = Math.max(0, pop.money - purchase.spent);
       lifeMet += purchase.bought;
+      if (desired > 0) {
+        const fill = purchase.bought / desired;
+        if (fill < 0.98) scarce.push({ good: need.good, fill });
+      }
     }
     for (const need of needs.everyday) {
       const desired = Math.max(0, need.amount * units);
@@ -155,6 +207,10 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
       const purchase = buyFromMarket(world, nationId, need.good, desired, pop.money);
       pop.money = Math.max(0, pop.money - purchase.spent);
       everydayMet += purchase.bought;
+      if (desired > 0) {
+        const fill = purchase.bought / desired;
+        if (fill < 0.98) scarce.push({ good: need.good, fill });
+      }
     }
     for (const need of needs.luxury) {
       const desired = Math.max(0, need.amount * units);
@@ -162,11 +218,20 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
       const purchase = buyFromMarket(world, nationId, need.good, desired, pop.money);
       pop.money = Math.max(0, pop.money - purchase.spent);
       luxuryMet += purchase.bought;
+      if (desired > 0) {
+        const fill = purchase.bought / desired;
+        if (fill < 0.98) scarce.push({ good: need.good, fill });
+      }
     }
 
     const lifeFrac = lifeNeed > 0 ? lifeMet / lifeNeed : 1;
     const everydayFrac = everydayNeed > 0 ? everydayMet / everydayNeed : 1;
     const luxuryFrac = luxuryNeed > 0 ? luxuryMet / luxuryNeed : 1;
+    pop.lifeNeedsFrac = clamp(lifeFrac, 0, 1);
+    pop.everydayNeedsFrac = clamp(everydayFrac, 0, 1);
+    pop.luxuryNeedsFrac = clamp(luxuryFrac, 0, 1);
+    scarce.sort((a, b) => a.fill - b.fill);
+    pop.scarceGoods = scarce.slice(0, 4);
     const combinedNeeds = clamp(lifeFrac * 0.72 + everydayFrac * 0.28, 0, 1);
     pop.needsMet = clamp(
       pop.needsMet * BALANCE.population.weeklyNeedsPreviousWeight
@@ -253,6 +318,7 @@ function isAcceptedCulture(world: World, pop: Pop): boolean {
 }
 
 export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
+  world.popMobilityLedger = emptyMobilityLedger(world.day);
   const scores = provinceScores(world);
   const bestDestination = new Map<number, number>();
   const bestScore = new Map<number, number>();
@@ -352,5 +418,11 @@ export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
     }
 
     cleanupPop(pop);
+  }
+
+  const ledger = world.popMobilityLedger;
+  if (ledger) {
+    ledger.migrations.sort((a, b) => b.amount - a.amount);
+    ledger.conversions.sort((a, b) => b.amount - a.amount);
   }
 }

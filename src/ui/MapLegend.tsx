@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { WORLD_SEED } from '../data/generated';
 import { TERRAIN_BIOME_COLORS, TERRAIN_LEGEND_ORDER } from '../map/mapDecor';
 import { useStore } from '../store';
@@ -57,12 +58,22 @@ function economyScaleLabel(value: number): string {
 
 export function MapLegend() {
   const mapMode = useStore((state) => state.mapMode);
-  const snapshot = useStore((state) => state.snapshot);
-
-  const economyOutputs = snapshot?.provinces.map((province) => province.economyOutput) ?? [];
-  const economyMin = economyOutputs.length > 0 ? Math.min(...economyOutputs) : 0;
-  const economyMax = economyOutputs.length > 0 ? Math.max(...economyOutputs) : 0;
-  const economyMid = economyMin + (economyMax - economyMin) * 0.5;
+  // Only the economy legend reads live province data. Subscribing to the 8Hz
+  // snapshot solely in economy mode keeps the legend from re-rendering every
+  // tick in every other mode; the min/max is memoised (and a loop, not a
+  // 620-arg Math.min spread).
+  const economySnapshot = useStore((state) => (state.mapMode === 'economy' ? state.snapshot : null));
+  const { economyMin, economyMid, economyMax } = useMemo(() => {
+    const provinces = economySnapshot?.provinces;
+    if (!provinces || provinces.length === 0) return { economyMin: 0, economyMid: 0, economyMax: 0 };
+    let min = provinces[0].economyOutput;
+    let max = provinces[0].economyOutput;
+    for (const province of provinces) {
+      if (province.economyOutput < min) min = province.economyOutput;
+      if (province.economyOutput > max) max = province.economyOutput;
+    }
+    return { economyMin: min, economyMax: max, economyMid: min + (max - min) * 0.5 };
+  }, [economySnapshot]);
 
   const mapModeTitle = mapMode.replaceAll('_', ' ');
 
@@ -92,6 +103,12 @@ export function MapLegend() {
             { label: 'Unowned core', color: '#8e4d46' },
             { label: 'Non-core', color: '#b8ab90' },
           ]
+          : mapMode === 'culture'
+            ? [
+              { label: 'Plurality culture', color: '#9d886b' },
+              { label: 'High non-accepted', color: '#8a5f46' },
+              { label: 'Movement heartland', color: '#8e4d46' },
+            ]
           : mapMode === 'political'
             ? [
               { label: 'Nation fill', color: '#9d886b' },

@@ -16,17 +16,20 @@ import type {
   GameDate,
   GreatPowerStanding,
   InfluenceTarget,
+  AllianceAcceptancePreview,
   MarketGood,
   NationId,
   NationSummary,
   PendingEvent,
   PlayerTechView,
   PopulationLedgerEntry,
+  PopMobilityLedger,
   ProductionLedgerEntry,
   ProvinceSummary,
   Rebellion,
   StateId,
   War,
+  WarGoalType,
   WorldSnapshot,
 } from '../shared/types';
 
@@ -43,6 +46,7 @@ export interface SharedSnapshot {
   relations: DiploRelation[];
   greatPowers: GreatPowerStanding[];
   infamyLimit: number;
+  ninthPowerScore: number;
   armies: Army[];
   fleets: Fleet[];
   rebellions: Rebellion[];
@@ -52,11 +56,21 @@ export interface SharedSnapshot {
 export interface PlayerView {
   playerNation: NationId;
   playerCbs: CasusBelli[];
+  playerPendingCbs: CasusBelli[];
+  playerDiplomaticPoints: number;
+  fabricateCbCostByGoal: Record<WarGoalType, number>;
+  warGoalInfamyUse: Record<WarGoalType, number>;
   playerInfluencePool: number;
   playerInfluenceTargets: InfluenceTarget[];
+  playerAlliancePreviews: AllianceAcceptancePreview[];
   coalitionAgainstPlayer: NationId[];
+  playerPowerScore: number;
+  rivalryDpCost: number;
+  rivalryCap: number;
+  playerRivalryCount: number;
   playerProduction: ProductionLedgerEntry[];
   playerPopulation: PopulationLedgerEntry[];
+  playerPopMobility?: PopMobilityLedger;
   playerReformAgitation: { reform: string; support: number }[];
   playerStates: { id: StateId; name: string; factoryCount: number }[];
   playerCoreStateIds?: StateId[];
@@ -84,6 +98,7 @@ export interface SharedSnapshotDiff {
   relations?: DiploRelation[];
   greatPowers?: GreatPowerStanding[];
   infamyLimit?: number;
+  ninthPowerScore?: number;
   armies?: Army[];
   fleets?: Fleet[];
   rebellions?: Rebellion[];
@@ -102,6 +117,7 @@ export function extractShared(snap: WorldSnapshot): SharedSnapshot {
     relations: snap.relations,
     greatPowers: snap.greatPowers,
     infamyLimit: snap.infamyLimit,
+    ninthPowerScore: snap.ninthPowerScore,
     armies: snap.armies,
     fleets: snap.fleets,
     rebellions: snap.rebellions,
@@ -112,11 +128,21 @@ export function extractPlayerView(snap: WorldSnapshot): PlayerView {
   return {
     playerNation: snap.playerNation,
     playerCbs: snap.playerCbs,
+    playerPendingCbs: snap.playerPendingCbs,
+    playerDiplomaticPoints: snap.playerDiplomaticPoints,
+    fabricateCbCostByGoal: snap.fabricateCbCostByGoal,
+    warGoalInfamyUse: snap.warGoalInfamyUse,
     playerInfluencePool: snap.playerInfluencePool,
     playerInfluenceTargets: snap.playerInfluenceTargets,
+    playerAlliancePreviews: snap.playerAlliancePreviews,
     coalitionAgainstPlayer: snap.coalitionAgainstPlayer,
+    playerPowerScore: snap.playerPowerScore,
+    rivalryDpCost: snap.rivalryDpCost,
+    rivalryCap: snap.rivalryCap,
+    playerRivalryCount: snap.playerRivalryCount,
     playerProduction: snap.playerProduction,
     playerPopulation: snap.playerPopulation,
+    playerPopMobility: snap.playerPopMobility,
     playerReformAgitation: snap.playerReformAgitation,
     playerStates: snap.playerStates,
     playerCoreStateIds: snap.playerCoreStateIds,
@@ -195,6 +221,7 @@ export function diffShared(
   if (prev.speed !== next.speed) diff.speed = next.speed;
   if (prev.seed !== next.seed) diff.seed = next.seed;
   if (prev.infamyLimit !== next.infamyLimit) diff.infamyLimit = next.infamyLimit;
+  if (prev.ninthPowerScore !== next.ninthPowerScore) diff.ninthPowerScore = next.ninthPowerScore;
 
   const changedNations: NationSummary[] = [];
   const nationLen = Math.max(prev.nations.length, next.nations.length);
@@ -260,6 +287,7 @@ export function applySharedDiff(base: SharedSnapshot, diff: SharedSnapshotDiff):
     relations: diff.relations ?? base.relations,
     greatPowers: diff.greatPowers ?? base.greatPowers,
     infamyLimit: diff.infamyLimit ?? base.infamyLimit,
+    ninthPowerScore: diff.ninthPowerScore ?? base.ninthPowerScore,
     armies: diff.armies ?? base.armies,
     fleets: diff.fleets ?? base.fleets,
     rebellions: diff.rebellions ?? base.rebellions,

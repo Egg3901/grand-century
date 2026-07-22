@@ -37,7 +37,7 @@ export function MarketPanel() {
   return (
     <section className="panel-card atlas-panel">
       <h2 className="atlas-heading">World Market</h2>
-      <p className="panel-subtle">Global prices, supply, and demand. Hover a figure for pricing trace inputs.</p>
+      <p className="panel-subtle">Global prices, supply, demand, stockpile, and shortages. Hover a figure for pricing trace inputs.</p>
 
       <div className="market-table-wrap">
         <table className="market-table">
@@ -47,6 +47,9 @@ export function MarketPanel() {
               <th>Price</th>
               <th>Supply</th>
               <th>Demand</th>
+              <th>Sold</th>
+              <th>Stockpile</th>
+              <th>Unmet</th>
               <th>Trend</th>
             </tr>
           </thead>
@@ -60,7 +63,7 @@ export function MarketPanel() {
                 { label: 'Stockpile start', value: good.priceTrace.stockpileStart },
                 { label: 'Stockpile end', value: good.priceTrace.stockpileEnd },
               ];
-              const tight = good.demand > good.supply * 1.05;
+              const tight = good.demand > good.supply * 1.05 || good.unmet > good.supply * 0.05;
               return (
                 <tr key={good.good}>
                   <td>{goodById.get(good.good) ?? `Good ${good.good}`}</td>
@@ -71,7 +74,7 @@ export function MarketPanel() {
                     <TraceTooltip
                       value={good.supply.toFixed(1)}
                       trace={[
-                        { label: 'Producer supply', value: good.priceTrace.effectiveSupply },
+                        { label: 'Effective supply', value: good.priceTrace.effectiveSupply },
                         { label: 'Stockpile start', value: good.priceTrace.stockpileStart },
                       ]}
                     />
@@ -84,6 +87,19 @@ export function MarketPanel() {
                         { label: 'Demand ratio', value: good.priceTrace.ratio },
                       ]}
                     />
+                  </td>
+                  <td>{good.sold.toFixed(1)}</td>
+                  <td>
+                    <TraceTooltip
+                      value={good.worldStockpile.toFixed(1)}
+                      trace={[
+                        { label: 'Stockpile start', value: good.priceTrace.stockpileStart },
+                        { label: 'Stockpile end', value: good.priceTrace.stockpileEnd },
+                      ]}
+                    />
+                  </td>
+                  <td className={good.unmet > 0.5 ? 'status-danger' : undefined}>
+                    {good.unmet.toFixed(1)}
                   </td>
                   <td><Sparkline values={good.trend} /></td>
                 </tr>

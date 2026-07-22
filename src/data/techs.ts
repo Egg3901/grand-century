@@ -167,7 +167,7 @@ export const TECHS: TechDef[] = [
   {
     key: 'commerce_merchant_marine', name: 'Merchant Marine', category: 'commerce', cost: 32, year: 1835,
     prereq: 'market_structure',
-    effects: ['+3% tax efficiency', '+3% trade efficiency', 'Unlocks Fishing Wharf and Vintner Estate'],
+    effects: ['+3% tax efficiency', '+3% tariff yield', 'Unlocks Fishing Wharf and Vintner Estate'],
     modifiers: { taxEfficiency: 0.03, tradeEfficiency: 0.03 },
     unlocksRecipes: ['factory_fishing_wharf', 'factory_vintners'],
   },
@@ -180,13 +180,13 @@ export const TECHS: TechDef[] = [
   {
     key: 'commerce_stock_exchange', name: 'Stock Exchange', category: 'commerce', cost: 62, year: 1850,
     prereq: 'commerce_joint_stock',
-    effects: ['+5% tax efficiency', '+5% research', '+4% trade efficiency'],
+    effects: ['+5% tax efficiency', '+5% research', '+4% tariff yield'],
     modifiers: { taxEfficiency: 0.05, researchRate: 0.05, tradeEfficiency: 0.04 },
   },
   {
     key: 'commerce_insurance_markets', name: 'Insurance Markets', category: 'commerce', cost: 88, year: 1858,
     prereq: 'commerce_stock_exchange',
-    effects: ['+3% factory profit', '+3% trade efficiency'],
+    effects: ['+3% factory profit', '+3% tariff yield'],
     modifiers: { factoryProfit: 0.03, tradeEfficiency: 0.03 },
   },
   {
@@ -198,7 +198,7 @@ export const TECHS: TechDef[] = [
   {
     key: 'commerce_gold_standard', name: 'Gold Standard', category: 'commerce', cost: 145, year: 1878,
     prereq: 'commerce_limited_liability',
-    effects: ['+4% tax efficiency', '+4% trade efficiency'],
+    effects: ['+4% tax efficiency', '+4% tariff yield'],
     modifiers: { taxEfficiency: 0.04, tradeEfficiency: 0.04 },
   },
   {
@@ -210,7 +210,7 @@ export const TECHS: TechDef[] = [
   {
     key: 'commerce_modern_finance', name: 'Modern Finance', category: 'commerce', cost: 230, year: 1902,
     prereq: 'commerce_central_banking',
-    effects: ['+5% tax efficiency', '+5% factory profit', '+5% trade efficiency'],
+    effects: ['+5% tax efficiency', '+5% factory profit', '+5% tariff yield'],
     modifiers: { taxEfficiency: 0.05, factoryProfit: 0.05, tradeEfficiency: 0.05 },
   },
   {
@@ -315,8 +315,8 @@ export const TECHS: TechDef[] = [
   {
     key: 'idealism', name: 'Idealism', category: 'culture', cost: 9, year: 1820,
     prereq: 'romanticism',
-    effects: ['+10% research'],
-    modifiers: { researchRate: 0.1 },
+    effects: ['+8% research'],
+    modifiers: { researchRate: 0.08 },
   },
   {
     key: 'culture_public_hygiene', name: 'Public Hygiene', category: 'culture', cost: 38, year: 1840,
@@ -339,8 +339,8 @@ export const TECHS: TechDef[] = [
   {
     key: 'culture_empirical_science', name: 'Empirical Science', category: 'culture', cost: 102, year: 1866,
     prereq: 'culture_germ_theory',
-    effects: ['+15% research', 'Unlocks Paper Mill'],
-    modifiers: { researchRate: 0.15 },
+    effects: ['+6% research', 'Unlocks Paper Mill'],
+    modifiers: { researchRate: 0.06 },
     unlocksRecipes: ['factory_paper_mill'],
   },
   {
@@ -358,14 +358,14 @@ export const TECHS: TechDef[] = [
   {
     key: 'culture_social_sciences', name: 'Social Sciences', category: 'culture', cost: 185, year: 1892,
     prereq: 'culture_mass_press',
-    effects: ['+8% research', '+Prestige drip'],
-    modifiers: { researchRate: 0.08, prestigeMonthly: 0.15 },
+    effects: ['+5% research', '+Prestige drip'],
+    modifiers: { researchRate: 0.05, prestigeMonthly: 0.15 },
   },
   {
     key: 'culture_modernist_age', name: 'The Modernist Age', category: 'culture', cost: 230, year: 1900,
     prereq: 'culture_social_sciences',
-    effects: ['+Prestige drip', '+10% research'],
-    modifiers: { prestigeMonthly: 0.4, researchRate: 0.1 },
+    effects: ['+Prestige drip', '+6% research'],
+    modifiers: { prestigeMonthly: 0.4, researchRate: 0.06 },
   },
   {
     key: 'culture_radio_broadcast', name: 'Radio Broadcast', category: 'culture', cost: 275, year: 1912,

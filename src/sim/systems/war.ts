@@ -30,9 +30,16 @@ const MAX_SHIP_STRENGTH = 100;
 const BASE_ARMY_MOVE_DAYS = 5;
 const BASE_FLEET_MOVE_DAYS = 4;
 const MOBILIZED_UPKEEP_DAILY = 0.16;
-const COLONIAL_CLAIM_COST = 32;
+/** Colonial points required to plant (and keep progressing) a claim. */
+export const COLONIAL_CLAIM_COST = 32;
 const REBELLION_PROGRESS_TO_ENFORCE = 85;
 const REBEL_SIEGE_BASE_DAILY = 0.022;
+/** White peace is free when |score| is within this band (stalemate). */
+const WHITE_PEACE_SCORE_BAND = 10;
+/** Both sides at/above this exhaustion → free white peace. */
+const WHITE_PEACE_MUTUAL_EXHAUSTION = 75;
+/** Prestige paid by the offering nation when white-peacing outside free conditions. */
+const WHITE_PEACE_PRESTIGE_FEE = 6;
 
 const REGIMENT_ROLE: Record<Army['regiments'][number]['type'], {
   offense: number;
@@ -59,6 +66,8 @@ interface WarRuntime {
   mobilizedArmyIds: Map<NationId, Set<ArmyId>>;
   battleScoreByWar: Map<WarId, number>;
   colonialClaims: Map<StateId, ColonialClaim>;
+  /** Persistent event/decision CP gifts — not wiped by computeColonialPoints. */
+  colonialPointModifiers: Map<NationId, number>;
 }
 
 export interface WarRuntimeSnapshot {
@@ -71,6 +80,7 @@ export interface WarRuntimeSnapshot {
     claimants: Array<{ nation: NationId; progress: number }>;
     tension: number;
   }>;
+  colonialPointModifiers?: Array<{ nation: NationId; amount: number }>;
 }
 
 const RUNTIME_BY_WORLD = new WeakMap<World, WarRuntime>();
@@ -113,6 +123,7 @@ function ensureRuntime(world: World): WarRuntime {
     mobilizedArmyIds: new Map<NationId, Set<ArmyId>>(),
     battleScoreByWar: new Map<WarId, number>(),
     colonialClaims: new Map<StateId, ColonialClaim>(),
+    colonialPointModifiers: new Map<NationId, number>(),
   };
   RUNTIME_BY_WORLD.set(world, created);
   return created;
@@ -140,6 +151,9 @@ export function exportWarRuntime(world: World): WarRuntimeSnapshot {
         tension: claim.tension,
       }))
       .sort((a, b) => a.stateId - b.stateId),
+    colonialPointModifiers: Array.from(runtime.colonialPointModifiers.entries())
+      .map(([nation, amount]) => ({ nation, amount }))
+      .sort((a, b) => a.nation - b.nation),
   };
 }
 
@@ -158,6 +172,7 @@ export function importWarRuntime(world: World, snapshot: WarRuntimeSnapshot | nu
       claimants: new Map(entry.claimants.map((claimant) => [claimant.nation, claimant.progress])),
       tension: entry.tension,
     }])),
+    colonialPointModifiers: new Map((snapshot.colonialPointModifiers ?? []).map((entry) => [entry.nation, entry.amount])),
   };
   RUNTIME_BY_WORLD.set(world, runtime);
 }
@@ -310,7 +325,10 @@ function isArmyEmbarked(world: World, armyId: ArmyId, embarkedIds?: Set<ArmyId>)
 function movementDaysForArmy(world: World, army: Army, target: Province): number {
   const source = world.provinces[army.location];
   if (!source) return BASE_ARMY_MOVE_DAYS;
-  const leaderMove = army.leader?.trait === 'logistics' ? -0.7 : 0;
+  const leaderMove = army.leader?.trait === 'logistics' ? -0.7
+    : army.leader?.trait === 'cautious' ? 0.45
+      : army.leader?.trait === 'reckless' ? -0.35
+        : 0;
   const fortPenalty = target.fortLevel * 0.4;
   const terrainPenalty = terrainMoveCost(target.terrain);
   const composition = sideTypePower([army]);
@@ -338,7 +356,7 @@ function isFriendlyControlled(world: World, nationId: NationId, provinceId: Prov
   return province.controller === nationId || province.owner === nationId;
 }
 
-function isSupplied(world: World, nationId: NationId, provinceId: ProvinceId): boolean {
+export function isSupplied(world: World, nationId: NationId, provinceId: ProvinceId): boolean {
   const nation = world.nations[nationId];
   if (!nation) return false;
   // 0.7.0: railroad / logistics tech extends friendly-control supply reach.
@@ -364,9 +382,9 @@ function isSupplied(world: World, nationId: NationId, provinceId: ProvinceId): b
   return false;
 }
 
-function reinforceArmy(world: World, army: Army): void {
+function reinforceArmy(world: World, army: Army, supplied: boolean): void {
   if (army.rebel || army.regiments.length === 0) return;
-  if (!isSupplied(world, army.owner, army.location)) return;
+  if (!supplied) return;
   const province = world.provinces[army.location];
   if (!province || province.controller !== army.owner) return;
   const nation = world.nations[army.owner];
@@ -580,15 +598,32 @@ function resolveLandBattle(
   const defenderFlank = 1 + Math.min(0.24, Math.max(0, defenderTypes.cavalryShare - attackerTypes.cavalryShare) * 0.45) + defenderSpec.cavalry * 0.01;
   const attackerFirepower = attackerTypes.offense * (1 + attackerSpec.artillery * attackerTypes.artilleryShare * 0.03);
   const defenderFirepower = defenderTypes.offense * (1 + defenderSpec.artillery * defenderTypes.artilleryShare * 0.03);
-  const attackerOffense = (attackerFirepower * attackerFlank + attackerRoll + leaderAtk.attack * 1.6 + attackerTech * 0.95) * clamp(attackerOrg + 0.35, 0.2, 1.45);
-  const defenderOffense = (defenderFirepower * defenderFlank + defenderRoll + leaderDef.attack * 1.45 + defenderTech * 0.9) * clamp(defenderOrg + 0.35, 0.2, 1.45);
-  const attackerDefense = 1 + leaderAtk.defense * 0.08 + attackerTypes.defense / Math.max(2, attackerUnits) * 0.3 + attackerSpec.guard * attackerTypes.guardShare * 0.02;
-  const defenderDefense = 1 + leaderDef.defense * 0.08 + terrainDef + (province?.fortLevel ?? 0) * 0.05 + defenderTypes.defense / Math.max(2, defenderUnits) * 0.34 + defenderSpec.guard * defenderTypes.guardShare * 0.02;
+  let attackerOffense = (attackerFirepower * attackerFlank + attackerRoll + leaderAtk.attack * 1.6 + attackerTech * 0.95) * clamp(attackerOrg + 0.35, 0.2, 1.45);
+  let defenderOffense = (defenderFirepower * defenderFlank + defenderRoll + leaderDef.attack * 1.45 + defenderTech * 0.9) * clamp(defenderOrg + 0.35, 0.2, 1.45);
+  let attackerDefense = 1 + leaderAtk.defense * 0.08 + attackerTypes.defense / Math.max(2, attackerUnits) * 0.3 + attackerSpec.guard * attackerTypes.guardShare * 0.02;
+  let defenderDefense = 1 + leaderDef.defense * 0.08 + terrainDef + (province?.fortLevel ?? 0) * 0.05 + defenderTypes.defense / Math.max(2, defenderUnits) * 0.34 + defenderSpec.guard * defenderTypes.guardShare * 0.02;
 
-  const attackerOrgDamage = clamp((defenderOffense / attackerDefense) * 1.8, 3, 60);
-  const defenderOrgDamage = clamp((attackerOffense / defenderDefense) * 1.75, 3, 60);
-  const attackerStrengthDamage = clamp((defenderOffense / attackerDefense) * (0.82 + defenderTypes.pursuit / Math.max(2, defenderUnits) * 0.2), 2, 45);
-  const defenderStrengthDamage = clamp((attackerOffense / defenderDefense) * (0.82 + attackerTypes.pursuit / Math.max(2, attackerUnits) * 0.2), 2, 45);
+  // Activate previously-dead leader traits (BALANCE).
+  if (leaderAtk.trait === 'reckless') attackerOffense *= 1.12;
+  if (leaderDef.trait === 'reckless') defenderOffense *= 1.12;
+  if (leaderAtk.trait === 'defensive_doctrine') attackerDefense += 0.14;
+  if (leaderDef.trait === 'defensive_doctrine') defenderDefense += 0.14;
+
+  let attackerOrgDamage = clamp((defenderOffense / attackerDefense) * 1.8, 3, 60);
+  let defenderOrgDamage = clamp((attackerOffense / defenderDefense) * 1.75, 3, 60);
+  let attackerStrengthDamage = clamp((defenderOffense / attackerDefense) * (0.82 + defenderTypes.pursuit / Math.max(2, defenderUnits) * 0.2), 2, 45);
+  let defenderStrengthDamage = clamp((attackerOffense / defenderDefense) * (0.82 + attackerTypes.pursuit / Math.max(2, attackerUnits) * 0.2), 2, 45);
+
+  // Reckless: more org vulnerability. Cautious: less pursuit/strength loss.
+  if (leaderAtk.trait === 'reckless') attackerOrgDamage *= 1.1;
+  if (leaderDef.trait === 'reckless') defenderOrgDamage *= 1.1;
+  if (leaderAtk.trait === 'cautious') attackerStrengthDamage *= 0.82;
+  if (leaderDef.trait === 'cautious') defenderStrengthDamage *= 0.82;
+
+  attackerOrgDamage = clamp(attackerOrgDamage, 3, 60);
+  defenderOrgDamage = clamp(defenderOrgDamage, 3, 60);
+  attackerStrengthDamage = clamp(attackerStrengthDamage, 2, 45);
+  defenderStrengthDamage = clamp(defenderStrengthDamage, 2, 45);
 
   const attackerLosses = damageArmies(attackers, attackerOrgDamage, attackerStrengthDamage);
   const defenderLosses = damageArmies(defenders, defenderOrgDamage, defenderStrengthDamage);
@@ -883,6 +918,13 @@ function updateWarScores(world: World, fleetsByProv: Map<ProvinceId, Fleet[]>): 
     const blockade = calculateBlockadeScore(world, war, fleetsByProv);
     const battle = runtime.battleScoreByWar.get(war.id) ?? 0;
     const exhaustionTerm = (war.defenderExhaustion - war.attackerExhaustion) * 0.35;
+    war.scoreBreakdown = {
+      occupation,
+      capital,
+      blockade,
+      battle,
+      exhaustion: exhaustionTerm,
+    };
     war.score = clamp(occupation + capital + blockade + battle + exhaustionTerm, -100, 100);
   }
 }
@@ -971,8 +1013,28 @@ export function offerPeaceTerms(
   const offeringDefenders = war.defenders.includes(offeringNation);
   if (!offeringAttackers && !offeringDefenders) return { ok: false, reason: 'Nation is not in this war.' };
   if (goalsToEnforce.length === 0) {
+    const mutualExhaustion = war.attackerExhaustion >= WHITE_PEACE_MUTUAL_EXHAUSTION
+      && war.defenderExhaustion >= WHITE_PEACE_MUTUAL_EXHAUSTION;
+    const scoreBand = Math.abs(war.score) <= WHITE_PEACE_SCORE_BAND;
+    if (mutualExhaustion || scoreBand) {
+      endWar(world, warId);
+      return {
+        ok: true,
+        reason: mutualExhaustion
+          ? 'White peace signed (mutual exhaustion).'
+          : 'White peace signed (warscore stalemate).',
+      };
+    }
+    // Escape hatch closed: quitting outside free conditions costs prestige.
+    const quitter = world.nations[offeringNation];
+    if (quitter) {
+      quitter.prestige = Math.max(0, quitter.prestige - WHITE_PEACE_PRESTIGE_FEE);
+    }
     endWar(world, warId);
-    return { ok: true, reason: 'White peace signed.' };
+    return {
+      ok: true,
+      reason: `White peace signed (−${WHITE_PEACE_PRESTIGE_FEE} prestige).`,
+    };
   }
   const requested = goalsToEnforce
     .map((index) => war.goals[index])
@@ -1136,31 +1198,22 @@ function updateSieges(world: World, byProvince: Map<ProvinceId, Army[]>): void {
 
 function updateSupplyAndAttrition(world: World, embarkedIds: Set<ArmyId>): void {
   for (const army of world.armies) {
-    if (army.regiments.length === 0 || army.rebel) continue;
-    if (isArmyEmbarked(world, army.id, embarkedIds)) continue;
-    reinforceArmy(world, army);
-    if (!isSupplied(world, army.owner, army.location)) applyUnsuppliedAttrition(army);
+    if (army.regiments.length === 0 || army.rebel) {
+      army.supplied = true;
+      continue;
+    }
+    if (isArmyEmbarked(world, army.id, embarkedIds)) {
+      army.supplied = true;
+      continue;
+    }
+    // Supply topology is unchanged by reinforcement, so compute it once and
+    // reuse for both reinforcement and attrition (was two BFS per army/day).
+    const supplied = isSupplied(world, army.owner, army.location);
+    army.supplied = supplied;
+    reinforceArmy(world, army, supplied);
+    if (!supplied) applyUnsuppliedAttrition(army);
     cleanupArmy(army);
   }
-}
-
-function claimableColonialState(world: World, nationId: NationId, stateId: StateId): boolean {
-  const state = world.states[stateId];
-  if (!state || state.provinceIds.length === 0) return false;
-  const provinces = state.provinceIds.map((provinceId) => world.provinces[provinceId]).filter((province): province is Province => Boolean(province));
-  if (provinces.length === 0) return false;
-  if (!provinces.every((province) => province.colonial)) return false;
-  let adjacentByLand = false;
-  for (const province of provinces) {
-    if (province.neighbors.some((neighborId) => world.provinces[neighborId]?.owner === nationId)) {
-      adjacentByLand = true;
-      break;
-    }
-  }
-  const hasOverseasReach = provinces.some((province) => province.coastal) && world.provinces.some((province) => (
-    province.owner === nationId && province.coastal && province.navalBaseLevel > 0
-  ));
-  return adjacentByLand || hasOverseasReach;
 }
 
 function applyColonyToNation(world: World, stateId: StateId, nationId: NationId): void {
@@ -1177,25 +1230,134 @@ function applyColonyToNation(world: World, stateId: StateId, nationId: NationId)
   }
 }
 
-function computeColonialPoints(world: World, nationId: NationId): number {
+/**
+ * Naval-base power (province.navalBaseLevel * 10) summed per owner in a single
+ * provinces pass. Accumulating in province-index order per owner reproduces the
+ * exact float sequence the old per-nation filter+reduce produced.
+ */
+function navalBasePowerByOwner(world: World): number[] {
+  const power = new Array(world.nations.length).fill(0);
+  for (const province of world.provinces) {
+    const owner = province.owner;
+    if (owner >= 0 && owner < power.length) power[owner] += province.navalBaseLevel * 10;
+  }
+  return power;
+}
+
+export function computeColonialPointsBreakdown(
+  world: World,
+  nationId: NationId,
+  navalPow?: number[],
+): {
+  navalBases: number;
+  reforms: number;
+  navyTech: number;
+  gpBonus: number;
+  modifier: number;
+  committed: number;
+  available: number;
+} {
   const runtime = ensureRuntime(world);
   const nation = world.nations[nationId];
-  if (!nation) return 0;
-  const navalBasePower = world.provinces
-    .filter((province) => province.owner === nationId)
-    .reduce((sum, province) => sum + province.navalBaseLevel * 10, 0);
-  const reformBonus = (nation.reforms.conscription_level ?? 0) * 6 + (nation.reforms.army_professionalism ?? 0) * 4;
-  const techBonus = nationNavyTech(world, nationId) * 5;
+  if (!nation) {
+    return { navalBases: 0, reforms: 0, navyTech: 0, gpBonus: 0, modifier: 0, committed: 0, available: 0 };
+  }
+  const navalBases = navalPow
+    ? (navalPow[nationId] ?? 0)
+    : world.provinces
+        .filter((province) => province.owner === nationId)
+        .reduce((sum, province) => sum + province.navalBaseLevel * 10, 0);
+  const reforms = (nation.reforms.conscription_level ?? 0) * 6 + (nation.reforms.army_professionalism ?? 0) * 4;
+  const navyTech = nationNavyTech(world, nationId) * 5;
   const gpBonus = nation.gpRank > 0 ? 12 : 0;
+  const modifier = runtime.colonialPointModifiers.get(nationId) ?? 0;
   const committed = Array.from(runtime.colonialClaims.values())
     .filter((claim) => claim.claimants.has(nationId))
     .length * COLONIAL_CLAIM_COST;
-  return Math.max(0, Math.round(navalBasePower + reformBonus + techBonus + gpBonus - committed));
+  const available = Math.max(0, Math.round(navalBases + reforms + navyTech + gpBonus + modifier - committed));
+  return { navalBases, reforms, navyTech, gpBonus, modifier, committed, available };
+}
+
+function computeColonialPoints(world: World, nationId: NationId, navalPow?: number[]): number {
+  return computeColonialPointsBreakdown(world, nationId, navalPow).available;
+}
+
+export function addColonialPointsModifier(world: World, nationId: NationId, amount: number): void {
+  const runtime = ensureRuntime(world);
+  const next = clamp((runtime.colonialPointModifiers.get(nationId) ?? 0) + amount, -5000, 5000);
+  if (Math.abs(next) < 1e-9) runtime.colonialPointModifiers.delete(nationId);
+  else runtime.colonialPointModifiers.set(nationId, next);
+  const nation = world.nations[nationId];
+  if (nation) nation.colonialPoints = computeColonialPoints(world, nationId);
+}
+
+/** Daily colonization progress rate used for ETA (mirrors updateColonialClaims). */
+export function colonialDailyProgressRate(world: World, nationId: NationId): number {
+  const nation = world.nations[nationId];
+  if (!nation) return 0;
+  return 0.006 + (nation.gpRank > 0 ? 0.002 : 0);
+}
+
+export function listColonialClaimViews(world: World, forNation?: NationId): Array<{
+  stateId: StateId;
+  tension: number;
+  claimants: Array<{ nation: NationId; progress: number }>;
+  etaDays: number | null;
+}> {
+  const runtime = ensureRuntime(world);
+  return Array.from(runtime.colonialClaims.values())
+    .map((claim) => {
+      const claimants = Array.from(claim.claimants.entries())
+        .map(([nation, progress]) => ({ nation, progress }))
+        .sort((a, b) => a.nation - b.nation);
+      let etaDays: number | null = null;
+      if (forNation !== undefined && claim.claimants.has(forNation)) {
+        const nation = world.nations[forNation];
+        const progress = claim.claimants.get(forNation) ?? 0;
+        const rate = colonialDailyProgressRate(world, forNation);
+        if (nation && nation.colonialPoints >= COLONIAL_CLAIM_COST && rate > 0 && progress < 1) {
+          etaDays = Math.ceil((1 - progress) / rate);
+        }
+      }
+      return { stateId: claim.stateId, tension: claim.tension, claimants, etaDays };
+    })
+    .sort((a, b) => a.stateId - b.stateId);
+}
+
+export function colonialReachKind(
+  world: World,
+  nationId: NationId,
+  stateId: StateId,
+): 'adjacent' | 'overseas' | null {
+  const state = world.states[stateId];
+  if (!state || state.provinceIds.length === 0) return null;
+  const provinces = state.provinceIds.map((provinceId) => world.provinces[provinceId]).filter((province): province is Province => Boolean(province));
+  if (provinces.length === 0) return null;
+  if (!provinces.every((province) => province.colonial)) return null;
+  let adjacentByLand = false;
+  for (const province of provinces) {
+    if (province.neighbors.some((neighborId) => world.provinces[neighborId]?.owner === nationId)) {
+      adjacentByLand = true;
+      break;
+    }
+  }
+  if (adjacentByLand) return 'adjacent';
+  const coastal = provinces.some((province) => province.coastal);
+  const hasNavalBase = world.provinces.some((province) => (
+    province.owner === nationId && province.coastal && province.navalBaseLevel > 0
+  ));
+  if (coastal && hasNavalBase) return 'overseas';
+  return null;
+}
+
+export function claimableColonialState(world: World, nationId: NationId, stateId: StateId): boolean {
+  return colonialReachKind(world, nationId, stateId) !== null;
 }
 
 function updateColonialClaims(world: World): void {
   const runtime = ensureRuntime(world);
-  for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id);
+  const navalPow = navalBasePowerByOwner(world);
+  for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow);
   for (const claim of runtime.colonialClaims.values()) {
     const claimants = Array.from(claim.claimants.keys()).sort((a, b) => a - b);
     for (const claimant of claimants) {
@@ -1236,8 +1398,12 @@ export function startColonization(world: World, nationId: NationId, stateId: Sta
     claimants: new Map<NationId, number>(),
     tension: 0,
   };
-  existing.claimants.set(nationId, clamp((existing.claimants.get(nationId) ?? 0) + 0.25, 0, 1.2));
+  if (existing.claimants.has(nationId)) {
+    return { ok: false, reason: 'Already claiming this state.' };
+  }
+  existing.claimants.set(nationId, clamp(0.25, 0, 1.2));
   runtime.colonialClaims.set(stateId, existing);
+  nation.colonialPoints = computeColonialPoints(world, nationId);
   return { ok: true, reason: 'Colonial claim planted.' };
 }
 
@@ -1393,7 +1559,24 @@ export function disembarkFromFleet(world: World, fleetId: FleetId, targetProvinc
 
 function updateMobilizationUpkeep(world: World): void {
   const runtime = ensureRuntime(world);
+  if (runtime.mobilizedNations.size === 0) return;
   const byId = armiesByIdMap(world);
+
+  // Bucket civilian pops by their home owner in a single pass (was one full
+  // pop scan per mobilized nation — O(mobilized × pops) daily). Each pop is
+  // still touched at most once and order-independently, so results are identical.
+  const civilianPopsByOwner = new Map<NationId, typeof world.pops>();
+  for (const pop of world.pops) {
+    if (pop.type === 'soldier') continue;
+    const home = world.provinces[pop.provinceId];
+    if (!home) continue;
+    const owner = home.owner;
+    if (!runtime.mobilizedNations.has(owner)) continue;
+    const list = civilianPopsByOwner.get(owner) ?? [];
+    list.push(pop);
+    civilianPopsByOwner.set(owner, list);
+  }
+
   for (const nationId of runtime.mobilizedNations) {
     const nation = world.nations[nationId];
     if (!nation) continue;
@@ -1405,11 +1588,9 @@ function updateMobilizationUpkeep(world: World): void {
       mobilizedRegiments += army.regiments.length;
     }
     nation.treasury -= mobilizedRegiments * MOBILIZED_UPKEEP_DAILY;
-    for (const pop of world.pops) {
-      if (pop.type === 'soldier') continue;
-      const home = world.provinces[pop.provinceId];
-      if (!home || home.owner !== nationId) continue;
-      pop.needsMet = clamp(pop.needsMet - mobilizedRegiments * 0.000007, 0, 1);
+    const penalty = mobilizedRegiments * 0.000007;
+    for (const pop of civilianPopsByOwner.get(nationId) ?? []) {
+      pop.needsMet = clamp(pop.needsMet - penalty, 0, 1);
     }
   }
 }
@@ -1667,7 +1848,8 @@ export function runWarDaily(world: World, data: GameData, rng: Rng): void {
   if (world.wars.length === 0 && runtime.mobilizedNations.size === 0 && runtime.colonialClaims.size === 0 && !hasMovingArmy && !hasMovingFleet) {
     if (!hasRebels) {
       if (world.day % 30 === 0) {
-        for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id);
+        const navalPow = navalBasePowerByOwner(world);
+        for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow);
       }
       if (world.day % 7 === 0) updateRebellions(world, data);
       return;
@@ -1678,7 +1860,10 @@ export function runWarDaily(world: World, data: GameData, rng: Rng): void {
     updateRebellions(world, data);
     cleanupDestroyedForces(world);
     capRebelArmies(world);
-    for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id);
+    {
+      const navalPow = navalBasePowerByOwner(world);
+      for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow);
+    }
     return;
   }
   const armiesById = armiesByIdMap(world);

@@ -120,6 +120,9 @@ export function MilitaryPanel() {
   const selectedArmyComposition = regimentCountByType(selectedArmyStack);
   const totalFieldRegiments = derived.armies.reduce((sum, army) => sum + army.regiments.length, 0);
   const reserveCapacity = derived.playerSummary?.mobilizationCapacity ?? 0;
+  const standingCap = derived.playerSummary?.standingRegimentCapacity ?? 0;
+  const mobilizeRaise = Math.max(0, reserveCapacity - Math.max(0, totalFieldRegiments - standingCap));
+  const mobilizeCost = mobilizeRaise * 14;
   const warCombat = selectedWarObj ? (() => {
     const attackerArmies = snapshot.armies.filter((army) => selectedWarObj.attackers.includes(army.owner));
     const defenderArmies = snapshot.armies.filter((army) => selectedWarObj.defenders.includes(army.owner));
@@ -217,12 +220,16 @@ export function MilitaryPanel() {
             Recruit Composition
           </button>
           <button type="button" className="btn btn--secondary" disabled={recruitProvince < 0} onClick={() => sendCommand({ t: 'recruitArmy', province: recruitProvince })}>Quick Infantry Draft</button>
-          <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'mobilize' })}>Mobilize</button>
+          <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'mobilize' })}>
+            Mobilize{mobilizeRaise > 0 ? ` (+${mobilizeRaise} / £${mobilizeCost})` : ''}
+          </button>
           <button type="button" className="btn btn--ghost" onClick={() => sendCommand({ t: 'demobilize' })}>Demobilize</button>
         </div>
       </div>
       <p className="panel-subtle">
-        Field regiments: {totalFieldRegiments} | Reserve mobilization capacity: {reserveCapacity} | Composition rules: cavalry requires conscription I, artillery requires conscription I + professionalism I, guard requires conscription II + professionalism II.
+        Field regiments: {totalFieldRegiments} / standing cap {standingCap} | Reserve mobilization capacity: {reserveCapacity}
+        {mobilizeRaise > 0 ? ` | Mobilize would raise ~${mobilizeRaise} regiments for £${mobilizeCost}` : ' | No mobilize headroom'}
+        {' '}| Composition rules: cavalry requires conscription I, artillery requires conscription I + professionalism I, guard requires conscription II + professionalism II.
       </p>
 
       <div className="mil-grid">
@@ -307,10 +314,19 @@ export function MilitaryPanel() {
               <strong>Army {army.id}</strong>
               <span>
                 {provinceNameById.get(army.location) ?? `Province ${army.location}`} | {army.regiments.length} regiments | STR {avgRegimentStrength(army).toFixed(0)} | ORG {avgRegimentOrg(army).toFixed(0)}
-                {army.leader ? ` | ${army.leader.name}` : ' | No general'}
+                {army.leader
+                  ? ` | ${army.leader.name} (Atk ${army.leader.attack}/Def ${army.leader.defense}${army.leader.trait ? `, ${army.leader.trait.replaceAll('_', ' ')}` : ''})`
+                  : ' | No general'}
                 {' '}| {formatRegimentCount(regimentCountByType([army]))}
                 {' '}| {army.moveTarget >= 0 ? `Order: ${provinceNameById.get(army.moveTarget) ?? army.moveTarget}` : 'Order: Hold'}
-                {' '}| {avgRegimentStrength(army) < 930 ? 'Reinforcing' : 'Combat ready'}
+                {' '}| <span className={army.supplied === false ? 'status-danger' : 'status-positive'}>
+                  {army.supplied === false ? 'Unsupplied' : 'Supplied'}
+                </span>
+                {army.supplied !== false
+                  && avgRegimentStrength(army) < 1000
+                  && snapshot.provinces[army.location]?.controller === army.owner
+                  ? ' | Reinforcing'
+                  : ''}
               </span>
             </div>
             <div className="mil-actions">
@@ -410,12 +426,26 @@ export function MilitaryPanel() {
                 Score (your perspective):{' '}
                 <TraceTooltip
                   value={scorePerspective.toFixed(1)}
-                  trace={[
-                    { label: 'Raw warscore', value: selectedWarObj.score },
-                    { label: 'Attacker exhaustion', value: selectedWarObj.attackerExhaustion },
-                    { label: 'Defender exhaustion', value: selectedWarObj.defenderExhaustion },
-                    { label: 'Goals', value: selectedWarObj.goals.length },
-                  ]}
+                  trace={(() => {
+                    const parts = selectedWarObj.scoreBreakdown;
+                    const sign = isPlayerAttacker ? 1 : -1;
+                    if (!parts) {
+                      return [
+                        { label: 'Raw warscore', value: selectedWarObj.score },
+                        { label: 'Attacker exhaustion', value: selectedWarObj.attackerExhaustion },
+                        { label: 'Defender exhaustion', value: selectedWarObj.defenderExhaustion },
+                        { label: 'Goals', value: selectedWarObj.goals.length },
+                      ];
+                    }
+                    return [
+                      { label: 'Occupation', value: parts.occupation * sign },
+                      { label: 'Capital', value: parts.capital * sign },
+                      { label: 'Blockade', value: parts.blockade * sign },
+                      { label: 'Battles', value: parts.battle * sign },
+                      { label: 'Exhaustion', value: parts.exhaustion * sign },
+                      { label: 'Total (raw)', value: selectedWarObj.score * sign },
+                    ];
+                  })()}
                 />{' '}
                 | Exhaustion A{' '}
                 <TraceTooltip
@@ -452,6 +482,49 @@ export function MilitaryPanel() {
             </>
           ) : null}
         </>
+      )}
+
+      <h3 className="atlas-heading panel-small-heading">Recent Battles</h3>
+      {(snapshot.recentBattles ?? []).length === 0 ? (
+        <p className="panel-subtle">No recent battles involving your forces.</p>
+      ) : (
+        <ul className="panel-list mil-list">
+          {(snapshot.recentBattles ?? []).slice().reverse().map((battle) => {
+            const playerIsAttacker = battle.attackerNation === snapshot.playerNation;
+            const playerWon = (battle.outcome === 'attacker_victory') === playerIsAttacker;
+            const enemyId = playerIsAttacker ? battle.defenderNation : battle.attackerNation;
+            const enemy = snapshot.nations.find((nation) => nation.id === enemyId)?.name ?? 'enemy';
+            const sign = playerIsAttacker ? 1 : -1;
+            const entries = Object.entries(battle.factors) as Array<[string, number]>;
+            const decisive = entries.reduce((best, entry) => (Math.abs(entry[1]) > Math.abs(best[1]) ? entry : best));
+            const helpedPlayer = decisive[1] * sign > 0;
+            const FACTOR_TEXT: Record<string, [string, string]> = {
+              roll: ['fortune favored our arms', 'the dice went against us'],
+              organization: ['superior organization told', 'our lines were disordered'],
+              leadership: ['the general carried the day', 'we were outgeneraled'],
+              technology: ['better guns and drill decided it', 'their guns and drill outmatched ours'],
+              terrain: ['the ground fought for us', 'the ground fought against us'],
+              fort: ['the fortress held firm', 'their fortress blunted the assault'],
+            };
+            const why = (FACTOR_TEXT[decisive[0]] ?? ['decisive factor unclear', 'decisive factor unclear'])[helpedPlayer ? 0 : 1];
+            const ourLosses = playerIsAttacker ? battle.attackerLosses : battle.defenderLosses;
+            const theirLosses = playerIsAttacker ? battle.defenderLosses : battle.attackerLosses;
+            const outcomeLabel = battle.outcome === 'clash'
+              ? 'Clash'
+              : (playerWon ? 'Victory' : 'Defeat');
+            return (
+              <li key={`${battle.day}-${battle.provinceId}-${battle.warId}`}>
+                <div>
+                  <strong>{outcomeLabel} at {battle.provinceName}</strong>
+                  <span>
+                    Day {battle.day} vs {enemy} — {why}. Losses {Math.round(ourLosses)} to {Math.round(theirLosses)}.
+                    {' '}| Decisive: {decisive[0]} ({(decisive[1] * sign).toFixed(1)})
+                  </span>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       )}
     </section>
   );

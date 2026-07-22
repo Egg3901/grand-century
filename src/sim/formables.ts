@@ -35,17 +35,65 @@ function controlledCoreStates(world: World, nationId: NationId, coreStates: Stat
   return controlled;
 }
 
+export type CoreControlKind = 'owned' | 'sphered' | 'missing';
+
+export interface FormableCoreBreakdown {
+  stateId: StateId;
+  owner: NationId;
+  kind: CoreControlKind;
+}
+
+export function classifyFormableCores(
+  world: World,
+  nationId: NationId,
+  coreStates: StateId[],
+): FormableCoreBreakdown[] {
+  const nation = world.nations[nationId];
+  const sphere = new Set<number>(nation?.sphereMembers ?? []);
+  return coreStates.map((stateId) => {
+    const state = world.states[stateId];
+    const owner = state?.owner ?? -1;
+    let kind: CoreControlKind = 'missing';
+    if (owner === nationId) kind = 'owned';
+    else if (sphere.has(owner)) kind = 'sphered';
+    return { stateId, owner, kind };
+  });
+}
+
+function annexableCoreStates(world: World, nationId: NationId, coreStates: StateId[]): StateId[] {
+  return coreStates.filter((stateId) => world.states[stateId]?.owner === nationId);
+}
+
 function unmetReason(status: FormableStatus): string {
   const unmet = status.requirements.find((requirement) => !requirement.met);
   return unmet?.detail ?? 'Requirements not met.';
 }
 
-export function evaluateNationFormable(world: World, _data: GameData, nationId: NationId, formable: FormableDefinition): FormableStatus {
+/** Prestige granted when forming; NGF→GER does not double-dip the stepping-stone reward. */
+export function formablePrestigeReward(nationTag: string, definition: FormableDefinition, data: GameData): number {
+  let reward = definition.prestigeReward;
+  if (definition.key === 'GERMANY' && nationTag === 'NGF') {
+    const ngfReward = data.formables?.find((entry) => entry.key === 'NORTH_GERMAN_CONFEDERATION')?.prestigeReward ?? 30;
+    reward = Math.max(0, reward - ngfReward);
+  }
+  return reward;
+}
+
+export function evaluateNationFormable(world: World, data: GameData, nationId: NationId, formable: FormableDefinition): FormableStatus {
   const nation = world.nations[nationId];
   const coreStates = stateIdsForFormable(world, formable);
   const totalCoreStates = coreStates.length;
   const controlled = controlledCoreStates(world, nationId, coreStates);
   const required = requiredCoreStates(totalCoreStates, formable.requiredCoreShare);
+  const breakdown = classifyFormableCores(world, nationId, coreStates);
+  const ownedCount = breakdown.filter((entry) => entry.kind === 'owned').length;
+  const spheredCount = breakdown.filter((entry) => entry.kind === 'sphered').length;
+  const spheredRemainTags = Array.from(new Set(
+    breakdown
+      .filter((entry) => entry.kind === 'sphered')
+      .map((entry) => world.nations[entry.owner]?.tag)
+      .filter((tag): tag is string => Boolean(tag)),
+  )).sort((a, b) => a.localeCompare(b));
   const candidate = Boolean(nation && formable.candidateTags.includes(nation.tag));
   const independent = Boolean(nation && (!formable.requireIndependent || nation.spheredBy < 0));
   const power = Boolean(nation && (
@@ -55,6 +103,7 @@ export function evaluateNationFormable(world: World, _data: GameData, nationId: 
   const coreControl = controlled >= required;
   const year = 1820 + Math.floor(world.day / 365);
   const eraMet = !formable.yearAtLeast || year >= formable.yearAtLeast;
+  const prestigeReward = formablePrestigeReward(nation?.tag ?? '', formable, data);
   const requirements: FormableStatus['requirements'] = [
     {
       key: 'candidate',
@@ -84,7 +133,7 @@ export function evaluateNationFormable(world: World, _data: GameData, nationId: 
       key: 'core_control',
       label: 'Control core states (owned or sphered)',
       met: coreControl,
-      detail: `${controlled}/${totalCoreStates} controlled. Need ${required}.`,
+      detail: `${controlled}/${totalCoreStates} controlled (${ownedCount} owned, ${spheredCount} sphered). Need ${required}. Sphered cores do not annex on proclaim.`,
     },
   ];
   if (formable.yearAtLeast) {
@@ -109,6 +158,11 @@ export function evaluateNationFormable(world: World, _data: GameData, nationId: 
     totalCoreStates,
     requiredCoreStates: required,
     requirements,
+    prestigeReward,
+    coreBreakdown: breakdown.map((entry) => ({ ...entry })),
+    ownedCoreCount: ownedCount,
+    spheredCoreCount: spheredCount,
+    spheredRemainTags,
   };
   if (!status.ready) status.reason = unmetReason(status);
   return status;
@@ -146,18 +200,17 @@ export function formNation(world: World, data: GameData, nationId: NationId, for
   if (!status.ready) return { ok: false, reason: status.reason };
 
   const previousName = nation.name;
+  const previousTag = nation.tag;
   const coreStates = status.coreStateIds.slice();
-  const integratedNations = new Set<NationId>();
+  // BALANCE: sphered cores may satisfy control, but only owned cores annex.
+  const ownedCores = annexableCoreStates(world, nationId, coreStates);
 
-  for (const stateId of coreStates) {
+  for (const stateId of ownedCores) {
     const state = world.states[stateId];
     if (!state) continue;
-    if (state.owner !== nationId) integratedNations.add(state.owner);
-    state.owner = nationId;
     for (const provinceId of state.provinceIds) {
       const province = world.provinces[provinceId];
       if (!province) continue;
-      if (province.owner !== nationId) integratedNations.add(province.owner);
       province.owner = nationId;
       province.controller = nationId;
       province.occupationProgress = 0;
@@ -167,7 +220,7 @@ export function formNation(world: World, data: GameData, nationId: NationId, for
   nation.tag = definition.resultTag;
   nation.name = definition.resultName;
   nation.color = definition.resultColor;
-  nation.prestige += definition.prestigeReward;
+  nation.prestige += formablePrestigeReward(previousTag, definition, data);
   nation.coreStateIds = uniqueSorted([...(nation.coreStateIds ?? []), ...coreStates]);
 
   if (definition.resultPrimaryCulture) {
@@ -177,28 +230,7 @@ export function formNation(world: World, data: GameData, nationId: NationId, for
       nation.acceptedCultures = uniqueSorted([culture, ...nation.acceptedCultures]);
     }
   }
-  nation.capital = preferredCapitalProvince(world, nationId, coreStates);
-
-  for (const integratedId of Array.from(integratedNations).sort((a, b) => a - b)) {
-    if (integratedId === nationId) continue;
-    const integrated = world.nations[integratedId];
-    if (!integrated) continue;
-    const hasRemainingStates = world.states.some((state) => state.owner === integratedId);
-    if (!hasRemainingStates) {
-      integrated.sphereMembers = [];
-      integrated.spheredBy = -1;
-      integrated.gpRank = 0;
-      for (const army of world.armies) {
-        if (army.owner !== integratedId || army.rebel) continue;
-        army.owner = nationId;
-      }
-      for (const fleet of world.fleets) {
-        if (fleet.owner !== integratedId) continue;
-        fleet.owner = nationId;
-      }
-    }
-    nation.acceptedCultures = uniqueSorted([integrated.primaryCulture, ...nation.acceptedCultures]);
-  }
+  nation.capital = preferredCapitalProvince(world, nationId, ownedCores.length > 0 ? ownedCores : coreStates);
 
   for (const candidate of world.nations) {
     candidate.sphereMembers = uniqueSorted(candidate.sphereMembers.filter((memberId) => memberId !== candidate.id));

@@ -105,7 +105,7 @@ describe('E3 formable nations', () => {
     expect(readyStatus.ready).toBe(true);
   });
 
-  it('forming Germany transfers all core states and keeps world valid', () => {
+  it('forming Germany via sphere meets requirements but does not free-annex sphered cores', () => {
     const world = createWorld(GAME_DATA, 8302);
     const prussiaId = nationIdByTag(world, 'PRU');
     expect(prussiaId).toBeGreaterThanOrEqual(0);
@@ -116,8 +116,13 @@ describe('E3 formable nations', () => {
     jumpToYear(world, 1849);
     const prestigeBefore = world.nations[prussiaId].prestige;
 
+    const ownersBefore = new Map(
+      formable.coreStateIds.map((stateId) => [stateId, world.states[stateId]?.owner ?? -1]),
+    );
+
     const precheck = evaluateNationFormable(world, GAME_DATA, prussiaId, formable);
     expect(precheck.ready).toBe(true);
+    expect((precheck.spheredCoreCount ?? 0)).toBeGreaterThan(0);
 
     applyCommand(world, GAME_DATA, { t: 'formNation', key: 'GERMANY' }, noopPost);
 
@@ -126,14 +131,33 @@ describe('E3 formable nations', () => {
     expect(prussia.name).toBe('German Empire');
     expect(prussia.prestige).toBeGreaterThan(prestigeBefore);
 
+    // Sphered cores must remain with their owners — no free annex on proclaim.
     for (const stateId of formable.coreStateIds) {
       const state = world.states[stateId];
-      expect(state?.owner).toBe(prussiaId);
-      for (const provinceId of state?.provinceIds ?? []) {
-        expect(world.provinces[provinceId].owner).toBe(prussiaId);
-      }
+      const beforeOwner = ownersBefore.get(stateId);
+      expect(state?.owner).toBe(beforeOwner);
     }
 
+    assertWorldValidity(world);
+  });
+
+  it('forming Germany with owned cores keeps those cores and world valid', () => {
+    const world = createWorld(GAME_DATA, 8305);
+    const prussiaId = nationIdByTag(world, 'PRU');
+    expect(prussiaId).toBeGreaterThanOrEqual(0);
+    const formable = germanFormable();
+    setPlayerNation(world, prussiaId);
+    transferGermanCoresToPrussia(world, prussiaId);
+    world.nations[prussiaId].gpRank = Math.max(1, world.nations[prussiaId].gpRank);
+    jumpToYear(world, 1849);
+
+    applyCommand(world, GAME_DATA, { t: 'formNation', key: 'GERMANY' }, noopPost);
+
+    const prussia = world.nations[prussiaId];
+    expect(prussia.tag).toBe('GER');
+    for (const stateId of formable.coreStateIds) {
+      expect(world.states[stateId]?.owner).toBe(prussiaId);
+    }
     assertWorldValidity(world);
   });
 

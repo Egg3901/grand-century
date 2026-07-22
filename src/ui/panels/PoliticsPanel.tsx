@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { useStore } from '../../store';
 import type { NationDetail } from '../../shared/types';
+import { reformMechanicalEffect } from '../../sim/politics';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 function pct(value: number): string {
@@ -12,6 +13,13 @@ function money(value: number): string {
 }
 
 const CATEGORIES = ['economic', 'political', 'social', 'military'] as const;
+
+const FRANCHISE_LEGEND = [
+  { level: 0, name: 'No Franchise', weight: 'Aristocrat / capitalist / officer ≈ 0.8; others 0' },
+  { level: 1, name: 'Landed', weight: 'Rich 1.0; clergy/officer 0.65; others 0.15' },
+  { level: 2, name: 'Wealth', weight: 'Rich 1.0; clergy/officer/clerk 0.8; craftsman 0.6; rest 0.35' },
+  { level: 3, name: 'Universal', weight: 'All pop types vote at full weight' },
+] as const;
 
 export function PoliticsPanel() {
   const snapshot = useStore((state) => state.snapshot);
@@ -33,6 +41,8 @@ export function PoliticsPanel() {
     if (!detail) return new Map<string, NationDetail['reformsAvailable'][number]>();
     return new Map(detail.reformsAvailable.map((entry) => [`${entry.reform}:${entry.level}`, entry]));
   }, [detail]);
+
+  const franchiseLevel = detail?.reforms.voting_franchise ?? 0;
 
   if (!snapshot || !data || !player || !detail || detail.id !== snapshot.playerNation) {
     return (
@@ -62,6 +72,19 @@ export function PoliticsPanel() {
               ]}
             />
             <span className="ledger-suffix"> / {detail.infamyLimit.toFixed(1)}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>Suppression</dt>
+          <dd className={detail.politicalSuppression >= 0.7 ? 'unrest' : undefined}>
+            <TraceTooltip
+              value={pct(detail.politicalSuppression)}
+              trace={[
+                { label: 'Franchise level', value: franchiseLevel },
+                { label: 'Press level', value: detail.reforms.press_rights ?? 0 },
+                { label: 'Feeds militancy & unrest', value: detail.politicalSuppression },
+              ]}
+            />
           </dd>
         </div>
         <div>
@@ -96,7 +119,10 @@ export function PoliticsPanel() {
         </div>
         <div>
           <dt>Last Result</dt>
-          <dd>{detail.election.lastResult}</dd>
+          <dd>
+            {detail.election.lastResult}
+            {detail.election.winnerShare > 0 ? ` (${pct(detail.election.winnerShare)})` : ''}
+          </dd>
         </div>
         <div>
           <dt>Mobilization Cap</dt>
@@ -113,6 +139,69 @@ export function PoliticsPanel() {
           </dd>
         </div>
       </dl>
+
+      <h3 className="atlas-heading panel-small-heading">Franchise Weights</h3>
+      <ul className="panel-list">
+        {FRANCHISE_LEGEND.map((entry) => (
+          <li key={entry.level} className={entry.level === franchiseLevel ? undefined : 'panel-subtle'}>
+            <span>
+              {entry.level === franchiseLevel ? '▸ ' : ''}
+              {entry.name}
+            </span>
+            <span>{entry.weight}</span>
+          </li>
+        ))}
+      </ul>
+
+      {detail.election.ideologyShares.length > 0 ? (
+        <>
+          <h3 className="atlas-heading panel-small-heading">Last Election — Ideology Vote Share</h3>
+          <ul className="panel-list">
+            {detail.election.ideologyShares.map((entry) => (
+              <li key={entry.ideology}>
+                <span>{entry.ideology}</span>
+                <span>{pct(entry.share)}</span>
+              </li>
+            ))}
+            <li>
+              <span>Winner share</span>
+              <span>{pct(detail.election.winnerShare)}</span>
+            </li>
+          </ul>
+        </>
+      ) : null}
+
+      <h3 className="atlas-heading panel-small-heading">Parties & Platforms</h3>
+      <ul className="panel-list mil-list">
+        {detail.parties.map((party) => {
+          const ahead = party.positions.filter((pos) => pos.level > pos.current);
+          const behind = party.positions.filter((pos) => pos.level < pos.current);
+          return (
+            <li key={party.key}>
+              <div>
+                <strong>
+                  {party.name}
+                  {party.ruling ? ' (ruling)' : ''}
+                </strong>
+                <span>{party.ideology}</span>
+              </div>
+              <div>
+                <span>
+                  Enacts toward:{' '}
+                  {ahead.length > 0
+                    ? ahead.slice(0, 4).map((pos) => `${pos.reform.replaceAll('_', ' ')}→${pos.level}`).join(', ')
+                    : 'current levels'}
+                </span>
+                {behind.length > 0 ? (
+                  <span className="panel-subtle">
+                    Below current: {behind.slice(0, 3).map((pos) => pos.reform.replaceAll('_', ' ')).join(', ')}
+                  </span>
+                ) : null}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
 
       <h3 className="atlas-heading panel-small-heading">Upper House</h3>
       <ul className="panel-list">
@@ -145,7 +234,7 @@ export function PoliticsPanel() {
                   value={entry.risk.toFixed(2)}
                   trace={[
                     { label: 'State militancy', value: entry.militancy },
-                    { label: 'National consciousness', value: detail.avgConsciousness },
+                    { label: 'Suppression', value: detail.politicalSuppression },
                     { label: 'Reform pressure', value: detail.topReformDemands[0]?.support ?? 0 },
                   ]}
                 />
@@ -173,10 +262,12 @@ export function PoliticsPanel() {
               .filter((reform) => reform.category === category)
               .map((reform) => {
                 const current = detail.reforms[reform.key] ?? 0;
+                const currentMech = reformMechanicalEffect(reform.key, current);
                 return (
                   <div key={reform.key} className="production-build-row">
                     <strong>{reform.name}</strong>
                     <span>Current: {reform.options[current]?.name ?? 'Unknown'}</span>
+                    {currentMech ? <span className="panel-subtle">Effect: {currentMech}</span> : null}
                     <div className="production-build-actions">
                       {reform.options.map((option, level) => {
                         if (level <= current) {
@@ -189,6 +280,17 @@ export function PoliticsPanel() {
                         const next = availability.get(`${reform.key}:${level}`);
                         const legal = next?.legal ?? false;
                         const reason = next?.reason ?? 'Unavailable';
+                        const isNextStep = level === current + 1;
+                        const supportLabel = isNextStep
+                          ? `UH ${pct(next?.support ?? 0)} / ${pct(next?.requiredSupport ?? 0)}`
+                          : null;
+                        const mech = reformMechanicalEffect(reform.key, level);
+                        const titleParts = [
+                          reason,
+                          `Support ${pct(next?.support ?? 0)} / ${pct(next?.requiredSupport ?? 0)}`,
+                          `Cost ${money(next?.costMoney ?? 0)} + ${next?.costPrestige.toFixed(1) ?? '0.0'} prestige`,
+                        ];
+                        if (mech) titleParts.push(`Effect: ${mech}`);
                         return (
                           <button
                             key={option.key}
@@ -196,14 +298,22 @@ export function PoliticsPanel() {
                             className={legal ? 'btn btn--primary' : 'btn btn--secondary'}
                             data-coach-id={legal ? 'reform-action' : undefined}
                             disabled={!legal}
-                            title={`${reason} | Support ${pct(next?.support ?? 0)} / ${pct(next?.requiredSupport ?? 0)} | Cost ${money(next?.costMoney ?? 0)} + ${next?.costPrestige.toFixed(1) ?? '0.0'} prestige`}
+                            title={titleParts.join(' | ')}
                             onClick={() => sendCommand({ t: 'enactReform', reform: reform.key, level })}
                           >
-                            {legal ? `Enact ${option.name}` : `${option.name} (${reason})`}
+                            {legal
+                              ? `Enact ${option.name}${supportLabel ? ` · ${supportLabel}` : ''}`
+                              : `${option.name}${supportLabel ? ` · ${supportLabel}` : ''} (${reason})`}
                           </button>
                         );
                       })}
                     </div>
+                    {reform.options[current + 1] ? (
+                      <span className="panel-subtle">
+                        Next effect: {reformMechanicalEffect(reform.key, current + 1)
+                          ?? (reform.options[current + 1]?.effects[0] ?? '—')}
+                      </span>
+                    ) : null}
                   </div>
                 );
               })}

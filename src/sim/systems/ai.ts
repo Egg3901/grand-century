@@ -617,6 +617,11 @@ function maybeBuildFactory(world: World, data: GameData, nationId: NationId): vo
     lastOutput: 0,
     profitableWeeks: 0,
     lossWeeks: 0,
+    lastInputCost: 0,
+    lastWages: 0,
+    lastOperating: 0,
+    lastCapacity: 2300,
+    lastInputFill: 1,
   });
 }
 
@@ -833,7 +838,7 @@ function chooseWarTarget(world: World, nationId: NationId, neighbors: NationId[]
     if (relation.kind === 'alliance') continue;
     const targetState = bestTargetStateForWar(world, nationId, targetId);
     const attackers = collectAllianceBloc(world, nationId, targetId);
-    const defenders = collectAllianceBloc(world, targetId, nationId);
+    const defenders = collectAllianceBloc(world, targetId, nationId, { includeGuarantees: true });
     const dedupAttackers = Array.from(new Set(attackers.filter((id) => !defenders.includes(id)))).sort((a, b) => a - b);
     const dedupDefenders = Array.from(new Set(defenders.filter((id) => !dedupAttackers.includes(id)))).sort((a, b) => a - b);
     const attackPower = estimateBlocPower(world, dedupAttackers.length > 0 ? dedupAttackers : [nationId]);

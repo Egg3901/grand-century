@@ -10,6 +10,7 @@ const PANELS: { id: PanelId; label: string }[] = [
   { id: 'budget', label: 'Budget' },
   { id: 'production', label: 'Production' },
   { id: 'population', label: 'Population' },
+  { id: 'cultures', label: 'Cultures' },
   { id: 'market', label: 'Market' },
   { id: 'politics', label: 'Politics' },
   { id: 'diplomacy', label: 'Diplomacy' },
@@ -27,6 +28,7 @@ const MAP_MODES: { id: MapMode; label: string }[] = [
   { id: 'ruling_ideology', label: 'Ruling Ideology' },
   { id: 'unrest', label: 'Unrest' },
   { id: 'population', label: 'Population' },
+  { id: 'culture', label: 'Culture' },
   { id: 'economy', label: 'Economy' },
   { id: 'military', label: 'Military' },
   { id: 'diplomatic', label: 'Diplomatic' },
@@ -75,11 +77,26 @@ export function Hud() {
     if (!snapshot) return null;
     return snapshot.nations.find((nation) => nation.id === snapshot.playerNation) ?? null;
   }, [snapshot]);
+  const monthlyNet = snapshot?.playerBudget?.net ?? 0;
   const snapshotSpeed = snapshot?.speed ?? 0;
   const currentSpeed = optimisticSpeed ?? snapshotSpeed;
   const formattedDate = snapshot
     ? `${snapshot.date.year}-${String(snapshot.date.month).padStart(2, '0')}-${String(snapshot.date.day).padStart(2, '0')}`
     : '1820-01-01';
+  const researchChip = useMemo(() => {
+    const tech = snapshot?.playerTech;
+    if (!tech) return null;
+    const currentName = tech.current
+      ? (tech.statuses.find((status) => status.key === tech.current)?.name ?? tech.current)
+      : null;
+    return {
+      points: tech.researchPoints,
+      label: currentName ?? 'Idle',
+      title: currentName
+        ? `Open Technology — researching ${currentName}`
+        : 'Open Technology — no active research',
+    };
+  }, [snapshot?.playerTech]);
 
   const panels = useMemo(
     () => (multiplayer ? PANELS.filter((p) => p.id !== 'save_load') : PANELS),
@@ -143,10 +160,34 @@ export function Hud() {
           {playerNation ? <NationFlag tag={playerNation.tag} color={playerNation.color} size={24} /> : null}
           <span className="atlas-heading">{playerNation?.name ?? 'United Kingdom'}</span>
           <strong>{formatMoney(playerNation?.treasury ?? 0)}</strong>
+          <span className={`hud-monthly-net ${monthlyNet >= 0 ? 'is-positive' : 'is-negative'}`}>
+            {monthlyNet >= 0 ? '+' : ''}{formatMoney(monthlyNet)}/mo
+          </span>
           <span className={`hud-infamy ${playerNation && snapshot && playerNation.infamy >= snapshot.infamyLimit ? 'is-danger' : ''}`}>
             Infamy {(playerNation?.infamy ?? 0).toFixed(1)}
             {snapshot ? ` / ${snapshot.infamyLimit.toFixed(1)}` : ''}
           </span>
+          {researchChip ? (
+            <button
+              type="button"
+              className="hud-research"
+              data-testid="hud-research"
+              title={researchChip.title}
+              {...instantPressProps(() => togglePanel('technology'))}
+            >
+              RP {researchChip.points.toFixed(0)}
+              {' · '}
+              {researchChip.label}
+            </button>
+          ) : null}
+          {snapshot?.playerBalanceOfPower ? (
+            <span
+              className={`hud-infamy ${snapshot.playerBalanceOfPower.rivalryThreat ? 'is-danger' : ''}`}
+              title={`${snapshot.playerBalanceOfPower.formableName}: GPs lose ${snapshot.playerBalanceOfPower.monthlyOpinionHit}/mo opinion`}
+            >
+              BoP {(snapshot.playerBalanceOfPower.share * 100).toFixed(0)}%
+            </span>
+          ) : null}
           <button type="button" {...instantPressProps(() => setMuteAudio(!muteAudio))}>{muteAudio ? 'Unmute' : 'Mute'}</button>
           <button
             type="button"
@@ -211,6 +252,9 @@ export function Hud() {
           {playerNation ? <NationFlag tag={playerNation.tag} color={playerNation.color} size={18} /> : null}
           <span>{playerNation?.name ?? 'United Kingdom'}</span>
           <strong>{speedLabel(currentSpeed)} · {formatMoney(playerNation?.treasury ?? 0)}</strong>
+          <span className={`hud-monthly-net ${monthlyNet >= 0 ? 'is-positive' : 'is-negative'}`}>
+            {monthlyNet >= 0 ? '+' : ''}{formatMoney(monthlyNet)}/mo
+          </span>
         </div>
       </header>
 

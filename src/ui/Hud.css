@@ -9,6 +9,8 @@
   padding: 0.55rem 1.1rem;
   border-radius: var(--gc-radius);
   min-width: min(92vw, 980px);
+  /* Above EventPopup layer so Pause/Play stay reachable mid-dispatch. */
+  z-index: 30;
 }
 
 .hud-top__section {
@@ -165,6 +167,51 @@
   border-radius: var(--gc-radius-sm);
   background: rgba(255, 248, 230, 0.35);
   border: 1px solid var(--gc-border-soft);
+}
+
+.hud-research {
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink);
+  padding: 0.12rem 0.4rem;
+  border-radius: var(--gc-radius-sm);
+  background: rgba(255, 248, 230, 0.35);
+  border: 1px solid var(--gc-border-soft);
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.hud-top button.hud-research {
+  min-width: 0;
+  padding: 0.12rem 0.4rem;
+  font-size: var(--gc-fs-caption);
+  font-family: inherit;
+  letter-spacing: normal;
+  background: rgba(255, 248, 230, 0.35);
+  border-color: var(--gc-border-soft);
+  box-shadow: none;
+}
+
+.hud-monthly-net {
+  font-size: var(--gc-fs-caption);
+  font-weight: 700;
+  padding: 0.12rem 0.4rem;
+  border-radius: var(--gc-radius-sm);
+  border: 1px solid var(--gc-border-soft);
+}
+
+.hud-monthly-net.is-positive {
+  color: var(--gc-positive);
+  background: rgba(42, 74, 46, 0.1);
+  border-color: rgba(42, 74, 46, 0.35);
+}
+
+.hud-monthly-net.is-negative {
+  color: var(--gc-danger, #8a2b22);
+  background: rgba(138, 43, 34, 0.1);
+  border-color: rgba(138, 43, 34, 0.35);
 }
 
 .hud-infamy.is-danger {
@@ -514,7 +561,7 @@
     top: calc(env(safe-area-inset-top) + 0.45rem);
     left: 0.5rem;
     right: 0.5rem;
-    z-index: 19;
+    z-index: 30;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 0.45rem 0.7rem;

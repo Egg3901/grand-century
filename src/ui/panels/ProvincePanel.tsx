@@ -74,6 +74,18 @@ export function ProvincePanel() {
           <dt>Fort</dt>
           <dd>{detail.fortLevel}</dd>
         </div>
+        {provinceSummary ? (
+          <div>
+            <dt>Occupation</dt>
+            <dd>
+              {(provinceSummary.occupation * 100).toFixed(0)}%
+              {provinceSummary.controller !== provinceSummary.owner
+                ? ` · Controller: ${snapshot?.nations.find((nation) => nation.id === provinceSummary.controller)?.name
+                  ?? `Nation ${provinceSummary.controller}`}`
+                : ' · Owner holds'}
+            </dd>
+          </div>
+        ) : null}
         <div>
           <dt>Naval Base</dt>
           <dd>{detail.navalBaseLevel}</dd>
@@ -100,6 +112,10 @@ export function ProvincePanel() {
           <li key={pop.type}>
             <span>{pop.type}</span>
             <span>{pop.size.toLocaleString()}</span>
+            <span className={pop.militancy >= 4 ? 'unrest' : undefined}>
+              Mil {pop.militancy.toFixed(2)}
+            </span>
+            <span>Needs {(Math.max(0, Math.min(1, pop.needsMet)) * 100).toFixed(0)}%</span>
           </li>
         ))}
       </ul>

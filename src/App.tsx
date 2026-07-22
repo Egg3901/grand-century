@@ -1,19 +1,8 @@
 import './App.css';
 import { Suspense, lazy, useMemo } from 'react';
-import { Hud } from './ui/Hud';
-import { PanelHost } from './ui/panels/PanelHost';
 import { MainMenu } from './ui/MainMenu';
 import { LobbyScreen } from './ui/Lobby';
-import { PresenceHud } from './ui/PresenceHud';
-import { ChatHud } from './ui/ChatHud';
 import { PermalinkBootstrap } from './ui/PermalinkBootstrap';
-import { Outliner } from './ui/Outliner';
-import { EventFeed } from './ui/EventFeed';
-import { EventPopup } from './ui/EventPopup';
-import { MapLegend } from './ui/MapLegend';
-import { AudioManager } from './ui/AudioManager';
-import { TutorialCoach } from './ui/TutorialCoach';
-import { CampaignRecap } from './ui/CampaignRecap';
 import { parseLobbyHash } from './net/mpJoin';
 import { useStore } from './store';
 
@@ -21,6 +10,10 @@ const LazyGrandMap = lazy(async () => {
   const module = await import('./map/GrandMap');
   return { default: module.GrandMap };
 });
+
+// The in-game HUD + all panels are the bulk of the UI code but aren't needed to
+// paint the main menu, so they load in their own chunk off the first-paint path.
+const LazyGameHud = lazy(() => import('./ui/GameHud'));
 
 function App() {
   const snapshot = useStore((state) => state.snapshot);
@@ -35,17 +28,9 @@ function App() {
         <LazyGrandMap />
       </Suspense>
       <div className={`hud-layer${showMainMenu ? ' hud-layer--backstage' : ''}`}>
-        <AudioManager />
-        <Hud />
-        <PresenceHud />
-        <ChatHud />
-        <Outliner />
-        <MapLegend />
-        <EventFeed />
-        <EventPopup />
-        <PanelHost />
-        <TutorialCoach />
-        <CampaignRecap />
+        <Suspense fallback={null}>
+          <LazyGameHud />
+        </Suspense>
       </div>
       {!snapshot || !data ? (
         <div className="loading-veil">

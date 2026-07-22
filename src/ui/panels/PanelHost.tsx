@@ -23,6 +23,7 @@ const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
   budget: 'Budget',
   production: 'Production',
   population: 'Population',
+  cultures: 'Cultures',
   market: 'Market',
   politics: 'Politics',
   diplomacy: 'Diplomacy',
@@ -37,7 +38,7 @@ const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
 
 /** Panels that show a nation shield in the chrome header. */
 const NATION_SCOPED_PANELS = new Set<PanelId>([
-  'province', 'budget', 'production', 'population', 'market', 'politics',
+  'province', 'budget', 'production', 'population', 'cultures', 'market', 'politics',
   'diplomacy', 'great_powers', 'military', 'colonization', 'technology',
   'formables', 'decisions',
 ]);
@@ -76,7 +77,7 @@ export function PanelHost() {
           {openPanel === 'province' ? <ProvincePanel /> : null}
           {openPanel === 'budget' ? <BudgetPanel /> : null}
           {openPanel === 'population' ? <PopulationPanel /> : null}
-          {openPanel === 'population' ? <CulturePanel /> : null}
+          {openPanel === 'cultures' ? <CulturePanel /> : null}
           {openPanel === 'production' ? <ProductionPanel /> : null}
           {openPanel === 'market' ? <MarketPanel /> : null}
           {openPanel === 'politics' ? <PoliticsPanel /> : null}

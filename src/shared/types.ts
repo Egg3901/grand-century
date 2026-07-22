@@ -169,8 +169,9 @@ export interface TechModifiers {
    */
   factoryProfit?: number;
   /**
-   * 0.7.0 tech-depth — tariff income multiplier bonus (0.05 = +5%).
-   * Commerce/trade. Applied when monthly tariff income is settled in budget.
+   * 0.7.0 tech-depth — customs / tariff yield multiplier (0.05 = +5%).
+   * Deepens tariff extraction in market.ts (not trade volume). Relabeled from
+   * the old "trade efficiency" copy that sounded like a trade buff.
    */
   tradeEfficiency?: number;
 }
@@ -246,6 +247,7 @@ export type EventRequirement =
   | { t: 'yearAtLeast'; value: number }
   | { t: 'yearAtMost'; value: number }
   | { t: 'minLiteracy'; value: number }
+  | { t: 'minFactoryCount'; value: number }
   | { t: 'hasFormableCandidate' }
   // 1.0-U1: decision-chain gating.
   | { t: 'tagIn'; tags: string[] }
@@ -336,6 +338,8 @@ export interface DecisionStatus {
   reason: string;
   costSummary: string[];
   effectsSummary: string[];
+  /** Core-share progress, arc position, next unlock — for the Decisions panel. */
+  progressLines?: string[];
 }
 
 export interface FormableRequirementStatus {
@@ -356,6 +360,14 @@ export interface FormableStatus {
   totalCoreStates: number;
   requiredCoreStates: number;
   requirements: FormableRequirementStatus[];
+  /** Prestige granted on successful form (after NGF→GER stacking gate). */
+  prestigeReward?: number;
+  /** Per-core Owned / Sphered / Missing. */
+  coreBreakdown?: Array<{ stateId: StateId; owner: NationId; kind: 'owned' | 'sphered' | 'missing' }>;
+  ownedCoreCount?: number;
+  spheredCoreCount?: number;
+  /** Sphere members whose cores satisfy control but are not annexed on proclaim. */
+  spheredRemainTags?: string[];
 }
 
 /** Everything static the game is built from. Loaded once, never mutated. */
@@ -393,12 +405,22 @@ export interface Pop {
   lastGrowth: number;    // monthly growth delta from last monthly tick
   /** ideology/issue leanings summed to 1; kept compact for perf */
   ideology: number;      // index into a small ideology enum for shallow model
+  /** Last weekly life-needs fill fraction (0–1). Optional for old saves. */
+  lifeNeedsFrac?: number;
+  /** Last weekly everyday-needs fill fraction (0–1). */
+  everydayNeedsFrac?: number;
+  /** Last weekly luxury-needs fill fraction (0–1). */
+  luxuryNeedsFrac?: number;
+  /** Goods with unmet demand last weekly tick (worst fills first, capped). */
+  scarceGoods?: { good: GoodId; fill: number }[];
 }
 
 export interface RGO {
   recipe: string;        // Recipe.key with building 'rgo'
   level: number;         // capacity
   employed: number;
+  /** Last weekly owner+state share after wages (not a fabricated proxy). */
+  weeklyProfit: number;
 }
 
 /** 1.0-U5: one yearly line of the player's campaign, recorded by the sim. */
@@ -450,6 +472,13 @@ export interface Factory {
   lastOutput: number;
   profitableWeeks: number;
   lossWeeks: number;
+  /** Last-week P&L / employment diagnostics for Production panel traces. */
+  lastInputCost: number;
+  lastWages: number;
+  lastOperating: number;
+  lastCapacity: number;
+  /** 0–1 fraction of needed inputs actually purchased last week. */
+  lastInputFill: number;
 }
 
 export interface Province {
@@ -501,6 +530,10 @@ export interface Nation {
   lastElectionYear: number;
   nextElectionYear: number;
   electionLastResult: string;
+  /** Ideology vote shares from the last election (sums ~1). Optional for old saves. */
+  electionIdeologyShares?: Record<PartyIdeology, number>;
+  /** Winner's share of total franchise-weighted votes, 0-1. */
+  electionWinnerShare?: number;
   capital: ProvinceId;
   coreStateIds?: StateId[];
 
@@ -553,6 +586,8 @@ export interface Nation {
   culturePolicy?: CulturePolicy;
   /** culture index -> people assimilated out of it last month (UI trace). */
   assimilationByCulture?: Record<number, number>;
+  /** Day culture policy was last changed (-1 never). */
+  culturePolicyChangedDay?: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -607,6 +642,8 @@ export interface Army {
   hostileTo: NationId;
   rebellionId?: number;
   rebelDemand?: RebelDemand | null;
+  /** Snapshot/display: in supply range of friendly control. */
+  supplied?: boolean;
 }
 
 export interface Ship {
@@ -637,6 +674,15 @@ export interface WarGoal {
   scoreValue: number;    // war-score % required/awarded
 }
 
+/** Additive warscore parts from updateWarScores (attackers' perspective). */
+export interface WarScoreBreakdown {
+  occupation: number;
+  capital: number;
+  blockade: number;
+  battle: number;
+  exhaustion: number;
+}
+
 export interface War {
   id: WarId;
   attackers: NationId[];
@@ -647,6 +693,8 @@ export interface War {
   attackerExhaustion: number;
   defenderExhaustion: number;
   startDay: GameDay;
+  /** Component parts that sum (pre-clamp) into score. Display-only / additive. */
+  scoreBreakdown?: WarScoreBreakdown;
 }
 
 export type DiploRelationKind =
@@ -686,6 +734,15 @@ export interface GreatPowerStanding {
 export interface InfluenceTarget {
   target: NationId;
   points: number;
+  /** Highest rival GP influence on the same target (0 if uncontested). */
+  rivalPressure: number;
+}
+
+/** Precomputed alliance acceptance score for a Propose Alliance click. */
+export interface AllianceAcceptancePreview {
+  target: NationId;
+  score: number;
+  accepted: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -744,6 +801,42 @@ export interface TensionContribution {
   value: number;
 }
 
+/** Player-facing BoP readout when approaching a formable. */
+export interface BalanceOfPowerView {
+  formableKey: string;
+  formableName: string;
+  share: number;
+  alarmed: boolean;
+  rivalryThreat: boolean;
+  monthlyOpinionHit: number;
+  alarmedGpCount: number;
+}
+
+/** Idle flashpoint ranking for the Concert panel. */
+export interface CrisisCandidateView {
+  type: CrisisType;
+  subject: NationId;
+  demand: WarGoalType;
+  attackerLead: NationId;
+  defenderLead: NationId;
+  score: number;
+}
+
+/** Active-crisis brinkmanship readout for the Concert panel. */
+export interface CrisisShowdownView {
+  attackerPower: number;
+  defenderPower: number;
+  powerRatio: number;
+  showdownThreshold: number;
+  forecast: 'congress_attacker' | 'congress_defender' | 'war';
+  pressTemperature: number;
+  pressTempAfter: number;
+  backDownWinnerLeadPrestige: number;
+  backDownLoserLeadPrestige: number;
+  demandEnforceOnAttackerWin: boolean;
+  peacefulContainmentLimited: boolean;
+}
+
 // ---------------------------------------------------------------------------
 // 0.8.0 The Age of Nationalism — culture policy, assimilation, national
 // movements. All world/nation/snapshot fields for this system are OPTIONAL so
@@ -799,6 +892,23 @@ export interface CultureLedgerEntry {
   assimilatedLastMonth: number;
   /** Player may grant acceptance right now (share/mechanics gate). */
   canAccept: boolean;
+  /** Prestige cost to grant acceptance (0 if not grantable). */
+  acceptCost: number;
+  /** Nation prestige after paying acceptCost. */
+  prestigeAfterAccept: number;
+  /** Estimated soldier-eligible pop unlocked by acceptance. */
+  manpowerPreview: number;
+  /** Why acceptance is blocked (empty when canAccept). */
+  acceptBlockedReason: string;
+  /** Assimilation rate factor breakdown (non-accepted only). */
+  assimilationFactors?: {
+    surround: number;
+    literacy: number;
+    policy: number;
+    religion: number;
+    resistance: number;
+    rate: number;
+  };
 }
 
 /** Snapshot row: a national movement inside the player nation. */
@@ -812,8 +922,21 @@ export interface MovementView {
   consciousness: number;
   heartlandStateIds: StateId[];
   heartlandNames: string[];
-  /** True when radicalism is in the uprising band — a rebellion may fire. */
+  /**
+   * True when both uprising gates clear: radicalism >= 85 AND militancy >= 4.2.
+   */
   boiling: boolean;
+  /** Which uprising gate still blocks (null when boiling). */
+  gateBlocked: 'radicalism' | 'militancy' | null;
+  /** Monthly radicalism delta terms (why it is rising/falling). */
+  radicalDelta: {
+    base: number;
+    consciousness: number;
+    militancy: number;
+    needs: number;
+    policy: number;
+    total: number;
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -826,6 +949,8 @@ export interface MarketGood {
   supply: number;        // last period
   demand: number;        // last period
   sold: number;
+  /** Unmet consumer demand last week (requested − bought). */
+  unmet: number;
   worldStockpile: number;
   trend: number[];
   priceTrace: PriceTrace;
@@ -930,6 +1055,9 @@ export interface World {
   /** Active national movements (non-accepted cultures organising). */
   movements?: NationalMovement[];
   nextMovementId?: number;
+
+  /** Last monthly pop mobility flows for the player nation (migration + class conversion). */
+  popMobilityLedger?: PopMobilityLedger;
 }
 
 // ---------------------------------------------------------------------------
@@ -963,9 +1091,27 @@ export interface NationSummary {
   taxRateMiddle: number;
   taxRateRich: number;
   tariffRate: number;
+  /** Effective setTariff / slider band from trade_policy reform. */
+  tariffMin: number;
+  tariffMax: number;
   isBankrupt: boolean;
+  bankruptcyMonths: number;
   constructionBlocked: boolean;
   mobilizationCapacity: number;
+  /** Standing peacetime regiment cap (from soldier pops / reforms). */
+  standingRegimentCapacity?: number;
+  /** Available colonial points after claim commitments. */
+  colonialPoints?: number;
+  /** Breakdown of colonial capacity sources. */
+  colonialPointsBreakdown?: {
+    navalBases: number;
+    reforms: number;
+    navyTech: number;
+    gpBonus: number;
+    modifier: number;
+    committed: number;
+    available: number;
+  };
 }
 
 export interface ProvinceSummary {
@@ -982,6 +1128,14 @@ export interface ProvinceSummary {
   rgoGood: GoodId;
   fortLevel: number;
   occupation: number;
+  /** Plurality culture index in the province (-1 if empty). */
+  pluralityCulture?: number;
+  /** Share of plurality culture, 0-1. */
+  pluralityShare?: number;
+  /** Non-accepted (vs owner nation) pop share, 0-1. */
+  nonAcceptedShare?: number;
+  /** True when this province's state is a player-movement heartland. */
+  cultureHeartland?: boolean;
 }
 
 export interface ProductionLedgerEntry {
@@ -993,6 +1147,16 @@ export interface ProductionLedgerEntry {
   employment: number;
   profit: number;
   level: number;
+  /** Employment capacity (RGO level×4200 / factory level×2300). */
+  capacity: number;
+  inputCost: number;
+  wages: number;
+  operating: number;
+  /** 0–1 input fill; 1 when no shortage (RGOs always 1). */
+  inputFill: number;
+  cashReserve: number;
+  profitableWeeks: number;
+  lossWeeks: number;
 }
 
 export interface PopulationLedgerEntry {
@@ -1004,6 +1168,28 @@ export interface PopulationLedgerEntry {
   dominantIdeology: PartyIdeology;
   agitatingFor: string[];
   growth: number;
+  /** Size-aware class averages of last weekly need-tier fills (0–1). */
+  avgLifeNeeds?: number;
+  avgEverydayNeeds?: number;
+  avgLuxuryNeeds?: number;
+  /** Worst-filled basket goods for this class (fill 0–1), for Needs tooltips. */
+  scarceGoods?: { key: string; name: string; fill: number }[];
+  /** Growth-rate formula inputs for the Growth tooltip. */
+  growthDrivers?: TraceLine[];
+  /** Consciousness formula inputs for the Con tooltip. */
+  consciousnessDrivers?: TraceLine[];
+}
+
+/** Net domestic migration + class conversion flows from the last monthly pop tick. */
+export interface PopMobilityLedger {
+  /** World day when the monthly ledger was recorded. */
+  day: GameDay;
+  /** Total people who changed province (player nation). */
+  migrated: number;
+  /** Migration volume by pop type. */
+  migrations: { type: PopType; amount: number }[];
+  /** Class conversions (promotion, demotion, draft, discharge). */
+  conversions: { from: PopType; to: PopType; amount: number }[];
 }
 
 export interface PlayerStateSummary {
@@ -1047,12 +1233,39 @@ export interface InventionStatusView {
   /** Prereq tech researched — the invention can fire any month now. */
   prereqMet: boolean;
   effectsSummary: string[];
+  /**
+   * Effective monthly discovery chance while brewing (base × literacy scale).
+   * Null when owned or prereq unmet.
+   */
+  monthlyChance?: number | null;
+}
+
+/** RP formula parts for the Technology panel (display only). */
+export interface ResearchPointBreakdown {
+  /** Flat base before literacy / GP (currently 1.4). */
+  flatBase: number;
+  /** Nation literacy clamped 0–1. */
+  literacy: number;
+  /** literacy × 4.8 contribution. */
+  literacyBonus: number;
+  /** +1.5 when great power, else 0. */
+  gpBonus: number;
+  /** flatBase + literacyBonus + gpBonus. */
+  base: number;
+  /** Aggregate researchRate tech modifier. */
+  researchRate: number;
+  /** Final monthly gain = base × (1 + max(0, researchRate)). */
+  monthly: number;
 }
 
 export interface PlayerTechView {
   researchPoints: number;
   /** Points generated per month at current literacy/modifiers. */
   monthlyResearch: number;
+  /** Formula parts behind monthlyResearch (literacy, GP, researchRate). */
+  researchBreakdown?: ResearchPointBreakdown;
+  /** Aggregate tech + invention modifiers currently in effect. */
+  modifiers?: TechModifiers;
   current: string | null;
   /** Points sunk into current research so far. */
   progress: number;
@@ -1062,6 +1275,19 @@ export interface PlayerTechView {
   inventions: string[];
   statuses: TechStatusView[];
   inventionStatuses: InventionStatusView[];
+}
+
+export interface ColonialClaimSummary {
+  stateId: StateId;
+  tension: number;
+  claimants: Array<{ nation: NationId; progress: number }>;
+  /** Player ETA days to finish at current daily rate; null if not claiming / stalled. */
+  etaDays: number | null;
+}
+
+export interface ColonialClaimableState {
+  stateId: StateId;
+  reach: 'adjacent' | 'overseas';
 }
 
 /** Sent every rendered frame; province array feeds the map paint. */
@@ -1081,19 +1307,41 @@ export interface WorldSnapshot {
   relations: DiploRelation[];
   greatPowers: GreatPowerStanding[];
   playerCbs: CasusBelli[];
+  /** In-progress CB fabrications (not yet ready). */
+  playerPendingCbs: CasusBelli[];
+  /** Player diplomatic points (0–120); spent to fabricate CBs. */
+  playerDiplomaticPoints: number;
+  /** Fabricate-CB cost by war goal (mirrors sim `getFabricateCbCost`). */
+  fabricateCbCostByGoal: Record<WarGoalType, number>;
+  /** Infamy cost when declaring with a valid CB (from WAR_GOAL_RULES). */
+  warGoalInfamyUse: Record<WarGoalType, number>;
   playerInfluencePool: number;
   playerInfluenceTargets: InfluenceTarget[];
+  /** Alliance acceptance scores vs the player (threshold 70). */
+  playerAlliancePreviews: AllianceAcceptancePreview[];
   infamyLimit: number;
   coalitionAgainstPlayer: NationId[];
+  /** Score of the #9 nation — gap to this is the GP rank chase. */
+  ninthPowerScore: number;
+  /** Player's current power score (GP formula). */
+  playerPowerScore: number;
+  /** DP cost / concurrent cap for declaring rivalries. */
+  rivalryDpCost: number;
+  rivalryCap: number;
+  playerRivalryCount: number;
   armies: Army[];
   fleets: Fleet[];
   rebellions: Rebellion[];
   playerProduction: ProductionLedgerEntry[];
   playerPopulation: PopulationLedgerEntry[];
+  /** Net migration + promotion/demotion flows from the last monthly pop tick. */
+  playerPopMobility?: PopMobilityLedger;
   playerReformAgitation: { reform: string; support: number }[];
   playerStates: PlayerStateSummary[];
   playerCoreStateIds?: StateId[];
   playerFormables?: FormableStatus[];
+  /** Balance-of-power pressure when the player nears a formable. */
+  playerBalanceOfPower?: BalanceOfPowerView | null;
   /** Pending events for the player nation (popup queue). */
   pendingPlayerEvents?: PendingEvent[];
   /** 1.0-U4: battles involving the player, newest last (for alerts). */
@@ -1109,12 +1357,26 @@ export interface WorldSnapshot {
   /** 0.7.0 Concert: world tension 0-100 with trace, active crisis, history. */
   worldTension?: number;
   tensionTrace?: TensionContribution[];
+  /** Next-month tension decay and net Δ (pressure − decay). */
+  tensionDecay?: number;
+  tensionNetDelta?: number;
+  crisisCooldownUntil?: number;
   activeCrisis?: Crisis | null;
+  crisisShowdown?: CrisisShowdownView | null;
+  crisisCandidates?: CrisisCandidateView[];
   congressHistory?: CongressRecord[];
   /** 0.8.0 culture: Cultures ledger + national movements for the player. */
   playerCulturePolicy?: CulturePolicy;
+  /** Days remaining before culture policy can be flipped again. */
+  playerCulturePolicyCooldownDays?: number;
+  /** Prestige cost of the next culture-policy flip. */
+  playerCulturePolicyCost?: number;
   playerCultures?: CultureLedgerEntry[];
   playerMovements?: MovementView[];
+  /** Active colonial claims (progress races). */
+  colonialClaims?: ColonialClaimSummary[];
+  /** Player-reachable uncolonized states (land-adjacent or overseas naval). */
+  playerClaimableColonialStates?: ColonialClaimableState[];
   /** headline numbers for the player nation's HUD */
   playerBudget: BudgetLine;
 }
@@ -1257,6 +1519,9 @@ export interface NationDetail {
     yearsToNext: number;
     nextYear: number;
     lastResult: string;
+    /** Ideology vote shares from last election (empty if none). */
+    ideologyShares: { ideology: PartyIdeology; share: number }[];
+    winnerShare: number;
   };
   military: {
     regimentsPerSoldierPop: number;
@@ -1265,6 +1530,16 @@ export interface NationDetail {
     armyOrganization: number;
     armyMorale: number;
   };
+  /** 0-1 political suppression scalar driving mil/unrest. */
+  politicalSuppression: number;
+  /** Ruling + opposition parties with platform positions. */
+  parties: {
+    key: string;
+    name: string;
+    ideology: PartyIdeology;
+    ruling: boolean;
+    positions: { reform: string; level: number; current: number }[];
+  }[];
   avgMilitancy: number;
   avgConsciousness: number;
   topReformDemands: { reform: string; support: number }[];

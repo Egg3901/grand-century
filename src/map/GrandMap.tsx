@@ -372,6 +372,7 @@ function insideViewport(box: ScreenBox, width: number, height: number, padding: 
 
 export function GrandMap() {
   const snapshot = useStore((state) => state.snapshot);
+  const data = useStore((state) => state.data);
   const mapMode = useStore((state) => state.mapMode);
   const selectProvince = useStore((state) => state.selectProvince);
   const selectedArmy = useStore((state) => state.selectedArmy);
@@ -1388,10 +1389,20 @@ export function GrandMap() {
     if (!map || !mapReady || !map.getLayer(MAP_FILL_LAYER) || !snapshot) return;
 
     const nationById = new globalThis.Map(snapshot.nations.map((nation) => [nation.id, nation]));
-    const economies = snapshot.provinces.map((province) => province.economyOutput);
-    const econMin = Math.min(...economies);
-    const econMax = Math.max(...economies);
-    const econRange = Math.max(1, econMax - econMin);
+    // Economy scaling is only read in economy mode — skip the full-province
+    // min/max sweep (and avoid a 620-arg Math.min spread) in every other mode.
+    let econMin = 0;
+    let econRange = 1;
+    if (mapMode === 'economy') {
+      let min = Infinity;
+      let max = -Infinity;
+      for (const province of snapshot.provinces) {
+        if (province.economyOutput < min) min = province.economyOutput;
+        if (province.economyOutput > max) max = province.economyOutput;
+      }
+      econMin = Number.isFinite(min) ? min : 0;
+      econRange = Math.max(1, (Number.isFinite(max) ? max : 0) - econMin);
+    }
 
     const allies = new Set<number>();
     const enemies = new Set<number>();
@@ -1443,7 +1454,7 @@ export function GrandMap() {
         const blue = Math.round(78 + needs * 30);
         fill = toHexColor([red, green, blue]);
       } else if (mapMode === 'ruling_ideology') {
-        const ideology = snapshot.nations.find((nation) => nation.id === province.owner)?.rulingIdeology ?? 'conservative';
+        const ideology = nationById.get(province.owner)?.rulingIdeology ?? 'conservative';
         fill = blend(IDEOLOGY_COLORS[ideology] ?? IDEOLOGY_COLORS.conservative, 0.12);
       } else if (mapMode === 'unrest') {
         const unrest = clamp01(Math.max(province.unrestRisk, province.militancy / 10));
@@ -1473,6 +1484,19 @@ export function GrandMap() {
         if (!isCore) fill = blend(ownerColor, 0.6);
         else if (province.owner === snapshot.playerNation) fill = blend('#4e8a5e', 0.2);
         else fill = blend('#8e4d46', 0.18);
+      } else if (mapMode === 'culture') {
+        const nonAccepted = Math.max(0, Math.min(1, province.nonAcceptedShare ?? 0));
+        const cultureIdx = province.pluralityCulture ?? -1;
+        const cultureColor = cultureIdx >= 0 && data?.cultures[cultureIdx]
+          ? toHexColor(data.cultures[cultureIdx].color)
+          : ownerColor;
+        // Base: plurality culture wash; heat non-accepted share; heartlands hot.
+        fill = blend(cultureColor, 0.22 + nonAccepted * 0.35);
+        if (province.cultureHeartland && province.owner === snapshot.playerNation) {
+          fill = blend('#8e4d46', 0.1);
+        } else if (nonAccepted >= 0.45) {
+          fill = blend('#8a5f46', 0.28 - nonAccepted * 0.1);
+        }
       }
 
       if (TERRAIN_TINTED_MODES.has(mapMode)) {
@@ -1535,7 +1559,7 @@ export function GrandMap() {
         map.setPaintProperty(MAP_FILL_FADE_LAYER, 'fill-opacity', 0);
       }, MODE_FADE_MS + 70);
     }
-  }, [mapMode, mapReady, nationColorById, provinceTerrainById, snapshot]);
+  }, [mapMode, mapReady, nationColorById, provinceTerrainById, snapshot, data]);
 
   // Player border halo: keep the glowing set in sync with ownership, and
   // only show it on the political plate — on thematic plates it would lie.
@@ -1922,6 +1946,9 @@ export function GrandMap() {
     }
     const provinceById = new globalThis.Map(snapshot.provinces.map((province) => [province.id, province]));
     const ownerColorById = new globalThis.Map(snapshot.nations.map((nation) => [nation.id, toHexColor(nation.color)]));
+    // One lookup map instead of snapshot.nations.find(...) inside the per-stack
+    // loops below (was O(stacks x nations) every snapshot).
+    const nationById = new globalThis.Map(snapshot.nations.map((nation) => [nation.id, nation]));
 
     const markerOffsets = (count: number): Array<[number, number]> => {
       if (count <= 1) return [[0, 0]];
@@ -1998,7 +2025,7 @@ export function GrandMap() {
         const selected = selectedArmy !== null && stack.armies.some((army) => army.id === selectedArmy);
         const candidate = stack.armies.find((army) => army.owner === snapshot.playerNation) ?? stack.armies[0];
         const pct = Math.round((stack.avgStrength / 1000) * 100);
-        const ownerNation = snapshot.nations.find((nation) => nation.id === stack.owner);
+        const ownerNation = nationById.get(stack.owner);
         const ownerName = ownerNation?.name ?? `${stack.owner}`;
         const key = `army-${provinceId}-${stack.owner}`;
         const offset = offsets[index] ?? [0, 0];
@@ -2053,8 +2080,9 @@ export function GrandMap() {
         const selected = selectedFleet !== null && stack.fleets.some((fleet) => fleet.id === selectedFleet);
         const candidate = stack.fleets.find((fleet) => fleet.owner === snapshot.playerNation) ?? stack.fleets[0];
         const pct = Math.round((stack.avgStrength / 100) * 100);
-        const ownerName = snapshot.nations.find((nation) => nation.id === stack.owner)?.name ?? `${stack.owner}`;
-        const fleetOwnerTag = snapshot.nations.find((nation) => nation.id === stack.owner)?.tag;
+        const fleetOwnerNation = nationById.get(stack.owner);
+        const ownerName = fleetOwnerNation?.name ?? `${stack.owner}`;
+        const fleetOwnerTag = fleetOwnerNation?.tag;
         const key = `fleet-${provinceId}-${stack.owner}`;
         const offset = offsets[index] ?? [0, 38];
         const signature = `fleet|${provinceId}|${stack.owner}|${fleetOwnerTag ?? ''}|${stack.ships}|${pct}|${friendly ? 1 : 0}|${selected ? 1 : 0}|${candidate.id}|${offset[0]},${offset[1]}`;

@@ -1,12 +1,17 @@
 .event-popup-layer {
   position: absolute;
-  inset: 0;
-  z-index: 40;
+  /* Leave the top HUD (speed controls) uncovered and clickable. */
+  top: 4.35rem;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 22;
   display: grid;
   place-items: center;
   padding: var(--gc-space-4);
-  background: var(--gc-overlay);
-  pointer-events: auto;
+  background: linear-gradient(180deg, transparent 0%, var(--gc-overlay) 12%);
+  /* Pass clicks through empty overlay space to HUD chrome underneath. */
+  pointer-events: none;
 }
 
 .event-popup {
@@ -17,6 +22,7 @@
   display: grid;
   gap: var(--gc-space-3);
   border-radius: var(--gc-radius-lg);
+  pointer-events: auto;
 }
 
 .event-popup__header {
@@ -130,6 +136,7 @@
 
 @media (max-width: 768px) {
   .event-popup-layer {
+    top: 3.6rem;
     align-items: end;
     padding: 0.5rem;
     padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);

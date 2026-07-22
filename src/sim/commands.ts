@@ -1,4 +1,5 @@
 import type { Command, FromWorker, GameData, NationId, Regiment, War, WarGoal, World } from '../shared/types';
+import { tariffBandForTradePolicy } from './balance';
 import { computeReformLegality, partyLabel, reformDemandForPop, updateMilitaryDerivedForNation } from './politics';
 import {
   beginCbFabrication,
@@ -11,6 +12,7 @@ import {
   hasActiveTruce,
   setRelationKindByCommand,
   spendInfluence,
+  tryAddRivalry,
 } from './systems/diplomacy';
 import {
   assignGeneralToArmy,
@@ -217,7 +219,9 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     case 'setTariff': {
       const nation = world.nations[world.playerNation];
       if (!nation) return;
-      nation.tariffRate = clamp(cmd.rate, -1, 1);
+      // BALANCE: trade_policy reform clamps the legal tariff band (nested in AI envelope).
+      const band = tariffBandForTradePolicy(nation.reforms.trade_policy ?? 0);
+      nation.tariffRate = clamp(cmd.rate, band.min, band.max);
       return;
     }
     case 'enactReform': {
@@ -233,6 +237,10 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       nation.treasury -= legality.costMoney;
       nation.prestige = Math.max(0, nation.prestige - legality.costPrestige);
       nation.reforms[cmd.reform] = targetLevel;
+      if (cmd.reform === 'trade_policy') {
+        const band = tariffBandForTradePolicy(targetLevel);
+        nation.tariffRate = clamp(nation.tariffRate, band.min, band.max);
+      }
 
       let appeased = 0;
       for (const province of world.provinces) {
@@ -295,6 +303,11 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
         lastOutput: 0,
         profitableWeeks: 0,
         lossWeeks: 0,
+        lastInputCost: 0,
+        lastWages: 0,
+        lastOperating: 0,
+        lastCapacity: 2300,
+        lastInputFill: 1,
       });
       return;
     }
@@ -420,8 +433,8 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     }
     case 'addRival': {
       if (!world.nations[cmd.target] || cmd.target === world.playerNation) return;
-      setRelationKindByCommand(world, world.playerNation, cmd.target, 'rivalry');
-      log(post, 'info', `${world.nations[cmd.target].name} is now marked as a rival.`);
+      const result = tryAddRivalry(world, world.playerNation, cmd.target);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }
     case 'cancelRelation': {
@@ -472,7 +485,7 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
         attacker.infamy = clamp(attacker.infamy + cb.infamyCost, 0, 100);
       }
       const attackers = collectAllianceBloc(world, world.playerNation, cmd.target);
-      const defenders = collectAllianceBloc(world, cmd.target, world.playerNation);
+      const defenders = collectAllianceBloc(world, cmd.target, world.playerNation, { includeGuarantees: true });
       if (!attackers.includes(world.playerNation)) attackers.unshift(world.playerNation);
       if (!defenders.includes(cmd.target)) defenders.unshift(cmd.target);
       const dedupAttackers = Array.from(new Set(attackers.filter((nationId) => !defenders.includes(nationId))));
@@ -542,8 +555,8 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       return;
     }
     case 'setCulturePolicy': {
-      setCulturePolicy(world, world.playerNation, cmd.policy);
-      log(post, 'info', `Cultural policy set to ${cmd.policy}.`);
+      const result = setCulturePolicy(world, world.playerNation, cmd.policy);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }
     case 'setCultureAccepted': {

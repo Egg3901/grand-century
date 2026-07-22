@@ -14,15 +14,6 @@ const WAR_GOALS: { id: WarGoalType; label: string }[] = [
   { id: 'cut_down_to_size', label: 'Cut Down To Size' },
 ];
 
-const INFAMY_USE: Record<WarGoalType, number> = {
-  annex_state: 6.5,
-  liberate_state: 2.2,
-  humiliate: 1.4,
-  add_to_sphere: 1.8,
-  take_colony: 4.2,
-  cut_down_to_size: 2.6,
-};
-
 const STATELESS_GOALS = new Set<WarGoalType>(['humiliate', 'cut_down_to_size', 'add_to_sphere']);
 
 function relationLabel(kind: string): string {
@@ -123,8 +114,13 @@ export function DiplomacyPanel() {
     && cb.goal === selectedGoal
     && (cb.stateId === -1 || cb.stateId === effectiveState)
   ));
-  const projectedInfamy = matchingCb ? matchingCb.infamyCost : INFAMY_USE[selectedGoal] * 1.75;
+  const projectedInfamy = matchingCb
+    ? matchingCb.infamyCost
+    : (snapshot.warGoalInfamyUse?.[selectedGoal] ?? 0) * 1.75;
   const truceBlocks = targetRelation.kind === 'truce' && (targetRelation.expiresDay < 0 || targetRelation.expiresDay > snapshot.day);
+  const alliancePreview = targetId !== null
+    ? (snapshot.playerAlliancePreviews ?? []).find((entry) => entry.target === targetId) ?? null
+    : null;
 
   return (
     <section className="panel-card atlas-panel">
@@ -142,6 +138,27 @@ export function DiplomacyPanel() {
         / {snapshot.infamyLimit.toFixed(1)}
         {playerInfamy >= snapshot.infamyLimit ? ' - Warning: containment coalitions are likely.' : ''}
       </p>
+      <p className="panel-subtle">
+        Diplomatic points{' '}
+        <TraceTooltip
+          value={(snapshot.playerDiplomaticPoints ?? 0).toFixed(1)}
+          trace={[
+            { label: 'Current points', value: snapshot.playerDiplomaticPoints ?? 0 },
+            { label: 'Cap', value: 120 },
+            { label: `Fabricate ${selectedGoal} cost`, value: snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0 },
+          ]}
+        />
+        {' '}/ 120
+        {' — '}
+        Fabricate cost for {WAR_GOALS.find((g) => g.id === selectedGoal)?.label ?? selectedGoal}:{' '}
+        {(snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0).toFixed(1)} DP
+      </p>
+      {alliancePreview ? (
+        <p className={`panel-subtle ${alliancePreview.accepted ? 'status-positive' : 'status-danger'}`}>
+          Alliance preview vs target: score {alliancePreview.score.toFixed(0)}
+          {alliancePreview.accepted ? ' (likely accept, need ≥70)' : ' (likely reject, need ≥70)'}
+        </p>
+      ) : null}
       {snapshot.coalitionAgainstPlayer.length > 0 ? (
         <p className="panel-subtle status-danger">
           Coalition risk: {snapshot.coalitionAgainstPlayer.map((nationId) => derived.nationById.get(nationId)?.tag ?? nationId).join(', ')}
@@ -204,14 +221,46 @@ export function DiplomacyPanel() {
           : `No valid CB selected. Declaration costs +${projectedInfamy.toFixed(1)} infamy.`}
       </p>
 
+      {(snapshot.playerPendingCbs ?? []).length > 0 ? (
+        <>
+          <h3 className="atlas-heading panel-small-heading">Fabricating</h3>
+          <ul className="panel-list">
+            {(snapshot.playerPendingCbs ?? []).map((cb) => {
+              const target = derived.nationById.get(cb.target);
+              const goalLabel = WAR_GOALS.find((g) => g.id === cb.goal)?.label ?? cb.goal;
+              const daysLeft = Math.max(0, cb.readyDay - snapshot.day);
+              return (
+                <li key={`${cb.target}-${cb.goal}-${cb.stateId}-${cb.readyDay}`}>
+                  <strong>{goalLabel}</strong>
+                  <span>
+                    {' '}vs {target?.tag ?? cb.target}
+                    {cb.stateId >= 0 ? ` (state ${stateNameById.get(cb.stateId) ?? cb.stateId})` : ''}
+                    {' — '}ready day {cb.readyDay} ({daysLeft}d)
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      ) : null}
+
       <div className="diplo-action-row">
         <button
           type="button"
           className="btn btn--secondary"
-          disabled={targetId === null || stateRequiredMissing}
+          disabled={
+            targetId === null
+            || stateRequiredMissing
+            || (snapshot.playerDiplomaticPoints ?? 0) < (snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0)
+          }
+          title={
+            (snapshot.playerDiplomaticPoints ?? 0) < (snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0)
+              ? `Need ${(snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0).toFixed(1)} diplomatic points`
+              : undefined
+          }
           onClick={() => targetId !== null && sendCommand({ t: 'fabricateCB', target: targetId, goal: selectedGoal, state: effectiveState })}
         >
-          Fabricate CB
+          Fabricate CB ({(snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0).toFixed(0)} DP)
         </button>
         <button
           type="button"
@@ -234,6 +283,9 @@ export function DiplomacyPanel() {
                 <strong>{row.nation.name}</strong>
                 <span>
                   {row.relation.opinion.toFixed(0)} opinion | {relationLabel(row.relation.kind)}
+                  {row.relation.expiresDay >= 0
+                    ? ` | expires day ${row.relation.expiresDay}${row.relation.expiresDay > snapshot.day ? ` (${row.relation.expiresDay - snapshot.day}d)` : ' (expired)'}`
+                    : ''}
                   {row.isNeighbor ? ' | neighbor' : ''}
                   {row.nation.gpRank > 0 ? ` | GP #${row.nation.gpRank}` : ''}
                 </span>
@@ -250,9 +302,36 @@ export function DiplomacyPanel() {
                 return (
                   <>
                     <button type="button" className="btn btn--secondary" onClick={() => setSelectedTarget(row.nation.id)}>Target</button>
-                    <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'proposeAlliance', target: row.nation.id })}>Alliance</button>
+                    <button
+                      type="button"
+                      className="btn btn--secondary"
+                      title={
+                        (() => {
+                          const preview = (snapshot.playerAlliancePreviews ?? []).find((entry) => entry.target === row.nation.id);
+                          if (!preview) return 'Propose alliance';
+                          return preview.accepted
+                            ? `Likely accept (score ${preview.score.toFixed(0)} ≥ 70)`
+                            : `Likely reject (score ${preview.score.toFixed(0)} < 70)`;
+                        })()
+                      }
+                      onClick={() => sendCommand({ t: 'proposeAlliance', target: row.nation.id })}
+                    >
+                      Alliance
+                    </button>
                     <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'offerGuarantee', target: row.nation.id })}>Guarantee</button>
-                    <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'addRival', target: row.nation.id })}>Rival</button>
+                    <button
+                      type="button"
+                      className="btn btn--secondary"
+                      disabled={
+                        (snapshot.playerRivalryCount ?? 0) >= (snapshot.rivalryCap ?? 4)
+                        || (snapshot.playerDiplomaticPoints ?? 0) < (snapshot.rivalryDpCost ?? 12)
+                        || row.relation.kind === 'rivalry'
+                      }
+                      title={`Costs ${snapshot.rivalryDpCost ?? 12} DP · ${snapshot.playerRivalryCount ?? 0}/${snapshot.rivalryCap ?? 4} rivalries`}
+                      onClick={() => sendCommand({ t: 'addRival', target: row.nation.id })}
+                    >
+                      Rival ({snapshot.rivalryDpCost ?? 12} DP)
+                    </button>
                     <button
                       type="button"
                       className="btn btn--ghost"

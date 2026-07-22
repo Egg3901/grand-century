@@ -21,14 +21,15 @@ export type MapMode =
   | 'diplomatic'
   | 'unrest'
   | 'ruling_ideology'
-  | 'cores';
+  | 'cores'
+  | 'culture';
 export type PanelId =
-  | null | 'budget' | 'population' | 'market' | 'politics' | 'diplomacy'
+  | null | 'budget' | 'population' | 'cultures' | 'market' | 'politics' | 'diplomacy'
   | 'great_powers' | 'military' | 'production' | 'technology' | 'province' | 'colonization' | 'save_load' | 'formables' | 'decisions';
 
 export interface UiAlert {
   id: string;
-  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save' | 'formation' | 'unrest' | 'event';
+  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save' | 'formation' | 'unrest' | 'event' | 'market' | 'crisis' | 'culture';
   day: number;
   message: string;
   panel: Exclude<PanelId, null> | null;
@@ -368,6 +369,39 @@ export const useStore = create<UIState>((set, get) => ({
           }
         }
       }
+      const prevCrisis = prev.activeCrisis ?? null;
+      const currCrisis = s.activeCrisis ?? null;
+      if (!prevCrisis && currCrisis) {
+        const subject = s.nations.find((nation) => nation.id === currCrisis.subject)?.name ?? `Nation ${currCrisis.subject}`;
+        pushAlert(
+          'crisis',
+          `Crisis erupts over ${subject}.`,
+          s.day,
+          'great_powers',
+          'Open Great Powers to back a side or watch the Concert.',
+          `crisis-spawn-${currCrisis.id}`,
+          365,
+        );
+      } else if (prevCrisis && !currCrisis) {
+        const history = s.congressHistory ?? [];
+        const latest = history[history.length - 1];
+        const outcome = latest && latest.day === s.day
+          ? latest.outcome === 'war'
+            ? 'Diplomacy failed — war.'
+            : latest.outcome === 'fizzle'
+              ? 'Crisis fizzled.'
+              : 'Congress settled the crisis.'
+          : 'Crisis resolved.';
+        pushAlert(
+          'crisis',
+          outcome,
+          s.day,
+          'great_powers',
+          'Open Great Powers to review the congress ledger.',
+          `crisis-resolve-${prevCrisis.id}`,
+          365,
+        );
+      }
       if (foreignElectionCount > 0) {
         const monthKey = `election-foreign-${s.date.year}-${s.date.month}`;
         const existing = alerts.find((alert) => alert.dedupeKey === monthKey);
@@ -389,20 +423,49 @@ export const useStore = create<UIState>((set, get) => ({
           );
         }
       }
-      const playerProvinceUnrest = s.provinces.filter((province) => province.owner === s.playerNation).map((province) => province.unrestRisk);
-      const prevPlayerProvinceUnrest = prev.provinces.filter((province) => province.owner === prev.playerNation).map((province) => province.unrestRisk);
-      const maxUnrest = playerProvinceUnrest.length > 0 ? Math.max(...playerProvinceUnrest) : 0;
-      const prevMaxUnrest = prevPlayerProvinceUnrest.length > 0 ? Math.max(...prevPlayerProvinceUnrest) : 0;
-      if (maxUnrest >= 0.55 && prevMaxUnrest < 0.55) {
-        pushAlert(
-          'unrest',
-          `High unrest risk detected (${maxUnrest.toFixed(2)}).`,
-          s.day,
-          'politics',
-          'Open Politics and enact stabilizing reforms or cut taxes.',
-          'high-unrest',
-          120,
+      // Province unrestRisk only changes on monthly sim ticks (never from a
+      // command), so this O(provinces) scan is pointless on same-day snapshots
+      // — which is most of them at low speed (8Hz snapshots share a day). Skip
+      // it unless a day actually elapsed. A single loop also avoids two 620-arg
+      // Math.max spreads.
+      if (s.day !== prev.day) {
+        let maxUnrest = 0;
+        for (const province of s.provinces) {
+          if (province.owner === s.playerNation && province.unrestRisk > maxUnrest) maxUnrest = province.unrestRisk;
+        }
+        let prevMaxUnrest = 0;
+        for (const province of prev.provinces) {
+          if (province.owner === prev.playerNation && province.unrestRisk > prevMaxUnrest) prevMaxUnrest = province.unrestRisk;
+        }
+        if (maxUnrest >= 0.55 && prevMaxUnrest < 0.55) {
+          pushAlert(
+            'unrest',
+            `High unrest risk detected (${maxUnrest.toFixed(2)}).`,
+            s.day,
+            'politics',
+            'Open Politics and enact stabilizing reforms or cut taxes.',
+            'high-unrest',
+            120,
+          );
+        }
+      }
+      // Culture: alert when a player movement newly crosses the boiling gates.
+      {
+        const prevBoiling = new Set(
+          (prev.playerMovements ?? []).filter((movement) => movement.boiling).map((movement) => movement.id),
         );
+        for (const movement of s.playerMovements ?? []) {
+          if (!movement.boiling || prevBoiling.has(movement.id)) continue;
+          pushAlert(
+            'culture',
+            `${movement.cultureName} movement is boiling — uprising imminent.`,
+            s.day,
+            'cultures',
+            'Open Cultures: grant acceptance, flip pluralist, or prepare for rebels.',
+            `culture-boil-${movement.id}`,
+            180,
+          );
+        }
       }
       const prevPendingIds = new Set((prev.pendingPlayerEvents ?? []).map((event) => event.instanceId));
       for (const event of s.pendingPlayerEvents ?? []) {
@@ -415,6 +478,25 @@ export const useStore = create<UIState>((set, get) => ({
           'A national event requires your choice.',
           `event-${event.instanceId}`,
           365,
+        );
+      }
+      // Life-need goods (grain/cattle/fish) — alert when world unmet is severe.
+      const lifeGoodIds = new Set([0, 1, 2]);
+      const goodNames = new Map((get().data?.goods ?? []).map((good) => [good.id, good.name]));
+      for (const good of s.market) {
+        if (!lifeGoodIds.has(good.good)) continue;
+        const denom = Math.max(1, good.priceTrace.requestedDemand);
+        const unmetFrac = good.unmet / denom;
+        if (unmetFrac < 0.22 && good.unmet < Math.max(8, good.supply * 0.18)) continue;
+        const name = goodNames.get(good.good) ?? `Good ${good.good}`;
+        pushAlert(
+          'market',
+          `${name} shortage: ${good.unmet.toFixed(0)} unmet (${(unmetFrac * 100).toFixed(0)}% of demand).`,
+          s.day,
+          'market',
+          'Open Market and Production — expand RGOs or import capacity for life goods.',
+          `market-shortage-${good.good}`,
+          45,
         );
       }
     }
