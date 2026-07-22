@@ -447,7 +447,149 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Market table */
+/* Population composition stacked bar (hand-rolled SVG, no chart lib) */
+.pop-composition {
+  margin: 0 0 var(--gc-space-2);
+  padding: 0;
+}
+
+.pop-composition__bar {
+  display: block;
+  width: 100%;
+  height: 0.7rem;
+  border: 1px solid var(--gc-border);
+  border-radius: var(--gc-radius-sm);
+  background: var(--gc-accent-soft);
+  overflow: hidden;
+}
+
+.pop-composition__legend {
+  list-style: none;
+  margin: var(--gc-space-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-muted);
+}
+
+.pop-composition__legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.pop-composition__swatch {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 1px;
+  border: 1px solid var(--gc-border-soft);
+  flex-shrink: 0;
+}
+
+.pop-composition__label {
+  text-transform: capitalize;
+}
+
+.pop-composition__share {
+  color: var(--gc-ink);
+}
+
+.pop-composition__seg--0 { fill: var(--gc-leather); background: var(--gc-leather); }
+.pop-composition__seg--1 { fill: var(--gc-leather-soft); background: var(--gc-leather-soft); }
+.pop-composition__seg--2 { fill: var(--gc-wax); background: var(--gc-wax); }
+.pop-composition__seg--3 { fill: var(--gc-accent); background: var(--gc-accent); }
+.pop-composition__seg--4 { fill: var(--gc-positive); background: var(--gc-positive); }
+.pop-composition__seg--5 { fill: var(--gc-ink-muted); background: var(--gc-ink-muted); }
+
+.population-list .pop-class__head,
+.population-list .pop-class__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+}
+
+.population-list .pop-class__head {
+  font-size: var(--gc-fs-small);
+}
+
+.population-list .pop-class__meta {
+  color: var(--gc-ink-muted);
+  font-size: var(--gc-fs-caption);
+}
+
+.population-list .pop-class__ideology {
+  text-transform: capitalize;
+}
+
+.population-list .pop-class__growth {
+  font-variant-numeric: tabular-nums;
+}
+
+.population-list .pop-class__metrics {
+  display: grid;
+  gap: 0.22rem;
+  margin-top: 0.15rem;
+}
+
+.population-list .pop-metric {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr) 3.2rem;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-muted);
+}
+
+.population-list .pop-metric__label {
+  font-family: var(--gc-font-display);
+  letter-spacing: var(--gc-tracking-label);
+  text-transform: uppercase;
+  font-size: 0.64rem;
+  color: var(--gc-ink-faint);
+}
+
+.population-list .pop-metric__track {
+  display: block;
+  height: 0.38rem;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: 1px;
+  background: var(--gc-accent-soft);
+  overflow: hidden;
+}
+
+.population-list .pop-metric__fill {
+  display: block;
+  height: 100%;
+  background: var(--gc-leather-soft);
+}
+
+.population-list .pop-metric--unrest .pop-metric__fill {
+  background: var(--gc-danger);
+}
+
+.population-list .pop-metric--unrest .pop-metric__value {
+  color: var(--gc-danger);
+}
+
+.population-list .pop-metric__value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--gc-ink);
+}
+
+.population-list .pop-class__agitation {
+  margin: 0.15rem 0 0;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-muted);
+  line-height: var(--gc-lh-tight);
+}
+
+/* Market table */}
 .market-table {
   width: 100%;
   border-collapse: collapse;
@@ -1229,7 +1371,32 @@
   align-items: center;
 }
 
-/* 1.0-U1 UX: tap a country name (province dossier) to open its diplomacy view */
+.culture-heartland {
+  display: inline;
+  line-height: var(--gc-lh-body);
+}
+
+.culture-heartland__toggle {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gc-accent-deep);
+  font: inherit;
+  font-size: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--gc-border-soft);
+  cursor: pointer;
+}
+
+.culture-heartland__toggle:hover,
+.culture-heartland__toggle:focus-visible {
+  color: var(--gc-accent);
+  text-decoration-color: var(--gc-accent);
+}
+
+/* 1.0-U1 UX: tap a country name (province dossier) to open its diplomacy view */}
 .owner-link {
   display: inline-flex;
   align-items: center;
