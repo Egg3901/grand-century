@@ -624,13 +624,27 @@ function warSideSet(war: { attackers: NationId[]; defenders: NationId[] }, natio
   return new Set<NationId>();
 }
 
-export function collectAllianceBloc(world: World, leader: NationId, against: NationId): NationId[] {
+export function collectAllianceBloc(
+  world: World,
+  leader: NationId,
+  against: NationId,
+  opts: { includeGuarantees?: boolean } = {},
+): NationId[] {
+  const includeGuarantees = opts.includeGuarantees === true;
   const result = new Set<NationId>([leader]);
   const queue: NationId[] = [leader];
   while (queue.length > 0) {
     const current = queue.shift() as NationId;
     const options = world.relations
-      .filter((relation) => relation.kind === 'alliance' && (relation.expiresDay < 0 || relation.expiresDay > world.day))
+      .filter((relation) => {
+        const active = relation.expiresDay < 0 || relation.expiresDay > world.day;
+        if (!active) return false;
+        if (relation.kind === 'alliance') return true;
+        // Guarantees are defensive-only: pull guarantors into the war leader's
+        // bloc when collecting defenders, never into an offensive march.
+        if (includeGuarantees && relation.kind === 'guarantee' && current === leader) return true;
+        return false;
+      })
       .map((relation) => relation.a === current ? relation.b : relation.b === current ? relation.a : -1)
       .filter((nationId) => nationId >= 0)
       .sort((a, b) => a - b);
@@ -638,14 +652,18 @@ export function collectAllianceBloc(world: World, leader: NationId, against: Nat
       if (nationId === against || result.has(nationId)) continue;
       if (hasActiveTruce(world, nationId, against)) continue;
       const withLeader = relationForNations(world, nationId, leader);
-      if (!withLeader || withLeader.kind !== 'alliance' || withLeader.opinion < 35) continue;
+      if (!withLeader) continue;
+      const isAlly = withLeader.kind === 'alliance' && withLeader.opinion >= 35;
+      const isGuarantor = includeGuarantees && withLeader.kind === 'guarantee';
+      if (!isAlly && !isGuarantor) continue;
       const hostileWar = world.wars.some((war) => {
         const side = warSideSet(war, nationId);
         return side.size > 0 && !side.has(leader);
       });
       if (hostileWar) continue;
       result.add(nationId);
-      queue.push(nationId);
+      // Only BFS through alliance edges; guarantees do not chain.
+      if (isAlly) queue.push(nationId);
     }
   }
   return Array.from(result).sort((a, b) => a - b);

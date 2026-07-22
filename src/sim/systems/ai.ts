@@ -833,7 +833,7 @@ function chooseWarTarget(world: World, nationId: NationId, neighbors: NationId[]
     if (relation.kind === 'alliance') continue;
     const targetState = bestTargetStateForWar(world, nationId, targetId);
     const attackers = collectAllianceBloc(world, nationId, targetId);
-    const defenders = collectAllianceBloc(world, targetId, nationId);
+    const defenders = collectAllianceBloc(world, targetId, nationId, { includeGuarantees: true });
     const dedupAttackers = Array.from(new Set(attackers.filter((id) => !defenders.includes(id)))).sort((a, b) => a - b);
     const dedupDefenders = Array.from(new Set(defenders.filter((id) => !dedupAttackers.includes(id)))).sort((a, b) => a - b);
     const attackPower = estimateBlocPower(world, dedupAttackers.length > 0 ? dedupAttackers : [nationId]);

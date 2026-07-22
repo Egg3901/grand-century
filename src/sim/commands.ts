@@ -472,7 +472,7 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
         attacker.infamy = clamp(attacker.infamy + cb.infamyCost, 0, 100);
       }
       const attackers = collectAllianceBloc(world, world.playerNation, cmd.target);
-      const defenders = collectAllianceBloc(world, cmd.target, world.playerNation);
+      const defenders = collectAllianceBloc(world, cmd.target, world.playerNation, { includeGuarantees: true });
       if (!attackers.includes(world.playerNation)) attackers.unshift(world.playerNation);
       if (!defenders.includes(cmd.target)) defenders.unshift(cmd.target);
       const dedupAttackers = Array.from(new Set(attackers.filter((nationId) => !defenders.includes(nationId))));
