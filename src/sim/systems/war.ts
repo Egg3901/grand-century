@@ -316,7 +316,10 @@ function isArmyEmbarked(world: World, armyId: ArmyId, embarkedIds?: Set<ArmyId>)
 function movementDaysForArmy(world: World, army: Army, target: Province): number {
   const source = world.provinces[army.location];
   if (!source) return BASE_ARMY_MOVE_DAYS;
-  const leaderMove = army.leader?.trait === 'logistics' ? -0.7 : 0;
+  const leaderMove = army.leader?.trait === 'logistics' ? -0.7
+    : army.leader?.trait === 'cautious' ? 0.45
+      : army.leader?.trait === 'reckless' ? -0.35
+        : 0;
   const fortPenalty = target.fortLevel * 0.4;
   const terrainPenalty = terrainMoveCost(target.terrain);
   const composition = sideTypePower([army]);
@@ -586,15 +589,32 @@ function resolveLandBattle(
   const defenderFlank = 1 + Math.min(0.24, Math.max(0, defenderTypes.cavalryShare - attackerTypes.cavalryShare) * 0.45) + defenderSpec.cavalry * 0.01;
   const attackerFirepower = attackerTypes.offense * (1 + attackerSpec.artillery * attackerTypes.artilleryShare * 0.03);
   const defenderFirepower = defenderTypes.offense * (1 + defenderSpec.artillery * defenderTypes.artilleryShare * 0.03);
-  const attackerOffense = (attackerFirepower * attackerFlank + attackerRoll + leaderAtk.attack * 1.6 + attackerTech * 0.95) * clamp(attackerOrg + 0.35, 0.2, 1.45);
-  const defenderOffense = (defenderFirepower * defenderFlank + defenderRoll + leaderDef.attack * 1.45 + defenderTech * 0.9) * clamp(defenderOrg + 0.35, 0.2, 1.45);
-  const attackerDefense = 1 + leaderAtk.defense * 0.08 + attackerTypes.defense / Math.max(2, attackerUnits) * 0.3 + attackerSpec.guard * attackerTypes.guardShare * 0.02;
-  const defenderDefense = 1 + leaderDef.defense * 0.08 + terrainDef + (province?.fortLevel ?? 0) * 0.05 + defenderTypes.defense / Math.max(2, defenderUnits) * 0.34 + defenderSpec.guard * defenderTypes.guardShare * 0.02;
+  let attackerOffense = (attackerFirepower * attackerFlank + attackerRoll + leaderAtk.attack * 1.6 + attackerTech * 0.95) * clamp(attackerOrg + 0.35, 0.2, 1.45);
+  let defenderOffense = (defenderFirepower * defenderFlank + defenderRoll + leaderDef.attack * 1.45 + defenderTech * 0.9) * clamp(defenderOrg + 0.35, 0.2, 1.45);
+  let attackerDefense = 1 + leaderAtk.defense * 0.08 + attackerTypes.defense / Math.max(2, attackerUnits) * 0.3 + attackerSpec.guard * attackerTypes.guardShare * 0.02;
+  let defenderDefense = 1 + leaderDef.defense * 0.08 + terrainDef + (province?.fortLevel ?? 0) * 0.05 + defenderTypes.defense / Math.max(2, defenderUnits) * 0.34 + defenderSpec.guard * defenderTypes.guardShare * 0.02;
 
-  const attackerOrgDamage = clamp((defenderOffense / attackerDefense) * 1.8, 3, 60);
-  const defenderOrgDamage = clamp((attackerOffense / defenderDefense) * 1.75, 3, 60);
-  const attackerStrengthDamage = clamp((defenderOffense / attackerDefense) * (0.82 + defenderTypes.pursuit / Math.max(2, defenderUnits) * 0.2), 2, 45);
-  const defenderStrengthDamage = clamp((attackerOffense / defenderDefense) * (0.82 + attackerTypes.pursuit / Math.max(2, attackerUnits) * 0.2), 2, 45);
+  // Activate previously-dead leader traits (BALANCE).
+  if (leaderAtk.trait === 'reckless') attackerOffense *= 1.12;
+  if (leaderDef.trait === 'reckless') defenderOffense *= 1.12;
+  if (leaderAtk.trait === 'defensive_doctrine') attackerDefense += 0.14;
+  if (leaderDef.trait === 'defensive_doctrine') defenderDefense += 0.14;
+
+  let attackerOrgDamage = clamp((defenderOffense / attackerDefense) * 1.8, 3, 60);
+  let defenderOrgDamage = clamp((attackerOffense / defenderDefense) * 1.75, 3, 60);
+  let attackerStrengthDamage = clamp((defenderOffense / attackerDefense) * (0.82 + defenderTypes.pursuit / Math.max(2, defenderUnits) * 0.2), 2, 45);
+  let defenderStrengthDamage = clamp((attackerOffense / defenderDefense) * (0.82 + attackerTypes.pursuit / Math.max(2, attackerUnits) * 0.2), 2, 45);
+
+  // Reckless: more org vulnerability. Cautious: less pursuit/strength loss.
+  if (leaderAtk.trait === 'reckless') attackerOrgDamage *= 1.1;
+  if (leaderDef.trait === 'reckless') defenderOrgDamage *= 1.1;
+  if (leaderAtk.trait === 'cautious') attackerStrengthDamage *= 0.82;
+  if (leaderDef.trait === 'cautious') defenderStrengthDamage *= 0.82;
+
+  attackerOrgDamage = clamp(attackerOrgDamage, 3, 60);
+  defenderOrgDamage = clamp(defenderOrgDamage, 3, 60);
+  attackerStrengthDamage = clamp(attackerStrengthDamage, 2, 45);
+  defenderStrengthDamage = clamp(defenderStrengthDamage, 2, 45);
 
   const attackerLosses = damageArmies(attackers, attackerOrgDamage, attackerStrengthDamage);
   const defenderLosses = damageArmies(defenders, defenderOrgDamage, defenderStrengthDamage);

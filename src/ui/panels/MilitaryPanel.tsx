@@ -307,7 +307,9 @@ export function MilitaryPanel() {
               <strong>Army {army.id}</strong>
               <span>
                 {provinceNameById.get(army.location) ?? `Province ${army.location}`} | {army.regiments.length} regiments | STR {avgRegimentStrength(army).toFixed(0)} | ORG {avgRegimentOrg(army).toFixed(0)}
-                {army.leader ? ` | ${army.leader.name}` : ' | No general'}
+                {army.leader
+                  ? ` | ${army.leader.name} (Atk ${army.leader.attack}/Def ${army.leader.defense}${army.leader.trait ? `, ${army.leader.trait.replaceAll('_', ' ')}` : ''})`
+                  : ' | No general'}
                 {' '}| {formatRegimentCount(regimentCountByType([army]))}
                 {' '}| {army.moveTarget >= 0 ? `Order: ${provinceNameById.get(army.moveTarget) ?? army.moveTarget}` : 'Order: Hold'}
                 {' '}| <span className={army.supplied === false ? 'status-danger' : 'status-positive'}>
