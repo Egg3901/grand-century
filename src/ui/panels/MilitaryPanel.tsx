@@ -483,6 +483,49 @@ export function MilitaryPanel() {
           ) : null}
         </>
       )}
+
+      <h3 className="atlas-heading panel-small-heading">Recent Battles</h3>
+      {(snapshot.recentBattles ?? []).length === 0 ? (
+        <p className="panel-subtle">No recent battles involving your forces.</p>
+      ) : (
+        <ul className="panel-list mil-list">
+          {(snapshot.recentBattles ?? []).slice().reverse().map((battle) => {
+            const playerIsAttacker = battle.attackerNation === snapshot.playerNation;
+            const playerWon = (battle.outcome === 'attacker_victory') === playerIsAttacker;
+            const enemyId = playerIsAttacker ? battle.defenderNation : battle.attackerNation;
+            const enemy = snapshot.nations.find((nation) => nation.id === enemyId)?.name ?? 'enemy';
+            const sign = playerIsAttacker ? 1 : -1;
+            const entries = Object.entries(battle.factors) as Array<[string, number]>;
+            const decisive = entries.reduce((best, entry) => (Math.abs(entry[1]) > Math.abs(best[1]) ? entry : best));
+            const helpedPlayer = decisive[1] * sign > 0;
+            const FACTOR_TEXT: Record<string, [string, string]> = {
+              roll: ['fortune favored our arms', 'the dice went against us'],
+              organization: ['superior organization told', 'our lines were disordered'],
+              leadership: ['the general carried the day', 'we were outgeneraled'],
+              technology: ['better guns and drill decided it', 'their guns and drill outmatched ours'],
+              terrain: ['the ground fought for us', 'the ground fought against us'],
+              fort: ['the fortress held firm', 'their fortress blunted the assault'],
+            };
+            const why = (FACTOR_TEXT[decisive[0]] ?? ['decisive factor unclear', 'decisive factor unclear'])[helpedPlayer ? 0 : 1];
+            const ourLosses = playerIsAttacker ? battle.attackerLosses : battle.defenderLosses;
+            const theirLosses = playerIsAttacker ? battle.defenderLosses : battle.attackerLosses;
+            const outcomeLabel = battle.outcome === 'clash'
+              ? 'Clash'
+              : (playerWon ? 'Victory' : 'Defeat');
+            return (
+              <li key={`${battle.day}-${battle.provinceId}-${battle.warId}`}>
+                <div>
+                  <strong>{outcomeLabel} at {battle.provinceName}</strong>
+                  <span>
+                    Day {battle.day} vs {enemy} — {why}. Losses {Math.round(ourLosses)} to {Math.round(theirLosses)}.
+                    {' '}| Decisive: {decisive[0]} ({(decisive[1] * sign).toFixed(1)})
+                  </span>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </section>
   );
 }
