@@ -127,6 +127,14 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>, rgoTech
   }
 }
 
+/** Mutable state-wide labor pool, decremented as each factory in the state
+ * claims its share — this is what makes employment exclusive across factories
+ * instead of every factory independently claiming the full state population. */
+interface StateLaborPool {
+  craftsRemaining: number;
+  clerksRemaining: number;
+}
+
 function processFactory(
   world: World,
   state: State,
@@ -135,6 +143,7 @@ function processFactory(
   recipes: Record<string, Recipe>,
   factoryTechBoost: number,
   factoryProfitBoost: number,
+  pool: StateLaborPool,
 ): number {
   const recipe = recipes[factory.recipe];
   if (!recipe || recipe.building !== 'factory') return 0;
@@ -143,12 +152,19 @@ function processFactory(
   const craftsmanIds = buckets.craftsman;
   const clerkIds = buckets.clerk;
   const capitalistIds = buckets.capitalist;
+  // Wage distribution below spreads each factory's wage pool across the WHOLE
+  // state craftsman/clerk cohort (unchanged behaviour — a factory's payroll is
+  // shared income for the trade, not a per-worker wage). These totals are only
+  // the distribution weight; how much a factory can actually EMPLOY (and thus
+  // how much output/revenue it generates) is capped by the shared pool below.
   const totalCrafts = totalPopSize(world, craftsmanIds);
   const totalClerks = totalPopSize(world, clerkIds);
 
   const capacity = Math.max(1, factory.level) * 2300;
-  const employedClerks = Math.min(totalClerks, capacity * 0.2);
-  const employedCrafts = Math.min(totalCrafts, capacity - employedClerks);
+  const employedClerks = Math.min(Math.max(0, pool.clerksRemaining), capacity * 0.2);
+  const employedCrafts = Math.min(Math.max(0, pool.craftsRemaining), capacity - employedClerks);
+  pool.clerksRemaining -= employedClerks;
+  pool.craftsRemaining -= employedCrafts;
   const employed = employedCrafts + employedClerks;
   factory.employed = employed;
   factory.workerShare = employedCrafts;
@@ -298,8 +314,24 @@ export function runProductionWeekly(world: World, data: GameData, _rng: Rng): vo
       farmer: [],
       laborer: [],
     };
+    // Exclusive labor pool for this state's factories this week — each factory
+    // claims from what's left rather than the whole cohort independently (was
+    // an N-factories-=-N×-output bug: every factory computed its own capacity
+    // against the FULL craftsman/clerk pool with no reservation between them).
+    const pool: StateLaborPool = {
+      craftsRemaining: totalPopSize(world, buckets.craftsman),
+      clerksRemaining: totalPopSize(world, buckets.clerk),
+    };
+    // Higher-level (more established) factories claim labor first — this also
+    // means spamming a brand-new factory can no longer steal an existing
+    // factory's workforce; it only picks up whatever labor is left over.
+    // state.factories itself is left in its original (build) order; only
+    // processing order changes.
+    const processingOrder = state.factories
+      .map((factory, index) => ({ factory, index }))
+      .sort((a, b) => b.factory.level - a.factory.level || a.index - b.index);
     let stateProfit = 0;
-    for (const factory of state.factories) {
+    for (const { factory } of processingOrder) {
       stateProfit += processFactory(
         world,
         state,
@@ -308,6 +340,7 @@ export function runProductionWeekly(world: World, data: GameData, _rng: Rng): vo
         recipes,
         factoryTechBoost[state.owner] ?? 1,
         factoryProfitBoost[state.owner] ?? 1,
+        pool,
       );
     }
     // 0.6.0: trimmed alongside the per-factory skim above (see processFactory).
