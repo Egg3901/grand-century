@@ -23,6 +23,7 @@ import type {
   PendingEvent,
   PlayerTechView,
   PopulationLedgerEntry,
+  PopMobilityLedger,
   ProductionLedgerEntry,
   ProvinceSummary,
   Rebellion,
@@ -69,6 +70,7 @@ export interface PlayerView {
   playerRivalryCount: number;
   playerProduction: ProductionLedgerEntry[];
   playerPopulation: PopulationLedgerEntry[];
+  playerPopMobility?: PopMobilityLedger;
   playerReformAgitation: { reform: string; support: number }[];
   playerStates: { id: StateId; name: string; factoryCount: number }[];
   playerCoreStateIds?: StateId[];
@@ -140,6 +142,7 @@ export function extractPlayerView(snap: WorldSnapshot): PlayerView {
     playerRivalryCount: snap.playerRivalryCount,
     playerProduction: snap.playerProduction,
     playerPopulation: snap.playerPopulation,
+    playerPopMobility: snap.playerPopMobility,
     playerReformAgitation: snap.playerReformAgitation,
     playerStates: snap.playerStates,
     playerCoreStateIds: snap.playerCoreStateIds,

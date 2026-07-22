@@ -1,4 +1,4 @@
-import type { GameData, Pop, PopType, ProvinceId, World } from '../../shared/types';
+import type { GameData, Pop, PopMobilityLedger, PopType, ProvinceId, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
 import { buyFromMarket } from './market';
@@ -10,6 +10,29 @@ function finite(value: number, fallback = 0): number {
 
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
+}
+
+function emptyMobilityLedger(day: number): PopMobilityLedger {
+  return { day, migrated: 0, migrations: [], conversions: [] };
+}
+
+function recordMigration(world: World, pop: Pop, amount: number): void {
+  if (amount <= 0 || !world.popMobilityLedger) return;
+  if (provinceOwner(world, pop.provinceId) !== world.playerNation) return;
+  const ledger = world.popMobilityLedger;
+  ledger.migrated += amount;
+  const row = ledger.migrations.find((entry) => entry.type === pop.type);
+  if (row) row.amount += amount;
+  else ledger.migrations.push({ type: pop.type, amount });
+}
+
+function recordConversion(world: World, pop: Pop, targetType: PopType, amount: number): void {
+  if (amount <= 0 || !world.popMobilityLedger || targetType === pop.type) return;
+  if (provinceOwner(world, pop.provinceId) !== world.playerNation) return;
+  const ledger = world.popMobilityLedger;
+  const row = ledger.conversions.find((entry) => entry.from === pop.type && entry.to === targetType);
+  if (row) row.amount += amount;
+  else ledger.conversions.push({ from: pop.type, to: targetType, amount });
 }
 
 function passiveIncome(popType: PopType, size: number): number {
@@ -98,6 +121,7 @@ function mergeOrCreatePop(world: World, source: Pop, provinceId: number, targetT
 function convertPopPortion(world: World, pop: Pop, targetType: PopType, amount: number): number {
   const converted = Math.max(0, Math.floor(Math.min(pop.size, finite(amount))));
   if (converted <= 0 || targetType === pop.type) return 0;
+  recordConversion(world, pop, targetType, converted);
   const sourceSize = Math.max(1, pop.size);
   const moneyShare = pop.money * (converted / sourceSize);
   pop.size -= converted;
@@ -109,6 +133,7 @@ function convertPopPortion(world: World, pop: Pop, targetType: PopType, amount: 
 function migratePop(world: World, pop: Pop, destination: number, amount: number): number {
   const moved = Math.max(0, Math.floor(Math.min(pop.size, finite(amount))));
   if (moved <= 0 || destination === pop.provinceId) return 0;
+  recordMigration(world, pop, moved);
   const sourceSize = Math.max(1, pop.size);
   const moneyShare = pop.money * (moved / sourceSize);
   pop.size -= moved;
@@ -275,6 +300,7 @@ function isAcceptedCulture(world: World, pop: Pop): boolean {
 }
 
 export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
+  world.popMobilityLedger = emptyMobilityLedger(world.day);
   const scores = provinceScores(world);
   const bestDestination = new Map<number, number>();
   const bestScore = new Map<number, number>();
@@ -374,5 +400,11 @@ export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
     }
 
     cleanupPop(pop);
+  }
+
+  const ledger = world.popMobilityLedger;
+  if (ledger) {
+    ledger.migrations.sort((a, b) => b.amount - a.amount);
+    ledger.conversions.sort((a, b) => b.amount - a.amount);
   }
 }

@@ -19,6 +19,10 @@ export function PopulationPanel() {
 
   const total = snapshot.playerPopulation.reduce((sum, entry) => sum + entry.size, 0);
   const topAgitation = snapshot.playerReformAgitation.slice(0, 3);
+  const mobility = snapshot.playerPopMobility;
+  const hasMobility = Boolean(
+    mobility && (mobility.migrated > 0 || mobility.conversions.length > 0),
+  );
 
   return (
     <section className="panel-card atlas-panel">
@@ -34,6 +38,10 @@ export function PopulationPanel() {
           <dt>Pop Classes</dt>
           <dd>{snapshot.playerPopulation.length}</dd>
         </div>
+        <div>
+          <dt>Migrated (month)</dt>
+          <dd>{(mobility?.migrated ?? 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}</dd>
+        </div>
       </dl>
 
       <h3 className="atlas-heading panel-small-heading">Top Agitation</h3>
@@ -45,6 +53,26 @@ export function PopulationPanel() {
             <li key={entry.reform}>
               <span>{entry.reform.replaceAll('_', ' ')}</span>
               <span className={entry.support >= 0.4 ? 'unrest' : undefined}>{pct(entry.support)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <h3 className="atlas-heading panel-small-heading">This Month</h3>
+      {!hasMobility ? (
+        <p className="panel-subtle">No domestic migration or class conversion this month.</p>
+      ) : (
+        <ul className="panel-list">
+          {(mobility?.migrations ?? []).map((entry) => (
+            <li key={`mig-${entry.type}`}>
+              <span>Migrated {entry.type}</span>
+              <span>{entry.amount.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+            </li>
+          ))}
+          {(mobility?.conversions ?? []).map((entry) => (
+            <li key={`conv-${entry.from}-${entry.to}`}>
+              <span>{entry.from} → {entry.to}</span>
+              <span>{entry.amount.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
             </li>
           ))}
         </ul>

@@ -479,6 +479,14 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     })),
     playerProduction,
     playerPopulation,
+    playerPopMobility: world.popMobilityLedger
+      ? {
+        day: world.popMobilityLedger.day,
+        migrated: world.popMobilityLedger.migrated,
+        migrations: world.popMobilityLedger.migrations.map((entry) => ({ ...entry })),
+        conversions: world.popMobilityLedger.conversions.map((entry) => ({ ...entry })),
+      }
+      : { day: world.day, migrated: 0, migrations: [], conversions: [] },
     playerReformAgitation,
     playerStates,
     playerCoreStateIds,

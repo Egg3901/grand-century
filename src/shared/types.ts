@@ -1015,6 +1015,9 @@ export interface World {
   /** Active national movements (non-accepted cultures organising). */
   movements?: NationalMovement[];
   nextMovementId?: number;
+
+  /** Last monthly pop mobility flows for the player nation (migration + class conversion). */
+  popMobilityLedger?: PopMobilityLedger;
 }
 
 // ---------------------------------------------------------------------------
@@ -1127,6 +1130,18 @@ export interface PopulationLedgerEntry {
   growthDrivers?: TraceLine[];
   /** Consciousness formula inputs for the Con tooltip. */
   consciousnessDrivers?: TraceLine[];
+}
+
+/** Net domestic migration + class conversion flows from the last monthly pop tick. */
+export interface PopMobilityLedger {
+  /** World day when the monthly ledger was recorded. */
+  day: GameDay;
+  /** Total people who changed province (player nation). */
+  migrated: number;
+  /** Migration volume by pop type. */
+  migrations: { type: PopType; amount: number }[];
+  /** Class conversions (promotion, demotion, draft, discharge). */
+  conversions: { from: PopType; to: PopType; amount: number }[];
 }
 
 export interface PlayerStateSummary {
@@ -1244,6 +1259,8 @@ export interface WorldSnapshot {
   rebellions: Rebellion[];
   playerProduction: ProductionLedgerEntry[];
   playerPopulation: PopulationLedgerEntry[];
+  /** Net migration + promotion/demotion flows from the last monthly pop tick. */
+  playerPopMobility?: PopMobilityLedger;
   playerReformAgitation: { reform: string; support: number }[];
   playerStates: PlayerStateSummary[];
   playerCoreStateIds?: StateId[];
