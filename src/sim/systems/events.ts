@@ -25,6 +25,7 @@ import type {
 import { getFormableStatusesForNation } from '../formables';
 import type { Rng } from '../rng';
 import { getOrCreateRelation, grantContentCb, relationForNations } from './diplomacy';
+import { RESEARCH_POINT_CAP } from './research';
 import { addColonialPointsModifier, startColonization } from './war';
 
 const STAGGER_BUCKETS = 6;
@@ -455,7 +456,7 @@ export function applyEffects(
         nation.literacy = clamp(nation.literacy + effect.amount, 0, 1);
         break;
       case 'researchPoints':
-        nation.researchPoints = clamp(nation.researchPoints + effect.amount, 0, 50_000);
+        nation.researchPoints = clamp(nation.researchPoints + effect.amount, 0, RESEARCH_POINT_CAP);
         break;
       case 'colonialPoints':
         addColonialPointsModifier(world, nationId, effect.amount);
@@ -977,7 +978,7 @@ export function takeDecision(
 
   nation.treasury = clamp(nation.treasury - (decision.cost.treasury ?? 0), TREASURY_MIN, TREASURY_MAX);
   nation.prestige = clamp(nation.prestige - (decision.cost.prestige ?? 0), 0, 10_000);
-  nation.researchPoints = clamp(nation.researchPoints - (decision.cost.researchPoints ?? 0), 0, 50_000);
+  nation.researchPoints = clamp(nation.researchPoints - (decision.cost.researchPoints ?? 0), 0, RESEARCH_POINT_CAP);
   applyEffects(world, data, nationId, decision.effects);
   world.decisionLastTaken[historyKey(decision.id, nationId)] = world.day;
   return { ok: true, reason: `Decision taken: ${decision.title}` };
