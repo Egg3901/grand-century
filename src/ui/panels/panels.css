@@ -383,16 +383,16 @@
 .trace-tooltip {
   --trace-dx: 0px;
   position: absolute;
-  z-index: 30;
+  z-index: 40;
   left: 0;
   top: calc(100% + 0.35rem);
   min-width: 13rem;
-  max-width: 18rem;
+  max-width: min(18rem, calc(100vw - 1rem));
   padding: 0.55rem 0.65rem;
   opacity: 0;
   pointer-events: none;
   transform: translateX(var(--trace-dx)) translateY(4px);
-  transition: opacity 120ms ease, transform 120ms ease;
+  transition: opacity 120ms ease;
   border-radius: var(--gc-radius);
   font-family: var(--gc-font-body);
 }
@@ -401,14 +401,6 @@
   opacity: 1;
   pointer-events: auto;
   transform: translateX(var(--trace-dx)) translateY(0);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .trace-value-wrap:hover .trace-tooltip {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(var(--trace-dx)) translateY(0);
-  }
 }
 
 .trace-value-display:focus-visible {
