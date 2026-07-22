@@ -25,7 +25,7 @@ import type {
 import { getFormableStatusesForNation } from '../formables';
 import type { Rng } from '../rng';
 import { getOrCreateRelation, grantContentCb } from './diplomacy';
-import { startColonization } from './war';
+import { addColonialPointsModifier, startColonization } from './war';
 
 const STAGGER_BUCKETS = 6;
 const TREASURY_MIN = -25_000;
@@ -458,7 +458,7 @@ export function applyEffects(
         nation.researchPoints = clamp(nation.researchPoints + effect.amount, 0, 50_000);
         break;
       case 'colonialPoints':
-        nation.colonialPoints = clamp(nation.colonialPoints + effect.amount, 0, 5_000);
+        addColonialPointsModifier(world, nationId, effect.amount);
         break;
       case 'unrest':
         applyUnrest(world, nationId, effect.amount);
