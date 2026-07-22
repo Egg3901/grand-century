@@ -637,6 +637,15 @@ export interface WarGoal {
   scoreValue: number;    // war-score % required/awarded
 }
 
+/** Additive warscore parts from updateWarScores (attackers' perspective). */
+export interface WarScoreBreakdown {
+  occupation: number;
+  capital: number;
+  blockade: number;
+  battle: number;
+  exhaustion: number;
+}
+
 export interface War {
   id: WarId;
   attackers: NationId[];
@@ -647,6 +656,8 @@ export interface War {
   attackerExhaustion: number;
   defenderExhaustion: number;
   startDay: GameDay;
+  /** Component parts that sum (pre-clamp) into score. Display-only / additive. */
+  scoreBreakdown?: WarScoreBreakdown;
 }
 
 export type DiploRelationKind =

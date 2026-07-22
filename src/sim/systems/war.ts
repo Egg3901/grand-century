@@ -889,6 +889,13 @@ function updateWarScores(world: World, fleetsByProv: Map<ProvinceId, Fleet[]>): 
     const blockade = calculateBlockadeScore(world, war, fleetsByProv);
     const battle = runtime.battleScoreByWar.get(war.id) ?? 0;
     const exhaustionTerm = (war.defenderExhaustion - war.attackerExhaustion) * 0.35;
+    war.scoreBreakdown = {
+      occupation,
+      capital,
+      blockade,
+      battle,
+      exhaustion: exhaustionTerm,
+    };
     war.score = clamp(occupation + capital + blockade + battle + exhaustionTerm, -100, 100);
   }
 }

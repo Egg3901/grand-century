@@ -410,12 +410,26 @@ export function MilitaryPanel() {
                 Score (your perspective):{' '}
                 <TraceTooltip
                   value={scorePerspective.toFixed(1)}
-                  trace={[
-                    { label: 'Raw warscore', value: selectedWarObj.score },
-                    { label: 'Attacker exhaustion', value: selectedWarObj.attackerExhaustion },
-                    { label: 'Defender exhaustion', value: selectedWarObj.defenderExhaustion },
-                    { label: 'Goals', value: selectedWarObj.goals.length },
-                  ]}
+                  trace={(() => {
+                    const parts = selectedWarObj.scoreBreakdown;
+                    const sign = isPlayerAttacker ? 1 : -1;
+                    if (!parts) {
+                      return [
+                        { label: 'Raw warscore', value: selectedWarObj.score },
+                        { label: 'Attacker exhaustion', value: selectedWarObj.attackerExhaustion },
+                        { label: 'Defender exhaustion', value: selectedWarObj.defenderExhaustion },
+                        { label: 'Goals', value: selectedWarObj.goals.length },
+                      ];
+                    }
+                    return [
+                      { label: 'Occupation', value: parts.occupation * sign },
+                      { label: 'Capital', value: parts.capital * sign },
+                      { label: 'Blockade', value: parts.blockade * sign },
+                      { label: 'Battles', value: parts.battle * sign },
+                      { label: 'Exhaustion', value: parts.exhaustion * sign },
+                      { label: 'Total (raw)', value: selectedWarObj.score * sign },
+                    ];
+                  })()}
                 />{' '}
                 | Exhaustion A{' '}
                 <TraceTooltip
