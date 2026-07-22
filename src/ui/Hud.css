@@ -167,6 +167,26 @@
   border: 1px solid var(--gc-border-soft);
 }
 
+.hud-monthly-net {
+  font-size: var(--gc-fs-caption);
+  font-weight: 700;
+  padding: 0.12rem 0.4rem;
+  border-radius: var(--gc-radius-sm);
+  border: 1px solid var(--gc-border-soft);
+}
+
+.hud-monthly-net.is-positive {
+  color: var(--gc-positive);
+  background: rgba(42, 74, 46, 0.1);
+  border-color: rgba(42, 74, 46, 0.35);
+}
+
+.hud-monthly-net.is-negative {
+  color: var(--gc-danger, #8a2b22);
+  background: rgba(138, 43, 34, 0.1);
+  border-color: rgba(138, 43, 34, 0.35);
+}
+
 .hud-infamy.is-danger {
   color: var(--gc-danger);
   font-weight: 700;

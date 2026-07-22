@@ -75,6 +75,7 @@ export function Hud() {
     if (!snapshot) return null;
     return snapshot.nations.find((nation) => nation.id === snapshot.playerNation) ?? null;
   }, [snapshot]);
+  const monthlyNet = snapshot?.playerBudget?.net ?? 0;
   const snapshotSpeed = snapshot?.speed ?? 0;
   const currentSpeed = optimisticSpeed ?? snapshotSpeed;
   const formattedDate = snapshot
@@ -143,6 +144,9 @@ export function Hud() {
           {playerNation ? <NationFlag tag={playerNation.tag} color={playerNation.color} size={24} /> : null}
           <span className="atlas-heading">{playerNation?.name ?? 'United Kingdom'}</span>
           <strong>{formatMoney(playerNation?.treasury ?? 0)}</strong>
+          <span className={`hud-monthly-net ${monthlyNet >= 0 ? 'is-positive' : 'is-negative'}`}>
+            {monthlyNet >= 0 ? '+' : ''}{formatMoney(monthlyNet)}/mo
+          </span>
           <span className={`hud-infamy ${playerNation && snapshot && playerNation.infamy >= snapshot.infamyLimit ? 'is-danger' : ''}`}>
             Infamy {(playerNation?.infamy ?? 0).toFixed(1)}
             {snapshot ? ` / ${snapshot.infamyLimit.toFixed(1)}` : ''}
@@ -211,6 +215,9 @@ export function Hud() {
           {playerNation ? <NationFlag tag={playerNation.tag} color={playerNation.color} size={18} /> : null}
           <span>{playerNation?.name ?? 'United Kingdom'}</span>
           <strong>{speedLabel(currentSpeed)} · {formatMoney(playerNation?.treasury ?? 0)}</strong>
+          <span className={`hud-monthly-net ${monthlyNet >= 0 ? 'is-positive' : 'is-negative'}`}>
+            {monthlyNet >= 0 ? '+' : ''}{formatMoney(monthlyNet)}/mo
+          </span>
         </div>
       </header>
 
