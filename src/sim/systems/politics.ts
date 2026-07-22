@@ -3,6 +3,7 @@ import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
 import {
   computeReformLegality,
+  decayReformFatigue,
   ideologyFromPop,
   isElectiveGovernment,
   normalizeUpperHouse,
@@ -493,6 +494,7 @@ export function runPoliticsMonthly(world: World, data: GameData, rng: Rng): void
 
   for (const nation of world.nations) {
     const nationPops = popsByNation[nation.id] ?? [];
+    decayReformFatigue(nation);
     pickElectionParty(world, data, nation.id, rng, nationPops, reformsByKey);
     driftUpperHouse(world, nation.id);
     applySuppressionEffects(world, data, nation.id, nationPops, reformsByKey, demandByNation[nation.id] ?? new Map());

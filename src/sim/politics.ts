@@ -182,6 +182,54 @@ function reformCost(category: ReformCategory, level: number): { money: number; p
   };
 }
 
+// --- Reform political fatigue (chain-enact throttle) -------------------------
+// Enacting a reform builds fatigue; monthly politics decays it. Legality uses
+// the current level to depress effective UH support and inflate costs (see
+// computeReformLegality). Tunables live here next to the other REFORM_* knobs.
+/** Soft cap on stored fatigue (0 = none, 1 = fully fatigued). */
+export const REFORM_FATIGUE_MAX = 1;
+/** Linear monthly decay — ~8 months from full fatigue back to baseline. */
+export const REFORM_FATIGUE_DECAY_PER_MONTH = 0.12;
+/** Base fatigue gained on any successful enactment. */
+export const REFORM_FATIGUE_GAIN_BASE = 0.28;
+/** Extra fatigue per reform level step (deeper reforms cost more fatigue). */
+export const REFORM_FATIGUE_GAIN_PER_LEVEL = 0.08;
+/** Category additive — political upheaval costs the most institutional capital. */
+export const REFORM_FATIGUE_GAIN_BY_CATEGORY: Record<ReformCategory, number> = {
+  political: 0.06,
+  social: 0.04,
+  economic: 0.05,
+  military: 0.03,
+};
+
+export function nationReformFatigue(nation: Nation): number {
+  return clamp(nation.reformFatigue ?? 0, 0, REFORM_FATIGUE_MAX);
+}
+
+export function reformFatigueGain(category: ReformCategory, level: number): number {
+  const categoryGain = REFORM_FATIGUE_GAIN_BY_CATEGORY[category] ?? 0;
+  return REFORM_FATIGUE_GAIN_BASE + Math.max(0, level) * REFORM_FATIGUE_GAIN_PER_LEVEL + categoryGain;
+}
+
+/** Apply fatigue gain after a successful reform enactment. */
+export function applyReformFatigueGain(nation: Nation, category: ReformCategory, level: number): void {
+  nation.reformFatigue = clamp(
+    nationReformFatigue(nation) + reformFatigueGain(category, level),
+    0,
+    REFORM_FATIGUE_MAX,
+  );
+}
+
+/** Monthly decay hook — mirrors infamy’s per-month nation-stat fade. */
+export function decayReformFatigue(nation: Nation): void {
+  const current = nation.reformFatigue ?? 0;
+  if (current <= 0) {
+    if (nation.reformFatigue !== undefined && nation.reformFatigue !== 0) nation.reformFatigue = 0;
+    return;
+  }
+  nation.reformFatigue = Math.max(0, Number((current - REFORM_FATIGUE_DECAY_PER_MONTH).toFixed(4)));
+}
+
 export function politicalSuppression(nation: Nation, data: GameData): number {
   const voting = data.reforms.find((reform) => reform.key === 'voting_franchise');
   const press = data.reforms.find((reform) => reform.key === 'press_rights');

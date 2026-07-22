@@ -546,6 +546,12 @@ export interface Nation {
 
   /** enacted reform level per ReformDef.key */
   reforms: Record<string, number>;
+  /**
+   * Political fatigue from recent reforms (0–1). Depresses effective
+   * upper-house support and inflates reform costs until it decays.
+   * Optional for old saves (undefined = 0).
+   */
+  reformFatigue?: number;
   /** researched tech keys */
   techs: string[];
   /** 0.6.0 research: tech currently being researched (null/undefined = none). */
