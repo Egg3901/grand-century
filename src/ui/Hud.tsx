@@ -81,6 +81,20 @@ export function Hud() {
   const formattedDate = snapshot
     ? `${snapshot.date.year}-${String(snapshot.date.month).padStart(2, '0')}-${String(snapshot.date.day).padStart(2, '0')}`
     : '1820-01-01';
+  const researchChip = useMemo(() => {
+    const tech = snapshot?.playerTech;
+    if (!tech) return null;
+    const currentName = tech.current
+      ? (tech.statuses.find((status) => status.key === tech.current)?.name ?? tech.current)
+      : null;
+    return {
+      points: tech.researchPoints,
+      label: currentName ?? 'Idle',
+      title: currentName
+        ? `Open Technology — researching ${currentName}`
+        : 'Open Technology — no active research',
+    };
+  }, [snapshot?.playerTech]);
 
   const panels = useMemo(
     () => (multiplayer ? PANELS.filter((p) => p.id !== 'save_load') : PANELS),
@@ -151,6 +165,19 @@ export function Hud() {
             Infamy {(playerNation?.infamy ?? 0).toFixed(1)}
             {snapshot ? ` / ${snapshot.infamyLimit.toFixed(1)}` : ''}
           </span>
+          {researchChip ? (
+            <button
+              type="button"
+              className="hud-research"
+              data-testid="hud-research"
+              title={researchChip.title}
+              {...instantPressProps(() => togglePanel('technology'))}
+            >
+              RP {researchChip.points.toFixed(0)}
+              {' · '}
+              {researchChip.label}
+            </button>
+          ) : null}
           {snapshot?.playerBalanceOfPower ? (
             <span
               className={`hud-infamy ${snapshot.playerBalanceOfPower.rivalryThreat ? 'is-danger' : ''}`}
