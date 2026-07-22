@@ -100,8 +100,20 @@ export function BudgetPanel() {
       </p>
       <p className={`bankruptcy-pill ${player.isBankrupt ? 'is-bankrupt' : ''}`}>
         {player.isBankrupt
-          ? 'Bankruptcy active: construction disabled and emergency cuts applied.'
-          : 'Solvent: construction and normal spending active.'}
+          ? (
+            <>
+              Bankruptcy active ({player.bankruptcyMonths} mo): construction off;
+              cuts army ×0.45, subsidies ×0.3, admin ×0.6, reform ×0.55, overhead ×0.
+              Exit when treasury ≥ £{BALANCE.economy.bankruptcyExitTreasury}.
+              Entered at ≤ £{BALANCE.economy.bankruptcyEnterTreasury}.
+            </>
+          )
+          : (
+            <>
+              Solvent: construction and normal spending active.
+              Bankruptcy enters at treasury ≤ £{BALANCE.economy.bankruptcyEnterTreasury}.
+            </>
+          )}
       </p>
     </section>
   );

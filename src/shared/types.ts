@@ -975,6 +975,7 @@ export interface NationSummary {
   taxRateRich: number;
   tariffRate: number;
   isBankrupt: boolean;
+  bankruptcyMonths: number;
   constructionBlocked: boolean;
   mobilizationCapacity: number;
 }

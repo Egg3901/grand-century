@@ -154,6 +154,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       taxRateRich: nation.taxRateRich,
       tariffRate: nation.tariffRate,
       isBankrupt: nation.isBankrupt,
+      bankruptcyMonths: nation.bankruptcyMonths,
       constructionBlocked: nation.constructionBlocked,
       mobilizationCapacity: nation.mobilizationCapacity,
     };
