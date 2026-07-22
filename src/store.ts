@@ -185,8 +185,7 @@ export const useStore = create<UIState>((set, get) => ({
       const currWarIds = new Set(s.wars.map((war) => war.id));
       for (const war of s.wars) {
         if (prevWarIds.has(war.id)) continue;
-        const playerInWar = war.attackers.includes(s.playerNation) || war.defenders.includes(s.playerNation);
-        if (!playerInWar) continue;
+        // Notify for every new war, including AI-vs-AI conflicts the player only observes.
         const nameOf = (id: number) => s.nations.find((nation) => nation.id === id)?.name ?? `Nation ${id}`;
         const attacker = nameOf(war.attackers[0]);
         const defender = nameOf(war.defenders[0]);
@@ -239,11 +238,15 @@ export const useStore = create<UIState>((set, get) => ({
       }
       for (const war of prev.wars) {
         if (currWarIds.has(war.id)) continue;
-        const playerInWar = war.attackers.includes(s.playerNation) || war.defenders.includes(s.playerNation);
-        if (!playerInWar) continue;
+        // Same as war-start: name the sides even when the player was not a belligerent.
+        const nameOf = (id: number) => s.nations.find((nation) => nation.id === id)?.name
+          ?? prev.nations.find((nation) => nation.id === id)?.name
+          ?? `Nation ${id}`;
+        const attacker = nameOf(war.attackers[0]);
+        const defender = nameOf(war.defenders[0]);
         pushAlert(
           'peace',
-          `Peace signed (War ${war.id}).`,
+          `Peace signed: ${attacker} vs ${defender}.`,
           s.day,
           'military',
           'Open Military to review postwar status.',
