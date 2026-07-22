@@ -30,6 +30,7 @@ import {
   mixHex,
 } from './mapDecor';
 import { createSealElement, createUnitCounterElement } from './mapCounters';
+import { visibleUnitOwnerIds } from './unitVisibility';
 
 type MapLibreMap = import('maplibre-gl').Map;
 type MapLibreMarker = import('maplibre-gl').Marker;
@@ -1944,6 +1945,13 @@ export function GrandMap() {
       list.push(fleet);
       fleetsByProvince.set(fleet.location, list);
     }
+    // Full province groupings stay unfiltered for any-vs-any combat seals below.
+    // Marker/arrow rendering uses this player-scoped owner set only.
+    const visibleOwners = visibleUnitOwnerIds(
+      snapshot.playerNation,
+      snapshot.wars,
+      snapshot.relations,
+    );
     const provinceById = new globalThis.Map(snapshot.provinces.map((province) => [province.id, province]));
     const ownerColorById = new globalThis.Map(snapshot.nations.map((nation) => [nation.id, toHexColor(nation.color)]));
     // One lookup map instead of snapshot.nations.find(...) inside the per-stack
@@ -2019,8 +2027,9 @@ export function GrandMap() {
       if (stacks.length > 0) armyStacksByProvince.set(provinceId, stacks);
     }
     for (const [provinceId, stacks] of armyStacksByProvince.entries()) {
-      const offsets = markerOffsets(stacks.length);
-      stacks.forEach((stack, index) => {
+      const visibleStacks = stacks.filter((stack) => visibleOwners.has(stack.owner));
+      const offsets = markerOffsets(visibleStacks.length);
+      visibleStacks.forEach((stack, index) => {
         const friendly = stack.owner === snapshot.playerNation;
         const selected = selectedArmy !== null && stack.armies.some((army) => army.id === selectedArmy);
         const candidate = stack.armies.find((army) => army.owner === snapshot.playerNation) ?? stack.armies[0];
@@ -2074,8 +2083,9 @@ export function GrandMap() {
       if (stacks.length > 0) fleetStacksByProvince.set(provinceId, stacks);
     }
     for (const [provinceId, stacks] of fleetStacksByProvince.entries()) {
-      const offsets = markerOffsets(stacks.length).map(([x, y]) => [x, y + 38] as [number, number]);
-      stacks.forEach((stack, index) => {
+      const visibleStacks = stacks.filter((stack) => visibleOwners.has(stack.owner));
+      const offsets = markerOffsets(visibleStacks.length).map(([x, y]) => [x, y + 38] as [number, number]);
+      visibleStacks.forEach((stack, index) => {
         const friendly = stack.owner === snapshot.playerNation;
         const selected = selectedFleet !== null && stack.fleets.some((fleet) => fleet.id === selectedFleet);
         const candidate = stack.fleets.find((fleet) => fleet.owner === snapshot.playerNation) ?? stack.fleets[0];
@@ -2175,6 +2185,7 @@ export function GrandMap() {
     }>();
     for (const army of snapshot.armies) {
       if (army.moveTarget < 0 || army.regiments.length === 0) continue;
+      if (!visibleOwners.has(army.owner)) continue;
       const key = `a-${army.owner}-${army.location}-${army.moveTarget}`;
       movementEntries.set(key, {
         from: army.location,
@@ -2186,6 +2197,7 @@ export function GrandMap() {
     }
     for (const fleet of snapshot.fleets) {
       if (fleet.moveTarget < 0 || fleet.ships.length === 0) continue;
+      if (!visibleOwners.has(fleet.owner)) continue;
       const key = `f-${fleet.owner}-${fleet.location}-${fleet.moveTarget}`;
       movementEntries.set(key, {
         from: fleet.location,
