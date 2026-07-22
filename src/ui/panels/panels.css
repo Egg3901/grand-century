@@ -366,7 +366,6 @@
 .slider-grid input[type='range'],
 .slider-grid .gc-slider {
   width: 100%;
-  accent-color: var(--gc-wax);
 }
 
 /* Trace tooltips */
