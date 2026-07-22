@@ -74,6 +74,18 @@ export function ProvincePanel() {
           <dt>Fort</dt>
           <dd>{detail.fortLevel}</dd>
         </div>
+        {provinceSummary ? (
+          <div>
+            <dt>Occupation</dt>
+            <dd>
+              {(provinceSummary.occupation * 100).toFixed(0)}%
+              {provinceSummary.controller !== provinceSummary.owner
+                ? ` · Controller: ${snapshot?.nations.find((nation) => nation.id === provinceSummary.controller)?.name
+                  ?? `Nation ${provinceSummary.controller}`}`
+                : ' · Owner holds'}
+            </dd>
+          </div>
+        ) : null}
         <div>
           <dt>Naval Base</dt>
           <dd>{detail.navalBaseLevel}</dd>
