@@ -28,7 +28,7 @@ export type PanelId =
 
 export interface UiAlert {
   id: string;
-  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save' | 'formation' | 'unrest' | 'event';
+  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save' | 'formation' | 'unrest' | 'event' | 'crisis';
   day: number;
   message: string;
   panel: Exclude<PanelId, null> | null;
@@ -367,6 +367,39 @@ export const useStore = create<UIState>((set, get) => ({
             pushAlert('formation', `${nation.name} has formed.`, s.day, 'diplomacy', 'Open Diplomacy to review the balance of power.', `formation-${nation.tag}`, 3650);
           }
         }
+      }
+      const prevCrisis = prev.activeCrisis ?? null;
+      const currCrisis = s.activeCrisis ?? null;
+      if (!prevCrisis && currCrisis) {
+        const subject = s.nations.find((nation) => nation.id === currCrisis.subject)?.name ?? `Nation ${currCrisis.subject}`;
+        pushAlert(
+          'crisis',
+          `Crisis erupts over ${subject}.`,
+          s.day,
+          'great_powers',
+          'Open Great Powers to back a side or watch the Concert.',
+          `crisis-spawn-${currCrisis.id}`,
+          365,
+        );
+      } else if (prevCrisis && !currCrisis) {
+        const history = s.congressHistory ?? [];
+        const latest = history[history.length - 1];
+        const outcome = latest && latest.day === s.day
+          ? latest.outcome === 'war'
+            ? 'Diplomacy failed — war.'
+            : latest.outcome === 'fizzle'
+              ? 'Crisis fizzled.'
+              : 'Congress settled the crisis.'
+          : 'Crisis resolved.';
+        pushAlert(
+          'crisis',
+          outcome,
+          s.day,
+          'great_powers',
+          'Open Great Powers to review the congress ledger.',
+          `crisis-resolve-${prevCrisis.id}`,
+          365,
+        );
       }
       if (foreignElectionCount > 0) {
         const monthKey = `election-foreign-${s.date.year}-${s.date.month}`;
