@@ -244,12 +244,21 @@ export function TechnologyPanel() {
             </li>
           ))}
           {brewing.map((invention) => (
-            <li key={invention.key}>
+            <li key={invention.key} data-testid={`invention-brewing-${invention.key}`}>
               <div>
                 <strong>{invention.name}</strong>
-                <span className="gc-chip">Possible</span>
+                <span className="gc-chip">
+                  {invention.monthlyChance != null
+                    ? `${(invention.monthlyChance * 100).toFixed(1)}%/mo`
+                    : 'Possible'}
+                </span>
               </div>
-              <span>{invention.description}</span>
+              <span>
+                {invention.description}
+                {invention.effectsSummary.length > 0
+                  ? ` (${invention.effectsSummary.join(', ')})`
+                  : ''}
+              </span>
             </li>
           ))}
         </ul>

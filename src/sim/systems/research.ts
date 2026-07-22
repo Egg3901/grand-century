@@ -447,15 +447,21 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
   });
   const inventions = nation.inventions ?? [];
   const owned = new Set(inventions);
-  const inventionStatuses = (data.inventions ?? []).map((invention) => ({
-    key: invention.key,
-    name: invention.name,
-    description: invention.description,
-    prereqTech: techNameByKey.get(invention.prereqTech) ?? invention.prereqTech,
-    owned: owned.has(invention.key),
-    prereqMet: techSet.has(invention.prereqTech),
-    effectsSummary: summarizeModifiers(invention.modifiers),
-  }));
+  const literacyScale = 0.5 + clamp(nation.literacy, 0, 1);
+  const inventionStatuses = (data.inventions ?? []).map((invention) => {
+    const isOwned = owned.has(invention.key);
+    const prereqMet = techSet.has(invention.prereqTech);
+    return {
+      key: invention.key,
+      name: invention.name,
+      description: invention.description,
+      prereqTech: techNameByKey.get(invention.prereqTech) ?? invention.prereqTech,
+      owned: isOwned,
+      prereqMet,
+      effectsSummary: summarizeModifiers(invention.modifiers),
+      monthlyChance: !isOwned && prereqMet ? invention.monthlyChance * literacyScale : null,
+    };
+  });
   const currentDef = nation.currentResearch
     ? data.techs.find((tech) => tech.key === nation.currentResearch) ?? null
     : null;
