@@ -333,10 +333,20 @@ export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
   }
 
   const stateFactoryOpenings = new Map<number, number>();
+  // Clerk-specific openings (factory clerk capacity is 20% of total capacity,
+  // see economy.ts processFactory) and a profitable-factory signal, so
+  // craftsman->clerk->capitalist promotion tracks the same labor market that
+  // actually employs them, instead of being a flat unconditional drip.
+  const stateClerkOpenings = new Map<number, number>();
+  const stateHasProfitableFactory = new Map<number, boolean>();
   for (const state of world.states) {
     const capacity = state.factories.reduce((sum, f) => sum + f.level * 2300, 0);
     const employed = state.factories.reduce((sum, f) => sum + f.employed, 0);
     stateFactoryOpenings.set(state.id, Math.max(0, capacity - employed));
+    const clerkCapacity = state.factories.reduce((sum, f) => sum + (f.lastCapacity || f.level * 2300) * 0.2, 0);
+    const clerkEmployed = state.factories.reduce((sum, f) => sum + f.clerkShare, 0);
+    stateClerkOpenings.set(state.id, Math.max(0, clerkCapacity - clerkEmployed));
+    stateHasProfitableFactory.set(state.id, state.factories.some((f) => f.weeklyProfit > 0));
   }
   const soldierDemand = nationSoldierDemand(world);
 
@@ -405,6 +415,25 @@ export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
       stateFactoryOpenings.set(stateId, Math.max(0, openings - promoted));
     } else if (pop.type === 'craftsman' && (pop.needsMet < 0.08 || openings < 2)) {
       convertPopPortion(world, pop, 'laborer', pop.size * 0.004);
+    }
+
+    // Clerk / capitalist ladder: bootstrap seeds these classes at 0 (they only
+    // exist via promotion), and previously nothing ever promoted into them —
+    // their wage/profit shares in processFactory were dead weight. Craftsmen
+    // step into clerk roles where factory clerk capacity exists; well-off
+    // clerks slowly become the capitalist/investor class once a state has
+    // real profitable industry to invest in.
+    const clerkOpenings = stateClerkOpenings.get(stateId) ?? 0;
+    if (pop.type === 'craftsman' && pop.needsMet > 0.5 && literacy > 0.2 && clerkOpenings > 8) {
+      const promoted = convertPopPortion(world, pop, 'clerk', pop.size * 0.01);
+      stateClerkOpenings.set(stateId, Math.max(0, clerkOpenings - promoted));
+    } else if (pop.type === 'clerk' && (pop.needsMet < 0.12 || clerkOpenings < 2)) {
+      convertPopPortion(world, pop, 'craftsman', pop.size * 0.006);
+    } else if (pop.type === 'clerk' && pop.needsMet > 0.6 && (stateHasProfitableFactory.get(stateId) ?? false)) {
+      // Deliberately slow and one-way (no capitalist demotion, matching
+      // aristocrat) — capitalist count feeds tax bracket/prestige, not job
+      // capacity, so this is a treasury-balance lever, not a labor one.
+      convertPopPortion(world, pop, 'capitalist', pop.size * 0.002);
     }
 
     if ((pop.type === 'farmer' || pop.type === 'laborer' || pop.type === 'craftsman') && isAcceptedCulture(world, pop)) {
