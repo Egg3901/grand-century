@@ -389,20 +389,31 @@ export const useStore = create<UIState>((set, get) => ({
           );
         }
       }
-      const playerProvinceUnrest = s.provinces.filter((province) => province.owner === s.playerNation).map((province) => province.unrestRisk);
-      const prevPlayerProvinceUnrest = prev.provinces.filter((province) => province.owner === prev.playerNation).map((province) => province.unrestRisk);
-      const maxUnrest = playerProvinceUnrest.length > 0 ? Math.max(...playerProvinceUnrest) : 0;
-      const prevMaxUnrest = prevPlayerProvinceUnrest.length > 0 ? Math.max(...prevPlayerProvinceUnrest) : 0;
-      if (maxUnrest >= 0.55 && prevMaxUnrest < 0.55) {
-        pushAlert(
-          'unrest',
-          `High unrest risk detected (${maxUnrest.toFixed(2)}).`,
-          s.day,
-          'politics',
-          'Open Politics and enact stabilizing reforms or cut taxes.',
-          'high-unrest',
-          120,
-        );
+      // Province unrestRisk only changes on monthly sim ticks (never from a
+      // command), so this O(provinces) scan is pointless on same-day snapshots
+      // — which is most of them at low speed (8Hz snapshots share a day). Skip
+      // it unless a day actually elapsed. A single loop also avoids two 620-arg
+      // Math.max spreads.
+      if (s.day !== prev.day) {
+        let maxUnrest = 0;
+        for (const province of s.provinces) {
+          if (province.owner === s.playerNation && province.unrestRisk > maxUnrest) maxUnrest = province.unrestRisk;
+        }
+        let prevMaxUnrest = 0;
+        for (const province of prev.provinces) {
+          if (province.owner === prev.playerNation && province.unrestRisk > prevMaxUnrest) prevMaxUnrest = province.unrestRisk;
+        }
+        if (maxUnrest >= 0.55 && prevMaxUnrest < 0.55) {
+          pushAlert(
+            'unrest',
+            `High unrest risk detected (${maxUnrest.toFixed(2)}).`,
+            s.day,
+            'politics',
+            'Open Politics and enact stabilizing reforms or cut taxes.',
+            'high-unrest',
+            120,
+          );
+        }
       }
       const prevPendingIds = new Set((prev.pendingPlayerEvents ?? []).map((event) => event.instanceId));
       for (const event of s.pendingPlayerEvents ?? []) {
