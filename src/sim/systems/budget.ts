@@ -121,7 +121,8 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
   }
 
   const taxIncome = poorTax + middleTax + richTax;
-  const tariffIncome = Math.max(0, finite(nation.monthlyTariffIncome));
+  // Signed: positive customs duties, negative import-subsidy outlays.
+  const tariffIncome = finite(nation.monthlyTariffIncome);
   const productionIncome = Math.max(0, finite(nation.monthlyProductionIncome));
   const armyUpkeep = world.armies
     .filter((army) => army.owner === nationId)

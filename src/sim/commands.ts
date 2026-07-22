@@ -1,4 +1,5 @@
 import type { Command, FromWorker, GameData, NationId, Regiment, War, WarGoal, World } from '../shared/types';
+import { BALANCE } from './balance';
 import { computeReformLegality, partyLabel, reformDemandForPop, updateMilitaryDerivedForNation } from './politics';
 import {
   beginCbFabrication,
@@ -217,7 +218,8 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
     case 'setTariff': {
       const nation = world.nations[world.playerNation];
       if (!nation) return;
-      nation.tariffRate = clamp(cmd.rate, -1, 1);
+      // Player band mirrors AI economic posture (BALANCE.ai min/max tariff).
+      nation.tariffRate = clamp(cmd.rate, BALANCE.ai.minTariff, BALANCE.ai.maxTariff);
       return;
     }
     case 'enactReform': {

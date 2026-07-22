@@ -1,4 +1,5 @@
 import { useStore } from '../../store';
+import { BALANCE } from '../../sim/balance';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 function formatMoney(value: number): string {
@@ -66,8 +67,8 @@ export function BudgetPanel() {
           <input
             type="range"
             className="gc-slider"
-            min={-1}
-            max={1}
+            min={BALANCE.ai.minTariff}
+            max={BALANCE.ai.maxTariff}
             step={0.01}
             value={player.tariffRate}
             onChange={(event) => sendCommand({ t: 'setTariff', rate: Number(event.target.value) })}
