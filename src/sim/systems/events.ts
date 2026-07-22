@@ -156,11 +156,11 @@ export function summarizeEffect(effect: EventEffect): string {
     case 'reformLevel': return `${effect.delta >= 0 ? '+' : ''}${effect.delta} ${effect.reform.replace(/_/g, ' ')}`;
     case 'modifyGoodPrice': return `${effect.goodKey} price ×${effect.factor.toFixed(2)}`;
     case 'modifyGoodStockpile': return `${effect.amount >= 0 ? '+' : ''}${effect.amount} ${effect.goodKey} stock`;
-    case 'relationsWithGps': return `${effect.amount >= 0 ? '+' : ''}${effect.amount} GP relations`;
-    case 'spawnRebels': return 'Spawn rebels';
+    case 'relationsWithGps': return `${effect.amount >= 0 ? '+' : ''}${effect.amount} opinion with all Great Powers`;
+    case 'spawnRebels': return 'Spawn rebels (3×850 in highest-mil state)';
     case 'grantColonialClaim': return 'Plant colonial claim';
-    case 'boostFactories': return `+${effect.levels} factory level(s)`;
-    case 'boostRgo': return `+${effect.levels} ${effect.goodKey ?? 'RGO'} output`;
+    case 'boostFactories': return `+${effect.levels} factory level(s) in up to 3 states`;
+    case 'boostRgo': return `+${effect.levels} ${effect.goodKey ?? 'RGO'} output in up to 4 provinces`;
     case 'grantCasusBelli': return `Free casus belli vs ${effect.targetTag}`;
     case 'opinionWithTags': return `${effect.amount >= 0 ? '+' : ''}${effect.amount} opinion with ${effect.tags.join(', ')}`;
     case 'forceRivalry': return `Rivalry with ${effect.tag}`;
