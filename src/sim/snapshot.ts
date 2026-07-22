@@ -12,7 +12,9 @@ import {
   getInfluenceTargetsForNation,
   getInfamyLimit,
   getNationPowerBreakdown,
+  getNinthPowerScore,
   getPendingCbsForNation,
+  getWarGoalInfamyUse,
 } from './systems/diplomacy';
 import { getFormableStatusesForNation } from './formables';
 import { listPlayerDecisions } from './systems/events';
@@ -300,6 +302,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         acc[goal] = getFabricateCbCost(goal);
         return acc;
       }, {} as Record<WarGoalType, number>),
+    warGoalInfamyUse: getWarGoalInfamyUse(),
     playerInfluencePool: getInfluencePool(world, world.playerNation),
     playerInfluenceTargets: getInfluenceTargetsForNation(world, world.playerNation).map((entry) => ({ ...entry })),
     playerAlliancePreviews: world.nations
@@ -310,6 +313,8 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       }),
     infamyLimit: getInfamyLimit(),
     coalitionAgainstPlayer: getCoalitionAgainst(world, world.playerNation),
+    ninthPowerScore: getNinthPowerScore(world),
+    playerPowerScore: getNationPowerBreakdown(world, world.playerNation).score,
     armies: world.armies.map((army) => ({ ...army, regiments: army.regiments.map((regiment) => ({ ...regiment })), leader: army.leader ? { ...army.leader } : null })),
     fleets: world.fleets.map((fleet) => ({ ...fleet, ships: fleet.ships.map((ship) => ({ ...ship })) })),
     rebellions: world.rebellions.map((rebellion) => ({

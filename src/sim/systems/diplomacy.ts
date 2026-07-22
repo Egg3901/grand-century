@@ -819,6 +819,25 @@ export function getGreatPowerStandings(world: World): GreatPowerStanding[] {
     .sort((a, b) => a.rank - b.rank);
 }
 
+/** Score of the #9 power (first non-GP). Gap to this is the GP cliff chase. */
+export function getNinthPowerScore(world: World): number {
+  const runtime = ensureRuntime(world);
+  if (runtime.powerScores.length === 0) refreshGreatPowerRanking(world);
+  if (runtime.powerScores.length < 9) return 0;
+  return runtime.powerScores[8].score;
+}
+
+export function getWarGoalInfamyUse(): Record<WarGoalType, number> {
+  return {
+    annex_state: WAR_GOAL_RULES.annex_state.infamyUse,
+    liberate_state: WAR_GOAL_RULES.liberate_state.infamyUse,
+    humiliate: WAR_GOAL_RULES.humiliate.infamyUse,
+    add_to_sphere: WAR_GOAL_RULES.add_to_sphere.infamyUse,
+    take_colony: WAR_GOAL_RULES.take_colony.infamyUse,
+    cut_down_to_size: WAR_GOAL_RULES.cut_down_to_size.infamyUse,
+  };
+}
+
 export function getCoalitionAgainst(world: World, nationId: NationId): NationId[] {
   return (ensureRuntime(world).coalitionAgainst.get(nationId) ?? []).slice();
 }

@@ -21,6 +21,9 @@ export function GreatPowersPanel() {
 
   const playerNation = nationById.get(snapshot.playerNation);
   const isGreatPower = Boolean(playerNation?.gpRank && playerNation.gpRank > 0);
+  const ninthScore = snapshot.ninthPowerScore ?? 0;
+  const playerScore = snapshot.playerPowerScore ?? 0;
+  const pointsFromNinth = playerScore - ninthScore;
 
   return (
     <section className="panel-card atlas-panel">
@@ -34,6 +37,19 @@ export function GreatPowersPanel() {
           <dt>Your Rank</dt>
           <dd className={isGreatPower ? 'status-positive' : undefined}>
             {isGreatPower ? `#${playerNation!.gpRank}` : 'Not a great power'}
+          </dd>
+        </div>
+        <div>
+          <dt>Points from #9</dt>
+          <dd className={pointsFromNinth >= 0 ? 'status-positive' : 'status-danger'}>
+            <TraceTooltip
+              value={`${pointsFromNinth >= 0 ? '+' : ''}${pointsFromNinth.toFixed(1)}`}
+              trace={[
+                { label: 'Your score', value: playerScore },
+                { label: '#9 score (GP cliff)', value: ninthScore },
+                { label: 'Gap (you − #9)', value: pointsFromNinth },
+              ]}
+            />
           </dd>
         </div>
         {isGreatPower ? (
@@ -106,9 +122,11 @@ export function GreatPowersPanel() {
                     <TraceTooltip
                       value={entry.score.toFixed(1)}
                       trace={[
-                        { label: 'Industry', value: entry.industry },
-                        { label: 'Military', value: entry.military },
-                        { label: 'Prestige', value: entry.prestige },
+                        { label: '√industry × 9', value: Number((Math.sqrt(Math.max(0, entry.industry)) * 9).toFixed(2)) },
+                        { label: 'military × 2.5', value: Number((entry.military * 2.5).toFixed(2)) },
+                        { label: 'prestige × 1', value: entry.prestige },
+                        { label: 'Industry (raw)', value: entry.industry },
+                        { label: 'Military (raw)', value: entry.military },
                       ]}
                     />
                   </span>

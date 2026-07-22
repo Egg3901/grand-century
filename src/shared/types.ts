@@ -1096,12 +1096,18 @@ export interface WorldSnapshot {
   playerDiplomaticPoints: number;
   /** Fabricate-CB cost by war goal (mirrors sim `getFabricateCbCost`). */
   fabricateCbCostByGoal: Record<WarGoalType, number>;
+  /** Infamy cost when declaring with a valid CB (from WAR_GOAL_RULES). */
+  warGoalInfamyUse: Record<WarGoalType, number>;
   playerInfluencePool: number;
   playerInfluenceTargets: InfluenceTarget[];
   /** Alliance acceptance scores vs the player (threshold 70). */
   playerAlliancePreviews: AllianceAcceptancePreview[];
   infamyLimit: number;
   coalitionAgainstPlayer: NationId[];
+  /** Score of the #9 nation — gap to this is the GP rank chase. */
+  ninthPowerScore: number;
+  /** Player's current power score (GP formula). */
+  playerPowerScore: number;
   armies: Army[];
   fleets: Fleet[];
   rebellions: Rebellion[];

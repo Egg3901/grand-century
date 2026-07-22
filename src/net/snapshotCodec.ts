@@ -45,6 +45,7 @@ export interface SharedSnapshot {
   relations: DiploRelation[];
   greatPowers: GreatPowerStanding[];
   infamyLimit: number;
+  ninthPowerScore: number;
   armies: Army[];
   fleets: Fleet[];
   rebellions: Rebellion[];
@@ -57,10 +58,12 @@ export interface PlayerView {
   playerPendingCbs: CasusBelli[];
   playerDiplomaticPoints: number;
   fabricateCbCostByGoal: Record<WarGoalType, number>;
+  warGoalInfamyUse: Record<WarGoalType, number>;
   playerInfluencePool: number;
   playerInfluenceTargets: InfluenceTarget[];
   playerAlliancePreviews: AllianceAcceptancePreview[];
   coalitionAgainstPlayer: NationId[];
+  playerPowerScore: number;
   playerProduction: ProductionLedgerEntry[];
   playerPopulation: PopulationLedgerEntry[];
   playerReformAgitation: { reform: string; support: number }[];
@@ -90,6 +93,7 @@ export interface SharedSnapshotDiff {
   relations?: DiploRelation[];
   greatPowers?: GreatPowerStanding[];
   infamyLimit?: number;
+  ninthPowerScore?: number;
   armies?: Army[];
   fleets?: Fleet[];
   rebellions?: Rebellion[];
@@ -108,6 +112,7 @@ export function extractShared(snap: WorldSnapshot): SharedSnapshot {
     relations: snap.relations,
     greatPowers: snap.greatPowers,
     infamyLimit: snap.infamyLimit,
+    ninthPowerScore: snap.ninthPowerScore,
     armies: snap.armies,
     fleets: snap.fleets,
     rebellions: snap.rebellions,
@@ -121,10 +126,12 @@ export function extractPlayerView(snap: WorldSnapshot): PlayerView {
     playerPendingCbs: snap.playerPendingCbs,
     playerDiplomaticPoints: snap.playerDiplomaticPoints,
     fabricateCbCostByGoal: snap.fabricateCbCostByGoal,
+    warGoalInfamyUse: snap.warGoalInfamyUse,
     playerInfluencePool: snap.playerInfluencePool,
     playerInfluenceTargets: snap.playerInfluenceTargets,
     playerAlliancePreviews: snap.playerAlliancePreviews,
     coalitionAgainstPlayer: snap.coalitionAgainstPlayer,
+    playerPowerScore: snap.playerPowerScore,
     playerProduction: snap.playerProduction,
     playerPopulation: snap.playerPopulation,
     playerReformAgitation: snap.playerReformAgitation,
@@ -205,6 +212,7 @@ export function diffShared(
   if (prev.speed !== next.speed) diff.speed = next.speed;
   if (prev.seed !== next.seed) diff.seed = next.seed;
   if (prev.infamyLimit !== next.infamyLimit) diff.infamyLimit = next.infamyLimit;
+  if (prev.ninthPowerScore !== next.ninthPowerScore) diff.ninthPowerScore = next.ninthPowerScore;
 
   const changedNations: NationSummary[] = [];
   const nationLen = Math.max(prev.nations.length, next.nations.length);
@@ -270,6 +278,7 @@ export function applySharedDiff(base: SharedSnapshot, diff: SharedSnapshotDiff):
     relations: diff.relations ?? base.relations,
     greatPowers: diff.greatPowers ?? base.greatPowers,
     infamyLimit: diff.infamyLimit ?? base.infamyLimit,
+    ninthPowerScore: diff.ninthPowerScore ?? base.ninthPowerScore,
     armies: diff.armies ?? base.armies,
     fleets: diff.fleets ?? base.fleets,
     rebellions: diff.rebellions ?? base.rebellions,

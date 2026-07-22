@@ -14,15 +14,6 @@ const WAR_GOALS: { id: WarGoalType; label: string }[] = [
   { id: 'cut_down_to_size', label: 'Cut Down To Size' },
 ];
 
-const INFAMY_USE: Record<WarGoalType, number> = {
-  annex_state: 6.5,
-  liberate_state: 2.2,
-  humiliate: 1.4,
-  add_to_sphere: 1.8,
-  take_colony: 4.2,
-  cut_down_to_size: 2.6,
-};
-
 const STATELESS_GOALS = new Set<WarGoalType>(['humiliate', 'cut_down_to_size', 'add_to_sphere']);
 
 function relationLabel(kind: string): string {
@@ -123,7 +114,9 @@ export function DiplomacyPanel() {
     && cb.goal === selectedGoal
     && (cb.stateId === -1 || cb.stateId === effectiveState)
   ));
-  const projectedInfamy = matchingCb ? matchingCb.infamyCost : INFAMY_USE[selectedGoal] * 1.75;
+  const projectedInfamy = matchingCb
+    ? matchingCb.infamyCost
+    : (snapshot.warGoalInfamyUse?.[selectedGoal] ?? 0) * 1.75;
   const truceBlocks = targetRelation.kind === 'truce' && (targetRelation.expiresDay < 0 || targetRelation.expiresDay > snapshot.day);
   const alliancePreview = targetId !== null
     ? (snapshot.playerAlliancePreviews ?? []).find((entry) => entry.target === targetId) ?? null
@@ -290,6 +283,9 @@ export function DiplomacyPanel() {
                 <strong>{row.nation.name}</strong>
                 <span>
                   {row.relation.opinion.toFixed(0)} opinion | {relationLabel(row.relation.kind)}
+                  {row.relation.expiresDay >= 0
+                    ? ` | expires day ${row.relation.expiresDay}${row.relation.expiresDay > snapshot.day ? ` (${row.relation.expiresDay - snapshot.day}d)` : ' (expired)'}`
+                    : ''}
                   {row.isNeighbor ? ' | neighbor' : ''}
                   {row.nation.gpRank > 0 ? ` | GP #${row.nation.gpRank}` : ''}
                 </span>
