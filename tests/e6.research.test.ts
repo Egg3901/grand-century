@@ -314,7 +314,7 @@ describe('E6 effects & stability', () => {
     player.techs.push('romanticism', 'idealism');
     const boosted = researchPointsPerMonth(player, GAME_DATA);
     expect(boosted).toBeGreaterThan(base);
-    expect(boosted / base).toBeCloseTo(1.1, 5);
+    expect(boosted / base).toBeCloseTo(1.08, 5);
   });
 
   it('20-year sim stays sane: no NaN, bounded points, no runaway prestige/literacy', () => {

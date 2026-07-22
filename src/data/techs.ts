@@ -315,8 +315,8 @@ export const TECHS: TechDef[] = [
   {
     key: 'idealism', name: 'Idealism', category: 'culture', cost: 9, year: 1820,
     prereq: 'romanticism',
-    effects: ['+10% research'],
-    modifiers: { researchRate: 0.1 },
+    effects: ['+8% research'],
+    modifiers: { researchRate: 0.08 },
   },
   {
     key: 'culture_public_hygiene', name: 'Public Hygiene', category: 'culture', cost: 38, year: 1840,
@@ -339,8 +339,8 @@ export const TECHS: TechDef[] = [
   {
     key: 'culture_empirical_science', name: 'Empirical Science', category: 'culture', cost: 102, year: 1866,
     prereq: 'culture_germ_theory',
-    effects: ['+15% research', 'Unlocks Paper Mill'],
-    modifiers: { researchRate: 0.15 },
+    effects: ['+6% research', 'Unlocks Paper Mill'],
+    modifiers: { researchRate: 0.06 },
     unlocksRecipes: ['factory_paper_mill'],
   },
   {
@@ -358,14 +358,14 @@ export const TECHS: TechDef[] = [
   {
     key: 'culture_social_sciences', name: 'Social Sciences', category: 'culture', cost: 185, year: 1892,
     prereq: 'culture_mass_press',
-    effects: ['+8% research', '+Prestige drip'],
-    modifiers: { researchRate: 0.08, prestigeMonthly: 0.15 },
+    effects: ['+5% research', '+Prestige drip'],
+    modifiers: { researchRate: 0.05, prestigeMonthly: 0.15 },
   },
   {
     key: 'culture_modernist_age', name: 'The Modernist Age', category: 'culture', cost: 230, year: 1900,
     prereq: 'culture_social_sciences',
-    effects: ['+Prestige drip', '+10% research'],
-    modifiers: { prestigeMonthly: 0.4, researchRate: 0.1 },
+    effects: ['+Prestige drip', '+6% research'],
+    modifiers: { prestigeMonthly: 0.4, researchRate: 0.06 },
   },
   {
     key: 'culture_radio_broadcast', name: 'Radio Broadcast', category: 'culture', cost: 275, year: 1912,
