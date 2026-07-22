@@ -9,7 +9,7 @@
 
 import { useMemo } from 'react';
 import { useStore } from '../../store';
-import type { TechStatusView } from '../../shared/types';
+import type { TechModifiers, TechStatusView } from '../../shared/types';
 
 const CATEGORY_ORDER = ['army', 'navy', 'commerce', 'industry', 'culture'] as const;
 const CATEGORY_LABELS: Record<(typeof CATEGORY_ORDER)[number], string> = {
@@ -39,6 +39,27 @@ function etaLabel(tech: TechStatusView, current: string | null): string {
   return tech.reason;
 }
 
+function formatPct(value: number): string {
+  return `${value >= 0 ? '+' : ''}${Math.round(value * 100)}%`;
+}
+
+/** Compact aggregate bonus sheet from techModifiersFor totals. */
+function formatAggregateModifiers(mods: TechModifiers): string[] {
+  const parts: string[] = [];
+  if (mods.factoryThroughput) parts.push(`${formatPct(mods.factoryThroughput)} factory throughput`);
+  if (mods.rgoThroughput) parts.push(`${formatPct(mods.rgoThroughput)} RGO throughput`);
+  if (mods.taxEfficiency) parts.push(`${formatPct(mods.taxEfficiency)} tax efficiency`);
+  if (mods.researchRate) parts.push(`${formatPct(mods.researchRate)} research`);
+  if (mods.literacyRate) parts.push(`+${(mods.literacyRate * 100).toFixed(2)}% lit/mo`);
+  if (mods.prestigeMonthly) parts.push(`+${mods.prestigeMonthly.toFixed(1)} prestige/mo`);
+  if (mods.popGrowth) parts.push('+pop growth');
+  if (mods.armyMovement) parts.push(`${formatPct(mods.armyMovement)} army movement`);
+  if (mods.supplyRange) parts.push(`+${mods.supplyRange.toFixed(1)} supply range`);
+  if (mods.factoryProfit) parts.push(`${formatPct(mods.factoryProfit)} factory profit`);
+  if (mods.tradeEfficiency) parts.push(`${formatPct(mods.tradeEfficiency)} trade efficiency`);
+  return parts;
+}
+
 export function TechnologyPanel() {
   const snapshot = useStore((state) => state.snapshot);
   const sendCommand = useStore((state) => state.sendCommand);
@@ -56,6 +77,11 @@ export function TechnologyPanel() {
         .sort((a, b) => a.year - b.year || a.cost - b.cost),
     }));
   }, [view]);
+
+  const modifierLines = useMemo(
+    () => (view?.modifiers ? formatAggregateModifiers(view.modifiers) : []),
+    [view?.modifiers],
+  );
 
   if (!snapshot || !view) {
     return (
@@ -77,6 +103,7 @@ export function TechnologyPanel() {
     : 0;
   const discovered = view.inventionStatuses.filter((invention) => invention.owned);
   const brewing = view.inventionStatuses.filter((invention) => !invention.owned && invention.prereqMet);
+  const breakdown = view.researchBreakdown;
 
   return (
     <section className="panel-card atlas-panel">
@@ -100,6 +127,38 @@ export function TechnologyPanel() {
           <strong>{view.techs.length} / {view.statuses.length}</strong>
         </div>
       </div>
+
+      {breakdown ? (
+        <div className="tech-breakdown" data-testid="tech-rp-breakdown">
+          <span className="tech-status-label">RP formula</span>
+          <p>
+            {breakdown.flatBase.toFixed(1)}
+            {' + lit '}
+            {(breakdown.literacy * 100).toFixed(0)}%
+            {' × 4.8 (= '}
+            {breakdown.literacyBonus.toFixed(2)}
+            {')'}
+            {breakdown.gpBonus > 0 ? ` + GP ${breakdown.gpBonus.toFixed(1)}` : ''}
+            {' = '}
+            {breakdown.base.toFixed(2)}
+            {' × (1 + '}
+            {formatPct(breakdown.researchRate)}
+            {' research) = '}
+            <strong>+{breakdown.monthly.toFixed(2)}/mo</strong>
+          </p>
+        </div>
+      ) : null}
+
+      {modifierLines.length > 0 ? (
+        <div className="tech-bonuses" data-testid="tech-modifiers">
+          <span className="tech-status-label">Active bonuses</span>
+          <ul className="tech-bonuses__list">
+            {modifierLines.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       {currentDef ? (
         <div className="tech-current" data-testid="tech-current">

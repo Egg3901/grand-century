@@ -24,6 +24,7 @@ import type {
   Nation,
   NationId,
   PlayerTechView,
+  ResearchPointBreakdown,
   TechDef,
   TechModifiers,
   World,
@@ -158,11 +159,31 @@ export function isRecipeUnlocked(nation: Nation, recipe: { requiresTech?: string
 // Point generation & AI target selection
 // ---------------------------------------------------------------------------
 
+const RESEARCH_FLAT_BASE = 1.4;
+const RESEARCH_LITERACY_WEIGHT = 4.8;
+const RESEARCH_GP_BONUS = 1.5;
+
+/** Formula parts behind monthly research point gain (display + sim). */
+export function researchPointBreakdown(nation: Nation, data: GameData): ResearchPointBreakdown {
+  const literacy = clamp(nation.literacy, 0, 1);
+  const literacyBonus = literacy * RESEARCH_LITERACY_WEIGHT;
+  const gpBonus = nation.gpRank > 0 ? RESEARCH_GP_BONUS : 0;
+  const base = RESEARCH_FLAT_BASE + literacyBonus + gpBonus;
+  const researchRate = Math.max(0, techModifiersFor(nation, data).researchRate);
+  return {
+    flatBase: RESEARCH_FLAT_BASE,
+    literacy,
+    literacyBonus,
+    gpBonus,
+    base,
+    researchRate,
+    monthly: base * (1 + researchRate),
+  };
+}
+
 /** Monthly research point gain (pre-0.6.0 formula, scaled by researchRate). */
 export function researchPointsPerMonth(nation: Nation, data: GameData): number {
-  const base = 1.4 + clamp(nation.literacy, 0, 1) * 4.8 + (nation.gpRank > 0 ? 1.5 : 0);
-  const modifiers = techModifiersFor(nation, data);
-  return base * (1 + Math.max(0, modifiers.researchRate));
+  return researchPointBreakdown(nation, data).monthly;
 }
 
 function nationAtWar(world: World, nationId: NationId): boolean {
@@ -369,6 +390,16 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
     return {
       researchPoints: 0,
       monthlyResearch: 0,
+      researchBreakdown: {
+        flatBase: RESEARCH_FLAT_BASE,
+        literacy: 0,
+        literacyBonus: 0,
+        gpBonus: 0,
+        base: RESEARCH_FLAT_BASE,
+        researchRate: 0,
+        monthly: RESEARCH_FLAT_BASE,
+      },
+      modifiers: { ...ZERO_TECH_MODIFIERS },
       current: null,
       progress: 0,
       currentCost: 0,
@@ -382,7 +413,9 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
   const techSet = new Set(nation.techs);
   const techNameByKey = new Map(data.techs.map((tech) => [tech.key, tech.name]));
   const recipeNameByKey = new Map(data.recipes.map((recipe) => [recipe.key, recipe.name]));
-  const monthly = researchPointsPerMonth(nation, data);
+  const breakdown = researchPointBreakdown(nation, data);
+  const monthly = breakdown.monthly;
+  const modifiers = techModifiersFor(nation, data);
   const banked = Math.max(0, nation.researchPoints);
   const statuses = data.techs.map((tech) => {
     const researched = techSet.has(tech.key);
@@ -429,6 +462,8 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
   return {
     researchPoints: banked,
     monthlyResearch: monthly,
+    researchBreakdown: breakdown,
+    modifiers: { ...modifiers },
     current: currentDef?.key ?? null,
     progress: Math.max(0, nation.researchProgress ?? 0),
     currentCost: currentDef?.cost ?? 0,

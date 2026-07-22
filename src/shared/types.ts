@@ -1152,12 +1152,39 @@ export interface InventionStatusView {
   /** Prereq tech researched — the invention can fire any month now. */
   prereqMet: boolean;
   effectsSummary: string[];
+  /**
+   * Effective monthly discovery chance while brewing (base × literacy scale).
+   * Null when owned or prereq unmet.
+   */
+  monthlyChance?: number | null;
+}
+
+/** RP formula parts for the Technology panel (display only). */
+export interface ResearchPointBreakdown {
+  /** Flat base before literacy / GP (currently 1.4). */
+  flatBase: number;
+  /** Nation literacy clamped 0–1. */
+  literacy: number;
+  /** literacy × 4.8 contribution. */
+  literacyBonus: number;
+  /** +1.5 when great power, else 0. */
+  gpBonus: number;
+  /** flatBase + literacyBonus + gpBonus. */
+  base: number;
+  /** Aggregate researchRate tech modifier. */
+  researchRate: number;
+  /** Final monthly gain = base × (1 + max(0, researchRate)). */
+  monthly: number;
 }
 
 export interface PlayerTechView {
   researchPoints: number;
   /** Points generated per month at current literacy/modifiers. */
   monthlyResearch: number;
+  /** Formula parts behind monthlyResearch (literacy, GP, researchRate). */
+  researchBreakdown?: ResearchPointBreakdown;
+  /** Aggregate tech + invention modifiers currently in effect. */
+  modifiers?: TechModifiers;
   current: string | null;
   /** Points sunk into current research so far. */
   progress: number;
