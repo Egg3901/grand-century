@@ -718,6 +718,10 @@ export interface CasusBelli {
   readyDay: GameDay;
   expiresDay: GameDay;
   discovered: boolean;
+  /** 'core_claim': a standing irredentist claim on a state in the holder's
+   * historic coreStateIds — always available, no fabrication, discounted
+   * infamy. Undefined/omitted for a normally fabricated or granted CB. */
+  origin?: 'core_claim';
 }
 
 export interface GreatPowerStanding {
