@@ -75,6 +75,11 @@ const WAR_GOAL_RULES: Record<WarGoalType, WarGoalRule> = {
 
 const RUNTIME_BY_WORLD = new WeakMap<World, DiplomacyRuntime>();
 
+/** Irredentist claims cost this fraction of a normal fabricated annex_state's
+ * infamy — reclaiming your own historic homeland is far more diplomatically
+ * defensible than naked conquest. */
+const IRREDENTIST_INFAMY_DISCOUNT = 0.45;
+
 function clamp(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) return min;
   return Math.max(min, Math.min(max, value));
@@ -747,6 +752,52 @@ export function beginCbFabrication(
   return { ok: true, reason: `CB fabrication in progress (${rule.fabricationDays} days).` };
 }
 
+/**
+ * Cultural cores: nation.coreStateIds (recorded at bootstrap — the states a
+ * nation started the campaign owning) is its historic heartland. If a core
+ * state ends up owned by someone else, the nation gets a standing, always-
+ * available, cheap claim to reclaim it — no diplomatic points, no
+ * fabrication wait, and far lower infamy than a fabricated annex_state CB.
+ * Computed fresh every call (not stored in runtime.activeCbs) since this is
+ * a standing historical fact, not a time-limited fabricated pretext: it
+ * exists for exactly as long as the state remains foreign-held and needs no
+ * expiry bookkeeping — reclaiming it (or losing the core claim itself, e.g.
+ * via a formable absorbing the state) simply makes it stop appearing.
+ */
+function irredentistClaim(world: World, holder: NationId, target: NationId, stateId: number): CasusBelli | null {
+  if (holder === target) return null;
+  const nation = world.nations[holder];
+  const state = world.states[stateId];
+  if (!nation || !state || state.owner !== target) return null;
+  if (!(nation.coreStateIds ?? []).includes(stateId)) return null;
+  const rule = WAR_GOAL_RULES.annex_state;
+  return {
+    holder,
+    target,
+    goal: 'annex_state',
+    stateId,
+    scoreCost: rule.score,
+    infamyCost: Number((rule.infamyUse * IRREDENTIST_INFAMY_DISCOUNT).toFixed(2)),
+    readyDay: world.day,
+    expiresDay: world.day + 3650,
+    discovered: true,
+    origin: 'core_claim',
+  };
+}
+
+function irredentistClaimsForNation(world: World, holder: NationId): CasusBelli[] {
+  const nation = world.nations[holder];
+  if (!nation) return [];
+  const claims: CasusBelli[] = [];
+  for (const stateId of nation.coreStateIds ?? []) {
+    const state = world.states[stateId];
+    if (!state || state.owner === holder) continue;
+    const claim = irredentistClaim(world, holder, state.owner, stateId);
+    if (claim) claims.push(claim);
+  }
+  return claims;
+}
+
 export function consumeValidCb(
   world: World,
   holder: NationId,
@@ -763,16 +814,22 @@ export function consumeValidCb(
     && world.day >= cb.readyDay
     && world.day <= cb.expiresDay
   ));
-  if (index < 0) return null;
+  if (index < 0) {
+    return goal === 'annex_state' ? irredentistClaim(world, holder, target, stateId) : null;
+  }
   const [cb] = runtime.activeCbs.splice(index, 1);
   return cb;
 }
 
 export function getCbsForNation(world: World, holder: NationId): CasusBelli[] {
   const runtime = ensureRuntime(world);
-  return runtime.activeCbs
+  const active = runtime.activeCbs
     .filter((cb) => cb.holder === holder && world.day <= cb.expiresDay)
-    .map((cb) => ({ ...cb }))
+    .map((cb) => ({ ...cb }));
+  const activeKeys = new Set(active.map((cb) => `${cb.target}:${cb.goal}:${cb.stateId}`));
+  const irredentist = irredentistClaimsForNation(world, holder)
+    .filter((cb) => !activeKeys.has(`${cb.target}:${cb.goal}:${cb.stateId}`));
+  return [...active, ...irredentist]
     .sort((a, b) => (a.target - b.target) || (a.goal.localeCompare(b.goal)));
 }
 

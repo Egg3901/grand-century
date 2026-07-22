@@ -153,6 +153,12 @@ export function DiplomacyPanel() {
         Fabricate cost for {WAR_GOALS.find((g) => g.id === selectedGoal)?.label ?? selectedGoal}:{' '}
         {(snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0).toFixed(1)} DP
       </p>
+      {matchingCb?.origin === 'core_claim' ? (
+        <p className="panel-subtle status-positive">
+          Irredentist claim — this state is one of our historic cores, held by a foreign power.
+          No fabrication needed, and infamy is discounted for reclaiming our own land.
+        </p>
+      ) : null}
       {alliancePreview ? (
         <p className={`panel-subtle ${alliancePreview.accepted ? 'status-positive' : 'status-danger'}`}>
           Alliance preview vs target: score {alliancePreview.score.toFixed(0)}
