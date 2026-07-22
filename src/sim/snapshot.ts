@@ -285,7 +285,6 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     mil: number;
     con: number;
     growth: number;
-    count: number;
     life: number;
     everyday: number;
     luxury: number;
@@ -307,7 +306,6 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         mil: 0,
         con: 0,
         growth: 0,
-        count: 0,
         life: 0,
         everyday: 0,
         luxury: 0,
@@ -317,19 +315,18 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         agitating: new Map<string, number>(),
       };
       bucket.size += pop.size;
-      bucket.needs += pop.needsMet;
-      bucket.mil += pop.militancy;
-      bucket.con += pop.consciousness;
+      bucket.needs += pop.needsMet * pop.size;
+      bucket.mil += pop.militancy * pop.size;
+      bucket.con += pop.consciousness * pop.size;
       bucket.growth += pop.lastGrowth;
-      bucket.count += 1;
-      bucket.life += pop.lifeNeedsFrac ?? pop.needsMet;
-      bucket.everyday += pop.everydayNeedsFrac ?? pop.needsMet;
-      bucket.luxury += pop.luxuryNeedsFrac ?? 1;
-      bucket.urban += provinceUrbanization(world, pop.provinceId);
+      bucket.life += (pop.lifeNeedsFrac ?? pop.needsMet) * pop.size;
+      bucket.everyday += (pop.everydayNeedsFrac ?? pop.needsMet) * pop.size;
+      bucket.luxury += (pop.luxuryNeedsFrac ?? 1) * pop.size;
+      bucket.urban += provinceUrbanization(world, pop.provinceId) * pop.size;
       for (const scarce of pop.scarceGoods ?? []) {
         const prior = bucket.scarce.get(scarce.good) ?? { fillSum: 0, weight: 0 };
-        prior.fillSum += scarce.fill;
-        prior.weight += 1;
+        prior.fillSum += scarce.fill * pop.size;
+        prior.weight += pop.size;
         bucket.scarce.set(scarce.good, prior);
       }
       const ideology = ideologyFromPop(pop);
@@ -360,22 +357,22 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         })
         .sort((a, b) => a.fill - b.fill)
         .slice(0, 4);
-      const avgNeedsMet = bucket.count > 0 ? bucket.needs / bucket.count : 0;
-      const avgLuxuryNeeds = bucket.count > 0 ? bucket.luxury / bucket.count : 0;
-      const avgUrban = bucket.count > 0 ? bucket.urban / bucket.count : 0;
+      const avgNeedsMet = bucket.size > 0 ? bucket.needs / bucket.size : 0;
+      const avgLuxuryNeeds = bucket.size > 0 ? bucket.luxury / bucket.size : 0;
+      const avgUrban = bucket.size > 0 ? bucket.urban / bucket.size : 0;
       const needsScaledGrowthCap = 0.00014 + avgNeedsMet * 0.000035;
       const growthCap = Math.min(BALANCE.population.maxGrowthRate, needsScaledGrowthCap);
       return {
         type: type as PopType,
         size: bucket.size,
         avgNeedsMet,
-        avgMilitancy: bucket.count > 0 ? bucket.mil / bucket.count : 0,
-        avgConsciousness: bucket.count > 0 ? bucket.con / bucket.count : 0,
+        avgMilitancy: bucket.size > 0 ? bucket.mil / bucket.size : 0,
+        avgConsciousness: bucket.size > 0 ? bucket.con / bucket.size : 0,
         dominantIdeology,
         agitatingFor: Array.from(bucket.agitating.entries()).sort((a, b) => b[1] - a[1]).slice(0, 2).map(([reform]) => reform),
         growth: bucket.growth,
-        avgLifeNeeds: bucket.count > 0 ? bucket.life / bucket.count : 0,
-        avgEverydayNeeds: bucket.count > 0 ? bucket.everyday / bucket.count : 0,
+        avgLifeNeeds: bucket.size > 0 ? bucket.life / bucket.size : 0,
+        avgEverydayNeeds: bucket.size > 0 ? bucket.everyday / bucket.size : 0,
         avgLuxuryNeeds,
         scarceGoods,
         growthDrivers: [
