@@ -125,6 +125,9 @@ export function DiplomacyPanel() {
   ));
   const projectedInfamy = matchingCb ? matchingCb.infamyCost : INFAMY_USE[selectedGoal] * 1.75;
   const truceBlocks = targetRelation.kind === 'truce' && (targetRelation.expiresDay < 0 || targetRelation.expiresDay > snapshot.day);
+  const alliancePreview = targetId !== null
+    ? (snapshot.playerAlliancePreviews ?? []).find((entry) => entry.target === targetId) ?? null
+    : null;
 
   return (
     <section className="panel-card atlas-panel">
@@ -157,6 +160,12 @@ export function DiplomacyPanel() {
         Fabricate cost for {WAR_GOALS.find((g) => g.id === selectedGoal)?.label ?? selectedGoal}:{' '}
         {(snapshot.fabricateCbCostByGoal?.[selectedGoal] ?? 0).toFixed(1)} DP
       </p>
+      {alliancePreview ? (
+        <p className={`panel-subtle ${alliancePreview.accepted ? 'status-positive' : 'status-danger'}`}>
+          Alliance preview vs target: score {alliancePreview.score.toFixed(0)}
+          {alliancePreview.accepted ? ' (likely accept, need ≥70)' : ' (likely reject, need ≥70)'}
+        </p>
+      ) : null}
       {snapshot.coalitionAgainstPlayer.length > 0 ? (
         <p className="panel-subtle status-danger">
           Coalition risk: {snapshot.coalitionAgainstPlayer.map((nationId) => derived.nationById.get(nationId)?.tag ?? nationId).join(', ')}
@@ -274,7 +283,22 @@ export function DiplomacyPanel() {
                 return (
                   <>
                     <button type="button" className="btn btn--secondary" onClick={() => setSelectedTarget(row.nation.id)}>Target</button>
-                    <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'proposeAlliance', target: row.nation.id })}>Alliance</button>
+                    <button
+                      type="button"
+                      className="btn btn--secondary"
+                      title={
+                        (() => {
+                          const preview = (snapshot.playerAlliancePreviews ?? []).find((entry) => entry.target === row.nation.id);
+                          if (!preview) return 'Propose alliance';
+                          return preview.accepted
+                            ? `Likely accept (score ${preview.score.toFixed(0)} ≥ 70)`
+                            : `Likely reject (score ${preview.score.toFixed(0)} < 70)`;
+                        })()
+                      }
+                      onClick={() => sendCommand({ t: 'proposeAlliance', target: row.nation.id })}
+                    >
+                      Alliance
+                    </button>
                     <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'offerGuarantee', target: row.nation.id })}>Guarantee</button>
                     <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'addRival', target: row.nation.id })}>Rival</button>
                     <button

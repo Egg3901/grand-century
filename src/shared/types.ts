@@ -690,6 +690,13 @@ export interface InfluenceTarget {
   rivalPressure: number;
 }
 
+/** Precomputed alliance acceptance score for a Propose Alliance click. */
+export interface AllianceAcceptancePreview {
+  target: NationId;
+  score: number;
+  accepted: boolean;
+}
+
 // ---------------------------------------------------------------------------
 // 0.7.0 Concert of Europe — world tension, flashpoint crises, congresses.
 // All world/snapshot fields for this system are OPTIONAL so pre-0.7.0 saves
@@ -1089,6 +1096,8 @@ export interface WorldSnapshot {
   fabricateCbCostByGoal: Record<WarGoalType, number>;
   playerInfluencePool: number;
   playerInfluenceTargets: InfluenceTarget[];
+  /** Alliance acceptance scores vs the player (threshold 70). */
+  playerAlliancePreviews: AllianceAcceptancePreview[];
   infamyLimit: number;
   coalitionAgainstPlayer: NationId[];
   armies: Army[];

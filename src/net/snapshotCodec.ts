@@ -16,6 +16,7 @@ import type {
   GameDate,
   GreatPowerStanding,
   InfluenceTarget,
+  AllianceAcceptancePreview,
   MarketGood,
   NationId,
   NationSummary,
@@ -57,6 +58,7 @@ export interface PlayerView {
   fabricateCbCostByGoal: Record<WarGoalType, number>;
   playerInfluencePool: number;
   playerInfluenceTargets: InfluenceTarget[];
+  playerAlliancePreviews: AllianceAcceptancePreview[];
   coalitionAgainstPlayer: NationId[];
   playerProduction: ProductionLedgerEntry[];
   playerPopulation: PopulationLedgerEntry[];
@@ -119,6 +121,7 @@ export function extractPlayerView(snap: WorldSnapshot): PlayerView {
     fabricateCbCostByGoal: snap.fabricateCbCostByGoal,
     playerInfluencePool: snap.playerInfluencePool,
     playerInfluenceTargets: snap.playerInfluenceTargets,
+    playerAlliancePreviews: snap.playerAlliancePreviews,
     coalitionAgainstPlayer: snap.coalitionAgainstPlayer,
     playerProduction: snap.playerProduction,
     playerPopulation: snap.playerPopulation,

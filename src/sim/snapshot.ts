@@ -2,6 +2,7 @@ import type { BudgetLine, GameData, NationSummary, PartyIdeology, PopType, Provi
 import { dayToDate } from './world';
 import { ideologyFromPop, partyByKey, reformDemandForPop, topReformDemandEntries } from './politics';
 import {
+  evaluateAllianceAcceptance,
   getCbsForNation,
   getCoalitionAgainst,
   getDiplomaticPoints,
@@ -299,6 +300,12 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       }, {} as Record<WarGoalType, number>),
     playerInfluencePool: getInfluencePool(world, world.playerNation),
     playerInfluenceTargets: getInfluenceTargetsForNation(world, world.playerNation).map((entry) => ({ ...entry })),
+    playerAlliancePreviews: world.nations
+      .filter((nation) => nation.id !== world.playerNation)
+      .map((nation) => {
+        const result = evaluateAllianceAcceptance(world, world.playerNation, nation.id);
+        return { target: nation.id, score: Number(result.score.toFixed(1)), accepted: result.accepted };
+      }),
     infamyLimit: getInfamyLimit(),
     coalitionAgainstPlayer: getCoalitionAgainst(world, world.playerNation),
     armies: world.armies.map((army) => ({ ...army, regiments: army.regiments.map((regiment) => ({ ...regiment })), leader: army.leader ? { ...army.leader } : null })),
