@@ -15,7 +15,12 @@ import { listPlayerDecisions } from './systems/events';
 import { buildPlayerTechView } from './systems/research';
 import { computeTensionContributions, getWorldTension } from './systems/crisis';
 import { buildCultureLedger, buildMovementViews, culturePolicyOf } from './systems/culture';
-import { isSupplied } from './systems/war';
+import {
+  colonialReachKind,
+  computeColonialPointsBreakdown,
+  isSupplied,
+  listColonialClaimViews,
+} from './systems/war';
 
 function zeroBudget(): BudgetLine {
   return {
@@ -120,6 +125,14 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
   }
 
   const powerByNation = new Map(world.nations.map((nation) => [nation.id, getNationPowerBreakdown(world, nation.id)]));
+  const navalPow = (() => {
+    const power = new Array(world.nations.length).fill(0);
+    for (const province of world.provinces) {
+      const owner = province.owner;
+      if (owner >= 0 && owner < power.length) power[owner] += province.navalBaseLevel * 10;
+    }
+    return power;
+  })();
   const nations: NationSummary[] = world.nations.map((nation) => {
     const popIdCount = ownedPopIdCount[nation.id];
     const avgMilitancy = popIdCount > 0 ? ownedPopMilitancySum[nation.id] / popIdCount : 0;
@@ -127,6 +140,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     const avgUnrest = stateCount > 0 ? ownedStateUnrestSum[nation.id] / stateCount : 0;
     const ruling = partyByKey(nation, nation.rulingParty);
     const power = powerByNation.get(nation.id) ?? { industry: 0, military: 0, score: 0 };
+    const cpBreakdown = computeColonialPointsBreakdown(world, nation.id, navalPow);
     return {
       id: nation.id,
       tag: nation.tag,
@@ -157,6 +171,8 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       constructionBlocked: nation.constructionBlocked,
       mobilizationCapacity: nation.mobilizationCapacity,
       standingRegimentCapacity: nation.standingRegimentCapacity,
+      colonialPoints: cpBreakdown.available,
+      colonialPointsBreakdown: cpBreakdown,
     };
   });
 
@@ -276,6 +292,14 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     factoryCount: state.factories.length,
     coastal: state.provinceIds.some((provinceId) => world.provinces[provinceId]?.coastal ?? false),
   }));
+  const colonialClaims = listColonialClaimViews(world, world.playerNation);
+  const playerClaimableColonialStates = world.states
+    .map((state) => {
+      const reach = colonialReachKind(world, world.playerNation, state.id);
+      return reach ? { stateId: state.id, reach } : null;
+    })
+    .filter((entry): entry is { stateId: number; reach: 'adjacent' | 'overseas' } => entry !== null)
+    .sort((a, b) => a.stateId - b.stateId);
 
   return {
     day: world.day,
@@ -364,6 +388,8 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerCulturePolicy: playerNation ? culturePolicyOf(playerNation) : 'assimilationist',
     playerCultures: buildCultureLedger(world, data, world.playerNation),
     playerMovements: buildMovementViews(world, data, world.playerNation),
+    colonialClaims,
+    playerClaimableColonialStates,
     playerBudget: zeroBudget(),
   };
 }

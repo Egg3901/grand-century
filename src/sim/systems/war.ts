@@ -65,6 +65,8 @@ interface WarRuntime {
   mobilizedArmyIds: Map<NationId, Set<ArmyId>>;
   battleScoreByWar: Map<WarId, number>;
   colonialClaims: Map<StateId, ColonialClaim>;
+  /** Persistent event/decision CP gifts — not wiped by computeColonialPoints. */
+  colonialPointModifiers: Map<NationId, number>;
 }
 
 export interface WarRuntimeSnapshot {
@@ -77,6 +79,7 @@ export interface WarRuntimeSnapshot {
     claimants: Array<{ nation: NationId; progress: number }>;
     tension: number;
   }>;
+  colonialPointModifiers?: Array<{ nation: NationId; amount: number }>;
 }
 
 const RUNTIME_BY_WORLD = new WeakMap<World, WarRuntime>();
@@ -119,6 +122,7 @@ function ensureRuntime(world: World): WarRuntime {
     mobilizedArmyIds: new Map<NationId, Set<ArmyId>>(),
     battleScoreByWar: new Map<WarId, number>(),
     colonialClaims: new Map<StateId, ColonialClaim>(),
+    colonialPointModifiers: new Map<NationId, number>(),
   };
   RUNTIME_BY_WORLD.set(world, created);
   return created;
@@ -146,6 +150,9 @@ export function exportWarRuntime(world: World): WarRuntimeSnapshot {
         tension: claim.tension,
       }))
       .sort((a, b) => a.stateId - b.stateId),
+    colonialPointModifiers: Array.from(runtime.colonialPointModifiers.entries())
+      .map(([nation, amount]) => ({ nation, amount }))
+      .sort((a, b) => a.nation - b.nation),
   };
 }
 
@@ -164,6 +171,7 @@ export function importWarRuntime(world: World, snapshot: WarRuntimeSnapshot | nu
       claimants: new Map(entry.claimants.map((claimant) => [claimant.nation, claimant.progress])),
       tension: entry.tension,
     }])),
+    colonialPointModifiers: new Map((snapshot.colonialPointModifiers ?? []).map((entry) => [entry.nation, entry.amount])),
   };
   RUNTIME_BY_WORLD.set(world, runtime);
 }
@@ -1207,25 +1215,6 @@ function updateSupplyAndAttrition(world: World, embarkedIds: Set<ArmyId>): void 
   }
 }
 
-function claimableColonialState(world: World, nationId: NationId, stateId: StateId): boolean {
-  const state = world.states[stateId];
-  if (!state || state.provinceIds.length === 0) return false;
-  const provinces = state.provinceIds.map((provinceId) => world.provinces[provinceId]).filter((province): province is Province => Boolean(province));
-  if (provinces.length === 0) return false;
-  if (!provinces.every((province) => province.colonial)) return false;
-  let adjacentByLand = false;
-  for (const province of provinces) {
-    if (province.neighbors.some((neighborId) => world.provinces[neighborId]?.owner === nationId)) {
-      adjacentByLand = true;
-      break;
-    }
-  }
-  const hasOverseasReach = provinces.some((province) => province.coastal) && world.provinces.some((province) => (
-    province.owner === nationId && province.coastal && province.navalBaseLevel > 0
-  ));
-  return adjacentByLand || hasOverseasReach;
-}
-
 function applyColonyToNation(world: World, stateId: StateId, nationId: NationId): void {
   const state = world.states[stateId];
   if (!state) return;
@@ -1254,22 +1243,114 @@ function navalBasePowerByOwner(world: World): number[] {
   return power;
 }
 
-function computeColonialPoints(world: World, nationId: NationId, navalPow?: number[]): number {
+export function computeColonialPointsBreakdown(
+  world: World,
+  nationId: NationId,
+  navalPow?: number[],
+): {
+  navalBases: number;
+  reforms: number;
+  navyTech: number;
+  gpBonus: number;
+  modifier: number;
+  committed: number;
+  available: number;
+} {
   const runtime = ensureRuntime(world);
   const nation = world.nations[nationId];
-  if (!nation) return 0;
-  const navalBasePower = navalPow
+  if (!nation) {
+    return { navalBases: 0, reforms: 0, navyTech: 0, gpBonus: 0, modifier: 0, committed: 0, available: 0 };
+  }
+  const navalBases = navalPow
     ? (navalPow[nationId] ?? 0)
     : world.provinces
         .filter((province) => province.owner === nationId)
         .reduce((sum, province) => sum + province.navalBaseLevel * 10, 0);
-  const reformBonus = (nation.reforms.conscription_level ?? 0) * 6 + (nation.reforms.army_professionalism ?? 0) * 4;
-  const techBonus = nationNavyTech(world, nationId) * 5;
+  const reforms = (nation.reforms.conscription_level ?? 0) * 6 + (nation.reforms.army_professionalism ?? 0) * 4;
+  const navyTech = nationNavyTech(world, nationId) * 5;
   const gpBonus = nation.gpRank > 0 ? 12 : 0;
+  const modifier = runtime.colonialPointModifiers.get(nationId) ?? 0;
   const committed = Array.from(runtime.colonialClaims.values())
     .filter((claim) => claim.claimants.has(nationId))
     .length * COLONIAL_CLAIM_COST;
-  return Math.max(0, Math.round(navalBasePower + reformBonus + techBonus + gpBonus - committed));
+  const available = Math.max(0, Math.round(navalBases + reforms + navyTech + gpBonus + modifier - committed));
+  return { navalBases, reforms, navyTech, gpBonus, modifier, committed, available };
+}
+
+function computeColonialPoints(world: World, nationId: NationId, navalPow?: number[]): number {
+  return computeColonialPointsBreakdown(world, nationId, navalPow).available;
+}
+
+export function addColonialPointsModifier(world: World, nationId: NationId, amount: number): void {
+  const runtime = ensureRuntime(world);
+  const next = clamp((runtime.colonialPointModifiers.get(nationId) ?? 0) + amount, -5000, 5000);
+  if (Math.abs(next) < 1e-9) runtime.colonialPointModifiers.delete(nationId);
+  else runtime.colonialPointModifiers.set(nationId, next);
+  const nation = world.nations[nationId];
+  if (nation) nation.colonialPoints = computeColonialPoints(world, nationId);
+}
+
+/** Daily colonization progress rate used for ETA (mirrors updateColonialClaims). */
+export function colonialDailyProgressRate(world: World, nationId: NationId): number {
+  const nation = world.nations[nationId];
+  if (!nation) return 0;
+  return 0.006 + (nation.gpRank > 0 ? 0.002 : 0);
+}
+
+export function listColonialClaimViews(world: World, forNation?: NationId): Array<{
+  stateId: StateId;
+  tension: number;
+  claimants: Array<{ nation: NationId; progress: number }>;
+  etaDays: number | null;
+}> {
+  const runtime = ensureRuntime(world);
+  return Array.from(runtime.colonialClaims.values())
+    .map((claim) => {
+      const claimants = Array.from(claim.claimants.entries())
+        .map(([nation, progress]) => ({ nation, progress }))
+        .sort((a, b) => a.nation - b.nation);
+      let etaDays: number | null = null;
+      if (forNation !== undefined && claim.claimants.has(forNation)) {
+        const nation = world.nations[forNation];
+        const progress = claim.claimants.get(forNation) ?? 0;
+        const rate = colonialDailyProgressRate(world, forNation);
+        if (nation && nation.colonialPoints >= COLONIAL_CLAIM_COST && rate > 0 && progress < 1) {
+          etaDays = Math.ceil((1 - progress) / rate);
+        }
+      }
+      return { stateId: claim.stateId, tension: claim.tension, claimants, etaDays };
+    })
+    .sort((a, b) => a.stateId - b.stateId);
+}
+
+export function colonialReachKind(
+  world: World,
+  nationId: NationId,
+  stateId: StateId,
+): 'adjacent' | 'overseas' | null {
+  const state = world.states[stateId];
+  if (!state || state.provinceIds.length === 0) return null;
+  const provinces = state.provinceIds.map((provinceId) => world.provinces[provinceId]).filter((province): province is Province => Boolean(province));
+  if (provinces.length === 0) return null;
+  if (!provinces.every((province) => province.colonial)) return null;
+  let adjacentByLand = false;
+  for (const province of provinces) {
+    if (province.neighbors.some((neighborId) => world.provinces[neighborId]?.owner === nationId)) {
+      adjacentByLand = true;
+      break;
+    }
+  }
+  if (adjacentByLand) return 'adjacent';
+  const coastal = provinces.some((province) => province.coastal);
+  const hasNavalBase = world.provinces.some((province) => (
+    province.owner === nationId && province.coastal && province.navalBaseLevel > 0
+  ));
+  if (coastal && hasNavalBase) return 'overseas';
+  return null;
+}
+
+export function claimableColonialState(world: World, nationId: NationId, stateId: StateId): boolean {
+  return colonialReachKind(world, nationId, stateId) !== null;
 }
 
 function updateColonialClaims(world: World): void {
@@ -1318,6 +1399,7 @@ export function startColonization(world: World, nationId: NationId, stateId: Sta
   };
   existing.claimants.set(nationId, clamp((existing.claimants.get(nationId) ?? 0) + 0.25, 0, 1.2));
   runtime.colonialClaims.set(stateId, existing);
+  nation.colonialPoints = computeColonialPoints(world, nationId);
   return { ok: true, reason: 'Colonial claim planted.' };
 }
 

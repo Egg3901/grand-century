@@ -981,6 +981,18 @@ export interface NationSummary {
   mobilizationCapacity: number;
   /** Standing peacetime regiment cap (from soldier pops / reforms). */
   standingRegimentCapacity?: number;
+  /** Available colonial points after claim commitments. */
+  colonialPoints?: number;
+  /** Breakdown of colonial capacity sources. */
+  colonialPointsBreakdown?: {
+    navalBases: number;
+    reforms: number;
+    navyTech: number;
+    gpBonus: number;
+    modifier: number;
+    committed: number;
+    available: number;
+  };
 }
 
 export interface ProvinceSummary {
@@ -1079,6 +1091,19 @@ export interface PlayerTechView {
   inventionStatuses: InventionStatusView[];
 }
 
+export interface ColonialClaimSummary {
+  stateId: StateId;
+  tension: number;
+  claimants: Array<{ nation: NationId; progress: number }>;
+  /** Player ETA days to finish at current daily rate; null if not claiming / stalled. */
+  etaDays: number | null;
+}
+
+export interface ColonialClaimableState {
+  stateId: StateId;
+  reach: 'adjacent' | 'overseas';
+}
+
 /** Sent every rendered frame; province array feeds the map paint. */
 export interface WorldSnapshot {
   day: GameDay;
@@ -1130,6 +1155,10 @@ export interface WorldSnapshot {
   playerCulturePolicy?: CulturePolicy;
   playerCultures?: CultureLedgerEntry[];
   playerMovements?: MovementView[];
+  /** Active colonial claims (progress races). */
+  colonialClaims?: ColonialClaimSummary[];
+  /** Player-reachable uncolonized states (land-adjacent or overseas naval). */
+  playerClaimableColonialStates?: ColonialClaimableState[];
   /** headline numbers for the player nation's HUD */
   playerBudget: BudgetLine;
 }
