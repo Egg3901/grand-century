@@ -180,7 +180,8 @@ export const EVENT_DEFS: EventDef[] = [
         label: 'Authorize an expedition',
         effects: [
           { t: 'treasury', amount: -200 },
-          { t: 'colonialPoints', amount: 25 },
+          // Must cover COLONIAL_CLAIM_COST (32); gift routes via modifier pool.
+          { t: 'colonialPoints', amount: 32 },
           { t: 'grantColonialClaim' },
           { t: 'prestige', amount: 8 },
           { t: 'infamy', amount: 1.5 },

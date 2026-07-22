@@ -25,7 +25,7 @@ import type {
 import { getFormableStatusesForNation } from '../formables';
 import type { Rng } from '../rng';
 import { getOrCreateRelation, grantContentCb, relationForNations } from './diplomacy';
-import { addColonialPointsModifier, startColonization } from './war';
+import { addColonialPointsModifier, COLONIAL_CLAIM_COST, startColonization } from './war';
 
 const STAGGER_BUCKETS = 6;
 const TREASURY_MIN = -25_000;
@@ -413,6 +413,14 @@ function grantColonialClaimEffect(world: World, nationId: NationId): void {
   }
   candidates.sort((a, b) => a - b);
   if (candidates.length === 0) return;
+  const nation = world.nations[nationId];
+  if (!nation) return;
+  // startColonization needs COLONIAL_CLAIM_COST available; event gifts must
+  // survive recompute via the modifier pool or the plant is a silent no-op.
+  const shortfall = COLONIAL_CLAIM_COST - nation.colonialPoints;
+  if (shortfall > 0) {
+    addColonialPointsModifier(world, nationId, shortfall);
+  }
   startColonization(world, nationId, candidates[0]);
 }
 
