@@ -381,7 +381,7 @@ function summarizeModifiers(partial?: Partial<TechModifiers>): string[] {
   if (partial.armyMovement) parts.push(`${pct(partial.armyMovement)} army movement`);
   if (partial.supplyRange) parts.push(`+${partial.supplyRange.toFixed(1)} supply range`);
   if (partial.factoryProfit) parts.push(`${pct(partial.factoryProfit)} factory profit`);
-  if (partial.tradeEfficiency) parts.push(`${pct(partial.tradeEfficiency)} trade efficiency`);
+  if (partial.tradeEfficiency) parts.push(`${pct(partial.tradeEfficiency)} tariff yield`);
   return parts;
 }
 

@@ -56,7 +56,7 @@ function formatAggregateModifiers(mods: TechModifiers): string[] {
   if (mods.armyMovement) parts.push(`${formatPct(mods.armyMovement)} army movement`);
   if (mods.supplyRange) parts.push(`+${mods.supplyRange.toFixed(1)} supply range`);
   if (mods.factoryProfit) parts.push(`${formatPct(mods.factoryProfit)} factory profit`);
-  if (mods.tradeEfficiency) parts.push(`${formatPct(mods.tradeEfficiency)} trade efficiency`);
+  if (mods.tradeEfficiency) parts.push(`${formatPct(mods.tradeEfficiency)} tariff yield`);
   return parts;
 }
 

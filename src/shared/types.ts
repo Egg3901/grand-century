@@ -169,8 +169,9 @@ export interface TechModifiers {
    */
   factoryProfit?: number;
   /**
-   * 0.7.0 tech-depth — tariff income multiplier bonus (0.05 = +5%).
-   * Commerce/trade. Applied when monthly tariff income is settled in budget.
+   * 0.7.0 tech-depth — customs / tariff yield multiplier (0.05 = +5%).
+   * Deepens tariff extraction in market.ts (not trade volume). Relabeled from
+   * the old "trade efficiency" copy that sounded like a trade buff.
    */
   tradeEfficiency?: number;
 }
