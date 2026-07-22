@@ -10,6 +10,7 @@ const PROMINENT_KINDS = new Set<UiAlert['kind']>([
   'unrest',
   'event',
   'market',
+  'crisis',
 ]);
 
 export type AlertBatch = {

@@ -1,20 +1,34 @@
-import type { BudgetLine, GameData, NationSummary, PartyIdeology, PopType, ProvinceSummary, World, WorldSnapshot } from '../shared/types';
+import type { BudgetLine, GameData, NationSummary, PartyIdeology, PopType, ProvinceSummary, WarGoalType, World, WorldSnapshot } from '../shared/types';
 import { BALANCE, tariffBandForTradePolicy } from './balance';
 import { dayToDate } from './world';
 import { ideologyFromPop, partyByKey, reformDemandForPop, topReformDemandEntries } from './politics';
 import {
+  evaluateAllianceAcceptance,
   getCbsForNation,
   getCoalitionAgainst,
+  getDiplomaticPoints,
+  getFabricateCbCost,
   getGreatPowerStandings,
   getInfluencePool,
   getInfluenceTargetsForNation,
   getInfamyLimit,
   getNationPowerBreakdown,
+  getNinthPowerScore,
+  getPendingCbsForNation,
+  getRivalryCap,
+  getRivalryDpCost,
+  getWarGoalInfamyUse,
 } from './systems/diplomacy';
 import { getFormableStatusesForNation } from './formables';
-import { listPlayerDecisions } from './systems/events';
+import { getPlayerBalanceOfPowerView, listPlayerDecisions } from './systems/events';
 import { buildPlayerTechView } from './systems/research';
-import { computeTensionContributions, getWorldTension } from './systems/crisis';
+import {
+  buildCrisisShowdownView,
+  computeTensionContributions,
+  computeTensionDecay,
+  getWorldTension,
+  listCrisisCandidates,
+} from './systems/crisis';
 import { buildCultureLedger, buildMovementViews, culturePolicyOf } from './systems/culture';
 import {
   colonialReachKind,
@@ -345,10 +359,32 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     relations: world.relations.map((relation) => ({ ...relation })),
     greatPowers: getGreatPowerStandings(world).map((entry) => ({ ...entry, sphereMembers: entry.sphereMembers.slice() })),
     playerCbs: getCbsForNation(world, world.playerNation).map((cb) => ({ ...cb })),
+    playerPendingCbs: getPendingCbsForNation(world, world.playerNation).map((cb) => ({ ...cb })),
+    playerDiplomaticPoints: getDiplomaticPoints(world, world.playerNation),
+    fabricateCbCostByGoal: (['annex_state', 'liberate_state', 'humiliate', 'add_to_sphere', 'take_colony', 'cut_down_to_size'] as WarGoalType[])
+      .reduce((acc, goal) => {
+        acc[goal] = getFabricateCbCost(goal);
+        return acc;
+      }, {} as Record<WarGoalType, number>),
+    warGoalInfamyUse: getWarGoalInfamyUse(),
     playerInfluencePool: getInfluencePool(world, world.playerNation),
     playerInfluenceTargets: getInfluenceTargetsForNation(world, world.playerNation).map((entry) => ({ ...entry })),
+    playerAlliancePreviews: world.nations
+      .filter((nation) => nation.id !== world.playerNation)
+      .map((nation) => {
+        const result = evaluateAllianceAcceptance(world, world.playerNation, nation.id);
+        return { target: nation.id, score: Number(result.score.toFixed(1)), accepted: result.accepted };
+      }),
     infamyLimit: getInfamyLimit(),
     coalitionAgainstPlayer: getCoalitionAgainst(world, world.playerNation),
+    ninthPowerScore: getNinthPowerScore(world),
+    playerPowerScore: getNationPowerBreakdown(world, world.playerNation).score,
+    rivalryDpCost: getRivalryDpCost(),
+    rivalryCap: getRivalryCap(),
+    playerRivalryCount: world.relations.filter((relation) => (
+      relation.kind === 'rivalry'
+      && (relation.a === world.playerNation || relation.b === world.playerNation)
+    )).length,
     armies: world.armies.map((army) => {
       const embarked = world.fleets.some((fleet) => fleet.embarkedArmy === army.id);
       const supplied = army.rebel || army.regiments.length === 0 || embarked
@@ -375,6 +411,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerStates,
     playerCoreStateIds,
     playerFormables,
+    playerBalanceOfPower: getPlayerBalanceOfPowerView(world, data, world.playerNation),
     chronicle: world.chronicle ?? [],
     chronicleWarsFought: (world.chronicleWarIds ?? []).length,
     campaignOver: (() => {
@@ -398,7 +435,21 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerTech: buildPlayerTechView(world, data, world.playerNation),
     // 0.7.0 Concert of Europe
     worldTension: getWorldTension(world),
-    tensionTrace: computeTensionContributions(world),
+    tensionTrace: (() => {
+      const pressure = computeTensionContributions(world);
+      const decay = computeTensionDecay(world.tension ?? 15);
+      return [
+        ...pressure,
+        { label: 'Natural decay', value: Number((-decay).toFixed(2)) },
+      ];
+    })(),
+    tensionDecay: computeTensionDecay(world.tension ?? 15),
+    tensionNetDelta: (() => {
+      const pressure = computeTensionContributions(world).reduce((sum, entry) => sum + entry.value, 0);
+      const decay = computeTensionDecay(world.tension ?? 15);
+      return Number((pressure - decay).toFixed(2));
+    })(),
+    crisisCooldownUntil: world.crisisCooldownUntil ?? 0,
     activeCrisis: world.crisis
       ? {
         ...world.crisis,
@@ -407,6 +458,8 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
         pressedBy: world.crisis.pressedBy.slice(),
       }
       : null,
+    crisisShowdown: world.crisis ? buildCrisisShowdownView(world, world.crisis) : null,
+    crisisCandidates: world.crisis ? [] : listCrisisCandidates(world, 5),
     congressHistory: (world.congresses ?? []).map((record) => ({ ...record })),
     // 0.8.0 Age of Nationalism
     playerCulturePolicy: playerNation ? culturePolicyOf(playerNation) : 'assimilationist',

@@ -151,6 +151,14 @@ export function Hud() {
             Infamy {(playerNation?.infamy ?? 0).toFixed(1)}
             {snapshot ? ` / ${snapshot.infamyLimit.toFixed(1)}` : ''}
           </span>
+          {snapshot?.playerBalanceOfPower ? (
+            <span
+              className={`hud-infamy ${snapshot.playerBalanceOfPower.rivalryThreat ? 'is-danger' : ''}`}
+              title={`${snapshot.playerBalanceOfPower.formableName}: GPs lose ${snapshot.playerBalanceOfPower.monthlyOpinionHit}/mo opinion`}
+            >
+              BoP {(snapshot.playerBalanceOfPower.share * 100).toFixed(0)}%
+            </span>
+          ) : null}
           <button type="button" {...instantPressProps(() => setMuteAudio(!muteAudio))}>{muteAudio ? 'Unmute' : 'Mute'}</button>
           <button
             type="button"

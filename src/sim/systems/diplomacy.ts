@@ -15,6 +15,10 @@ const TRUCE_DURATION_DAYS = 365 * 5;
 const ALLIANCE_DURATION_DAYS = 365 * 10;
 const CB_DURATION_DAYS = 365 * 2;
 const INFAMY_LIMIT = 18;
+/** Diplomatic-point cost to declare a rivalry (player command path). */
+const RIVALRY_DP_COST = 12;
+/** Max concurrent rivalries a nation may hold via addRival. */
+const RIVALRY_CAP = 4;
 
 type RelationCommandKind = 'alliance' | 'guarantee' | 'rivalry' | 'neutral';
 
@@ -544,6 +548,15 @@ export function getWarGoalRule(goal: WarGoalType): WarGoalRule {
   return WAR_GOAL_RULES[goal];
 }
 
+/** Diplomatic-point cost to begin fabricating a CB for this goal. */
+export function getFabricateCbCost(goal: WarGoalType): number {
+  return Number((10 + WAR_GOAL_RULES[goal].score * 0.35).toFixed(2));
+}
+
+export function getDiplomaticPoints(world: World, nationId: NationId): number {
+  return Number((ensureRuntime(world).diplomaticPoints[nationId] ?? 0).toFixed(2));
+}
+
 export function getInfamyLimit(): number {
   return INFAMY_LIMIT;
 }
@@ -591,6 +604,42 @@ export function setRelationKindByCommand(
   return setRelation(world, a, b, kind, baseOpinion, expiry);
 }
 
+function countRivalries(world: World, nationId: NationId): number {
+  return world.relations.filter((relation) => (
+    relation.kind === 'rivalry' && (relation.a === nationId || relation.b === nationId)
+  )).length;
+}
+
+export function getRivalryDpCost(): number {
+  return RIVALRY_DP_COST;
+}
+
+export function getRivalryCap(): number {
+  return RIVALRY_CAP;
+}
+
+/**
+ * Player-facing rivalry with a DP cost and concurrent cap so free rivalry
+ * spam cannot manufacture Concert tension without tradeoff.
+ */
+export function tryAddRivalry(world: World, a: NationId, b: NationId): { ok: boolean; reason: string } {
+  if (!world.nations[a] || !world.nations[b] || a === b) {
+    return { ok: false, reason: 'Invalid rivalry target.' };
+  }
+  const existing = relationForNations(world, a, b);
+  if (existing?.kind === 'rivalry') return { ok: false, reason: 'Already rivals.' };
+  if (countRivalries(world, a) >= RIVALRY_CAP) {
+    return { ok: false, reason: `Rivalry cap reached (${RIVALRY_CAP}). Cancel one first.` };
+  }
+  const runtime = ensureRuntime(world);
+  if (runtime.diplomaticPoints[a] < RIVALRY_DP_COST) {
+    return { ok: false, reason: `Need ${RIVALRY_DP_COST} diplomatic points to declare a rivalry.` };
+  }
+  runtime.diplomaticPoints[a] -= RIVALRY_DP_COST;
+  setRelationKindByCommand(world, a, b, 'rivalry');
+  return { ok: true, reason: `${world.nations[b].name} is now marked as a rival (−${RIVALRY_DP_COST} DP).` };
+}
+
 export function evaluateAllianceAcceptance(world: World, proposer: NationId, target: NationId): { accepted: boolean; score: number } {
   const relation = getOrCreateRelation(world, proposer, target);
   if (relation.kind === 'rivalry' || hasActiveTruce(world, proposer, target)) return { accepted: false, score: -999 };
@@ -615,13 +664,27 @@ function warSideSet(war: { attackers: NationId[]; defenders: NationId[] }, natio
   return new Set<NationId>();
 }
 
-export function collectAllianceBloc(world: World, leader: NationId, against: NationId): NationId[] {
+export function collectAllianceBloc(
+  world: World,
+  leader: NationId,
+  against: NationId,
+  opts: { includeGuarantees?: boolean } = {},
+): NationId[] {
+  const includeGuarantees = opts.includeGuarantees === true;
   const result = new Set<NationId>([leader]);
   const queue: NationId[] = [leader];
   while (queue.length > 0) {
     const current = queue.shift() as NationId;
     const options = world.relations
-      .filter((relation) => relation.kind === 'alliance' && (relation.expiresDay < 0 || relation.expiresDay > world.day))
+      .filter((relation) => {
+        const active = relation.expiresDay < 0 || relation.expiresDay > world.day;
+        if (!active) return false;
+        if (relation.kind === 'alliance') return true;
+        // Guarantees are defensive-only: pull guarantors into the war leader's
+        // bloc when collecting defenders, never into an offensive march.
+        if (includeGuarantees && relation.kind === 'guarantee' && current === leader) return true;
+        return false;
+      })
       .map((relation) => relation.a === current ? relation.b : relation.b === current ? relation.a : -1)
       .filter((nationId) => nationId >= 0)
       .sort((a, b) => a - b);
@@ -629,14 +692,18 @@ export function collectAllianceBloc(world: World, leader: NationId, against: Nat
       if (nationId === against || result.has(nationId)) continue;
       if (hasActiveTruce(world, nationId, against)) continue;
       const withLeader = relationForNations(world, nationId, leader);
-      if (!withLeader || withLeader.kind !== 'alliance' || withLeader.opinion < 35) continue;
+      if (!withLeader) continue;
+      const isAlly = withLeader.kind === 'alliance' && withLeader.opinion >= 35;
+      const isGuarantor = includeGuarantees && withLeader.kind === 'guarantee';
+      if (!isAlly && !isGuarantor) continue;
       const hostileWar = world.wars.some((war) => {
         const side = warSideSet(war, nationId);
         return side.size > 0 && !side.has(leader);
       });
       if (hostileWar) continue;
       result.add(nationId);
-      queue.push(nationId);
+      // Only BFS through alliance edges; guarantees do not chain.
+      if (isAlly) queue.push(nationId);
     }
   }
   return Array.from(result).sort((a, b) => a - b);
@@ -709,6 +776,14 @@ export function getCbsForNation(world: World, holder: NationId): CasusBelli[] {
     .sort((a, b) => (a.target - b.target) || (a.goal.localeCompare(b.goal)));
 }
 
+export function getPendingCbsForNation(world: World, holder: NationId): CasusBelli[] {
+  const runtime = ensureRuntime(world);
+  return runtime.pendingCbs
+    .filter((cb) => cb.holder === holder)
+    .map((cb) => ({ ...cb }))
+    .sort((a, b) => (a.readyDay - b.readyDay) || (a.target - b.target));
+}
+
 export function getInfluencePool(world: World, nationId: NationId): number {
   return Number((ensureRuntime(world).influencePool[nationId] ?? 0).toFixed(2));
 }
@@ -736,7 +811,16 @@ export function getInfluenceTargetsForNation(world: World, nationId: NationId): 
   const runtime = ensureRuntime(world);
   return runtime.influence
     .filter((entry) => entry.gp === nationId && entry.points > 0)
-    .map((entry) => ({ target: entry.target, points: Number(entry.points.toFixed(1)) }))
+    .map((entry) => {
+      const rivalPressure = runtime.influence
+        .filter((rival) => rival.target === entry.target && rival.gp !== nationId && rival.points > 0.001)
+        .reduce((max, rival) => Math.max(max, rival.points), 0);
+      return {
+        target: entry.target,
+        points: Number(entry.points.toFixed(1)),
+        rivalPressure: Number(rivalPressure.toFixed(1)),
+      };
+    })
     .sort((a, b) => (b.points - a.points) || (a.target - b.target));
 }
 
@@ -773,6 +857,25 @@ export function getGreatPowerStandings(world: World): GreatPowerStanding[] {
       influencePool: Number((runtime.influencePool[entry.nation] ?? 0).toFixed(2)),
     }))
     .sort((a, b) => a.rank - b.rank);
+}
+
+/** Score of the #9 power (first non-GP). Gap to this is the GP cliff chase. */
+export function getNinthPowerScore(world: World): number {
+  const runtime = ensureRuntime(world);
+  if (runtime.powerScores.length === 0) refreshGreatPowerRanking(world);
+  if (runtime.powerScores.length < 9) return 0;
+  return runtime.powerScores[8].score;
+}
+
+export function getWarGoalInfamyUse(): Record<WarGoalType, number> {
+  return {
+    annex_state: WAR_GOAL_RULES.annex_state.infamyUse,
+    liberate_state: WAR_GOAL_RULES.liberate_state.infamyUse,
+    humiliate: WAR_GOAL_RULES.humiliate.infamyUse,
+    add_to_sphere: WAR_GOAL_RULES.add_to_sphere.infamyUse,
+    take_colony: WAR_GOAL_RULES.take_colony.infamyUse,
+    cut_down_to_size: WAR_GOAL_RULES.cut_down_to_size.infamyUse,
+  };
 }
 
 export function getCoalitionAgainst(world: World, nationId: NationId): NationId[] {

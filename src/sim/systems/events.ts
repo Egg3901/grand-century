@@ -24,7 +24,7 @@ import type {
 } from '../../shared/types';
 import { getFormableStatusesForNation } from '../formables';
 import type { Rng } from '../rng';
-import { getOrCreateRelation, grantContentCb } from './diplomacy';
+import { getOrCreateRelation, grantContentCb, relationForNations } from './diplomacy';
 import { addColonialPointsModifier, startColonization } from './war';
 
 const STAGGER_BUCKETS = 6;
@@ -700,6 +700,54 @@ function tryFireForNation(
  */
 const BOP_ALARM_SHARE = 0.5;
 const BOP_RIVALRY_SHARE = 0.8;
+
+export function getBalanceOfPowerThresholds(): { alarmShare: number; rivalryShare: number; alarmPressure: number; rivalryPressure: number } {
+  return {
+    alarmShare: BOP_ALARM_SHARE,
+    rivalryShare: BOP_RIVALRY_SHARE,
+    alarmPressure: 1.5,
+    rivalryPressure: 3,
+  };
+}
+
+/** Player-facing BoP readout for the highest-progress formable. */
+export function getPlayerBalanceOfPowerView(world: World, data: GameData, nationId: NationId): {
+  formableKey: string;
+  formableName: string;
+  share: number;
+  alarmed: boolean;
+  rivalryThreat: boolean;
+  monthlyOpinionHit: number;
+  alarmedGpCount: number;
+} | null {
+  const statuses = getFormableStatusesForNation(world, data, nationId);
+  let best: { status: typeof statuses[number]; share: number } | null = null;
+  for (const status of statuses) {
+    if (status.totalCoreStates <= 0) continue;
+    const share = status.controlledCoreStates / status.totalCoreStates;
+    if (!best || share > best.share) best = { status, share };
+  }
+  if (!best || best.share < BOP_ALARM_SHARE) return null;
+  const formable = data.formables?.find((entry) => entry.key === best!.status.key);
+  let alarmedGpCount = 0;
+  for (const gp of world.nations) {
+    if (!gp || gp.id === nationId || gp.gpRank <= 0) continue;
+    if (formable?.candidateTags.includes(gp.tag)) continue;
+    const relation = relationForNations(world, gp.id, nationId);
+    if (relation?.kind === 'alliance') continue;
+    alarmedGpCount += 1;
+  }
+  const rivalryThreat = best.share >= BOP_RIVALRY_SHARE;
+  return {
+    formableKey: best.status.key,
+    formableName: best.status.name,
+    share: Number(best.share.toFixed(2)),
+    alarmed: true,
+    rivalryThreat,
+    monthlyOpinionHit: rivalryThreat ? 3 : 1.5,
+    alarmedGpCount,
+  };
+}
 
 export function applyBalanceOfPowerPressure(world: World, data: GameData): void {
   for (const nation of world.nations) {

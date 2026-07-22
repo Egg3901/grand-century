@@ -356,6 +356,14 @@ export interface FormableStatus {
   totalCoreStates: number;
   requiredCoreStates: number;
   requirements: FormableRequirementStatus[];
+  /** Prestige granted on successful form (after NGF→GER stacking gate). */
+  prestigeReward?: number;
+  /** Per-core Owned / Sphered / Missing. */
+  coreBreakdown?: Array<{ stateId: StateId; owner: NationId; kind: 'owned' | 'sphered' | 'missing' }>;
+  ownedCoreCount?: number;
+  spheredCoreCount?: number;
+  /** Sphere members whose cores satisfy control but are not annexed on proclaim. */
+  spheredRemainTags?: string[];
 }
 
 /** Everything static the game is built from. Loaded once, never mutated. */
@@ -708,6 +716,15 @@ export interface GreatPowerStanding {
 export interface InfluenceTarget {
   target: NationId;
   points: number;
+  /** Highest rival GP influence on the same target (0 if uncontested). */
+  rivalPressure: number;
+}
+
+/** Precomputed alliance acceptance score for a Propose Alliance click. */
+export interface AllianceAcceptancePreview {
+  target: NationId;
+  score: number;
+  accepted: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -764,6 +781,42 @@ export interface CongressRecord {
 export interface TensionContribution {
   label: string;
   value: number;
+}
+
+/** Player-facing BoP readout when approaching a formable. */
+export interface BalanceOfPowerView {
+  formableKey: string;
+  formableName: string;
+  share: number;
+  alarmed: boolean;
+  rivalryThreat: boolean;
+  monthlyOpinionHit: number;
+  alarmedGpCount: number;
+}
+
+/** Idle flashpoint ranking for the Concert panel. */
+export interface CrisisCandidateView {
+  type: CrisisType;
+  subject: NationId;
+  demand: WarGoalType;
+  attackerLead: NationId;
+  defenderLead: NationId;
+  score: number;
+}
+
+/** Active-crisis brinkmanship readout for the Concert panel. */
+export interface CrisisShowdownView {
+  attackerPower: number;
+  defenderPower: number;
+  powerRatio: number;
+  showdownThreshold: number;
+  forecast: 'congress_attacker' | 'congress_defender' | 'war';
+  pressTemperature: number;
+  pressTempAfter: number;
+  backDownWinnerLeadPrestige: number;
+  backDownLoserLeadPrestige: number;
+  demandEnforceOnAttackerWin: boolean;
+  peacefulContainmentLimited: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -1146,10 +1199,28 @@ export interface WorldSnapshot {
   relations: DiploRelation[];
   greatPowers: GreatPowerStanding[];
   playerCbs: CasusBelli[];
+  /** In-progress CB fabrications (not yet ready). */
+  playerPendingCbs: CasusBelli[];
+  /** Player diplomatic points (0–120); spent to fabricate CBs. */
+  playerDiplomaticPoints: number;
+  /** Fabricate-CB cost by war goal (mirrors sim `getFabricateCbCost`). */
+  fabricateCbCostByGoal: Record<WarGoalType, number>;
+  /** Infamy cost when declaring with a valid CB (from WAR_GOAL_RULES). */
+  warGoalInfamyUse: Record<WarGoalType, number>;
   playerInfluencePool: number;
   playerInfluenceTargets: InfluenceTarget[];
+  /** Alliance acceptance scores vs the player (threshold 70). */
+  playerAlliancePreviews: AllianceAcceptancePreview[];
   infamyLimit: number;
   coalitionAgainstPlayer: NationId[];
+  /** Score of the #9 nation — gap to this is the GP rank chase. */
+  ninthPowerScore: number;
+  /** Player's current power score (GP formula). */
+  playerPowerScore: number;
+  /** DP cost / concurrent cap for declaring rivalries. */
+  rivalryDpCost: number;
+  rivalryCap: number;
+  playerRivalryCount: number;
   armies: Army[];
   fleets: Fleet[];
   rebellions: Rebellion[];
@@ -1159,6 +1230,8 @@ export interface WorldSnapshot {
   playerStates: PlayerStateSummary[];
   playerCoreStateIds?: StateId[];
   playerFormables?: FormableStatus[];
+  /** Balance-of-power pressure when the player nears a formable. */
+  playerBalanceOfPower?: BalanceOfPowerView | null;
   /** Pending events for the player nation (popup queue). */
   pendingPlayerEvents?: PendingEvent[];
   /** 1.0-U4: battles involving the player, newest last (for alerts). */
@@ -1174,7 +1247,13 @@ export interface WorldSnapshot {
   /** 0.7.0 Concert: world tension 0-100 with trace, active crisis, history. */
   worldTension?: number;
   tensionTrace?: TensionContribution[];
+  /** Next-month tension decay and net Δ (pressure − decay). */
+  tensionDecay?: number;
+  tensionNetDelta?: number;
+  crisisCooldownUntil?: number;
   activeCrisis?: Crisis | null;
+  crisisShowdown?: CrisisShowdownView | null;
+  crisisCandidates?: CrisisCandidateView[];
   congressHistory?: CongressRecord[];
   /** 0.8.0 culture: Cultures ledger + national movements for the player. */
   playerCulturePolicy?: CulturePolicy;

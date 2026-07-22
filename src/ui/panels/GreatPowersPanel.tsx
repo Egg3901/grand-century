@@ -21,6 +21,9 @@ export function GreatPowersPanel() {
 
   const playerNation = nationById.get(snapshot.playerNation);
   const isGreatPower = Boolean(playerNation?.gpRank && playerNation.gpRank > 0);
+  const ninthScore = snapshot.ninthPowerScore ?? 0;
+  const playerScore = snapshot.playerPowerScore ?? 0;
+  const pointsFromNinth = playerScore - ninthScore;
 
   return (
     <section className="panel-card atlas-panel">
@@ -36,6 +39,19 @@ export function GreatPowersPanel() {
             {isGreatPower ? `#${playerNation!.gpRank}` : 'Not a great power'}
           </dd>
         </div>
+        <div>
+          <dt>Points from #9</dt>
+          <dd className={pointsFromNinth >= 0 ? 'status-positive' : 'status-danger'}>
+            <TraceTooltip
+              value={`${pointsFromNinth >= 0 ? '+' : ''}${pointsFromNinth.toFixed(1)}`}
+              trace={[
+                { label: 'Your score', value: playerScore },
+                { label: '#9 score (GP cliff)', value: ninthScore },
+                { label: 'Gap (you − #9)', value: pointsFromNinth },
+              ]}
+            />
+          </dd>
+        </div>
         {isGreatPower ? (
           <>
             <div>
@@ -49,6 +65,41 @@ export function GreatPowersPanel() {
           </>
         ) : null}
       </dl>
+
+      {isGreatPower && snapshot.playerInfluenceTargets.length > 0 ? (
+        <>
+          <h3 className="atlas-heading panel-small-heading">Influence Race</h3>
+          <ul className="panel-list gp-list">
+            {snapshot.playerInfluenceTargets.map((entry) => {
+              const target = nationById.get(entry.target);
+              return (
+                <li key={entry.target}>
+                  <div className="gp-row__nation">
+                    {target ? <NationFlag tag={target.tag} color={target.color} size={18} /> : null}
+                    <strong>{target?.name ?? `Nation ${entry.target}`}</strong>
+                  </div>
+                  <div className="gp-metrics">
+                    <span>
+                      Influence{' '}
+                      <TraceTooltip
+                        value={entry.points.toFixed(1)}
+                        trace={[
+                          { label: 'Your points', value: entry.points },
+                          { label: 'Sphere threshold', value: 100 },
+                        ]}
+                      />
+                      {' '}/ 100
+                    </span>
+                    <span className={entry.rivalPressure >= 25 ? 'status-danger' : undefined}>
+                      Rival pressure {entry.rivalPressure.toFixed(1)}
+                    </span>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      ) : null}
 
       <h3 className="atlas-heading panel-small-heading">Rankings</h3>
       <ul className="panel-list gp-list">
@@ -71,9 +122,11 @@ export function GreatPowersPanel() {
                     <TraceTooltip
                       value={entry.score.toFixed(1)}
                       trace={[
-                        { label: 'Industry', value: entry.industry },
-                        { label: 'Military', value: entry.military },
-                        { label: 'Prestige', value: entry.prestige },
+                        { label: '√industry × 9', value: Number((Math.sqrt(Math.max(0, entry.industry)) * 9).toFixed(2)) },
+                        { label: 'military × 2.5', value: Number((entry.military * 2.5).toFixed(2)) },
+                        { label: 'prestige × 1', value: entry.prestige },
+                        { label: 'Industry (raw)', value: entry.industry },
+                        { label: 'Military (raw)', value: entry.military },
                       ]}
                     />
                   </span>
