@@ -30,7 +30,8 @@ const MAX_SHIP_STRENGTH = 100;
 const BASE_ARMY_MOVE_DAYS = 5;
 const BASE_FLEET_MOVE_DAYS = 4;
 const MOBILIZED_UPKEEP_DAILY = 0.16;
-const COLONIAL_CLAIM_COST = 32;
+/** Colonial points required to plant (and keep progressing) a claim. */
+export const COLONIAL_CLAIM_COST = 32;
 const REBELLION_PROGRESS_TO_ENFORCE = 85;
 const REBEL_SIEGE_BASE_DAILY = 0.022;
 /** White peace is free when |score| is within this band (stalemate). */

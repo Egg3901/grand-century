@@ -35,6 +35,11 @@ export function DecisionsPanel() {
               <span title={decision.effectsSummary.join(' · ')}>
                 Effects: {decision.effectsSummary.join(' · ')}
               </span>
+              {decision.progressLines && decision.progressLines.length > 0 ? (
+                <span className="panel-subtle" data-testid={`decision-progress-${decision.id}`}>
+                  {decision.progressLines.join(' · ')}
+                </span>
+              ) : null}
               <div className="production-build-actions">
                 <button
                   type="button"

@@ -247,6 +247,7 @@ export type EventRequirement =
   | { t: 'yearAtLeast'; value: number }
   | { t: 'yearAtMost'; value: number }
   | { t: 'minLiteracy'; value: number }
+  | { t: 'minFactoryCount'; value: number }
   | { t: 'hasFormableCandidate' }
   // 1.0-U1: decision-chain gating.
   | { t: 'tagIn'; tags: string[] }
@@ -337,6 +338,8 @@ export interface DecisionStatus {
   reason: string;
   costSummary: string[];
   effectsSummary: string[];
+  /** Core-share progress, arc position, next unlock — for the Decisions panel. */
+  progressLines?: string[];
 }
 
 export interface FormableRequirementStatus {

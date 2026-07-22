@@ -20,7 +20,7 @@ import {
   getWarGoalInfamyUse,
 } from './systems/diplomacy';
 import { getFormableStatusesForNation } from './formables';
-import { getPlayerBalanceOfPowerView, listPlayerDecisions } from './systems/events';
+import { buildChoiceViews, getEventDef, getPlayerBalanceOfPowerView, listPlayerDecisions } from './systems/events';
 import { buildPlayerTechView, techModifiersFor } from './systems/research';
 import {
   buildCrisisShowdownView,
@@ -504,13 +504,21 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       .slice(-8),
     pendingPlayerEvents: (world.pendingEvents ?? [])
       .filter((event) => event.nationId === world.playerNation)
-      .map((event) => ({
-        ...event,
-        choices: event.choices.map((choice) => ({
-          ...choice,
-          effectsSummary: choice.effectsSummary.slice(),
-        })),
-      })),
+      .map((event) => {
+        const def = getEventDef(event.eventKey);
+        const nation = world.nations[event.nationId];
+        // Re-evaluate gates at snapshot time — treasury/reforms can change under a modal.
+        const choices = def && nation
+          ? buildChoiceViews(world, data, nation, def.choices)
+          : event.choices.map((choice) => ({
+            ...choice,
+            effectsSummary: choice.effectsSummary.slice(),
+          }));
+        return {
+          ...event,
+          choices,
+        };
+      }),
     playerDecisions: listPlayerDecisions(world, data, world.playerNation),
     playerTech: buildPlayerTechView(world, data, world.playerNation),
     // 0.7.0 Concert of Europe
