@@ -356,6 +356,14 @@ export interface FormableStatus {
   totalCoreStates: number;
   requiredCoreStates: number;
   requirements: FormableRequirementStatus[];
+  /** Prestige granted on successful form (after NGF→GER stacking gate). */
+  prestigeReward?: number;
+  /** Per-core Owned / Sphered / Missing. */
+  coreBreakdown?: Array<{ stateId: StateId; owner: NationId; kind: 'owned' | 'sphered' | 'missing' }>;
+  ownedCoreCount?: number;
+  spheredCoreCount?: number;
+  /** Sphere members whose cores satisfy control but are not annexed on proclaim. */
+  spheredRemainTags?: string[];
 }
 
 /** Everything static the game is built from. Loaded once, never mutated. */
@@ -753,6 +761,17 @@ export interface TensionContribution {
   value: number;
 }
 
+/** Player-facing BoP readout when approaching a formable. */
+export interface BalanceOfPowerView {
+  formableKey: string;
+  formableName: string;
+  share: number;
+  alarmed: boolean;
+  rivalryThreat: boolean;
+  monthlyOpinionHit: number;
+  alarmedGpCount: number;
+}
+
 /** Idle flashpoint ranking for the Concert panel. */
 export interface CrisisCandidateView {
   type: CrisisType;
@@ -1146,6 +1165,8 @@ export interface WorldSnapshot {
   playerStates: PlayerStateSummary[];
   playerCoreStateIds?: StateId[];
   playerFormables?: FormableStatus[];
+  /** Balance-of-power pressure when the player nears a formable. */
+  playerBalanceOfPower?: BalanceOfPowerView | null;
   /** Pending events for the player nation (popup queue). */
   pendingPlayerEvents?: PendingEvent[];
   /** 1.0-U4: battles involving the player, newest last (for alerts). */
