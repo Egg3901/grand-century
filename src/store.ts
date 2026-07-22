@@ -186,7 +186,8 @@ export const useStore = create<UIState>((set, get) => ({
       const currWarIds = new Set(s.wars.map((war) => war.id));
       for (const war of s.wars) {
         if (prevWarIds.has(war.id)) continue;
-        // Notify for every new war, including AI-vs-AI conflicts the player only observes.
+        const playerInWar = war.attackers.includes(s.playerNation) || war.defenders.includes(s.playerNation);
+        if (!playerInWar) continue;
         const nameOf = (id: number) => s.nations.find((nation) => nation.id === id)?.name ?? `Nation ${id}`;
         const attackerTag = s.nations.find((nation) => nation.id === war.attackers[0])?.tag ?? '';
         pushAlert(
@@ -237,7 +238,8 @@ export const useStore = create<UIState>((set, get) => ({
       }
       for (const war of prev.wars) {
         if (currWarIds.has(war.id)) continue;
-        // Same as war-start: name the sides even when the player was not a belligerent.
+        const playerInWar = war.attackers.includes(s.playerNation) || war.defenders.includes(s.playerNation);
+        if (!playerInWar) continue;
         const nameOf = (id: number) => s.nations.find((nation) => nation.id === id)?.name
           ?? prev.nations.find((nation) => nation.id === id)?.name
           ?? `Nation ${id}`;
