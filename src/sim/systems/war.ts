@@ -1397,7 +1397,10 @@ export function startColonization(world: World, nationId: NationId, stateId: Sta
     claimants: new Map<NationId, number>(),
     tension: 0,
   };
-  existing.claimants.set(nationId, clamp((existing.claimants.get(nationId) ?? 0) + 0.25, 0, 1.2));
+  if (existing.claimants.has(nationId)) {
+    return { ok: false, reason: 'Already claiming this state.' };
+  }
+  existing.claimants.set(nationId, clamp(0.25, 0, 1.2));
   runtime.colonialClaims.set(stateId, existing);
   nation.colonialPoints = computeColonialPoints(world, nationId);
   return { ok: true, reason: 'Colonial claim planted.' };
