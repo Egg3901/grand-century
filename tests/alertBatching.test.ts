@@ -30,7 +30,7 @@ describe('alert batching', () => {
     const alerts: UiAlert[] = [
       alert({ id: 'e1', kind: 'election', message: 'France elected Liberal.', day: 100 }),
       alert({ id: 'e2', kind: 'election', message: 'United Kingdom elected Whig.', day: 100 }),
-      alert({ id: 'w1', kind: 'war', message: 'War declared (War 3).', day: 101, panel: 'military' }),
+      alert({ id: 'w1', kind: 'war', message: 'Austria (AUS) declares war on Prussia.', day: 101, panel: 'military' }),
     ];
     expect(isProminentAlert(alerts[1], 'United Kingdom')).toBe(true);
     expect(isProminentAlert(alerts[0], 'United Kingdom')).toBe(false);
@@ -46,7 +46,7 @@ describe('alert batching', () => {
 
   it('caps the toast stack', () => {
     const alerts: UiAlert[] = [
-      alert({ id: 'w1', kind: 'war', message: 'War declared (War 1).', day: 1, panel: 'military' }),
+      alert({ id: 'w1', kind: 'war', message: 'France (FRA) declares war on Spain.', day: 1, panel: 'military' }),
       alert({ id: 'r1', kind: 'rebellion', message: 'Rebellion forces have risen.', day: 2, panel: 'military' }),
       alert({ id: 'u1', kind: 'unrest', message: 'High unrest risk detected (0.60).', day: 3, panel: 'politics' }),
     ];
