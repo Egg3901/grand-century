@@ -40,6 +40,27 @@ const WHITE_PEACE_SCORE_BAND = 10;
 const WHITE_PEACE_MUTUAL_EXHAUSTION = 75;
 /** Prestige paid by the offering nation when white-peacing outside free conditions. */
 const WHITE_PEACE_PRESTIGE_FEE = 6;
+/**
+ * Combat width soft cap (land battles only). Below this many regiments a side
+ * fights at full effectiveness; beyond it, additional regiments still help
+ * (a wall of extra bodies isn't worthless) but at steeply diminishing returns
+ * — piling every army in the nation into one province used to be strictly
+ * optimal (offense summed linearly with stack size, AND damage taken per
+ * regiment diluted further the bigger the stack, a doubly-compounding
+ * doomstack incentive). This makes splitting forces across multiple fronts
+ * a real strategic choice instead of a trap.
+ */
+const LAND_COMBAT_WIDTH_CAP = 24;
+const LAND_COMBAT_WIDTH_EXCESS_FACTOR = 0.55;
+
+/** Effective-vs-actual regiment ratio for one side of a land battle: 1.0 at or
+ * under the cap, dropping off as sqrt(excess) beyond it. */
+function combatWidthScale(totalRegiments: number): number {
+  if (totalRegiments <= LAND_COMBAT_WIDTH_CAP) return 1;
+  const excess = totalRegiments - LAND_COMBAT_WIDTH_CAP;
+  const effective = LAND_COMBAT_WIDTH_CAP + Math.sqrt(excess) * LAND_COMBAT_WIDTH_EXCESS_FACTOR;
+  return effective / totalRegiments;
+}
 
 const REGIMENT_ROLE: Record<Army['regiments'][number]['type'], {
   offense: number;
@@ -547,7 +568,12 @@ function damageArmies(
   strengthDamage: number,
 ): number {
   let totalStrengthLoss = 0;
-  const regimentCount = Math.max(1, sideRegiments(armies));
+  const totalRegiments = Math.max(1, sideRegiments(armies));
+  // Divide the side's total damage by its EFFECTIVE (combat-width-capped)
+  // regiment count, not the raw count — otherwise a doomstack dilutes a fixed
+  // damage pool across arbitrarily many regiments and each one barely feels
+  // the hit. Beyond the cap, extra regiments no longer buy extra dilution.
+  const regimentCount = Math.max(1, totalRegiments * combatWidthScale(totalRegiments));
   const orgEach = orgDamage / regimentCount;
   const strEach = strengthDamage / regimentCount;
   for (const army of armies) {
@@ -596,8 +622,14 @@ function resolveLandBattle(
 
   const attackerFlank = 1 + Math.min(0.24, Math.max(0, attackerTypes.cavalryShare - defenderTypes.cavalryShare) * 0.45) + attackerSpec.cavalry * 0.01;
   const defenderFlank = 1 + Math.min(0.24, Math.max(0, defenderTypes.cavalryShare - attackerTypes.cavalryShare) * 0.45) + defenderSpec.cavalry * 0.01;
-  const attackerFirepower = attackerTypes.offense * (1 + attackerSpec.artillery * attackerTypes.artilleryShare * 0.03);
-  const defenderFirepower = defenderTypes.offense * (1 + defenderSpec.artillery * defenderTypes.artilleryShare * 0.03);
+  // Combat width: raw offense sums linearly with regiment count with no cap
+  // (unlike defense below, which already divides by unit count) — this scale
+  // brings stacks beyond LAND_COMBAT_WIDTH_CAP back down to steeply
+  // diminishing returns instead of a straight linear advantage.
+  const attackerWidthScale = combatWidthScale(attackerUnits);
+  const defenderWidthScale = combatWidthScale(defenderUnits);
+  const attackerFirepower = attackerTypes.offense * attackerWidthScale * (1 + attackerSpec.artillery * attackerTypes.artilleryShare * 0.03);
+  const defenderFirepower = defenderTypes.offense * defenderWidthScale * (1 + defenderSpec.artillery * defenderTypes.artilleryShare * 0.03);
   let attackerOffense = (attackerFirepower * attackerFlank + attackerRoll + leaderAtk.attack * 1.6 + attackerTech * 0.95) * clamp(attackerOrg + 0.35, 0.2, 1.45);
   let defenderOffense = (defenderFirepower * defenderFlank + defenderRoll + leaderDef.attack * 1.45 + defenderTech * 0.9) * clamp(defenderOrg + 0.35, 0.2, 1.45);
   let attackerDefense = 1 + leaderAtk.defense * 0.08 + attackerTypes.defense / Math.max(2, attackerUnits) * 0.3 + attackerSpec.guard * attackerTypes.guardShare * 0.02;
