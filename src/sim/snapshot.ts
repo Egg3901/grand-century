@@ -19,7 +19,7 @@ import {
   getWarGoalInfamyUse,
 } from './systems/diplomacy';
 import { getFormableStatusesForNation } from './formables';
-import { listPlayerDecisions } from './systems/events';
+import { getPlayerBalanceOfPowerView, listPlayerDecisions } from './systems/events';
 import { buildPlayerTechView } from './systems/research';
 import {
   buildCrisisShowdownView,
@@ -344,6 +344,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerStates,
     playerCoreStateIds,
     playerFormables,
+    playerBalanceOfPower: getPlayerBalanceOfPowerView(world, data, world.playerNation),
     chronicle: world.chronicle ?? [],
     chronicleWarsFought: (world.chronicleWarIds ?? []).length,
     campaignOver: (() => {
