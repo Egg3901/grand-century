@@ -835,6 +835,8 @@ export interface MarketGood {
   supply: number;        // last period
   demand: number;        // last period
   sold: number;
+  /** Unmet consumer demand last week (requested − bought). */
+  unmet: number;
   worldStockpile: number;
   trend: number[];
   priceTrace: PriceTrace;

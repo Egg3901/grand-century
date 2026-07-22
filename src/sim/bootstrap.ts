@@ -836,6 +836,7 @@ export function createWorld(
       supply: 80,
       demand: 80,
       sold: 80,
+      unmet: 0,
       worldStockpile: 180,
       trend: Array.from({ length: 8 }, () => good.basePrice),
       priceTrace: {

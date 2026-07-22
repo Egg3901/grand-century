@@ -150,6 +150,7 @@ export function runMarketDaily(world: World, data: GameData, _rng: Rng): void {
     marketGood.supply = Math.max(0, finite(marketGood.supply));
     marketGood.demand = Math.max(0, finite(marketGood.demand));
     marketGood.sold = Math.max(0, finite(marketGood.sold));
+    marketGood.unmet = Math.max(0, finite(marketGood.unmet));
   }
 }
 
@@ -188,6 +189,7 @@ export function runMarketWeekly(world: World, data: GameData, _rng: Rng): void {
     marketGood.supply = Math.max(0, finite(supply));
     marketGood.demand = Math.max(0, finite(demand));
     marketGood.sold = Math.max(0, finite(sold));
+    marketGood.unmet = Math.max(0, finite(unmetDemand));
     marketGood.worldStockpile = stockpileEnd;
     marketGood.trend = [...marketGood.trend.slice(-7), nextPrice];
     marketGood.priceTrace = {
