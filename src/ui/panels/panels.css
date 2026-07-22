@@ -504,6 +504,91 @@
 .pop-composition__seg--4 { fill: var(--gc-positive); background: var(--gc-positive); }
 .pop-composition__seg--5 { fill: var(--gc-ink-muted); background: var(--gc-ink-muted); }
 
+.population-list .pop-class__head,
+.population-list .pop-class__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+}
+
+.population-list .pop-class__head {
+  font-size: var(--gc-fs-small);
+}
+
+.population-list .pop-class__meta {
+  color: var(--gc-ink-muted);
+  font-size: var(--gc-fs-caption);
+}
+
+.population-list .pop-class__ideology {
+  text-transform: capitalize;
+}
+
+.population-list .pop-class__growth {
+  font-variant-numeric: tabular-nums;
+}
+
+.population-list .pop-class__metrics {
+  display: grid;
+  gap: 0.22rem;
+  margin-top: 0.15rem;
+}
+
+.population-list .pop-metric {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr) 3.2rem;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-muted);
+}
+
+.population-list .pop-metric__label {
+  font-family: var(--gc-font-display);
+  letter-spacing: var(--gc-tracking-label);
+  text-transform: uppercase;
+  font-size: 0.64rem;
+  color: var(--gc-ink-faint);
+}
+
+.population-list .pop-metric__track {
+  display: block;
+  height: 0.38rem;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: 1px;
+  background: var(--gc-accent-soft);
+  overflow: hidden;
+}
+
+.population-list .pop-metric__fill {
+  display: block;
+  height: 100%;
+  background: var(--gc-leather-soft);
+}
+
+.population-list .pop-metric--unrest .pop-metric__fill {
+  background: var(--gc-danger);
+}
+
+.population-list .pop-metric--unrest .pop-metric__value {
+  color: var(--gc-danger);
+}
+
+.population-list .pop-metric__value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--gc-ink);
+}
+
+.population-list .pop-class__agitation {
+  margin: 0.15rem 0 0;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-muted);
+  line-height: var(--gc-lh-tight);
+}
+
 /* Market table */}
 .market-table {
   width: 100%;

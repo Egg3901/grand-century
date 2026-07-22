@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { useStore } from '../../store';
 import { TraceTooltip } from '../components/TraceTooltip';
 import {
@@ -10,6 +11,31 @@ import {
 
 function pct(value: number): string {
   return `${(Math.max(0, Math.min(1, value)) * 100).toFixed(1)}%`;
+}
+
+/** Inline mini-bar for 0–1 fractions (needs) or 0–10 scales (mil/con). */
+function PopMetricBar({
+  label,
+  fill,
+  valueNode,
+  tone,
+}: {
+  label: string;
+  /** Fill fraction in [0, 1]. */
+  fill: number;
+  valueNode: ReactNode;
+  tone?: 'unrest' | 'positive' | 'negative';
+}) {
+  const width = `${Math.max(0, Math.min(100, fill * 100))}%`;
+  return (
+    <div className={`pop-metric${tone ? ` pop-metric--${tone}` : ''}`}>
+      <span className="pop-metric__label">{label}</span>
+      <span className="pop-metric__track" aria-hidden="true">
+        <span className="pop-metric__fill" style={{ width }} />
+      </span>
+      <span className="pop-metric__value">{valueNode}</span>
+    </div>
+  );
 }
 
 function PopulationCompositionChart({ segments }: { segments: PopShareSegment[] }) {
@@ -133,56 +159,13 @@ export function PopulationPanel() {
       <ul className="panel-list population-list">
         {snapshot.playerPopulation.map((entry) => (
           <li key={entry.type}>
-            <div>
+            <div className="pop-class__head">
               <strong>{entry.type}</strong>
               <span>{entry.size.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
             </div>
-            <div>
-              <span>{entry.dominantIdeology}</span>
-              <span>
-                Needs{' '}
-                <TraceTooltip
-                  value={pct(entry.avgNeedsMet)}
-                  trace={[
-                    { label: 'Life needs', value: entry.avgLifeNeeds ?? entry.avgNeedsMet },
-                    { label: 'Everyday needs', value: entry.avgEverydayNeeds ?? entry.avgNeedsMet },
-                    { label: 'Luxury needs', value: entry.avgLuxuryNeeds ?? 1 },
-                    { label: 'Welfare score', value: entry.avgNeedsMet },
-                    ...(entry.scarceGoods ?? []).map((good) => ({
-                      label: `Scarce: ${good.name}`,
-                      value: good.fill,
-                    })),
-                  ]}
-                />
-              </span>
-              <span className={entry.avgMilitancy >= 4 ? 'unrest' : undefined}>
-                Mil{' '}
-                <TraceTooltip
-                  value={entry.avgMilitancy.toFixed(2)}
-                  trace={[
-                    { label: 'Average militancy', value: entry.avgMilitancy },
-                    { label: 'Needs met', value: entry.avgNeedsMet },
-                    { label: 'Reform demands', value: entry.agitatingFor.length },
-                    { label: 'Population size', value: entry.size },
-                  ]}
-                />
-              </span>
-              <span>
-                Con{' '}
-                <TraceTooltip
-                  value={entry.avgConsciousness.toFixed(2)}
-                  trace={entry.consciousnessDrivers ?? [
-                    { label: 'Average consciousness', value: entry.avgConsciousness },
-                    { label: 'Needs met', value: entry.avgNeedsMet },
-                  ]}
-                />
-              </span>
-              <span className={entry.agitatingFor.length > 0 ? 'unrest' : undefined}>
-                {entry.agitatingFor.length > 0
-                  ? `Agitating: ${entry.agitatingFor.map((reform) => reform.replaceAll('_', ' ')).join(', ')}`
-                  : 'Agitating: none'}
-              </span>
-              <span className={entry.growth >= 0 ? 'positive' : 'negative'}>
+            <div className="pop-class__meta">
+              <span className="pop-class__ideology">{entry.dominantIdeology}</span>
+              <span className={`pop-class__growth${entry.growth >= 0 ? ' positive' : ' negative'}`}>
                 Growth{' '}
                 <TraceTooltip
                   value={`${entry.growth >= 0 ? '+' : ''}${entry.growth.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
@@ -193,6 +176,61 @@ export function PopulationPanel() {
                 />
               </span>
             </div>
+            <div className="pop-class__metrics">
+              <PopMetricBar
+                label="Needs"
+                fill={entry.avgNeedsMet}
+                valueNode={(
+                  <TraceTooltip
+                    value={pct(entry.avgNeedsMet)}
+                    trace={[
+                      { label: 'Life needs', value: entry.avgLifeNeeds ?? entry.avgNeedsMet },
+                      { label: 'Everyday needs', value: entry.avgEverydayNeeds ?? entry.avgNeedsMet },
+                      { label: 'Luxury needs', value: entry.avgLuxuryNeeds ?? 1 },
+                      { label: 'Welfare score', value: entry.avgNeedsMet },
+                      ...(entry.scarceGoods ?? []).map((good) => ({
+                        label: `Scarce: ${good.name}`,
+                        value: good.fill,
+                      })),
+                    ]}
+                  />
+                )}
+              />
+              <PopMetricBar
+                label="Mil"
+                fill={entry.avgMilitancy / 10}
+                tone={entry.avgMilitancy >= 4 ? 'unrest' : undefined}
+                valueNode={(
+                  <TraceTooltip
+                    value={entry.avgMilitancy.toFixed(2)}
+                    trace={[
+                      { label: 'Average militancy', value: entry.avgMilitancy },
+                      { label: 'Needs met', value: entry.avgNeedsMet },
+                      { label: 'Reform demands', value: entry.agitatingFor.length },
+                      { label: 'Population size', value: entry.size },
+                    ]}
+                  />
+                )}
+              />
+              <PopMetricBar
+                label="Con"
+                fill={entry.avgConsciousness / 10}
+                valueNode={(
+                  <TraceTooltip
+                    value={entry.avgConsciousness.toFixed(2)}
+                    trace={entry.consciousnessDrivers ?? [
+                      { label: 'Average consciousness', value: entry.avgConsciousness },
+                      { label: 'Needs met', value: entry.avgNeedsMet },
+                    ]}
+                  />
+                )}
+              />
+            </div>
+            <p className={`pop-class__agitation${entry.agitatingFor.length > 0 ? ' unrest' : ''}`}>
+              {entry.agitatingFor.length > 0
+                ? `Agitating: ${entry.agitatingFor.map((reform) => reform.replaceAll('_', ' ')).join(', ')}`
+                : 'Agitating: none'}
+            </p>
           </li>
         ))}
       </ul>
