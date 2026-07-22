@@ -205,6 +205,8 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
       ],
       constructionSpend: [
         { label: 'Province count', value: provinceIds.length },
+        { label: '£ per province', value: BALANCE.economy.constructionSpendPerProvince },
+        { label: 'Formula', value: provinceIds.length * BALANCE.economy.constructionSpendPerProvince },
       ],
       adminSpend: [
         { label: 'Population', value: nationPopulation(world, nationId) },
