@@ -9,7 +9,9 @@ const BASE = process.env.VITE_BASE ?? '/';
 function generatedDataPublicPlugin() {
   const geojsonPath = path.resolve(__dirname, 'src/data/generated/provinces.geo.json');
   const bordersPath = path.resolve(__dirname, 'src/data/generated/nationalBorders.geo.json');
-  const worldSeedPath = path.resolve(__dirname, 'src/data/generated/worldSeed.json');
+  // worldSeed.json is a bundled JS import (src/data/generated.ts) and is never
+  // fetched at runtime, so it is NOT emitted as a public asset — that copy was
+  // ~189 KB of dead weight shipped and precached for nothing.
   const riversPath = path.resolve(__dirname, 'src/data/generated/rivers.geo.json');
   const lakesPath = path.resolve(__dirname, 'src/data/generated/lakes.geo.json');
   return {
@@ -21,7 +23,6 @@ function generatedDataPublicPlugin() {
       };
       server.middlewares.use('/generated/provinces.geo.json', serve(geojsonPath, 'application/json'));
       server.middlewares.use('/generated/nationalBorders.geo.json', serve(bordersPath, 'application/json'));
-      server.middlewares.use('/generated/worldSeed.json', serve(worldSeedPath, 'application/json'));
       server.middlewares.use('/generated/rivers.geo.json', serve(riversPath, 'application/json'));
       server.middlewares.use('/generated/lakes.geo.json', serve(lakesPath, 'application/json'));
     },
@@ -35,11 +36,6 @@ function generatedDataPublicPlugin() {
         type: 'asset',
         fileName: 'generated/nationalBorders.geo.json',
         source: fs.readFileSync(bordersPath, 'utf8'),
-      });
-      this.emitFile({
-        type: 'asset',
-        fileName: 'generated/worldSeed.json',
-        source: fs.readFileSync(worldSeedPath, 'utf8'),
       });
       this.emitFile({
         type: 'asset',
