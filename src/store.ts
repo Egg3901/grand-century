@@ -11,6 +11,7 @@ import type { LobbyPlayerInfo, PresencePlayer, SessionMode } from './net/session
 import type {
   Command, GameData, NationDetail, NationId, ProvinceDetail, ProvinceId, SaveSlotInfo, WorldSnapshot,
 } from './shared/types';
+import { peaceSignedMessage, warDeclaredMessage } from './ui/warNaming';
 
 export type MapMode =
   | 'political'
@@ -188,12 +189,10 @@ export const useStore = create<UIState>((set, get) => ({
         const playerInWar = war.attackers.includes(s.playerNation) || war.defenders.includes(s.playerNation);
         if (!playerInWar) continue;
         const nameOf = (id: number) => s.nations.find((nation) => nation.id === id)?.name ?? `Nation ${id}`;
-        const attacker = nameOf(war.attackers[0]);
-        const defender = nameOf(war.defenders[0]);
         const attackerTag = s.nations.find((nation) => nation.id === war.attackers[0])?.tag ?? '';
         pushAlert(
           'war',
-          `${attacker} ${attackerTag ? `(${attackerTag}) ` : ''}declares war on ${defender}.`,
+          warDeclaredMessage(war.attackers, war.defenders, nameOf, attackerTag || undefined),
           s.day,
           'military',
           'Open Military and review War Overview.',
@@ -241,9 +240,12 @@ export const useStore = create<UIState>((set, get) => ({
         if (currWarIds.has(war.id)) continue;
         const playerInWar = war.attackers.includes(s.playerNation) || war.defenders.includes(s.playerNation);
         if (!playerInWar) continue;
+        const nameOf = (id: number) => s.nations.find((nation) => nation.id === id)?.name
+          ?? prev.nations.find((nation) => nation.id === id)?.name
+          ?? `Nation ${id}`;
         pushAlert(
           'peace',
-          `Peace signed (War ${war.id}).`,
+          peaceSignedMessage(war.attackers, war.defenders, nameOf),
           s.day,
           'military',
           'Open Military to review postwar status.',

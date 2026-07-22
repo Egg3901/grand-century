@@ -3,6 +3,7 @@ import { WORLD_SEED } from '../../data/generated';
 import type { Army, Fleet, Ship } from '../../shared/types';
 import { useStore } from '../../store';
 import { TraceTooltip } from '../components/TraceTooltip';
+import { warSidesLabel } from '../warNaming';
 import { PeaceConference } from './PeaceConference';
 
 function avgRegimentStrength(army: Army): number {
@@ -409,12 +410,9 @@ export function MilitaryPanel() {
             >
               {derived.wars.map((war) => {
                 const nameOf = (id: number) => snapshot.nations.find((nation) => nation.id === id)?.name ?? `Nation ${id}`;
-                const sideLabel = (ids: number[]) => (
-                  ids.slice(0, 2).map(nameOf).join(' & ') + (ids.length > 2 ? ` +${ids.length - 2}` : '')
-                );
                 return (
                   <option key={war.id} value={war.id}>
-                    {sideLabel(war.attackers)} vs {sideLabel(war.defenders)}
+                    {warSidesLabel(war.attackers, war.defenders, nameOf)}
                   </option>
                 );
               })}

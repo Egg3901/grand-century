@@ -150,7 +150,7 @@ test.describe('mobile UI 0.8', () => {
         id: 'war-1',
         kind: 'war',
         day: 130,
-        message: 'War declared (War 9).',
+        message: 'Austria (AUS) declares war on Prussia.',
         panel: 'military',
         suggestion: 'Open Military',
         dedupeKey: 'war-9',
