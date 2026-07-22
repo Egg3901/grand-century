@@ -736,6 +736,14 @@ export function getCbsForNation(world: World, holder: NationId): CasusBelli[] {
     .sort((a, b) => (a.target - b.target) || (a.goal.localeCompare(b.goal)));
 }
 
+export function getPendingCbsForNation(world: World, holder: NationId): CasusBelli[] {
+  const runtime = ensureRuntime(world);
+  return runtime.pendingCbs
+    .filter((cb) => cb.holder === holder)
+    .map((cb) => ({ ...cb }))
+    .sort((a, b) => (a.readyDay - b.readyDay) || (a.target - b.target));
+}
+
 export function getInfluencePool(world: World, nationId: NationId): number {
   return Number((ensureRuntime(world).influencePool[nationId] ?? 0).toFixed(2));
 }

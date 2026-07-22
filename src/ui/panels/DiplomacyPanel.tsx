@@ -228,6 +228,29 @@ export function DiplomacyPanel() {
           : `No valid CB selected. Declaration costs +${projectedInfamy.toFixed(1)} infamy.`}
       </p>
 
+      {(snapshot.playerPendingCbs ?? []).length > 0 ? (
+        <>
+          <h3 className="atlas-heading panel-small-heading">Fabricating</h3>
+          <ul className="panel-list">
+            {(snapshot.playerPendingCbs ?? []).map((cb) => {
+              const target = derived.nationById.get(cb.target);
+              const goalLabel = WAR_GOALS.find((g) => g.id === cb.goal)?.label ?? cb.goal;
+              const daysLeft = Math.max(0, cb.readyDay - snapshot.day);
+              return (
+                <li key={`${cb.target}-${cb.goal}-${cb.stateId}-${cb.readyDay}`}>
+                  <strong>{goalLabel}</strong>
+                  <span>
+                    {' '}vs {target?.tag ?? cb.target}
+                    {cb.stateId >= 0 ? ` (state ${stateNameById.get(cb.stateId) ?? cb.stateId})` : ''}
+                    {' — '}ready day {cb.readyDay} ({daysLeft}d)
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      ) : null}
+
       <div className="diplo-action-row">
         <button
           type="button"

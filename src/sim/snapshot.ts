@@ -12,6 +12,7 @@ import {
   getInfluenceTargetsForNation,
   getInfamyLimit,
   getNationPowerBreakdown,
+  getPendingCbsForNation,
 } from './systems/diplomacy';
 import { getFormableStatusesForNation } from './formables';
 import { listPlayerDecisions } from './systems/events';
@@ -292,6 +293,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     relations: world.relations.map((relation) => ({ ...relation })),
     greatPowers: getGreatPowerStandings(world).map((entry) => ({ ...entry, sphereMembers: entry.sphereMembers.slice() })),
     playerCbs: getCbsForNation(world, world.playerNation).map((cb) => ({ ...cb })),
+    playerPendingCbs: getPendingCbsForNation(world, world.playerNation).map((cb) => ({ ...cb })),
     playerDiplomaticPoints: getDiplomaticPoints(world, world.playerNation),
     fabricateCbCostByGoal: (['annex_state', 'liberate_state', 'humiliate', 'add_to_sphere', 'take_colony', 'cut_down_to_size'] as WarGoalType[])
       .reduce((acc, goal) => {

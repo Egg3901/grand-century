@@ -54,6 +54,7 @@ export interface SharedSnapshot {
 export interface PlayerView {
   playerNation: NationId;
   playerCbs: CasusBelli[];
+  playerPendingCbs: CasusBelli[];
   playerDiplomaticPoints: number;
   fabricateCbCostByGoal: Record<WarGoalType, number>;
   playerInfluencePool: number;
@@ -117,6 +118,7 @@ export function extractPlayerView(snap: WorldSnapshot): PlayerView {
   return {
     playerNation: snap.playerNation,
     playerCbs: snap.playerCbs,
+    playerPendingCbs: snap.playerPendingCbs,
     playerDiplomaticPoints: snap.playerDiplomaticPoints,
     fabricateCbCostByGoal: snap.fabricateCbCostByGoal,
     playerInfluencePool: snap.playerInfluencePool,

@@ -1090,6 +1090,8 @@ export interface WorldSnapshot {
   relations: DiploRelation[];
   greatPowers: GreatPowerStanding[];
   playerCbs: CasusBelli[];
+  /** In-progress CB fabrications (not yet ready). */
+  playerPendingCbs: CasusBelli[];
   /** Player diplomatic points (0–120); spent to fabricate CBs. */
   playerDiplomaticPoints: number;
   /** Fabricate-CB cost by war goal (mirrors sim `getFabricateCbCost`). */
