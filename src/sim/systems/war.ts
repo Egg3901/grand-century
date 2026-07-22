@@ -364,9 +364,9 @@ function isSupplied(world: World, nationId: NationId, provinceId: ProvinceId): b
   return false;
 }
 
-function reinforceArmy(world: World, army: Army): void {
+function reinforceArmy(world: World, army: Army, supplied: boolean): void {
   if (army.rebel || army.regiments.length === 0) return;
-  if (!isSupplied(world, army.owner, army.location)) return;
+  if (!supplied) return;
   const province = world.provinces[army.location];
   if (!province || province.controller !== army.owner) return;
   const nation = world.nations[army.owner];
@@ -1138,8 +1138,11 @@ function updateSupplyAndAttrition(world: World, embarkedIds: Set<ArmyId>): void 
   for (const army of world.armies) {
     if (army.regiments.length === 0 || army.rebel) continue;
     if (isArmyEmbarked(world, army.id, embarkedIds)) continue;
-    reinforceArmy(world, army);
-    if (!isSupplied(world, army.owner, army.location)) applyUnsuppliedAttrition(army);
+    // Supply topology is unchanged by reinforcement, so compute it once and
+    // reuse for both reinforcement and attrition (was two BFS per army/day).
+    const supplied = isSupplied(world, army.owner, army.location);
+    reinforceArmy(world, army, supplied);
+    if (!supplied) applyUnsuppliedAttrition(army);
     cleanupArmy(army);
   }
 }
@@ -1177,13 +1180,29 @@ function applyColonyToNation(world: World, stateId: StateId, nationId: NationId)
   }
 }
 
-function computeColonialPoints(world: World, nationId: NationId): number {
+/**
+ * Naval-base power (province.navalBaseLevel * 10) summed per owner in a single
+ * provinces pass. Accumulating in province-index order per owner reproduces the
+ * exact float sequence the old per-nation filter+reduce produced.
+ */
+function navalBasePowerByOwner(world: World): number[] {
+  const power = new Array(world.nations.length).fill(0);
+  for (const province of world.provinces) {
+    const owner = province.owner;
+    if (owner >= 0 && owner < power.length) power[owner] += province.navalBaseLevel * 10;
+  }
+  return power;
+}
+
+function computeColonialPoints(world: World, nationId: NationId, navalPow?: number[]): number {
   const runtime = ensureRuntime(world);
   const nation = world.nations[nationId];
   if (!nation) return 0;
-  const navalBasePower = world.provinces
-    .filter((province) => province.owner === nationId)
-    .reduce((sum, province) => sum + province.navalBaseLevel * 10, 0);
+  const navalBasePower = navalPow
+    ? (navalPow[nationId] ?? 0)
+    : world.provinces
+        .filter((province) => province.owner === nationId)
+        .reduce((sum, province) => sum + province.navalBaseLevel * 10, 0);
   const reformBonus = (nation.reforms.conscription_level ?? 0) * 6 + (nation.reforms.army_professionalism ?? 0) * 4;
   const techBonus = nationNavyTech(world, nationId) * 5;
   const gpBonus = nation.gpRank > 0 ? 12 : 0;
@@ -1195,7 +1214,8 @@ function computeColonialPoints(world: World, nationId: NationId): number {
 
 function updateColonialClaims(world: World): void {
   const runtime = ensureRuntime(world);
-  for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id);
+  const navalPow = navalBasePowerByOwner(world);
+  for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow);
   for (const claim of runtime.colonialClaims.values()) {
     const claimants = Array.from(claim.claimants.keys()).sort((a, b) => a - b);
     for (const claimant of claimants) {
@@ -1393,7 +1413,24 @@ export function disembarkFromFleet(world: World, fleetId: FleetId, targetProvinc
 
 function updateMobilizationUpkeep(world: World): void {
   const runtime = ensureRuntime(world);
+  if (runtime.mobilizedNations.size === 0) return;
   const byId = armiesByIdMap(world);
+
+  // Bucket civilian pops by their home owner in a single pass (was one full
+  // pop scan per mobilized nation — O(mobilized × pops) daily). Each pop is
+  // still touched at most once and order-independently, so results are identical.
+  const civilianPopsByOwner = new Map<NationId, typeof world.pops>();
+  for (const pop of world.pops) {
+    if (pop.type === 'soldier') continue;
+    const home = world.provinces[pop.provinceId];
+    if (!home) continue;
+    const owner = home.owner;
+    if (!runtime.mobilizedNations.has(owner)) continue;
+    const list = civilianPopsByOwner.get(owner) ?? [];
+    list.push(pop);
+    civilianPopsByOwner.set(owner, list);
+  }
+
   for (const nationId of runtime.mobilizedNations) {
     const nation = world.nations[nationId];
     if (!nation) continue;
@@ -1405,11 +1442,9 @@ function updateMobilizationUpkeep(world: World): void {
       mobilizedRegiments += army.regiments.length;
     }
     nation.treasury -= mobilizedRegiments * MOBILIZED_UPKEEP_DAILY;
-    for (const pop of world.pops) {
-      if (pop.type === 'soldier') continue;
-      const home = world.provinces[pop.provinceId];
-      if (!home || home.owner !== nationId) continue;
-      pop.needsMet = clamp(pop.needsMet - mobilizedRegiments * 0.000007, 0, 1);
+    const penalty = mobilizedRegiments * 0.000007;
+    for (const pop of civilianPopsByOwner.get(nationId) ?? []) {
+      pop.needsMet = clamp(pop.needsMet - penalty, 0, 1);
     }
   }
 }
@@ -1667,7 +1702,8 @@ export function runWarDaily(world: World, data: GameData, rng: Rng): void {
   if (world.wars.length === 0 && runtime.mobilizedNations.size === 0 && runtime.colonialClaims.size === 0 && !hasMovingArmy && !hasMovingFleet) {
     if (!hasRebels) {
       if (world.day % 30 === 0) {
-        for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id);
+        const navalPow = navalBasePowerByOwner(world);
+        for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow);
       }
       if (world.day % 7 === 0) updateRebellions(world, data);
       return;
@@ -1678,7 +1714,10 @@ export function runWarDaily(world: World, data: GameData, rng: Rng): void {
     updateRebellions(world, data);
     cleanupDestroyedForces(world);
     capRebelArmies(world);
-    for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id);
+    {
+      const navalPow = navalBasePowerByOwner(world);
+      for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow);
+    }
     return;
   }
   const armiesById = armiesByIdMap(world);
