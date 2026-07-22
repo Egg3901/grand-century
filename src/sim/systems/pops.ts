@@ -110,9 +110,27 @@ function mergeOrCreatePop(world: World, source: Pop, provinceId: number, targetT
   });
   if (mergeId !== undefined) {
     const target = world.pops[mergeId];
+    const priorSize = Math.max(0, target.size);
+    const incoming = Math.max(0, size);
+    const totalSize = priorSize + incoming;
     target.size += size;
     target.money += money;
-    target.needsMet = clamp((target.needsMet + source.needsMet) * 0.5, 0, 1);
+    if (totalSize > 0) {
+      target.needsMet = clamp(
+        (target.needsMet * priorSize + source.needsMet * incoming) / totalSize,
+        0,
+        1,
+      );
+      const targetLife = target.lifeNeedsFrac ?? target.needsMet;
+      const sourceLife = source.lifeNeedsFrac ?? source.needsMet;
+      target.lifeNeedsFrac = clamp((targetLife * priorSize + sourceLife * incoming) / totalSize, 0, 1);
+      const targetEveryday = target.everydayNeedsFrac ?? target.needsMet;
+      const sourceEveryday = source.everydayNeedsFrac ?? source.needsMet;
+      target.everydayNeedsFrac = clamp((targetEveryday * priorSize + sourceEveryday * incoming) / totalSize, 0, 1);
+      const targetLuxury = target.luxuryNeedsFrac ?? 1;
+      const sourceLuxury = source.luxuryNeedsFrac ?? 1;
+      target.luxuryNeedsFrac = clamp((targetLuxury * priorSize + sourceLuxury * incoming) / totalSize, 0, 1);
+    }
     return;
   }
   createPop(world, source, provinceId, targetType, size, money);
