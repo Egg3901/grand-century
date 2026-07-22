@@ -518,6 +518,10 @@ export interface Nation {
   lastElectionYear: number;
   nextElectionYear: number;
   electionLastResult: string;
+  /** Ideology vote shares from the last election (sums ~1). Optional for old saves. */
+  electionIdeologyShares?: Record<PartyIdeology, number>;
+  /** Winner's share of total franchise-weighted votes, 0-1. */
+  electionWinnerShare?: number;
   capital: ProvinceId;
   coreStateIds?: StateId[];
 
@@ -1405,6 +1409,9 @@ export interface NationDetail {
     yearsToNext: number;
     nextYear: number;
     lastResult: string;
+    /** Ideology vote shares from last election (empty if none). */
+    ideologyShares: { ideology: PartyIdeology; share: number }[];
+    winnerShare: number;
   };
   military: {
     regimentsPerSoldierPop: number;
@@ -1413,6 +1420,16 @@ export interface NationDetail {
     armyOrganization: number;
     armyMorale: number;
   };
+  /** 0-1 political suppression scalar driving mil/unrest. */
+  politicalSuppression: number;
+  /** Ruling + opposition parties with platform positions. */
+  parties: {
+    key: string;
+    name: string;
+    ideology: PartyIdeology;
+    ruling: boolean;
+    positions: { reform: string; level: number; current: number }[];
+  }[];
   avgMilitancy: number;
   avgConsciousness: number;
   topReformDemands: { reform: string; support: number }[];

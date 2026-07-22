@@ -9,7 +9,14 @@ import type {
   World,
 } from '../shared/types';
 import { computePlayerBudget } from './systems/budget';
-import { computeReformLegality, isElectiveGovernment, partyByKey, topReformDemandEntries, yearsToElection } from './politics';
+import {
+  computeReformLegality,
+  isElectiveGovernment,
+  partyByKey,
+  politicalSuppression,
+  topReformDemandEntries,
+  yearsToElection,
+} from './politics';
 import { dayToDate } from './world';
 import {
   getCbsForNation,
@@ -133,6 +140,8 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
         yearsToNext: 0,
         nextYear: 0,
         lastResult: 'N/A',
+        ideologyShares: [],
+        winnerShare: 0,
       },
       military: {
         regimentsPerSoldierPop: 0,
@@ -141,6 +150,8 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
         armyOrganization: 1,
         armyMorale: 1,
       },
+      politicalSuppression: 0,
+      parties: [],
       avgMilitancy: 0,
       avgConsciousness: 0,
       topReformDemands: [],
@@ -172,6 +183,21 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
   const upperHouse = (Object.entries(nation.upperHouse) as [PartyIdeology, number][])
     .map(([ideology, share]) => ({ ideology, share }))
     .sort((a, b) => b.share - a.share);
+  const ideologyShares = (Object.entries(nation.electionIdeologyShares ?? {}) as [PartyIdeology, number][])
+    .map(([ideology, share]) => ({ ideology, share }))
+    .filter((entry) => entry.share > 0)
+    .sort((a, b) => b.share - a.share);
+  const parties = nation.parties.map((party) => ({
+    key: party.key,
+    name: party.name,
+    ideology: party.ideology,
+    ruling: party.key === nation.rulingParty,
+    positions: data.reforms.map((reform) => ({
+      reform: reform.key,
+      level: Math.max(0, Math.floor(party.positions[reform.key] ?? 0)),
+      current: Math.max(0, Math.floor(nation.reforms[reform.key] ?? 0)),
+    })),
+  }));
   const stateUnrest = world.states
     .filter((state) => state.owner === nation.id)
     .map((state) => {
@@ -220,6 +246,8 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
       yearsToNext: yearsToElection(date, nation),
       nextYear: nation.nextElectionYear,
       lastResult: nation.electionLastResult,
+      ideologyShares,
+      winnerShare: nation.electionWinnerShare ?? 0,
     },
     military: {
       regimentsPerSoldierPop: nation.regimentsPerSoldierPop,
@@ -228,6 +256,8 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
       armyOrganization: nation.armyOrganization,
       armyMorale: nation.armyMorale,
     },
+    politicalSuppression: politicalSuppression(nation, data),
+    parties,
     avgMilitancy: popCount > 0 ? totalMilitancy / popCount : 0,
     avgConsciousness: popCount > 0 ? totalConsciousness / popCount : 0,
     topReformDemands: topReformDemandEntries(world, data, nation.id, 6),

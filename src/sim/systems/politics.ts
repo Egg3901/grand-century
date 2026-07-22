@@ -140,13 +140,21 @@ function pickElectionParty(
   const totalVotes = Array.from(voteTotals.values()).reduce((sum, value) => sum + value, 0);
   const winnerVotes = voteTotals.get(winner) ?? 0;
   const winnerShare = totalVotes > 0 ? winnerVotes / totalVotes : 0;
+  const ideologyTotal = Object.values(ideologyVotes).reduce((sum, value) => sum + value, 0);
   nation.rulingParty = winner;
   nation.lastElectionYear = currentYear(world.day);
   nation.nextElectionYear = nation.lastElectionYear + Math.max(3, nation.electionIntervalYears);
   nation.electionLastResult = `${partyByKey(nation, winner)?.name ?? winner} won ${(winnerShare * 100).toFixed(1)}%`;
-
-  const ideologyTotal = Object.values(ideologyVotes).reduce((sum, value) => sum + value, 0);
+  nation.electionWinnerShare = winnerShare;
   if (ideologyTotal > 0) {
+    nation.electionIdeologyShares = {
+      reactionary: ideologyVotes.reactionary / ideologyTotal,
+      conservative: ideologyVotes.conservative / ideologyTotal,
+      liberal: ideologyVotes.liberal / ideologyTotal,
+      socialist: ideologyVotes.socialist / ideologyTotal,
+      communist: ideologyVotes.communist / ideologyTotal,
+      fascist: ideologyVotes.fascist / ideologyTotal,
+    };
     const uh = upperHouseCompositionWeights(nation.reforms.upper_house_composition ?? 0);
     const retain = uh.electionRetain;
     const vote = uh.electionVote;
