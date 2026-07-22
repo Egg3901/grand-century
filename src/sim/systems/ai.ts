@@ -1,7 +1,7 @@
 import type { GameData, NationId, ProvinceId, Ship, StateId, War, WarGoalType, World } from '../../shared/types';
 import { BALANCE } from '../balance';
 import type { Rng } from '../rng';
-import { computeReformLegality, partyByKey } from '../politics';
+import { applyReformFatigueGain, computeReformLegality, partyByKey } from '../politics';
 import {
   beginCbFabrication,
   collectAllianceBloc,
@@ -566,6 +566,7 @@ function maybeEnactPartyReform(world: World, data: GameData, nationId: NationId)
   nation.reforms[chosen.reform.key] = chosen.nextLevel;
   nation.treasury -= chosen.legality.costMoney;
   nation.prestige = Math.max(0, nation.prestige - chosen.legality.costPrestige);
+  applyReformFatigueGain(nation, chosen.reform.category, chosen.nextLevel);
 }
 
 function maybeBuildFactory(world: World, data: GameData, nationId: NationId): void {

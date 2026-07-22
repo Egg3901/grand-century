@@ -1,6 +1,12 @@
 import type { Command, FromWorker, GameData, NationId, Regiment, War, WarGoal, World } from '../shared/types';
 import { BALANCE, tariffBandForTradePolicy } from './balance';
-import { computeReformLegality, partyLabel, reformDemandForPop, updateMilitaryDerivedForNation } from './politics';
+import {
+  applyReformFatigueGain,
+  computeReformLegality,
+  partyLabel,
+  reformDemandForPop,
+  updateMilitaryDerivedForNation,
+} from './politics';
 import {
   beginCbFabrication,
   collectAllianceBloc,
@@ -251,6 +257,7 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       nation.treasury -= legality.costMoney;
       nation.prestige = Math.max(0, nation.prestige - legality.costPrestige);
       nation.reforms[cmd.reform] = targetLevel;
+      applyReformFatigueGain(nation, reformDef.category, targetLevel);
       if (cmd.reform === 'trade_policy') {
         const band = tariffBandForTradePolicy(targetLevel);
         nation.tariffRate = clamp(nation.tariffRate, band.min, band.max);

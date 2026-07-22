@@ -182,6 +182,76 @@ function reformCost(category: ReformCategory, level: number): { money: number; p
   };
 }
 
+// --- Reform political fatigue (chain-enact throttle) -------------------------
+// Enacting a reform builds fatigue; monthly politics decays it. Legality uses
+// the current level to depress effective UH support and inflate costs (see
+// computeReformLegality). Tunables live here next to the other REFORM_* knobs.
+/** Soft cap on stored fatigue (0 = none, 1 = fully fatigued). */
+export const REFORM_FATIGUE_MAX = 1;
+/** Linear monthly decay — ~8 months from full fatigue back to baseline. */
+export const REFORM_FATIGUE_DECAY_PER_MONTH = 0.12;
+/** Base fatigue gained on any successful enactment. */
+export const REFORM_FATIGUE_GAIN_BASE = 0.28;
+/** Extra fatigue per reform level step (deeper reforms cost more fatigue). */
+export const REFORM_FATIGUE_GAIN_PER_LEVEL = 0.08;
+/** Category additive — political upheaval costs the most institutional capital. */
+export const REFORM_FATIGUE_GAIN_BY_CATEGORY: Record<ReformCategory, number> = {
+  political: 0.06,
+  social: 0.04,
+  economic: 0.05,
+  military: 0.03,
+};
+/**
+ * At full fatigue, subtract this from raw UH support before the threshold check.
+ * ~20pp is enough that a second same-sitting reform usually fails unless the
+ * chamber is near-unanimous.
+ */
+export const REFORM_FATIGUE_MAX_SUPPORT_PENALTY = 0.2;
+/**
+ * At full fatigue, multiply treasury/prestige cost by (1 + this).
+ * Caps at 2.25× — expensive enough to deter spam even when UH still clears.
+ */
+export const REFORM_FATIGUE_MAX_COST_MULTIPLIER_EXTRA = 1.25;
+
+export function nationReformFatigue(nation: Nation): number {
+  return clamp(nation.reformFatigue ?? 0, 0, REFORM_FATIGUE_MAX);
+}
+
+export function reformFatigueGain(category: ReformCategory, level: number): number {
+  const categoryGain = REFORM_FATIGUE_GAIN_BY_CATEGORY[category] ?? 0;
+  return REFORM_FATIGUE_GAIN_BASE + Math.max(0, level) * REFORM_FATIGUE_GAIN_PER_LEVEL + categoryGain;
+}
+
+/** Apply fatigue gain after a successful reform enactment. */
+export function applyReformFatigueGain(nation: Nation, category: ReformCategory, level: number): void {
+  nation.reformFatigue = clamp(
+    nationReformFatigue(nation) + reformFatigueGain(category, level),
+    0,
+    REFORM_FATIGUE_MAX,
+  );
+}
+
+/** Monthly decay hook — mirrors infamy’s per-month nation-stat fade. */
+export function decayReformFatigue(nation: Nation): void {
+  const current = nation.reformFatigue ?? 0;
+  if (current <= 0) {
+    if (nation.reformFatigue !== undefined && nation.reformFatigue !== 0) nation.reformFatigue = 0;
+    return;
+  }
+  nation.reformFatigue = Math.max(0, Number((current - REFORM_FATIGUE_DECAY_PER_MONTH).toFixed(4)));
+}
+
+/** Effective UH support after fatigue penalty (for legality / UI). */
+export function fatiguedReformSupport(rawSupport: number, fatigue: number): number {
+  const penalty = clamp(fatigue, 0, REFORM_FATIGUE_MAX) * REFORM_FATIGUE_MAX_SUPPORT_PENALTY;
+  return clamp(rawSupport - penalty, 0, 1);
+}
+
+/** Cost multiplier from fatigue (1 at rest, up to 1 + MAX_COST_MULTIPLIER_EXTRA). */
+export function reformFatigueCostMultiplier(fatigue: number): number {
+  return 1 + clamp(fatigue, 0, REFORM_FATIGUE_MAX) * REFORM_FATIGUE_MAX_COST_MULTIPLIER_EXTRA;
+}
+
 export function politicalSuppression(nation: Nation, data: GameData): number {
   const voting = data.reforms.find((reform) => reform.key === 'voting_franchise');
   const press = data.reforms.find((reform) => reform.key === 'press_rights');
@@ -380,9 +450,16 @@ export function computeReformLegality(
   const maxAllowedByDef = maxLevel(reform);
   const clampedTarget = clamp(Math.floor(targetLevel), 0, maxAllowedByDef);
   const next = nextLevel(nation, reform.key);
-  const support = reformSupportInUpperHouse(nation, reform.key, clampedTarget);
+  const fatigue = nationReformFatigue(nation);
+  const rawSupport = reformSupportInUpperHouse(nation, reform.key, clampedTarget);
+  const support = fatiguedReformSupport(rawSupport, fatigue);
   const requiredSupport = reformSupportThreshold(nation.government, reform.category);
-  const costs = reformCost(reform.category, clampedTarget);
+  const baseCosts = reformCost(reform.category, clampedTarget);
+  const costMult = reformFatigueCostMultiplier(fatigue);
+  const costs = {
+    money: Math.round(baseCosts.money * costMult),
+    prestige: Number((baseCosts.prestige * costMult).toFixed(2)),
+  };
 
   if (clampedTarget <= current) {
     return {
