@@ -303,6 +303,78 @@ FORMABLES.push({
   prestigeReward: 30,
 });
 
+// ---------------------------------------------------------------------------
+// vNext: formable-catalog expansion. GER/ITA/NGF left 45 of 48 nations with
+// zero national goal. Three more real 19th-century unification movements,
+// using the 'scandinavian'/'iberian'/'latin_american' cultures already in
+// the table above but never wired to anything (same gap ITALY needed a
+// culture override for). Calibrated against GERMANY (0.65 share, GP-gated,
+// 65 prestige) and ITALY (0.75 share, GP-gated, 55 prestige).
+// ---------------------------------------------------------------------------
+
+// Gran Colombia: Bolivar's union of New Granada + Venezuela, which historically
+// dissolved in 1830 — framed here as a reunification the player/AI can pursue
+// from a few years into the campaign, not an 1820 given.
+const GRAN_COLOMBIA_STATES = [130, 131, 132, 133, 148, 605, 606, 607, 608];
+FORMABLES.push({
+  key: 'GRAN_COLOMBIA',
+  resultTag: 'GCO',
+  resultName: 'Gran Colombia',
+  resultColor: [176, 158, 64],
+  resultPrimaryCulture: 'latin_american',
+  candidateTags: ['CLM', 'VEN'],
+  coreStateIds: GRAN_COLOMBIA_STATES.slice(),
+  yearAtLeast: 1825,
+  requiredCoreShare: 0.7,
+  requireIndependent: true,
+  requireGreatPower: false,
+  prestigeReward: 35,
+});
+
+// Scandinavian Union: real "Scandinavism" movement, peaked politically during
+// the Schleswig crises (1848-1864) when Sweden-Norway seriously weighed
+// military union with Denmark — the same 'Springtime of Nations' era gate
+// GERMANY/ITALY use.
+const SCANDINAVIAN_UNION_STATES = [144, 359, 360, 361, 513, 514, 515];
+FORMABLES.push({
+  key: 'SCANDINAVIAN_UNION',
+  resultTag: 'SCA',
+  resultName: 'Scandinavian Union',
+  resultColor: [96, 116, 158],
+  resultPrimaryCulture: 'scandinavian',
+  candidateTags: ['SWE', 'DEN'],
+  coreStateIds: SCANDINAVIAN_UNION_STATES.slice(),
+  yearAtLeast: 1848,
+  requiredCoreShare: 0.7,
+  requireIndependent: true,
+  requireGreatPower: false,
+  prestigeReward: 40,
+});
+
+// Iberian Union: "Iberismo" peaked during Spain's 1868 Glorious Revolution,
+// when union with Portugal was seriously debated in the Cortes. Lower core
+// share than GERMANY/ITALY — 51 states between the two nations is a much
+// larger territorial ask than either German unification arc.
+const IBERIAN_UNION_STATES = [
+  35, 36, 37, 136, 193, 368, 375, 376, 377, 378, 379, 502, 503, 504, 505, 506,
+  9, 10, 11, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
+  59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 334, 335, 336, 384, 600,
+];
+FORMABLES.push({
+  key: 'IBERIAN_UNION',
+  resultTag: 'IBU',
+  resultName: 'Iberian Union',
+  resultColor: [168, 108, 88],
+  resultPrimaryCulture: 'iberian',
+  candidateTags: ['ESP', 'POR'],
+  coreStateIds: IBERIAN_UNION_STATES.slice(),
+  yearAtLeast: 1868,
+  requiredCoreShare: 0.6,
+  requireIndependent: true,
+  requireGreatPower: false,
+  prestigeReward: 45,
+});
+
 export const GAME_DATA: GameData = {
   startDate: { year: 1820, month: 1, day: 1 },
   goods: GOODS,
