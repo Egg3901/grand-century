@@ -1,4 +1,6 @@
 import { useStore } from '../../store';
+import { BALANCE } from '../../sim/balance';
+import { exportKeepRate, importPriceMultiplier } from '../../sim/systems/market';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 function formatMoney(value: number): string {
@@ -19,6 +21,9 @@ export function BudgetPanel() {
       </section>
     );
   }
+
+  const importMult = importPriceMultiplier(player.tariffRate);
+  const exportKeep = exportKeepRate(player.tariffRate);
 
   return (
     <section className="panel-card atlas-panel">
@@ -62,12 +67,18 @@ export function BudgetPanel() {
           />
         </label>
         <label>
-          <span>Tariff {(player.tariffRate * 100).toFixed(0)}%</span>
+          <span>
+            Tariff {(player.tariffRate * 100).toFixed(0)}%
+            {' · '}
+            imports ×{importMult.toFixed(2)}
+            {' · '}
+            exporters keep {(exportKeep * 100).toFixed(0)}%
+          </span>
           <input
             type="range"
             className="gc-slider"
-            min={-1}
-            max={1}
+            min={player.tariffMin}
+            max={player.tariffMax}
             step={0.01}
             value={player.tariffRate}
             onChange={(event) => sendCommand({ t: 'setTariff', rate: Number(event.target.value) })}
@@ -78,9 +89,9 @@ export function BudgetPanel() {
         <div><dt>Tax Income</dt><dd><TraceTooltip value={formatMoney(budget.taxIncome)} trace={budget.trace.taxIncome} /></dd></div>
         <div><dt>Tariff Income</dt><dd><TraceTooltip value={formatMoney(budget.tariffIncome)} trace={budget.trace.tariffIncome} /></dd></div>
         <div><dt>Production</dt><dd><TraceTooltip value={formatMoney(budget.productionIncome)} trace={budget.trace.productionIncome} /></dd></div>
-        <div><dt>Army Upkeep</dt><dd><TraceTooltip value={formatMoney(-budget.armyUpkeep)} trace={budget.trace.armyUpkeep} /></dd></div>
+        <div><dt>Army / Navy Upkeep</dt><dd><TraceTooltip value={formatMoney(-budget.armyUpkeep)} trace={budget.trace.armyUpkeep} /></dd></div>
         <div><dt>Factory Subsidies</dt><dd><TraceTooltip value={formatMoney(-budget.subsidySpend)} trace={budget.trace.subsidySpend} /></dd></div>
-        <div><dt>Construction</dt><dd><TraceTooltip value={formatMoney(-budget.constructionSpend)} trace={budget.trace.constructionSpend} /></dd></div>
+        <div><dt>Provincial Overhead</dt><dd><TraceTooltip value={formatMoney(-budget.constructionSpend)} trace={budget.trace.constructionSpend} /></dd></div>
         <div><dt>Administration</dt><dd><TraceTooltip value={formatMoney(-budget.adminSpend)} trace={budget.trace.adminSpend} /></dd></div>
         <div><dt>Reform Upkeep</dt><dd><TraceTooltip value={formatMoney(-budget.reformUpkeep)} trace={budget.trace.reformUpkeep} /></dd></div>
       </dl>
@@ -89,8 +100,20 @@ export function BudgetPanel() {
       </p>
       <p className={`bankruptcy-pill ${player.isBankrupt ? 'is-bankrupt' : ''}`}>
         {player.isBankrupt
-          ? 'Bankruptcy active: construction disabled and emergency cuts applied.'
-          : 'Solvent: construction and normal spending active.'}
+          ? (
+            <>
+              Bankruptcy active ({player.bankruptcyMonths} mo): construction off;
+              cuts army ×0.45, subsidies ×0.3, admin ×0.6, reform ×0.55, overhead ×0.
+              Exit when treasury ≥ £{BALANCE.economy.bankruptcyExitTreasury}.
+              Entered at ≤ £{BALANCE.economy.bankruptcyEnterTreasury}.
+            </>
+          )
+          : (
+            <>
+              Solvent: construction and normal spending active.
+              Bankruptcy enters at treasury ≤ £{BALANCE.economy.bankruptcyEnterTreasury}.
+            </>
+          )}
       </p>
     </section>
   );

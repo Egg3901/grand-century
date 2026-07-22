@@ -43,6 +43,7 @@ export function detailProvince(world: World, data: GameData, id: ProvinceId): Pr
         recipe: 'rgo_grain',
         level: 1,
         employed: 0,
+        weeklyProfit: 0,
       },
       fortLevel: 0,
       navalBaseLevel: 0,

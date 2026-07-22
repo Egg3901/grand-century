@@ -399,6 +399,8 @@ export interface RGO {
   recipe: string;        // Recipe.key with building 'rgo'
   level: number;         // capacity
   employed: number;
+  /** Last weekly owner+state share after wages (not a fabricated proxy). */
+  weeklyProfit: number;
 }
 
 /** 1.0-U5: one yearly line of the player's campaign, recorded by the sim. */
@@ -450,6 +452,13 @@ export interface Factory {
   lastOutput: number;
   profitableWeeks: number;
   lossWeeks: number;
+  /** Last-week P&L / employment diagnostics for Production panel traces. */
+  lastInputCost: number;
+  lastWages: number;
+  lastOperating: number;
+  lastCapacity: number;
+  /** 0–1 fraction of needed inputs actually purchased last week. */
+  lastInputFill: number;
 }
 
 export interface Province {
@@ -839,6 +848,8 @@ export interface MarketGood {
   supply: number;        // last period
   demand: number;        // last period
   sold: number;
+  /** Unmet consumer demand last week (requested − bought). */
+  unmet: number;
   worldStockpile: number;
   trend: number[];
   priceTrace: PriceTrace;
@@ -976,7 +987,11 @@ export interface NationSummary {
   taxRateMiddle: number;
   taxRateRich: number;
   tariffRate: number;
+  /** Effective setTariff / slider band from trade_policy reform. */
+  tariffMin: number;
+  tariffMax: number;
   isBankrupt: boolean;
+  bankruptcyMonths: number;
   constructionBlocked: boolean;
   mobilizationCapacity: number;
   /** Standing peacetime regiment cap (from soldier pops / reforms). */
@@ -1020,6 +1035,16 @@ export interface ProductionLedgerEntry {
   employment: number;
   profit: number;
   level: number;
+  /** Employment capacity (RGO level×4200 / factory level×2300). */
+  capacity: number;
+  inputCost: number;
+  wages: number;
+  operating: number;
+  /** 0–1 input fill; 1 when no shortage (RGOs always 1). */
+  inputFill: number;
+  cashReserve: number;
+  profitableWeeks: number;
+  lossWeeks: number;
 }
 
 export interface PopulationLedgerEntry {

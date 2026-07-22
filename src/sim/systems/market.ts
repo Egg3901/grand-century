@@ -37,6 +37,16 @@ function exportMultiplier(rate: number): number {
   return 1 + Math.abs(safe) * EXPORT_TARIFF_PRICE_IMPACT * 0.25;
 }
 
+/** Effective buy-price multiplier vs world price (tariff + import impact). */
+export function importPriceMultiplier(rate: number): number {
+  return importMultiplier(rate);
+}
+
+/** Fraction of world price sellers keep after export tariff. */
+export function exportKeepRate(rate: number): number {
+  return exportMultiplier(rate);
+}
+
 export function beginMarketWeek(world: World): void {
   for (let i = 0; i < world.market.length; i++) {
     const marketGood = world.market[i];
@@ -108,7 +118,7 @@ export function buyFromMarket(
   const buyMult = importMultiplier(nation.tariffRate);
   // 0.7.0: trade-efficiency tech amplifies only the positive tariff margin so
   // customs capture more of each import purchase (buyer pays the extra — no
-  // minting). Negative tariffs (import subsidies) are left untouched.
+  // minting). Negative tariffs (import subsidies) bill the treasury below.
   const tradeEfficiency = 1 + Math.max(0, techModifiersFor(nation, GAME_DATA).tradeEfficiency ?? 0);
   const rawMargin = buyMult - 1;
   const tariffMargin = rawMargin > 0 ? rawMargin * tradeEfficiency : rawMargin;
@@ -129,8 +139,9 @@ export function buyFromMarket(
   runtime.consumerBought += bought;
 
   const spent = bought * unitPrice;
-  const tariffIncome = bought * baseUnit * Math.max(0, tariffMargin);
-  if (tariffIncome > 0) nation.monthlyTariffIncome += tariffIncome;
+  // Positive margin → customs income; negative margin → import-subsidy outlay.
+  const tariffFlow = bought * baseUnit * tariffMargin;
+  if (tariffFlow !== 0) nation.monthlyTariffIncome += tariffFlow;
 
   return {
     bought,
@@ -150,6 +161,7 @@ export function runMarketDaily(world: World, data: GameData, _rng: Rng): void {
     marketGood.supply = Math.max(0, finite(marketGood.supply));
     marketGood.demand = Math.max(0, finite(marketGood.demand));
     marketGood.sold = Math.max(0, finite(marketGood.sold));
+    marketGood.unmet = Math.max(0, finite(marketGood.unmet));
   }
 }
 
@@ -188,6 +200,7 @@ export function runMarketWeekly(world: World, data: GameData, _rng: Rng): void {
     marketGood.supply = Math.max(0, finite(supply));
     marketGood.demand = Math.max(0, finite(demand));
     marketGood.sold = Math.max(0, finite(sold));
+    marketGood.unmet = Math.max(0, finite(unmetDemand));
     marketGood.worldStockpile = stockpileEnd;
     marketGood.trend = [...marketGood.trend.slice(-7), nextPrice];
     marketGood.priceTrace = {

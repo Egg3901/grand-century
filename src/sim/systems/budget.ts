@@ -84,6 +84,19 @@ function nationFactorySubsidies(world: World, nationId: NationId): number {
   return subsidies;
 }
 
+/** Credit loss-making factories with the subsidy amount billed to the treasury. */
+function creditFactorySubsidies(world: World, nationId: NationId, multiplier: number): void {
+  for (const state of world.states) {
+    if (state.owner !== nationId) continue;
+    for (const factory of state.factories) {
+      const weeklyLoss = Math.max(0, -finite(factory.weeklyProfit));
+      const subsidy = weeklyLoss * 3.6 * multiplier;
+      if (subsidy <= 0) continue;
+      factory.cashReserve = Math.max(-400, finite(factory.cashReserve) + subsidy);
+    }
+  }
+}
+
 function computeNationBudget(world: World, data: GameData, nationId: NationId, mutatePopMoney: boolean): BudgetLine {
   const nation = world.nations[nationId];
   if (!nation) return zeroBudget();
@@ -121,14 +134,16 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
   }
 
   const taxIncome = poorTax + middleTax + richTax;
-  const tariffIncome = Math.max(0, finite(nation.monthlyTariffIncome));
+  // Signed: positive customs duties, negative import-subsidy outlays.
+  const tariffIncome = finite(nation.monthlyTariffIncome);
   const productionIncome = Math.max(0, finite(nation.monthlyProductionIncome));
-  const armyUpkeep = world.armies
+  const armyOnlyUpkeep = world.armies
     .filter((army) => army.owner === nationId)
-    .reduce((total, army) => total + army.regiments.length * BALANCE.economy.armyUpkeepPerRegiment, 0)
-    + world.fleets
-      .filter((fleet) => fleet.owner === nationId)
-      .reduce((total, fleet) => total + fleet.ships.length * BALANCE.economy.navyUpkeepPerShip, 0);
+    .reduce((total, army) => total + army.regiments.length * BALANCE.economy.armyUpkeepPerRegiment, 0);
+  const navyOnlyUpkeep = world.fleets
+    .filter((fleet) => fleet.owner === nationId)
+    .reduce((total, fleet) => total + fleet.ships.length * BALANCE.economy.navyUpkeepPerShip, 0);
+  const armyUpkeep = armyOnlyUpkeep + navyOnlyUpkeep;
   const subsidySpend = nationFactorySubsidies(world, nationId);
   const constructionSpend = nation.constructionBlocked ? 0 : provinceIds.length * BALANCE.economy.constructionSpendPerProvince;
   const adminSpend = nationPopulation(world, nationId) * BALANCE.economy.adminSpendPerPopulation
@@ -183,7 +198,8 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
         { label: 'State-owned profits', value: productionIncome },
       ],
       armyUpkeep: [
-        { label: 'Army + navy upkeep base', value: armyUpkeep },
+        { label: 'Army upkeep base', value: armyOnlyUpkeep },
+        { label: 'Navy upkeep base', value: navyOnlyUpkeep },
         { label: 'Bankruptcy multiplier', value: bankruptcyCut },
       ],
       subsidySpend: [
@@ -191,6 +207,8 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
       ],
       constructionSpend: [
         { label: 'Province count', value: provinceIds.length },
+        { label: '£ per province', value: BALANCE.economy.constructionSpendPerProvince },
+        { label: 'Formula', value: provinceIds.length * BALANCE.economy.constructionSpendPerProvince },
       ],
       adminSpend: [
         { label: 'Population', value: nationPopulation(world, nationId) },
@@ -210,6 +228,9 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
 export function runBudgetMonthly(world: World, data: GameData, _rng: Rng): void {
   for (const nation of world.nations) {
     const budget = computeNationBudget(world, data, nation.id, true);
+    // BALANCE: subsidies previously drained treasury without bailing plants.
+    // Credit cashReserve with the same post-bankruptcy amount billed above.
+    creditFactorySubsidies(world, nation.id, nation.isBankrupt ? 0.3 : 1);
     nation.treasury = finite(nation.treasury) + budget.net;
     if (!Number.isFinite(nation.treasury)) nation.treasury = 0;
     nation.monthlyTariffIncome = 0;
@@ -234,13 +255,7 @@ export function runBudgetMonthly(world: World, data: GameData, _rng: Rng): void 
 }
 
 export function computePlayerBudget(world: World, data: GameData, nationId: NationId): BudgetLine {
-  const nation = world.nations[nationId];
-  if (!nation) return zeroBudget();
-  if (nation.lastBudget && Number.isFinite(nation.lastBudget.net)) {
-    return {
-      ...nation.lastBudget,
-      trace: { ...nation.lastBudget.trace },
-    };
-  }
+  // Always recompute with mutatePopMoney:false so tax/tariff slider changes
+  // project the ledger immediately instead of echoing stale lastBudget.
   return computeNationBudget(world, data, nationId, false);
 }

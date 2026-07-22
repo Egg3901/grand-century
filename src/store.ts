@@ -28,7 +28,7 @@ export type PanelId =
 
 export interface UiAlert {
   id: string;
-  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save' | 'formation' | 'unrest' | 'event';
+  kind: 'war' | 'peace' | 'bankruptcy' | 'rebellion' | 'election' | 'save' | 'formation' | 'unrest' | 'event' | 'market';
   day: number;
   message: string;
   panel: Exclude<PanelId, null> | null;
@@ -426,6 +426,25 @@ export const useStore = create<UIState>((set, get) => ({
           'A national event requires your choice.',
           `event-${event.instanceId}`,
           365,
+        );
+      }
+      // Life-need goods (grain/cattle/fish) — alert when world unmet is severe.
+      const lifeGoodIds = new Set([0, 1, 2]);
+      const goodNames = new Map((get().data?.goods ?? []).map((good) => [good.id, good.name]));
+      for (const good of s.market) {
+        if (!lifeGoodIds.has(good.good)) continue;
+        const denom = Math.max(1, good.priceTrace.requestedDemand);
+        const unmetFrac = good.unmet / denom;
+        if (unmetFrac < 0.22 && good.unmet < Math.max(8, good.supply * 0.18)) continue;
+        const name = goodNames.get(good.good) ?? `Good ${good.good}`;
+        pushAlert(
+          'market',
+          `${name} shortage: ${good.unmet.toFixed(0)} unmet (${(unmetFrac * 100).toFixed(0)}% of demand).`,
+          s.day,
+          'market',
+          'Open Market and Production — expand RGOs or import capacity for life goods.',
+          `market-shortage-${good.good}`,
+          45,
         );
       }
     }

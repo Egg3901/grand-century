@@ -617,6 +617,11 @@ function maybeBuildFactory(world: World, data: GameData, nationId: NationId): vo
     lastOutput: 0,
     profitableWeeks: 0,
     lossWeeks: 0,
+    lastInputCost: 0,
+    lastWages: 0,
+    lastOperating: 0,
+    lastCapacity: 2300,
+    lastInputFill: 1,
   });
 }
 

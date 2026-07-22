@@ -86,7 +86,10 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>, rgoTech
     const capacity = Math.max(0, finite(province.rgo.level, 1)) * BALANCE.economy.rgoEmploymentPerLevel;
     const employed = Math.min(totalEligible, capacity);
     province.rgo.employed = employed;
-    if (employed <= 0 || totalEligible <= 0) continue;
+    if (employed <= 0 || totalEligible <= 0) {
+      province.rgo.weeklyProfit = 0;
+      continue;
+    }
 
     const laborUnits = employed / 1000;
     // 0.6.0: industry-tech multiplier (practical steam engine, sawmills, ...).
@@ -100,6 +103,8 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>, rgoTech
     const wagePool = grossRevenue * BALANCE.economy.rgoWageShare;
     const ownerPool = grossRevenue * BALANCE.economy.rgoOwnerShare;
     const statePool = Math.max(0, grossRevenue - wagePool - ownerPool);
+    // Ledger profit = residual after wages (owner rent + vestigial state share).
+    province.rgo.weeklyProfit = ownerPool + statePool;
     world.nations[nationId].monthlyProductionIncome += statePool;
 
     const employedShare = employed / totalEligible;
@@ -148,10 +153,15 @@ function processFactory(
   factory.employed = employed;
   factory.workerShare = employedCrafts;
   factory.clerkShare = employedClerks;
+  factory.lastCapacity = capacity;
 
   if (employed <= 0) {
     factory.weeklyProfit = -BALANCE.economy.factoryIdleLoss;
     factory.lastOutput = 0;
+    factory.lastInputCost = 0;
+    factory.lastWages = 0;
+    factory.lastOperating = BALANCE.economy.factoryIdleLoss;
+    factory.lastInputFill = 0;
     factory.profitTrend = finite(factory.profitTrend) * 0.78 - 0.3;
     factory.lossWeeks += 1;
     factory.profitableWeeks = 0;
@@ -163,6 +173,7 @@ function processFactory(
   // demand scales with it too, so tech-lead industry pulls more raw goods.
   let unitTarget = (employed / 1000) * (1 + factory.level * 0.16) * factoryTechBoost;
   let inputCost = 0;
+  let inputFill = 1;
   for (const input of recipe.inputs) {
     if (unitTarget <= 0) break;
     // Balance pass: factories consume fewer inputs per output unit so they can
@@ -171,6 +182,7 @@ function processFactory(
     const purchase = buyFromMarket(world, state.owner, input.good, needed, Number.POSITIVE_INFINITY);
     inputCost += purchase.spent;
     const ratio = needed > 0 ? purchase.bought / needed : 1;
+    inputFill = Math.min(inputFill, ratio);
     if (ratio < 1) unitTarget *= ratio;
   }
   unitTarget = Math.max(0, unitTarget);
@@ -196,6 +208,10 @@ function processFactory(
   distributeMoney(world, clerkIds, clerkWeight, clerkWages);
 
   const operating = BALANCE.economy.factoryOperatingBase + factory.level * BALANCE.economy.factoryOperatingPerLevel;
+  factory.lastInputCost = inputCost;
+  factory.lastWages = wagePool;
+  factory.lastOperating = operating;
+  factory.lastInputFill = inputFill;
   const netBeforeCapital = revenue - inputCost - wagePool - operating;
   // 0.6.0: with the input-purchase bug fixed, factories actually profit. Route
   // most of that profit to capitalist POPS (taxable — taxes stay the state's

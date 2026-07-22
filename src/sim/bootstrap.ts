@@ -542,6 +542,7 @@ function createProvinces(worldSeed: WorldSeedData, rng: Rng, tagToNationId: Reco
         recipe,
         level,
         employed,
+        weeklyProfit: 0,
       },
       fortLevel: terrain === 'mountains' || terrain === 'hills' ? 1 : 0,
       navalBaseLevel: seed.coastal && (seed.ownerTag === 'ENG' || seed.ownerTag === 'USA' || seed.ownerTag === 'NLD') ? 1 : 0,
@@ -578,6 +579,11 @@ function addFactorySeeds(worldSeed: WorldSeedData, states: State[], rng: Rng): v
       lastOutput: 0,
       profitableWeeks: 0,
       lossWeeks: 0,
+      lastInputCost: 0,
+      lastWages: 0,
+      lastOperating: 0,
+      lastCapacity: 2300,
+      lastInputFill: 1,
     };
     state.factories.push(factory);
     if (index % 3 === 0 && rng.next() > 0.38) {
@@ -594,6 +600,11 @@ function addFactorySeeds(worldSeed: WorldSeedData, states: State[], rng: Rng): v
         lastOutput: 0,
         profitableWeeks: 0,
         lossWeeks: 0,
+        lastInputCost: 0,
+        lastWages: 0,
+        lastOperating: 0,
+        lastCapacity: 2300,
+        lastInputFill: 1,
       });
     }
   });
@@ -825,6 +836,7 @@ export function createWorld(
       supply: 80,
       demand: 80,
       sold: 80,
+      unmet: 0,
       worldStockpile: 180,
       trend: Array.from({ length: 8 }, () => good.basePrice),
       priceTrace: {
