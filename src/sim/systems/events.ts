@@ -208,7 +208,11 @@ export function summarizeEffect(effect: EventEffect): string {
     case 'grantColonialClaim': return 'Plant colonial claim';
     case 'boostFactories': return `+${effect.levels} factory level(s) in up to 3 states`;
     case 'boostRgo': return `+${effect.levels} ${effect.goodKey ?? 'RGO'} output in up to 4 provinces`;
-    case 'grantCasusBelli': return `Free casus belli vs ${effect.targetTag}`;
+    case 'grantCasusBelli': {
+      const months = effect.monthsValid ?? 36;
+      const goal = effect.goal.replace(/_/g, ' ');
+      return `Free ${goal} CB vs ${effect.targetTag} (${months} mo)`;
+    }
     case 'opinionWithTags': return `${effect.amount >= 0 ? '+' : ''}${effect.amount} opinion with ${effect.tags.join(', ')}`;
     case 'forceRivalry': return `Rivalry with ${effect.tag}`;
     default: return 'Effect';
