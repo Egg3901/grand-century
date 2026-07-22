@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { useStore } from '../../store';
 import type { CulturePolicy } from '../../shared/types';
 import { TraceTooltip } from '../components/TraceTooltip';
+import { heartlandDisplay } from '../heartlandDisplay';
 
 /**
  * 0.8.0 — The Cultures ledger: national makeup, acceptance, culture policy and
@@ -25,6 +27,7 @@ function signed(value: number): string {
 export function CulturePanel() {
   const snapshot = useStore((state) => state.snapshot);
   const sendCommand = useStore((state) => state.sendCommand);
+  const [expandedHeartlandId, setExpandedHeartlandId] = useState<number | null>(null);
 
   if (!snapshot || !snapshot.playerCultures) {
     return (
@@ -99,6 +102,8 @@ export function CulturePanel() {
                 : movement.gateBlocked === 'militancy'
                   ? `Needs militancy ≥ 4.2 (at ${movement.militancy.toFixed(2)})`
                   : 'Organising';
+            const heartlandExpanded = expandedHeartlandId === movement.id;
+            const heartland = heartlandDisplay(movement.heartlandNames, heartlandExpanded);
             return (
               <li key={movement.id}>
                 <div>
@@ -127,9 +132,26 @@ export function CulturePanel() {
                     />
                   </span>
                   <span>{movement.adherents.toLocaleString(undefined, { maximumFractionDigits: 0 })} adherents</span>
-                  <span>
-                    Heartland: {movement.heartlandNames.length > 0 ? movement.heartlandNames.join(', ') : 'dispersed'}
-                  </span>
+                  {heartland.visible.length === 0 ? (
+                    <span>Heartland: dispersed</span>
+                  ) : (
+                    <span className="culture-heartland" data-testid="culture-heartland">
+                      Heartland: {heartland.visible.join(', ')}
+                      {heartland.canToggle ? (
+                        <>
+                          {' '}
+                          <button
+                            type="button"
+                            className="culture-heartland__toggle"
+                            aria-expanded={heartlandExpanded}
+                            onClick={() => setExpandedHeartlandId(heartlandExpanded ? null : movement.id)}
+                          >
+                            {heartlandExpanded ? 'Show less' : `+${heartland.hiddenCount} more`}
+                          </button>
+                        </>
+                      ) : null}
+                    </span>
+                  )}
                 </div>
               </li>
             );

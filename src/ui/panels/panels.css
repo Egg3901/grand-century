@@ -1371,7 +1371,32 @@
   align-items: center;
 }
 
-/* 1.0-U1 UX: tap a country name (province dossier) to open its diplomacy view */
+.culture-heartland {
+  display: inline;
+  line-height: var(--gc-lh-body);
+}
+
+.culture-heartland__toggle {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gc-accent-deep);
+  font: inherit;
+  font-size: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--gc-border-soft);
+  cursor: pointer;
+}
+
+.culture-heartland__toggle:hover,
+.culture-heartland__toggle:focus-visible {
+  color: var(--gc-accent);
+  text-decoration-color: var(--gc-accent);
+}
+
+/* 1.0-U1 UX: tap a country name (province dossier) to open its diplomacy view */}
 .owner-link {
   display: inline-flex;
   align-items: center;
