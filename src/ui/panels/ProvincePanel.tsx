@@ -112,6 +112,10 @@ export function ProvincePanel() {
           <li key={pop.type}>
             <span>{pop.type}</span>
             <span>{pop.size.toLocaleString()}</span>
+            <span className={pop.militancy >= 4 ? 'unrest' : undefined}>
+              Mil {pop.militancy.toFixed(2)}
+            </span>
+            <span>Needs {(Math.max(0, Math.min(1, pop.needsMet)) * 100).toFixed(0)}%</span>
           </li>
         ))}
       </ul>
