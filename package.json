@@ -18,6 +18,7 @@
     "probe:pacing": "PACING=1 vitest run tests/pacing.century.test.ts"
   },
   "dependencies": {
+    "@sentry/browser": "^10.67.0",
     "fflate": "^0.8.3",
     "idb": "^8.0.3",
     "maplibre-gl": "^5.24.0",
