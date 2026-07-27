@@ -95,6 +95,11 @@
   touch-action: pan-y;
 }
 
+/* Lazy-panel placeholder: reserve space so the chrome shell does not collapse. */
+.panel-host__body-fallback {
+  min-height: 14rem;
+}
+
 .panel-card {
   border-radius: 0;
   border: 0;

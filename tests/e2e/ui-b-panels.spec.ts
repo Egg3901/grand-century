@@ -261,7 +261,7 @@ test('UI-B panel content polish screenshots', async () => {
   });
 
   await desktop.getByRole('button', { name: 'Panels' }).click();
-  await desktop.locator('.hud-mobile-panel-drawer').getByTestId('panel-production').click();
+  await desktop.locator('.hud-mobile-panel-drawer').getByTestId('mobile-panel-production').click();
   await expect(desktop.locator('.panel-host')).toHaveCount(1, { timeout: 10_000 });
   const closeHeight = await desktop.evaluate(() => {
     const el = document.querySelector('.panel-host__close');
@@ -280,7 +280,7 @@ test('UI-B panel content polish screenshots', async () => {
   await expect(desktop.locator('.panel-host')).toHaveCount(0);
 
   await desktop.getByRole('button', { name: 'Panels' }).click();
-  await desktop.locator('.hud-mobile-panel-drawer').getByTestId('panel-diplomacy').click();
+  await desktop.locator('.hud-mobile-panel-drawer').getByTestId('mobile-panel-diplomacy').click();
   await expect(desktop.locator('.panel-host')).toHaveCount(1, { timeout: 10_000 });
   await shotSelector(desktop, '.panel-host', 'artifacts/ui-b/mobile-panel-diplomacy.png');
   // eslint-disable-next-line no-console

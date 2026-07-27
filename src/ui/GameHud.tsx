@@ -1,6 +1,7 @@
 /**
  * The full in-game HUD layer. Split into its own lazily-loaded chunk so the
- * main-menu / first paint isn't blocked by the HUD + all 15 panels (PanelHost).
+ * main-menu / first paint isn't blocked by the HUD. PanelHost further
+ * React.lazy-loads each panel so opening one does not pull all sixteen.
  * Rendered inside App's hud-layer wrapper; behaviour is identical to when these
  * were mounted directly — only the code now loads asynchronously.
  */
