@@ -1,4 +1,5 @@
-import type { BudgetLine, GameData, NationSummary, PartyIdeology, PopType, ProvinceSummary, WarGoalType, World, WorldSnapshot } from '../shared/types';
+import type { BudgetLine, GameData, NationId, NationSummary, PartyIdeology, PopType, ProvinceSummary, WarGoalType, World, WorldSnapshot } from '../shared/types';
+import type { PlayerView, SharedSnapshot } from '../net/snapshotCodec';
 import { BALANCE, tariffBandForTradePolicy } from './balance';
 import { dayToDate } from './world';
 import { ideologyFromPop, partyByKey, reformDemandForPop, topReformDemandEntries } from './politics';
@@ -115,15 +116,46 @@ function provincePopStats(world: World, popIds: number[]): ProvincePopStats {
   };
 }
 
-export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
+function recipeIndexes(data: GameData): {
+  rgoOutputByRecipe: Record<string, number>;
+  recipeByKey: Map<string, GameData['recipes'][number]>;
+} {
   const rgoOutputByRecipe = Object.fromEntries(
     data.recipes
       .filter((recipe) => recipe.building === 'rgo')
       .map((recipe) => [recipe.key, recipe.output.good]),
   ) as Record<string, number>;
-  // One recipe-by-key index instead of data.recipes.find(...) per province (and
-  // per player factory) — that was an O(recipes) linear scan on every province.
   const recipeByKey = new Map(data.recipes.map((recipe) => [recipe.key, recipe]));
+  return { rgoOutputByRecipe, recipeByKey };
+}
+
+/** Mark player-movement heartland provinces for the culture mapmode (mutates in place). */
+function markCultureHeartland(
+  provinces: ProvinceSummary[],
+  world: World,
+  nationId: NationId,
+): void {
+  const heartlandStates = new Set<number>();
+  for (const movement of world.movements ?? []) {
+    if (movement.nation !== nationId) continue;
+    for (const stateId of movement.heartlandStateIds) heartlandStates.add(stateId);
+  }
+  if (heartlandStates.size === 0) return;
+  for (const province of provinces) {
+    if (heartlandStates.has(province.stateId)) province.cultureHeartland = true;
+  }
+}
+
+/**
+ * Shared (non-per-client) snapshot fields — built once per MP broadcast.
+ * Matches `SharedSnapshot` in snapshotCodec (wire extractShared boundary).
+ *
+ * Note: `cultureHeartland` stays false here. Single-player `buildSnapshot`
+ * applies it from `world.playerNation` after compose so SP output stays
+ * bit-identical to the former single-pass builder.
+ */
+export function buildSharedSnapshot(world: World, data: GameData): SharedSnapshot {
+  const { rgoOutputByRecipe, recipeByKey } = recipeIndexes(data);
 
   // Per-owner aggregates in single passes: province counts + owned-pop militancy
   // and owned-state unrest, bucketed by owner in world order. Replaces the
@@ -255,26 +287,65 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     };
   });
 
-  // Mark player-movement heartland provinces for the culture mapmode.
-  {
-    const heartlandStates = new Set<number>();
-    for (const movement of world.movements ?? []) {
-      if (movement.nation !== world.playerNation) continue;
-      for (const stateId of movement.heartlandStateIds) heartlandStates.add(stateId);
-    }
-    if (heartlandStates.size > 0) {
-      for (const province of provinces) {
-        if (heartlandStates.has(province.stateId)) province.cultureHeartland = true;
-      }
-    }
-  }
+  return {
+    day: world.day,
+    date: dayToDate(world.day),
+    speed: world.speed,
+    seed: world.seed,
+    nations,
+    provinces,
+    market: world.market.map((good) => ({ ...good })),
+    wars: world.wars.map((war) => ({
+      ...war,
+      attackers: war.attackers.slice(),
+      defenders: war.defenders.slice(),
+      goals: war.goals.map((goal) => ({ ...goal })),
+      scoreBreakdown: war.scoreBreakdown ? { ...war.scoreBreakdown } : undefined,
+    })),
+    relations: world.relations.map((relation) => ({ ...relation })),
+    greatPowers: getGreatPowerStandings(world).map((entry) => ({ ...entry, sphereMembers: entry.sphereMembers.slice() })),
+    infamyLimit: getInfamyLimit(),
+    ninthPowerScore: getNinthPowerScore(world),
+    armies: world.armies.map((army) => {
+      const embarked = world.fleets.some((fleet) => fleet.embarkedArmy === army.id);
+      const supplied = army.rebel || army.regiments.length === 0 || embarked
+        ? true
+        : (army.supplied ?? isSupplied(world, army.owner, army.location));
+      return {
+        ...army,
+        regiments: army.regiments.map((regiment) => ({ ...regiment })),
+        leader: army.leader ? { ...army.leader } : null,
+        supplied,
+      };
+    }),
+    fleets: world.fleets.map((fleet) => ({ ...fleet, ships: fleet.ships.map((ship) => ({ ...ship })) })),
+    rebellions: world.rebellions.map((rebellion) => ({
+      ...rebellion,
+      demand: {
+        ...rebellion.demand,
+        stateIds: rebellion.demand.stateIds?.slice(),
+      },
+    })),
+  };
+}
 
-  const playerOwnedStates = world.states.filter((state) => state.owner === world.playerNation);
-  const playerCoreStateIds = world.nations[world.playerNation]?.coreStateIds?.slice().sort((a, b) => a - b) ?? [];
-  const playerFormables = getFormableStatusesForNation(world, data, world.playerNation);
+/**
+ * Per-nation HUD/panel fields — cheap enough to build once per connected client.
+ * Takes `nationId` explicitly so MP never mutates `world.playerNation`.
+ * Matches `PlayerView` in snapshotCodec (wire extractPlayerView boundary).
+ *
+ * `playerBudget` is zero here (same as the former single-pass `buildSnapshot`);
+ * `snapshot()` / the MP emit path fill the real budget via `computePlayerBudget`.
+ */
+export function buildPlayerView(world: World, data: GameData, nationId: NationId): PlayerView {
+  const { rgoOutputByRecipe, recipeByKey } = recipeIndexes(data);
+
+  const playerOwnedStates = world.states.filter((state) => state.owner === nationId);
+  const playerCoreStateIds = world.nations[nationId]?.coreStateIds?.slice().sort((a, b) => a - b) ?? [];
+  const playerFormables = getFormableStatusesForNation(world, data, nationId);
   const playerProduction = [
     ...world.provinces
-      .filter((province) => province.owner === world.playerNation)
+      .filter((province) => province.owner === nationId)
       .map((province) => {
         const capacity = Math.max(0, province.rgo.level) * BALANCE.economy.rgoEmploymentPerLevel;
         return {
@@ -333,9 +404,9 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     ideology: Record<string, number>;
     agitating: Map<string, number>;
   }>();
-  const playerNation = world.nations[world.playerNation];
+  const playerNation = world.nations[nationId];
   for (const province of world.provinces) {
-    if (province.owner !== world.playerNation) continue;
+    if (province.owner !== nationId) continue;
     for (const popId of province.popIds) {
       const pop = world.pops[popId];
       if (!pop || pop.size <= 0) continue;
@@ -435,90 +506,41 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       };
     })
     .sort((a, b) => b.size - a.size);
-  const playerReformAgitation = topReformDemandEntries(world, data, world.playerNation, 5);
+  const playerReformAgitation = topReformDemandEntries(world, data, nationId, 5);
   const playerStates = playerOwnedStates.map((state) => ({
     id: state.id,
     name: state.name,
     factoryCount: state.factories.length,
     coastal: state.provinceIds.some((provinceId) => world.provinces[provinceId]?.coastal ?? false),
   }));
-  const colonialClaims = listColonialClaimViews(world, world.playerNation);
-  const playerClaimableColonialStates = world.states
-    .map((state) => {
-      const reach = colonialReachKind(world, world.playerNation, state.id);
-      return reach ? { stateId: state.id, reach } : null;
-    })
-    .filter((entry): entry is { stateId: number; reach: 'adjacent' | 'overseas' } => entry !== null)
-    .sort((a, b) => a.stateId - b.stateId);
 
   return {
-    day: world.day,
-    date: dayToDate(world.day),
-    speed: world.speed,
-    playerNation: world.playerNation,
-    seed: world.seed,
-    mapMode: world.mapMode,
-    nations,
-    provinces,
-    market: world.market.map((good) => ({ ...good })),
-    wars: world.wars.map((war) => ({
-      ...war,
-      attackers: war.attackers.slice(),
-      defenders: war.defenders.slice(),
-      goals: war.goals.map((goal) => ({ ...goal })),
-      scoreBreakdown: war.scoreBreakdown ? { ...war.scoreBreakdown } : undefined,
-    })),
-    relations: world.relations.map((relation) => ({ ...relation })),
-    greatPowers: getGreatPowerStandings(world).map((entry) => ({ ...entry, sphereMembers: entry.sphereMembers.slice() })),
-    playerCbs: getCbsForNation(world, world.playerNation).map((cb) => ({ ...cb })),
-    playerPendingCbs: getPendingCbsForNation(world, world.playerNation).map((cb) => ({ ...cb })),
-    playerDiplomaticPoints: getDiplomaticPoints(world, world.playerNation),
+    playerNation: nationId,
+    playerCbs: getCbsForNation(world, nationId).map((cb) => ({ ...cb })),
+    playerPendingCbs: getPendingCbsForNation(world, nationId).map((cb) => ({ ...cb })),
+    playerDiplomaticPoints: getDiplomaticPoints(world, nationId),
     fabricateCbCostByGoal: (['annex_state', 'liberate_state', 'humiliate', 'add_to_sphere', 'take_colony', 'cut_down_to_size'] as WarGoalType[])
       .reduce((acc, goal) => {
         acc[goal] = getFabricateCbCost(goal);
         return acc;
       }, {} as Record<WarGoalType, number>),
     warGoalInfamyUse: getWarGoalInfamyUse(),
-    playerInfluencePool: getInfluencePool(world, world.playerNation),
-    playerInfluenceTargets: getInfluenceTargetsForNation(world, world.playerNation).map((entry) => ({ ...entry })),
+    playerInfluencePool: getInfluencePool(world, nationId),
+    playerInfluenceTargets: getInfluenceTargetsForNation(world, nationId).map((entry) => ({ ...entry })),
     playerAlliancePreviews: world.nations
-      .filter((nation) => nation.id !== world.playerNation)
+      .filter((nation) => nation.id !== nationId)
       .map((nation) => {
-        const result = evaluateAllianceAcceptance(world, world.playerNation, nation.id);
+        const result = evaluateAllianceAcceptance(world, nationId, nation.id);
         return { target: nation.id, score: Number(result.score.toFixed(1)), accepted: result.accepted };
       }),
-    infamyLimit: getInfamyLimit(),
-    coalitionAgainstPlayer: getCoalitionAgainst(world, world.playerNation),
-    playerStockpile: { ...(world.nations[world.playerNation]?.stockpile ?? {}) },
-    playerStockpileOrders: { ...(world.nations[world.playerNation]?.stockpileOrders ?? {}) },
-    ninthPowerScore: getNinthPowerScore(world),
-    playerPowerScore: getNationPowerBreakdown(world, world.playerNation).score,
+    coalitionAgainstPlayer: getCoalitionAgainst(world, nationId),
+    playerPowerScore: getNationPowerBreakdown(world, nationId).score,
     rivalryDpCost: getRivalryDpCost(),
     rivalryCap: getRivalryCap(),
     playerRivalryCount: world.relations.filter((relation) => (
       relation.kind === 'rivalry'
-      && (relation.a === world.playerNation || relation.b === world.playerNation)
+      && (relation.a === nationId || relation.b === nationId)
     )).length,
-    armies: world.armies.map((army) => {
-      const embarked = world.fleets.some((fleet) => fleet.embarkedArmy === army.id);
-      const supplied = army.rebel || army.regiments.length === 0 || embarked
-        ? true
-        : (army.supplied ?? isSupplied(world, army.owner, army.location));
-      return {
-        ...army,
-        regiments: army.regiments.map((regiment) => ({ ...regiment })),
-        leader: army.leader ? { ...army.leader } : null,
-        supplied,
-      };
-    }),
-    fleets: world.fleets.map((fleet) => ({ ...fleet, ships: fleet.ships.map((ship) => ({ ...ship })) })),
-    rebellions: world.rebellions.map((rebellion) => ({
-      ...rebellion,
-      demand: {
-        ...rebellion.demand,
-        stateIds: rebellion.demand.stateIds?.slice(),
-      },
-    })),
     playerProduction,
     playerPopulation,
     playerPopMobility: world.popMobilityLedger
@@ -533,19 +555,8 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerStates,
     playerCoreStateIds,
     playerFormables,
-    playerBalanceOfPower: getPlayerBalanceOfPowerView(world, data, world.playerNation),
-    chronicle: world.chronicle ?? [],
-    chronicleWarsFought: (world.chronicleWarIds ?? []).length,
-    campaignOver: (() => {
-      if (world.day >= 100 * 365) return 'century' as const;
-      const alive = world.provinces.some((province) => province.owner === world.playerNation);
-      return alive ? null : ('eliminated' as const);
-    })(),
-    recentBattles: (world.recentBattles ?? [])
-      .filter((battle) => battle.attackerNation === world.playerNation || battle.defenderNation === world.playerNation)
-      .slice(-8),
     pendingPlayerEvents: (world.pendingEvents ?? [])
-      .filter((event) => event.nationId === world.playerNation)
+      .filter((event) => event.nationId === nationId)
       .map((event) => {
         const def = getEventDef(event.eventKey);
         const nation = world.nations[event.nationId];
@@ -561,8 +572,51 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
           choices,
         };
       }),
-    playerDecisions: listPlayerDecisions(world, data, world.playerNation),
-    playerTech: buildPlayerTechView(world, data, world.playerNation),
+    playerDecisions: listPlayerDecisions(world, data, nationId),
+    playerTech: buildPlayerTechView(world, data, nationId),
+    playerBudget: zeroBudget(),
+    playerStockpile: { ...(world.nations[nationId]?.stockpile ?? {}) },
+    playerStockpileOrders: { ...(world.nations[nationId]?.stockpileOrders ?? {}) },
+  };
+}
+
+/**
+ * Full WorldSnapshot for single-player / tests.
+ * Composes shared + player view, then attaches fields that exist on
+ * WorldSnapshot but are outside the MP wire SharedSnapshot/PlayerView split
+ * (mapMode, crisis, culture ledgers, colonial claims, chronicle, …).
+ */
+export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
+  const shared = buildSharedSnapshot(world, data);
+  const view = buildPlayerView(world, data, world.playerNation);
+  // Former single-pass marked heartland from world.playerNation onto provinces.
+  markCultureHeartland(shared.provinces, world, world.playerNation);
+
+  const playerNation = world.nations[world.playerNation];
+  const colonialClaims = listColonialClaimViews(world, world.playerNation);
+  const playerClaimableColonialStates = world.states
+    .map((state) => {
+      const reach = colonialReachKind(world, world.playerNation, state.id);
+      return reach ? { stateId: state.id, reach } : null;
+    })
+    .filter((entry): entry is { stateId: number; reach: 'adjacent' | 'overseas' } => entry !== null)
+    .sort((a, b) => a.stateId - b.stateId);
+
+  return {
+    ...shared,
+    ...view,
+    mapMode: world.mapMode,
+    playerBalanceOfPower: getPlayerBalanceOfPowerView(world, data, world.playerNation),
+    chronicle: world.chronicle ?? [],
+    chronicleWarsFought: (world.chronicleWarIds ?? []).length,
+    campaignOver: (() => {
+      if (world.day >= 100 * 365) return 'century' as const;
+      const alive = world.provinces.some((province) => province.owner === world.playerNation);
+      return alive ? null : ('eliminated' as const);
+    })(),
+    recentBattles: (world.recentBattles ?? [])
+      .filter((battle) => battle.attackerNation === world.playerNation || battle.defenderNation === world.playerNation)
+      .slice(-8),
     // 0.7.0 Concert of Europe
     worldTension: getWorldTension(world),
     tensionTrace: (() => {
@@ -604,6 +658,5 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     playerMovements: buildMovementViews(world, data, world.playerNation),
     colonialClaims,
     playerClaimableColonialStates,
-    playerBudget: zeroBudget(),
   };
 }

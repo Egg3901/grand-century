@@ -22,15 +22,15 @@ import {
   applySharedDiff,
   diffShared,
   estimateJsonBytes,
-  extractPlayerView,
-  extractShared,
   mergeSnapshot,
   type SharedSnapshot,
 } from '../src/net/snapshotCodec';
 import { createWorld } from '../src/sim/bootstrap';
 import { applyCommand } from '../src/sim/commands';
 import { detailNation, detailProvince } from '../src/sim/detail';
-import { advanceDay, snapshot } from '../src/sim/world';
+import { computePlayerBudget } from '../src/sim/systems/budget';
+import { buildPlayerView, buildSharedSnapshot } from '../src/sim/snapshot';
+import { advanceDay } from '../src/sim/world';
 import { GAME_DATA } from '../src/data/gameData';
 import { WORLD_SEED } from '../src/data/generated';
 
@@ -149,8 +149,9 @@ export class GameSession {
     lastResetMs: Date.now(),
   };
   /**
-   * Metrics only (issue #28): how many full `snapshot()` builds this session
-   * has performed for wire/export paths. Not sim-behavioural.
+   * Metrics only (issue #28): how many `buildSharedSnapshot` calls this session
+   * has performed for wire/export paths. Per-client `buildPlayerView` is not
+   * counted. Not sim-behavioural.
    */
   snapshotBuildCount = 0;
 
@@ -821,12 +822,8 @@ export class GameSession {
     if (!this.world) return;
     if (!force && this.connectedCount === 0) return;
 
-    const prevNation = this.world.playerNation;
-    this.world.playerNation = this.clients.values().next().value?.nationId ?? 0;
-    const full = snapshot(this.world, this.data);
+    const shared = buildSharedSnapshot(this.world, this.data);
     this.snapshotBuildCount += 1;
-    this.world.playerNation = prevNation;
-    const shared = extractShared(full);
 
     this.sharedSeq += 1;
     const seq = this.sharedSeq;
@@ -865,12 +862,8 @@ export class GameSession {
     if (!client || !this.world || client.nationId == null) return;
 
     if (!this.lastShared || !this.lastSent) {
-      const prevNation = this.world.playerNation;
-      this.world.playerNation = client.nationId;
-      const full = snapshot(this.world, this.data);
+      this.lastShared = buildSharedSnapshot(this.world, this.data);
       this.snapshotBuildCount += 1;
-      this.world.playerNation = prevNation;
-      this.lastShared = extractShared(full);
       this.lastSent = this.lastShared;
       this.sharedSeq = Math.max(1, this.sharedSeq);
     }
@@ -901,12 +894,9 @@ export class GameSession {
 
   private emitPlayerView(client: SessionClient, seq: number): void {
     if (!this.world || client.nationId == null) return;
-    const prev = this.world.playerNation;
-    this.world.playerNation = client.nationId;
-    const full = snapshot(this.world, this.data);
-    this.snapshotBuildCount += 1;
-    this.world.playerNation = prev;
-    const view = extractPlayerView(full);
+    const view = buildPlayerView(this.world, this.data, client.nationId);
+    // Match world.snapshot(): buildPlayerView leaves budget zero; fill for the wire.
+    view.playerBudget = computePlayerBudget(this.world, this.data, client.nationId);
     const msg = { t: 'playerView' as const, seq, view };
     this.bandwidth.playerViewBytes += estimateJsonBytes(msg);
     client.send(msg);
@@ -949,11 +939,9 @@ export class GameSession {
   reconstructFor(clientId: string): ReturnType<typeof mergeSnapshot> | null {
     const client = this.clients.get(clientId);
     if (!client || !this.lastShared || client.nationId == null || !this.world) return null;
-    const prev = this.world.playerNation;
-    this.world.playerNation = client.nationId;
-    const full = snapshot(this.world, this.data);
-    this.world.playerNation = prev;
-    return mergeSnapshot(this.lastShared, extractPlayerView(full));
+    const view = buildPlayerView(this.world, this.data, client.nationId);
+    view.playerBudget = computePlayerBudget(this.world, this.data, client.nationId);
+    return mergeSnapshot(this.lastShared, view);
   }
 
   /** Apply a shared diff onto lastShared (test helper). */

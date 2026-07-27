@@ -30,7 +30,7 @@ const RUN_LONG = process.env.MP_CONFORMANCE_LONG === '1';
  *
  *   totalJsonBytes = 1_735_708  (sharedFull + sharedDiff + playerView)
  *   broadcasts     = 8
- *   snapshotBuildsPerBroadcast = 3  (= 1 shared + 2 playerView; issue #28)
+ *   snapshotBuildsPerBroadcast = 1  (= 1 shared; player views are separate, issue #28 fixed)
  *
  * Budget = measured × 1.35 (~35% headroom) so a silent wholesale-array growth
  * (e.g. per-nation markets shipping all goods) trips the gate before prod.
@@ -247,7 +247,7 @@ describe('H7 MP bandwidth budget', () => {
         bytesPerSecWallClock: stats.bytesPerSec,
         snapshotBuildsInWindow: buildsInWindow,
         snapshotBuildsPerBroadcast: buildsPerBroadcast,
-        note: 'issue #28: expect ~1 shared + N playerView builds per broadcast',
+        note: 'issue #28: expect exactly 1 shared build per broadcast (player views uncounted)',
       }),
     );
 
@@ -255,8 +255,8 @@ describe('H7 MP bandwidth budget', () => {
     expect(stats.broadcasts).toBeGreaterThan(0);
     expect(totalJsonBytes).toBeLessThanOrEqual(BANDWIDTH_BUDGET_JSON_BYTES);
 
-    // issue #28 baseline: one shared build + one full rebuild per connected client.
-    expect(buildsPerBroadcast).toBeGreaterThanOrEqual(1 + BANDWIDTH_CLIENTS - 0.05);
-    expect(buildsPerBroadcast).toBeLessThanOrEqual(1 + BANDWIDTH_CLIENTS + 0.5);
+    // issue #28 fix: shared snapshot built exactly once per broadcast, regardless of clients.
+    expect(buildsPerBroadcast).toBeGreaterThanOrEqual(1 - 0.05);
+    expect(buildsPerBroadcast).toBeLessThanOrEqual(1 + 0.05);
   });
 });
