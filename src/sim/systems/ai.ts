@@ -615,7 +615,16 @@ function maybeBuildFactory(world: World, data: GameData, nationId: NationId): vo
       const demand = Math.max(0, outputMarket?.demand ?? 0);
       const unmet = Math.max(0, outputMarket?.unmet ?? 0);
       const fill = demand > 0 ? clamp((demand - unmet) / demand, 0, 1) : 1;
-      const scarcity = 1 + (1 - fill) * BALANCE.ai.factoryScarcityWeight;
+      // Two-sided, deliberately. A boost-only factor stops the monoculture but
+      // does not stop OVERBUILDING: under settle clearing a factory is paid for
+      // what sells, so adding output to an already-satisfied good earns nothing
+      // while still paying full inputs and operating. Measured with a
+      // boost-only factor, 60-67% of factories ran at a persistent loss and the
+      // AI kept building anyway (249 -> 572 over twenty years), because its
+      // expected margin never saw the saturation it was creating.
+      // A fully-supplied good now scores a fraction of a starved one.
+      const scarcity = BALANCE.ai.factorySaturatedFloor
+        + (1 - fill) * BALANCE.ai.factoryScarcityWeight;
 
       // 2. Saturation. Each copy this nation already owns makes the next one
       //    worth less, so a nation diversifies instead of stamping out one

@@ -129,6 +129,8 @@ export const BALANCE = {
     // Economic baseline.
     /** How much an unmet-demand good outranks a well-supplied one (#40). */
     factoryScarcityWeight: 2.5,
+    /** Score multiplier for a good whose demand is already fully met (#40). */
+    factorySaturatedFloor: 0.25,
     /** Diminishing returns per copy of a recipe a nation already owns (#40). */
     factorySaturationPenalty: 0.35,
     factoryTreasuryReserve: 1200,
