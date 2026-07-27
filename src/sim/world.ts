@@ -11,7 +11,7 @@
 import type { GameData, GameDate, GameDay, World, WorldSnapshot } from '../shared/types';
 import { Rng } from './rng';
 import { beginMarketWeek, runMarketDaily, runMarketWeekly, runStockpileOrders } from './systems/market';
-import { runProductionWeekly } from './systems/economy';
+import { runProductionWeekly, settleProductionWeekly } from './systems/economy';
 import { runPopsWeekly, runPopsMonthly } from './systems/pops';
 import { runPoliticsMonthly } from './systems/politics';
 import { runDiplomacyMonthly } from './systems/diplomacy';
@@ -62,6 +62,10 @@ export function advanceDay(world: World, data: GameData): void {
     runProductionWeekly(world, data, rng);
     runPopsWeekly(world, data, rng);
     runStockpileOrders(world, data, rng);
+    // Producers are paid here, AFTER buyers have had their turn, for the share
+    // of their output that actually sold. Under the legacy 'fcfs' clearing mode
+    // this is a no-op because production already paid itself. See #33.
+    settleProductionWeekly(world, data, rng);
     runMarketWeekly(world, data, rng);
   }
 
