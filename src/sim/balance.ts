@@ -51,6 +51,20 @@ export const BALANCE = {
     reformUpkeepPerLevel: 4.2,
     bankruptcyEnterTreasury: -1800,
     bankruptcyExitTreasury: 550,
+    /**
+     * What it takes for a factory to add a storey (#40 rebalance).
+     * Expansion used to be automatic: 10 profitable weeks and 70 in reserve, at
+     * a flat cost, so every plant climbed to the level cap and then lost money.
+     * The bar now scales with size so growth is funded by its own success.
+     */
+    factoryExpansion: {
+      profitableWeeks: 26,
+      cashBase: 90,
+      cashPerLevel: 55,
+      cashSpentShare: 0.8,
+      downsizeLossWeeks: 6,
+      maxLevel: 10,
+    },
     // National stockpile buy/sell standing orders.
     stockpileOrderMaxDaily: 40,
     /**
