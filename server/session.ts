@@ -148,6 +148,11 @@ export class GameSession {
     broadcasts: 0,
     lastResetMs: Date.now(),
   };
+  /**
+   * Metrics only (issue #28): how many full `snapshot()` builds this session
+   * has performed for wire/export paths. Not sim-behavioural.
+   */
+  snapshotBuildCount = 0;
 
   constructor(opts: {
     id: string;
@@ -819,6 +824,7 @@ export class GameSession {
     const prevNation = this.world.playerNation;
     this.world.playerNation = this.clients.values().next().value?.nationId ?? 0;
     const full = snapshot(this.world, this.data);
+    this.snapshotBuildCount += 1;
     this.world.playerNation = prevNation;
     const shared = extractShared(full);
 
@@ -862,6 +868,7 @@ export class GameSession {
       const prevNation = this.world.playerNation;
       this.world.playerNation = client.nationId;
       const full = snapshot(this.world, this.data);
+      this.snapshotBuildCount += 1;
       this.world.playerNation = prevNation;
       this.lastShared = extractShared(full);
       this.lastSent = this.lastShared;
@@ -897,6 +904,7 @@ export class GameSession {
     const prev = this.world.playerNation;
     this.world.playerNation = client.nationId;
     const full = snapshot(this.world, this.data);
+    this.snapshotBuildCount += 1;
     this.world.playerNation = prev;
     const view = extractPlayerView(full);
     const msg = { t: 'playerView' as const, seq, view };
