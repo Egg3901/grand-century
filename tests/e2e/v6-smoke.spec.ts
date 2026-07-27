@@ -7,7 +7,7 @@ test('v6 smoke: map renders with water + borders', async () => {
   await page.addInitScript(() => {
     window.localStorage.setItem('grand-century.tutorial.v0_2_0.seen', '1');
   });
-  await page.goto('http://localhost:5173/');
+  await page.goto('/');
   await page.waitForSelector('[data-testid="menu-new-game"]', { timeout: 30000 });
   await page.click('[data-testid="menu-nation-PRU"]');
   await page.click('[data-testid="menu-new-game"]');

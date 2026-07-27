@@ -15,7 +15,7 @@ test.describe('V3 panel chrome', () => {
     // Open budget panel — nation-scoped, should show shield in chrome
     await page.click('[data-testid="panel-budget"]');
     await page.waitForTimeout(400);
-    const chromeShield = await page.locator('.panel-host__chrome-title-row .nation-shield svg').count();
+    const chromeShield = await page.locator('.panel-host__chrome-title-row :is(.nation-shield svg, img.nation-flag)').count();
     expect(chromeShield).toBe(1);
     await page.screenshot({ path: '/tmp/gc-shots/v3-panel-chrome.png' });
 
@@ -41,7 +41,7 @@ test.describe('V3 panel chrome', () => {
     // Open diplomacy panel — verify shield rows + alternating rows
     await page.click('[data-testid="panel-diplomacy"]');
     await page.waitForTimeout(400);
-    const diploShields = await page.locator('.diplo-row__nation .nation-shield svg').count();
+    const diploShields = await page.locator('.diplo-row__nation :is(.nation-shield svg, img.nation-flag)').count();
     expect(diploShields).toBeGreaterThan(0);
     const evenRowBg = await page.locator('.diplo-list li:nth-child(even)').first().evaluate((el) => {
       return window.getComputedStyle(el).backgroundColor;
@@ -101,7 +101,7 @@ test.describe('V3 panel chrome', () => {
     await page.waitForTimeout(400);
 
     // Chrome shield on mobile
-    const chromeShield = await page.locator('.panel-host__chrome-title-row .nation-shield svg').count();
+    const chromeShield = await page.locator('.panel-host__chrome-title-row :is(.nation-shield svg, img.nation-flag)').count();
     expect(chromeShield).toBe(1);
     await page.screenshot({ path: '/tmp/gc-shots/v3-mobile-panel.png' });
 
