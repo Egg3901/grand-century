@@ -4,6 +4,33 @@ All notable changes to Grand Century are documented here.
 
 ## [Unreleased]
 
+### The instruments (1.2 work in progress)
+Nothing here changes how the game plays. It changes what we can see — the
+gates every later change will be measured against.
+
+- **Save fingerprint.** Saves now record the world they were made against
+  (province count, content schema version, and a hash of the seed's ownership
+  topology). A save from a different world is refused with a message that says
+  so, instead of loading and painting the map with someone else's provinces.
+  Saves made before this still load — a missing fingerprint is accepted.
+- **Content lint + coverage.** Every event has a choice, every decision chain
+  resolves, and every formable's core states exist — checked automatically, so a
+  future map rework cannot silently drop content that points at ids which no
+  longer exist. It also counts what each nation has to do, and the answer is
+  currently: 2 of 48 nations have a decision of their own, 3 have an event of
+  their own, 20 can form something, and **28 have none of the three**.
+- **Multiplayer conformance + bandwidth gates.** The multiplayer server runs the
+  only world, so any change to the simulation is a change to multiplayer. A test
+  now proves the server and single-player produce identical worlds from the same
+  seed and inputs, and pins the wire cost so it cannot grow unnoticed.
+- **Performance budgets, recorded.** Snapshot building, the culture ledger, and
+  the number of screens that redraw on every tick all have measured numbers now,
+  so "we made it faster" becomes a claim with evidence.
+- **The steerability probe explains itself.** When a lever looks like it does
+  nothing, the report now says whether players were limited by money or by what
+  the market had in stock — which turned "the tax slider is inert" into a
+  specific, fixable finding about the economy.
+
 ## [1.1.0] — 2026-07-27
 
 The audit release. A thirteen-system design pass asked three questions of every
