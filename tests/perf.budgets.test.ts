@@ -69,10 +69,11 @@ describe('H5 perf budgets', () => {
     const ms = medianMs(15, () => buildCultureLedger(world, GAME_DATA, world.playerNation));
     const budgetMs = 20;
     // Raw rebuild cost when the ledger IS computed. Snapshot builds go through
-    // getCultureLedger, which only calls this on calendar-month rollover,
-    // invalidateCultureLedger (runCultureMonthly / setCulturePolicy /
-    // setCultureAccepted), or a player-nation switch — not SNAPSHOT_HZ times
-    // a second. See issue #9 / F2.
+    // getCultureLedger, which calls this on the WEEKLY pop pass (where militancy
+    // is written), the monthly culture pass, the culture commands, or a
+    // player-nation switch — not SNAPSHOT_HZ times a second. The weekly trigger
+    // matters: gating on the month alone left the Cultures panel up to a month
+    // stale. See issue #9 / F2.
     console.log(
       `[budget] buildCultureLedger median ${ms.toFixed(2)}ms/call `
       + `(paid on month/dirty/nation-switch, not ×${SNAPSHOT_HZ}/sec), ceiling ${budgetMs}ms`,
