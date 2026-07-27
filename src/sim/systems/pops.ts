@@ -2,6 +2,7 @@ import type { GameData, Pop, PopMobilityLedger, PopType, ProvinceId, World } fro
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
 import { buyFromMarket } from './market';
+import { invalidateCultureLedger } from './culture';
 import { techModifiersFor } from './research';
 
 function finite(value: number, fallback = 0): number {
@@ -261,6 +262,14 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
     );
     cleanupPop(pop);
   }
+
+  // The culture ledger caches per-culture militancy/consciousness averages and
+  // was invalidated only on the MONTHLY culture pass — but militancy is written
+  // right here, weekly. That mismatch let the Cultures panel show averages up to
+  // a month stale (measured ~5% off on 36 of 43 sampled days). Invalidating
+  // where the underlying data actually changes restores exact output and still
+  // avoids the rebuild-on-every-snapshot cost that F2 removed.
+  invalidateCultureLedger(world);
 }
 
 function provinceScores(world: World): { score: number; openings: number }[] {
