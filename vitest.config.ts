@@ -9,6 +9,17 @@ export const BALANCE_TEST_GLOBS = [
   'tests/world.stability.test.ts',
 ] as const;
 
+/**
+ * 1.1.0: the unit project ran on vitest's default 5 s per-test timeout, but many
+ * of these tests build whole 620-province worlds and advance them for years.
+ * Under full-suite parallelism on a loaded machine they intermittently blew the
+ * limit — the same test passing in 3 s standalone and timing out in the suite.
+ * That made `npm run test` nondeterministically red, which is worthless as a
+ * release gate. 30 s is generous enough to absorb scheduling noise while still
+ * failing a genuinely hung test.
+ */
+const SIM_TEST_TIMEOUT_MS = 30_000;
+
 export default defineConfig({
   test: {
     environment: 'node',
@@ -19,6 +30,8 @@ export default defineConfig({
           environment: 'node',
           include: ['tests/**/*.test.ts'],
           exclude: [...BALANCE_TEST_GLOBS],
+          testTimeout: SIM_TEST_TIMEOUT_MS,
+          hookTimeout: SIM_TEST_TIMEOUT_MS,
         },
       },
       {

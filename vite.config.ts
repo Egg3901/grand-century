@@ -1,3 +1,4 @@
+import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { defineConfig } from 'vite';
@@ -5,6 +6,30 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 const BASE = process.env.VITE_BASE ?? '/';
+
+/**
+ * Build stamp. Derived here rather than passed on the deploy command line —
+ * the 1.0.0 build shipped with `release: 'dev'` in production for exactly that
+ * reason (the auto-deploy invocation never set VITE_RELEASE, so every GlitchTip
+ * event, had any arrived, would have been unattributable to a commit).
+ * Version comes from package.json; the SHA is best-effort so a source tarball
+ * without git history still builds.
+ */
+const APP_VERSION = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, 'package.json'), 'utf8'),
+).version as string;
+
+function gitSha(): string {
+  if (process.env.VITE_COMMIT_SHA) return process.env.VITE_COMMIT_SHA.slice(0, 12);
+  try {
+    return execSync('git rev-parse --short=12 HEAD', { cwd: __dirname }).toString().trim();
+  } catch {
+    return 'nogit';
+  }
+}
+
+const BUILD_SHA = gitSha();
+const RELEASE = process.env.VITE_RELEASE ?? `${APP_VERSION}+${BUILD_SHA}`;
 
 function generatedDataPublicPlugin() {
   const geojsonPath = path.resolve(__dirname, 'src/data/generated/provinces.geo.json');
@@ -55,6 +80,11 @@ export default defineConfig({
   // Served at site root in dev; set VITE_BASE=/games/grand-century/ for the
   // Lakeside subpath deploy so asset + worker URLs resolve under the prefix.
   base: BASE,
+  define: {
+    __APP_VERSION__: JSON.stringify(APP_VERSION),
+    __BUILD_SHA__: JSON.stringify(BUILD_SHA),
+    __APP_RELEASE__: JSON.stringify(RELEASE),
+  },
   plugins: [
     react(),
     generatedDataPublicPlugin(),

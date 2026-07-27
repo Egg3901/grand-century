@@ -42,6 +42,6 @@ describe('M6 save/load hardening', () => {
     }
 
     expect(buildSnapshot(resumed, GAME_DATA)).toEqual(buildSnapshot(baseline, GAME_DATA));
-  }, 15_000);
+  }, 60_000);
 });
 

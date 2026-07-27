@@ -76,7 +76,7 @@ describe('M2 economy loop', () => {
       if (world.nations[nationId].isBankrupt) sawBankruptcy = true;
     }
     expect(sawBankruptcy).toBe(true);
-  }, 15_000);
+  }, 60_000);
 
   it('grows well-fed pops and shrinks starving pops', () => {
     const world = createWorld(GAME_DATA, 99);
@@ -108,5 +108,5 @@ describe('M2 economy loop', () => {
     const treasuryA = a.nations[a.playerNation].treasury;
     const treasuryB = b.nations[b.playerNation].treasury;
     expect(treasuryA).toBeCloseTo(treasuryB, 9);
-  }, 15_000);
+  }, 60_000);
 });

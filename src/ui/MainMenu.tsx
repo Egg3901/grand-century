@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useStore } from '../store';
+import { APP_RELEASE, VERSION_LABEL } from '../buildInfo';
 import { buildShareUrl, copyShareLink, parseStartHash } from './permalink';
 import { NationFlag } from './components/NationFlag';
 import {
@@ -321,6 +322,7 @@ export function MainMenu() {
           ) : null}
         </div>
         {shareStatus ? <p className="menu-share-status" data-testid="menu-share-status">{shareStatus}</p> : null}
+        <p className="menu-version" data-testid="menu-version" title={APP_RELEASE}>{VERSION_LABEL}</p>
       </section>
     </div>
   );
