@@ -4,6 +4,50 @@ All notable changes to Grand Century are documented here.
 
 ## [Unreleased]
 
+## [1.4.0] — 2026-07-27
+
+### The chancery
+Diplomacy was a wall of buttons. Forty eight countries, each with six identical
+parchment buttons stapled to it, sitting under a war form that filled the whole
+screen. On a phone you could not see a single country without scrolling.
+
+It is now three bands, in the order a foreign minister actually works in.
+
+- **Your standing, at the top.** Points, infamy, rivals and influence as four
+  gauges. Every number opens to show where it came from. Fabrications you have
+  in flight are listed here, so committed points are never hidden.
+- **The roster.** One line per country: flag, name, a wax seal for the
+  relationship, and a bar showing how they feel about you. No buttons. Filter by
+  Relevant, Powers, Near or All, each with a live count, and search reaches every
+  country on the map whatever filter you are on. That is the answer to a long
+  list on a small screen. You type three letters instead of scrolling.
+- **The dossier.** Pick a country and everything about that country is in one
+  place, including the war console. The target dropdown is gone because the
+  roster is the target picker. Buttons you cannot use now say why in plain
+  words, for example "Alliance: Would refuse: score 20 of 70" or "Rivalry: Cap
+  reached (4 of 4). End one first."
+
+Great Powers got the same treatment and now links straight through to a
+country's dossier, so you are not holding two screens in your head.
+
+### Everywhere else
+- Panels are taller on phones. The old ceiling left a band of dead map above
+  every sheet.
+- Section headings stick to the top as you scroll, so you always know which
+  ledger you are in.
+- Every kind of notification now has its colour. Eight of them never had one,
+  and two colours were defined for kinds that could never appear.
+
+### Under the floor
+Groundwork for the economy rework, switched off by default so nothing changes
+yet. The market has been paying producers for everything they make rather than
+everything they sell, which quietly created money out of nothing: by 1825 it was
+paying out seven and a half times what buyers spent. That is why taxes have
+never had any bite. The replacement is written and measured, and turning it on
+comes with the rebalance it needs.
+
+[1.4.0]: https://github.com/Egg3901/grand-century/releases/tag/v1.4.0
+
 ## [1.3.0] — 2026-07-27
 
 ### The floor
