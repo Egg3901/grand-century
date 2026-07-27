@@ -4,7 +4,9 @@ All notable changes to Grand Century are documented here.
 
 ## [Unreleased]
 
-### The instruments (1.2 work in progress)
+## [1.2.0] — 2026-07-27
+
+### The instruments
 Nothing here changes how the game plays. It changes what we can see — the
 gates every later change will be measured against.
 
@@ -30,6 +32,24 @@ gates every later change will be measured against.
   nothing, the report now says whether players were limited by money or by what
   the market had in stock — which turned "the tax slider is inert" into a
   specific, fixable finding about the economy.
+
+### What the new instruments immediately found
+The gates earned their keep on their first run. None of these are regressions —
+they are things that were always true and that nothing could see:
+
+- Fiscal policy is decorative (#33). Cutting tax moves player pop cash by 2.5
+  million and how well fed those pops are by 0.0002. Nobody is short of money —
+  pops sit on roughly 833 rounds of everything they need to buy — so taxing them
+  cannot reach them, and the treasury has been pinned at its ceiling since year
+  three of the century.
+- No unification happens (#34). Across a full century on both balance seeds,
+  not one of the six formable nations ever forms.
+- The great powers never change (#35). After the opening decade the top table
+  moves six times in ninety years on one seed and not once on the other.
+- Prices sit at roughly twice their base for the whole century (#36), within 4%
+  of tripping the inflation gate.
+
+[1.2.0]: https://github.com/Egg3901/grand-century/releases/tag/v1.2.0
 
 ## [1.1.0] — 2026-07-27
 
