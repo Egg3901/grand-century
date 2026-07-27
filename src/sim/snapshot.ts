@@ -1,4 +1,4 @@
-import type { BudgetLine, GameData, NationId, NationSummary, PartyIdeology, PopType, ProvinceSummary, WarGoalType, World, WorldSnapshot } from '../shared/types';
+import type { BudgetLine, GameData, NationId, NationSummary, PartyIdeology, PopType, ProductionLedgerEntry, ProvinceSummary, WarGoalType, World, WorldSnapshot } from '../shared/types';
 import type { PlayerView, SharedSnapshot } from '../net/snapshotCodec';
 import { BALANCE, tariffBandForTradePolicy } from './balance';
 import { dayToDate } from './world';
@@ -30,7 +30,7 @@ import {
   getWorldTension,
   listCrisisCandidates,
 } from './systems/crisis';
-import { buildCultureLedger, buildMovementViews, culturePolicyOf, CULTURE_TUNING } from './systems/culture';
+import { buildMovementViews, culturePolicyOf, CULTURE_TUNING, getCultureLedger } from './systems/culture';
 import {
   colonialReachKind,
   computeColonialPointsBreakdown,
@@ -116,17 +116,30 @@ function provincePopStats(world: World, popIds: number[]): ProvincePopStats {
   };
 }
 
+let recipeIndexCache: {
+  data: GameData;
+  indexes: {
+    rgoOutputByRecipe: Record<string, number>;
+    recipeByKey: Map<string, GameData['recipes'][number]>;
+  };
+} | null = null;
+
 function recipeIndexes(data: GameData): {
   rgoOutputByRecipe: Record<string, number>;
   recipeByKey: Map<string, GameData['recipes'][number]>;
 } {
+  // GameData is a module singleton in practice; reuse the index across shared +
+  // player builds in the same tick (and across ticks) instead of reallocating.
+  if (recipeIndexCache?.data === data) return recipeIndexCache.indexes;
   const rgoOutputByRecipe = Object.fromEntries(
     data.recipes
       .filter((recipe) => recipe.building === 'rgo')
       .map((recipe) => [recipe.key, recipe.output.good]),
   ) as Record<string, number>;
   const recipeByKey = new Map(data.recipes.map((recipe) => [recipe.key, recipe]));
-  return { rgoOutputByRecipe, recipeByKey };
+  const indexes = { rgoOutputByRecipe, recipeByKey };
+  recipeIndexCache = { data, indexes };
+  return indexes;
 }
 
 /** Mark player-movement heartland provinces for the culture mapmode (mutates in place). */
@@ -157,26 +170,18 @@ function markCultureHeartland(
 export function buildSharedSnapshot(world: World, data: GameData): SharedSnapshot {
   const { rgoOutputByRecipe, recipeByKey } = recipeIndexes(data);
 
-  // Per-owner aggregates in single passes: province counts + owned-pop militancy
-  // and owned-state unrest, bucketed by owner in world order. Replaces the
-  // per-nation world.provinces.filter / world.states.filter / flatMap+reduce
-  // (O(nations x (provinces+states)) every snapshot). Same accumulation order
-  // per owner ⇒ bit-identical averages.
+  // One province walk builds ProvinceSummary rows AND buckets per-owner
+  // province counts, owned-pop militancy, and naval power. Replaces the old
+  // separate owned-aggregate pass + navalPow pass + provinces.map (three full
+  // world.provinces scans). Same province order ⇒ bit-identical aggregates.
   const nationCount = world.nations.length;
   const ownedProvinceCount = new Array<number>(nationCount).fill(0);
   const ownedPopIdCount = new Array<number>(nationCount).fill(0);
   const ownedPopMilitancySum = new Array<number>(nationCount).fill(0);
   const ownedStateCount = new Array<number>(nationCount).fill(0);
   const ownedStateUnrestSum = new Array<number>(nationCount).fill(0);
-  for (const province of world.provinces) {
-    const owner = province.owner;
-    if (owner < 0 || owner >= nationCount) continue;
-    ownedProvinceCount[owner]++;
-    for (const popId of province.popIds) {
-      ownedPopIdCount[owner]++;
-      ownedPopMilitancySum[owner] += world.pops[popId]?.militancy ?? 0;
-    }
-  }
+  const navalPow = new Array<number>(nationCount).fill(0);
+
   for (const state of world.states) {
     const owner = state.owner;
     if (owner < 0 || owner >= nationCount) continue;
@@ -184,15 +189,66 @@ export function buildSharedSnapshot(world: World, data: GameData): SharedSnapsho
     ownedStateUnrestSum[owner] += state.unrestRisk;
   }
 
-  const powerByNation = new Map(world.nations.map((nation) => [nation.id, getNationPowerBreakdown(world, nation.id)]));
-  const navalPow = (() => {
-    const power = new Array(world.nations.length).fill(0);
-    for (const province of world.provinces) {
-      const owner = province.owner;
-      if (owner >= 0 && owner < power.length) power[owner] += province.navalBaseLevel * 10;
+  const provinces: ProvinceSummary[] = new Array(world.provinces.length);
+  for (let i = 0; i < world.provinces.length; i++) {
+    const province = world.provinces[i];
+    const owner = province.owner;
+    if (owner >= 0 && owner < nationCount) {
+      ownedProvinceCount[owner]++;
+      navalPow[owner] += province.navalBaseLevel * 10;
+      for (const popId of province.popIds) {
+        ownedPopIdCount[owner]++;
+        ownedPopMilitancySum[owner] += world.pops[popId]?.militancy ?? 0;
+      }
     }
-    return power;
-  })();
+
+    const stats = provincePopStats(world, province.popIds);
+    const rgoGood = rgoOutputByRecipe[province.rgo.recipe] ?? 0;
+    const rgoOutput = (province.rgo.employed / 1000) * (recipeByKey.get(province.rgo.recipe)?.output.amount ?? 0);
+    const ownerNation = world.nations[province.owner];
+    let pluralityCulture = -1;
+    let pluralitySize = 0;
+    let nonAccepted = 0;
+    const cultureSizes = new Map<number, number>();
+    for (const popId of province.popIds) {
+      const pop = world.pops[popId];
+      if (!pop || pop.size <= 0) continue;
+      cultureSizes.set(pop.culture, (cultureSizes.get(pop.culture) ?? 0) + pop.size);
+      if (ownerNation
+        && pop.culture !== ownerNation.primaryCulture
+        && !(ownerNation.acceptedCultures ?? []).includes(pop.culture)) {
+        nonAccepted += pop.size;
+      }
+    }
+    for (const [culture, size] of cultureSizes) {
+      if (size > pluralitySize || (size === pluralitySize && culture < pluralityCulture)) {
+        pluralitySize = size;
+        pluralityCulture = culture;
+      }
+    }
+    const popTotal = stats.population;
+    provinces[i] = {
+      id: province.id,
+      owner: province.owner,
+      controller: province.controller,
+      stateId: province.stateId,
+      population: stats.population,
+      militancy: stats.militancy,
+      unrestRisk: world.states[province.stateId]?.unrestRisk ?? 0,
+      needsMet: stats.needsMet,
+      growth: stats.growth,
+      economyOutput: rgoOutput + stats.outputProxy,
+      rgoGood,
+      fortLevel: province.fortLevel,
+      occupation: province.occupationProgress,
+      pluralityCulture,
+      pluralityShare: popTotal > 0 && pluralityCulture >= 0 ? pluralitySize / popTotal : 0,
+      nonAcceptedShare: popTotal > 0 ? nonAccepted / popTotal : 0,
+      cultureHeartland: false,
+    };
+  }
+
+  const powerByNation = new Map(world.nations.map((nation) => [nation.id, getNationPowerBreakdown(world, nation.id)]));
   const nations: NationSummary[] = world.nations.map((nation) => {
     const popIdCount = ownedPopIdCount[nation.id];
     const avgMilitancy = popIdCount > 0 ? ownedPopMilitancySum[nation.id] / popIdCount : 0;
@@ -237,53 +293,6 @@ export function buildSharedSnapshot(world: World, data: GameData): SharedSnapsho
       standingRegimentCapacity: nation.standingRegimentCapacity,
       colonialPoints: cpBreakdown.available,
       colonialPointsBreakdown: cpBreakdown,
-    };
-  });
-
-  const provinces: ProvinceSummary[] = world.provinces.map((province) => {
-    const stats = provincePopStats(world, province.popIds);
-    const rgoGood = rgoOutputByRecipe[province.rgo.recipe] ?? 0;
-    const rgoOutput = (province.rgo.employed / 1000) * (recipeByKey.get(province.rgo.recipe)?.output.amount ?? 0);
-    const ownerNation = world.nations[province.owner];
-    let pluralityCulture = -1;
-    let pluralitySize = 0;
-    let nonAccepted = 0;
-    const cultureSizes = new Map<number, number>();
-    for (const popId of province.popIds) {
-      const pop = world.pops[popId];
-      if (!pop || pop.size <= 0) continue;
-      cultureSizes.set(pop.culture, (cultureSizes.get(pop.culture) ?? 0) + pop.size);
-      if (ownerNation
-        && pop.culture !== ownerNation.primaryCulture
-        && !(ownerNation.acceptedCultures ?? []).includes(pop.culture)) {
-        nonAccepted += pop.size;
-      }
-    }
-    for (const [culture, size] of cultureSizes) {
-      if (size > pluralitySize || (size === pluralitySize && culture < pluralityCulture)) {
-        pluralitySize = size;
-        pluralityCulture = culture;
-      }
-    }
-    const popTotal = stats.population;
-    return {
-      id: province.id,
-      owner: province.owner,
-      controller: province.controller,
-      stateId: province.stateId,
-      population: stats.population,
-      militancy: stats.militancy,
-      unrestRisk: world.states[province.stateId]?.unrestRisk ?? 0,
-      needsMet: stats.needsMet,
-      growth: stats.growth,
-      economyOutput: rgoOutput + stats.outputProxy,
-      rgoGood,
-      fortLevel: province.fortLevel,
-      occupation: province.occupationProgress,
-      pluralityCulture,
-      pluralityShare: popTotal > 0 && pluralityCulture >= 0 ? pluralitySize / popTotal : 0,
-      nonAcceptedShare: popTotal > 0 ? nonAccepted / popTotal : 0,
-      cultureHeartland: false,
     };
   });
 
@@ -343,53 +352,10 @@ export function buildPlayerView(world: World, data: GameData, nationId: NationId
   const playerOwnedStates = world.states.filter((state) => state.owner === nationId);
   const playerCoreStateIds = world.nations[nationId]?.coreStateIds?.slice().sort((a, b) => a - b) ?? [];
   const playerFormables = getFormableStatusesForNation(world, data, nationId);
-  const playerProduction = [
-    ...world.provinces
-      .filter((province) => province.owner === nationId)
-      .map((province) => {
-        const capacity = Math.max(0, province.rgo.level) * BALANCE.economy.rgoEmploymentPerLevel;
-        return {
-          kind: 'rgo' as const,
-          locationName: province.name,
-          recipe: province.rgo.recipe,
-          outputGood: rgoOutputByRecipe[province.rgo.recipe] ?? 0,
-          outputAmount: (province.rgo.employed / 1000) * (recipeByKey.get(province.rgo.recipe)?.output.amount ?? 0),
-          employment: province.rgo.employed,
-          profit: province.rgo.weeklyProfit,
-          level: province.rgo.level,
-          capacity,
-          inputCost: 0,
-          wages: 0,
-          operating: 0,
-          inputFill: 1,
-          cashReserve: 0,
-          profitableWeeks: 0,
-          lossWeeks: 0,
-        };
-      }),
-    ...playerOwnedStates.flatMap((state) => state.factories.map((factory) => {
-      const recipe = recipeByKey.get(factory.recipe);
-      return {
-        kind: 'factory' as const,
-        locationName: state.name,
-        recipe: factory.recipe,
-        outputGood: recipe?.output.good ?? 0,
-        outputAmount: factory.lastOutput,
-        employment: factory.employed,
-        profit: factory.weeklyProfit,
-        level: factory.level,
-        capacity: factory.lastCapacity || Math.max(1, factory.level) * 2300,
-        inputCost: factory.lastInputCost,
-        wages: factory.lastWages,
-        operating: factory.lastOperating,
-        inputFill: factory.lastInputFill,
-        cashReserve: factory.cashReserve,
-        profitableWeeks: factory.profitableWeeks,
-        lossWeeks: factory.lossWeeks,
-      };
-    })),
-  ];
 
+  // One walk over player-owned provinces builds RGO production rows and the
+  // population ledger (was two separate world.provinces filters/loops).
+  const playerRgoProduction: ProductionLedgerEntry[] = [];
   const playerPopulationMap = new Map<string, {
     size: number;
     needs: number;
@@ -407,6 +373,25 @@ export function buildPlayerView(world: World, data: GameData, nationId: NationId
   const playerNation = world.nations[nationId];
   for (const province of world.provinces) {
     if (province.owner !== nationId) continue;
+    const capacity = Math.max(0, province.rgo.level) * BALANCE.economy.rgoEmploymentPerLevel;
+    playerRgoProduction.push({
+      kind: 'rgo' as const,
+      locationName: province.name,
+      recipe: province.rgo.recipe,
+      outputGood: rgoOutputByRecipe[province.rgo.recipe] ?? 0,
+      outputAmount: (province.rgo.employed / 1000) * (recipeByKey.get(province.rgo.recipe)?.output.amount ?? 0),
+      employment: province.rgo.employed,
+      profit: province.rgo.weeklyProfit,
+      level: province.rgo.level,
+      capacity,
+      inputCost: 0,
+      wages: 0,
+      operating: 0,
+      inputFill: 1,
+      cashReserve: 0,
+      profitableWeeks: 0,
+      lossWeeks: 0,
+    });
     for (const popId of province.popIds) {
       const pop = world.pops[popId];
       if (!pop || pop.size <= 0) continue;
@@ -449,6 +434,30 @@ export function buildPlayerView(world: World, data: GameData, nationId: NationId
       playerPopulationMap.set(key, bucket);
     }
   }
+  const playerProduction = [
+    ...playerRgoProduction,
+    ...playerOwnedStates.flatMap((state) => state.factories.map((factory) => {
+      const recipe = recipeByKey.get(factory.recipe);
+      return {
+        kind: 'factory' as const,
+        locationName: state.name,
+        recipe: factory.recipe,
+        outputGood: recipe?.output.good ?? 0,
+        outputAmount: factory.lastOutput,
+        employment: factory.employed,
+        profit: factory.weeklyProfit,
+        level: factory.level,
+        capacity: factory.lastCapacity || Math.max(1, factory.level) * 2300,
+        inputCost: factory.lastInputCost,
+        wages: factory.lastWages,
+        operating: factory.lastOperating,
+        inputFill: factory.lastInputFill,
+        cashReserve: factory.cashReserve,
+        profitableWeeks: factory.profitableWeeks,
+        lossWeeks: factory.lossWeeks,
+      };
+    })),
+  ];
   const literacy = playerNation?.literacy ?? 0;
   const healthcareLevel = playerNation?.reforms.healthcare ?? 0;
   const techPopGrowth = playerNation
@@ -611,7 +620,8 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
     chronicleWarsFought: (world.chronicleWarIds ?? []).length,
     campaignOver: (() => {
       if (world.day >= 100 * 365) return 'century' as const;
-      const alive = world.provinces.some((province) => province.owner === world.playerNation);
+      // numProvinces already bucketed in the shared province pass — no extra scan.
+      const alive = (shared.nations[world.playerNation]?.numProvinces ?? 0) > 0;
       return alive ? null : ('eliminated' as const);
     })(),
     recentBattles: (world.recentBattles ?? [])
@@ -654,7 +664,7 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       return Math.max(0, CULTURE_TUNING.policyCooldownDays - (world.day - last));
     })(),
     playerCulturePolicyCost: CULTURE_TUNING.policyPrestigeCost,
-    playerCultures: buildCultureLedger(world, data, world.playerNation),
+    playerCultures: getCultureLedger(world, data, world.playerNation),
     playerMovements: buildMovementViews(world, data, world.playerNation),
     colonialClaims,
     playerClaimableColonialStates,

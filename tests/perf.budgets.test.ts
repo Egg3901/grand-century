@@ -19,6 +19,13 @@ import { advanceDay } from '../src/sim/world';
  * so a tight ceiling would fail on scheduling noise rather than on regressions.
  * A 3x headroom still catches an order-of-magnitude mistake, which is the class
  * of regression that actually matters here.
+ *
+ * F2 (issue #9 remainder) recorded on this box:
+ *  - buildSnapshot: 7.83ms/call → 5.37–5.78ms/call cold-ish median; ~2.70ms/call
+ *    once the culture ledger cache is warm (62.7 → ~43 ms of every 1000ms at 8Hz;
+ *    ~22 ms/1000ms warm).
+ *  - buildCultureLedger: still ~0.5–0.6ms when it runs, but getCultureLedger no
+ *    longer invokes it on every snapshot (monthly / dirty / nation switch only).
  */
 
 /** Snapshots are posted at SNAPSHOT_HZ = 8 in src/worker/sim.worker.ts. */
@@ -47,7 +54,9 @@ describe('H5 perf budgets', () => {
   it('records buildSnapshot cost per call', () => {
     const world = warmWorld();
     const ms = medianMs(15, () => buildSnapshot(world, GAME_DATA));
-    const budgetMs = 60;
+    // Pre-F2 on this box: 7.83ms. Post-F2: 5.37ms. Ceiling tracks the new median
+    // with ~3× scheduling headroom (was 60ms before the collapse).
+    const budgetMs = 20;
     console.log(
       `[budget] buildSnapshot median ${ms.toFixed(2)}ms/call `
       + `(${(ms * SNAPSHOT_HZ).toFixed(1)}ms of every 1000ms at ${SNAPSHOT_HZ}Hz), ceiling ${budgetMs}ms`,
@@ -55,27 +64,35 @@ describe('H5 perf budgets', () => {
     expect(ms).toBeLessThan(budgetMs);
   }, 60_000);
 
-  it('records buildCultureLedger cost — it runs unconditionally on every snapshot', () => {
+  it('records buildCultureLedger cost — gated, not every snapshot', () => {
     const world = warmWorld();
     const ms = medianMs(15, () => buildCultureLedger(world, GAME_DATA, world.playerNation));
-    const budgetMs = 40;
-    // This is called from buildSnapshot with no dirty flag and no cadence gate,
-    // so its cost is paid SNAPSHOT_HZ times a second for the player nation only,
-    // while scanning every pop in the world. See issue #9.
+    const budgetMs = 20;
+    // Raw rebuild cost when the ledger IS computed. Snapshot builds go through
+    // getCultureLedger, which only calls this on calendar-month rollover,
+    // invalidateCultureLedger (runCultureMonthly / setCulturePolicy /
+    // setCultureAccepted), or a player-nation switch — not SNAPSHOT_HZ times
+    // a second. See issue #9 / F2.
     console.log(
       `[budget] buildCultureLedger median ${ms.toFixed(2)}ms/call `
-      + `(${(ms * SNAPSHOT_HZ).toFixed(1)}ms of every 1000ms at ${SNAPSHOT_HZ}Hz), ceiling ${budgetMs}ms`,
+      + `(paid on month/dirty/nation-switch, not ×${SNAPSHOT_HZ}/sec), ceiling ${budgetMs}ms`,
     );
     expect(ms).toBeLessThan(budgetMs);
   }, 60_000);
 
-  it('records how much of a snapshot is spent on the culture ledger', () => {
+  it('records amortized culture-ledger cost inside repeated snapshot builds', () => {
     const world = warmWorld();
+    // First call may rebuild; subsequent calls in the same month hit the cache.
+    buildSnapshot(world, GAME_DATA);
     const snap = medianMs(10, () => buildSnapshot(world, GAME_DATA));
     const culture = medianMs(10, () => buildCultureLedger(world, GAME_DATA, world.playerNation));
-    const share = culture / Math.max(snap, 1e-6);
-    console.log(`[budget] culture ledger is ${(share * 100).toFixed(1)}% of a snapshot build`);
-    expect(share).toBeGreaterThanOrEqual(0);
+    const shareIfUngated = culture / Math.max(snap, 1e-6);
+    console.log(
+      `[budget] warm buildSnapshot median ${snap.toFixed(2)}ms/call; `
+      + `raw culture rebuild ${culture.toFixed(2)}ms `
+      + `(would be ${(shareIfUngated * 100).toFixed(1)}% if still ungated)`,
+    );
+    expect(shareIfUngated).toBeGreaterThanOrEqual(0);
   }, 60_000);
 });
 
