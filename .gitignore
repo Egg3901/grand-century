@@ -24,6 +24,8 @@ content/raw/
 *.sln
 *.sw?
 docs/season-report.json
+docs/mcp-worldsim/
 artifacts/
 test-results/
 .claude/worktrees/
+worktrees/
