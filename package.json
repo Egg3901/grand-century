@@ -11,6 +11,7 @@
     "test:all": "vitest run",
     "test:stability": "vitest run tests/m6.ai.stability.test.ts",
     "season-report": "tsx content/season-report.ts",
+    "test:ci": "npm run lint && tsc -b && vitest run && npm run test:e2e:smoke",
     "test:e2e": "playwright test",
     "test:e2e:smoke": "playwright test tests/e2e/smoke.spec.ts tests/e2e/v6-smoke.spec.ts tests/e2e/e6-platform.spec.ts",
     "lint": "oxlint",

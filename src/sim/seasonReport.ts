@@ -1,4 +1,5 @@
 import type { GameData, PopType, StateId, World } from '../shared/types';
+import { BALANCE } from './balance';
 import { createWorld } from './bootstrap';
 import { applyCommand } from './commands';
 import { computeReformLegality } from './politics';
@@ -47,6 +48,39 @@ export interface SteerabilityScenarioResult {
   productionIncome: number;
   playerPopulation: number;
   enactedReforms: number;
+  /** Why consumption landed where it did — see ConsumptionBinding. */
+  binding: ConsumptionBinding;
+}
+
+/**
+ * What actually limits a pop's consumption.
+ *
+ * A lever can read "inert" for two very different reasons: it does nothing, or
+ * it does something that cannot possibly show up in the outcome being measured.
+ * Issue #22 was the second kind. Cutting tax from 0.45/0.35/0.25 to
+ * 0.16/0.12/0.10 moved player pop money by +2.5M over 12 years and moved
+ * avgNeedsMet by 0.000184, because **zero** pops were money-bound: they already
+ * held roughly 370 weeks of their own need basket in cash. needsMet is bound by
+ * market supply, so taxation cannot reach it.
+ *
+ * Reporting the binding alongside the delta is what turns "the lever is inert"
+ * into "the lever cannot be observed through this outcome".
+ */
+export interface ConsumptionBinding {
+  /** Pops that could not afford their full need basket at current prices. */
+  moneyBoundPops: number;
+  /** Pops whose basket contains a good the market left unmet. */
+  supplyBoundPops: number;
+  /** Pops that could afford the basket and found it in stock. */
+  satisfiedPops: number;
+  /** Total player pop cash. */
+  popMoney: number;
+  /** Cost of one round of every player pop's full need basket, at current prices. */
+  basketCost: number;
+  /** popMoney / basketCost — how many rounds of consumption pops are sitting on. */
+  moneyCoverRatio: number;
+  /** True while the treasury sits at BALANCE.economy.treasurySoftCap. */
+  treasurySaturated: boolean;
 }
 
 export interface SteerabilityReport {
@@ -509,6 +543,56 @@ export function runCampaignMetrics(data: GameData, seed: number, years: number):
   };
 }
 
+/**
+ * Classify what limits player consumption, without mutating the world.
+ *
+ * For each player pop: price its full need basket at current market prices, and
+ * check whether any good in that basket was left unmet by the market this week.
+ * Supply shortage takes precedence over money — a pop with infinite cash still
+ * cannot buy grain that does not exist.
+ */
+function measureBinding(world: World, data: GameData): ConsumptionBinding {
+  const owned = new Set(
+    world.provinces.filter((province) => province.owner === world.playerNation).map((p) => p.id),
+  );
+  let moneyBoundPops = 0;
+  let supplyBoundPops = 0;
+  let satisfiedPops = 0;
+  let popMoney = 0;
+  let basketCost = 0;
+
+  for (const pop of world.pops) {
+    if (!owned.has(pop.provinceId)) continue;
+    const needs = data.popNeeds[pop.type];
+    if (!needs) continue;
+    const units = Math.max(0, pop.size) / 1000;
+    let cost = 0;
+    let short = false;
+    for (const need of [...needs.life, ...needs.everyday, ...needs.luxury]) {
+      const desired = Math.max(0, need.amount * units);
+      const marketGood = world.market[need.good];
+      cost += desired * (marketGood?.price ?? 0);
+      if (marketGood && marketGood.unmet > 0) short = true;
+    }
+    popMoney += Math.max(0, pop.money);
+    basketCost += cost;
+    if (short) supplyBoundPops += 1;
+    else if (pop.money < cost) moneyBoundPops += 1;
+    else satisfiedPops += 1;
+  }
+
+  const nation = world.nations[world.playerNation];
+  return {
+    moneyBoundPops,
+    supplyBoundPops,
+    satisfiedPops,
+    popMoney,
+    basketCost,
+    moneyCoverRatio: basketCost > 0 ? popMoney / basketCost : 0,
+    treasurySaturated: (nation?.treasury ?? 0) >= BALANCE.economy.treasurySoftCap - 1,
+  };
+}
+
 function playerAverages(world: World): { avgNeedsMet: number; avgMilitancy: number } {
   const player = world.playerNation;
   const owned = new Set(world.provinces.filter((province) => province.owner === player).map((province) => province.id));
@@ -600,7 +684,19 @@ function runPlayerScenario(
     productionIncome: nation?.lastBudget?.productionIncome ?? 0,
     playerPopulation: playerPopulation(world),
     enactedReforms,
+    binding: measureBinding(world, data),
   };
+}
+
+/** One-line human reading of a ConsumptionBinding, for report output. */
+export function describeBinding(binding: ConsumptionBinding): string {
+  const total = binding.moneyBoundPops + binding.supplyBoundPops + binding.satisfiedPops;
+  if (total === 0) return 'no player pops';
+  const pct = (n: number) => `${((n / total) * 100).toFixed(0)}%`;
+  return `binding: ${pct(binding.moneyBoundPops)} money / ${pct(binding.supplyBoundPops)} supply`
+    + ` / ${pct(binding.satisfiedPops)} satisfied`
+    + `, pops hold ${binding.moneyCoverRatio.toFixed(0)}x their basket`
+    + (binding.treasurySaturated ? ', treasury AT SOFT CAP' : '');
 }
 
 function evaluatePlayerSteerability(data: GameData, seed: number, years: number): SteerabilityReport {
@@ -650,7 +746,13 @@ function evaluatePlayerSteerability(data: GameData, seed: number, years: number)
       lever: 'tax/tariff',
       visible: Math.abs(austerity.avgNeedsMet - baseline.avgNeedsMet) >= 0.008
         || Math.abs(austerity.avgMilitancy - baseline.avgMilitancy) > 0.05,
-      summary: `needs delta ${(austerity.avgNeedsMet - baseline.avgNeedsMet).toFixed(3)}, militancy delta ${(austerity.avgMilitancy - baseline.avgMilitancy).toFixed(3)}`,
+      // A near-zero delta here is NOT evidence the lever does nothing. Read the
+      // binding: if moneyBoundPops is 0 the outcome cannot respond to taxation
+      // at all, whatever the tax rate does to pop cash. See issue #22.
+      summary: `needs delta ${(austerity.avgNeedsMet - baseline.avgNeedsMet).toFixed(3)}`
+        + `, militancy delta ${(austerity.avgMilitancy - baseline.avgMilitancy).toFixed(3)}`
+        + `, pop money delta ${Math.round(austerity.binding.popMoney - baseline.binding.popMoney)}`
+        + ` — ${describeBinding(austerity.binding)}`,
     },
     {
       lever: 'build factory',
