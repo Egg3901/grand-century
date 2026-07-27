@@ -210,6 +210,8 @@ interface CultureAggregate {
 
 export function runCultureMonthly(world: World, data: GameData, _rng: Rng): void {
   ensureCultureState(world);
+  // Assimilation / movement drift just rewrote pop sizes and traces — ledger must refresh.
+  invalidateCultureLedger(world);
 
   // --- per-province primary-culture share + dominant primary religion ------
   const provincePrimaryShare = new Float64Array(world.provinces.length);
@@ -598,6 +600,7 @@ export function setCulturePolicy(world: World, nationId: NationId, policy: Cultu
   nation.prestige = Math.max(0, nation.prestige - CULTURE_TUNING.policyPrestigeCost);
   nation.culturePolicy = policy;
   nation.culturePolicyChangedDay = world.day;
+  invalidateCultureLedger(world);
   return { ok: true, reason: `Cultural policy set to ${policy} (−${CULTURE_TUNING.policyPrestigeCost} prestige).` };
 }
 
@@ -649,6 +652,7 @@ export function setCultureAccepted(world: World, data: GameData, nationId: Natio
         movement.radicalism = clamp(movement.radicalism - CULTURE_TUNING.acceptRadicalismRelief, 0, 100);
       }
     }
+    invalidateCultureLedger(world);
     return { ok: true, reason: `${data.cultures[culture].name} culture granted full acceptance (−${cost} prestige).` };
   }
 
@@ -664,12 +668,67 @@ export function setCultureAccepted(world: World, data: GameData, nationId: Natio
       movement.radicalism = clamp(movement.radicalism + CULTURE_TUNING.revokeRadicalismSpike, 0, 100);
     }
   }
+  invalidateCultureLedger(world);
   return { ok: true, reason: `${data.cultures[culture].name} culture stripped of acceptance.` };
 }
 
 // ---------------------------------------------------------------------------
 // Snapshot views (read-only; consumed by snapshot.ts)
 // ---------------------------------------------------------------------------
+
+/**
+ * Ephemeral per-world culture-ledger cache. Not part of save payloads (WeakMap).
+ * Rebuilt on calendar-month rollover, culture-command dirty, or nation switch —
+ * not on every SNAPSHOT_HZ tick. Mid-month pop mil/con drift is frozen until the
+ * next rebuild (TIMING change vs the old every-snapshot scan; see getCultureLedger).
+ */
+interface CultureLedgerCache {
+  monthKey: number;
+  nationId: NationId;
+  entries: CultureLedgerEntry[];
+}
+
+const cultureLedgerCache = new WeakMap<World, CultureLedgerCache>();
+const cultureLedgerDirty = new WeakMap<World, boolean>();
+
+/** Match world.ts dayToDate month boundaries (non-leap) as year*12+month. */
+function cultureMonthKey(day: number): number {
+  const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const years = Math.floor(day / 365);
+  let remaining = day - years * 365;
+  let month = 0;
+  while (month < 12 && remaining >= daysInMonth[month]) {
+    remaining -= daysInMonth[month];
+    month += 1;
+  }
+  return years * 12 + month;
+}
+
+/** Force the next getCultureLedger call to recompute (monthly pass / culture cmds). */
+export function invalidateCultureLedger(world: World): void {
+  cultureLedgerDirty.set(world, true);
+}
+
+/**
+ * Cached culture ledger for snapshots. Triggers a full buildCultureLedger when:
+ *  - no cache yet for this world,
+ *  - `invalidateCultureLedger` was called (runCultureMonthly, setCulturePolicy,
+ *    setCultureAccepted),
+ *  - the calendar month rolled since the cache was built, or
+ *  - the requested nationId differs from the cached nation.
+ */
+export function getCultureLedger(world: World, data: GameData, nationId: NationId): CultureLedgerEntry[] {
+  const monthKey = cultureMonthKey(world.day);
+  const cached = cultureLedgerCache.get(world);
+  const dirty = cultureLedgerDirty.get(world) === true;
+  if (!dirty && cached && cached.monthKey === monthKey && cached.nationId === nationId) {
+    return cached.entries;
+  }
+  const entries = buildCultureLedger(world, data, nationId);
+  cultureLedgerCache.set(world, { monthKey, nationId, entries });
+  cultureLedgerDirty.set(world, false);
+  return entries;
+}
 
 export function buildCultureLedger(world: World, data: GameData, nationId: NationId): CultureLedgerEntry[] {
   const nation = world.nations[nationId];
@@ -709,27 +768,12 @@ export function buildCultureLedger(world: World, data: GameData, nationId: Natio
     provinceSurround[province.id] = provTotal > 0 ? acceptedSize / provTotal : 0;
   }
 
-  // Nation religion proxy (largest primary-culture religion).
-  let stateReligion = -1;
-  {
-    const byReligion = new Map<number, number>();
-    for (const pop of world.pops) {
-      if (pop.size <= 0 || pop.culture !== nation.primaryCulture) continue;
-      const province = world.provinces[pop.provinceId];
-      if (!province || province.owner !== nationId) continue;
-      byReligion.set(pop.religion, (byReligion.get(pop.religion) ?? 0) + pop.size);
-    }
-    let best = -1;
-    let bestSize = -1;
-    for (const [religion, size] of byReligion) {
-      if (size > bestSize || (size === bestSize && religion < best)) {
-        bestSize = size;
-        best = religion;
-      }
-    }
-    stateReligion = best;
-  }
-
+  // One world.pops pass replaces the old religion + aggregate/factor + manpower
+  // scans. Visit order stays world.pops (not province-major) so Map insertion
+  // — and equal-size sort ties — stay bit-identical to the four-pass builder.
+  const byReligion = new Map<number, number>();
+  const manpowerByCulture = new Map<number, number>();
+  const nonAccepted: Pop[] = [];
   for (const pop of world.pops) {
     if (pop.size <= 0) continue;
     const province = world.provinces[pop.provinceId];
@@ -742,7 +786,33 @@ export function buildCultureLedger(world: World, data: GameData, nationId: Natio
     agg.consciousness += pop.consciousness * pop.size;
     agg.needsMet += pop.needsMet * pop.size;
 
-    if (pop.culture === nation.primaryCulture || nation.acceptedCultures.includes(pop.culture)) continue;
+    if (pop.culture === nation.primaryCulture) {
+      byReligion.set(pop.religion, (byReligion.get(pop.religion) ?? 0) + pop.size);
+    }
+    if (pop.type !== 'soldier' && pop.type !== 'officer' && pop.type !== 'aristocrat' && pop.type !== 'capitalist') {
+      manpowerByCulture.set(pop.culture, (manpowerByCulture.get(pop.culture) ?? 0) + pop.size);
+    }
+    if (pop.culture !== nation.primaryCulture && !nation.acceptedCultures.includes(pop.culture)) {
+      nonAccepted.push(pop);
+    }
+  }
+
+  let stateReligion = -1;
+  {
+    let best = -1;
+    let bestSize = -1;
+    for (const [religion, size] of byReligion) {
+      if (size > bestSize || (size === bestSize && religion < best)) {
+        bestSize = size;
+        best = religion;
+      }
+    }
+    stateReligion = best;
+  }
+
+  for (const pop of nonAccepted) {
+    const province = world.provinces[pop.provinceId];
+    if (!province) continue;
     const movement = movementByKey.get(`${nationId}:${pop.culture}`);
     const movementResistance = movement ? clamp(1 - movement.radicalism / 110, 0.05, 1) : 1;
     const surroundFactor = Math.pow(clamp(provinceSurround[province.id], 0, 1), 1.5);
@@ -774,14 +844,6 @@ export function buildCultureLedger(world: World, data: GameData, nationId: Natio
   const assimilationTrace = nation.assimilationByCulture ?? {};
   const extrasAccepted = nation.acceptedCultures.filter((c) => c !== nation.primaryCulture).length;
   const nextAcceptCost = acceptPrestigeCostFor(nation);
-  const manpowerByCulture = new Map<number, number>();
-  for (const pop of world.pops) {
-    if (pop.size <= 0) continue;
-    if (pop.type === 'soldier' || pop.type === 'officer' || pop.type === 'aristocrat' || pop.type === 'capitalist') continue;
-    const province = world.provinces[pop.provinceId];
-    if (!province || province.owner !== nationId) continue;
-    manpowerByCulture.set(pop.culture, (manpowerByCulture.get(pop.culture) ?? 0) + pop.size);
-  }
 
   return Array.from(byCulture.entries())
     .map(([culture, agg]) => {

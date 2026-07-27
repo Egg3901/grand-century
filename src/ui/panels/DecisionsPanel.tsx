@@ -1,7 +1,8 @@
 import { useStore } from '../../store';
+import { useSnapshotFields } from '../useSnapshotFields';
 
 export function DecisionsPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['playerDecisions'] as const);
   const sendCommand = useStore((state) => state.sendCommand);
 
   if (!snapshot) {

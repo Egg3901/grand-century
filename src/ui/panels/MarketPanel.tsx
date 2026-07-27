@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useStore } from '../../store';
+import { useSnapshotFields } from '../useSnapshotFields';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 function Sparkline({ values }: { values: number[] }) {
@@ -25,7 +26,7 @@ function Sparkline({ values }: { values: number[] }) {
 const DEFAULT_STOCKPILE_DAILY_AMOUNT = 15;
 
 export function MarketPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['market', 'playerStockpile', 'playerStockpileOrders'] as const);
   const data = useStore((state) => state.data);
   const sendCommand = useStore((state) => state.sendCommand);
 

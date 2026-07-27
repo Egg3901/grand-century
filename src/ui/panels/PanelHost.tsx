@@ -1,23 +1,51 @@
+import { Suspense, lazy, useEffect, type ComponentType } from 'react';
 import { useStore, type PanelId } from '../../store';
-import { BudgetPanel } from './BudgetPanel';
-import { MarketPanel } from './MarketPanel';
-import { PopulationPanel } from './PopulationPanel';
-import { CulturePanel } from './CulturePanel';
-import { ProductionPanel } from './ProductionPanel';
-import { ProvincePanel } from './ProvincePanel';
-import { PoliticsPanel } from './PoliticsPanel';
-import { DiplomacyPanel } from './DiplomacyPanel';
-import { GreatPowersPanel } from './GreatPowersPanel';
-import { CrisisPanel } from './CrisisPanel';
-import { MilitaryPanel } from './MilitaryPanel';
-import { ColonizationPanel } from './ColonizationPanel';
-import { SaveLoadPanel } from './SaveLoadPanel';
-import { FormablesPanel } from './FormablesPanel';
-import { DecisionsPanel } from './DecisionsPanel';
-import { TechnologyPanel } from './TechnologyPanel';
+import { useShallow } from 'zustand/react/shallow';
 import { NationFlag } from '../components/NationFlag';
 import { resolvePanelChromeNation } from './panelChromeNation';
 import './panels.css';
+
+const loadProvincePanel = () => import('./ProvincePanel').then((m) => ({ default: m.ProvincePanel }));
+const loadBudgetPanel = () => import('./BudgetPanel').then((m) => ({ default: m.BudgetPanel }));
+const loadPopulationPanel = () => import('./PopulationPanel').then((m) => ({ default: m.PopulationPanel }));
+const loadCulturePanel = () => import('./CulturePanel').then((m) => ({ default: m.CulturePanel }));
+const loadProductionPanel = () => import('./ProductionPanel').then((m) => ({ default: m.ProductionPanel }));
+const loadMarketPanel = () => import('./MarketPanel').then((m) => ({ default: m.MarketPanel }));
+const loadPoliticsPanel = () => import('./PoliticsPanel').then((m) => ({ default: m.PoliticsPanel }));
+const loadDiplomacyPanel = () => import('./DiplomacyPanel').then((m) => ({ default: m.DiplomacyPanel }));
+const loadGreatPowersPanel = () => import('./GreatPowersPanel').then((m) => ({ default: m.GreatPowersPanel }));
+const loadCrisisPanel = () => import('./CrisisPanel').then((m) => ({ default: m.CrisisPanel }));
+const loadMilitaryPanel = () => import('./MilitaryPanel').then((m) => ({ default: m.MilitaryPanel }));
+const loadColonizationPanel = () => import('./ColonizationPanel').then((m) => ({ default: m.ColonizationPanel }));
+const loadFormablesPanel = () => import('./FormablesPanel').then((m) => ({ default: m.FormablesPanel }));
+const loadDecisionsPanel = () => import('./DecisionsPanel').then((m) => ({ default: m.DecisionsPanel }));
+const loadTechnologyPanel = () => import('./TechnologyPanel').then((m) => ({ default: m.TechnologyPanel }));
+const loadSaveLoadPanel = () => import('./SaveLoadPanel').then((m) => ({ default: m.SaveLoadPanel }));
+
+const ProvincePanel = lazy(loadProvincePanel);
+const BudgetPanel = lazy(loadBudgetPanel);
+const PopulationPanel = lazy(loadPopulationPanel);
+const CulturePanel = lazy(loadCulturePanel);
+const ProductionPanel = lazy(loadProductionPanel);
+const MarketPanel = lazy(loadMarketPanel);
+const PoliticsPanel = lazy(loadPoliticsPanel);
+const DiplomacyPanel = lazy(loadDiplomacyPanel);
+const GreatPowersPanel = lazy(loadGreatPowersPanel);
+const CrisisPanel = lazy(loadCrisisPanel);
+const MilitaryPanel = lazy(loadMilitaryPanel);
+const ColonizationPanel = lazy(loadColonizationPanel);
+const FormablesPanel = lazy(loadFormablesPanel);
+const DecisionsPanel = lazy(loadDecisionsPanel);
+const TechnologyPanel = lazy(loadTechnologyPanel);
+const SaveLoadPanel = lazy(loadSaveLoadPanel);
+
+/** Warm panel chunks after the HUD mounts so opening one does not wait on the network. */
+const PANEL_WARMERS = [
+  loadProvincePanel, loadBudgetPanel, loadPopulationPanel, loadCulturePanel,
+  loadProductionPanel, loadMarketPanel, loadPoliticsPanel, loadDiplomacyPanel,
+  loadGreatPowersPanel, loadCrisisPanel, loadMilitaryPanel, loadColonizationPanel,
+  loadFormablesPanel, loadDecisionsPanel, loadTechnologyPanel, loadSaveLoadPanel,
+];
 
 const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
   province: 'Province',
@@ -44,12 +72,31 @@ const NATION_SCOPED_PANELS = new Set<PanelId>([
   'formables', 'decisions',
 ]);
 
+/** Quiet placeholder — chrome stays mounted so the panel shell does not jump. */
+function PanelBodyFallback() {
+  return (
+    <div className="panel-host__body-fallback" aria-busy="true" aria-label="Loading panel" />
+  );
+}
+
+function LazyPanel({ Panel }: { Panel: ComponentType }) {
+  return (
+    <Suspense fallback={<PanelBodyFallback />}>
+      <Panel />
+    </Suspense>
+  );
+}
+
 export function PanelHost() {
   const openPanel = useStore((state) => state.openPanel);
   const openPanelId = useStore((state) => state.openPanelId);
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useStore(useShallow((state) => state.snapshot));
   const selectedProvince = useStore((state) => state.selectedProvince);
   const provinceDetail = useStore((state) => state.provinceDetail);
+
+  useEffect(() => {
+    for (const warm of PANEL_WARMERS) void warm();
+  }, []);
 
   if (!openPanel) return null;
 
@@ -76,22 +123,26 @@ export function PanelHost() {
           <button type="button" className="panel-host__close" onClick={() => openPanelId(null)}>Done</button>
         </header>
         <div className="panel-host__body">
-          {openPanel === 'province' ? <ProvincePanel /> : null}
-          {openPanel === 'budget' ? <BudgetPanel /> : null}
-          {openPanel === 'population' ? <PopulationPanel /> : null}
-          {openPanel === 'cultures' ? <CulturePanel /> : null}
-          {openPanel === 'production' ? <ProductionPanel /> : null}
-          {openPanel === 'market' ? <MarketPanel /> : null}
-          {openPanel === 'politics' ? <PoliticsPanel /> : null}
-          {openPanel === 'diplomacy' ? <DiplomacyPanel /> : null}
-          {openPanel === 'great_powers' ? <CrisisPanel /> : null}
-          {openPanel === 'great_powers' ? <GreatPowersPanel /> : null}
-          {openPanel === 'military' ? <MilitaryPanel /> : null}
-          {openPanel === 'colonization' ? <ColonizationPanel /> : null}
-          {openPanel === 'formables' ? <FormablesPanel /> : null}
-          {openPanel === 'decisions' ? <DecisionsPanel /> : null}
-          {openPanel === 'technology' ? <TechnologyPanel /> : null}
-          {openPanel === 'save_load' ? <SaveLoadPanel /> : null}
+          {openPanel === 'province' ? <LazyPanel Panel={ProvincePanel} /> : null}
+          {openPanel === 'budget' ? <LazyPanel Panel={BudgetPanel} /> : null}
+          {openPanel === 'population' ? <LazyPanel Panel={PopulationPanel} /> : null}
+          {openPanel === 'cultures' ? <LazyPanel Panel={CulturePanel} /> : null}
+          {openPanel === 'production' ? <LazyPanel Panel={ProductionPanel} /> : null}
+          {openPanel === 'market' ? <LazyPanel Panel={MarketPanel} /> : null}
+          {openPanel === 'politics' ? <LazyPanel Panel={PoliticsPanel} /> : null}
+          {openPanel === 'diplomacy' ? <LazyPanel Panel={DiplomacyPanel} /> : null}
+          {openPanel === 'great_powers' ? (
+            <Suspense fallback={<PanelBodyFallback />}>
+              <CrisisPanel />
+              <GreatPowersPanel />
+            </Suspense>
+          ) : null}
+          {openPanel === 'military' ? <LazyPanel Panel={MilitaryPanel} /> : null}
+          {openPanel === 'colonization' ? <LazyPanel Panel={ColonizationPanel} /> : null}
+          {openPanel === 'formables' ? <LazyPanel Panel={FormablesPanel} /> : null}
+          {openPanel === 'decisions' ? <LazyPanel Panel={DecisionsPanel} /> : null}
+          {openPanel === 'technology' ? <LazyPanel Panel={TechnologyPanel} /> : null}
+          {openPanel === 'save_load' ? <LazyPanel Panel={SaveLoadPanel} /> : null}
         </div>
       </aside>
     </>

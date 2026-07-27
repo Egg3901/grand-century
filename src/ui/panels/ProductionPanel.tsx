@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useStore } from '../../store';
+import { useSnapshotFields } from '../useSnapshotFields';
 import { BALANCE } from '../../sim/balance';
 import { TraceTooltip } from '../components/TraceTooltip';
 
@@ -23,14 +24,21 @@ function factoryBuildCost(factoryCount: number): number {
 }
 
 export function ProductionPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields([
+    'market',
+    'nations',
+    'playerNation',
+    'playerTech',
+    'playerStates',
+    'playerProduction',
+  ] as const);
   const data = useStore((state) => state.data);
   const sendCommand = useStore((state) => state.sendCommand);
 
   const goodById = useMemo(() => new Map(data?.goods.map((good) => [good.id, good.name]) ?? []), [data]);
   const priceByGood = useMemo(
     () => new Map(snapshot?.market.map((entry) => [entry.good, entry.price]) ?? []),
-    [snapshot],
+    [snapshot?.market],
   );
   const player = snapshot?.nations.find((nation) => nation.id === snapshot.playerNation) ?? null;
   const buyMult = importMultiplier(player?.tariffRate ?? 0);

@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useStore } from '../../store';
+import { useSnapshotFields } from '../useSnapshotFields';
 import type { NationDetail } from '../../shared/types';
 import { reformMechanicalEffect } from '../../sim/politics';
 import { TraceTooltip } from '../components/TraceTooltip';
@@ -22,7 +23,7 @@ const FRANCHISE_LEGEND = [
 ] as const;
 
 export function PoliticsPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['day', 'playerNation', 'nations'] as const);
   const detail = useStore((state) => state.nationDetail);
   const data = useStore((state) => state.data);
   const requestNation = useStore((state) => state.requestNation);
@@ -35,7 +36,7 @@ export function PoliticsPanel() {
 
   const player = useMemo(() => (
     snapshot?.nations.find((nation) => nation.id === snapshot.playerNation) ?? null
-  ), [snapshot]);
+  ), [snapshot?.nations, snapshot?.playerNation]);
 
   const availability = useMemo(() => {
     if (!detail) return new Map<string, NationDetail['reformsAvailable'][number]>();

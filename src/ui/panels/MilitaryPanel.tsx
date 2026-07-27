@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { WORLD_SEED } from '../../data/generated';
 import type { Army, Fleet, Ship } from '../../shared/types';
 import { useStore } from '../../store';
+import { useShallow } from 'zustand/react/shallow';
 import { TraceTooltip } from '../components/TraceTooltip';
 import { warSidesLabel } from '../warNaming';
 import { PeaceConference } from './PeaceConference';
@@ -40,7 +41,7 @@ function formatRegimentCount(counts: Record<Army['regiments'][number]['type'], n
 }
 
 export function MilitaryPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useStore(useShallow((state) => state.snapshot));
   const selectedProvince = useStore((state) => state.selectedProvince);
   const selectedArmy = useStore((state) => state.selectedArmy);
   const selectedFleet = useStore((state) => state.selectedFleet);

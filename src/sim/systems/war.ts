@@ -1276,10 +1276,25 @@ function navalBasePowerByOwner(world: World): number[] {
   return power;
 }
 
+/**
+ * Committed colonial-claim cost per nation in one pass over colonialClaims.
+ * Equals the old per-nation `filter(claimants.has).length * COLONIAL_CLAIM_COST`.
+ */
+function committedClaimCostByNation(runtime: WarRuntime, nationCount: number): number[] {
+  const cost = new Array(nationCount).fill(0);
+  for (const claim of runtime.colonialClaims.values()) {
+    for (const nationId of claim.claimants.keys()) {
+      if (nationId >= 0 && nationId < cost.length) cost[nationId] += COLONIAL_CLAIM_COST;
+    }
+  }
+  return cost;
+}
+
 export function computeColonialPointsBreakdown(
   world: World,
   nationId: NationId,
   navalPow?: number[],
+  committedCost?: number[],
 ): {
   navalBases: number;
   reforms: number;
@@ -1303,15 +1318,22 @@ export function computeColonialPointsBreakdown(
   const navyTech = nationNavyTech(world, nationId) * 5;
   const gpBonus = nation.gpRank > 0 ? 12 : 0;
   const modifier = runtime.colonialPointModifiers.get(nationId) ?? 0;
-  const committed = Array.from(runtime.colonialClaims.values())
-    .filter((claim) => claim.claimants.has(nationId))
-    .length * COLONIAL_CLAIM_COST;
+  const committed = committedCost
+    ? (committedCost[nationId] ?? 0)
+    : Array.from(runtime.colonialClaims.values())
+        .filter((claim) => claim.claimants.has(nationId))
+        .length * COLONIAL_CLAIM_COST;
   const available = Math.max(0, Math.round(navalBases + reforms + navyTech + gpBonus + modifier - committed));
   return { navalBases, reforms, navyTech, gpBonus, modifier, committed, available };
 }
 
-function computeColonialPoints(world: World, nationId: NationId, navalPow?: number[]): number {
-  return computeColonialPointsBreakdown(world, nationId, navalPow).available;
+function computeColonialPoints(
+  world: World,
+  nationId: NationId,
+  navalPow?: number[],
+  committedCost?: number[],
+): number {
+  return computeColonialPointsBreakdown(world, nationId, navalPow, committedCost).available;
 }
 
 export function addColonialPointsModifier(world: World, nationId: NationId, amount: number): void {
@@ -1389,7 +1411,10 @@ export function claimableColonialState(world: World, nationId: NationId, stateId
 function updateColonialClaims(world: World): void {
   const runtime = ensureRuntime(world);
   const navalPow = navalBasePowerByOwner(world);
-  for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow);
+  const committedCost = committedClaimCostByNation(runtime, world.nations.length);
+  for (const nation of world.nations) {
+    nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow, committedCost);
+  }
   for (const claim of runtime.colonialClaims.values()) {
     const claimants = Array.from(claim.claimants.keys()).sort((a, b) => a - b);
     for (const claimant of claimants) {
@@ -1881,7 +1906,11 @@ export function runWarDaily(world: World, data: GameData, rng: Rng): void {
     if (!hasRebels) {
       if (world.day % 30 === 0) {
         const navalPow = navalBasePowerByOwner(world);
-        for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow);
+        // claims.size === 0 here; hoist still skips 48 empty Map scans.
+        const committedCost = committedClaimCostByNation(runtime, world.nations.length);
+        for (const nation of world.nations) {
+          nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow, committedCost);
+        }
       }
       if (world.day % 7 === 0) updateRebellions(world, data);
       return;
@@ -1894,7 +1923,10 @@ export function runWarDaily(world: World, data: GameData, rng: Rng): void {
     capRebelArmies(world);
     {
       const navalPow = navalBasePowerByOwner(world);
-      for (const nation of world.nations) nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow);
+      const committedCost = committedClaimCostByNation(runtime, world.nations.length);
+      for (const nation of world.nations) {
+        nation.colonialPoints = computeColonialPoints(world, nation.id, navalPow, committedCost);
+      }
     }
     return;
   }

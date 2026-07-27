@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { useStore } from '../../store';
+import { useSnapshotFields } from '../useSnapshotFields';
 import { TraceTooltip } from '../components/TraceTooltip';
 import {
   POP_COMPOSITION_HEIGHT,
@@ -81,7 +81,7 @@ function PopulationCompositionChart({ segments }: { segments: PopShareSegment[] 
 }
 
 export function PopulationPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['playerPopulation', 'playerReformAgitation', 'playerPopMobility'] as const);
 
   if (!snapshot) {
     return (

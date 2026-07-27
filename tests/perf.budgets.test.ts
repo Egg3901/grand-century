@@ -19,6 +19,13 @@ import { advanceDay } from '../src/sim/world';
  * so a tight ceiling would fail on scheduling noise rather than on regressions.
  * A 3x headroom still catches an order-of-magnitude mistake, which is the class
  * of regression that actually matters here.
+ *
+ * F2 (issue #9 remainder) recorded on this box:
+ *  - buildSnapshot: 7.83ms/call → 5.37–5.78ms/call cold-ish median; ~2.70ms/call
+ *    once the culture ledger cache is warm (62.7 → ~43 ms of every 1000ms at 8Hz;
+ *    ~22 ms/1000ms warm).
+ *  - buildCultureLedger: still ~0.5–0.6ms when it runs, but getCultureLedger no
+ *    longer invokes it on every snapshot (monthly / dirty / nation switch only).
  */
 
 /** Snapshots are posted at SNAPSHOT_HZ = 8 in src/worker/sim.worker.ts. */
@@ -47,7 +54,9 @@ describe('H5 perf budgets', () => {
   it('records buildSnapshot cost per call', () => {
     const world = warmWorld();
     const ms = medianMs(15, () => buildSnapshot(world, GAME_DATA));
-    const budgetMs = 60;
+    // Pre-F2 on this box: 7.83ms. Post-F2: 5.37ms. Ceiling tracks the new median
+    // with ~3× scheduling headroom (was 60ms before the collapse).
+    const budgetMs = 20;
     console.log(
       `[budget] buildSnapshot median ${ms.toFixed(2)}ms/call `
       + `(${(ms * SNAPSHOT_HZ).toFixed(1)}ms of every 1000ms at ${SNAPSHOT_HZ}Hz), ceiling ${budgetMs}ms`,
@@ -55,39 +64,48 @@ describe('H5 perf budgets', () => {
     expect(ms).toBeLessThan(budgetMs);
   }, 60_000);
 
-  it('records buildCultureLedger cost — it runs unconditionally on every snapshot', () => {
+  it('records buildCultureLedger cost — gated, not every snapshot', () => {
     const world = warmWorld();
     const ms = medianMs(15, () => buildCultureLedger(world, GAME_DATA, world.playerNation));
-    const budgetMs = 40;
-    // This is called from buildSnapshot with no dirty flag and no cadence gate,
-    // so its cost is paid SNAPSHOT_HZ times a second for the player nation only,
-    // while scanning every pop in the world. See issue #9.
+    const budgetMs = 20;
+    // Raw rebuild cost when the ledger IS computed. Snapshot builds go through
+    // getCultureLedger, which calls this on the WEEKLY pop pass (where militancy
+    // is written), the monthly culture pass, the culture commands, or a
+    // player-nation switch — not SNAPSHOT_HZ times a second. The weekly trigger
+    // matters: gating on the month alone left the Cultures panel up to a month
+    // stale. See issue #9 / F2.
     console.log(
       `[budget] buildCultureLedger median ${ms.toFixed(2)}ms/call `
-      + `(${(ms * SNAPSHOT_HZ).toFixed(1)}ms of every 1000ms at ${SNAPSHOT_HZ}Hz), ceiling ${budgetMs}ms`,
+      + `(paid on month/dirty/nation-switch, not ×${SNAPSHOT_HZ}/sec), ceiling ${budgetMs}ms`,
     );
     expect(ms).toBeLessThan(budgetMs);
   }, 60_000);
 
-  it('records how much of a snapshot is spent on the culture ledger', () => {
+  it('records amortized culture-ledger cost inside repeated snapshot builds', () => {
     const world = warmWorld();
+    // First call may rebuild; subsequent calls in the same month hit the cache.
+    buildSnapshot(world, GAME_DATA);
     const snap = medianMs(10, () => buildSnapshot(world, GAME_DATA));
     const culture = medianMs(10, () => buildCultureLedger(world, GAME_DATA, world.playerNation));
-    const share = culture / Math.max(snap, 1e-6);
-    console.log(`[budget] culture ledger is ${(share * 100).toFixed(1)}% of a snapshot build`);
-    expect(share).toBeGreaterThanOrEqual(0);
+    const shareIfUngated = culture / Math.max(snap, 1e-6);
+    console.log(
+      `[budget] warm buildSnapshot median ${snap.toFixed(2)}ms/call; `
+      + `raw culture rebuild ${culture.toFixed(2)}ms `
+      + `(would be ${(shareIfUngated * 100).toFixed(1)}% if still ungated)`,
+    );
+    expect(shareIfUngated).toBeGreaterThanOrEqual(0);
   }, 60_000);
 });
 
 /**
  * The render-side budget is a STATIC count, not a runtime measurement.
  *
- * `src/store.ts` replaces the whole snapshot object on every tick, so every
- * component that subscribes to `state.snapshot` wholesale re-renders at 8Hz
- * whether or not anything it displays changed. Counting those subscriptions is
- * a stable, fast proxy for the render cost, and it is the number the perf-floor
- * milestone has to reduce. Measuring actual React re-renders would need a DOM
- * harness this suite does not otherwise carry.
+ * `src/store.ts` stabilizes top-level snapshot field identities across ticks
+ * (see stabilizeSnapshot) so components can subscribe to narrow slices.
+ * Counting remaining wholesale `state.snapshot` subscriptions is a stable,
+ * fast proxy for the render cost the perf-floor milestone reduced. Measuring
+ * actual React re-renders would need a DOM harness this suite does not
+ * otherwise carry.
  */
 describe('H5 render budget', () => {
   const SRC = join(__dirname, '..', 'src');
@@ -102,22 +120,31 @@ describe('H5 render budget', () => {
   }
 
   it('records how many components subscribe to the whole snapshot', () => {
+    // Count the BEHAVIOUR (a selector returning the entire snapshot object),
+    // not one spelling of it. The original regex only matched
+    // `useStore((s) => s.snapshot)`, so wrapping the same selector in
+    // `useShallow(...)` made the number read 0 while six components still
+    // pulled the whole object. A budget that a rename can satisfy is not a
+    // budget. `useSnapshotFields` is the shared helper that implements narrow
+    // selection, so it is excluded by name rather than by shape.
+    const WHOLE_SNAPSHOT_SELECTOR = /\(\s*\w+\s*\)\s*=>\s*\w+\.snapshot\s*[,)]/;
+    const HELPER = 'ui/useSnapshotFields.ts';
     const wholesale: string[] = [];
     for (const file of walk(SRC)) {
-      const text = readFileSync(file, 'utf8');
-      // `useStore((state) => state.snapshot)` and spelling variants — a
-      // subscription to the entire snapshot object rather than a slice of it.
-      if (/useStore\(\s*\(\s*\w+\s*\)\s*=>\s*\w+\.snapshot\s*\)/.test(text)) {
-        wholesale.push(file.replace(`${SRC}/`, ''));
-      }
+      const rel = file.replace(`${SRC}/`, '');
+      if (rel === HELPER || rel === 'store.ts') continue;
+      if (WHOLE_SNAPSHOT_SELECTOR.test(readFileSync(file, 'utf8'))) wholesale.push(rel);
     }
     console.log(
-      `[budget] ${wholesale.length} modules subscribe to the entire snapshot:\n  `
-      + wholesale.sort().join('\n  '),
+      `[budget] ${wholesale.length} modules still select the entire snapshot:\n  `
+      + (wholesale.sort().join('\n  ') || '(none)'),
     );
-    // Recorded at 28 when this budget was written. This must go DOWN, never up:
-    // each one is a guaranteed re-render on every tick. See issue #8.
-    expect(wholesale.length).toBeLessThanOrEqual(28);
+    // 28 before F1, 6 after (issue #8). The six that remain — the map plus the
+    // diplomacy, military, colonization and crisis panels, and the panel host —
+    // genuinely read most of the snapshot, and `stabilizeSnapshot` reuses field
+    // identities so a quiet tick costs them nothing. Narrowing them further is a
+    // rewrite with little left to win. This must go DOWN, never up.
+    expect(wholesale.length).toBeLessThanOrEqual(6);
   });
 
   it('records the size of the onSnapshot derivation block in the store', () => {
@@ -139,8 +166,8 @@ describe('H5 render budget', () => {
     }
     const lines = end - start;
     console.log(`[budget] store onSnapshot derivation spans ${lines} lines (src/store.ts:${start + 1})`);
-    // Recorded at ~353 lines of alert derivation inlined into a single set().
-    // The perf-floor milestone pulls this into a pure module. See issue #8.
-    expect(lines).toBeLessThanOrEqual(400);
+    // Recorded at 5 after F1 (issue #8): alert derivation lives in src/ui/alerts.ts;
+    // onSnapshot only stabilizes the snapshot and calls deriveAlerts.
+    expect(lines).toBeLessThanOrEqual(5);
   });
 });

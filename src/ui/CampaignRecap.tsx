@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useStore } from '../store';
+import { useSnapshotFields } from './useSnapshotFields';
 import { NationFlag } from './components/NationFlag';
 import './CampaignRecap.css';
 
@@ -26,7 +27,7 @@ function formatCount(value: number): string {
  * screenshot. Continue-playing stays available; history does not stop.
  */
 export function CampaignRecap() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['chronicle', 'campaignOver', 'chronicleWarsFought'] as const);
   const [dismissed, setDismissed] = useState(false);
   const setShowMainMenu = useStore((state) => state.setShowMainMenu);
 

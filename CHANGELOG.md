@@ -4,6 +4,39 @@ All notable changes to Grand Century are documented here.
 
 ## [Unreleased]
 
+## [1.3.0] — 2026-07-27
+
+### The floor
+The game does the same things it did yesterday, using markedly less of your
+machine to do them. Nothing here changes how it plays — that was the rule, and
+it was checked rather than assumed.
+
+- **The map and panels load in pieces.** Opening a panel used to pull every
+  panel; the map used to arrive as one 1.3 MB block. Both are split now, and the
+  offline cache went from 10.2 MB to 2.0 MB — which also means the world can get
+  bigger later without quietly breaking offline play.
+- **Screens stop redrawing when nothing changed.** Every panel, the HUD and the
+  map used to redraw eight times a second whether or not anything they showed
+  had moved. Most now watch only the parts they display.
+- **Multiplayer builds one world view per broadcast instead of one per player.**
+  With eight players that was twenty-seven full world rebuilds a second.
+- The daily war pass, the snapshot builder and the culture ledger all got
+  cheaper — the culture figures are recalculated when population actually
+  changes rather than eight times a second.
+
+### Checked, not assumed
+Every change here was verified to produce a byte-identical world: ten sim-years
+across three seeds, hashed and compared against the previous release. Two things
+that verification caught, which would otherwise have shipped:
+
+- A snapshot refactor appeared to change the world. It had not — the probe was
+  comparing key order rather than content. The probe was fixed.
+- The culture cache was refreshed monthly while the underlying figures change
+  weekly, so the Cultures panel could show numbers up to a month old. Sampling
+  mid-month rather than on year boundaries exposed it.
+
+[1.3.0]: https://github.com/Egg3901/grand-century/releases/tag/v1.3.0
+
 ## [1.2.0] — 2026-07-27
 
 ### The instruments

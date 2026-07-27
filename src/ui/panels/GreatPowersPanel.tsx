@@ -1,14 +1,22 @@
 import { useMemo } from 'react';
-import { useStore } from '../../store';
+import { useSnapshotFields } from '../useSnapshotFields';
 import { NationFlag } from '../components/NationFlag';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 export function GreatPowersPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields([
+    'nations',
+    'playerNation',
+    'ninthPowerScore',
+    'playerPowerScore',
+    'playerInfluencePool',
+    'playerInfluenceTargets',
+    'greatPowers',
+  ] as const);
 
   const nationById = useMemo(() => (
     new Map(snapshot?.nations.map((nation) => [nation.id, nation]) ?? [])
-  ), [snapshot]);
+  ), [snapshot?.nations]);
 
   if (!snapshot) {
     return (

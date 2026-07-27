@@ -2,7 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './GrandMap.css';
 import { WORLD_SEED } from '../data/generated';
+import { GENERATED_GEO_URLS } from 'virtual:generated-geo';
 import { useStore } from '../store';
+import { useShallow } from 'zustand/react/shallow';
 import { largestPolygon, polylabel, ringArea } from './polylabel';
 import { nationShieldSvg } from '../ui/nationShield';
 import {
@@ -372,7 +374,7 @@ function insideViewport(box: ScreenBox, width: number, height: number, padding: 
 }
 
 export function GrandMap() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useStore(useShallow((state) => state.snapshot));
   const data = useStore((state) => state.data);
   const mapMode = useStore((state) => state.mapMode);
   const selectProvince = useStore((state) => state.selectProvince);
@@ -685,21 +687,53 @@ export function GrandMap() {
   useEffect(() => {
     let alive = true;
     const base = import.meta.env.BASE_URL;
-    const fetchJson = async <T,>(fileName: string): Promise<T | null> => {
+    const fetchJson = async <T,>(relativePath: string): Promise<T | null> => {
+      const url = `${base}${relativePath}`;
       try {
-        const response = await fetch(`${base}generated/${fileName}`);
+        const response = await fetch(url);
         if (!response.ok) return null;
+        // First-visit geo fetches often win the race against SW claim, so the
+        // Workbox CacheFirst route never sees them. Mirror into the runtime
+        // cache ourselves so offline still works after a successful first load.
+        if (typeof caches !== 'undefined') {
+          try {
+            const cache = await caches.open('gc-generated-geo');
+            await cache.put(url, response.clone());
+          } catch {
+            // Private mode / quota — online play still works.
+          }
+        }
         return await response.json() as T;
       } catch {
         return null;
       }
     };
     const loadGeo = async () => {
+      // Prefer fetching after the SW controls the page so CacheFirst can see the
+      // requests — but never block forever: Vite PWA is disabled in dev, and
+      // serviceWorker.ready waits indefinitely when no worker is registered.
+      if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+        try {
+          const registration = await navigator.serviceWorker.getRegistration();
+          if (registration) {
+            await Promise.race([
+              navigator.serviceWorker.ready,
+              new Promise<void>((resolve) => {
+                window.setTimeout(resolve, 2000);
+              }),
+            ]);
+          }
+        } catch {
+          // No SW — fetch directly.
+        }
+      }
+      // Content-hashed URLs from the Vite plugin — runtime-cached by the SW,
+      // not precached, so province-density growth cannot blow the precache budget.
       const [provinces, borders, riverData, lakeData] = await Promise.all([
-        fetchJson<ProvinceGeoJson>('provinces.geo.json'),
-        fetchJson<NationalBorderGeoJson>('nationalBorders.geo.json'),
-        fetchJson<object>('rivers.geo.json'),
-        fetchJson<object>('lakes.geo.json'),
+        fetchJson<ProvinceGeoJson>(GENERATED_GEO_URLS.provinces),
+        fetchJson<NationalBorderGeoJson>(GENERATED_GEO_URLS.nationalBorders),
+        fetchJson<object>(GENERATED_GEO_URLS.rivers),
+        fetchJson<object>(GENERATED_GEO_URLS.lakes),
       ]);
       if (!alive) return;
       if (provinces) setGeojson(provinces);
@@ -724,26 +758,32 @@ export function GrandMap() {
       const maplibregl = maplibreModule.default;
       maplibreRef.current = maplibregl;
 
-      const map = new maplibregl.Map({
-        container: containerRef.current,
-        style: {
-          version: 8,
-          sources: {},
-          layers: [{
-            id: 'paper-background',
-            type: 'background',
-            paint: { 'background-color': SEA_BASE },
-          }],
-        },
-        center: [0, 18],
-        zoom: 1.3,
-        attributionControl: false,
-        maxPitch: 0,
-        renderWorldCopies: false,
-        dragPan: true,
-        touchZoomRotate: true,
-        cooperativeGestures: false,
-      });
+      let map: MapLibreMap;
+      try {
+        map = new maplibregl.Map({
+          container: containerRef.current,
+          style: {
+            version: 8,
+            sources: {},
+            layers: [{
+              id: 'paper-background',
+              type: 'background',
+              paint: { 'background-color': SEA_BASE },
+            }],
+          },
+          center: [0, 18],
+          zoom: 1.3,
+          attributionControl: false,
+          maxPitch: 0,
+          renderWorldCopies: false,
+          dragPan: true,
+          touchZoomRotate: true,
+          cooperativeGestures: false,
+        });
+      } catch {
+        // Headless / WebGL-stubbed environments — leave the map unmounted.
+        return;
+      }
       createdMap = map;
       mapRef.current = map;
       if (import.meta.env.DEV) {

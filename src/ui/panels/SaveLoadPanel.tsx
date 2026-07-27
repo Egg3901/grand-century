@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useStore } from '../../store';
+import { useSnapshotFields } from '../useSnapshotFields';
 
 function dayToDate(day: number): string {
   const year = 1836 + Math.floor(day / 365);
@@ -8,7 +9,7 @@ function dayToDate(day: number): string {
 }
 
 export function SaveLoadPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['day', 'nations'] as const);
   const saveSlots = useStore((state) => state.saveSlots);
   const saveStatus = useStore((state) => state.saveStatus);
   const sendCommand = useStore((state) => state.sendCommand);
@@ -21,7 +22,7 @@ export function SaveLoadPanel() {
 
   const playerNameById = useMemo(() => (
     new Map(snapshot?.nations.map((nation) => [nation.id, nation.name]) ?? [])
-  ), [snapshot]);
+  ), [snapshot?.nations]);
 
   return (
     <section className="panel-card atlas-panel" data-coach-id="save-panel">
