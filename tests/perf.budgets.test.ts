@@ -139,12 +139,16 @@ describe('H5 render budget', () => {
       `[budget] ${wholesale.length} modules still select the entire snapshot:\n  `
       + (wholesale.sort().join('\n  ') || '(none)'),
     );
-    // 28 before F1, 6 after (issue #8). The six that remain — the map plus the
-    // diplomacy, military, colonization and crisis panels, and the panel host —
-    // genuinely read most of the snapshot, and `stabilizeSnapshot` reuses field
-    // identities so a quiet tick costs them nothing. Narrowing them further is a
-    // rewrite with little left to win. This must go DOWN, never up.
-    expect(wholesale.length).toBeLessThanOrEqual(6);
+    // 28 before F1, 6 after (issue #8), 5 after the Diplomacy rework.
+    // DiplomacyPanel dropped off the list because it was rebuilt around
+    // `useSnapshotFields` with an explicit 19-field list, not because the
+    // selector was rewrapped: the panel no longer reads market, armies,
+    // fleets, production, population, culture, tech, crisis, chronicle or
+    // colonial state at all. The five that remain — the map plus the military,
+    // colonization and crisis panels, and the panel host — genuinely read most
+    // of the snapshot, and `stabilizeSnapshot` reuses field identities so a
+    // quiet tick costs them nothing. This must go DOWN, never up.
+    expect(wholesale.length).toBeLessThanOrEqual(5);
   });
 
   it('records the size of the onSnapshot derivation block in the store', () => {

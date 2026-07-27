@@ -504,29 +504,44 @@
   color: var(--gc-ink-muted);
 }
 
-/* Event kind accents — left border + subtle tint per kind. */
-.event-card.event-war {
+/* Event kind accents — a left border per kind, so a toast is readable as
+   good/bad/ledger before a word of it is read.
+   This block used to cover six classes, two of which (`event-diplomacy`,
+   `event-economy`) match no kind UiAlert can ever carry, while eight real
+   kinds — peace, bankruptcy, election, save, unrest, event, market, culture —
+   had no accent at all. Every member of the union in src/ui/alerts.ts is
+   accounted for below; keep them in step. */
+.event-card.event-war,
+.event-card.event-bankruptcy {
   border-left: 3px solid var(--gc-danger);
 }
 
-.event-card.event-rebellion {
+.event-card.event-rebellion,
+.event-card.event-unrest {
   border-left: 3px solid var(--gc-wax);
-}
-
-.event-card.event-formation {
-  border-left: 3px solid var(--gc-positive);
-}
-
-.event-card.event-diplomacy {
-  border-left: 3px solid var(--gc-accent);
-}
-
-.event-card.event-economy {
-  border-left: 3px solid var(--gc-leather-soft);
 }
 
 .event-card.event-crisis {
   border-left: 3px solid var(--gc-wax-highlight);
+}
+
+.event-card.event-formation,
+.event-card.event-peace {
+  border-left: 3px solid var(--gc-positive);
+}
+
+.event-card.event-election,
+.event-card.event-culture {
+  border-left: 3px solid var(--gc-accent);
+}
+
+.event-card.event-market,
+.event-card.event-event {
+  border-left: 3px solid var(--gc-leather-soft);
+}
+
+.event-card.event-save {
+  border-left: 3px solid var(--gc-border);
 }
 
 .event-card.is-batched {

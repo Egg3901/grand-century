@@ -152,6 +152,24 @@
   border-bottom: 1px solid var(--gc-rule);
 }
 
+/* Long panels (Technology, Production, Population, Diplomacy) scroll for
+   several screens on a phone and you lose track of which ledger you are in.
+   Section rules pin to the top of the scroll region and bleed to the panel
+   edges so content passes cleanly underneath. Scoped to top-level sections
+   only: headings inside inset cards (peace conference, dossier) keep flowing. */
+.panel-host__body > .panel-card > .panel-small-heading {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  margin-left: calc(var(--gc-space-4) * -1);
+  margin-right: calc(var(--gc-space-4) * -1);
+  padding-left: var(--gc-space-4);
+  padding-right: var(--gc-space-4);
+  padding-top: 0.3rem;
+  background: var(--gc-panel-solid);
+  box-shadow: 0 1px 0 var(--gc-border-soft);
+}
+
 /* Semantic status */
 .positive,
 .status-positive,
@@ -1005,8 +1023,16 @@
     bottom: calc(env(safe-area-inset-bottom) + 5.75rem);
     width: auto;
     /* dvh, not vh: iOS 100vh includes the URL bar, which pushed the sheet's
-       tail below the visual viewport — the "can't scroll to the bottom" bug */
-    max-height: min(70vh, calc(100dvh - env(safe-area-inset-top) - 8.75rem));
+       tail below the visual viewport — the "can't scroll to the bottom" bug.
+       The old ceiling was `min(70vh, 100dvh - safe - 8.75rem)`: at 390x844 the
+       70vh term bound at 591px and left a 108px band of dead map between the
+       sheet and the mobile header. Measured on that viewport the header ends
+       at y=107 and the sheet's bottom anchor sits at y=752, so 13rem of total
+       chrome (header + 8px breathing room + the 5.75rem bottom offset) is the
+       real constraint. Expressing it that way gives the sheet 636px instead of
+       591 — one more list row on every panel — and still cannot collide with
+       the header on a short phone, where the calc binds first. */
+    max-height: calc(100dvh - env(safe-area-inset-top) - 13rem);
     pointer-events: none;
     z-index: 18;
     border-radius: var(--gc-radius-lg);
@@ -1525,3 +1551,547 @@
 }
 .production-build-btn__meta .positive { color: var(--gc-positive, #41764a); }
 .production-build-btn__meta .negative { color: var(--gc-negative, #a83a2e); }
+
+/* =========================================================================
+   Shared chancery vocabulary (0.9.x UI pass)
+   Three primitives introduced for Diplomacy and adopted by Great Powers so
+   the two screens that talk about the same subject look like one document:
+     .diplo-meter   a labelled ledger gauge (points / infamy / rivalries)
+     .gc-seal       a wax-stamp status chip (Allied / Rival / Truce / At war)
+     .gc-segmented  an engraved segmented control, cheaper than a <select>
+   ========================================================================= */
+
+.diplo-chancery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5.2rem, 1fr));
+  gap: var(--gc-space-2) var(--gc-space-3);
+  margin: var(--gc-space-2) 0 var(--gc-space-3);
+  padding: var(--gc-space-2) 0;
+  border-top: 1px solid var(--gc-border-soft);
+  border-bottom: 1px solid var(--gc-border-soft);
+}
+
+.diplo-meter {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 0 0.35rem;
+  min-width: 0;
+}
+
+.diplo-meter__label {
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-caption);
+  letter-spacing: var(--gc-tracking-caps);
+  text-transform: uppercase;
+  color: var(--gc-ink-faint);
+}
+
+.diplo-meter__value {
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-body);
+  font-variant-numeric: tabular-nums;
+  color: var(--gc-ink);
+  justify-self: end;
+}
+
+.diplo-meter__track {
+  grid-column: 1 / -1;
+  margin-top: 0.2rem;
+  height: 0.28rem;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: 1px;
+  background: rgba(255, 248, 230, 0.5);
+  overflow: hidden;
+}
+
+.diplo-meter__fill {
+  display: block;
+  height: 100%;
+  background: var(--gc-leather-soft);
+}
+
+.diplo-meter.is-danger .diplo-meter__fill { background: var(--gc-danger); }
+.diplo-meter.is-danger .diplo-meter__value { color: var(--gc-danger); }
+.diplo-meter.is-positive .diplo-meter__fill { background: var(--gc-positive); }
+
+/* Wax-stamp status chip. Tone carries the meaning; the border is the stamp. */
+.gc-seal {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: 0.7rem;
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-caption);
+  letter-spacing: var(--gc-tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--gc-ink-muted);
+  background: rgba(255, 248, 230, 0.55);
+}
+
+.gc-seal.is-war,
+.gc-seal.is-rival {
+  color: var(--gc-danger);
+  border-color: rgba(138, 43, 34, 0.45);
+  background: rgba(138, 43, 34, 0.09);
+}
+
+.gc-seal.is-war { font-weight: 600; }
+
+.gc-seal.is-ally {
+  color: var(--gc-positive);
+  border-color: rgba(42, 74, 46, 0.45);
+  background: rgba(42, 74, 46, 0.09);
+}
+
+.gc-seal.is-guarantee {
+  color: var(--gc-accent-deep);
+  border-color: rgba(122, 46, 36, 0.35);
+  background: var(--gc-accent-soft);
+}
+
+.gc-seal.is-truce {
+  color: var(--gc-ink-muted);
+  border-color: var(--gc-border);
+}
+
+/* Segmented control — the engraver's answer to a dropdown for 3-5 options.
+   Same burin-underline language as .gc-tab, but boxed so it reads as a filter. */
+.gc-segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius-sm);
+  background: rgba(252, 245, 228, 0.55);
+  overflow: hidden;
+}
+
+.gc-segment {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28rem;
+  min-width: 0;
+  padding: 0.3rem 0.4rem;
+  border: 0;
+  border-right: 1px solid var(--gc-border-soft);
+  background: transparent;
+  color: var(--gc-ink-muted);
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-caption);
+  letter-spacing: var(--gc-tracking-label);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.gc-segment:last-child { border-right: 0; }
+
+.gc-segment__count {
+  font-family: var(--gc-font-body);
+  font-variant-numeric: tabular-nums;
+  color: var(--gc-ink-faint);
+  font-size: 0.68rem;
+}
+
+.gc-segment.is-active {
+  color: var(--gc-accent-deep);
+  background: var(--gc-accent-soft);
+  box-shadow: inset 0 -2px 0 var(--gc-wax);
+}
+
+.gc-segment.is-active .gc-segment__count { color: var(--gc-accent-deep); }
+
+@media (hover: hover) and (pointer: fine) {
+  .gc-segment:hover { color: var(--gc-ink); background: rgba(255, 248, 230, 0.45); }
+}
+
+/* =========================================================================
+   Diplomacy: roster + dossier
+   ========================================================================= */
+
+.diplo-dispatch {
+  margin: 0 0 var(--gc-space-2);
+  padding: 0.4rem 0.55rem;
+  border-left: 3px solid var(--gc-border);
+  border-radius: 0 var(--gc-radius-sm) var(--gc-radius-sm) 0;
+  background: rgba(255, 248, 230, 0.4);
+  font-size: var(--gc-fs-small);
+  line-height: var(--gc-lh-body);
+  color: var(--gc-ink);
+}
+
+.diplo-dispatch.is-danger {
+  border-left-color: var(--gc-danger);
+  background: rgba(138, 43, 34, 0.08);
+  color: var(--gc-danger);
+}
+
+.diplo-dispatch-list {
+  list-style: none;
+  margin: 0 0 var(--gc-space-2);
+  padding: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.diplo-dispatch-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--gc-space-2);
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.diplo-dispatch-link {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  color: var(--gc-accent-deep);
+  cursor: pointer;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: var(--gc-border-soft);
+  text-underline-offset: 3px;
+}
+
+.diplo-roster {
+  display: grid;
+  gap: var(--gc-space-2);
+}
+
+.diplo-roster__tools {
+  display: grid;
+  gap: var(--gc-space-2);
+}
+
+.diplo-search {
+  width: 100%;
+  font-size: var(--gc-fs-small);
+  padding: 0.32rem 0.5rem;
+}
+
+.diplo-empty {
+  font-style: italic;
+  text-align: center;
+  padding: var(--gc-space-3) 0;
+}
+
+/* The roster is its own scroll region on desktop so the dossier below it
+   stays reachable without scrolling past forty rows. */
+.diplo-panel .diplo-list {
+  max-height: min(21rem, 34vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gc-border-soft) transparent;
+  border-top: 1px solid var(--gc-rule);
+}
+
+.diplo-panel .diplo-list li {
+  padding: 0;
+  gap: 0;
+}
+
+/* A row is a selection, not a menu. Every action moved into the dossier,
+   which is what took the roster from six buttons per nation to zero. */
+.diplo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gc-space-2);
+  width: 100%;
+  padding: 0.34rem 0.35rem;
+  border: 0;
+  border-left: 3px solid transparent;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.diplo-row.is-selected {
+  border-left-color: var(--gc-wax);
+  background: var(--gc-accent-soft);
+}
+
+.diplo-row__names {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.diplo-row__names strong {
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-small);
+  color: var(--gc-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.diplo-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.45rem;
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-faint);
+  line-height: 1.25;
+}
+
+.diplo-row__meta .diplo-rank {
+  color: var(--gc-accent-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+.diplo-row__standing {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: none;
+}
+
+.diplo-row__opinion {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.diplo-row__opinion em {
+  font-style: normal;
+  font-size: var(--gc-fs-caption);
+  font-variant-numeric: tabular-nums;
+  color: var(--gc-ink-muted);
+  min-width: 2.1rem;
+  text-align: right;
+}
+
+/* Diverging opinion bar: hostile grows left of the engraved centre, warm right. */
+.diplo-opinion {
+  position: relative;
+  display: block;
+  width: 2.6rem;
+  height: 0.42rem;
+  flex: none;
+  border: 1px solid var(--gc-border-soft);
+  border-radius: 1px;
+  background: rgba(255, 248, 230, 0.5);
+  overflow: hidden;
+}
+
+.diplo-opinion::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--gc-border);
+}
+
+.diplo-opinion__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.diplo-opinion__fill.is-warm { background: var(--gc-positive); }
+.diplo-opinion__fill.is-cold { background: var(--gc-danger); }
+
+/* The dossier reads as a separate document laid on the desk. */
+.diplo-dossier {
+  margin-top: var(--gc-space-3);
+  padding: var(--gc-space-3);
+  border: 1px solid var(--gc-border-soft);
+  border-radius: var(--gc-radius);
+  background: rgba(255, 248, 230, 0.32);
+}
+
+.diplo-back { display: none; }
+
+.diplo-dossier__head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: var(--gc-space-2);
+  border-bottom: 1px solid var(--gc-rule);
+}
+
+.diplo-dossier__title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.diplo-dossier__title strong {
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-h2);
+  line-height: var(--gc-lh-tight);
+  color: var(--gc-ink);
+}
+
+.diplo-dossier__title span {
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-faint);
+  text-transform: capitalize;
+}
+
+.diplo-dossier .ledger-grid { margin-top: var(--gc-space-2); }
+
+.diplo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: var(--gc-space-3) 0 var(--gc-space-2);
+}
+
+/* Why a button is dark, spelled out. A disabled control that will not say
+   why is the single biggest source of "the game is not responding". */
+.diplo-reason {
+  margin: 0.15rem 0;
+  font-size: var(--gc-fs-caption);
+  line-height: var(--gc-lh-body);
+  color: var(--gc-ink-muted);
+}
+
+.diplo-goal-blurb {
+  margin: 0.1rem 0 var(--gc-space-2);
+  font-size: var(--gc-fs-caption);
+  font-style: italic;
+  line-height: var(--gc-lh-body);
+  color: var(--gc-ink-faint);
+}
+
+.diplo-cb-list li {
+  align-items: baseline;
+  padding: 0.22rem 0;
+}
+
+.diplo-cb-list strong {
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-small);
+}
+
+.diplo-cb-list li > span {
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-muted);
+}
+
+.diplo-panel .diplo-controls { margin-top: var(--gc-space-2); }
+
+/* Great Powers: same vocabulary, so the two screens stop being two memories. */
+
+/* `.gp-list li > div` (grid) outranks `.gp-row__nation` (flex) on specificity,
+   which stacked the rank medallion, the flag and the seal onto three lines.
+   Match its shape to win it back. */
+.gp-list li > div.gp-row__nation {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.gp-rank {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 1.35rem;
+  height: 1.35rem;
+  border: 1px solid var(--gc-border);
+  border-radius: 50%;
+  background: rgba(255, 248, 230, 0.6);
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-caption);
+  font-variant-numeric: tabular-nums;
+  color: var(--gc-ink-muted);
+}
+
+.gp-list li.is-player .gp-rank {
+  border-color: var(--gc-accent-deep);
+  color: var(--gc-accent-deep);
+}
+
+.gp-row-link {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.15rem 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.gp-row-link strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gp-sphere-seals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.25rem;
+  align-items: center;
+  margin-top: 0.15rem;
+}
+
+.gp-sphere-seals .gc-seal { font-size: 0.62rem; padding: 0.02rem 0.32rem; }
+
+.gp-sphere-label {
+  font-size: var(--gc-fs-caption);
+  color: var(--gc-ink-faint);
+  margin-right: 0.1rem;
+}
+
+@media (max-width: 768px) {
+  /* Phone: the band is one view at a time. An index of forty nations and a
+     country dossier cannot share a 590px sheet, so they take turns. */
+  .diplo-band[data-view='roster'] .diplo-dossier { display: none; }
+  .diplo-band[data-view='dossier'] .diplo-roster { display: none; }
+
+  .diplo-back {
+    display: inline-flex;
+    margin-bottom: var(--gc-space-2);
+    padding-left: 0;
+  }
+
+  .diplo-panel .diplo-list {
+    max-height: none;
+    overflow: visible;
+  }
+
+  /* Two selects, not four, so they still fit side by side on a phone. */
+  .diplo-panel .diplo-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .diplo-row {
+    padding: 0.5rem 0.35rem;
+    min-height: 44px;
+  }
+
+  .diplo-row__names strong { font-size: 0.9rem; }
+
+  .diplo-chancery { grid-template-columns: repeat(auto-fit, minmax(4.6rem, 1fr)); }
+
+  .diplo-dispatch-list li {
+    font-size: 0.78rem;
+    min-height: 34px;
+    align-items: center;
+  }
+
+  .gc-segment { min-height: 40px; font-size: 0.7rem; }
+}
