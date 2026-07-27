@@ -88,7 +88,21 @@ Two things to know about the e2e webServer setup:
 2. Move `## [Unreleased]` content into `## [X.Y.Z] — YYYY-MM-DD` in
    `CHANGELOG.md`, add the release link at the bottom of the section, and leave
    a fresh empty `## [Unreleased]` behind.
-3. Open a PR against `master`. Green gate, then merge.
+3. Open a PR against `master`. **Before merging, confirm the PR head is the
+   commit you think it is:**
+
+```sh
+git rev-parse HEAD
+gh pr view <N> --json headRefOid --jq .headRefOid   # must be identical
+```
+
+   This is not paranoia. 1.4.0 was merged with its version bump, changelog and
+   lockfile missing, because the release commit was created but never reached
+   the remote, and the PR had been opened against the previous tip. The code
+   shipped fine; the release metadata did not. A published release sat with
+   empty notes and the live build stamped the previous version number.
+
+   Green gate, then merge.
 4. Tag and publish:
 
 ```sh
@@ -119,9 +133,15 @@ Then check the live bundle actually changed — the MCP does this in one call:
 And confirm the build stamp is real:
 
 ```sh
-curl -s https://lakesidegames.net/games/grand-century/assets/index-*.js \
-  | grep -o 'X\.Y\.Z+[a-f0-9]*' | head -1
+grep -ho '[0-9]\+\.[0-9]\+\.[0-9]\++[a-f0-9]\{8,\}' /var/www/grand-century/assets/*.js | sort -u
 ```
+
+**The version half of that stamp matters as much as the SHA.** Both times this
+has gone wrong, the SHA was correct and the version was not: 1.0.0 shipped
+tagged `dev` because nothing set `VITE_RELEASE`, and 1.4.0 shipped stamped
+`1.3.0` because the version bump never reached the remote. A correct SHA next to
+a stale version means the build is real but `package.json` was not what you
+thought when it ran.
 
 Finally, check error reporting is alive. The `grand-century` GlitchTip project
 sat at `firstEvent: null` for five days after error tracking "shipped" because
