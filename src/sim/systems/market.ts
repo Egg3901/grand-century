@@ -90,6 +90,26 @@ export function computeSaleRevenue(world: World, good: GoodId, nationId: NationI
   return receivedPerUnit * safeAmount;
 }
 
+/**
+ * What a sale WOULD yield, without moving any money or booking any tariff.
+ *
+ * Used by settle-mode production to price output at supply time while deferring
+ * the actual transfer until the market has cleared. Keep this in lockstep with
+ * `computeSaleRevenue` — it is deliberately the same arithmetic minus the side
+ * effect, so that pricing and payment can never disagree.
+ */
+export function priceSaleRevenue(world: World, good: GoodId, nationId: NationId, amount: number): number {
+  const nation = world.nations[nationId];
+  const marketGood = world.market[good];
+  if (!nation || !marketGood) return 0;
+  const safeAmount = Math.max(0, finite(amount));
+  const baseUnit = Math.max(MIN_PRICE, finite(marketGood.price));
+  const mult = exportMultiplier(nation.tariffRate);
+  const tradeEfficiency = 1 + Math.max(0, techModifiersFor(nation, GAME_DATA).tradeEfficiency ?? 0);
+  const cutFraction = Math.max(0, 1 - mult);
+  return baseUnit * (1 - cutFraction * tradeEfficiency) * safeAmount;
+}
+
 export interface MarketPurchaseResult {
   bought: number;
   spent: number;

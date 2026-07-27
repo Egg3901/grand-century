@@ -1,8 +1,57 @@
 import type { Factory, GameData, Pop, Recipe, State, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
-import { buyFromMarket, computeSaleRevenue, registerSupply } from './market';
+import { buyFromMarket, computeSaleRevenue, priceSaleRevenue, registerSupply } from './market';
 import { techModifiersFor } from './research';
+
+/**
+ * A producer's claim on this week's sales.
+ *
+ * Under `clearingMode: 'settle'` production does NOT pay itself. It registers
+ * supply and records what it WOULD earn if everything sold, along with the pop
+ * lists the money is owed to. After buyers have had their turn,
+ * `settleProductionWeekly` scales every claim by the fraction of that good's
+ * producer supply which actually sold, and only then moves money.
+ *
+ * This is the fix for the money fountain: money entering the economy each week
+ * is bounded by money spent, instead of being minted for goods nobody bought.
+ */
+interface ProductionClaim {
+  good: number;
+  nationId: number;
+  /** Units this producer put on the market this week. */
+  supplied: number;
+  /** Revenue if every supplied unit sold — scaled by the realized sell rate. */
+  grossIfAllSold: number;
+  wagePool: number;
+  ownerPool: number;
+  statePool: number;
+  wageEligible: number[];
+  wageWeight: number;
+  owners: number[];
+  ownerWeight: number;
+  /** Where to record realized weekly profit once known. */
+  onProfit: (profit: number) => void;
+  /**
+   * Factories settle differently from RGOs: their costs (inputs, operating) are
+   * already sunk, so only revenue scales with the realized sell rate. This
+   * closure performs the whole factory settlement and returns realized profit.
+   */
+  settleFactory?: (rate: number) => number;
+}
+
+const productionClaims = new WeakMap<World, ProductionClaim[]>();
+
+function claimsFor(world: World): ProductionClaim[] {
+  let list = productionClaims.get(world);
+  if (!list) { list = []; productionClaims.set(world, list); }
+  return list;
+}
+
+/** True when producers are paid after the market clears rather than on output. */
+function settleMode(): boolean {
+  return BALANCE.economy.clearingMode === 'settle';
+}
 
 function finite(value: number, fallback = 0): number {
   return Number.isFinite(value) ? value : fallback;
@@ -99,13 +148,14 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>, rgoTech
     if (outputAmount <= 0) continue;
 
     const nationId = province.owner;
-    const grossRevenue = computeSaleRevenue(world, recipe.output.good, nationId, outputAmount);
+    // Under settle mode this prices the output but does NOT move money yet —
+    // computeSaleRevenue is called once, at settle time, on the sold fraction.
+    const grossRevenue = settleMode()
+      ? priceSaleRevenue(world, recipe.output.good, nationId, outputAmount)
+      : computeSaleRevenue(world, recipe.output.good, nationId, outputAmount);
     const wagePool = grossRevenue * BALANCE.economy.rgoWageShare;
     const ownerPool = grossRevenue * BALANCE.economy.rgoOwnerShare;
     const statePool = Math.max(0, grossRevenue - wagePool - ownerPool);
-    // Ledger profit = residual after wages (owner rent + vestigial state share).
-    province.rgo.weeklyProfit = ownerPool + statePool;
-    world.nations[nationId].monthlyProductionIncome += statePool;
 
     const employedShare = employed / totalEligible;
     const wageEligible = eligible.filter((popId) => {
@@ -118,13 +168,85 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>, rgoTech
       if (!pop) continue;
       wageWeight += pop.size * employedShare;
     }
-    distributeMoney(world, wageEligible, wageWeight, wagePool);
-
     const owners = ruralOwnerIds(world, province.id);
     const ownerWeight = totalPopSize(world, owners);
+
+    if (settleMode()) {
+      claimsFor(world).push({
+        good: recipe.output.good,
+        nationId,
+        supplied: outputAmount,
+        grossIfAllSold: grossRevenue,
+        wagePool,
+        ownerPool,
+        statePool,
+        wageEligible,
+        wageWeight,
+        owners,
+        ownerWeight,
+        onProfit: (profit) => { province.rgo.weeklyProfit = profit; },
+      });
+      continue;
+    }
+
+    // Ledger profit = residual after wages (owner rent + vestigial state share).
+    province.rgo.weeklyProfit = ownerPool + statePool;
+    world.nations[nationId].monthlyProductionIncome += statePool;
+    distributeMoney(world, wageEligible, wageWeight, wagePool);
     if (ownerWeight > 0) distributeMoney(world, owners, ownerWeight, ownerPool);
     else world.nations[nationId].monthlyProductionIncome += ownerPool;
   }
+}
+
+/**
+ * Settle every producer claim against what the market actually absorbed.
+ *
+ * Sell rate per good = units bought from producers / units producers supplied.
+ * `consumerBought` counts purchases from both producer supply and the world
+ * stockpile, so the producer-sourced portion is `consumerBought - stockpileSell`.
+ * Anything left unsold rolls into the stockpile as before — but nobody is paid
+ * for it, which is the whole point.
+ */
+export function settleProductionWeekly(world: World, _data: GameData, _rng: Rng): void {
+  const claims = productionClaims.get(world);
+  if (!claims || claims.length === 0) return;
+
+  const sellRate: number[] = [];
+  for (let good = 0; good < world.marketRuntime.length; good++) {
+    const runtime = world.marketRuntime[good];
+    if (!runtime) { sellRate[good] = 0; continue; }
+    const supplied = Math.max(0, runtime.producerSupply);
+    const soldFromProducers = Math.max(0, runtime.consumerBought - runtime.stockpileSell);
+    sellRate[good] = supplied > 0 ? clamp(soldFromProducers / supplied, 0, 1) : 0;
+  }
+
+  for (const claim of claims) {
+    const rate = sellRate[claim.good] ?? 0;
+    if (claim.settleFactory) {
+      // Book the tariff/trade-efficiency transfer on the sold units, then let
+      // the factory closure distribute wages and profit against sunk costs.
+      if (rate > 0) computeSaleRevenue(world, claim.good, claim.nationId, claim.supplied * rate);
+      claim.settleFactory(rate);
+      continue;
+    }
+    const sold = claim.supplied * rate;
+    // One real transfer, on the sold units only. This books the export tariff
+    // and the trade-efficiency cut exactly as a normal sale would.
+    const gross = sold > 0 ? computeSaleRevenue(world, claim.good, claim.nationId, sold) : 0;
+    const scale = claim.grossIfAllSold > 0 ? gross / claim.grossIfAllSold : 0;
+    const wagePool = claim.wagePool * scale;
+    const ownerPool = claim.ownerPool * scale;
+    const statePool = claim.statePool * scale;
+
+    claim.onProfit(ownerPool + statePool);
+    const nation = world.nations[claim.nationId];
+    if (nation) nation.monthlyProductionIncome += statePool;
+    distributeMoney(world, claim.wageEligible, claim.wageWeight, wagePool);
+    if (claim.ownerWeight > 0) distributeMoney(world, claim.owners, claim.ownerWeight, ownerPool);
+    else if (nation) nation.monthlyProductionIncome += ownerPool;
+  }
+
+  claims.length = 0;
 }
 
 /** Mutable state-wide labor pool, decremented as each factory in the state
@@ -211,7 +333,9 @@ function processFactory(
   factory.lastOutput = outputAmount;
   // Balance pass: industrial value-add should beat raw extraction in the long run.
   // 0.7.0: commerce/finance tech (factoryProfit) scales realized revenue.
-  const revenue = computeSaleRevenue(world, recipe.output.good, state.owner, outputAmount)
+  const revenue = (settleMode()
+    ? priceSaleRevenue(world, recipe.output.good, state.owner, outputAmount)
+    : computeSaleRevenue(world, recipe.output.good, state.owner, outputAmount))
     * BALANCE.economy.factoryRevenueMultiplier
     * factoryProfitBoost;
 
@@ -220,8 +344,10 @@ function processFactory(
   const craftWages = wagePool - clerkWages;
   const craftWeight = totalCrafts > 0 ? totalCrafts : 1;
   const clerkWeight = totalClerks > 0 ? totalClerks : 1;
-  distributeMoney(world, craftsmanIds, craftWeight, craftWages);
-  distributeMoney(world, clerkIds, clerkWeight, clerkWages);
+  if (!settleMode()) {
+    distributeMoney(world, craftsmanIds, craftWeight, craftWages);
+    distributeMoney(world, clerkIds, clerkWeight, clerkWages);
+  }
 
   const operating = BALANCE.economy.factoryOperatingBase + factory.level * BALANCE.economy.factoryOperatingPerLevel;
   factory.lastInputCost = inputCost;
@@ -234,15 +360,55 @@ function processFactory(
   // lever) instead of the old 18%; the state keeps a small direct share below.
   const capitalistCut = Math.max(0, netBeforeCapital) * 0.55;
   const capitalistWeight = totalPopSize(world, capitalistIds);
-  if (capitalistWeight > 0) {
-    distributeMoney(world, capitalistIds, capitalistWeight, capitalistCut);
+  const aristocratIds = buckets.aristocrat ?? [];
+  const aristocratWeight = totalPopSize(world, aristocratIds);
+  const payCapitalists = (amount: number) => {
+    if (capitalistWeight > 0) {
+      distributeMoney(world, capitalistIds, capitalistWeight, amount);
+    } else if (aristocratWeight > 0) {
+      // No capitalists yet (they emerge via promotion): profits accrue to the
+      // landed investor class — taxable rich pops — not straight to the state.
+      distributeMoney(world, aristocratIds, aristocratWeight, amount);
+    } else {
+      owner.monthlyProductionIncome += amount;
+    }
+  };
+
+  if (settleMode()) {
+    // Defer every transfer to settle time. Note the asymmetry that makes this
+    // economically honest: revenue scales with what actually sold, but inputCost
+    // and operating are already sunk. A factory that cannot sell its output
+    // books a real loss instead of being paid for goods nobody bought.
+    claimsFor(world).push({
+      good: recipe.output.good,
+      nationId: state.owner,
+      supplied: outputAmount,
+      grossIfAllSold: revenue,
+      wagePool: 0,
+      ownerPool: 0,
+      statePool: 0,
+      wageEligible: [],
+      wageWeight: 0,
+      owners: [],
+      ownerWeight: 0,
+      onProfit: () => undefined,
+      settleFactory: (rate: number) => {
+        const soldRevenue = revenue * rate;
+        const soldWagePool = soldRevenue * BALANCE.economy.factoryWageShare;
+        const soldClerkWages = soldWagePool * 0.36;
+        distributeMoney(world, craftsmanIds, craftWeight, soldWagePool - soldClerkWages);
+        distributeMoney(world, clerkIds, clerkWeight, soldClerkWages);
+        const net = soldRevenue - inputCost - soldWagePool - operating;
+        const cut = Math.max(0, net) * 0.55;
+        payCapitalists(cut);
+        factory.lastWages = soldWagePool;
+        const realized = net - cut;
+        factory.weeklyProfit = realized;
+        return realized;
+      },
+    });
   } else {
-    // No capitalists yet (they emerge via promotion): profits accrue to the
-    // landed investor class — taxable rich pops — not straight to the state.
-    const aristocratIds = buckets.aristocrat ?? [];
-    const aristocratWeight = totalPopSize(world, aristocratIds);
-    if (aristocratWeight > 0) distributeMoney(world, aristocratIds, aristocratWeight, capitalistCut);
-    else owner.monthlyProductionIncome += capitalistCut;
+    payCapitalists(capitalistCut);
   }
 
   let weeklyProfit = netBeforeCapital - capitalistCut;

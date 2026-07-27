@@ -53,6 +53,25 @@ export const BALANCE = {
     bankruptcyExitTreasury: 550,
     // National stockpile buy/sell standing orders.
     stockpileOrderMaxDaily: 40,
+    /**
+     * How producers are paid for what they make.
+     *
+     * 'fcfs'   — legacy. `computeSaleRevenue` pays for the FULL output at the
+     *            moment of production, before any buyer exists. Unsold goods
+     *            roll into worldStockpile and the money to pay for them is
+     *            created from nothing. Measured at seed 6602: the market paid
+     *            producers 7.5x what buyers spent by 1825, minting ~4M/year and
+     *            growing. That is the money fountain behind #33 (nobody is ever
+     *            money-constrained) and very likely #36 (prices stuck at ~2x
+     *            base for a century).
+     * 'settle' — producers register supply during the production pass and are
+     *            paid AFTER the market clears, in proportion to what actually
+     *            sold. Money entering the economy is bounded by money spent.
+     *
+     * Default stays 'fcfs' until the rebalance lands, so the change can be
+     * reviewed for correctness with the suite bit-identical.
+     */
+    clearingMode: 'fcfs' as 'fcfs' | 'settle',
   },
   population: {
     minGrowthRate: -0.006,
