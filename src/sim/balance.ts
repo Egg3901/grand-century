@@ -71,7 +71,7 @@ export const BALANCE = {
      * Default stays 'fcfs' until the rebalance lands, so the change can be
      * reviewed for correctness with the suite bit-identical.
      */
-    clearingMode: 'fcfs' as 'fcfs' | 'settle',
+    clearingMode: 'settle' as 'fcfs' | 'settle',
   },
   population: {
     minGrowthRate: -0.006,
@@ -127,6 +127,10 @@ export const BALANCE = {
     // Stagger expensive AI planning work by nation/month to protect perf.
     heavyPlanningStride: 3,
     // Economic baseline.
+    /** How much an unmet-demand good outranks a well-supplied one (#40). */
+    factoryScarcityWeight: 2.5,
+    /** Diminishing returns per copy of a recipe a nation already owns (#40). */
+    factorySaturationPenalty: 0.35,
     factoryTreasuryReserve: 1200,
     minTax: 0.1,
     maxTax: 0.8,

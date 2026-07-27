@@ -597,7 +597,48 @@ function maybeBuildFactory(world: World, data: GameData, nationId: NationId): vo
       const inputValue = factoryRecipe.inputs.reduce((sum, input) => (
         sum + (world.market[input.good]?.price ?? 0) * input.amount * BALANCE.economy.factoryInputIntensity
       ), 0);
-      const expectedMargin = outputValue - inputValue;
+      const rawMargin = outputValue - inputValue;
+
+      // Ranking on raw margin alone is a STATIC ranking, and that produced a
+      // monoculture: prices sit near their guard rails so the order barely
+      // moves, input cost is discounted to 15% by factoryInputIntensity, and
+      // the same recipe therefore wins forever. Measured over 20 years the AI
+      // built 329 furniture factories and never once built a lumber mill,
+      // fishing wharf, glassworks or paper mill — all tech-free from 1820 —
+      // leaving 17 of 30 goods short and six at literally zero output (#40).
+      //
+      // Two market signals fix that without scripting the answer:
+      //
+      // 1. Scarcity. A good the world cannot supply is worth building even at a
+      //    thinner margin. fill = how much of demand is actually being met.
+      const outputMarket = world.market[factoryRecipe.output.good];
+      const demand = Math.max(0, outputMarket?.demand ?? 0);
+      const unmet = Math.max(0, outputMarket?.unmet ?? 0);
+      const fill = demand > 0 ? clamp((demand - unmet) / demand, 0, 1) : 1;
+      const scarcity = 1 + (1 - fill) * BALANCE.ai.factoryScarcityWeight;
+
+      // 2. Saturation. Each copy this nation already owns makes the next one
+      //    worth less, so a nation diversifies instead of stamping out one
+      //    industry until the margin finally cracks.
+      let owned = 0;
+      for (const ownedState of states) {
+        for (const factory of ownedState.factories) {
+          if (factory.recipe === factoryRecipe.key) owned += 1;
+        }
+      }
+      const saturation = 1 / (1 + owned * BALANCE.ai.factorySaturationPenalty);
+
+      // Inputs it cannot get are inputs it cannot run on.
+      let inputFill = 1;
+      for (const input of factoryRecipe.inputs) {
+        const inputMarket = world.market[input.good];
+        const inDemand = Math.max(0, inputMarket?.demand ?? 0);
+        const inUnmet = Math.max(0, inputMarket?.unmet ?? 0);
+        inputFill = Math.min(inputFill, inDemand > 0 ? clamp((inDemand - inUnmet) / inDemand, 0, 1) : 1);
+      }
+      const feasibility = 0.35 + 0.65 * inputFill;
+
+      const expectedMargin = rawMargin * scarcity * saturation * feasibility;
       return { factoryRecipe, expectedMargin };
     })
     .sort((a, b) => b.expectedMargin - a.expectedMargin || a.factoryRecipe.key.localeCompare(b.factoryRecipe.key))[0]?.factoryRecipe;
