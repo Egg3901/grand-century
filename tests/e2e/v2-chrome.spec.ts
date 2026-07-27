@@ -16,16 +16,22 @@ test.describe('V2 nation chrome', () => {
     const hudShield = await page.locator('.hud-top__nation :is(.nation-shield svg, img.nation-flag)').count();
     expect(hudShield).toBe(1);
 
-    // open diplomacy panel, verify shield rows
+    // open diplomacy panel, verify shield rows.
+    // Panel bodies are lazy chunks. A fixed 400ms sleep raced the import on a
+    // loaded machine, so the count ran against the "Loading panel" placeholder
+    // and read 0. Wait on the thing being asserted instead of on the clock;
+    // the assertion itself is unchanged.
     await page.click('[data-testid="panel-diplomacy"]');
-    await page.waitForTimeout(400);
+    const diploShield = page.locator('.diplo-row__nation :is(.nation-shield svg, img.nation-flag)').first();
+    await expect(diploShield).toBeVisible({ timeout: 20000 });
     const diploShields = await page.locator('.diplo-row__nation :is(.nation-shield svg, img.nation-flag)').count();
     expect(diploShields).toBeGreaterThan(0);
     await page.screenshot({ path: '/tmp/gc-shots/v2-diplomacy.png' });
 
     // open great powers panel, verify shield rows
     await page.click('[data-testid="panel-great_powers"]');
-    await page.waitForTimeout(400);
+    const gpShield = page.locator('.gp-row__nation :is(.nation-shield svg, img.nation-flag)').first();
+    await expect(gpShield).toBeVisible({ timeout: 20000 });
     const gpShields = await page.locator('.gp-row__nation :is(.nation-shield svg, img.nation-flag)').count();
     expect(gpShields).toBeGreaterThan(0);
     await page.screenshot({ path: '/tmp/gc-shots/v2-gp.png' });

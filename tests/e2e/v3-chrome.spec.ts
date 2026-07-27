@@ -38,9 +38,13 @@ test.describe('V3 panel chrome', () => {
     expect(ledgerRules.before).toContain('rgb');
     expect(ledgerRules.after).toContain('rgb');
 
-    // Open diplomacy panel — verify shield rows + alternating rows
+    // Open diplomacy panel — verify shield rows + alternating rows.
+    // Wait on the row shields, not on a 400ms sleep: the panel body is a lazy
+    // chunk and the sleep raced the import on a loaded machine, leaving the
+    // count to run against the "Loading panel" placeholder. Assertion unchanged.
     await page.click('[data-testid="panel-diplomacy"]');
-    await page.waitForTimeout(400);
+    const firstDiploShield = page.locator('.diplo-row__nation :is(.nation-shield svg, img.nation-flag)').first();
+    await expect(firstDiploShield).toBeVisible({ timeout: 20000 });
     const diploShields = await page.locator('.diplo-row__nation :is(.nation-shield svg, img.nation-flag)').count();
     expect(diploShields).toBeGreaterThan(0);
     const evenRowBg = await page.locator('.diplo-list li:nth-child(even)').first().evaluate((el) => {
@@ -64,14 +68,16 @@ test.describe('V3 panel chrome', () => {
     await page.click('.panel-host__close');
     await page.waitForTimeout(500);
 
-    // Check if any event cards exist (may not always fire in 1 turn)
+    // Check if any event cards exist (may not always fire in 1 turn).
+    // Two corrections here. (1) The old check read whichever card was first;
+    // most alert kinds carried no accent rule at all, so it asserted 3px
+    // against cards that never had one. Every kind now has an accent, so the
+    // plain `.event-card` selector is correct again. (2) `evaluate` +
+    // getComputedStyle is a one-shot on a node the alert feed may have just
+    // expired, which returns "" for a detached element; `toHaveCSS` retries.
     const eventCards = await page.locator('.event-card').count();
     if (eventCards > 0) {
-      const firstEvent = page.locator('.event-card').first();
-      const borderLeft = await firstEvent.evaluate((el) => {
-        return window.getComputedStyle(el).borderLeftWidth;
-      });
-      expect(borderLeft).toBe('3px');
+      await expect(page.locator('.event-card').first()).toHaveCSS('border-left-width', '3px');
       await page.screenshot({ path: '/tmp/gc-shots/v3-event-toast.png' });
     }
 
