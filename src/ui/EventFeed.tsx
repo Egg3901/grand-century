@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useStore } from '../store';
+import { useSnapshotFields } from './useSnapshotFields';
 import {
   batchAlerts,
   selectToastBatches,
@@ -19,7 +20,7 @@ function extractNationTag(message: string): string | null {
 
 export function EventFeed() {
   const alerts = useStore((state) => state.alerts);
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['nations', 'playerNation'] as const);
   const openPanelId = useStore((state) => state.openPanelId);
   const dismissAlert = useStore((state) => state.dismissAlert);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -32,12 +33,12 @@ export function EventFeed() {
       map.set(nation.tag, { tag: nation.tag, color: nation.color });
     }
     return map;
-  }, [snapshot]);
+  }, [snapshot?.nations]);
 
   const playerName = useMemo(() => {
     if (!snapshot) return null;
     return snapshot.nations.find((n) => n.id === snapshot.playerNation)?.name ?? null;
-  }, [snapshot]);
+  }, [snapshot?.nations, snapshot?.playerNation]);
 
   const toasts = useMemo(() => {
     const batches = batchAlerts(alerts, playerName);

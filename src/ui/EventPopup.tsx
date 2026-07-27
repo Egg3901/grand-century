@@ -1,12 +1,13 @@
 import { useStore } from '../store';
+import { useSnapshotField } from './useSnapshotFields';
 import { instantPressProps } from './instantPress';
 import './EventPopup.css';
 
 export function EventPopup() {
-  const snapshot = useStore((state) => state.snapshot);
+  const pendingPlayerEvents = useSnapshotField('pendingPlayerEvents');
   const sendCommand = useStore((state) => state.sendCommand);
 
-  const pending = snapshot?.pendingPlayerEvents ?? [];
+  const pending = pendingPlayerEvents ?? [];
   const current = pending[0];
   if (!current) return null;
 

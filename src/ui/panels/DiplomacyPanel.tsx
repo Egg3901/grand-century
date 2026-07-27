@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { WORLD_SEED } from '../../data/generated';
 import type { NationId, WarGoalType } from '../../shared/types';
 import { useStore } from '../../store';
+import { useShallow } from 'zustand/react/shallow';
 import { NationFlag } from '../components/NationFlag';
 import { TraceTooltip } from '../components/TraceTooltip';
 
@@ -21,7 +22,7 @@ function relationLabel(kind: string): string {
 }
 
 export function DiplomacyPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useStore(useShallow((state) => state.snapshot));
   const sendCommand = useStore((state) => state.sendCommand);
   const [filter, setFilter] = useState<'all' | 'neighbors' | 'gp'>('neighbors');
   const [selectedGoal, setSelectedGoal] = useState<WarGoalType>('humiliate');

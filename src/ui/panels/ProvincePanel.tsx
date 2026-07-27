@@ -1,11 +1,12 @@
 import { useStore } from '../../store';
+import { useSnapshotFields } from '../useSnapshotFields';
 import { NationFlag } from '../components/NationFlag';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 export function ProvincePanel() {
   const detail = useStore((state) => state.provinceDetail);
   const selectedProvince = useStore((state) => state.selectedProvince);
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['nations', 'provinces'] as const);
   const focusNationDiplomacy = useStore((state) => state.focusNationDiplomacy);
 
   if (selectedProvince === null) {

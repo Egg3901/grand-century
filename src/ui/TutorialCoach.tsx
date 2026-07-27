@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useStore } from '../store';
+import { useSnapshotFields } from './useSnapshotFields';
 import './TutorialCoach.css';
 
 const STORAGE_KEY = 'grand-century.tutorial.v0_2_0.seen';
@@ -48,7 +49,7 @@ function findVisibleTarget(selectors: string[]): HTMLElement | null {
 }
 
 export function TutorialCoach() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['nations', 'playerNation', 'playerStates', 'speed', 'day'] as const);
   const openPanel = useStore((state) => state.openPanel);
   const mapMode = useStore((state) => state.mapMode);
   const nationDetail = useStore((state) => state.nationDetail);
@@ -70,14 +71,14 @@ export function TutorialCoach() {
   const playerNation = useMemo(() => {
     if (!snapshot) return null;
     return snapshot.nations.find((nation) => nation.id === snapshot.playerNation) ?? null;
-  }, [snapshot]);
+  }, [snapshot?.nations, snapshot?.playerNation]);
   const totalFactoryCount = useMemo(() => (
     snapshot?.playerStates.reduce((sum, entry) => sum + entry.factoryCount, 0) ?? 0
-  ), [snapshot]);
+  ), [snapshot?.playerStates]);
   const reformSignature = useMemo(() => {
     if (!snapshot || !nationDetail || nationDetail.id !== snapshot.playerNation) return null;
     return JSON.stringify(Object.entries(nationDetail.reforms).sort(([a], [b]) => a.localeCompare(b)));
-  }, [nationDetail, snapshot]);
+  }, [nationDetail, snapshot?.playerNation]);
 
   const speedChanged = snapshot ? snapshot.speed !== baselineSpeedRef.current : false;
   const taxAdjusted = playerNation ? Math.abs(playerNation.taxRatePoor - baselineTaxPoorRef.current) >= 0.01 : false;
@@ -192,7 +193,7 @@ export function TutorialCoach() {
       return;
     }
     if (!active && !seenRef.current) beginTutorial();
-  }, [active, playerNation?.taxRatePoor, queuedReplay, reformSignature, showMainMenu, snapshot, totalFactoryCount]);
+  }, [active, playerNation?.taxRatePoor, queuedReplay, reformSignature, showMainMenu, snapshot?.speed, snapshot?.day, snapshot?.playerNation, totalFactoryCount]);
 
   useEffect(() => {
     if (!active || !snapshot) return;

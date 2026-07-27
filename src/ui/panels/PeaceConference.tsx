@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { WORLD_SEED } from '../../data/generated';
 import type { War } from '../../shared/types';
 import { useStore } from '../../store';
+import { useSnapshotFields } from '../useSnapshotFields';
 
 interface PeaceConferenceProps {
   war: War;
@@ -52,7 +53,7 @@ function warGoalLabel(goal: War['goals'][number], stateNameById: Map<number, str
 }
 
 export function PeaceConference({ war }: PeaceConferenceProps) {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['nations', 'playerNation'] as const);
   const sendCommand = useStore((state) => state.sendCommand);
   const [selectedGoals, setSelectedGoals] = useState<number[]>([]);
   const stateNameById = useMemo(() => (

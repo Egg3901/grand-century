@@ -4,6 +4,7 @@ import './GrandMap.css';
 import { WORLD_SEED } from '../data/generated';
 import { GENERATED_GEO_URLS } from 'virtual:generated-geo';
 import { useStore } from '../store';
+import { useShallow } from 'zustand/react/shallow';
 import { largestPolygon, polylabel, ringArea } from './polylabel';
 import { nationShieldSvg } from '../ui/nationShield';
 import {
@@ -373,7 +374,7 @@ function insideViewport(box: ScreenBox, width: number, height: number, padding: 
 }
 
 export function GrandMap() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useStore(useShallow((state) => state.snapshot));
   const data = useStore((state) => state.data);
   const mapMode = useStore((state) => state.mapMode);
   const selectProvince = useStore((state) => state.selectProvince);

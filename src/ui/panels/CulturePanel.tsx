@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useStore } from '../../store';
+import { useSnapshotFields } from '../useSnapshotFields';
 import type { CulturePolicy } from '../../shared/types';
 import { TraceTooltip } from '../components/TraceTooltip';
 import { heartlandDisplay } from '../heartlandDisplay';
@@ -25,7 +26,15 @@ function signed(value: number): string {
 }
 
 export function CulturePanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields([
+    'playerCultures',
+    'playerCulturePolicy',
+    'playerMovements',
+    'nations',
+    'playerNation',
+    'playerCulturePolicyCost',
+    'playerCulturePolicyCooldownDays',
+  ] as const);
   const sendCommand = useStore((state) => state.sendCommand);
   const [expandedHeartlandId, setExpandedHeartlandId] = useState<number | null>(null);
 

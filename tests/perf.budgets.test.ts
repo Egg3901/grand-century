@@ -82,12 +82,12 @@ describe('H5 perf budgets', () => {
 /**
  * The render-side budget is a STATIC count, not a runtime measurement.
  *
- * `src/store.ts` replaces the whole snapshot object on every tick, so every
- * component that subscribes to `state.snapshot` wholesale re-renders at 8Hz
- * whether or not anything it displays changed. Counting those subscriptions is
- * a stable, fast proxy for the render cost, and it is the number the perf-floor
- * milestone has to reduce. Measuring actual React re-renders would need a DOM
- * harness this suite does not otherwise carry.
+ * `src/store.ts` stabilizes top-level snapshot field identities across ticks
+ * (see stabilizeSnapshot) so components can subscribe to narrow slices.
+ * Counting remaining wholesale `state.snapshot` subscriptions is a stable,
+ * fast proxy for the render cost the perf-floor milestone reduced. Measuring
+ * actual React re-renders would need a DOM harness this suite does not
+ * otherwise carry.
  */
 describe('H5 render budget', () => {
   const SRC = join(__dirname, '..', 'src');
@@ -115,9 +115,9 @@ describe('H5 render budget', () => {
       `[budget] ${wholesale.length} modules subscribe to the entire snapshot:\n  `
       + wholesale.sort().join('\n  '),
     );
-    // Recorded at 28 when this budget was written. This must go DOWN, never up:
-    // each one is a guaranteed re-render on every tick. See issue #8.
-    expect(wholesale.length).toBeLessThanOrEqual(28);
+    // Recorded at 0 after F1 (issue #8): every former wholesale subscriber now
+    // uses a narrow field selector or useShallow. Must stay at 0.
+    expect(wholesale.length).toBeLessThanOrEqual(0);
   });
 
   it('records the size of the onSnapshot derivation block in the store', () => {
@@ -139,8 +139,8 @@ describe('H5 render budget', () => {
     }
     const lines = end - start;
     console.log(`[budget] store onSnapshot derivation spans ${lines} lines (src/store.ts:${start + 1})`);
-    // Recorded at ~353 lines of alert derivation inlined into a single set().
-    // The perf-floor milestone pulls this into a pure module. See issue #8.
-    expect(lines).toBeLessThanOrEqual(400);
+    // Recorded at 5 after F1 (issue #8): alert derivation lives in src/ui/alerts.ts;
+    // onSnapshot only stabilizes the snapshot and calls deriveAlerts.
+    expect(lines).toBeLessThanOrEqual(5);
   });
 });

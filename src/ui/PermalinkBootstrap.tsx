@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useStore } from '../store';
+import { useSnapshotFields } from './useSnapshotFields';
 import { parseStartHash } from './permalink';
 import { DEFAULT_CAMPAIGN_MAP_MODE, parseCampaignMapMode } from '../shared/campaignMap';
 
@@ -8,7 +9,7 @@ import { DEFAULT_CAMPAIGN_MAP_MODE, parseCampaignMapMode } from '../shared/campa
  * as soon as the sim is ready — skip the main menu.
  */
 export function PermalinkBootstrap() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['mapMode', 'seed', 'playerNation', 'nations'] as const);
   const sendCommand = useStore((state) => state.sendCommand);
   const setShowMainMenu = useStore((state) => state.setShowMainMenu);
   const applied = useRef(false);
@@ -43,7 +44,7 @@ export function PermalinkBootstrap() {
     applied.current = true;
     sendCommand({ t: 'newGame', seed: start.seed, playerNation: nation.id, mapMode });
     setShowMainMenu(false);
-  }, [snapshot, sendCommand, setShowMainMenu, start]);
+  }, [snapshot?.mapMode, snapshot?.seed, snapshot?.playerNation, snapshot?.nations, sendCommand, setShowMainMenu, start]);
 
   return null;
 }
