@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 import { WORLD_SEED } from '../../data/generated';
 import { useStore } from '../../store';
+import { useShallow } from 'zustand/react/shallow';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 const CLAIM_COST = 32;
 
 export function ColonizationPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useStore(useShallow((state) => state.snapshot));
   const sendCommand = useStore((state) => state.sendCommand);
 
   const derived = useMemo(() => {

@@ -1,4 +1,5 @@
 import { useStore } from '../../store';
+import { useSnapshotFields } from '../useSnapshotFields';
 import { BALANCE } from '../../sim/balance';
 import { exportKeepRate, importPriceMultiplier } from '../../sim/systems/market';
 import type { BudgetLine } from '../../shared/types';
@@ -76,7 +77,7 @@ function BudgetBreakdownChart({ budget }: { budget: BudgetLine }) {
 }
 
 export function BudgetPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['playerBudget', 'nations', 'playerNation'] as const);
   const sendCommand = useStore((state) => state.sendCommand);
   const budget = snapshot?.playerBudget;
   const player = snapshot?.nations.find((nation) => nation.id === snapshot.playerNation);

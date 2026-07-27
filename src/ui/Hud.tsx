@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useStore, type MapMode, type PanelId } from '../store';
+import { useSnapshotFields } from './useSnapshotFields';
 import { copyShareLink } from './permalink';
 import { instantPressProps } from './instantPress';
 import { NationFlag } from './components/NationFlag';
@@ -56,7 +57,17 @@ function panelCoachId(id: PanelId): string | undefined {
 }
 
 export function Hud() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields([
+    'nations',
+    'playerNation',
+    'playerBudget',
+    'speed',
+    'date',
+    'playerTech',
+    'infamyLimit',
+    'playerBalanceOfPower',
+    'seed',
+  ] as const);
   const openPanel = useStore((state) => state.openPanel);
   const openPanelId = useStore((state) => state.openPanelId);
   const sendCommand = useStore((state) => state.sendCommand);
@@ -76,7 +87,7 @@ export function Hud() {
   const playerNation = useMemo(() => {
     if (!snapshot) return null;
     return snapshot.nations.find((nation) => nation.id === snapshot.playerNation) ?? null;
-  }, [snapshot]);
+  }, [snapshot?.nations, snapshot?.playerNation]);
   const monthlyNet = snapshot?.playerBudget?.net ?? 0;
   const snapshotSpeed = snapshot?.speed ?? 0;
   const currentSpeed = optimisticSpeed ?? snapshotSpeed;

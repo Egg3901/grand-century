@@ -9,6 +9,7 @@
 
 import { useMemo } from 'react';
 import { useStore } from '../../store';
+import { useSnapshotField } from '../useSnapshotFields';
 import type { TechModifiers, TechStatusView } from '../../shared/types';
 
 const CATEGORY_ORDER = ['army', 'navy', 'commerce', 'industry', 'culture'] as const;
@@ -61,10 +62,10 @@ function formatAggregateModifiers(mods: TechModifiers): string[] {
 }
 
 export function TechnologyPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const playerTech = useSnapshotField('playerTech');
   const sendCommand = useStore((state) => state.sendCommand);
 
-  const view = snapshot?.playerTech;
+  const view = playerTech;
 
   const columns = useMemo(() => {
     if (!view) return [];
@@ -83,7 +84,7 @@ export function TechnologyPanel() {
     [view?.modifiers],
   );
 
-  if (!snapshot || !view) {
+  if (!view) {
     return (
       <section className="panel-card atlas-panel">
         <h2 className="atlas-heading">Technology</h2>

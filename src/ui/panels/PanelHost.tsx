@@ -1,4 +1,5 @@
 import { useStore, type PanelId } from '../../store';
+import { useShallow } from 'zustand/react/shallow';
 import { BudgetPanel } from './BudgetPanel';
 import { MarketPanel } from './MarketPanel';
 import { PopulationPanel } from './PopulationPanel';
@@ -47,7 +48,7 @@ const NATION_SCOPED_PANELS = new Set<PanelId>([
 export function PanelHost() {
   const openPanel = useStore((state) => state.openPanel);
   const openPanelId = useStore((state) => state.openPanelId);
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useStore(useShallow((state) => state.snapshot));
   const selectedProvince = useStore((state) => state.selectedProvince);
   const provinceDetail = useStore((state) => state.provinceDetail);
 

@@ -5,6 +5,7 @@
 import { useMemo } from 'react';
 import type { CrisisSide } from '../../shared/types';
 import { useStore } from '../../store';
+import { useShallow } from 'zustand/react/shallow';
 import { TraceTooltip } from '../components/TraceTooltip';
 
 const CRISIS_TYPE_LABEL: Record<string, string> = {
@@ -37,7 +38,7 @@ function forecastLabel(forecast: string | undefined): string {
 }
 
 export function CrisisPanel() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useStore(useShallow((state) => state.snapshot));
   const sendCommand = useStore((state) => state.sendCommand);
 
   const nationById = useMemo(() => (

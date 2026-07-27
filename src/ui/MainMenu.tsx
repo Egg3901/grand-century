@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useStore } from '../store';
+import { useSnapshotFields } from './useSnapshotFields';
 import { APP_RELEASE, VERSION_LABEL } from '../buildInfo';
 import { buildShareUrl, copyShareLink, parseStartHash } from './permalink';
 import { NationFlag } from './components/NationFlag';
@@ -24,7 +25,7 @@ function parseSeed(raw: string): number {
 }
 
 export function MainMenu() {
-  const snapshot = useStore((state) => state.snapshot);
+  const snapshot = useSnapshotFields(['nations', 'seed', 'mapMode', 'provinces', 'playerNation'] as const);
   const sendCommand = useStore((state) => state.sendCommand);
   const setShowMainMenu = useStore((state) => state.setShowMainMenu);
   const setShowLobby = useStore((state) => state.setShowLobby);
@@ -47,7 +48,7 @@ export function MainMenu() {
       const rankB = b.gpRank > 0 ? b.gpRank : 999;
       return rankA - rankB || b.powerScore - a.powerScore || a.name.localeCompare(b.name);
     }),
-    [snapshot],
+    [snapshot?.nations],
   );
 
   const provinceCounts = useMemo(() => {
@@ -94,7 +95,7 @@ export function MainMenu() {
     if (!snapshot || nations.length === 0) return;
     if (nations.some((nation) => nation.id === selectedNation)) return;
     setSelectedNation(snapshot.playerNation ?? nations[0]?.id ?? 0);
-  }, [snapshot, nations, selectedNation]);
+  }, [snapshot?.playerNation, nations, selectedNation]);
 
   if (!snapshot) return null;
 

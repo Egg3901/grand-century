@@ -5,6 +5,7 @@ import { LobbyScreen } from './ui/Lobby';
 import { PermalinkBootstrap } from './ui/PermalinkBootstrap';
 import { parseLobbyHash } from './net/mpJoin';
 import { useStore } from './store';
+import { useHasSnapshot } from './ui/useSnapshotFields';
 
 const LazyGrandMap = lazy(async () => {
   const module = await import('./map/GrandMap');
@@ -16,7 +17,7 @@ const LazyGrandMap = lazy(async () => {
 const LazyGameHud = lazy(() => import('./ui/GameHud'));
 
 function App() {
-  const snapshot = useStore((state) => state.snapshot);
+  const hasSnapshot = useHasSnapshot();
   const data = useStore((state) => state.data);
   const showMainMenu = useStore((state) => state.showMainMenu);
   const showLobby = useStore((state) => state.showLobby);
@@ -32,7 +33,7 @@ function App() {
           <LazyGameHud />
         </Suspense>
       </div>
-      {!snapshot || !data ? (
+      {!hasSnapshot || !data ? (
         <div className="loading-veil">
           <h1>Grand Century</h1>
           <p>Initializing simulation ledger...</p>
@@ -42,7 +43,7 @@ function App() {
       {showLobby ? (
         <LobbyScreen initialSessionId={lobbyInvite?.sessionId ?? null} />
       ) : null}
-      {showMainMenu && snapshot && !showLobby ? <MainMenu /> : null}
+      {showMainMenu && hasSnapshot && !showLobby ? <MainMenu /> : null}
     </div>
   );
 }
