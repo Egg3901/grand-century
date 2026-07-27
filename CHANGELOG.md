@@ -2,6 +2,85 @@
 
 All notable changes to Grand Century are documented here.
 
+## [Unreleased]
+
+## [1.1.0] — 2026-07-27
+
+The audit release. A thirteen-system design pass asked three questions of every
+mechanic — is it balanced, is it visible, is it deep — and this is the answer to
+the first two. The game stops hiding its own arithmetic, and stops quietly
+lying about the parts that never worked.
+
+### The game stops lying
+Five reforms were decorative. Guarantees did not join the wars they guaranteed.
+Factory subsidies were debited from the treasury and never credited to the
+factory. Negative tariffs were free money. All of it is wired now.
+
+- **White peace is no longer a free exit** — an empty peace offer used to end
+  any war outright, whatever the war score said.
+- **Sphered cores are not conquered cores** — unification no longer counts a
+  sphere member's land as controlled, and no longer annexes it for nothing.
+- **Tariffs are billed both ways** — a negative tariff is an import subsidy and
+  the treasury pays for it.
+- **Factory employment is exclusive per state** — N factories used to draw on
+  the same craftsmen N times over.
+- **Scandinavia and Iberia required no action to form.** They do now.
+- Colonial claims from events persist; plant-spam restacking is blocked;
+  research point grants respect the cap.
+
+### The economy you can finally see
+- **The clerk and capitalist ladder is alive** — the promotion paths existed in
+  the data and moved nobody. Wages and profits now reach the classes that were
+  written to receive them.
+- **A national stockpile with standing buy and sell orders** — the Victoria
+  trade lever that was missing entirely. Order a good into reserve or flood it
+  onto the market at a daily rate; large orders visibly move the price.
+- **Honest build margins** — production shows real cost and real profit, RGO
+  weekly profit lands in the ledger, and factory P&L traces to its inputs.
+- **Budget breakdown as a chart** — income and expense as hand-drawn plates,
+  army and navy split in the upkeep trace, a live projected ledger while you
+  drag the slider, bankruptcy recovery in the HUD.
+
+### A century that moves
+- **Pop ideology drifts** with consciousness, militancy, needs and literacy
+  instead of standing frozen at 1820 for a hundred years.
+- **Reform fatigue** — a nation that has just reformed resists the next one;
+  support and cost both feel it, and it decays month by month.
+- **Irredentist claims on lost cultural cores** — losing your people's land
+  gives you the casus belli to want it back.
+- **Combat width** soft-caps the stack, which kills the doomstack.
+- **Three new unification arcs** — Gran Colombia, the Scandinavian Union, the
+  Iberian Union. Nine nations now have something to become.
+
+### The hidden state, surfaced
+Roughly forty things the simulation always computed and never showed: war score
+by component, diplomatic points and fabrication cost, colonial points and
+claims, crisis showdown forecasts, upper-house composition, party standings and
+election maths, alliance acceptance previews, tech modifier stacks, invention
+odds, per-type militancy and needs in the province panel, migration and
+promotion ledgers, occupation percentage, supply badges, in-panel battle logs.
+Population and culture get real charts; every number traces to its inputs on
+tap or hover, on a phone as well as a desktop.
+
+### Faster
+- Whole-world scans removed from the daily war loop (#7); per-snapshot
+  main-thread work cut at 8 Hz (#8); a single-pass snapshot builder with
+  bit-identical output (#9); the in-game HUD split off first paint and a dead
+  copy of the world seed dropped from the bundle (#10).
+
+### Also
+- **Error tracking is real.** GlitchTip was wired in 1.0 and never delivered a
+  single event: the DSN pointed at a host that now redirects to another origin,
+  and the release tag was the literal string `dev` because the deploy command
+  never set it. Both fixed — the release is now `<version>+<sha>`, derived at
+  build time so it cannot be forgotten again, and the build stamp is visible on
+  the main menu so a bug report can name its build.
+- War alerts name belligerents; unit markers are scoped to nations you can
+  actually see; the province panel chrome shows the owner's flag; tooltips are
+  touch-friendly and stay on screen.
+
+[1.1.0]: https://github.com/Egg3901/grand-century/releases/tag/v1.1.0
+
 ## [1.0.0] — 2026-07-22
 
 The Unification Arc. A campaign now has a beginning, a story, and an end.

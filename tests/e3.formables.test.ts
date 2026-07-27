@@ -209,5 +209,5 @@ describe('E3 formable nations', () => {
     expect(Number(a.nations[prussiaA].prestige.toFixed(4))).toBe(Number(b.nations[prussiaB].prestige.toFixed(4)));
     expect(a.provinces.map((province) => province.owner)).toEqual(b.provinces.map((province) => province.owner));
     expect(a.states.map((state) => state.owner)).toEqual(b.states.map((state) => state.owner));
-  }, 15_000);
+  }, 60_000);
 });

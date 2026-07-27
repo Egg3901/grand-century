@@ -1,4 +1,8 @@
-import worldSeedRaw from './generated/worldSeed.json';
+// The `with { type: 'json' }` attribute is required, not decorative: Node 22
+// enforces it for JSON in ESM, and without it Playwright's loader throws while
+// collecting specs — which silently took the entire e2e suite to 0 tests
+// collected some time after 1.0.0. Vite/vitest/tsc all accept the attribute.
+import worldSeedRaw from './generated/worldSeed.json' with { type: 'json' };
 import type { GovernmentType, Terrain } from '../shared/types';
 
 export interface SeedNation {

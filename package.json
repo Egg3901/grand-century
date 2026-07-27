@@ -1,7 +1,7 @@
 {
   "name": "grand-century",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,6 +12,7 @@
     "test:stability": "vitest run tests/m6.ai.stability.test.ts",
     "season-report": "tsx content/season-report.ts",
     "test:e2e": "playwright test",
+    "test:e2e:smoke": "playwright test tests/e2e/smoke.spec.ts tests/e2e/v6-smoke.spec.ts tests/e2e/e6-platform.spec.ts",
     "lint": "oxlint",
     "preview": "vite preview",
     "server": "tsx server/index.ts",

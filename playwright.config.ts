@@ -3,6 +3,13 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests/e2e',
   timeout: 90_000,
+  /**
+   * Serial by default. Every spec here boots a full 620-province world and runs
+   * the simulation in-browser; running twenty of those concurrently starves them
+   * all and the suite fails 18/30 while each spec passes standalone. Override
+   * with PW_WORKERS on a machine with headroom.
+   */
+  workers: process.env.PW_WORKERS ? Number(process.env.PW_WORKERS) : 1,
   projects: [
     {
       name: 'dev',
