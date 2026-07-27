@@ -1,7 +1,8 @@
+import { createHash } from 'node:crypto';
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
@@ -31,47 +32,113 @@ function gitSha(): string {
 const BUILD_SHA = gitSha();
 const RELEASE = process.env.VITE_RELEASE ?? `${APP_VERSION}+${BUILD_SHA}`;
 
-function generatedDataPublicPlugin() {
-  const geojsonPath = path.resolve(__dirname, 'src/data/generated/provinces.geo.json');
-  const bordersPath = path.resolve(__dirname, 'src/data/generated/nationalBorders.geo.json');
+const VIRTUAL_GENERATED_GEO = 'virtual:generated-geo';
+const RESOLVED_VIRTUAL_GENERATED_GEO = `\0${VIRTUAL_GENERATED_GEO}`;
+
+/**
+ * Hard budgets for generated map GeoJSON. Workbox used to silently drop files
+ * over maximumFileSizeToCacheInBytes from the precache; these assets now live
+ * in a runtime cache, so we fail the build loudly instead when density grows.
+ * Override via GENERATED_GEO_BUDGET_BYTES_<KEY> (e.g. PROVINCES) for probes.
+ */
+const GENERATED_GEO_BUDGETS_BYTES = {
+  provinces: Number(process.env.GENERATED_GEO_BUDGET_BYTES_PROVINCES) || 5 * 1024 * 1024,
+  nationalBorders: Number(process.env.GENERATED_GEO_BUDGET_BYTES_NATIONALBORDERS) || 3 * 1024 * 1024,
+  rivers: Number(process.env.GENERATED_GEO_BUDGET_BYTES_RIVERS) || 1 * 1024 * 1024,
+  lakes: Number(process.env.GENERATED_GEO_BUDGET_BYTES_LAKES) || 1 * 1024 * 1024,
+} as const;
+
+type GeneratedGeoKey = keyof typeof GENERATED_GEO_BUDGETS_BYTES;
+
+type GeneratedGeoAsset = {
+  key: GeneratedGeoKey;
+  sourceName: string;
+  absPath: string;
+  bytes: number;
+  hash: string;
+  fileName: string;
+};
+
+function contentHash(buf: Buffer): string {
+  return createHash('sha256').update(buf).digest('hex').slice(0, 8);
+}
+
+function loadGeneratedGeoAssets(): GeneratedGeoAsset[] {
+  const dir = path.resolve(__dirname, 'src/data/generated');
+  const specs: { key: GeneratedGeoKey; sourceName: string }[] = [
+    { key: 'provinces', sourceName: 'provinces.geo.json' },
+    { key: 'nationalBorders', sourceName: 'nationalBorders.geo.json' },
+    { key: 'rivers', sourceName: 'rivers.geo.json' },
+    { key: 'lakes', sourceName: 'lakes.geo.json' },
+  ];
+  return specs.map(({ key, sourceName }) => {
+    const absPath = path.join(dir, sourceName);
+    const buf = fs.readFileSync(absPath);
+    const hash = contentHash(buf);
+    const stem = sourceName.replace(/\.geo\.json$/, '');
+    return {
+      key,
+      sourceName,
+      absPath,
+      bytes: buf.byteLength,
+      hash,
+      fileName: `generated/${stem}-${hash}.geo.json`,
+    };
+  });
+}
+
+function assertGeneratedGeoBudgets(assets: GeneratedGeoAsset[]): void {
+  const violations = assets.filter((asset) => asset.bytes > GENERATED_GEO_BUDGETS_BYTES[asset.key]);
+  if (violations.length === 0) return;
+  const lines = violations.map((asset) => {
+    const budget = GENERATED_GEO_BUDGETS_BYTES[asset.key];
+    return `  - ${asset.sourceName}: ${asset.bytes.toLocaleString()} bytes exceeds budget ${budget.toLocaleString()} bytes`;
+  });
+  throw new Error(
+    `[generated-geo] size budget exceeded — refuse to ship (Workbox no longer silently drops these):\n${lines.join('\n')}`,
+  );
+}
+
+function generatedDataPublicPlugin(): Plugin {
   // worldSeed.json is a bundled JS import (src/data/generated.ts) and is never
   // fetched at runtime, so it is NOT emitted as a public asset — that copy was
   // ~189 KB of dead weight shipped and precached for nothing.
-  const riversPath = path.resolve(__dirname, 'src/data/generated/rivers.geo.json');
-  const lakesPath = path.resolve(__dirname, 'src/data/generated/lakes.geo.json');
+  const assets = loadGeneratedGeoAssets();
+  assertGeneratedGeoBudgets(assets);
+
+  const urlsModule = () => {
+    const entries = assets
+      .map((asset) => `  ${asset.key}: ${JSON.stringify(asset.fileName)},`)
+      .join('\n');
+    return `export const GENERATED_GEO_URLS = {\n${entries}\n};\n`;
+  };
+
   return {
     name: 'generated-data-public-path',
-    configureServer(server: { middlewares: { use: (pathName: string, handler: (req: unknown, res: { setHeader: (name: string, value: string) => void; end: (body: string) => void }) => void) => void } }) {
-      const serve = (filePath: string, contentType: string) => (_req: unknown, res: { setHeader: (name: string, value: string) => void; end: (body: string) => void }) => {
-        res.setHeader('Content-Type', contentType);
-        res.end(fs.readFileSync(filePath, 'utf8'));
-      };
-      server.middlewares.use('/generated/provinces.geo.json', serve(geojsonPath, 'application/json'));
-      server.middlewares.use('/generated/nationalBorders.geo.json', serve(bordersPath, 'application/json'));
-      server.middlewares.use('/generated/rivers.geo.json', serve(riversPath, 'application/json'));
-      server.middlewares.use('/generated/lakes.geo.json', serve(lakesPath, 'application/json'));
+    resolveId(id) {
+      if (id === VIRTUAL_GENERATED_GEO) return RESOLVED_VIRTUAL_GENERATED_GEO;
+      return undefined;
     },
-    generateBundle(this: { emitFile: (asset: { type: 'asset'; fileName: string; source: string }) => void }) {
-      this.emitFile({
-        type: 'asset',
-        fileName: 'generated/provinces.geo.json',
-        source: fs.readFileSync(geojsonPath, 'utf8'),
-      });
-      this.emitFile({
-        type: 'asset',
-        fileName: 'generated/nationalBorders.geo.json',
-        source: fs.readFileSync(bordersPath, 'utf8'),
-      });
-      this.emitFile({
-        type: 'asset',
-        fileName: 'generated/rivers.geo.json',
-        source: fs.readFileSync(riversPath, 'utf8'),
-      });
-      this.emitFile({
-        type: 'asset',
-        fileName: 'generated/lakes.geo.json',
-        source: fs.readFileSync(lakesPath, 'utf8'),
-      });
+    load(id) {
+      if (id === RESOLVED_VIRTUAL_GENERATED_GEO) return urlsModule();
+      return undefined;
+    },
+    configureServer(server) {
+      for (const asset of assets) {
+        server.middlewares.use(`/${asset.fileName}`, (_req, res) => {
+          res.setHeader('Content-Type', 'application/json');
+          res.end(fs.readFileSync(asset.absPath));
+        });
+      }
+    },
+    generateBundle() {
+      for (const asset of assets) {
+        this.emitFile({
+          type: 'asset',
+          fileName: asset.fileName,
+          source: fs.readFileSync(asset.absPath),
+        });
+      }
     },
   };
 }
@@ -119,12 +186,46 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Cache the app shell + generated map/data for offline play.
-        globPatterns: ['**/*.{js,css,html,ico,svg,png,webp,woff2,json}'],
+        // App shell + MapLibre in precache. Generated geo stays out (too large /
+        // density-sensitive) and is CacheFirst-warmed from GrandMap after fetch.
+        // The sim worker is similarly runtime-cached so MapLibre can fit under
+        // the 2 MiB precache budget without opaque module-import cache misses.
+        globPatterns: ['**/*.{js,css,html,ico,svg,png,webp,woff2}'],
+        globIgnores: ['**/generated/**', '**/sim.worker-*.js'],
         navigateFallback: 'index.html',
         navigateFallbackDenylist: [/^\/api/],
-        // MapLibre + geojson can exceed the default 2 MiB precache file limit.
-        maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
+        // Shell chunks stay under 2 MiB; geo is asserted separately above.
+        maximumFileSizeToCacheInBytes: 2 * 1024 * 1024,
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => /\/generated\/[^/]+\.geo\.json$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'gc-generated-geo',
+              expiration: {
+                maxEntries: 16,
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
+            urlPattern: ({ url }) => /\/assets\/sim\.worker-[^/]+\.js$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'gc-sim-worker',
+              expiration: {
+                maxEntries: 4,
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
       },
       devOptions: {
         enabled: false,
@@ -134,14 +235,20 @@ export default defineConfig({
   build: {
     modulePreload: {
       resolveDependencies(_filename, deps) {
-        // Keep MapLibre off the critical path — Suspense lazy-loads the map chunk.
-        return deps.filter((dep) => !dep.includes('/map-') && !dep.includes('\\map-'));
+        // Keep MapLibre + GrandMap off the critical path — Suspense lazy-loads them.
+        return deps.filter(
+          (dep) => !dep.includes('/map-') && !dep.includes('\\map-')
+            && !dep.includes('/maplibre-') && !dep.includes('\\maplibre-'),
+        );
       },
     },
     rollupOptions: {
       output: {
         manualChunks(id: string) {
-          if (id.includes('maplibre-gl') || id.includes('/src/map/GrandMap')) return 'map';
+          // Split the former 1.3 MB map monolith: MapLibre is large and stable;
+          // GrandMap changes with game UI and should hash independently.
+          if (id.includes('maplibre-gl') || id.includes('node_modules/maplibre')) return 'maplibre';
+          if (id.includes('/src/map/GrandMap')) return 'map';
           return undefined;
         },
       },
