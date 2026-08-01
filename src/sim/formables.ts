@@ -6,7 +6,21 @@ import type {
   StateId,
   World,
 } from '../shared/types';
-import { refreshGreatPowerRanking } from './systems/diplomacy';
+import { getEighthPowerScore, getNationPowerBreakdown, refreshGreatPowerRanking } from './systems/diplomacy';
+
+/** #34: the great-power gate also admits a nation within striking distance of
+ * the last GP seat. A Prussia that has fought its way to every NGF core but
+ * sits at rank 10 should be crowning an emperor, not filing paperwork. */
+const NEAR_GREAT_POWER_SCORE_RATIO = 0.8;
+
+function meetsPowerRequirement(world: World, nationId: NationId): boolean {
+  const nation = world.nations[nationId];
+  if (!nation) return false;
+  if (nation.gpRank > 0) return true;
+  const eighth = getEighthPowerScore(world);
+  if (eighth <= 0) return false;
+  return getNationPowerBreakdown(world, nationId).score >= eighth * NEAR_GREAT_POWER_SCORE_RATIO;
+}
 
 function uniqueSorted(values: number[]): number[] {
   return Array.from(new Set(values)).sort((a, b) => a - b);
@@ -98,7 +112,7 @@ export function evaluateNationFormable(world: World, data: GameData, nationId: N
   const independent = Boolean(nation && (!formable.requireIndependent || nation.spheredBy < 0));
   const power = Boolean(nation && (
     !formable.requireGreatPower
-    || nation.gpRank > 0
+    || meetsPowerRequirement(world, nationId)
   ));
   const coreControl = controlled >= required;
   const year = 1820 + Math.floor(world.day / 365);
@@ -127,7 +141,7 @@ export function evaluateNationFormable(world: World, data: GameData, nationId: N
       met: power,
       detail: power
         ? 'Power requirement satisfied.'
-        : 'Nation must be ranked as a great power.',
+        : 'Nation must be a great power, or close enough to the eighth seat to claim one.',
     },
     {
       key: 'core_control',

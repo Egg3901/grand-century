@@ -10,6 +10,8 @@ import type {
   World,
 } from '../../shared/types';
 import type { Rng } from '../rng';
+import { BALANCE } from '../balance';
+import { GAME_DATA } from '../../data/gameData';
 
 const TRUCE_DURATION_DAYS = 365 * 5;
 const ALLIANCE_DURATION_DAYS = 365 * 10;
@@ -404,6 +406,31 @@ function applySphere(world: World, gp: NationId, target: NationId): void {
   targetNation.prestige = Math.max(0, targetNation.prestige - 0.25);
 }
 
+/**
+ * Sphere defection (#34): tear up client status. The probe showed unifiers
+ * finishing their core set and then rotting inside a patron's sphere forever —
+ * Tuscany at 6/6 Italian cores, Prussia at 4/4 NGF cores, both dead-ended on
+ * the `independent` requirement with no mechanism anywhere to leave a sphere.
+ * Defection resets the patron's accumulated influence to zero (they must
+ * rebuild the grip from scratch) and sours the relationship; the patron keeps
+ * a truce-free hand to punish the upstart. Risorgimento, not paperwork.
+ */
+export function defectFromSphere(world: World, nationId: NationId): { ok: boolean; reason: string } {
+  const nation = world.nations[nationId];
+  if (!nation) return { ok: false, reason: 'Nation not found.' };
+  const master = nation.spheredBy;
+  if (master < 0 || !world.nations[master]) return { ok: false, reason: 'Not inside any sphere.' };
+  const runtime = ensureRuntime(world);
+  const masterNation = world.nations[master];
+  masterNation.sphereMembers = masterNation.sphereMembers.filter((member) => member !== nationId);
+  nation.spheredBy = -1;
+  getInfluenceEntry(runtime, master, nationId).points = 0;
+  const relation = getOrCreateRelation(world, master, nationId);
+  relation.opinion = clamp(relation.opinion - 80, -200, 200);
+  masterNation.prestige = Math.max(0, masterNation.prestige - 1.5);
+  return { ok: true, reason: `${nation.name} breaks from the ${masterNation.name} sphere.` };
+}
+
 function chooseInfluenceTarget(world: World, gp: NationId, neighbors: Set<NationId>[]): NationId | null {
   const gpNation = world.nations[gp];
   if (!gpNation || gpNation.gpRank <= 0) return null;
@@ -589,6 +616,13 @@ export function runDiplomacyMonthly(world: World, _data: GameData, _rng: Rng): v
       nation.prestige += nation.sphereMembers.length * 0.08;
     }
     if (nation.spheredBy >= 0) nation.prestige = Math.max(0, nation.prestige - 0.05);
+    // #35: prestige is a flow, not a stock. Sphere/influence prestige only
+    // accrues to sitting GPs, so without decay the top-8 becomes self-sealing:
+    // a century probe showed the Ottomans matching Spain on industry+military
+    // yet locked out at prestige 6 vs 784. Proportional fade turns old glory
+    // into a half-life (~11 years at 0.5%/month) and lets armament and
+    // industry actually move the table.
+    nation.prestige = Math.max(0, nation.prestige * (1 - BALANCE.diplomacy.prestigeMonthlyDecayRate));
   }
 }
 
@@ -798,6 +832,62 @@ function irredentistClaimsForNation(world: World, holder: NationId): CasusBelli[
   return claims;
 }
 
+/**
+ * Unification claims (#34): a formable candidate holds a standing annex_state
+ * claim on every core state of that formable it does not yet control — the
+ * Risorgimento/kleindeutsch CB. Before this, unification had no war path at
+ * all: the AI could only sphere minors (GPs only), so on seeds where the
+ * stepping-stone unifier died early or a single core sat in the wrong hands,
+ * no nation ever formed in a century. Discounted infamy like irredentism, but
+ * less so — the age forgives national unification, not completely.
+ */
+const UNIFICATION_INFAMY_DISCOUNT = 0.6;
+
+function unificationClaim(world: World, holder: NationId, target: NationId, stateId: number): CasusBelli | null {
+  if (holder === target) return null;
+  const nation = world.nations[holder];
+  const state = world.states[stateId];
+  if (!nation || !state || state.owner !== target) return null;
+  const isUnificationCore = (GAME_DATA.formables ?? []).some((formable) => (
+    formable.candidateTags.includes(nation.tag)
+    && formable.resultTag !== nation.tag
+    && formable.coreStateIds.includes(stateId)
+  ));
+  if (!isUnificationCore) return null;
+  const rule = WAR_GOAL_RULES.annex_state;
+  return {
+    holder,
+    target,
+    goal: 'annex_state',
+    stateId,
+    scoreCost: rule.score,
+    infamyCost: Number((rule.infamyUse * UNIFICATION_INFAMY_DISCOUNT).toFixed(2)),
+    readyDay: world.day,
+    expiresDay: world.day + 3650,
+    discovered: true,
+    origin: 'unification',
+  };
+}
+
+function unificationClaimsForNation(world: World, holder: NationId): CasusBelli[] {
+  const nation = world.nations[holder];
+  if (!nation) return [];
+  const claims: CasusBelli[] = [];
+  const seen = new Set<number>();
+  for (const formable of GAME_DATA.formables ?? []) {
+    if (!formable.candidateTags.includes(nation.tag) || formable.resultTag === nation.tag) continue;
+    for (const stateId of formable.coreStateIds) {
+      if (seen.has(stateId)) continue;
+      seen.add(stateId);
+      const state = world.states[stateId];
+      if (!state || state.owner === holder) continue;
+      const claim = unificationClaim(world, holder, state.owner, stateId);
+      if (claim) claims.push(claim);
+    }
+  }
+  return claims;
+}
+
 export function consumeValidCb(
   world: World,
   holder: NationId,
@@ -815,7 +905,9 @@ export function consumeValidCb(
     && world.day <= cb.expiresDay
   ));
   if (index < 0) {
-    return goal === 'annex_state' ? irredentistClaim(world, holder, target, stateId) : null;
+    if (goal !== 'annex_state') return null;
+    return irredentistClaim(world, holder, target, stateId)
+      ?? unificationClaim(world, holder, target, stateId);
   }
   const [cb] = runtime.activeCbs.splice(index, 1);
   return cb;
@@ -829,7 +921,10 @@ export function getCbsForNation(world: World, holder: NationId): CasusBelli[] {
   const activeKeys = new Set(active.map((cb) => `${cb.target}:${cb.goal}:${cb.stateId}`));
   const irredentist = irredentistClaimsForNation(world, holder)
     .filter((cb) => !activeKeys.has(`${cb.target}:${cb.goal}:${cb.stateId}`));
-  return [...active, ...irredentist]
+  for (const cb of irredentist) activeKeys.add(`${cb.target}:${cb.goal}:${cb.stateId}`);
+  const unification = unificationClaimsForNation(world, holder)
+    .filter((cb) => !activeKeys.has(`${cb.target}:${cb.goal}:${cb.stateId}`));
+  return [...active, ...irredentist, ...unification]
     .sort((a, b) => (a.target - b.target) || (a.goal.localeCompare(b.goal)));
 }
 
@@ -914,6 +1009,14 @@ export function getGreatPowerStandings(world: World): GreatPowerStanding[] {
       influencePool: Number((runtime.influencePool[entry.nation] ?? 0).toFixed(2)),
     }))
     .sort((a, b) => a.rank - b.rank);
+}
+
+/** Score of the #8 power (the last GP seat). Used by the formable power gate. */
+export function getEighthPowerScore(world: World): number {
+  const runtime = ensureRuntime(world);
+  if (runtime.powerScores.length === 0) refreshGreatPowerRanking(world);
+  if (runtime.powerScores.length < 8) return 0;
+  return runtime.powerScores[7].score;
 }
 
 /** Score of the #9 power (first non-GP). Gap to this is the GP cliff chase. */

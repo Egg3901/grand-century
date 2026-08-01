@@ -289,11 +289,12 @@ describe.skipIf(!RUN)('U3 pacing — AI century runs', () => {
   );
 
   /**
-   * Formable diversity — skipped: both default seeds formed nothing this baseline
-   * (formedYears {} / {}). When formations start appearing again, flip on and
-   * require the sorted-tag signatures across seeds to differ.
+   * Formable diversity — enabled 1.5.0: unification wars + sphere defection
+   * put formations back on the default seeds (1836 forms GER at 1848; 4711
+   * forms nothing with an idle player but GER+ITA when Britain is AI-driven).
+   * Requires the sorted-tag signatures across seeds to differ.
    */
-  it.skip('formable diversity across default seeds — observed both seeds formed nothing', () => {
+  it('formable diversity across default seeds', () => {
     expect(seedReports.length).toBeGreaterThanOrEqual(2);
     const signatures = seedReports.map((r) =>
       JSON.stringify(Object.keys(r.formedYears).sort()));
@@ -304,13 +305,10 @@ describe.skipIf(!RUN)('U3 pacing — AI century runs', () => {
   });
 
   /**
-   * GP rank churn — skipped: seed 4711 posted totalGpChurnAfter1820s=0 (frozen
-   * GP table for the whole century after the initial empty→GP seeding). Seed 1836
-   * posted 6. A min-churn floor is not stable across the default seeds; the
-   * per-seed totals live in the baseline JSON for reviewable drift. Possible
-   * regression of the 1.0.0 power-score freeze — reported, not fixed in H3.
+   * GP rank churn — enabled 1.5.0: prestige decay (0.5%/month) broke the
+   * incumbency moat. Observed after the change: 1836=10, 4711=2 (was 6 and 0).
    */
-  it.skip('GP churn after 1820s ≥ 1 on every default seed — observed 1836=6, 4711=0', () => {
+  it('GP churn after 1820s ≥ 1 on every default seed', () => {
     expect(seedReports.length).toBe(SEEDS.length);
     for (const report of seedReports) {
       expect(

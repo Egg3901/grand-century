@@ -63,10 +63,15 @@ describe('M4 diplomacy layer', () => {
     for (let day = 0; day < 100; day++) advanceDay(world, GAME_DATA);
     applyCommand(world, GAME_DATA, { t: 'declareWar', target, goal: 'humiliate', state: -1 }, noopPost);
 
-    const war = world.wars[0];
+    // Find the player's declared war rather than sampling wars[0] — the AI can
+    // legitimately open its own war (e.g. a unification war) during the 100
+    // fabrication days.
+    const war = world.wars.find((candidate) => (
+      candidate.goals.some((goal) => goal.holder === world.playerNation && goal.type === 'humiliate' && goal.target === target)
+    ));
     expect(war).toBeTruthy();
-    expect(war.attackers.includes(world.playerNation)).toBe(true);
-    expect(war.attackers.includes(ally)).toBe(true);
+    expect(war!.attackers.includes(world.playerNation)).toBe(true);
+    expect(war!.attackers.includes(ally)).toBe(true);
   });
 
   it('great power ranking returns up to eight in score order', () => {

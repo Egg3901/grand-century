@@ -24,10 +24,17 @@ describe('M6 balance envelope', () => {
       expect(summary.worldPopGrowthShare).toBeGreaterThanOrEqual(0.2);
       // 1820-start + corrected coastal flags yield slightly stronger 60y growth than the old 1836 tune.
       expect(summary.worldPopGrowthShare).toBeLessThanOrEqual(1.05);
+      // 1.5.0: the old 0.9 ceilings dated from the broken economy, where the
+      // year-30 supply decay (#41) dragged the mean to ~0.75 as an artifact.
+      // With labor and farm capacity answering scarcity, a fed century is the
+      // WORKING state; scarcity tension now lives per-good (8-9 of 30 goods
+      // run short at any checkpoint) and in rising expectations, not in
+      // aggregate famine. The ceilings stay only to catch exact-saturation
+      // pathologies (a flat 1.0 means demand registration broke).
       expect(summary.avgNeedsMetMean).toBeGreaterThanOrEqual(0.6);
-      expect(summary.avgNeedsMetMean).toBeLessThanOrEqual(0.9);
+      expect(summary.avgNeedsMetMean).toBeLessThanOrEqual(0.995);
       expect(summary.avgNeedsMetFinal).toBeGreaterThanOrEqual(0.55);
-      expect(summary.avgNeedsMetFinal).toBeLessThanOrEqual(0.9);
+      expect(summary.avgNeedsMetFinal).toBeLessThanOrEqual(0.998);
       expect(summary.highMilitancyShareFinal).toBeLessThan(0.45);
       expect(summary.peakActiveRebellions).toBeLessThanOrEqual(12);
       expect(summary.peakRebelArmies).toBeLessThanOrEqual(32);
