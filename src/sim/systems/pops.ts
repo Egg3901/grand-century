@@ -1,7 +1,7 @@
 import type { GameData, Pop, PopMobilityLedger, PopType, ProvinceId, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
-import { buyFromMarket } from './market';
+import { buyFromMarketQuick, buyMarginFor, quickBuy } from './market';
 import { invalidateCultureLedger } from './culture';
 import { techModifiersFor } from './research';
 
@@ -170,6 +170,29 @@ function cleanupPop(pop: Pop): void {
 }
 
 export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
+  // Perf (#30): urbanization is a per-state constant within one weekly pass,
+  // but popUrbanization recomputed the factory-level sum per POP.
+  const stateUrbanization = new Float64Array(world.states.length);
+  for (const state of world.states) {
+    let factoryLevel = 0;
+    for (const factory of state.factories) factoryLevel += factory.level;
+    stateUrbanization[state.id] = clamp(factoryLevel / Math.max(1, state.provinceIds.length * 10), 0, 1);
+  }
+
+  // Perf (#30): the base basket cost per 1000 is a per-TYPE constant within a
+  // weekly pass (prices only move in runMarketWeekly, after this), but it was
+  // priced per pop — 8 lookups x every pop x every week.
+  const basketCostPer1000 = new Map<PopType, number>();
+  for (const type of Object.keys(data.popNeeds) as PopType[]) {
+    const needs = data.popNeeds[type];
+    if (!needs) continue;
+    let cost = 0;
+    for (const need of needs.life) cost += Math.max(0, need.amount) * (world.market[need.good]?.price ?? 0);
+    for (const need of needs.everyday) cost += Math.max(0, need.amount) * (world.market[need.good]?.price ?? 0);
+    for (const need of needs.luxury) cost += Math.max(0, need.amount) * (world.market[need.good]?.price ?? 0);
+    basketCostPer1000.set(type, cost);
+  }
+
   for (const pop of world.pops) {
     if (pop.size <= 0) {
       pop.size = 0;
@@ -183,13 +206,16 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
     if (!needs) continue;
 
     const units = pop.size / 1000;
+    const tariffMargin = buyMarginFor(world, nationId);
     let lifeNeed = 0;
     let lifeMet = 0;
     let everydayNeed = 0;
     let everydayMet = 0;
     let luxuryNeed = 0;
     let luxuryMet = 0;
-    const scarce: { good: number; fill: number }[] = [];
+    // Perf (#30): allocated lazily — this loop runs pops x weekly and most of
+    // its allocations showed up as GC time in the tick profile.
+    let scarce: { good: number; fill: number }[] | null = null;
 
     // Rising expectations: everyday/luxury needs grow with consciousness, so
     // needs-met is measured against the standards of the age, not the basket
@@ -207,45 +233,42 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
     // sink that lets taxation reach consumption at the margin. needsMet
     // fractions stay quantity-based against the BASE basket, so this widens
     // spending without redefining what "needs met" means.
-    let baseBasketCost = 0;
-    for (const need of [...needs.life, ...needs.everyday, ...needs.luxury]) {
-      baseBasketCost += Math.max(0, need.amount * units) * (world.market[need.good]?.price ?? 0);
-    }
+    const baseBasketCost = (basketCostPer1000.get(pop.type) ?? 0) * units;
     const hoardCover = baseBasketCost > 0 ? pop.money / (baseBasketCost * 26) : 0;
     const appetite = clamp(hoardCover, 1, 8);
 
     for (const need of needs.life) {
       const desired = Math.max(0, need.amount * units);
       lifeNeed += desired;
-      const purchase = buyFromMarket(world, nationId, need.good, desired, pop.money);
-      pop.money = Math.max(0, pop.money - purchase.spent);
-      lifeMet += purchase.bought;
+      buyFromMarketQuick(world, nationId, need.good, desired, pop.money, tariffMargin);
+      pop.money = Math.max(0, pop.money - quickBuy.spent);
+      lifeMet += quickBuy.bought;
       if (desired > 0) {
-        const fill = purchase.bought / desired;
-        if (fill < 0.98) scarce.push({ good: need.good, fill });
+        const fill = quickBuy.bought / desired;
+        if (fill < 0.98) (scarce ??= []).push({ good: need.good, fill });
       }
     }
     const everydayAppetite = Math.min(appetite, 3);
     for (const need of needs.everyday) {
       const baseDesired = Math.max(0, need.amount * units) * expectation;
       everydayNeed += baseDesired;
-      const purchase = buyFromMarket(world, nationId, need.good, baseDesired * everydayAppetite, pop.money);
-      pop.money = Math.max(0, pop.money - purchase.spent);
-      everydayMet += Math.min(purchase.bought, baseDesired);
+      buyFromMarketQuick(world, nationId, need.good, baseDesired * everydayAppetite, pop.money, tariffMargin);
+      pop.money = Math.max(0, pop.money - quickBuy.spent);
+      everydayMet += Math.min(quickBuy.bought, baseDesired);
       if (baseDesired > 0) {
-        const fill = Math.min(purchase.bought, baseDesired) / baseDesired;
-        if (fill < 0.98) scarce.push({ good: need.good, fill });
+        const fill = Math.min(quickBuy.bought, baseDesired) / baseDesired;
+        if (fill < 0.98) (scarce ??= []).push({ good: need.good, fill });
       }
     }
     for (const need of needs.luxury) {
       const baseDesired = Math.max(0, need.amount * units) * expectation;
       luxuryNeed += baseDesired;
-      const purchase = buyFromMarket(world, nationId, need.good, baseDesired * appetite, pop.money);
-      pop.money = Math.max(0, pop.money - purchase.spent);
-      luxuryMet += Math.min(purchase.bought, baseDesired);
+      buyFromMarketQuick(world, nationId, need.good, baseDesired * appetite, pop.money, tariffMargin);
+      pop.money = Math.max(0, pop.money - quickBuy.spent);
+      luxuryMet += Math.min(quickBuy.bought, baseDesired);
       if (baseDesired > 0) {
-        const fill = Math.min(purchase.bought, baseDesired) / baseDesired;
-        if (fill < 0.98) scarce.push({ good: need.good, fill });
+        const fill = Math.min(quickBuy.bought, baseDesired) / baseDesired;
+        if (fill < 0.98) (scarce ??= []).push({ good: need.good, fill });
       }
     }
 
@@ -255,8 +278,12 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
     pop.lifeNeedsFrac = clamp(lifeFrac, 0, 1);
     pop.everydayNeedsFrac = clamp(everydayFrac, 0, 1);
     pop.luxuryNeedsFrac = clamp(luxuryFrac, 0, 1);
-    scarce.sort((a, b) => a.fill - b.fill);
-    pop.scarceGoods = scarce.slice(0, 4);
+    if (scarce) {
+      scarce.sort((a, b) => a.fill - b.fill);
+      pop.scarceGoods = scarce.slice(0, 4);
+    } else if (pop.scarceGoods && pop.scarceGoods.length > 0) {
+      pop.scarceGoods = [];
+    }
     const combinedNeeds = clamp(lifeFrac * 0.72 + everydayFrac * 0.28, 0, 1);
     pop.needsMet = clamp(
       pop.needsMet * BALANCE.population.weeklyNeedsPreviousWeight
@@ -274,7 +301,7 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
       10,
     );
     const literacy = world.nations[nationId]?.literacy ?? 0;
-    const urbanization = popUrbanization(world, pop);
+    const urbanization = stateUrbanization[world.provinces[pop.provinceId]?.stateId ?? -1] ?? 0;
     pop.consciousness = clamp(
       pop.consciousness
       + literacy * 0.03

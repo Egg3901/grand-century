@@ -92,6 +92,28 @@ describe('H5 perf budgets', () => {
     expect(ms).toBeLessThan(budgetMs);
   }, 60_000);
 
+  it('records sim throughput as ms per province-year (#30)', () => {
+    const world = warmWorld();
+    const years = 3;
+    const t0 = performance.now();
+    for (let day = 0; day < years * 365; day++) advanceDay(world, GAME_DATA);
+    const elapsed = performance.now() - t0;
+    const provinceYears = world.provinces.length * years;
+    const msPerProvinceYear = elapsed / provinceYears;
+    // Recording, not aspiration (issue #30): survives a change in province
+    // count, and gives "the game feels slow at speed 5" a number. Measured
+    // 2026-08-01 on this box after the tick-perf pass: ~0.85-0.95 ms per
+    // province-year early-century (1450 provinces, ~1.3s per sim-year).
+    // Ceiling has ~3x scheduling headroom.
+    const budgetMsPerProvinceYear = 3;
+    console.log(
+      `[budget] sim throughput ${msPerProvinceYear.toFixed(3)}ms per province-year `
+      + `(${(years / (elapsed / 1000)).toFixed(2)} years/sec at ${world.provinces.length} provinces), `
+      + `ceiling ${budgetMsPerProvinceYear}ms`,
+    );
+    expect(msPerProvinceYear).toBeLessThan(budgetMsPerProvinceYear);
+  }, 120_000);
+
   it('records amortized culture-ledger cost inside repeated snapshot builds', () => {
     const world = warmWorld();
     // First call may rebuild; subsequent calls in the same month hit the cache.
