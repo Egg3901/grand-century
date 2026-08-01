@@ -16,7 +16,11 @@ const seed = Number(process.argv[2] ?? 4711);
 const years = Number(process.argv[3] ?? 100);
 const data = GAME_DATA;
 const world = createWorld(data, seed);
-for (const nation of world.nations) nation.isPlayer = false;
+// Pass 'idle-player' to match the pacing harness (Britain sits as an inert
+// player nation); default drives every nation with the AI.
+if (process.argv[4] !== 'idle-player') {
+  for (const nation of world.nations) nation.isPlayer = false;
+}
 
 function aliveCount(w: World): number {
   const owners = new Set(w.provinces.map((p) => p.owner));
