@@ -191,6 +191,29 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
     let luxuryMet = 0;
     const scarce: { good: number; fill: number }[] = [];
 
+    // Rising expectations: everyday/luxury needs grow with consciousness, so
+    // needs-met is measured against the standards of the age, not the basket
+    // of 1820. Without this the labor/RGO fixes settle the whole century at
+    // ~0.98 needs-met — a solved economy with no scarcity tension left.
+    // Life needs stay fixed: subsistence is subsistence.
+    const expectation = 1 + clamp(pop.consciousness, 0, 10) * BALANCE.population.expectationPerConsciousness;
+
+    // Wealth-scaled appetite (#33): pops sitting on a large cash hoard buy
+    // multiples of their everyday/luxury basket instead of banking forever.
+    // Measured before this: pops held 200-800x one basket in cash, so no tax
+    // or tariff change could ever be money-binding — fiscal policy was
+    // decorative by construction. Hoards above ~half a year of basket now
+    // convert into real demand (and real market prices), which is the money
+    // sink that lets taxation reach consumption at the margin. needsMet
+    // fractions stay quantity-based against the BASE basket, so this widens
+    // spending without redefining what "needs met" means.
+    let baseBasketCost = 0;
+    for (const need of [...needs.life, ...needs.everyday, ...needs.luxury]) {
+      baseBasketCost += Math.max(0, need.amount * units) * (world.market[need.good]?.price ?? 0);
+    }
+    const hoardCover = baseBasketCost > 0 ? pop.money / (baseBasketCost * 26) : 0;
+    const appetite = clamp(hoardCover, 1, 8);
+
     for (const need of needs.life) {
       const desired = Math.max(0, need.amount * units);
       lifeNeed += desired;
@@ -202,25 +225,26 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
         if (fill < 0.98) scarce.push({ good: need.good, fill });
       }
     }
+    const everydayAppetite = Math.min(appetite, 3);
     for (const need of needs.everyday) {
-      const desired = Math.max(0, need.amount * units);
-      everydayNeed += desired;
-      const purchase = buyFromMarket(world, nationId, need.good, desired, pop.money);
+      const baseDesired = Math.max(0, need.amount * units) * expectation;
+      everydayNeed += baseDesired;
+      const purchase = buyFromMarket(world, nationId, need.good, baseDesired * everydayAppetite, pop.money);
       pop.money = Math.max(0, pop.money - purchase.spent);
-      everydayMet += purchase.bought;
-      if (desired > 0) {
-        const fill = purchase.bought / desired;
+      everydayMet += Math.min(purchase.bought, baseDesired);
+      if (baseDesired > 0) {
+        const fill = Math.min(purchase.bought, baseDesired) / baseDesired;
         if (fill < 0.98) scarce.push({ good: need.good, fill });
       }
     }
     for (const need of needs.luxury) {
-      const desired = Math.max(0, need.amount * units);
-      luxuryNeed += desired;
-      const purchase = buyFromMarket(world, nationId, need.good, desired, pop.money);
+      const baseDesired = Math.max(0, need.amount * units) * expectation;
+      luxuryNeed += baseDesired;
+      const purchase = buyFromMarket(world, nationId, need.good, baseDesired * appetite, pop.money);
       pop.money = Math.max(0, pop.money - purchase.spent);
-      luxuryMet += purchase.bought;
-      if (desired > 0) {
-        const fill = purchase.bought / desired;
+      luxuryMet += Math.min(purchase.bought, baseDesired);
+      if (baseDesired > 0) {
+        const fill = Math.min(purchase.bought, baseDesired) / baseDesired;
         if (fill < 0.98) scarce.push({ good: need.good, fill });
       }
     }
@@ -381,6 +405,20 @@ export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
     }
   }
 
+  // Wage signal (#41): realized weekly pay per 1000 workers on each side of the
+  // farm/factory divide. Promotion only drains agriculture while industry pays
+  // better; a clear farm premium (scarcity-priced raw goods) pulls labor back.
+  const stateFactoryWage = new Map<number, number>();
+  for (const state of world.states) {
+    let wages = 0;
+    let employed = 0;
+    for (const factory of state.factories) {
+      wages += Math.max(0, finite(factory.lastWages));
+      employed += Math.max(0, finite(factory.employed));
+    }
+    stateFactoryWage.set(state.id, employed > 0 ? (wages / employed) * 1000 : 0);
+  }
+
   const stateFactoryOpenings = new Map<number, number>();
   // Clerk-specific openings (factory clerk capacity is 20% of total capacity,
   // see economy.ts processFactory) and a profitable-factory signal, so
@@ -460,11 +498,25 @@ export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
     const province = world.provinces[pop.provinceId];
     const stateId = province?.stateId ?? -1;
     const openings = stateFactoryOpenings.get(stateId) ?? 0;
-    if ((pop.type === 'farmer' || pop.type === 'laborer') && pop.needsMet > 0.35 && literacy > 0.12 && openings > 8) {
+    const factoryWage = stateFactoryWage.get(stateId) ?? 0;
+    const rgoWage = Math.max(0, finite(province?.rgo.lastWagePer1000 ?? 0));
+    const rgoCapacity = Math.max(1, province?.rgo.level ?? 1) * BALANCE.economy.rgoEmploymentPerLevel;
+    const rgoOpenings = Math.max(0, rgoCapacity - (province?.rgo.employed ?? 0));
+    // The land holds its labor only while it both pays competitively AND has
+    // room to employ; surplus rural population promotes regardless of wages.
+    const farmHolds = rgoOpenings > 50 && rgoWage > factoryWage * BALANCE.population.promoteWageAdvantage;
+    if ((pop.type === 'farmer' || pop.type === 'laborer') && pop.needsMet > 0.35 && literacy > 0.12 && openings > 8 && !farmHolds) {
       const promoted = convertPopPortion(world, pop, 'craftsman', pop.size * 0.025);
       stateFactoryOpenings.set(stateId, Math.max(0, openings - promoted));
     } else if (pop.type === 'craftsman' && (pop.needsMet < 0.08 || openings < 2)) {
       convertPopPortion(world, pop, 'laborer', pop.size * 0.004);
+    } else if (
+      pop.type === 'craftsman'
+      && rgoOpenings > 50
+      && rgoWage > factoryWage * BALANCE.population.demoteWageAdvantage
+    ) {
+      // Return to the land: scarcity-priced farm work outbidding the mills.
+      convertPopPortion(world, pop, 'laborer', pop.size * BALANCE.population.demoteReturnRate);
     }
 
     // Clerk / capitalist ladder: bootstrap seeds these classes at 0 (they only

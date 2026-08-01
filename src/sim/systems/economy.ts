@@ -32,6 +32,8 @@ interface ProductionClaim {
   ownerWeight: number;
   /** Where to record realized weekly profit once known. */
   onProfit: (profit: number) => void;
+  /** Where to record the realized wage pool once known (RGO wage signal). */
+  onWages?: (wagePool: number) => void;
   /**
    * Factories settle differently from RGOs: their costs (inputs, operating) are
    * already sunk, so only revenue scales with the realized sell rate. This
@@ -185,12 +187,16 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>, rgoTech
         owners,
         ownerWeight,
         onProfit: (profit) => { province.rgo.weeklyProfit = profit; },
+        onWages: (realizedWagePool) => {
+          province.rgo.lastWagePer1000 = employed > 0 ? (realizedWagePool / employed) * 1000 : 0;
+        },
       });
       continue;
     }
 
     // Ledger profit = residual after wages (owner rent + vestigial state share).
     province.rgo.weeklyProfit = ownerPool + statePool;
+    province.rgo.lastWagePer1000 = employed > 0 ? (wagePool / employed) * 1000 : 0;
     world.nations[nationId].monthlyProductionIncome += statePool;
     distributeMoney(world, wageEligible, wageWeight, wagePool);
     if (ownerWeight > 0) distributeMoney(world, owners, ownerWeight, ownerPool);
@@ -239,6 +245,7 @@ export function settleProductionWeekly(world: World, _data: GameData, _rng: Rng)
     const statePool = claim.statePool * scale;
 
     claim.onProfit(ownerPool + statePool);
+    claim.onWages?.(wagePool);
     const nation = world.nations[claim.nationId];
     if (nation) nation.monthlyProductionIncome += statePool;
     distributeMoney(world, claim.wageEligible, claim.wageWeight, wagePool);
@@ -247,6 +254,41 @@ export function settleProductionWeekly(world: World, _data: GameData, _rng: Rng)
   }
 
   claims.length = 0;
+}
+
+/**
+ * Record a week's realized profit on a factory: the industrial-policy floor,
+ * the cash reserve, the trend, and the streak counters that drive expansion,
+ * downsizing and closure.
+ *
+ * This exists as one function because splitting it was a real bug. Under settle
+ * clearing the factory's revenue is not known until after the market clears, so
+ * processFactory computed an optimistic profit (as if everything sold), the
+ * floor rewrote any loss to +0.15, and the counters recorded a profitable week.
+ * The settle pass then corrected `weeklyProfit` — but the counters had already
+ * been written from the optimistic figure.
+ *
+ * The result: no factory ever accumulated a loss week. Every plant expanded to
+ * the level cap and none ever downsized or closed, while 61% of them were
+ * genuinely losing money. Tuning the expansion thresholds had no effect at all,
+ * because the thresholds were reading fiction.
+ */
+function applyFactoryProfit(factory: Factory, rawProfit: number, employed: number, ownerBankrupt: boolean): void {
+  let weeklyProfit = rawProfit;
+  if (weeklyProfit < BALANCE.economy.factoryProfitFloor && employed > 0 && !ownerBankrupt) {
+    weeklyProfit = BALANCE.economy.factoryProfitFloor;
+  }
+  factory.weeklyProfit = weeklyProfit;
+  factory.cashReserve = Math.max(-400, finite(factory.cashReserve) + weeklyProfit);
+  factory.profitTrend = finite(factory.profitTrend) * 0.72 + weeklyProfit * 0.28;
+
+  if (weeklyProfit >= 0) {
+    factory.profitableWeeks += 1;
+    factory.lossWeeks = 0;
+  } else {
+    factory.lossWeeks += 1;
+    factory.profitableWeeks = 0;
+  }
 }
 
 /** Mutable state-wide labor pool, decremented as each factory in the state
@@ -403,7 +445,7 @@ function processFactory(
         payCapitalists(cut);
         factory.lastWages = soldWagePool;
         const realized = net - cut;
-        factory.weeklyProfit = realized;
+        applyFactoryProfit(factory, realized, employed, owner.isBankrupt);
         return realized;
       },
     });
@@ -414,20 +456,11 @@ function processFactory(
   let weeklyProfit = netBeforeCapital - capitalistCut;
   // Keep active industry from collapsing into a permanent loss trap; this acts
   // like a light industrial-policy floor that maintains a minimal profit signal.
-  if (weeklyProfit < BALANCE.economy.factoryProfitFloor && employed > 0 && !owner.isBankrupt) {
-    weeklyProfit = BALANCE.economy.factoryProfitFloor;
-  }
-  factory.weeklyProfit = weeklyProfit;
-  factory.cashReserve = Math.max(-400, finite(factory.cashReserve) + weeklyProfit);
-  factory.profitTrend = finite(factory.profitTrend) * 0.72 + weeklyProfit * 0.28;
-
-  if (weeklyProfit >= 0) {
-    factory.profitableWeeks += 1;
-    factory.lossWeeks = 0;
-  } else {
-    factory.lossWeeks += 1;
-    factory.profitableWeeks = 0;
-  }
+  // Under settle clearing the real profit is not known until the market has
+  // cleared, so recording is deferred to settleFactory. Recording here as well
+  // would write the optimistic figure into the streak counters and the factory
+  // would never see a loss.
+  if (!settleMode()) applyFactoryProfit(factory, weeklyProfit, employed, owner.isBankrupt);
 
   // 0.6.0: the old 0.55 direct skim of factory profit into the treasury was
   // tuned against DEAD factories (the input-purchase bug meant output was always
@@ -442,13 +475,26 @@ function processFactory(
 
 function rebalanceFactoryLevels(state: State): void {
   const survivors: Factory[] = [];
+  const expand = BALANCE.economy.factoryExpansion;
   for (const factory of state.factories) {
-    if (factory.profitableWeeks >= 10 && factory.cashReserve > 70) {
-      factory.level = clamp(factory.level + 1, 1, 10);
-      factory.cashReserve -= 60;
+    // Expansion must be EARNED, and each storey costs more than the last.
+    //
+    // Previously any factory with 10 profitable weeks and 70 in reserve added a
+    // level, at a flat cost, up to a cap of 10. Every plant simply climbed to
+    // the ceiling: the measured average level was ~9, at which point operating
+    // cost is 3.7/week and 62% of factories were running at a persistent loss.
+    // Growth was not funded by success, it was automatic.
+    //
+    // Now the bar scales with size, so a plant stops where its own profits stop
+    // paying for the next storey. Industry compounds more slowly, which is also
+    // truer to the century.
+    const cashNeeded = expand.cashBase + (factory.level - 1) * expand.cashPerLevel;
+    if (factory.profitableWeeks >= expand.profitableWeeks && factory.cashReserve > cashNeeded) {
+      factory.level = clamp(factory.level + 1, 1, expand.maxLevel);
+      factory.cashReserve -= cashNeeded * expand.cashSpentShare;
       factory.profitableWeeks = 0;
     }
-    if (factory.lossWeeks >= 8 && factory.level > 1) {
+    if (factory.lossWeeks >= expand.downsizeLossWeeks && factory.level > 1) {
       factory.level -= 1;
       factory.lossWeeks = 0;
     }
@@ -462,6 +508,36 @@ function rebalanceFactoryLevels(state: State): void {
     survivors.push(factory);
   }
   state.factories = survivors;
+}
+
+/**
+ * Agricultural investment (#41). RGO capacity was frozen at bootstrap (only
+ * rare events touched it) while population doubled and factories leveled
+ * freely, so raw-good supply per capita could only fall across a century.
+ * A saturated RGO whose good prices above base gains a level after a sustained
+ * run — landowners plough rent back into the land when it visibly pays.
+ */
+function growRgoCapacityWeekly(world: World, recipes: Record<string, Recipe>, data: GameData): void {
+  const cfg = BALANCE.economy;
+  for (const province of world.provinces) {
+    const rgo = province.rgo;
+    const recipe = recipes[rgo.recipe];
+    if (!recipe || recipe.building !== 'rgo') continue;
+    const capacity = Math.max(1, rgo.level) * cfg.rgoEmploymentPerLevel;
+    const good = world.market[recipe.output.good];
+    const base = data.goods[recipe.output.good]?.basePrice ?? 1;
+    const saturated = rgo.employed >= capacity * cfg.rgoSaturationEmployment
+      && (good?.price ?? 0) >= base * cfg.rgoGrowthPriceFloor;
+    if (saturated) {
+      rgo.saturation = (rgo.saturation ?? 0) + 1;
+      if (rgo.saturation >= cfg.rgoSaturationWeeks && rgo.level < cfg.rgoMaxLevel) {
+        rgo.level += 1;
+        rgo.saturation = 0;
+      }
+    } else {
+      rgo.saturation = Math.max(0, (rgo.saturation ?? 0) - 1);
+    }
+  }
 }
 
 export function runProductionWeekly(world: World, data: GameData, _rng: Rng): void {
@@ -513,4 +589,5 @@ export function runProductionWeekly(world: World, data: GameData, _rng: Rng): vo
     world.nations[state.owner].monthlyProductionIncome += Math.max(0, stateProfit * 0.02);
     rebalanceFactoryLevels(state);
   }
+  growRgoCapacityWeekly(world, recipes, data);
 }

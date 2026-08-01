@@ -7,6 +7,8 @@ export const BALANCE_TEST_GLOBS = [
   'tests/m6.performance.test.ts',
   'tests/m6.ai.behavior.test.ts',
   'tests/world.stability.test.ts',
+  // Wall-clock benchmarks: must not run under unit-project parallelism.
+  'tests/perf.timing.test.ts',
 ] as const;
 
 /**

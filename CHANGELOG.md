@@ -4,6 +4,46 @@ All notable changes to Grand Century are documented here.
 
 ## [Unreleased]
 
+## [1.5.0] — 2026-08-01
+
+### The great game
+The century had stopped moving. On the default seeds no nation ever unified,
+the same eight great powers held the table for ninety years, and the economy
+quietly starved from year thirty onward. All four were mechanisms, not tuning.
+
+- **Unification wars.** A formable candidate now holds a standing, discounted
+  claim on every core state it lacks — the Risorgimento pretext. The AI
+  presses it against the weakest beatable owner, and you will find it ready
+  in the Foreign Office. Sphering the minors still works; it is just no
+  longer the only road to a crown.
+- **Sphere defection.** Client states can tear up their patronage. The AI
+  does it when unification is one core away; you get a "Leave the sphere"
+  button on the Formables panel. The patron's grip resets to zero and the
+  insult is not forgotten. Together these two took seed 4711 from zero
+  formations in a century to Germany and Italy both proclaimed and Germany
+  seated among the great powers by 1870.
+- **Prestige fades.** 0.5% a month, a half-life of about eleven years. Sphere
+  and influence prestige only ever accrued to sitting great powers, so the
+  top eight had become self-sealing — the Ottomans matched Spain on industry
+  and military and sat outside at prestige 6 against 784. Old glory is now a
+  flow, not a moat, and armament moves the table again.
+- **The land answers scarcity.** Needs-met decayed from year 30 because
+  promotion was one-way: workers left for the mills whenever openings
+  existed, farm capacity was frozen at bootstrap, and by 1880 the
+  countryside held 15% of the population and the world went short. Promotion
+  now follows realized wages — factory pay must beat farm pay — a clear farm
+  premium pulls craftsmen back, and a saturated farm whose good prices above
+  base grows a level. Needs-met at 1880: 0.60 before, 0.98 after, with world
+  fill back at 99.9%.
+- **Hoards become demand.** Pops sitting on more than half a year of basket
+  now buy multiples of their everyday and luxury needs instead of banking
+  forever. This is the money sink that lets taxation reach consumption at
+  the margin.
+- **Near-great-power crowns.** The great-power gate on Germany, Italy and the
+  North German Confederation also admits a nation within striking distance
+  of the eighth seat. A Prussia that fought its way to every NGF core should
+  be crowning an emperor, not filing paperwork.
+
 ## [1.4.0] — 2026-07-27
 
 ### The chancery

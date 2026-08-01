@@ -66,6 +66,24 @@ export function FormablesPanel() {
           {bop.rivalryThreat ? ', rivalry threshold crossed' : ''}).
         </p>
       ) : null}
+      {(() => {
+        const player = nationById.get(snapshot.playerNation);
+        if (!player || player.spheredBy < 0) return null;
+        const master = nationById.get(player.spheredBy);
+        return (
+          <p className="panel-subtle status-danger">
+            We sit inside {master?.name ?? 'a foreign'} sphere — no union can be proclaimed by a client state.{' '}
+            <button
+              type="button"
+              className="btn btn--secondary"
+              title="Break from the sphere. The patron's influence resets to zero, but the insult will not be forgotten."
+              onClick={() => sendCommand({ t: 'leaveSphere' })}
+            >
+              Leave the sphere
+            </button>
+          </p>
+        );
+      })()}
       {statuses.length === 0 ? (
         <p className="panel-subtle">No formable decisions are available for this nation.</p>
       ) : null}

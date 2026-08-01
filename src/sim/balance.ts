@@ -51,6 +51,20 @@ export const BALANCE = {
     reformUpkeepPerLevel: 4.2,
     bankruptcyEnterTreasury: -1800,
     bankruptcyExitTreasury: 550,
+    /**
+     * What it takes for a factory to add a storey (#40 rebalance).
+     * Expansion used to be automatic: 10 profitable weeks and 70 in reserve, at
+     * a flat cost, so every plant climbed to the level cap and then lost money.
+     * The bar now scales with size so growth is funded by its own success.
+     */
+    factoryExpansion: {
+      profitableWeeks: 26,
+      cashBase: 90,
+      cashPerLevel: 55,
+      cashSpentShare: 0.8,
+      downsizeLossWeeks: 6,
+      maxLevel: 10,
+    },
     // National stockpile buy/sell standing orders.
     stockpileOrderMaxDaily: 40,
     /**
@@ -71,7 +85,14 @@ export const BALANCE = {
      * Default stays 'fcfs' until the rebalance lands, so the change can be
      * reviewed for correctness with the suite bit-identical.
      */
-    clearingMode: 'fcfs' as 'fcfs' | 'settle',
+    clearingMode: 'settle' as 'fcfs' | 'settle',
+    // Agricultural investment (#41): an RGO at near-full employment whose good
+    // prices above base for this many consecutive weeks gains a level. Growth
+    // is price-gated, so it self-limits once supply catches up.
+    rgoSaturationEmployment: 0.92,
+    rgoGrowthPriceFloor: 1.05,
+    rgoSaturationWeeks: 12,
+    rgoMaxLevel: 12,
   },
   population: {
     minGrowthRate: -0.006,
@@ -106,6 +127,22 @@ export const BALANCE = {
     ideologyRadicalDriftScale: 0.008,
     ideologyReactionaryBaselineChance: 0.0006,
     ideologyEliteReactionaryChance: 0.01,
+    // Labor-market wage signal (#41). Promotion out of agriculture only happens
+    // while factory pay beats farm pay; when scarcity pushes raw-good prices up,
+    // farm wages rise and the drain stops — and reverses once the land pays a
+    // clear premium. Without this, a century of one-way promotion emptied the
+    // countryside (farmers 50% -> 1.6%) and needs-met decayed from year 30 on.
+    promoteWageAdvantage: 1.05,
+    demoteWageAdvantage: 1.3,
+    demoteReturnRate: 0.01,
+    // Rising expectations: everyday/luxury need quantities scale with pop
+    // consciousness (0-10), up to +60% at full consciousness. Keeps late-game
+    // scarcity tension alive once industry solves the 1820 basket.
+    expectationPerConsciousness: 0.06,
+  },
+  diplomacy: {
+    // #35: monthly proportional prestige fade. See runDiplomacyMonthly.
+    prestigeMonthlyDecayRate: 0.005,
   },
   rebellion: {
     worldActiveCap: 8,
@@ -127,6 +164,12 @@ export const BALANCE = {
     // Stagger expensive AI planning work by nation/month to protect perf.
     heavyPlanningStride: 3,
     // Economic baseline.
+    /** How much an unmet-demand good outranks a well-supplied one (#40). */
+    factoryScarcityWeight: 2.5,
+    /** Score multiplier for a good whose demand is already fully met (#40). */
+    factorySaturatedFloor: 0.25,
+    /** Diminishing returns per copy of a recipe a nation already owns (#40). */
+    factorySaturationPenalty: 0.35,
     factoryTreasuryReserve: 1200,
     minTax: 0.1,
     maxTax: 0.8,

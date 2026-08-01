@@ -11,6 +11,7 @@ import {
   beginCbFabrication,
   collectAllianceBloc,
   consumeValidCb,
+  defectFromSphere,
   evaluateAllianceAcceptance,
   getInfamyLimit,
   getOrCreateRelation,
@@ -444,6 +445,11 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       }
       setRelationKindByCommand(world, world.playerNation, cmd.target, 'alliance');
       log(post, 'info', `${world.nations[cmd.target].name} accepted the alliance offer.`);
+      return;
+    }
+    case 'leaveSphere': {
+      const result = defectFromSphere(world, world.playerNation);
+      log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
     }
     case 'offerGuarantee': {

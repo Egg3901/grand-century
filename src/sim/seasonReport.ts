@@ -551,6 +551,9 @@ export function runCampaignMetrics(data: GameData, seed: number, years: number):
  * Supply shortage takes precedence over money — a pop with infinite cash still
  * cannot buy grain that does not exist.
  */
+/** A pop at or above this realized fill counts as satisfied rather than short. */
+const SATISFIED_NEEDS_THRESHOLD = 0.98;
+
 function measureBinding(world: World, data: GameData): ConsumptionBinding {
   const owned = new Set(
     world.provinces.filter((province) => province.owner === world.playerNation).map((p) => p.id),
@@ -567,17 +570,28 @@ function measureBinding(world: World, data: GameData): ConsumptionBinding {
     if (!needs) continue;
     const units = Math.max(0, pop.size) / 1000;
     let cost = 0;
-    let short = false;
     for (const need of [...needs.life, ...needs.everyday, ...needs.luxury]) {
-      const desired = Math.max(0, need.amount * units);
-      const marketGood = world.market[need.good];
-      cost += desired * (marketGood?.price ?? 0);
-      if (marketGood && marketGood.unmet > 0) short = true;
+      cost += Math.max(0, need.amount * units) * (world.market[need.good]?.price ?? 0);
     }
     popMoney += Math.max(0, pop.money);
     basketCost += cost;
-    if (short) supplyBoundPops += 1;
-    else if (pop.money < cost) moneyBoundPops += 1;
+
+    // Classify on what this pop ACTUALLY achieved, not on whether the world
+    // market happened to be short of anything.
+    //
+    // The first version of this asked "does any good in the basket have
+    // market-wide unmet > 0" — and 17 of the 30 goods are short at any given
+    // moment, so essentially every pop matched and the split read 100%
+    // supply-bound in every scenario, including scenarios where pops were
+    // visibly destitute. A classifier that returns the same answer regardless
+    // of the input is not measuring anything.
+    //
+    // needsMet is the pop's own realized fill, so: a pop that could not afford
+    // its basket is money-bound; one that could afford it and still went short
+    // is genuinely supply-bound; one that got what it wanted is satisfied.
+    const affordable = pop.money >= cost;
+    if (!affordable) moneyBoundPops += 1;
+    else if (pop.needsMet < SATISFIED_NEEDS_THRESHOLD) supplyBoundPops += 1;
     else satisfiedPops += 1;
   }
 

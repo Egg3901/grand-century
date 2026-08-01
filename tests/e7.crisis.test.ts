@@ -152,7 +152,11 @@ describe('E7 Concert of Europe — crises', () => {
     expect(record!.loserLead).toBe(rus.id);
     expect(world.nations[minor.id].spheredBy).toBe(eng.id);
     expect(eng.sphereMembers).toContain(minor.id);
-    expect(eng.prestige).toBeGreaterThan(beforePrestige);
+    // Prestige decays 0.5%/month (#35), so compare against the decayed
+    // counterfactual, not the raw starting stock: the win must leave England
+    // with more prestige than sitting the crisis out would have.
+    const decayedBaseline = beforePrestige * Math.pow(0.995, 2);
+    expect(eng.prestige).toBeGreaterThan(decayedBaseline);
     expect(world.crisisCooldownUntil).toBeGreaterThan(world.day);
   }, 60_000);
 
