@@ -135,6 +135,10 @@ export const BALANCE = {
     promoteWageAdvantage: 1.05,
     demoteWageAdvantage: 1.3,
     demoteReturnRate: 0.01,
+    // Rising expectations: everyday/luxury need quantities scale with pop
+    // consciousness (0-10), up to +60% at full consciousness. Keeps late-game
+    // scarcity tension alive once industry solves the 1820 basket.
+    expectationPerConsciousness: 0.06,
   },
   diplomacy: {
     // #35: monthly proportional prestige fade. See runDiplomacyMonthly.

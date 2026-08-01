@@ -191,6 +191,13 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
     let luxuryMet = 0;
     const scarce: { good: number; fill: number }[] = [];
 
+    // Rising expectations: everyday/luxury needs grow with consciousness, so
+    // needs-met is measured against the standards of the age, not the basket
+    // of 1820. Without this the labor/RGO fixes settle the whole century at
+    // ~0.98 needs-met — a solved economy with no scarcity tension left.
+    // Life needs stay fixed: subsistence is subsistence.
+    const expectation = 1 + clamp(pop.consciousness, 0, 10) * BALANCE.population.expectationPerConsciousness;
+
     // Wealth-scaled appetite (#33): pops sitting on a large cash hoard buy
     // multiples of their everyday/luxury basket instead of banking forever.
     // Measured before this: pops held 200-800x one basket in cash, so no tax
@@ -220,7 +227,7 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
     }
     const everydayAppetite = Math.min(appetite, 3);
     for (const need of needs.everyday) {
-      const baseDesired = Math.max(0, need.amount * units);
+      const baseDesired = Math.max(0, need.amount * units) * expectation;
       everydayNeed += baseDesired;
       const purchase = buyFromMarket(world, nationId, need.good, baseDesired * everydayAppetite, pop.money);
       pop.money = Math.max(0, pop.money - purchase.spent);
@@ -231,7 +238,7 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
       }
     }
     for (const need of needs.luxury) {
-      const baseDesired = Math.max(0, need.amount * units);
+      const baseDesired = Math.max(0, need.amount * units) * expectation;
       luxuryNeed += baseDesired;
       const purchase = buyFromMarket(world, nationId, need.good, baseDesired * appetite, pop.money);
       pop.money = Math.max(0, pop.money - purchase.spent);
