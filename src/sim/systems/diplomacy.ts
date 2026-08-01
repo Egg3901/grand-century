@@ -406,6 +406,31 @@ function applySphere(world: World, gp: NationId, target: NationId): void {
   targetNation.prestige = Math.max(0, targetNation.prestige - 0.25);
 }
 
+/**
+ * Sphere defection (#34): tear up client status. The probe showed unifiers
+ * finishing their core set and then rotting inside a patron's sphere forever —
+ * Tuscany at 6/6 Italian cores, Prussia at 4/4 NGF cores, both dead-ended on
+ * the `independent` requirement with no mechanism anywhere to leave a sphere.
+ * Defection resets the patron's accumulated influence to zero (they must
+ * rebuild the grip from scratch) and sours the relationship; the patron keeps
+ * a truce-free hand to punish the upstart. Risorgimento, not paperwork.
+ */
+export function defectFromSphere(world: World, nationId: NationId): { ok: boolean; reason: string } {
+  const nation = world.nations[nationId];
+  if (!nation) return { ok: false, reason: 'Nation not found.' };
+  const master = nation.spheredBy;
+  if (master < 0 || !world.nations[master]) return { ok: false, reason: 'Not inside any sphere.' };
+  const runtime = ensureRuntime(world);
+  const masterNation = world.nations[master];
+  masterNation.sphereMembers = masterNation.sphereMembers.filter((member) => member !== nationId);
+  nation.spheredBy = -1;
+  getInfluenceEntry(runtime, master, nationId).points = 0;
+  const relation = getOrCreateRelation(world, master, nationId);
+  relation.opinion = clamp(relation.opinion - 80, -200, 200);
+  masterNation.prestige = Math.max(0, masterNation.prestige - 1.5);
+  return { ok: true, reason: `${nation.name} breaks from the ${masterNation.name} sphere.` };
+}
+
 function chooseInfluenceTarget(world: World, gp: NationId, neighbors: Set<NationId>[]): NationId | null {
   const gpNation = world.nations[gp];
   if (!gpNation || gpNation.gpRank <= 0) return null;

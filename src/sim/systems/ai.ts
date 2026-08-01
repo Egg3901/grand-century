@@ -6,6 +6,7 @@ import {
   beginCbFabrication,
   collectAllianceBloc,
   consumeValidCb,
+  defectFromSphere,
   getCbsForNation,
   getInfluencePressureForTarget,
   getInfamyLimit,
@@ -1067,6 +1068,14 @@ function maybePursueFormables(world: World, data: GameData, nationId: NationId):
     for (const ownerId of Array.from(missingOwners).sort((a, b) => a - b).slice(0, 2)) {
       spendInfluence(world, nationId, ownerId, 1);
     }
+  }
+
+  // Defection path (#34): a candidate that has (nearly) completed its core set
+  // but sits inside a patron's sphere can never satisfy `independent` — and no
+  // mechanism anywhere let a nation leave a sphere. Defect when unification is
+  // within reach (all other requirements but independence/power effectively met).
+  if (nation.spheredBy >= 0 && target.controlledCoreStates >= target.requiredCoreStates - 1) {
+    defectFromSphere(world, nationId);
   }
 
   // War path (#34): unification by conquest, GP or not. Sphering was the ONLY

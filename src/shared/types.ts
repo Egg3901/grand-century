@@ -1478,6 +1478,7 @@ export type Command =
   | { t: 'addRival'; target: NationId }
   | { t: 'cancelRelation'; target: NationId; kind: 'alliance' | 'guarantee' | 'rivalry' }
   | { t: 'influenceNation'; target: NationId; spend?: number }
+  | { t: 'leaveSphere' }
   | { t: 'fabricateCB'; target: NationId; goal: WarGoalType; state: StateId }
   | { t: 'declareWar'; target: NationId; goal: WarGoalType; state: StateId }
   | { t: 'offerPeace'; war: WarId; goalsToEnforce: number[] }
