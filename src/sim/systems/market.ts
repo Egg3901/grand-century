@@ -47,6 +47,42 @@ export function exportKeepRate(rate: number): number {
   return exportMultiplier(rate);
 }
 
+/**
+ * Per-day per-nation trade multipliers (#30). The purchase path used to call
+ * techModifiersFor + tariff math on EVERY buy — roughly pops x needs x weekly,
+ * ~100k times a sim-week — for values that only change when a tariff slider
+ * moves or a tech unlocks. Cached once per day; slider/tech changes take
+ * effect the next sim-day, deterministically.
+ */
+interface TradeCache {
+  day: number;
+  /** Signed tariff margin applied to the world price when buying. */
+  buyMargin: Float64Array;
+  /** Fraction of the world price the seller keeps. */
+  sellKeep: Float64Array;
+}
+
+const tradeCaches = new WeakMap<World, TradeCache>();
+
+function tradeCacheFor(world: World): TradeCache {
+  let cache = tradeCaches.get(world);
+  if (!cache || cache.buyMargin.length !== world.nations.length) {
+    cache = { day: -1, buyMargin: new Float64Array(world.nations.length), sellKeep: new Float64Array(world.nations.length) };
+    tradeCaches.set(world, cache);
+  }
+  if (cache.day !== world.day) {
+    cache.day = world.day;
+    for (const nation of world.nations) {
+      const tradeEfficiency = 1 + Math.max(0, techModifiersFor(nation, GAME_DATA).tradeEfficiency ?? 0);
+      const rawMargin = importMultiplier(nation.tariffRate) - 1;
+      cache.buyMargin[nation.id] = rawMargin > 0 ? rawMargin * tradeEfficiency : rawMargin;
+      const cutFraction = Math.max(0, 1 - exportMultiplier(nation.tariffRate));
+      cache.sellKeep[nation.id] = 1 - cutFraction * tradeEfficiency;
+    }
+  }
+  return cache;
+}
+
 export function beginMarketWeek(world: World): void {
   for (let i = 0; i < world.market.length; i++) {
     const marketGood = world.market[i];
@@ -79,12 +115,9 @@ export function computeSaleRevenue(world: World, good: GoodId, nationId: NationI
 
   const safeAmount = Math.max(0, finite(amount));
   const baseUnit = Math.max(MIN_PRICE, finite(marketGood.price));
-  const mult = exportMultiplier(nation.tariffRate);
-  // 0.7.0: trade-efficiency tech deepens the export tariff cut (seller keeps less;
-  // the extra is real money taken from the sale — no minting).
-  const tradeEfficiency = 1 + Math.max(0, techModifiersFor(nation, GAME_DATA).tradeEfficiency ?? 0);
-  const cutFraction = Math.max(0, 1 - mult);
-  const receivedPerUnit = baseUnit * (1 - cutFraction * tradeEfficiency);
+  // Trade-efficiency tech deepens the export tariff cut (seller keeps less;
+  // the extra is real money taken from the sale — no minting). Cached per day.
+  const receivedPerUnit = baseUnit * tradeCacheFor(world).sellKeep[nationId];
   const tariffCut = (baseUnit - receivedPerUnit) * safeAmount;
   if (tariffCut > 0) nation.monthlyTariffIncome += tariffCut;
   return receivedPerUnit * safeAmount;
@@ -104,10 +137,7 @@ export function priceSaleRevenue(world: World, good: GoodId, nationId: NationId,
   if (!nation || !marketGood) return 0;
   const safeAmount = Math.max(0, finite(amount));
   const baseUnit = Math.max(MIN_PRICE, finite(marketGood.price));
-  const mult = exportMultiplier(nation.tariffRate);
-  const tradeEfficiency = 1 + Math.max(0, techModifiersFor(nation, GAME_DATA).tradeEfficiency ?? 0);
-  const cutFraction = Math.max(0, 1 - mult);
-  return baseUnit * (1 - cutFraction * tradeEfficiency) * safeAmount;
+  return baseUnit * tradeCacheFor(world).sellKeep[nationId] * safeAmount;
 }
 
 export interface MarketPurchaseResult {
@@ -135,13 +165,10 @@ export function buyFromMarket(
   runtime.requestedDemand += desired;
 
   const baseUnit = Math.max(MIN_PRICE, finite(marketGood.price));
-  const buyMult = importMultiplier(nation.tariffRate);
-  // 0.7.0: trade-efficiency tech amplifies only the positive tariff margin so
-  // customs capture more of each import purchase (buyer pays the extra — no
-  // minting). Negative tariffs (import subsidies) bill the treasury below.
-  const tradeEfficiency = 1 + Math.max(0, techModifiersFor(nation, GAME_DATA).tradeEfficiency ?? 0);
-  const rawMargin = buyMult - 1;
-  const tariffMargin = rawMargin > 0 ? rawMargin * tradeEfficiency : rawMargin;
+  // Trade-efficiency tech amplifies only the positive tariff margin so customs
+  // capture more of each import purchase (buyer pays the extra — no minting).
+  // Negative tariffs (import subsidies) bill the treasury below. Cached per day.
+  const tariffMargin = tradeCacheFor(world).buyMargin[nationId];
   const unitPrice = baseUnit * (1 + tariffMargin);
 
   const available = Math.max(0, runtime.remainingProducer + runtime.remainingStockpile);
@@ -183,6 +210,65 @@ export function buyFromMarket(
  * discovery like anything else — a large buy order visibly tightens a
  * good, a large sell order visibly floods it.
  */
+/**
+ * Allocation-free purchase path for the pop consumption loop (#30). Same
+ * arithmetic and market accounting as buyFromMarket, but returns through a
+ * shared scratch object — the caller must read bought/spent before the next
+ * call. The pops loop makes this ~4-5M times per 15 sim-years; the per-call
+ * result objects were a measurable slice of GC time.
+ */
+export const quickBuy = { bought: 0, spent: 0 };
+
+/** One WeakMap lookup per pop instead of per purchase. */
+export function buyMarginFor(world: World, nationId: NationId): number {
+  return tradeCacheFor(world).buyMargin[nationId] ?? 0;
+}
+
+export function buyFromMarketQuick(
+  world: World,
+  nationId: NationId,
+  good: GoodId,
+  desiredAmount: number,
+  availableBudget: number,
+  tariffMargin: number,
+): void {
+  const runtime = world.marketRuntime[good];
+  const marketGood = world.market[good];
+  const nation = world.nations[nationId];
+  if (!runtime || !marketGood || !nation) {
+    quickBuy.bought = 0;
+    quickBuy.spent = 0;
+    return;
+  }
+  const desired = desiredAmount > 0 ? desiredAmount : 0;
+  runtime.requestedDemand += desired;
+
+  const baseUnit = Math.max(MIN_PRICE, finite(marketGood.price));
+  const unitPrice = baseUnit * (1 + tariffMargin);
+  const available = runtime.remainingProducer + runtime.remainingStockpile;
+  const safeBudget = Number.isNaN(availableBudget) ? 0 : Math.max(0, availableBudget);
+  const budgetLimited = unitPrice > 0 ? safeBudget / unitPrice : desired;
+  let bought = desired < available ? desired : available;
+  if (budgetLimited < bought) bought = budgetLimited;
+  if (!(bought > 0)) {
+    quickBuy.bought = 0;
+    quickBuy.spent = 0;
+    return;
+  }
+  const remainingProducer = runtime.remainingProducer > 0 ? runtime.remainingProducer : 0;
+  const fromProducer = bought < remainingProducer ? bought : remainingProducer;
+  const fromStockpile = bought - fromProducer;
+  runtime.remainingProducer -= fromProducer;
+  runtime.remainingStockpile -= fromStockpile;
+  runtime.stockpileSell += fromStockpile;
+  runtime.consumerBought += bought;
+
+  const tariffFlow = bought * baseUnit * tariffMargin;
+  if (tariffFlow !== 0) nation.monthlyTariffIncome += tariffFlow;
+  quickBuy.bought = bought;
+  quickBuy.spent = bought * unitPrice;
+}
+
 export function runStockpileOrders(world: World, _data: GameData, _rng: Rng): void {
   for (const nation of world.nations) {
     const orders = nation.stockpileOrders;

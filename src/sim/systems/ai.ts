@@ -114,12 +114,46 @@ function buildNationNeighborMap(world: World): NationId[][] {
   return neighbors.map((set) => Array.from(set).sort((a, b) => a - b));
 }
 
+/** Perf (#30): power estimates are pure functions of same-day world state but
+ * were recomputed with full army/province/pop scans on every call — and the
+ * alliance-bloc math calls this per member per candidate, monthly. One pass
+ * per day builds every nation's estimate; callers hit the array. */
+interface PowerCache { day: number; values: Float64Array }
+const powerCaches = new WeakMap<World, PowerCache>();
+
 function estimateNationPower(world: World, nationId: NationId): number {
-  const nation = world.nations[nationId];
-  if (!nation) return 0;
-  const military = armyStrengthForNation(world, nationId) * 2 + navyStrengthForNation(world, nationId) * 0.7;
-  const economy = Math.max(0, nation.treasury) / 650 + nationPopulation(world, nationId) / 125_000;
-  return military + economy + nation.prestige * 0.28;
+  let cache = powerCaches.get(world);
+  if (!cache || cache.values.length !== world.nations.length) {
+    cache = { day: -1, values: new Float64Array(world.nations.length) };
+    powerCaches.set(world, cache);
+  }
+  if (cache.day !== world.day) {
+    cache.day = world.day;
+    const armyStrength = new Float64Array(world.nations.length);
+    const navyStrength = new Float64Array(world.nations.length);
+    for (const army of world.armies) {
+      if (army.rebel || !world.nations[army.owner]) continue;
+      for (const regiment of army.regiments) armyStrength[army.owner] += regiment.strength / 1000;
+    }
+    for (const fleet of world.fleets) {
+      if (!world.nations[fleet.owner]) continue;
+      navyStrength[fleet.owner] += fleet.ships.length;
+    }
+    const population = new Float64Array(world.nations.length);
+    for (const province of world.provinces) {
+      const owner = province.owner;
+      if (!world.nations[owner]) continue;
+      for (const popId of province.popIds) {
+        population[owner] += Math.max(0, world.pops[popId]?.size ?? 0);
+      }
+    }
+    for (const nation of world.nations) {
+      const military = armyStrength[nation.id] * 2 + navyStrength[nation.id] * 0.7;
+      const economy = Math.max(0, nation.treasury) / 650 + population[nation.id] / 125_000;
+      cache.values[nation.id] = military + economy + nation.prestige * 0.28;
+    }
+  }
+  return cache.values[nationId] ?? 0;
 }
 
 function estimateBlocPower(world: World, nationIds: NationId[]): number {

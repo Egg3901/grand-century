@@ -252,6 +252,18 @@ export function reformFatigueCostMultiplier(fatigue: number): number {
   return 1 + clamp(fatigue, 0, REFORM_FATIGUE_MAX) * REFORM_FATIGUE_MAX_COST_MULTIPLIER_EXTRA;
 }
 
+const reformMaxLevelCache = new WeakMap<GameData, Map<string, number>>();
+
+/** Static per-reform max level, memoized per GameData. */
+function reformMaxLevels(data: GameData): Map<string, number> {
+  let map = reformMaxLevelCache.get(data);
+  if (!map) {
+    map = new Map(data.reforms.map((reform) => [reform.key, maxLevel(reform)]));
+    reformMaxLevelCache.set(data, map);
+  }
+  return map;
+}
+
 export function politicalSuppression(nation: Nation, data: GameData): number {
   const voting = data.reforms.find((reform) => reform.key === 'voting_franchise');
   const press = data.reforms.find((reform) => reform.key === 'press_rights');
@@ -264,37 +276,43 @@ export function politicalSuppression(nation: Nation, data: GameData): number {
   return clamp((1 - votingFreedom) * 0.45 + (1 - pressFreedom) * 0.35 + electivePenalty + authoritarianPenalty, 0, 1);
 }
 
+// Perf (#30): module-level so the per-pop hot path does not create a closure
+// per call (the esbuild __name wrapper on closures showed in the tick profile).
+function reformAtMax(nation: Nation, maxByKey: Map<string, number>, reformKey: string): boolean {
+  const max = maxByKey.get(reformKey);
+  if (max === undefined) return true;
+  return (nation.reforms[reformKey] ?? 0) >= max;
+}
+
 export function reformDemandForPop(pop: Pop, nation: Nation, data: GameData): string | null {
   const ideology = ideologyFromPop(pop);
   const unmet = 1 - clamp(pop.needsMet, 0, 1);
   const consciousness = clamp(pop.consciousness, 0, 10);
   const militancy = clamp(pop.militancy, 0, 10);
-  const atMax = (reformKey: string) => {
-    const def = data.reforms.find((reform) => reform.key === reformKey);
-    if (!def) return true;
-    return (nation.reforms[reformKey] ?? 0) >= maxLevel(def);
-  };
+  // The old atMax did a linear data.reforms.find per query — up to ~10 scans
+  // per pop, per month, twice. Max level per reform is static data.
+  const maxByKey = reformMaxLevels(data);
 
-  if ((pop.type === 'soldier' || pop.type === 'officer') && unmet > 0.22 && !atMax('conscription_level')) {
+  if ((pop.type === 'soldier' || pop.type === 'officer') && unmet > 0.22 && !reformAtMax(nation, maxByKey, 'conscription_level')) {
     return 'conscription_level';
   }
-  if (unmet > 0.4 && !atMax('healthcare')) return 'healthcare';
-  if (unmet > 0.33 && !atMax('pension_system')) return 'pension_system';
-  if (unmet > 0.28 && !atMax('labor_safety')) return 'labor_safety';
-  if (consciousness > 4.2 && !atMax('school_system')) return 'school_system';
+  if (unmet > 0.4 && !reformAtMax(nation, maxByKey, 'healthcare')) return 'healthcare';
+  if (unmet > 0.33 && !reformAtMax(nation, maxByKey, 'pension_system')) return 'pension_system';
+  if (unmet > 0.28 && !reformAtMax(nation, maxByKey, 'labor_safety')) return 'labor_safety';
+  if (consciousness > 4.2 && !reformAtMax(nation, maxByKey, 'school_system')) return 'school_system';
 
   if ((ideology === 'liberal' || ideology === 'socialist') && consciousness > 4.8) {
-    if (!atMax('voting_franchise')) return 'voting_franchise';
-    if (!atMax('press_rights')) return 'press_rights';
-    if (!atMax('upper_house_composition')) return 'upper_house_composition';
+    if (!reformAtMax(nation, maxByKey, 'voting_franchise')) return 'voting_franchise';
+    if (!reformAtMax(nation, maxByKey, 'press_rights')) return 'press_rights';
+    if (!reformAtMax(nation, maxByKey, 'upper_house_composition')) return 'upper_house_composition';
   }
 
-  if ((ideology === 'reactionary' || ideology === 'conservative') && militancy > 5 && !atMax('army_professionalism')) {
+  if ((ideology === 'reactionary' || ideology === 'conservative') && militancy > 5 && !reformAtMax(nation, maxByKey, 'army_professionalism')) {
     return 'army_professionalism';
   }
 
-  if (ideology === 'liberal' && !atMax('economic_policy')) return 'economic_policy';
-  if (ideology === 'socialist' && !atMax('trade_policy')) return 'trade_policy';
+  if (ideology === 'liberal' && !reformAtMax(nation, maxByKey, 'economic_policy')) return 'economic_policy';
+  if (ideology === 'socialist' && !reformAtMax(nation, maxByKey, 'trade_policy')) return 'trade_policy';
   return null;
 }
 
