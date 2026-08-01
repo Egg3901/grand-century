@@ -797,7 +797,9 @@ export function DiplomacyPanel() {
                       <strong>{GOAL_BY_ID.get(cb.goal)?.label ?? cb.goal}</strong>
                       <span>
                         {cb.stateId >= 0 ? `${stateNameById.get(cb.stateId) ?? `State ${cb.stateId}`} · ` : ''}
-                        {cb.origin === 'core_claim' ? 'irredentist claim' : `holds ${daysLabel(cb.expiresDay - day)}`}
+                        {cb.origin === 'core_claim' ? 'irredentist claim'
+                          : cb.origin === 'unification' ? 'unification claim'
+                          : `holds ${daysLabel(cb.expiresDay - day)}`}
                         {` · +${cb.infamyCost.toFixed(1)} infamy`}
                       </span>
                     </li>
@@ -855,6 +857,12 @@ export function DiplomacyPanel() {
               {matchingCb?.origin === 'core_claim' ? (
                 <p className="diplo-reason status-positive">
                   Irredentist claim: this state is one of our historic cores, held by a foreign power.
+                  No fabrication is needed and the infamy is discounted.
+                </p>
+              ) : null}
+              {matchingCb?.origin === 'unification' ? (
+                <p className="diplo-reason status-positive">
+                  Unification claim: this state belongs to a nation we could proclaim.
                   No fabrication is needed and the infamy is discounted.
                 </p>
               ) : null}

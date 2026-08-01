@@ -5,6 +5,7 @@ import { applyReformFatigueGain, computeReformLegality, partyByKey } from '../po
 import {
   beginCbFabrication,
   collectAllianceBloc,
+  consumeValidCb,
   getCbsForNation,
   getInfluencePressureForTarget,
   getInfamyLimit,
@@ -1050,22 +1051,100 @@ function maybePursueFormables(world: World, data: GameData, nationId: NationId):
       || a.requiredCoreStates - b.requiredCoreStates
       || a.key.localeCompare(b.key)
     ))[0];
-  if (!target || nation.gpRank <= 0) return false;
+  if (!target) return false;
+
+  // GP path: pull the missing minor owners into the sphere.
+  if (nation.gpRank > 0) {
+    const sphere = new Set(nation.sphereMembers);
+    const missingOwners = new Set<NationId>();
+    for (const stateId of target.coreStateIds) {
+      const state = world.states[stateId];
+      if (!state) continue;
+      if (state.owner === nationId || sphere.has(state.owner)) continue;
+      if (world.nations[state.owner]?.gpRank > 0) continue;
+      missingOwners.add(state.owner);
+    }
+    for (const ownerId of Array.from(missingOwners).sort((a, b) => a - b).slice(0, 2)) {
+      spendInfluence(world, nationId, ownerId, 1);
+    }
+  }
+
+  // War path (#34): unification by conquest, GP or not. Sphering was the ONLY
+  // pursuit mechanism before, and it is GP-gated — so a non-GP candidate one
+  // core short (Sweden at 6/7 for fifty straight years on seed 4711) was
+  // mathematically stuck, and no formable ever fired on that seed family.
+  // Candidates now press their standing unification claim (see diplomacy.ts)
+  // against the weakest beatable core-state owner.
+  maybeDeclareUnificationWar(world, nationId, target);
+  return false;
+}
+
+function maybeDeclareUnificationWar(
+  world: World,
+  nationId: NationId,
+  target: ReturnType<typeof getFormableStatusesForNation>[number],
+): void {
+  const nation = world.nations[nationId];
+  if (!nation) return;
+  if (nationAtWar(world, nationId)) return;
+  if (nation.isBankrupt || nation.treasury < BALANCE.ai.warTreasuryReserve) return;
+  const infamyLimit = getInfamyLimit();
+  if (nation.infamy > infamyLimit * BALANCE.ai.warInfamyDeclareFactor) return;
 
   const sphere = new Set(nation.sphereMembers);
-  const missingOwners = new Set<NationId>();
+  const candidates: Array<{ ownerId: NationId; stateId: StateId; advantage: number; attackers: NationId[]; defenders: NationId[] }> = [];
+  const seenOwners = new Set<NationId>();
   for (const stateId of target.coreStateIds) {
     const state = world.states[stateId];
     if (!state) continue;
-    if (state.owner === nationId || sphere.has(state.owner)) continue;
-    if (world.nations[state.owner]?.gpRank > 0) continue;
-    missingOwners.add(state.owner);
+    const ownerId = state.owner;
+    if (ownerId === nationId || sphere.has(ownerId) || seenOwners.has(ownerId)) continue;
+    seenOwners.add(ownerId);
+    if (!world.nations[ownerId]) continue;
+    if (hasActiveTruce(world, nationId, ownerId)) continue;
+    const relation = getOrCreateRelation(world, nationId, ownerId);
+    if (relation.kind === 'alliance') continue;
+    const attackers = collectAllianceBloc(world, nationId, ownerId);
+    const defenders = collectAllianceBloc(world, ownerId, nationId, { includeGuarantees: true });
+    const dedupAttackers = Array.from(new Set(attackers.filter((id) => !defenders.includes(id)))).sort((a, b) => a - b);
+    const dedupDefenders = Array.from(new Set(defenders.filter((id) => !dedupAttackers.includes(id)))).sort((a, b) => a - b);
+    const advantage = estimateBlocPower(world, dedupAttackers.length > 0 ? dedupAttackers : [nationId])
+      / Math.max(1, estimateBlocPower(world, dedupDefenders.length > 0 ? dedupDefenders : [ownerId]));
+    if (advantage < BALANCE.ai.warDeclareMinAdvantage) continue;
+    candidates.push({
+      ownerId,
+      stateId,
+      advantage,
+      attackers: dedupAttackers.length > 0 ? dedupAttackers : [nationId],
+      defenders: dedupDefenders.length > 0 ? dedupDefenders : [ownerId],
+    });
   }
+  if (candidates.length === 0) return;
+  // Weakest defender first — unify through the door that is open.
+  candidates.sort((a, b) => b.advantage - a.advantage || a.ownerId - b.ownerId);
+  const pick = candidates[0];
 
-  for (const ownerId of Array.from(missingOwners).sort((a, b) => a - b).slice(0, 2)) {
-    spendInfluence(world, nationId, ownerId, 1);
-  }
-  return false;
+  const cb = consumeValidCb(world, nationId, pick.ownerId, 'annex_state', pick.stateId);
+  if (!cb) return;
+  if (nation.infamy + cb.infamyCost > infamyLimit * 1.32) return;
+  const rule = getWarGoalRule('annex_state');
+  world.wars.push({
+    id: world.nextWarId++,
+    attackers: pick.attackers,
+    defenders: pick.defenders,
+    goals: [{
+      holder: nationId,
+      target: pick.ownerId,
+      type: 'annex_state',
+      stateId: pick.stateId,
+      scoreValue: rule.score,
+    }],
+    score: 0,
+    attackerExhaustion: 0,
+    defenderExhaustion: 0,
+    startDay: world.day,
+  });
+  nation.infamy = clamp(nation.infamy + cb.infamyCost, 0, 100);
 }
 
 function keepValuesFinite(world: World): void {
