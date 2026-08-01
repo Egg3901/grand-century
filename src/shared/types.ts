@@ -421,6 +421,12 @@ export interface RGO {
   employed: number;
   /** Last weekly owner+state share after wages (not a fabricated proxy). */
   weeklyProfit: number;
+  /** Realized weekly wage per 1000 workers, written at settlement. Optional so
+   * pre-1.5 saves load; missing reads as 0 (no wage signal yet). */
+  lastWagePer1000?: number;
+  /** Consecutive weeks at near-full employment with the output good priced
+   * above base — the investment signal that grows `level`. */
+  saturation?: number;
 }
 
 /** 1.0-U5: one yearly line of the player's campaign, recorded by the sim. */
@@ -738,8 +744,10 @@ export interface CasusBelli {
   discovered: boolean;
   /** 'core_claim': a standing irredentist claim on a state in the holder's
    * historic coreStateIds — always available, no fabrication, discounted
-   * infamy. Undefined/omitted for a normally fabricated or granted CB. */
-  origin?: 'core_claim';
+   * infamy. 'unification': the same standing claim on a core state of a
+   * formable the holder is a candidate for (the Risorgimento CB — #34).
+   * Undefined/omitted for a normally fabricated or granted CB. */
+  origin?: 'core_claim' | 'unification';
 }
 
 export interface GreatPowerStanding {

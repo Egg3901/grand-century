@@ -86,6 +86,13 @@ export const BALANCE = {
      * reviewed for correctness with the suite bit-identical.
      */
     clearingMode: 'settle' as 'fcfs' | 'settle',
+    // Agricultural investment (#41): an RGO at near-full employment whose good
+    // prices above base for this many consecutive weeks gains a level. Growth
+    // is price-gated, so it self-limits once supply catches up.
+    rgoSaturationEmployment: 0.92,
+    rgoGrowthPriceFloor: 1.05,
+    rgoSaturationWeeks: 12,
+    rgoMaxLevel: 12,
   },
   population: {
     minGrowthRate: -0.006,
@@ -120,6 +127,18 @@ export const BALANCE = {
     ideologyRadicalDriftScale: 0.008,
     ideologyReactionaryBaselineChance: 0.0006,
     ideologyEliteReactionaryChance: 0.01,
+    // Labor-market wage signal (#41). Promotion out of agriculture only happens
+    // while factory pay beats farm pay; when scarcity pushes raw-good prices up,
+    // farm wages rise and the drain stops — and reverses once the land pays a
+    // clear premium. Without this, a century of one-way promotion emptied the
+    // countryside (farmers 50% -> 1.6%) and needs-met decayed from year 30 on.
+    promoteWageAdvantage: 1.05,
+    demoteWageAdvantage: 1.3,
+    demoteReturnRate: 0.01,
+  },
+  diplomacy: {
+    // #35: monthly proportional prestige fade. See runDiplomacyMonthly.
+    prestigeMonthlyDecayRate: 0.005,
   },
   rebellion: {
     worldActiveCap: 8,

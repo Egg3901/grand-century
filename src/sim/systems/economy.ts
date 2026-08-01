@@ -32,6 +32,8 @@ interface ProductionClaim {
   ownerWeight: number;
   /** Where to record realized weekly profit once known. */
   onProfit: (profit: number) => void;
+  /** Where to record the realized wage pool once known (RGO wage signal). */
+  onWages?: (wagePool: number) => void;
   /**
    * Factories settle differently from RGOs: their costs (inputs, operating) are
    * already sunk, so only revenue scales with the realized sell rate. This
@@ -185,12 +187,16 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>, rgoTech
         owners,
         ownerWeight,
         onProfit: (profit) => { province.rgo.weeklyProfit = profit; },
+        onWages: (realizedWagePool) => {
+          province.rgo.lastWagePer1000 = employed > 0 ? (realizedWagePool / employed) * 1000 : 0;
+        },
       });
       continue;
     }
 
     // Ledger profit = residual after wages (owner rent + vestigial state share).
     province.rgo.weeklyProfit = ownerPool + statePool;
+    province.rgo.lastWagePer1000 = employed > 0 ? (wagePool / employed) * 1000 : 0;
     world.nations[nationId].monthlyProductionIncome += statePool;
     distributeMoney(world, wageEligible, wageWeight, wagePool);
     if (ownerWeight > 0) distributeMoney(world, owners, ownerWeight, ownerPool);
@@ -239,6 +245,7 @@ export function settleProductionWeekly(world: World, _data: GameData, _rng: Rng)
     const statePool = claim.statePool * scale;
 
     claim.onProfit(ownerPool + statePool);
+    claim.onWages?.(wagePool);
     const nation = world.nations[claim.nationId];
     if (nation) nation.monthlyProductionIncome += statePool;
     distributeMoney(world, claim.wageEligible, claim.wageWeight, wagePool);
@@ -503,6 +510,36 @@ function rebalanceFactoryLevels(state: State): void {
   state.factories = survivors;
 }
 
+/**
+ * Agricultural investment (#41). RGO capacity was frozen at bootstrap (only
+ * rare events touched it) while population doubled and factories leveled
+ * freely, so raw-good supply per capita could only fall across a century.
+ * A saturated RGO whose good prices above base gains a level after a sustained
+ * run — landowners plough rent back into the land when it visibly pays.
+ */
+function growRgoCapacityWeekly(world: World, recipes: Record<string, Recipe>, data: GameData): void {
+  const cfg = BALANCE.economy;
+  for (const province of world.provinces) {
+    const rgo = province.rgo;
+    const recipe = recipes[rgo.recipe];
+    if (!recipe || recipe.building !== 'rgo') continue;
+    const capacity = Math.max(1, rgo.level) * cfg.rgoEmploymentPerLevel;
+    const good = world.market[recipe.output.good];
+    const base = data.goods[recipe.output.good]?.basePrice ?? 1;
+    const saturated = rgo.employed >= capacity * cfg.rgoSaturationEmployment
+      && (good?.price ?? 0) >= base * cfg.rgoGrowthPriceFloor;
+    if (saturated) {
+      rgo.saturation = (rgo.saturation ?? 0) + 1;
+      if (rgo.saturation >= cfg.rgoSaturationWeeks && rgo.level < cfg.rgoMaxLevel) {
+        rgo.level += 1;
+        rgo.saturation = 0;
+      }
+    } else {
+      rgo.saturation = Math.max(0, (rgo.saturation ?? 0) - 1);
+    }
+  }
+}
+
 export function runProductionWeekly(world: World, data: GameData, _rng: Rng): void {
   const recipes = recipeByKey(data);
   const bucketsByState = buildStatePopBuckets(world);
@@ -552,4 +589,5 @@ export function runProductionWeekly(world: World, data: GameData, _rng: Rng): vo
     world.nations[state.owner].monthlyProductionIncome += Math.max(0, stateProfit * 0.02);
     rebalanceFactoryLevels(state);
   }
+  growRgoCapacityWeekly(world, recipes, data);
 }
