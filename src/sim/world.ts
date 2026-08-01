@@ -28,13 +28,11 @@ const EPOCH_YEAR = 1820;
 const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 export function dayToDate(day: GameDay): GameDate {
-  let remaining = day;
-  let year = EPOCH_YEAR;
-  // ignore leap years for a shallow model; consistent & deterministic
-  while (remaining >= 365) {
-    remaining -= 365;
-    year++;
-  }
+  // ignore leap years for a shallow model; consistent & deterministic.
+  // Perf (#30): this runs several times per sim-day and the old year loop
+  // iterated once per elapsed year — O(century) by the late game.
+  const year = EPOCH_YEAR + Math.floor(day / 365);
+  let remaining = day - (year - EPOCH_YEAR) * 365;
   let month = 0;
   while (remaining >= DAYS_IN_MONTH[month]) {
     remaining -= DAYS_IN_MONTH[month];
