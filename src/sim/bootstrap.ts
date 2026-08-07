@@ -823,7 +823,8 @@ export function createWorld(
     day: 0,
     seed: seed >>> 0,
     rngState: rng.state,
-    speed: 1,
+    // Start paused so the player can survey the world before the clock runs.
+    speed: 0,
     playerNation: defaultPlayer,
     mapMode,
     nations,

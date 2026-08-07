@@ -387,13 +387,24 @@ export function deriveAlerts(
       365,
     );
   }
-  // Life-need goods (grain/cattle/fish) — alert when world unmet is severe.
+  // Life-need goods (grain/cattle/fish) — alert only when a good CROSSES INTO
+  // shortage, not on every tick it stays short. A persistent structural
+  // shortage would otherwise re-fire every few real seconds at fast speeds.
   const lifeGoodIds = new Set([0, 1, 2]);
-  for (const good of next.market) {
-    if (!lifeGoodIds.has(good.good)) continue;
+  const inShortage = (good: typeof next.market[number]) => {
     const denom = Math.max(1, good.priceTrace.requestedDemand);
     const unmetFrac = good.unmet / denom;
-    if (unmetFrac < 0.22 && good.unmet < Math.max(8, good.supply * 0.18)) continue;
+    return unmetFrac >= 0.22 || good.unmet >= Math.max(8, good.supply * 0.18);
+  };
+  const prevMarket = new Map(prev.market.map((g) => [g.good, g]));
+  for (const good of next.market) {
+    if (!lifeGoodIds.has(good.good)) continue;
+    if (!inShortage(good)) continue;
+    const prevGood = prevMarket.get(good.good);
+    // Edge-trigger: skip if it was already short last snapshot.
+    if (prevGood && inShortage(prevGood)) continue;
+    const denom = Math.max(1, good.priceTrace.requestedDemand);
+    const unmetFrac = good.unmet / denom;
     const name = goodNames.get(good.good) ?? `Good ${good.good}`;
     pushAlert(
       'market',
@@ -402,7 +413,7 @@ export function deriveAlerts(
       'market',
       'Open Market and Production — expand RGOs or import capacity for life goods.',
       `market-shortage-${good.good}`,
-      45,
+      120,
     );
   }
 

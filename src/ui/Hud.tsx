@@ -151,6 +151,11 @@ export function Hud() {
         <div className="hud-top__section">
           <span className="atlas-heading">Date</span>
           <strong data-testid="hud-date">{formattedDate}</strong>
+          {currentSpeed === 0 ? (
+            <span className="hud-paused-badge" data-testid="hud-paused" role="status" aria-live="polite">
+              Paused
+            </span>
+          ) : null}
         </div>
         <div className="hud-top__section hud-top__speeds" data-coach-id="speed-controls-desktop">
           {SPEEDS.map((speed) => (

@@ -169,6 +169,26 @@
   border: 1px solid var(--gc-border-soft);
 }
 
+.hud-paused-badge {
+  font-family: var(--gc-font-display);
+  font-size: var(--gc-fs-caption);
+  font-weight: 700;
+  letter-spacing: var(--gc-tracking-caps);
+  text-transform: uppercase;
+  color: #f8efe2;
+  padding: 0.14rem 0.5rem;
+  border-radius: var(--gc-radius-sm);
+  background: var(--gc-seal);
+  border: 1px solid var(--gc-accent-deep);
+  box-shadow: 0 0 0 3px rgba(138, 43, 34, 0.18);
+  animation: hud-paused-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes hud-paused-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(138, 43, 34, 0.12); }
+  50% { box-shadow: 0 0 0 5px rgba(138, 43, 34, 0.28); }
+}
+
 .hud-research {
   font-size: var(--gc-fs-caption);
   color: var(--gc-ink);
