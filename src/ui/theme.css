@@ -41,31 +41,36 @@
 }
 
 :root {
-  /* Surfaces */
-  --gc-paper: #f3e8cf;
-  --gc-paper-deep: #e6d7b4;
-  --gc-parchment: #ebe0c4;
-  --gc-parchment-warm: #f7edd6;
-  --gc-leather: #3a2a1c;
-  --gc-leather-soft: #5a4330;
-  --gc-panel: linear-gradient(165deg, rgba(247, 237, 214, 0.97) 0%, rgba(232, 218, 184, 0.96) 55%, rgba(224, 208, 172, 0.97) 100%);
-  --gc-panel-solid: #efe3c6;
-  --gc-ink: #1f160f;
-  --gc-ink-muted: #4a3829;
-  --gc-ink-faint: #6a5542;
-  --gc-border: rgba(58, 42, 28, 0.42);
-  --gc-border-soft: rgba(58, 42, 28, 0.22);
-  --gc-rule: rgba(71, 47, 28, 0.16);
-  --gc-accent: #7a2e24;
-  --gc-accent-deep: #5c211a;
-  --gc-accent-soft: rgba(122, 46, 36, 0.14);
-  --gc-wax: #8b3a2e;
-  --gc-wax-highlight: #a84a3a;
+  /* Surfaces — cool survey-bone, deliberately off the warm-cream default */
+  --gc-paper: #ece6d6;
+  --gc-paper-deep: #dbd2bc;
+  --gc-parchment: #e6dfcd;
+  --gc-parchment-warm: #f1ebdb;
+  --gc-leather: #24303c;
+  --gc-leather-soft: #3c4a57;
+  --gc-panel: linear-gradient(165deg, rgba(241, 235, 221, 0.97) 0%, rgba(228, 220, 200, 0.96) 55%, rgba(219, 210, 188, 0.97) 100%);
+  --gc-panel-solid: #eae3d2;
+  --gc-ink: #17222c;
+  --gc-ink-muted: #3b4a56;
+  --gc-ink-faint: #63717c;
+  --gc-border: rgba(31, 58, 95, 0.34);
+  --gc-border-soft: rgba(31, 58, 95, 0.18);
+  --gc-rule: rgba(31, 58, 95, 0.15);
+  /* Primary — Prussian blue (replaces the rust-red that read as AI-default) */
+  --gc-accent: #1f3a5f;
+  --gc-accent-deep: #16293f;
+  --gc-accent-soft: rgba(31, 58, 95, 0.13);
+  /* "wax" now drives primary fills; kept blue for a single coherent accent */
+  --gc-wax: #22456f;
+  --gc-wax-highlight: #2d5786;
+  /* warm tones demoted to seals / status only */
+  --gc-seal: #8a2b22;
+  --gc-gold: #c0882c;
   --gc-danger: #8a2b22;
-  --gc-positive: #2a4a2e;
-  --gc-sea: #cdbc95;
-  --gc-overlay: rgba(22, 14, 9, 0.52);
-  --gc-overlay-soft: rgba(22, 14, 9, 0.28);
+  --gc-positive: #1d6b5f;
+  --gc-sea: #a9bcc4;
+  --gc-overlay: rgba(16, 24, 32, 0.52);
+  --gc-overlay-soft: rgba(16, 24, 32, 0.28);
 
   /* Type */
   --gc-font-display: 'EB Garamond', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
@@ -175,13 +180,13 @@ button.btn--primary {
 @media (hover: hover) and (pointer: fine) {
   .btn--primary:hover,
   button.btn--primary:hover {
-    background: linear-gradient(180deg, #b55442, var(--gc-wax));
+    background: linear-gradient(180deg, var(--gc-wax-highlight), var(--gc-wax));
   }
 
   .btn--secondary:hover,
   button.btn--secondary:hover {
     background: var(--gc-parchment-warm);
-    border-color: rgba(58, 42, 28, 0.55);
+    border-color: rgba(31, 58, 95, 0.5);
   }
 
   .btn--ghost:hover,
