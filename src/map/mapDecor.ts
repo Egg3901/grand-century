@@ -10,7 +10,7 @@
  */
 
 /** Sea ground: deeper than the land paper so continents lift off the page. */
-export const SEA_BASE = '#cdbc95';
+export const SEA_BASE = '#a9bcc4';
 /** Opaque paper under province fills — masks all sea decor beneath land. */
 export const LAND_PAPER = '#ecdfbc';
 /** Plate shadow the landmass casts onto the sea (offset SE). */
@@ -60,7 +60,7 @@ export const TERRAIN_BIOME_COLORS: Record<string, string> = {
   marsh: '#84957a',
   arctic: '#e9e4d3',
   coast: '#c8c393',
-  ocean: '#cdbc95',
+  ocean: '#a9bcc4',
 };
 
 /** Display order + labels for the Terrain-mapmode legend. */
