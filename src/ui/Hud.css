@@ -132,7 +132,7 @@
   border-color: var(--gc-accent-deep);
   background: var(--gc-accent-soft);
   color: var(--gc-accent-deep);
-  box-shadow: 0 0 0 1px rgba(122, 46, 36, 0.1) inset;
+  box-shadow: 0 0 0 1px rgba(31, 58, 95, 0.1) inset;
 }
 
 .hud-top__speeds button.is-active {
