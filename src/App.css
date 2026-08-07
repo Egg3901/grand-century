@@ -122,7 +122,7 @@
 .menu-card input:focus,
 .menu-card .gc-select:focus,
 .menu-card .gc-input:focus {
-  outline: 2px solid rgba(122, 46, 36, 0.35);
+  outline: 2px solid rgba(31, 58, 95, 0.35);
   outline-offset: 1px;
 }
 
@@ -245,7 +245,7 @@
 }
 
 .menu-resume:hover {
-  background: rgba(122, 46, 36, 0.2);
+  background: rgba(31, 58, 95, 0.2);
 }
 
 .menu-resume__shield {
@@ -329,7 +329,7 @@
 .nation-card--selected {
   border-color: var(--gc-wax);
   box-shadow: 0 0 0 1px var(--gc-wax), 0 1px 0 rgba(255, 248, 230, 0.4) inset;
-  background: rgba(139, 58, 46, 0.1);
+  background: rgba(31, 58, 95, 0.1);
 }
 
 .nation-card__shield {

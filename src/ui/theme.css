@@ -218,7 +218,7 @@ button.btn.is-active,
   border-color: var(--gc-accent-deep);
   background: var(--gc-accent-soft);
   color: var(--gc-accent-deep);
-  box-shadow: 0 0 0 1px rgba(122, 46, 36, 0.12) inset;
+  box-shadow: 0 0 0 1px rgba(31, 58, 95, 0.12) inset;
 }
 
 .btn:disabled,
@@ -246,9 +246,9 @@ select.gc-select {
 .gc-select:focus,
 input.gc-input:focus,
 select.gc-select:focus {
-  outline: 2px solid rgba(122, 46, 36, 0.35);
+  outline: 2px solid rgba(31, 58, 95, 0.35);
   outline-offset: 1px;
-  border-color: rgba(122, 46, 36, 0.45);
+  border-color: rgba(31, 58, 95, 0.45);
 }
 
 .gc-slider,
@@ -306,12 +306,12 @@ input[type='range'].gc-slider {
 }
 
 .gc-slider:focus-visible::-webkit-slider-thumb {
-  outline: 2px solid rgba(122, 46, 36, 0.45);
+  outline: 2px solid rgba(31, 58, 95, 0.45);
   outline-offset: 2px;
 }
 
 .gc-slider:focus-visible::-moz-range-thumb {
-  outline: 2px solid rgba(122, 46, 36, 0.45);
+  outline: 2px solid rgba(31, 58, 95, 0.45);
   outline-offset: 2px;
 }
 
@@ -352,15 +352,15 @@ input[type='range'].gc-slider {
 
 /* Keyboard focus: engraved wax ring — visible everywhere, mouse stays clean. */
 :focus-visible {
-  outline: 2px solid rgba(139, 58, 46, 0.75);
+  outline: 2px solid rgba(31, 58, 95, 0.75);
   outline-offset: 2px;
   border-radius: var(--gc-radius-sm);
 }
 
 .atlas-panel :focus-visible,
 .menu-card :focus-visible {
-  outline-color: rgba(139, 58, 46, 0.85);
-  box-shadow: 0 0 0 3px rgba(139, 58, 46, 0.14);
+  outline-color: rgba(31, 58, 95, 0.85);
+  box-shadow: 0 0 0 3px rgba(31, 58, 95, 0.14);
 }
 
 /* Fluid type: panels breathe slightly with viewport width instead of a hard
