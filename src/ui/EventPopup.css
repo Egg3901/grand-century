@@ -79,16 +79,16 @@
 
 .event-popup__choice.btn--primary {
   border-color: var(--gc-accent-deep);
-  background: linear-gradient(180deg, rgba(168, 74, 58, 0.18), rgba(139, 58, 46, 0.12)),
+  background: linear-gradient(180deg, rgba(168, 74, 58, 0.18), rgba(31, 58, 95, 0.12)),
     rgba(247, 237, 214, 0.92);
   color: var(--gc-ink);
   box-shadow:
     0 1px 0 rgba(255, 248, 230, 0.5) inset,
-    0 0 0 1px rgba(122, 46, 36, 0.08) inset;
+    0 0 0 1px rgba(31, 58, 95, 0.08) inset;
 }
 
 .event-popup__choice.btn--primary:hover:not(:disabled) {
-  background: linear-gradient(180deg, rgba(168, 74, 58, 0.24), rgba(139, 58, 46, 0.14)),
+  background: linear-gradient(180deg, rgba(168, 74, 58, 0.24), rgba(31, 58, 95, 0.14)),
     var(--gc-parchment-warm);
 }
 
