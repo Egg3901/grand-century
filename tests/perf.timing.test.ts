@@ -104,8 +104,10 @@ describe('H5 perf budgets', () => {
     // count, and gives "the game feels slow at speed 5" a number. Measured
     // 2026-08-01 on this box after the tick-perf pass: ~0.85-0.95 ms per
     // province-year early-century (1450 provinces, ~1.3s per sim-year).
-    // Ceiling has ~3x scheduling headroom.
-    const budgetMsPerProvinceYear = 3;
+    // Ceiling has ~3x scheduling headroom. Raised 3 -> 4 for the 67-nation
+    // moonshot world: +40% nations grows AI cost per year, and under full-suite
+    // worker contention the old ceiling left no margin (still ~4x solo).
+    const budgetMsPerProvinceYear = 4;
     console.log(
       `[budget] sim throughput ${msPerProvinceYear.toFixed(3)}ms per province-year `
       + `(${(years / (elapsed / 1000)).toFixed(2)} years/sec at ${world.provinces.length} provinces), `
