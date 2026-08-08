@@ -267,17 +267,39 @@ const FORMABLES: FormableDefinition[] = (WORLD_SEED.formables ?? []).map((formab
 // Bohemia. 0.65 share of 9 = 6 states — Prussia can unify with the minors and
 // without Vienna (kleindeutsch), Austria can compete for grossdeutsch.
 // ---------------------------------------------------------------------------
-const GERMAN_CONFEDERATION_STATES = [27, 138, 176, 177, 178, 179, 180, 181, 182];
-const NORTH_GERMAN_STATES = [178, 179, 180, 181]; // Hanover, Hesse, Prussia, Saxony
+// Moonshot world: state ids are DERIVED from the seed, never hardcoded — the
+// 1820 overhaul renumbered every province, and any literal id list would rot
+// again on the next world rebuild.
+const STATE_IDS_BY_TAG: Map<string, number[]> = (() => {
+  const map = new Map<string, number[]>();
+  for (const province of WORLD_SEED.provinces) {
+    const list = map.get(province.ownerTag) ?? [];
+    list.push(province.stateId);
+    map.set(province.ownerTag, list);
+  }
+  return map;
+})();
+const statesOf = (tags: string[]): number[] => tags.flatMap((tag) => STATE_IDS_BY_TAG.get(tag) ?? []);
+const statesNamed = (tag: string, names: string[]): number[] => WORLD_SEED.provinces
+  .filter((p) => p.ownerTag === tag && names.includes(p.stateName ?? p.name))
+  .map((p) => p.stateId);
+
+const GERMAN_CONFEDERATION_STATES = [
+  ...statesOf(['PRU', 'BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES']),
+  ...statesNamed('AUS', ['Lower Austria', 'Upper Austria', 'Bohemia']),
+];
+const NORTH_GERMAN_STATES = statesOf(['PRU', 'SAX', 'HAN', 'HES']);
 
 for (const formable of FORMABLES) {
   // No 1821 Germany: unification waits for the Springtime of Nations. The
   // gate shows in the Formables panel as an explicit era requirement.
   if (formable.key === 'GERMANY' || formable.key === 'ITALY') formable.yearAtLeast = 1848;
-  if (formable.key === 'ITALY' && !formable.coreStateIds.includes(274)) {
-    // U2: the Risorgimento runs through Austrian Lombardy-Venetia. 6 of 7
-    // cores — take Lombardy from Vienna, or unite every last minor.
-    formable.coreStateIds.push(274);
+  if (formable.key === 'ITALY') {
+    // U2: the Risorgimento runs through Austrian Lombardy-Venetia. Derived by
+    // name — the old literal 274 rotted with the world renumbering.
+    for (const lombardy of statesNamed('AUS', ['Lombardy-Venetia'])) {
+      if (!formable.coreStateIds.includes(lombardy)) formable.coreStateIds.push(lombardy);
+    }
     formable.coreStateIds.sort((a, b) => a - b);
   }
   if (formable.key !== 'GERMANY') continue;
@@ -315,7 +337,7 @@ FORMABLES.push({
 // Gran Colombia: Bolivar's union of New Granada + Venezuela, which historically
 // dissolved in 1830 — framed here as a reunification the player/AI can pursue
 // from a few years into the campaign, not an 1820 given.
-const GRAN_COLOMBIA_STATES = [130, 131, 132, 133, 148, 605, 606, 607, 608];
+const GRAN_COLOMBIA_STATES = [...statesOf(['CLM', 'VEN', 'ECU']), ...statesNamed('ESP', ['Panama'])];
 FORMABLES.push({
   key: 'GRAN_COLOMBIA',
   resultTag: 'GCO',
@@ -346,7 +368,7 @@ FORMABLES.push({
 // (0.857) and "both fully" (1.0) — requiredCoreShare: 1 is the only value
 // that closes the loophole, matching NORTH_GERMAN_CONFEDERATION's own
 // precedent for a similarly lopsided two-member union.
-const SCANDINAVIAN_UNION_STATES = [144, 359, 360, 361, 513, 514, 515];
+const SCANDINAVIAN_UNION_STATES = [...statesOf(['SWE']), ...statesNamed('DEN', ['Jutland', 'Zealand', 'Schleswig-Holstein'])];
 FORMABLES.push({
   key: 'SCANDINAVIAN_UNION',
   resultTag: 'SCA',
@@ -373,10 +395,11 @@ FORMABLES.push({
 // Portugal to also secure the large majority of Spain's territory (roughly
 // 14 of Spain's 16 states), a substantial but not maximal conquest — a real
 // bar without demanding literal 100% down to the last province.
+// Post-overhaul: Brazil and Spanish America are independent, so the union is
+// Iberia proper — Spain's five European states plus metropolitan Portugal.
 const IBERIAN_UNION_STATES = [
-  35, 36, 37, 136, 193, 368, 375, 376, 377, 378, 379, 502, 503, 504, 505, 506,
-  9, 10, 11, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
-  59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 334, 335, 336, 384, 600,
+  ...statesNamed('ESP', ['Andalusia', 'Castile', 'Catalonia', 'Galicia', 'Valencia']),
+  ...statesNamed('POR', ['Portugal']),
 ];
 FORMABLES.push({
   key: 'IBERIAN_UNION',

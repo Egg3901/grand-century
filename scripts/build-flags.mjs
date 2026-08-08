@@ -269,6 +269,34 @@ const FLAGS = {
 };
 delete FLAGS.TSC2;
 
+// ---- Moonshot additions: the 1820 world overhaul nations ------------------
+Object.assign(FLAGS, {
+  // Americas
+  BRA: field(G) + `<polygon points="30,6 50,20 30,34 10,20" fill="${Y}"/>` + `<circle cx="30" cy="20" r="6.5" fill="${B}"/>`,
+  PEU: vstripes([R, W, R]),
+  BOL: hstripes([R, Y, G]),
+  URU: hstripes([W, LB, W, LB, W, LB, W, LB, W]) + rect(0, 0, 24, 17.8, W) + sun(12, 9, 5, Y),
+  ECU: hstripes([Y, B, R], [2, 1, 1]),
+  UCA: hstripes([LB, W, LB]) + `<polygon points="30,14 36,24 24,24" fill="none" stroke="${G}" stroke-width="1.3"/>`,
+  HAI: hstripes([B, R]),
+  // Balkans / Mediterranean
+  GRE: nordicCross(LB, W),
+  SER: hstripes([R, B, W]),
+  TUN: field(R) + `<circle cx="30" cy="20" r="9" fill="${W}"/>` + crescentStar(R),
+  TRI: field(G) + crescentStar(W),
+  // South and Southeast Asia
+  SIK: field(O) + `<circle cx="30" cy="20" r="8" fill="none" stroke="${K}" stroke-width="1.6"/>` + `<circle cx="30" cy="20" r="2" fill="${K}"/>`,
+  HYD: field(Y) + `<circle cx="30" cy="20" r="7" fill="${W}" stroke="${K}" stroke-width="0.8"/>`,
+  AWA: field(G) + `<ellipse cx="30" cy="20" rx="10" ry="4" fill="${Y}"/>` + `<circle cx="36" cy="19" r="1" fill="${K}"/>`,
+  ACE: field(R) + crescentStar(W),
+  // Africa / Middle East
+  SOK: field(G) + `<circle cx="30" cy="20" r="6" fill="none" stroke="${W}" stroke-width="1.4"/>`,
+  ZUL: field(N) + `<ellipse cx="30" cy="20" rx="8" ry="12" fill="${W}" stroke="${K}" stroke-width="1.2"/>` + `<line x1="30" y1="4" x2="30" y2="36" stroke="${K}" stroke-width="1.4"/>`,
+  MAD: vstripes([W, R]),
+  OMA: field(R) + `<rect x="26" y="12" width="8" height="16" fill="none" stroke="${W}" stroke-width="1.2"/>`,
+  ASH: field(Y) + `<path d="M22,24 Q30,16 38,24 L36,27 L24,27 Z" fill="${K}"/>`,
+});
+
 let count = 0;
 for (const [tag, body] of Object.entries(FLAGS)) {
   if (!body) continue;

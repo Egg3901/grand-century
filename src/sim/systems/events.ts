@@ -6,6 +6,7 @@
  */
 
 import { DECISION_DEFS } from '../../data/decisions';
+import { WORLD_SEED } from '../../data/generated';
 import { EVENT_DEFS } from '../../data/events';
 import type {
   DecisionDef,
@@ -771,6 +772,37 @@ function tryFireForNation(
 const BOP_ALARM_SHARE = 0.5;
 const BOP_RIVALRY_SHARE = 0.8;
 
+/**
+ * 1820-baseline core share per (formable, nation tag). After the world
+ * overhaul several nations BEGIN owning large slices of their formable's
+ * cores (Prussia holds 10/13 NGF states, Spain 5/6 of Iberia). Alarm and
+ * rivalry must react to unification PROGRESS, not to the starting map, so
+ * each nation's thresholds sit above its seed-day share.
+ */
+const BOP_SEED_SHARE = new Map<string, number>();
+const seedShareKey = (formableKey: string, tag: string) => `${formableKey}|${tag}`;
+function seedCoreShare(data: GameData, formableKey: string, tag: string): number {
+  const key = seedShareKey(formableKey, tag);
+  const cached = BOP_SEED_SHARE.get(key);
+  if (cached !== undefined) return cached;
+  const formable = data.formables?.find((entry) => entry.key === formableKey);
+  let share = 0;
+  if (formable && formable.coreStateIds.length > 0) {
+    const stateOwner = new Map<number, string>();
+    for (const p of WORLD_SEED.provinces) stateOwner.set(p.stateId, p.ownerTag);
+    const owned = formable.coreStateIds.filter((stateId) => stateOwner.get(stateId) === tag).length;
+    share = owned / formable.coreStateIds.length;
+  }
+  BOP_SEED_SHARE.set(key, share);
+  return share;
+}
+function bopAlarmShareFor(data: GameData, formableKey: string, tag: string): number {
+  return Math.min(0.9, Math.max(BOP_ALARM_SHARE, seedCoreShare(data, formableKey, tag) + 0.1));
+}
+function bopRivalryShareFor(data: GameData, formableKey: string, tag: string): number {
+  return Math.min(0.95, Math.max(BOP_RIVALRY_SHARE, seedCoreShare(data, formableKey, tag) + 0.2));
+}
+
 export function getBalanceOfPowerThresholds(): { alarmShare: number; rivalryShare: number; alarmPressure: number; rivalryPressure: number } {
   return {
     alarmShare: BOP_ALARM_SHARE,
@@ -797,7 +829,8 @@ export function getPlayerBalanceOfPowerView(world: World, data: GameData, nation
     const share = status.controlledCoreStates / status.totalCoreStates;
     if (!best || share > best.share) best = { status, share };
   }
-  if (!best || best.share < BOP_ALARM_SHARE) return null;
+  const playerTag = world.nations[nationId]?.tag ?? '';
+  if (!best || best.share < bopAlarmShareFor(data, best.status.key, playerTag)) return null;
   const formable = data.formables?.find((entry) => entry.key === best!.status.key);
   let alarmedGpCount = 0;
   for (const gp of world.nations) {
@@ -807,7 +840,7 @@ export function getPlayerBalanceOfPowerView(world: World, data: GameData, nation
     if (relation?.kind === 'alliance') continue;
     alarmedGpCount += 1;
   }
-  const rivalryThreat = best.share >= BOP_RIVALRY_SHARE;
+  const rivalryThreat = best.share >= bopRivalryShareFor(data, best.status.key, playerTag);
   return {
     formableKey: best.status.key,
     formableName: best.status.name,
@@ -826,16 +859,17 @@ export function applyBalanceOfPowerPressure(world: World, data: GameData): void 
     for (const status of statuses) {
       if (status.totalCoreStates <= 0) continue;
       const share = status.controlledCoreStates / status.totalCoreStates;
-      if (share < BOP_ALARM_SHARE) continue;
+      if (share < bopAlarmShareFor(data, status.key, nation.tag)) continue;
+      const rivalryAt = bopRivalryShareFor(data, status.key, nation.tag);
       const formable = data.formables?.find((entry) => entry.key === status.key);
       for (const gp of world.nations) {
         if (!gp || gp.id === nation.id || gp.gpRank <= 0) continue;
         if (formable?.candidateTags.includes(gp.tag)) continue;
         const relation = getOrCreateRelation(world, gp.id, nation.id);
         if (relation.kind === 'alliance') continue;
-        const pressure = share >= BOP_RIVALRY_SHARE ? 3 : 1.5;
+        const pressure = share >= rivalryAt ? 3 : 1.5;
         relation.opinion = clamp(relation.opinion - pressure, -140, 200);
-        if (share >= BOP_RIVALRY_SHARE && relation.kind === 'neutral') {
+        if (share >= rivalryAt && relation.kind === 'neutral') {
           relation.kind = 'rivalry';
           relation.opinion = Math.min(relation.opinion, -40);
         }

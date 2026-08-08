@@ -32,6 +32,7 @@ import {
   mixHex,
 } from './mapDecor';
 import { createSealElement, createUnitCounterElement } from './mapCounters';
+import { NeatlineFrame } from './NeatlineFrame';
 import { visibleUnitOwnerIds } from './unitVisibility';
 
 type MapLibreMap = import('maplibre-gl').Map;
@@ -671,8 +672,17 @@ export function GrandMap() {
       cancelled = true;
       map.off('moveend', onMoveEnd);
       map.stop();
+      // Menu closed — the campaign begins at the player's capital, not
+      // wherever the flyover happened to drift. (After stop(), so the glide
+      // cancellation does not swallow this ease.)
+      const latest = snapshotRef.current;
+      const player = latest?.nations.find((n) => n.id === latest.playerNation);
+      const home = player ? provinceGeometryById.get(player.capital) : null;
+      if (home) {
+        map.easeTo({ center: [home.labelLon, home.labelLat], zoom: 3.6, duration: 1_600, essential: true });
+      }
     };
-  }, [mapReady, showMainMenu]);
+  }, [mapReady, showMainMenu, provinceGeometryById]);
 
   useEffect(() => {
     snapshotRef.current = snapshot;
@@ -2323,6 +2333,7 @@ export function GrandMap() {
 
   return (
     <div ref={containerRef} className="grand-map" data-coach-id="world-map">
+      <NeatlineFrame />
       {tooltip ? (
         <div
           className="grand-map__tooltip atlas-panel"
