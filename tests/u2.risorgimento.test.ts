@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { WORLD_SEED } from '../src/data/generated';
 import { GAME_DATA } from '../src/data/gameData';
 import { createWorld } from '../src/sim/bootstrap';
 import { applyCommand } from '../src/sim/commands';
@@ -28,7 +29,8 @@ describe('1.0-U2 — the Risorgimento', () => {
   it('ITALY cores include Austrian Lombardy-Venetia', () => {
     const italy = GAME_DATA.formables?.find((entry) => entry.key === 'ITALY');
     expect(italy).toBeTruthy();
-    expect(italy!.coreStateIds).toContain(274);
+    const lombardy = WORLD_SEED.provinces.find((p) => p.name === 'Lombardy-Venetia')!.stateId;
+    expect(italy!.coreStateIds).toContain(lombardy);
     expect(italy!.yearAtLeast).toBe(1848);
   });
 

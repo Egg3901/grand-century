@@ -66,8 +66,10 @@ describe('H5 perf budgets', () => {
     const world = warmWorld();
     const ms = medianMs(15, () => buildSnapshot(world, GAME_DATA));
     // Pre-F2 on this box: 7.83ms. Post-F2: 5.37ms. Ceiling tracks the new median
-    // with ~3× scheduling headroom (was 60ms before the collapse).
-    const budgetMs = 20;
+    // with ~3× scheduling headroom (was 60ms before the collapse). Raised
+    // 20 -> 30 for the 67-nation / 659-province moonshot world under
+    // full-suite worker contention.
+    const budgetMs = 30;
     console.log(
       `[budget] buildSnapshot median ${ms.toFixed(2)}ms/call `
       + `(${(ms * SNAPSHOT_HZ).toFixed(1)}ms of every 1000ms at ${SNAPSHOT_HZ}Hz), ceiling ${budgetMs}ms`,
