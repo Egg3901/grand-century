@@ -211,15 +211,36 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Double-entry ledger page: one column, dotted leaders, red disbursements. */
 .ledger-grid {
   margin: var(--gc-space-2) 0 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.35rem 0.85rem;
+  grid-template-columns: 1fr;
+  gap: 0 0.85rem;
   padding: var(--gc-space-2) 0;
   border-top: 1px solid var(--gc-rule);
   border-bottom: 1px solid var(--gc-rule);
   position: relative;
+}
+
+.ledger-grid dt {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  overflow: hidden;
+}
+
+.ledger-grid dt::after {
+  /* dotted account-book leader between entry and figure */
+  content: '';
+  flex: 1;
+  margin: 0 0.35rem;
+  border-bottom: 1px dotted rgba(23, 34, 44, 0.35);
+  transform: translateY(-3px);
+}
+
+.ledger-grid dd {
+  min-width: 5.5rem;
 }
 
 .ledger-grid::before,
@@ -275,6 +296,9 @@
   font-family: var(--gc-font-display);
   font-size: var(--gc-fs-h2);
   letter-spacing: var(--gc-tracking-label);
+  /* the accountant's double rule above the balance */
+  border-top: 3px double rgba(23, 34, 44, 0.55);
+  padding-top: 0.35rem;
 }
 
 .budget-net.positive {

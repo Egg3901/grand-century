@@ -152,7 +152,7 @@
 
 .hud-top__nation > .atlas-heading {
   font-size: var(--gc-fs-small);
-  max-width: 9rem;
+  max-width: 13rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -450,13 +450,41 @@
   pointer-events: none;
 }
 
+/* Alerts as telegraphic despatches: lighter form paper, serrated tape edge,
+   dashed inner rule, letterpress caps header. */
 .event-card {
-  border-radius: var(--gc-radius);
-  padding: 0.45rem 0.65rem;
+  border-radius: 2px;
+  padding: 0.55rem 0.7rem 0.45rem;
   display: grid;
   gap: 0.1rem;
   font-size: var(--gc-fs-small);
   pointer-events: auto;
+  position: relative;
+  background: #f2ecdc;
+  border: 1px solid var(--gc-border);
+  box-shadow: var(--gc-shadow-soft);
+}
+
+.event-card::before {
+  /* punched telegraph-tape strip along the top */
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 8px;
+  right: 8px;
+  height: 4px;
+  background-image: radial-gradient(circle at 4px 2px, rgba(23, 34, 44, 0.28) 1.1px, transparent 1.3px);
+  background-size: 9px 4px;
+  background-repeat: repeat-x;
+}
+
+.event-card::after {
+  content: '';
+  position: absolute;
+  inset: 8px 5px 5px;
+  border: 1px dashed rgba(23, 34, 44, 0.22);
+  pointer-events: none;
+  border-radius: 1px;
 }
 
 .event-card__head {

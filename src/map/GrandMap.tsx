@@ -32,6 +32,7 @@ import {
   mixHex,
 } from './mapDecor';
 import { createSealElement, createUnitCounterElement } from './mapCounters';
+import { NeatlineFrame } from './NeatlineFrame';
 import { visibleUnitOwnerIds } from './unitVisibility';
 
 type MapLibreMap = import('maplibre-gl').Map;
@@ -2323,6 +2324,7 @@ export function GrandMap() {
 
   return (
     <div ref={containerRef} className="grand-map" data-coach-id="world-map">
+      <NeatlineFrame />
       {tooltip ? (
         <div
           className="grand-map__tooltip atlas-panel"
