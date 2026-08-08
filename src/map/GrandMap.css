@@ -374,3 +374,93 @@
   box-shadow: 0 1px 2px rgba(12, 8, 5, 0.4);
   pointer-events: none;
 }
+
+/* ---- Neatline plate frame (moonshot) ------------------------------------ */
+.neatline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.neatline__rule {
+  position: absolute;
+  border-style: solid;
+  border-color: rgba(23, 34, 44, 0.55);
+}
+
+.neatline__rule--outer {
+  inset: 4px;
+  border-width: 2px;
+}
+
+.neatline__rule--inner {
+  inset: 12px;
+  border-width: 1px;
+  border-color: rgba(23, 34, 44, 0.38);
+}
+
+.neatline__ticks {
+  position: absolute;
+  inset: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+}
+
+.neatline__ticks line {
+  stroke: rgba(23, 34, 44, 0.4);
+  stroke-width: 1;
+}
+
+.neatline__cartouche {
+  position: absolute;
+  left: 26px;
+  bottom: 26px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem 0.55rem 0.65rem;
+  color: var(--gc-ink);
+  background:
+    var(--gc-paper-grain),
+    linear-gradient(165deg, rgba(241, 235, 221, 0.96), rgba(228, 220, 200, 0.95));
+  border: 1px solid rgba(23, 34, 44, 0.5);
+  outline: 1px solid rgba(23, 34, 44, 0.25);
+  outline-offset: 3px;
+  box-shadow: var(--gc-shadow-soft);
+}
+
+.neatline__rose {
+  color: var(--gc-accent);
+}
+
+.neatline__cartouche-text {
+  display: grid;
+  gap: 0.06rem;
+}
+
+.neatline__title {
+  font-family: var(--gc-font-display);
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.neatline__subtitle {
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  font-style: italic;
+  color: var(--gc-ink-muted);
+}
+
+.neatline__plate {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--gc-ink-faint);
+}
+
+/* The cartouche competes with the mobile HUD; hide the frame on small screens. */
+@media (max-width: 900px) {
+  .neatline { display: none; }
+}

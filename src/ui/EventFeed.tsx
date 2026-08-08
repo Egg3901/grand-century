@@ -89,7 +89,7 @@ export function EventFeed() {
           >
             <div className="event-card__head">
               {nation ? <NationFlag tag={nation.tag} color={nation.color} size={16} /> : null}
-              <strong>{batch.kind.toUpperCase()}{batch.count > 1 ? ` · ${batch.count}` : ''}</strong>
+              <strong>Despatch · {batch.kind}{batch.count > 1 ? ` · ${batch.count}` : ''}</strong>
             </div>
             <span>{batch.message}</span>
             {batch.suggestion && batch.count === 1 ? <small>{batch.suggestion}</small> : null}

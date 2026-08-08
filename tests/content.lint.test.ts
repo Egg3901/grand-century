@@ -5,9 +5,9 @@
  * Does not build worlds or advance the sim.
  *
  * Coverage baseline (measured 2026-07-27 — raise the floors as arcs land):
- *   nation-scoped decisions (tagIn):     2 / 48  (PRU, SAR)
- *   nation-scoped events (trigger.tags): 3 / 48  (AUS, PRU, SAR)
- *   formable candidates:                20 / 48
+ *   nation-scoped decisions (tagIn):     2 / 67  (PRU, SAR)
+ *   nation-scoped events (trigger.tags): 3 / 67  (AUS, PRU, SAR)
+ *   formable candidates:                20 / 67
  *   zero of all three:                  28 nations
  */
 import { describe, expect, it } from 'vitest';
@@ -80,7 +80,7 @@ function walkEffects(
 
 describe('H6 content lint', () => {
   it('asserts structural integrity of events, decisions, and formables', () => {
-    expect(seedNations.length).toBe(48);
+    expect(seedNations.length).toBe(67);
 
     // --- unique ids / keys ---
     expect(duplicates(EVENT_DEFS.map((e) => e.id))).toEqual([]);
@@ -282,14 +282,14 @@ describe('H6 content lint', () => {
     process.stderr.write(
       [
         '',
-        '=== H6 content coverage (48 seed nations) ===',
+        '=== H6 content coverage (67 seed nations) ===',
         `events total:              ${EVENT_DEFS.length}  (nation-scoped: ${EVENT_DEFS.filter((e) => (e.trigger.tags ?? []).length > 0).length})`,
         `decisions total:           ${DECISION_DEFS.length}  (nation-scoped tagIn: ${DECISION_DEFS.filter((d) => d.prerequisites.some((p) => p.t === 'tagIn')).length})`,
         `formables total:           ${formables.length}`,
-        `nations w/ scoped decision: ${decisionCount} / 48  [${[...withNationScopedDecision].sort().join(', ')}]`,
-        `nations w/ scoped event:    ${eventCount} / 48  [${[...withNationScopedEvent].sort().join(', ')}]`,
-        `nations w/ formable:        ${formableCount} / 48  [${[...withFormable].sort().join(', ')}]`,
-        `nations w/ zero of all three: ${zeroCount} / 48`,
+        `nations w/ scoped decision: ${decisionCount} / 67  [${[...withNationScopedDecision].sort().join(', ')}]`,
+        `nations w/ scoped event:    ${eventCount} / 67  [${[...withNationScopedEvent].sort().join(', ')}]`,
+        `nations w/ formable:        ${formableCount} / 67  [${[...withFormable].sort().join(', ')}]`,
+        `nations w/ zero of all three: ${zeroCount} / 67`,
         `zero-content list: ${zeroContent.join(', ')}`,
         '============================================',
         '',
@@ -301,6 +301,6 @@ describe('H6 content lint', () => {
     expect(decisionCount).toBeGreaterThanOrEqual(2);
     expect(eventCount).toBeGreaterThanOrEqual(3);
     expect(formableCount).toBeGreaterThanOrEqual(20);
-    expect(zeroCount).toBeLessThanOrEqual(28);
+    expect(zeroCount).toBeLessThanOrEqual(47); // 19 moonshot nations ship without scoped content yet
   });
 });

@@ -66,8 +66,10 @@ describe('H5 perf budgets', () => {
     const world = warmWorld();
     const ms = medianMs(15, () => buildSnapshot(world, GAME_DATA));
     // Pre-F2 on this box: 7.83ms. Post-F2: 5.37ms. Ceiling tracks the new median
-    // with ~3× scheduling headroom (was 60ms before the collapse).
-    const budgetMs = 20;
+    // with ~3× scheduling headroom (was 60ms before the collapse). Raised
+    // 20 -> 30 for the 67-nation / 659-province moonshot world under
+    // full-suite worker contention.
+    const budgetMs = 30;
     console.log(
       `[budget] buildSnapshot median ${ms.toFixed(2)}ms/call `
       + `(${(ms * SNAPSHOT_HZ).toFixed(1)}ms of every 1000ms at ${SNAPSHOT_HZ}Hz), ceiling ${budgetMs}ms`,
@@ -104,8 +106,10 @@ describe('H5 perf budgets', () => {
     // count, and gives "the game feels slow at speed 5" a number. Measured
     // 2026-08-01 on this box after the tick-perf pass: ~0.85-0.95 ms per
     // province-year early-century (1450 provinces, ~1.3s per sim-year).
-    // Ceiling has ~3x scheduling headroom.
-    const budgetMsPerProvinceYear = 3;
+    // Ceiling has ~3x scheduling headroom. Raised 3 -> 4 for the 67-nation
+    // moonshot world: +40% nations grows AI cost per year, and under full-suite
+    // worker contention the old ceiling left no margin (still ~4x solo).
+    const budgetMsPerProvinceYear = 4;
     console.log(
       `[budget] sim throughput ${msPerProvinceYear.toFixed(3)}ms per province-year `
       + `(${(years / (elapsed / 1000)).toFixed(2)} years/sec at ${world.provinces.length} provinces), `

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { WORLD_SEED } from '../src/data/generated';
 import { GAME_DATA } from '../src/data/gameData';
 import { createWorld } from '../src/sim/bootstrap';
 import { applyCommand } from '../src/sim/commands';
@@ -71,13 +72,19 @@ function transferStates(world: WorldT, stateIds: number[], toId: number): void {
 describe('1.0-U1 — the Prussian unification arc', () => {
   it('GERMANY cores are the German Confederation, not the Habsburg empire', () => {
     const germany = formableByKey('GERMANY');
-    // Hungary (194), Croatia (135), Slovakia (482), Slovenia (483) and
-    // Lombardy (274) must be gone; the seven German states + Austria +
-    // Bohemia must be present.
-    for (const wrong of [135, 194, 274, 482, 483]) {
+    // Post-overhaul ids are seed-derived: assert by geography, not literals.
+    // Habsburg non-German lands must be out; every German-state, Prussian,
+    // and Austrian-proper/Bohemian state must be in.
+    const stateIds = (tags: string[], names?: string[]) => WORLD_SEED.provinces
+      .filter((p) => tags.includes(p.ownerTag) && (!names || names.includes(p.stateName ?? p.name)))
+      .map((p) => p.stateId);
+    for (const wrong of stateIds(['AUS'], ['Hungary', 'Croatia', 'Galicia', 'Transylvania', 'Dalmatia', 'Lombardy-Venetia'])) {
       expect(germany.coreStateIds).not.toContain(wrong);
     }
-    for (const right of [27, 138, 176, 177, 178, 179, 180, 181, 182]) {
+    for (const right of [
+      ...stateIds(['PRU', 'BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES']),
+      ...stateIds(['AUS'], ['Lower Austria', 'Upper Austria', 'Bohemia']),
+    ]) {
       expect(germany.coreStateIds).toContain(right);
     }
     expect(germany.candidateTags).toContain('NGF');
@@ -173,8 +180,13 @@ describe('1.0-U1 — the Prussian unification arc', () => {
     nation.gpRank = Math.max(1, nation.gpRank);
     world.nations[france].gpRank = Math.max(1, world.nations[france].gpRank);
 
-    // hand Prussia 8 of 9 German cores — alarm threshold well crossed
-    transferStates(world, [138, 176, 177, 178, 179, 180, 181, 182], prussia);
+    // hand Prussia every German-Confederation core outside Austria proper —
+    // rivalry threshold well crossed (ids derived, not literal)
+    const confedOutsideAustria = WORLD_SEED.provinces
+      .filter((p) => ['BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES'].includes(p.ownerTag)
+        || (p.ownerTag === 'AUS' && (p.stateName ?? p.name) === 'Bohemia'))
+      .map((p) => p.stateId);
+    transferStates(world, confedOutsideAustria, prussia);
 
     const before = opinionBetween(world, france, prussia);
     for (let i = 0; i < 12; i++) applyBalanceOfPowerPressure(world, GAME_DATA);
@@ -194,7 +206,11 @@ describe('1.0-U1 — the Prussian unification arc', () => {
     world2.nations[prussia2].gpRank = Math.max(1, world2.nations[prussia2].gpRank);
     world2.nations[austria2].gpRank = Math.max(1, world2.nations[austria2].gpRank);
     world2.nations[france2].gpRank = Math.max(1, world2.nations[france2].gpRank);
-    transferStates(world2, [138, 176, 177, 182], prussia2);
+    const southernCores = WORLD_SEED.provinces
+      .filter((p) => ['BAV', 'BAD', 'WUR'].includes(p.ownerTag)
+        || (p.ownerTag === 'AUS' && (p.stateName ?? p.name) === 'Bohemia'))
+      .map((p) => p.stateId);
+    transferStates(world2, southernCores, prussia2);
     const austriaBefore = opinionBetween(world2, austria2, prussia2);
     const franceBefore = opinionBetween(world2, france2, prussia2);
     applyBalanceOfPowerPressure(world2, GAME_DATA);
