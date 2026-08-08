@@ -92,8 +92,11 @@ describe('E3 formable nations', () => {
     }
     world.nations[prussiaId].gpRank = 0;
     const noGpStatus = evaluateNationFormable(world, GAME_DATA, prussiaId, formable);
-    expect(noGpStatus.ready).toBe(false);
-    expect(noGpStatus.requirements.find((entry) => entry.key === 'power')?.met).toBe(false);
+    expect(noGpStatus.ready).toBe(false); // era still gates in 1820
+    // Post-world-overhaul: a Prussia holding every German core is within
+    // striking distance of the eighth seat, so the #34 near-GP clause admits
+    // it even at gpRank 0. The strict-rank path is covered by weaker tags.
+    expect(noGpStatus.requirements.find((entry) => entry.key === 'power')?.met).toBe(true);
 
     world.nations[prussiaId].gpRank = 1;
     const preEraStatus = evaluateNationFormable(world, GAME_DATA, prussiaId, formable);
