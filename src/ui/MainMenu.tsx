@@ -43,7 +43,9 @@ export function MainMenu() {
   }, [sendCommand]);
 
   const nations = useMemo(
-    () => (snapshot?.nations ?? []).slice().sort((a, b) => {
+    () => (snapshot?.nations ?? [])
+      .filter((nation) => !['UNC', 'UNA', 'COL'].includes(nation.tag))
+      .sort((a, b) => {
       const rankA = a.gpRank > 0 ? a.gpRank : 999;
       const rankB = b.gpRank > 0 ? b.gpRank : 999;
       return rankA - rankB || b.powerScore - a.powerScore || a.name.localeCompare(b.name);
