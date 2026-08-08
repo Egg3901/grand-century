@@ -47,24 +47,58 @@ SEED_PATH = 'src/data/generated/worldSeed.json'
 # Historical 19th-century states -> NE `name`/`region` values (10m admin-1).
 # A unit matching any entry is force-assigned to that GC province.
 CURATED = {
+    # --- Germany (NE länder) -------------------------------------------------
     'Baden':            ['Baden-Württemberg'],
     'Bavaria':          ['Bayern'],
     'Hanover':          ['Niedersachsen', 'Bremen', 'Hamburg'],
     'Hesse':            ['Hessen'],
-    # 1820 Prussia: western + core provinces from German länder, the
-    # partition provinces from Polish voivodeships + Kaliningrad.
     'Rhineland':        ['Nordrhein-Westfalen', 'Rheinland-Pfalz', 'Saarland'],
     'Brandenburg':      ['Brandenburg', 'Berlin'],
-    'Pomerania':        ['Mecklenburg-Vorpommern', 'Zachodniopomorskie'],
     'Province of Saxony': ['Sachsen-Anhalt', 'Thüringen'],
-    'Silesia':          ['Dolnośląskie', 'Opolskie', 'Śląskie'],
-    'Posen':            ['Wielkopolskie', 'Lubuskie'],
-    'West Prussia':     ['Pomorskie', 'Kujawsko-Pomorskie'],
-    'East Prussia':     ['Warmińsko-Mazurskie', 'Kaliningrad'],
-    'Schleswig-Holstein': ['Schleswig-Holstein'],
-    'Galicia':          ['Małopolskie', 'Podkarpackie'],
     'Saxony':           ['Sachsen'],
-    'Piedmont':         ['Piemonte', "Valle d'Aosta", 'Liguria'],
+    'Schleswig-Holstein': ['Schleswig-Holstein'],
+    # --- the Prussian partition (NE uses ENGLISH voivodeship names) ----------
+    'Silesia':          ['Lower Silesian', 'Opole', 'Silesian'],
+    'Posen':            ['Greater Poland', 'Lubusz'],
+    'West Prussia':     ['Pomeranian', 'Kuyavian-Pomeranian'],
+    'Pomerania':        ['Mecklenburg-Vorpommern', 'West Pomeranian'],
+    'East Prussia':     ['Warmian-Masurian', 'Kaliningrad'],
+    # --- Congress Poland (Russian) -------------------------------------------
+    'Mazovia':          ['Masovian', 'Podlachian', 'Lublin', 'Łódź'],
+    'Lesser Poland':    ['Świętokrzyskie'],
+    # --- Habsburg lands -------------------------------------------------------
+    'Galicia-Lodomeria': ['Lesser Poland', 'Subcarpathian'],
+    'Bohemia':          ['Prague', 'Central Bohemia', 'South Bohemia', 'Plzeň',
+                         'Karlovy Vary', 'Ústí nad Labem', 'Liberec',
+                         'Hradec Králové', 'Pardubice',
+                         'Praha', 'Středočeský', 'Jihočeský', 'Plzeňský',
+                         'Karlovarský', 'Ústecký', 'Liberecký',
+                         'Královéhradecký', 'Pardubický'],
+    'Moravia':          ['Vysočina', 'South Moravian', 'Olomouc', 'Zlín',
+                         'Moravian-Silesian', 'Jihomoravský', 'Olomoucký',
+                         'Zlínský', 'Moravskoslezský'],
+    'Tyrol':            ['Tirol', 'Vorarlberg'],
+    # --- Switzerland: keep every canton Swiss ---------------------------------
+    'Zurich-East':      ['Ticino', 'Graubünden', 'Appenzell Ausserrhoden',
+                         'Appenzell Innerrhoden'],
+    'Bern-Mittelland':  ['Valais', 'Basel-Stadt'],
+    # --- French frontier départements the Voronoi bled to neighbours ----------
+    'Champagne':        ['Ardennes'],
+    'Franche-Comté':    ['Territoire de Belfort'],
+    'Lyonnais-Auvergne': ['Ain'],
+    'Provence':         ['Alpes-de-Haute-Provence', 'Haute-Corse', 'Corse-du-Sud'],
+    'Dauphiné':         ['Hautes-Alpes'],
+    'Gascony':          ['Pyrénées-Atlantiques'],
+    'Languedoc':        ['Ariège', 'Pyrénées-Orientales'],
+    'Guyenne':          ['Guyane française'],
+    'Brittany':         ['Martinique', 'Guadeloupe'],
+    # --- Savoy and Nice are Sardinian in 1820 ---------------------------------
+    'Piedmont':         ['Piemonte', "Valle d'Aosta", 'Liguria',
+                         'Savoie', 'Haute-Savoie', 'Alpes-Maritimes'],
+    # --- Iberia / islands ------------------------------------------------------
+    'Andalusia':        ['Santa Cruz de Tenerife', 'Las Palmas'],
+    'Portugal':         ['Madeira', 'Azores'],
+    # --- Italy ----------------------------------------------------------------
     'Lombardy-Venetia': ['Lombardia', 'Veneto', 'Friuli-Venezia Giulia',
                          'Trentino-Alto Adige'],
     'Tuscany':          ['Toscana'],
