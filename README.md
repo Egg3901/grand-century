@@ -1,32 +1,55 @@
-# React + TypeScript + Vite
+# Grand Century
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A single-player, browser-based grand strategy game in the spirit of Victoria 2. Take a
+nation in 1836 and carry it through a century of industry, reform, and conquest, on a
+world whose population and markets move whether you are watching or not.
 
-Currently, two official plugins are available:
+Play at [lakesidegames.net/games/grand-century](https://lakesidegames.net/games/grand-century/).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## The game
 
-## React Compiler
+**A world that lives without you.** Population groups grow, migrate, and promote between
+strata. Factories boom and go bust. Prices move on a shared world market. AI nations
+pursue their own wars and their own industrialisation. You nudge a system rather than
+micromanage a spreadsheet.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**War is the payoff.** Mobilising population into armies, fronts that push and break, war
+goals, occupation, peace deals, the great-power pecking order, and the colonial land grab.
+Every other system feeds it: the economy funds it, population mans it, politics gates what
+you can enact, diplomacy sets it up.
 
-## Expanding the Oxlint configuration
+**Legible depth.** Victoria 2 is famously opaque. This keeps the depth and exposes the
+reasoning, with tooltips that trace a number back to the inputs that produced it.
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+Real time with pause, five speeds, a daily tick, with the heavier systems resolving on
+coarser cadences to stay cheap in a browser tab.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Running it
+
+Requires Node 20+.
+
+```bash
+npm install
+npm run dev            # local dev server
+npm run build          # production build to dist/
+npm test               # unit tests
+npm run test:balance   # balance gauntlet
+npm run test:all       # everything, including stability runs
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+The simulation is pure TypeScript with no DOM dependencies, so it runs in the browser, in
+tests, and headless for batch balance runs. `npm run season-report` and
+`npm run probe:pacing` drive the headless paths.
+
+## Design docs
+
+The full specification lives in [`docs/`](./docs). Start with
+[`docs/MASTER.md`](./docs/MASTER.md) for the simulation model and architecture, and
+[`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) for how the code is laid out. The
+`ROADMAP-*.md` files are the per-version scopes and are historical once shipped.
+
+## License
+
+[PolyForm Noncommercial 1.0.0](./LICENSE.md). The source is available to read, learn from,
+modify, and run noncommercially. Commercial use, including hosting it as a paid or
+ad-supported service, is not licensed.

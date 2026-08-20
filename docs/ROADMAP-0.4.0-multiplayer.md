@@ -19,7 +19,7 @@ doc locks the design so 0.4.0 can be executed directly.
 - **Model: BOTH competitive and co-op**, chosen per-session in the lobby (free-for-all
   = one nation each; teams/co-op = shared or allied nations vs AI).
 - **Scale: small private lobbies, 2–8 players**, invite-link, ephemeral sessions on the
-  Hetzner box. No large/persistent-server infra in 0.4.0.
+  small VPS. No large/persistent-server infra in 0.4.0.
 - **Single-player is unchanged and stays offline** (local Web Worker). Multiplayer is an
   ADDED mode; same game code, different transport.
 
@@ -67,7 +67,7 @@ Multiplayer (new):           UI ⇄ WebSocket ⇄ Session Server (Node, runs the
 - **Reconnection (basic)**: on drop, rejoin the session and get a fresh full snapshot;
   the nation is held for a grace period. No long-term persistence in 0.4.0 (ephemeral).
 
-## Infrastructure (Hetzner + Caddy)
+## Infrastructure (VPS + Caddy)
 - New `grand-century-server` systemd service (Node) on a local port.
 - Caddy: a WebSocket route under `lakesidegames.net/games/grand-century/ws` →
   the server port (reverse_proxy handles WS upgrade). Static client unchanged.
@@ -86,7 +86,7 @@ Multiplayer (new):           UI ⇄ WebSocket ⇄ Session Server (Node, runs the
 5. **M-MP4 Speed authority + snapshot diffs** — leader-controlled clock, pause requests,
    diffed/compressed snapshots for bandwidth.
 6. **M-MP5 Reconnection + presence/chat + polish** — rejoin grace, presence feed, basic
-   chat, deploy the server on Hetzner behind Caddy, load-test 8 players.
+   chat, deploy the server on the VPS behind Caddy, load-test 8 players.
 
 ## Risks & mitigations
 - **Bandwidth of large snapshots** → diff + compress; cap snapshot rate (e.g. 2–4/s in
