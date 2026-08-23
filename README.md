@@ -1,55 +1,79 @@
 # Grand Century
 
-A single-player, browser-based grand strategy game in the spirit of Victoria 2. Take a
-nation in 1836 and carry it through a century of industry, reform, and conquest, on a
-world whose population and markets move whether you are watching or not.
+A browser grand-strategy game about carrying a nation from 1836 through a century of industry, reform, diplomacy, and war. Population and markets keep moving whether the player is watching or not.
 
-Play at [lakesidegames.net/games/grand-century](https://lakesidegames.net/games/grand-century/).
+Play at [lakesidegames.net/games/grand-century](https://lakesidegames.net/games/grand-century/). Licensed [PolyForm Noncommercial](./LICENSE.md).
+
+<img src="docs/screenshot.png" alt="Grand Century world map and national interface" width="100%">
 
 ## The game
 
-**A world that lives without you.** Population groups grow, migrate, and promote between
-strata. Factories boom and go bust. Prices move on a shared world market. AI nations
-pursue their own wars and their own industrialisation. You nudge a system rather than
-micromanage a spreadsheet.
+**A world that lives without you.** Population groups grow, migrate, change work, and move between social strata. Factories boom and fail. Prices clear through a shared world market. AI nations industrialize and pursue their own interests.
 
-**War is the payoff.** Mobilising population into armies, fronts that push and break, war
-goals, occupation, peace deals, the great-power pecking order, and the colonial land grab.
-Every other system feeds it: the economy funds it, population mans it, politics gates what
-you can enact, diplomacy sets it up.
+**Politics gates power.** Laws, institutions, culture, technology, reform, and internal pressure determine what the state can sustain. The player nudges a system rather than issuing consequence-free orders.
 
-**Legible depth.** Victoria 2 is famously opaque. This keeps the depth and exposes the
-reasoning, with tooltips that trace a number back to the inputs that produced it.
+**War is the payoff.** Mobilization pulls from population, fronts advance and break, occupation changes leverage, and peace deals resolve stated war goals. Economy, politics, logistics, diplomacy, and great-power rank all feed the result.
 
-Real time with pause, five speeds, a daily tick, with the heavier systems resolving on
-coarser cadences to stay cheap in a browser tab.
+**Depth should be legible.** Tooltips and detail panels trace values back to the inputs that produced them. Hidden complexity is acceptable; unexplained outcomes are not.
 
-## Running it
+## How it runs
 
-Requires Node 20+.
-
-```bash
-npm install
-npm run dev            # local dev server
-npm run build          # production build to dist/
-npm test               # unit tests
-npm run test:balance   # balance gauntlet
-npm run test:all       # everything, including stability runs
+```text
+Player commands or AI policy
+  -> pure TypeScript simulation
+     (population, market, politics, diplomacy, war)
+  -> worker transport for single player
+     or authoritative WebSocket session for multiplayer
+  -> React map and interface
 ```
 
-The simulation is pure TypeScript with no DOM dependencies, so it runs in the browser, in
-tests, and headless for batch balance runs. `npm run season-report` and
-`npm run probe:pacing` drive the headless paths.
+The heavy systems resolve on scheduled cadences over a daily tick. The simulation is DOM-free and runs in the browser, a worker, the multiplayer server, tests, and headless balance probes.
 
-## Design docs
+## Running locally
 
-The full specification lives in [`docs/`](./docs). Start with
-[`docs/MASTER.md`](./docs/MASTER.md) for the simulation model and architecture, and
-[`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) for how the code is laid out. The
-`ROADMAP-*.md` files are the per-version scopes and are historical once shipped.
+Requires Node.js 20 or newer.
+
+```bash
+git clone https://github.com/Egg3901/grand-century.git
+cd grand-century
+npm ci
+npm run dev
+```
+
+## Development
+
+```bash
+npm run lint
+npm test              # focused unit suite
+npm run test:balance  # economy and AI balance gauntlet
+npm run test:all      # all Vitest projects
+npm run build
+```
+
+Additional headless tools:
+
+```bash
+npm run season-report
+npm run probe:pacing
+```
+
+Useful entry points:
+
+- `src/sim/` contains the deterministic world simulation.
+- `src/sim/systems/` contains scheduled system passes.
+- `src/net/` contains worker and multiplayer transports.
+- `src/map/` owns the strategic map.
+- `src/data/` and `content/` contain authored and generated world data.
+- `server/` hosts authoritative multiplayer sessions.
+
+## Documentation
+
+Start with [the master design](./docs/MASTER.md) for the simulation model and [the architecture guide](./docs/ARCHITECTURE.md) for code boundaries. [Multiplayer deployment](./docs/MULTIPLAYER-DEPLOY.md) and [release procedures](./docs/RELEASE.md) are operator guides.
+
+The `ROADMAP-*.md` files are historical scopes. Once a version ships, current code, tests, and the changelog win over those plans.
+
+See [Contributing](./CONTRIBUTING.md) for simulation and balance requirements. Multiplayer and save-format vulnerabilities follow [the security policy](./SECURITY.md).
 
 ## License
 
-[PolyForm Noncommercial 1.0.0](./LICENSE.md). The source is available to read, learn from,
-modify, and run noncommercially. Commercial use, including hosting it as a paid or
-ad-supported service, is not licensed.
+[PolyForm Noncommercial 1.0.0](./LICENSE.md). You may read, run, modify, and redistribute the source for noncommercial purposes under the license terms. Commercial hosting and paid redistribution are not permitted.

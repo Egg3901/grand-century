@@ -2,6 +2,8 @@
   "name": "grand-century",
   "private": true,
   "version": "1.5.1",
+  "description": "A browser grand-strategy game of industry, reform, diplomacy, and war from 1836 onward.",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
