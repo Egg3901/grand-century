@@ -83,7 +83,7 @@ const RECIPES: Recipe[] = [
   // --- Pre-industrial crafts (E1): available from 1820 — a vintner estate or
   // --- lumber mill is not 1850s technology. Only true industrial-revolution
   // --- chains (machine parts, artillery, cement, fertilizer, ammunition)
-  // --- stay tech-gated. Vic2 parity: ~11 civilian recipes at start.
+  // Stay tech-gated: roughly 11 civilian recipes at the 1820 start.
   {
     key: 'factory_fishing_wharf',
     name: 'Fishing Wharf',

@@ -986,7 +986,7 @@ export class SessionManager {
     const id = opts.id ?? randomId();
     const session = new GameSession({
       id,
-      seed: Number.isFinite(opts.seed) ? Math.max(1, Math.floor(opts.seed)) : 1836,
+      seed: Number.isFinite(opts.seed) ? Math.max(1, Math.floor(opts.seed)) : 1820,
       name: opts.name.trim().slice(0, 48) || `Session ${id}`,
       mode: opts.mode === 'coop' ? 'coop' : 'competitive',
       maxPlayers: opts.maxPlayers,

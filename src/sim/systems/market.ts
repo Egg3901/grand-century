@@ -199,7 +199,7 @@ export function buyFromMarket(
 }
 
 /**
- * National stockpile buy/sell standing orders — the classic Vic2 trade
+ * National stockpile buy/sell standing orders: the player-facing trade
  * lever that was entirely missing (players could only watch the world
  * market, never act in it beyond the tariff slider). A nation can order a
  * good bought INTO its own reserve (drawing on its treasury, at world

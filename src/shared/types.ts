@@ -800,7 +800,7 @@ export type CrisisType = 'sphere_contest' | 'containment' | 'humiliation';
 export type CrisisSide = 'attacker' | 'defender';
 
 /**
- * A single active international crisis (world singleton, Vic2-HoD style).
+ * A single active international crisis shared by the whole world.
  * Two great-power leads press/resist a concrete demand over a subject nation;
  * other GPs may back either side while temperature climbs toward a showdown.
  */
