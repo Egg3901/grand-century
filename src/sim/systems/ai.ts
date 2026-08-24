@@ -1192,7 +1192,9 @@ function maybeDeclareUnificationWar(
 
 function keepValuesFinite(world: World): void {
   for (const nation of world.nations) {
-    nation.treasury = clamp(nation.treasury, BALANCE.economy.treasuryFloor, BALANCE.economy.treasurySoftCap);
+    nation.treasury = nation.isPlayer && Number.isFinite(nation.treasury)
+      ? Math.max(BALANCE.economy.treasuryFloor, nation.treasury)
+      : clamp(nation.treasury, BALANCE.economy.treasuryFloor, BALANCE.economy.treasurySoftCap);
     if (!Number.isFinite(nation.monthlyProductionIncome)) nation.monthlyProductionIncome = 0;
     if (!Number.isFinite(nation.monthlyTariffIncome)) nation.monthlyTariffIncome = 0;
     nation.taxRatePoor = clamp(nation.taxRatePoor, 0, 1);
@@ -1232,4 +1234,3 @@ export function runAiMonthly(world: World, data: GameData, rng: Rng): void {
   }
   keepValuesFinite(world);
 }
-

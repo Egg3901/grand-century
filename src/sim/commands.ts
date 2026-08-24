@@ -23,6 +23,7 @@ import {
 } from './systems/diplomacy';
 import {
   assignGeneralToArmy,
+  canArmyEnterProvince,
   canEmbarkArmy,
   demobilizeNation,
   disembarkFromFleet,
@@ -361,6 +362,7 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       const target = world.provinces[cmd.target];
       const source = world.provinces[army.location];
       if (!target || !source || !source.neighbors.includes(target.id)) return;
+      if (!canArmyEnterProvince(world, army.owner, target.id)) return;
       army.moveTarget = cmd.target;
       army.moveProgress = 0;
       return;
@@ -487,6 +489,11 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
         log(post, 'warn', 'Cannot fabricate a state war goal without a valid state target.');
         return;
       }
+      const stateTargetedGoal = cmd.goal === 'annex_state' || cmd.goal === 'liberate_state' || cmd.goal === 'take_colony';
+      if (stateTargetedGoal && state?.owner !== cmd.target) {
+        log(post, 'warn', 'Target nation must own the state objective.');
+        return;
+      }
       const result = beginCbFabrication(world, world.playerNation, cmd.target, cmd.goal, cmd.state);
       log(post, result.ok ? 'info' : 'warn', result.reason);
       return;
@@ -499,6 +506,11 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       }
       if (hasActiveTruce(world, world.playerNation, cmd.target)) {
         log(post, 'warn', 'A truce blocks this declaration.');
+        return;
+      }
+      const stateTargetedGoal = cmd.goal === 'annex_state' || cmd.goal === 'liberate_state' || cmd.goal === 'take_colony';
+      if (stateTargetedGoal && world.states[cmd.state]?.owner !== cmd.target) {
+        log(post, 'warn', 'Target nation must own the state objective.');
         return;
       }
       const rule = getWarGoalRule(cmd.goal);

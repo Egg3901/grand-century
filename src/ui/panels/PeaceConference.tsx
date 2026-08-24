@@ -126,7 +126,7 @@ export function PeaceConference({ war }: PeaceConferenceProps) {
       </ul>
       {!playerWinning ? (
         <p className="panel-subtle">
-          Your side is not currently winning this war. White peace costs prestige unless exhaustion is mutual or warscore is near zero.
+          White peace requires 60 days of war and near-even warscore, unless both sides are exhausted.
         </p>
       ) : null}
       {overAcceptance ? (

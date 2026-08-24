@@ -298,6 +298,9 @@ describe('M5 war and expansion', () => {
     const defender = overseasTarget?.owner ?? firstNationExcept(world, attacker);
     const target = overseasTarget?.id ?? firstCoastalProvince(world, defender);
     const sourcePop = world.provinces[home].popIds[0] ?? 0;
+    applyCommand(world, GAME_DATA, {
+      t: 'declareWar', target: defender, goal: 'humiliate', state: -1,
+    }, noopPost);
 
     const army = makeArmy(world, attacker, home, 2, 900, 65);
     const frigateFleetId = world.nextFleetId++;

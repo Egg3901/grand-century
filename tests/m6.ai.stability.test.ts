@@ -32,7 +32,9 @@ describe('M6 AI long-run stability', () => {
     for (const nation of world.nations) {
       expect(Number.isFinite(nation.treasury)).toBe(true);
       expect(nation.treasury).toBeGreaterThanOrEqual(BALANCE.economy.treasuryFloor);
-      expect(nation.treasury).toBeLessThanOrEqual(BALANCE.economy.treasurySoftCap);
+      if (!nation.isPlayer) {
+        expect(nation.treasury).toBeLessThanOrEqual(BALANCE.economy.treasurySoftCap);
+      }
     }
     for (const good of world.market) {
       expect(Number.isFinite(good.price)).toBe(true);
@@ -44,4 +46,3 @@ describe('M6 AI long-run stability', () => {
     expect(bankruptNations).toBeLessThan(Math.ceil(world.nations.length * 0.5));
   }, 80_000);
 });
-

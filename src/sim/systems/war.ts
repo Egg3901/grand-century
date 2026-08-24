@@ -38,8 +38,8 @@ const REBEL_SIEGE_BASE_DAILY = 0.022;
 const WHITE_PEACE_SCORE_BAND = 10;
 /** Both sides at/above this exhaustion → free white peace. */
 const WHITE_PEACE_MUTUAL_EXHAUSTION = 75;
-/** Prestige paid by the offering nation when white-peacing outside free conditions. */
-const WHITE_PEACE_PRESTIGE_FEE = 6;
+/** Prevent declarations from being canceled before either side has fought. */
+const WHITE_PEACE_MIN_WAR_DAYS = 60;
 /**
  * Combat width soft cap (land battles only). Below this many regiments a side
  * fights at full effectiveness; beyond it, additional regiments still help
@@ -375,6 +375,29 @@ function isFriendlyControlled(world: World, nationId: NationId, provinceId: Prov
   const province = world.provinces[provinceId];
   if (!province) return false;
   return province.controller === nationId || province.owner === nationId;
+}
+
+/** Whether an army may cross into a province under the current diplomatic state. */
+export function canArmyEnterProvince(world: World, nationId: NationId, provinceId: ProvinceId): boolean {
+  const province = world.provinces[provinceId];
+  if (!province) return false;
+  const relevantNations = new Set([province.owner, province.controller]);
+  if (relevantNations.has(nationId)) return true;
+  for (const other of relevantNations) {
+    if (!world.nations[other]) continue;
+    const allied = world.relations.some((relation) => (
+      relation.kind === 'alliance'
+      && (relation.expiresDay < 0 || relation.expiresDay > world.day)
+      && ((relation.a === nationId && relation.b === other) || (relation.a === other && relation.b === nationId))
+    ));
+    if (allied) return true;
+    const shareWar = world.wars.some((war) => {
+      const participants = [...war.attackers, ...war.defenders];
+      return participants.includes(nationId) && participants.includes(other);
+    });
+    if (shareWar) return true;
+  }
+  return false;
 }
 
 export function isSupplied(world: World, nationId: NationId, provinceId: ProvinceId): boolean {
@@ -802,7 +825,7 @@ function updateArmyMovement(world: World, embarkedIds: Set<ArmyId>): void {
     if (army.moveTarget < 0) continue;
     const province = world.provinces[army.location];
     const target = world.provinces[army.moveTarget];
-    if (!province || !target || !province.neighbors.includes(target.id)) {
+    if (!province || !target || !province.neighbors.includes(target.id) || !canArmyEnterProvince(world, army.owner, target.id)) {
       army.moveTarget = -1;
       army.moveProgress = 0;
       continue;
@@ -1047,6 +1070,13 @@ export function offerPeaceTerms(
   if (goalsToEnforce.length === 0) {
     const mutualExhaustion = war.attackerExhaustion >= WHITE_PEACE_MUTUAL_EXHAUSTION
       && war.defenderExhaustion >= WHITE_PEACE_MUTUAL_EXHAUSTION;
+    const warAgeDays = Math.max(0, world.day - war.startDay);
+    if (!mutualExhaustion && warAgeDays < WHITE_PEACE_MIN_WAR_DAYS) {
+      return {
+        ok: false,
+        reason: `War is too young for white peace (${warAgeDays} days; need ${WHITE_PEACE_MIN_WAR_DAYS}).`,
+      };
+    }
     const scoreBand = Math.abs(war.score) <= WHITE_PEACE_SCORE_BAND;
     if (mutualExhaustion || scoreBand) {
       endWar(world, warId);
@@ -1057,15 +1087,9 @@ export function offerPeaceTerms(
           : 'White peace signed (warscore stalemate).',
       };
     }
-    // Escape hatch closed: quitting outside free conditions costs prestige.
-    const quitter = world.nations[offeringNation];
-    if (quitter) {
-      quitter.prestige = Math.max(0, quitter.prestige - WHITE_PEACE_PRESTIGE_FEE);
-    }
-    endWar(world, warId);
     return {
-      ok: true,
-      reason: `White peace signed (−${WHITE_PEACE_PRESTIGE_FEE} prestige).`,
+      ok: false,
+      reason: `White peace rejected: warscore must be within ${WHITE_PEACE_SCORE_BAND.toFixed(0)} or both sides must be exhausted.`,
     };
   }
   const requested = goalsToEnforce
@@ -1602,6 +1626,9 @@ export function disembarkFromFleet(world: World, fleetId: FleetId, targetProvinc
   if (!army || !target || !seaProvince) return { ok: false, reason: 'Invalid disembark target.' };
   if (!target.coastal) return { ok: false, reason: 'Landings require a coastal province.' };
   if (fleet.location !== targetProvinceId) return { ok: false, reason: 'Fleet must be in the target coastal province to land troops.' };
+  if (!canArmyEnterProvince(world, army.owner, targetProvinceId)) {
+    return { ok: false, reason: 'Cannot land without ownership, alliance, or an active war.' };
+  }
   const overseas = !target.neighbors.some((neighborId) => world.provinces[neighborId]?.owner === army.owner);
   if (overseas && !hasNavalSupremacyForLanding(world, army.owner, targetProvinceId)) {
     return { ok: false, reason: 'Naval supremacy required for overseas landing.' };
