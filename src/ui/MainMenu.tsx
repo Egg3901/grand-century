@@ -139,6 +139,13 @@ export function MainMenu() {
     ? (snapshot?.nations.find((nation) => nation.id === latestSave.playerNation) ?? null)
     : null;
 
+  const selectedFilteredIndex = filteredNations.findIndex((nation) => nation.id === selectedNation);
+  const rovingIndex = focusedIndex >= 0 && focusedIndex < filteredNations.length
+    ? focusedIndex
+    : selectedFilteredIndex >= 0
+      ? selectedFilteredIndex
+      : filteredNations.length > 0 ? 0 : -1;
+
   // Procedural previews replace the nation list — keep the selection valid.
   useEffect(() => {
     if (!snapshot || nations.length === 0) return;
@@ -252,7 +259,7 @@ export function MainMenu() {
                 data-testid="menu-nation-grid"
                 role="listbox"
                 aria-label="Nations"
-                aria-activedescendant={focusedIndex >= 0 && focusedIndex < filteredNations.length ? `nation-option-${filteredNations[focusedIndex].id}` : undefined}
+                aria-activedescendant={rovingIndex >= 0 ? `nation-option-${filteredNations[rovingIndex].id}` : undefined}
                 ref={listboxRef}
                 onKeyDown={handleListboxKeyDown}
               >
@@ -263,7 +270,7 @@ export function MainMenu() {
                     type="button"
                     role="option"
                     aria-selected={nation.id === selectedNation}
-                    tabIndex={index === focusedIndex ? 0 : -1}
+                    tabIndex={index === rovingIndex ? 0 : -1}
                     className={`nation-card${nation.id === selectedNation ? ' nation-card--selected' : ''}${index === focusedIndex ? ' nation-card--focused' : ''}`}
                     data-testid={`menu-nation-${nation.tag}`}
                     onClick={() => setSelectedNation(nation.id)}

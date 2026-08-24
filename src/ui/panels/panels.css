@@ -1138,7 +1138,11 @@
     overflow-x: visible;
   }
 
-  .market-table,
+  .market-table {
+    display: block;
+    width: 100%;
+  }
+
   .market-table thead {
     display: none;
   }
