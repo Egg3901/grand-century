@@ -297,6 +297,32 @@ Object.assign(FLAGS, {
   ASH: field(Y) + `<path d="M22,24 Q30,16 38,24 L36,27 L24,27 Z" fill="${K}"/>`,
 });
 
+// ---- 1.6.0 source-backed 1820 additions ---------------------------------
+Object.assign(FLAGS, {
+  RUA: hstripes([W, B, R]) + prussianEagle(K),
+  HAW: hstripes([W, R, B, W, R, B, W, R])
+    + rect(0, 0, 24, 20, B)
+    + `<path d="M0,0 L24,20 M24,0 L0,20" stroke="${W}" stroke-width="4"/>`
+    + rect(10, 0, 4, 20, W)
+    + rect(0, 8, 24, 4, W),
+  FIN: field(W) + rect(18, 0, 7, HEIGHT, B) + rect(0, 16, WIDTH, 7, B),
+  POL: hstripes([W, R]),
+  LVN: hstripes([K, Y]),
+  ALG: vstripes([G, W])
+    + `<circle cx="18" cy="20" r="8" fill="${W}"/><circle cx="21" cy="20" r="6.5" fill="${G}"/>`
+    + star5(27, 20, 3.3, W),
+  HEJ: field(G)
+    + `<circle cx="27" cy="20" r="8" fill="${W}"/><circle cx="30" cy="20" r="6.5" fill="${G}"/>`
+    + star5(37, 20, 3.3, W),
+  SEN: hstripes([B, W, B]) + `<circle cx="30" cy="20" r="5" fill="${Y}"/>`,
+  DAR: field(G) + `<polygon points="0,0 28,20 0,40" fill="${R}"/>` + star5(11, 20, 4, W),
+  KZH: field(LB) + `<circle cx="30" cy="20" r="8" fill="none" stroke="${Y}" stroke-width="2"/>`
+    + `<path d="M22,20 Q30,10 38,20 Q30,30 22,20" fill="none" stroke="${Y}" stroke-width="2"/>`,
+  BUK: hstripes([G, W, G]) + `<circle cx="30" cy="20" r="5" fill="${Y}"/>`,
+  KHI: vstripes([G, W, G]) + `<circle cx="30" cy="20" r="5" fill="none" stroke="${Y}" stroke-width="1.8"/>`,
+  KOK: field(CR) + `<rect x="0" y="16" width="60" height="8" fill="${G}"/>` + star5(30, 20, 4, Y),
+});
+
 let count = 0;
 for (const [tag, body] of Object.entries(FLAGS)) {
   if (!body) continue;
