@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, type ComponentType } from 'react';
+import { Suspense, lazy, useEffect, useCallback, useRef, type ComponentType } from 'react';
 import { useStore, type PanelId } from '../../store';
 import { useShallow } from 'zustand/react/shallow';
 import { NationFlag } from '../components/NationFlag';
@@ -72,7 +72,7 @@ const NATION_SCOPED_PANELS = new Set<PanelId>([
   'formables', 'decisions',
 ]);
 
-/** Quiet placeholder — chrome stays mounted so the panel shell does not jump. */
+/** Quiet placeholder -- chrome stays mounted so the panel shell does not jump. */
 function PanelBodyFallback() {
   return (
     <div className="panel-host__body-fallback" aria-busy="true" aria-label="Loading panel" />
@@ -94,9 +94,41 @@ export function PanelHost() {
   const selectedProvince = useStore((state) => state.selectedProvince);
   const provinceDetail = useStore((state) => state.provinceDetail);
 
+  const closePanel = useCallback(() => {
+    const invoker = invokerRef.current;
+    invokerRef.current = null;
+    openPanelId(null);
+    // Restore focus after React removes the panel DOM.
+    setTimeout(() => {
+      if (invoker?.isConnected) invoker.focus();
+    }, 0);
+  }, [openPanelId]);
+
+  const invokerRef = useRef<HTMLElement | null>(null);
+
+  // Save the element that opened the panel so we can restore focus on close.
+  useEffect(() => {
+    if (openPanel) {
+      invokerRef.current = document.activeElement as HTMLElement;
+    }
+  }, [openPanel]);
+
   useEffect(() => {
     for (const warm of PANEL_WARMERS) void warm();
   }, []);
+
+  // Escape key closes the panel, but not when a child dialog is handling Escape.
+  useEffect(() => {
+    if (!openPanel) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !document.querySelector('.panel-host [role="alertdialog"]')) {
+        event.preventDefault();
+        closePanel();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [openPanel, closePanel]);
 
   if (!openPanel) return null;
 
@@ -110,7 +142,7 @@ export function PanelHost() {
         type="button"
         className="panel-host-backdrop"
         aria-label="Close panel"
-        onClick={() => openPanelId(null)}
+        onClick={closePanel}
       />
       <aside className="panel-host atlas-panel">
         <header className="panel-host__chrome">
@@ -120,7 +152,7 @@ export function PanelHost() {
             ) : null}
             <p className="panel-host__chrome-title">{PANEL_TITLES[openPanel]}</p>
           </div>
-          <button type="button" className="panel-host__close" onClick={() => openPanelId(null)}>Done</button>
+          <button type="button" className="panel-host__close" onClick={closePanel}>Done</button>
         </header>
         <div className="panel-host__body">
           {openPanel === 'province' ? <LazyPanel Panel={ProvincePanel} /> : null}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useStore, type MapMode, type PanelId } from '../store';
 import { useSnapshotFields } from './useSnapshotFields';
 import { copyShareLink } from './permalink';
@@ -83,6 +83,8 @@ export function Hud() {
   const [shareHint, setShareHint] = useState<string | null>(null);
   /** Optimistic speed so Play/Pause reacts before the worker snapshot returns. */
   const [optimisticSpeed, setOptimisticSpeed] = useState<number | null>(null);
+  /** Tracks which mobile toggle was last activated for focus restoration. */
+  const lastDrawerToggleRef = useRef<'panels' | 'mapmodes' | null>(null);
 
   const playerNation = useMemo(() => {
     if (!snapshot) return null;
@@ -104,8 +106,8 @@ export function Hud() {
       points: tech.researchPoints,
       label: currentName ?? 'Idle',
       title: currentName
-        ? `Open Technology — researching ${currentName}`
-        : 'Open Technology — no active research',
+        ? `Open Technology -- researching ${currentName}`
+        : 'Open Technology -- no active research',
     };
   }, [snapshot?.playerTech]);
 
@@ -124,6 +126,50 @@ export function Hud() {
     if (snapshotSpeed === optimisticSpeed) setOptimisticSpeed(null);
   }, [snapshotSpeed, optimisticSpeed]);
 
+  // Escape key closes mobile drawers.
+  useEffect(() => {
+    if (!mobilePanelsOpen && !mobileMapModesOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setMobilePanelsOpen(false);
+        setMobileMapModesOpen(false);
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [mobilePanelsOpen, mobileMapModesOpen]);
+
+  // Close mobile drawers on outside pointer press.
+  useEffect(() => {
+    if (!mobilePanelsOpen && !mobileMapModesOpen) return;
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target as HTMLElement;
+      if (
+        !target.closest('[data-testid="mobile-panel-drawer"]') &&
+        !target.closest('[data-testid="mobile-mapmodes-drawer"]') &&
+        !target.closest('[data-testid="mobile-panels-toggle"]') &&
+        !target.closest('[data-testid="mobile-mapmodes-toggle"]')
+      ) {
+        setMobilePanelsOpen(false);
+        setMobileMapModesOpen(false);
+      }
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, [mobilePanelsOpen, mobileMapModesOpen]);
+
+  // Restore focus to the toggle when a mobile drawer closes.
+  useEffect(() => {
+    if (mobilePanelsOpen || mobileMapModesOpen) return;
+    const toggle = lastDrawerToggleRef.current;
+    lastDrawerToggleRef.current = null;
+    if (!toggle) return;
+    const testId = toggle === 'panels' ? 'mobile-panels-toggle' : 'mobile-mapmodes-toggle';
+    const el = document.querySelector(`[data-testid="${testId}"]`) as HTMLElement | null;
+    el?.focus();
+  }, [mobilePanelsOpen, mobileMapModesOpen]);
+
   const setSpeed = (speed: number) => {
     if (!canControlSpeed) return;
     const clamped = Math.max(0, Math.min(MAX_SPEED, speed));
@@ -134,11 +180,13 @@ export function Hud() {
   const toggleMobilePanels = () => {
     setMobilePanelsOpen((open) => !open);
     setMobileMapModesOpen(false);
+    lastDrawerToggleRef.current = 'panels';
   };
 
   const toggleMobileMapModes = () => {
     setMobileMapModesOpen((open) => !open);
     setMobilePanelsOpen(false);
+    lastDrawerToggleRef.current = 'mapmodes';
   };
 
   const togglePanel = (id: Exclude<PanelId, null>) => {
@@ -192,7 +240,7 @@ export function Hud() {
               {...instantPressProps(() => togglePanel('technology'))}
             >
               RP {researchChip.points.toFixed(0)}
-              {' · '}
+              {' | '}
               {researchChip.label}
             </button>
           ) : null}
@@ -267,7 +315,7 @@ export function Hud() {
         <div className="hud-mobile-top__nation">
           {playerNation ? <NationFlag tag={playerNation.tag} color={playerNation.color} size={18} /> : null}
           <span>{playerNation?.name ?? 'United Kingdom'}</span>
-          <strong>{speedLabel(currentSpeed)} · {formatMoney(playerNation?.treasury ?? 0)}</strong>
+          <strong>{speedLabel(currentSpeed)} | {formatMoney(playerNation?.treasury ?? 0)}</strong>
           <span className={`hud-monthly-net ${monthlyNet >= 0 ? 'is-positive' : 'is-negative'}`}>
             {monthlyNet >= 0 ? '+' : ''}{formatMoney(monthlyNet)}/mo
           </span>

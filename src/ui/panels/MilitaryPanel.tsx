@@ -379,10 +379,22 @@ export function MilitaryPanel() {
                 type="button"
                 className="btn btn--secondary"
                 disabled={fleet.embarkedArmy < 0 || selectedProvince === null}
+                aria-describedby={
+                  fleet.embarkedArmy < 0 || selectedProvince === null
+                    ? `fleet-${fleet.id}-land-reason`
+                    : undefined
+                }
                 onClick={() => selectedProvince !== null && sendCommand({ t: 'disembarkArmy', fleet: fleet.id, target: selectedProvince })}
               >
-                Land At Selected Province
+                {selectedProvince !== null
+                  ? `Land At ${provinceNameById.get(selectedProvince) ?? `Province ${selectedProvince}`}`
+                  : 'Land At Selected Province'}
               </button>
+              {(fleet.embarkedArmy < 0 || selectedProvince === null) ? (
+                <span id={`fleet-${fleet.id}-land-reason`} className="panel-subtle mil-disabled-reason">
+                  {fleet.embarkedArmy < 0 ? 'No army embarked' : 'Select a coastal province first'}
+                </span>
+              ) : null}
             </div>
           </li>
         ))}
@@ -526,7 +538,7 @@ export function MilitaryPanel() {
                 <div>
                   <strong>{outcomeLabel} at {battle.provinceName}</strong>
                   <span>
-                    Day {battle.day} vs {enemy} — {why}. Losses {Math.round(ourLosses)} to {Math.round(theirLosses)}.
+                    Day {battle.day} vs {enemy} -- {why}. Losses {Math.round(ourLosses)} to {Math.round(theirLosses)}.
                     {' '}| Decisive: {decisive[0]} ({(decisive[1] * sign).toFixed(1)})
                   </span>
                 </div>

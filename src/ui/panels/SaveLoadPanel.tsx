@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useStore } from '../../store';
 import { useSnapshotFields } from '../useSnapshotFields';
 import { dayToLabel } from '../gameDate';
@@ -11,10 +11,77 @@ export function SaveLoadPanel() {
   const requestSaves = useStore((state) => state.requestSaves);
   const [slotName, setSlotName] = useState('slot-1');
   const [confirmAction, setConfirmAction] = useState<{ action: 'load' | 'overwrite'; slot: string } | null>(null);
+  const confirmRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     requestSaves();
   }, [requestSaves, snapshot?.day]);
+
+  // Focus trap: move focus into the confirm dialog when it opens, restore on close.
+  useEffect(() => {
+    if (confirmAction) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+      // Small delay so the DOM has rendered the dialog.
+      const timer = window.setTimeout(() => {
+        const first = confirmRef.current?.querySelector<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        first?.focus();
+      }, 0);
+      return () => window.clearTimeout(timer);
+    }
+    // Restore focus when dialog closes.
+    previousFocusRef.current?.focus();
+  }, [confirmAction]);
+
+  const dismissConfirm = useCallback(() => {
+    setConfirmAction(null);
+  }, []);
+
+  // Escape key closes the confirm dialog without closing the parent panel.
+  useEffect(() => {
+    if (!confirmAction) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        dismissConfirm();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [confirmAction, dismissConfirm]);
+
+  // Tab / Shift+Tab focus trap keeps focus inside the confirm dialog.
+  useEffect(() => {
+    if (!confirmAction || !confirmRef.current) return;
+    const dialog = confirmRef.current;
+    const getFocusable = () =>
+      Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab') return;
+      const focusable = getFocusable();
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey) {
+        if (document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else if (document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    dialog.addEventListener('keydown', onKeyDown);
+    return () => dialog.removeEventListener('keydown', onKeyDown);
+  }, [confirmAction]);
 
   const playerNameById = useMemo(() => (
     new Map(snapshot?.nations.map((nation) => [nation.id, nation.name]) ?? [])
@@ -37,8 +104,8 @@ export function SaveLoadPanel() {
       ) : null}
 
       {confirmAction ? (
-        <div className="save-confirm" role="alertdialog" aria-label={`Confirm ${confirmAction.action}`}>
-          <p>
+        <div ref={confirmRef} className="save-confirm" role="alertdialog" aria-modal="true" aria-label={`Confirm ${confirmAction.action}`} aria-describedby="save-confirm-desc">
+          <p id="save-confirm-desc">
             {confirmAction.action === 'overwrite'
               ? `Overwrite slot "${confirmAction.slot}"? This cannot be undone.`
               : `Load slot "${confirmAction.slot}"? Unsaved progress will be lost.`}
@@ -47,7 +114,7 @@ export function SaveLoadPanel() {
             <button type="button" className="btn btn--primary" onClick={executeConfirmed}>
               {confirmAction.action === 'overwrite' ? 'Overwrite' : 'Load'}
             </button>
-            <button type="button" className="btn btn--ghost" onClick={() => setConfirmAction(null)}>
+            <button type="button" className="btn btn--ghost" onClick={dismissConfirm}>
               Cancel
             </button>
           </div>
@@ -104,7 +171,7 @@ export function SaveLoadPanel() {
             <div>
               <strong>{slot.slot}</strong>
               <span>
-                {dayToLabel(slot.day)} · {new Date(slot.updatedAt).toLocaleString()} · {playerNameById.get(slot.playerNation) ?? `Nation ${slot.playerNation}`}
+                {dayToLabel(slot.day)} | {new Date(slot.updatedAt).toLocaleString()} | {playerNameById.get(slot.playerNation) ?? `Nation ${slot.playerNation}`}
               </span>
             </div>
             <div className="mil-actions">
