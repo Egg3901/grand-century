@@ -417,6 +417,24 @@ function isAcceptedCulture(world: World, pop: Pop): boolean {
   return pop.culture === nation.primaryCulture || nation.acceptedCultures.includes(pop.culture);
 }
 
+/** Build a per-nation set of enemy nation IDs for fast lookup. */
+function buildEnemySets(world: World): Map<number, Set<number>> {
+  const map = new Map<number, Set<number>>();
+  for (const war of world.wars) {
+    for (const atk of war.attackers) {
+      let set = map.get(atk);
+      if (!set) { set = new Set(); map.set(atk, set); }
+      for (const def of war.defenders) set.add(def);
+    }
+    for (const def of war.defenders) {
+      let set = map.get(def);
+      if (!set) { set = new Set(); map.set(def, set); }
+      for (const atk of war.attackers) set.add(atk);
+    }
+  }
+  return map;
+}
+
 export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
   world.popMobilityLedger = emptyMobilityLedger(world.day);
   const scores = provinceScores(world);
@@ -463,6 +481,15 @@ export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
     stateHasProfitableFactory.set(state.id, state.factories.some((f) => f.weeklyProfit > 0));
   }
   const soldierDemand = nationSoldierDemand(world);
+
+  // International migration precomputation: enemy sets and per-nation
+  // migration policy openness (0 = closed, 1.0 = free movement).
+  const enemySets = buildEnemySets(world);
+  const cfg = BALANCE.population;
+  const migrationPolicyScale = world.nations.map((n) => {
+    const level = Math.max(0, Math.min(3, Math.floor(n.reforms.migration_policy ?? 0)));
+    return cfg.intlMigrationPolicyScale[level] ?? 0;
+  });
 
   // Process only cohorts present at month start so newly split/promoted pops
   // don't receive another full monthly growth/conversion pass immediately.
@@ -519,6 +546,56 @@ export function runPopsMonthly(world: World, data: GameData, rng: Rng): void {
       if (destination !== undefined && destination !== pop.provinceId && targetScore > currentScore + 0.08) {
         const moving = Math.floor(pop.size * clamp(0.012 + (targetScore - currentScore) * 0.02, 0.008, 0.04));
         migratePop(world, pop, destination, moving);
+      }
+    }
+
+    // International migration: farmer/laborer/craftsman pops consider
+    // neighboring foreign provinces when origin and destination policies
+    // allow it and the two nations are not at war. Rates are bounded and
+    // much lower than domestic migration.
+    if (
+      (pop.type === 'farmer' || pop.type === 'laborer' || pop.type === 'craftsman')
+      && pop.size > cfg.intlMigrationMinPop
+    ) {
+      const originPolicy = migrationPolicyScale[nationId] ?? 0;
+      if (originPolicy > 0) {
+        const enemies = enemySets.get(nationId);
+        const currentScore = scores[pop.provinceId]?.score ?? 0;
+        const domesticBest = bestScore.get(nationId) ?? 0;
+        // Only emigrate when a foreign destination clearly beats the domestic
+        // best -- otherwise stay home.
+        const threshold = domesticBest + cfg.intlMigrationScoreThreshold;
+        let bestForeignProvince = -1;
+        let bestForeignScore = -Infinity;
+        const originProvince = world.provinces[pop.provinceId];
+        if (originProvince) {
+          for (const neighborId of originProvince.neighbors) {
+            const neighbor = world.provinces[neighborId];
+            if (!neighbor || neighbor.owner === nationId) continue;
+            // Block migration to enemies.
+            if (enemies?.has(neighbor.owner)) continue;
+            // Destination must allow immigration.
+            const destPolicy = migrationPolicyScale[neighbor.owner] ?? 0;
+            if (destPolicy <= 0) continue;
+            const neighborScore = scores[neighborId]?.score ?? 0;
+            if (neighborScore > threshold && neighborScore > bestForeignScore) {
+              bestForeignScore = neighborScore;
+              bestForeignProvince = neighborId;
+            }
+          }
+        }
+        if (bestForeignProvince >= 0) {
+          const scoreAdvantage = bestForeignScore - currentScore;
+          const rate = clamp(
+            cfg.intlMigrationBaseRate + scoreAdvantage * cfg.intlMigrationScoreScale,
+            0,
+            cfg.intlMigrationRateCap,
+          ) * originPolicy;
+          const moving = Math.floor(pop.size * rate);
+          if (moving > 0) {
+            migratePop(world, pop, bestForeignProvince, moving);
+          }
+        }
       }
     }
 
