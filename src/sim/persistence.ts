@@ -170,6 +170,17 @@ export function deserializeWorld(buffer: Uint8Array): { world: World; metadata: 
   for (const state of world.states ?? []) {
     if (!Number.isFinite(state.unrestMonths)) state.unrestMonths = 0;
   }
+  // Legacy save compat: migration_policy was added after v1 saves existed.
+  // New campaigns default to level 1 (restricted) -- see nationReforms() in
+  // bootstrap.ts.  Normalize absent keys so deserialized worlds match the
+  // campaign default instead of silently falling back to 0 (closed borders)
+  // via the ?? 0 in pops.ts.
+  const MIGRATION_POLICY_DEFAULT = 1;
+  for (const nation of world.nations ?? []) {
+    if (nation.reforms && !('migration_policy' in nation.reforms)) {
+      nation.reforms.migration_policy = MIGRATION_POLICY_DEFAULT;
+    }
+  }
   importDiplomacyRuntime(world, payload.runtimes?.diplomacy);
   importWarRuntime(world, payload.runtimes?.war);
   return {
