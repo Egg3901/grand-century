@@ -85,7 +85,11 @@ export function MilitaryPanel() {
       .sort((a, b) => a.id - b.id);
     const playerSummary = snapshot.nations.find((nation) => nation.id === player) ?? null;
     const hasIroncladTech = (snapshot.playerTech?.techs ?? []).includes('navy_ironclad_warships');
-    return { armies, fleets, allArmies, allFleets, ownedProvinces, coastalProvinces, wars, playerSummary, hasIroncladTech };
+    const navyTechCount = (snapshot.playerTech?.techs ?? [])
+      .filter((tech) => tech.includes('navy') || tech.includes('ship') || tech.includes('ironclad'))
+      .length;
+    const provinceOwnerById = new Map(snapshot.provinces.map((province) => [province.id, province.owner]));
+    return { armies, fleets, allArmies, allFleets, ownedProvinces, coastalProvinces, wars, playerSummary, hasIroncladTech, navyTechCount, provinceOwnerById };
   }, [snapshot]);
 
   useEffect(() => {
@@ -362,7 +366,11 @@ export function MilitaryPanel() {
               <span>
                 {provinceNameById.get(fleet.location) ?? `Province ${fleet.location}`} | {shipSummary(fleet)}
                 {fleet.embarkedArmy >= 0 ? ` | Embarked army ${fleet.embarkedArmy}` : ''}
-                {fleet.moveTarget >= 0 ? ` | Order: ${provinceNameById.get(fleet.moveTarget) ?? fleet.moveTarget} (~${estimateFleetMoveDays(fleet.owner, fleet.location, fleet.moveTarget)}d)` : ' | Order: Hold'}
+                {fleet.moveTarget >= 0 ? ` | Order: ${provinceNameById.get(fleet.moveTarget) ?? fleet.moveTarget} (~${estimateFleetMoveDays(fleet.location, fleet.moveTarget, {
+                  navyTechCount: derived.navyTechCount,
+                  embarked: fleet.embarkedArmy >= 0,
+                  hostile: derived.provinceOwnerById.get(fleet.location) !== derived.provinceOwnerById.get(fleet.moveTarget),
+                })}d)` : ' | Order: Hold'}
               </span>
             </div>
             <div className="mil-actions">
