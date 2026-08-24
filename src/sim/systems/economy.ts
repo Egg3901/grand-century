@@ -273,11 +273,8 @@ export function settleProductionWeekly(world: World, _data: GameData, _rng: Rng)
  * genuinely losing money. Tuning the expansion thresholds had no effect at all,
  * because the thresholds were reading fiction.
  */
-function applyFactoryProfit(factory: Factory, rawProfit: number, employed: number, ownerBankrupt: boolean): void {
-  let weeklyProfit = rawProfit;
-  if (weeklyProfit < BALANCE.economy.factoryProfitFloor && employed > 0 && !ownerBankrupt) {
-    weeklyProfit = BALANCE.economy.factoryProfitFloor;
-  }
+export function applyFactoryProfit(factory: Factory, rawProfit: number, _employed: number, _ownerBankrupt: boolean): void {
+  const weeklyProfit = rawProfit;
   factory.weeklyProfit = weeklyProfit;
   factory.cashReserve = Math.max(-400, finite(factory.cashReserve) + weeklyProfit);
   factory.profitTrend = finite(factory.profitTrend) * 0.72 + weeklyProfit * 0.28;
