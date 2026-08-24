@@ -4,6 +4,8 @@
   "version": "1.5.1",
   "type": "module",
   "scripts": {
+    "map:history": "node scripts/apply-historical-world.mjs",
+    "map:history:check": "node scripts/apply-historical-world.mjs --check",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "test": "vitest run --project unit",

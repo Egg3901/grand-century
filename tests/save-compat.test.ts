@@ -42,7 +42,13 @@ describe('save fingerprint + compat', () => {
     const world = createWorld(GAME_DATA, 4242);
     const before = buildSnapshot(world, GAME_DATA);
     const { world: loaded } = deserializeWorld(serializeWorld(world));
-    expect(buildSnapshot(loaded, GAME_DATA)).toEqual(before);
+    const after = buildSnapshot(loaded, GAME_DATA);
+    expect(after).toEqual(before);
+    const russia = after.nations.find((nation) => nation.tag === 'RUS');
+    expect(after.nations.find((nation) => nation.tag === 'FIN')).toMatchObject({
+      polityStatus: 'constituent',
+      overlordNation: russia?.id,
+    });
   });
 
   it('rejects a hand-mutated fingerprint with a world-mismatch message', () => {
@@ -71,7 +77,7 @@ describe('save fingerprint + compat', () => {
     const b = computeWorldFingerprint();
     expect(a).toEqual(b);
     expect(a.provinceCount).toBe(GAME_DATA.provinceCount);
-    expect(a.schemaVersion).toBe(1);
+    expect(a.schemaVersion).toBe(2);
     expect(a.seedHash).toMatch(/^[0-9a-f]{8}$/);
   });
 

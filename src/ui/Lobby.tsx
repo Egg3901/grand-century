@@ -32,7 +32,7 @@ export function LobbyScreen({ initialSessionId = null }: LobbyScreenProps) {
 
   const [playerName, setPlayerName] = useState('Player');
   const [createName, setCreateName] = useState('Grand Session');
-  const [createSeed, setCreateSeed] = useState('1836');
+  const [createSeed, setCreateSeed] = useState('1820');
   const [createMode, setCreateMode] = useState<SessionMode>('competitive');
   const [createMax, setCreateMax] = useState('4');
 
@@ -122,7 +122,7 @@ export function LobbyScreen({ initialSessionId = null }: LobbyScreenProps) {
     const maxPlayers = Number(createMax);
     ensureClient().createSession({
       name: createName,
-      seed: Number.isFinite(seed) ? Math.max(1, Math.floor(seed)) : 1836,
+      seed: Number.isFinite(seed) ? Math.max(1, Math.floor(seed)) : 1820,
       mode: createMode,
       maxPlayers: Number.isFinite(maxPlayers) ? maxPlayers : 4,
     });

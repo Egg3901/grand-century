@@ -212,7 +212,7 @@ export function Hud() {
             {...instantPressProps(() => {
               if (!playerNation) return;
               void copyShareLink({
-                seed: snapshot?.seed ?? 1836,
+                seed: snapshot?.seed ?? 1820,
                 nationTag: playerNation.tag,
               }).then((ok) => {
                 setShareHint(ok ? 'Copied' : 'Copy failed');

@@ -449,6 +449,7 @@ function gpRankFor(seed: { tag: string; greatPowerRank?: number }): number {
 }
 
 function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
+  const seedNationIdByTag = new Map(worldSeed.nations.map((seed, id) => [seed.tag, id]));
   return worldSeed.nations.map((seed, id) => {
     const gpRank = gpRankFor(seed);
     return {
@@ -468,6 +469,9 @@ function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
     nextElectionYear: isElectiveGovernment(seed.government) ? 1820 + (id % 4) : Number.MAX_SAFE_INTEGER,
     electionLastResult: 'No election held yet.',
     capital: capitalId(worldSeed, seed.capitalProvinceId),
+    polityStatus: seed.polityStatus ?? 'sovereign',
+    overlordNation: seed.overlordTag ? (seedNationIdByTag.get(seed.overlordTag) ?? -1) : -1,
+    eraSummary: seed.eraSummary,
     treasury: 2600 + (gpRank > 0 ? (9 - gpRank) * 380 : 0),
     prestige: gpRank > 0 ? 25 + Math.max(0, 8 - gpRank) * 5 : 6,
     infamy: 0,
@@ -527,6 +531,7 @@ function createProvinces(worldSeed: WorldSeedData, rng: Rng, tagToNationId: Reco
 
   for (const seed of worldSeed.provinces) {
     const owner = tagToNationId[seed.ownerTag] ?? 0;
+    const controller = seed.controllerTag ? (tagToNationId[seed.controllerTag] ?? owner) : owner;
     const terrain = seed.terrain as Terrain;
     const recipe = RGO_GOOD_TO_RECIPE[seed.rgoGood] ?? RGO_RECIPES[seed.id % RGO_RECIPES.length];
     const level = clamp(1 + Math.round(seed.populationWeight * 1.6), 1, 5);
@@ -535,7 +540,7 @@ function createProvinces(worldSeed: WorldSeedData, rng: Rng, tagToNationId: Reco
       id: seed.id,
       name: seed.name,
       owner,
-      controller: owner,
+      controller,
       stateId: seed.stateId,
       terrain,
       rgo: {
@@ -692,7 +697,10 @@ function provinceCultureSlices(
 
 function createPops(worldSeed: WorldSeedData, worldProvinces: Province[], provinceRuntime: ProvinceSeedRuntime[], nations: Nation[], data: GameData, rng: Rng): Pop[] {
   const pops: Pop[] = [];
-  const religionByNation = nations.map((nation) => religionIndex(data, RELIGION_BY_TAG[nation.tag] || 'protestant'));
+  const religionByNation = nations.map((nation) => religionIndex(
+    data,
+    worldSeed.nations[nation.id]?.religion ?? RELIGION_BY_TAG[nation.tag] ?? 'protestant',
+  ));
   const runtimeByProvince = new Map(provinceRuntime.map((item) => [item.id, item]));
   const seedByProvince = new Map(worldSeed.provinces.map((seed) => [seed.id, seed]));
   const provinceOwnerBySeedId = new Map(worldProvinces.map((province) => [province.id, province.owner]));

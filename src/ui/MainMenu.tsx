@@ -21,7 +21,7 @@ function randomSeed(): number {
 
 function parseSeed(raw: string): number {
   const parsed = Number(raw);
-  return Number.isFinite(parsed) ? Math.max(1, Math.floor(parsed)) : 1836;
+  return Number.isFinite(parsed) ? Math.max(1, Math.floor(parsed)) : 1820;
 }
 
 export function MainMenu() {
@@ -32,7 +32,7 @@ export function MainMenu() {
   const multiplayer = useStore((state) => state.multiplayer);
   const saveSlots = useStore((state) => state.saveSlots);
   const hashStart = useMemo(() => parseStartHash(), []);
-  const [seedInput, setSeedInput] = useState(() => String(hashStart?.seed ?? snapshot?.seed ?? 1836));
+  const [seedInput, setSeedInput] = useState(() => String(hashStart?.seed ?? snapshot?.seed ?? 1820));
   const [mapMode, setMapMode] = useState<CampaignMapMode>(() => parseCampaignMapMode(hashStart?.mode ?? snapshot?.mapMode));
   const [shareStatus, setShareStatus] = useState<string | null>(null);
   const [nationFilter, setNationFilter] = useState('');
@@ -150,11 +150,17 @@ export function MainMenu() {
     setShowLobby(true);
   };
 
-  const flavorLine = (nationId: number, gpRank: number, government: string): string => {
-    const provinces = provinceCounts.get(nationId) ?? 0;
-    const gp = gpRank > 0 && gpRank <= 8 ? `Great Power #${gpRank}` : null;
-    const gov = government.replaceAll('_', ' ');
-    return [gp, `${provinces} provinces`, gov].filter(Boolean).join(' · ');
+  const flavorLine = (nation: (typeof nations)[number]): string => {
+    const provinces = provinceCounts.get(nation.id) ?? 0;
+    const gp = nation.gpRank > 0 && nation.gpRank <= 8 ? `Great Power #${nation.gpRank}` : null;
+    const overlord = nation.overlordNation == null || nation.overlordNation < 0
+      ? null
+      : snapshot.nations.find((candidate) => candidate.id === nation.overlordNation)?.name;
+    const relationship = nation.polityStatus && nation.polityStatus !== 'sovereign'
+      ? `${nation.polityStatus.replaceAll('_', ' ')}${overlord ? ` of ${overlord}` : ''}`
+      : null;
+    return nation.eraSummary
+      ?? [gp, relationship, `${provinces} provinces`].filter(Boolean).join(' · ');
   };
 
   return (
@@ -216,7 +222,7 @@ export function MainMenu() {
                       <NationFlag tag={nation.tag} color={nation.color} size={30} />
                     </span>
                     <span className="nation-card__name">{nation.name}</span>
-                    <span className="nation-card__flavor">{flavorLine(nation.id, nation.gpRank, nation.government)}</span>
+                    <span className="nation-card__flavor">{flavorLine(nation)}</span>
                   </button>
                 ))}
                 {filteredNations.length === 0 ? (
