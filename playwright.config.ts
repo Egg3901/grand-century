@@ -36,8 +36,9 @@ export default defineConfig({
       timeout: 60_000,
     },
     {
-      // Prefer an existing production build; build if dist is missing.
-      command: 'test -f dist/index.html || npm run build; npx vite preview --host 127.0.0.1 --port 4174',
+      // Always build a root-based preview in an isolated directory. The normal
+      // dist may target the deployed subpath and is not a valid root E2E build.
+      command: 'VITE_BASE=/ npx vite build --outDir .playwright-dist && npx vite preview --outDir .playwright-dist --host 127.0.0.1 --port 4174',
       url: 'http://127.0.0.1:4174',
       reuseExistingServer: true,
       timeout: 180_000,
