@@ -1150,6 +1150,8 @@
   .market-table tbody {
     display: grid;
     gap: 0.5rem;
+    width: 100%;
+    min-width: 0;
   }
 
   .market-table tbody tr {
@@ -1161,6 +1163,9 @@
     border-radius: var(--gc-radius);
     background: rgba(255, 248, 230, 0.22);
     font-size: 0.94rem;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   .market-table tbody td {
@@ -1170,6 +1175,11 @@
     padding: 0;
     border: 0;
     font-size: inherit;
+    min-width: 0;
+  }
+
+  .market-table .trace-value-wrap:not(.is-open) .trace-tooltip {
+    display: none;
   }
 
   .market-table tbody td::before {
