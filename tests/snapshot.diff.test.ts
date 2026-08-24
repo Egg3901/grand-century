@@ -123,6 +123,36 @@ describe('snapshot applier', () => {
     expect(rebuilt!.day).toBeGreaterThan(0);
     expect(rebuilt!.speed).toBe(5);
   });
+
+  it('requests one full resync when a diff base sequence is missing', () => {
+    const session = new GameSession({ id: 'diff-gap', seed: 1836, phase: 'running' });
+    const client = collect();
+    session.join('a', 'ENG', client.send);
+    const full = client.messages.find((message) => message.t === 'snapshotFull');
+    if (!full || full.t !== 'snapshotFull') throw new Error('Expected initial full snapshot.');
+    const state = createApplierState();
+    applyServerSnapshotMessage(state, full);
+    let resyncRequests = 0;
+    const mismatched = {
+      t: 'snapshotDiff' as const,
+      seq: full.seq + 2,
+      baseSeq: full.seq + 1,
+      diff: {},
+    };
+
+    expect(applyServerSnapshotMessage(state, mismatched, () => { resyncRequests += 1; })).toBeNull();
+    expect(applyServerSnapshotMessage(state, mismatched, () => { resyncRequests += 1; })).toBeNull();
+    expect(resyncRequests).toBe(1);
+
+    applyServerSnapshotMessage(state, { ...full, seq: full.seq + 3 });
+    expect(state.resyncRequested).toBe(false);
+    expect(applyServerSnapshotMessage(state, {
+      ...mismatched,
+      seq: full.seq + 5,
+      baseSeq: full.seq + 4,
+    }, () => { resyncRequests += 1; })).toBeNull();
+    expect(resyncRequests).toBe(2);
+  });
 });
 
 describe('server cadence + diffs (MP-M4)', () => {

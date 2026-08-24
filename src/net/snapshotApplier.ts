@@ -20,10 +20,11 @@ export interface SnapshotApplierState {
   shared: SharedSnapshot | null;
   view: PlayerView | null;
   seq: number;
+  resyncRequested: boolean;
 }
 
 export function createApplierState(): SnapshotApplierState {
-  return { shared: null, view: null, seq: 0 };
+  return { shared: null, view: null, seq: 0, resyncRequested: false };
 }
 
 /**
@@ -33,16 +34,24 @@ export function createApplierState(): SnapshotApplierState {
 export function applyServerSnapshotMessage(
   state: SnapshotApplierState,
   msg: ServerToClient,
+  requestFullResync?: () => void,
 ): FromWorker | null {
   if (isSnapshotFullMessage(msg)) {
     state.shared = msg.shared;
     state.seq = msg.seq;
+    state.resyncRequested = false;
     return emitIfReady(state);
   }
   if (isSnapshotDiffMessage(msg)) {
     if (!state.shared) return null;
     // If baseSeq mismatches, wait for a full resync.
     if (msg.baseSeq !== state.seq && msg.baseSeq !== 0) {
+      state.shared = null;
+      state.view = null;
+      if (!state.resyncRequested) {
+        state.resyncRequested = true;
+        requestFullResync?.();
+      }
       return null;
     }
     state.shared = applySharedDiff(state.shared, msg.diff);

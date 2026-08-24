@@ -18,6 +18,7 @@ import {
   isLobbyClientMessage,
   isReconnectMessage,
   isSessionJoinMessage,
+  isSnapshotRequestMessage,
   isToWorkerMessage,
   type CreateSessionMessage,
   type ServerToClient,
@@ -252,6 +253,20 @@ wss.on('connection', (ws) => {
       if (session.phase === 'lobby') {
         session.setReady(state.clientId, true);
       }
+      return;
+    }
+
+    if (isSnapshotRequestMessage(msg)) {
+      if (!state.sessionId) {
+        send(ws, { t: 'log', level: 'warn', msg: 'not in a session' });
+        return;
+      }
+      const session = manager.get(state.sessionId);
+      if (!session) {
+        send(ws, { t: 'log', level: 'error', msg: 'session gone' });
+        return;
+      }
+      session.sendFullTo(state.clientId);
       return;
     }
 

@@ -21,6 +21,7 @@ import {
   type SessionListEntry,
   type SessionMode,
   type ServerToClient,
+  type SnapshotRequestMessage,
 } from './sessionProtocol';
 import { decodeWireBrowser } from './snapshotCodec';
 import { applyServerSnapshotMessage, createApplierState } from './snapshotApplier';
@@ -135,7 +136,9 @@ export class LobbyClient implements SimTransport {
       return;
     }
 
-    const snap = applyServerSnapshotMessage(this.applier, raw as ServerToClient);
+    const snap = applyServerSnapshotMessage(this.applier, raw as ServerToClient, () => {
+      this.wire({ t: 'requestSnapshot' } satisfies SnapshotRequestMessage);
+    });
     if (snap) {
       this.simHandler?.(snap);
       return;

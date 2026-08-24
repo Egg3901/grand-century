@@ -14,6 +14,7 @@ import {
   type PresencePlayer,
   type SessionJoinMessage,
   type ServerToClient,
+  type SnapshotRequestMessage,
 } from './sessionProtocol';
 import { decodeWireBrowser } from './snapshotCodec';
 import { applyServerSnapshotMessage, createApplierState } from './snapshotApplier';
@@ -142,7 +143,10 @@ export class SocketTransport implements SimTransport {
       return;
     }
 
-    const snap = applyServerSnapshotMessage(this.applier, raw as ServerToClient);
+    const snap = applyServerSnapshotMessage(this.applier, raw as ServerToClient, () => {
+      if (!this.open || this.ws.readyState !== 1) return;
+      this.ws.send(JSON.stringify({ t: 'requestSnapshot' } satisfies SnapshotRequestMessage));
+    });
     if (snap) {
       this.handler?.(snap);
       return;

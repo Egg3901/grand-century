@@ -194,11 +194,17 @@ export interface PlayerViewMessage {
   view: PlayerView;
 }
 
+/** Client detected a missing diff base and needs an authoritative reset. */
+export interface SnapshotRequestMessage {
+  t: 'requestSnapshot';
+}
+
 export type ClientToServer =
   | SessionJoinMessage
   | ReconnectMessage
   | LobbyClientMessage
   | ChatSendMessage
+  | SnapshotRequestMessage
   | ToWorker;
 
 export type ServerToClient =
@@ -296,6 +302,10 @@ export function isSnapshotDiffMessage(msg: unknown): msg is SnapshotDiffMessage 
 export function isPlayerViewMessage(msg: unknown): msg is PlayerViewMessage {
   if (!msg || typeof msg !== 'object') return false;
   return (msg as { t?: string }).t === 'playerView';
+}
+
+export function isSnapshotRequestMessage(msg: unknown): msg is SnapshotRequestMessage {
+  return Boolean(msg && typeof msg === 'object' && (msg as { t?: string }).t === 'requestSnapshot');
 }
 
 /** True if a ServerToClient message is part of the sim protocol (not lobby). */
