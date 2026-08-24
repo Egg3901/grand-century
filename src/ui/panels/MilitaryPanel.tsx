@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { WORLD_SEED } from '../../data/generated';
 import type { Army, Fleet, Ship } from '../../shared/types';
+import { estimateFleetMoveDays } from '../../sim/systems/war';
 import { useStore } from '../../store';
 import { useShallow } from 'zustand/react/shallow';
 import { TraceTooltip } from '../components/TraceTooltip';
@@ -83,7 +84,8 @@ export function MilitaryPanel() {
       .filter((war) => war.attackers.includes(player) || war.defenders.includes(player))
       .sort((a, b) => a.id - b.id);
     const playerSummary = snapshot.nations.find((nation) => nation.id === player) ?? null;
-    return { armies, fleets, allArmies, allFleets, ownedProvinces, coastalProvinces, wars, playerSummary };
+    const hasIroncladTech = (snapshot.playerTech?.techs ?? []).includes('navy_ironclad_warships');
+    return { armies, fleets, allArmies, allFleets, ownedProvinces, coastalProvinces, wars, playerSummary, hasIroncladTech };
   }, [snapshot]);
 
   useEffect(() => {
@@ -249,7 +251,7 @@ export function MilitaryPanel() {
             <option value="transport">Transport</option>
             <option value="frigate">Frigate</option>
             <option value="manofwar">Man-o-war</option>
-            <option value="ironclad">Ironclad</option>
+            <option value="ironclad" disabled={!derived.hasIroncladTech}>Ironclad{!derived.hasIroncladTech ? ' (requires tech)' : ''}</option>
           </select>
         </label>
         <label>
@@ -360,7 +362,7 @@ export function MilitaryPanel() {
               <span>
                 {provinceNameById.get(fleet.location) ?? `Province ${fleet.location}`} | {shipSummary(fleet)}
                 {fleet.embarkedArmy >= 0 ? ` | Embarked army ${fleet.embarkedArmy}` : ''}
-                {fleet.moveTarget >= 0 ? ` | Order: ${provinceNameById.get(fleet.moveTarget) ?? fleet.moveTarget}` : ' | Order: Hold'}
+                {fleet.moveTarget >= 0 ? ` | Order: ${provinceNameById.get(fleet.moveTarget) ?? fleet.moveTarget} (~${estimateFleetMoveDays(fleet.owner, fleet.location, fleet.moveTarget)}d)` : ' | Order: Hold'}
               </span>
             </div>
             <div className="mil-actions">

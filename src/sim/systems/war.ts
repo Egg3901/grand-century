@@ -21,6 +21,7 @@ import type {
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
 import { GAME_DATA } from '../../data/gameData';
+import { WORLD_SEED } from '../../data/generated';
 import { getOrCreateRelation, setTruce } from './diplomacy';
 import { createNationParties, defaultRulingParty, defaultUpperHouse, updateMilitaryDerivedForNation } from '../politics';
 import { techModifiersFor } from './research';
@@ -36,10 +37,21 @@ const REBELLION_PROGRESS_TO_ENFORCE = 85;
 const REBEL_SIEGE_BASE_DAILY = 0.022;
 /** White peace is free when |score| is within this band (stalemate). */
 const WHITE_PEACE_SCORE_BAND = 10;
-/** Both sides at/above this exhaustion → free white peace. */
+/** Both sides at/above this exhaustion -> free white peace. */
 const WHITE_PEACE_MUTUAL_EXHAUSTION = 75;
-/** Prestige paid by the offering nation when white-peacing outside free conditions. */
-const WHITE_PEACE_PRESTIGE_FEE = 6;
+/**
+ * White peace acceptance: the opponent must have reason to agree.
+ * A nation that is clearly losing (score heavily against them AND low
+ * mutual exhaustion) cannot force a free exit.
+ * Score threshold: if the opponent's perspective score exceeds this,
+ * white peace is rejected unless mutual exhaustion or stalemate applies.
+ */
+const WHITE_PEACE_OPPONENT_SCORE_THRESHOLD = 25;
+/**
+ * Minimum war days before white peace is even considered outside
+ * stalemate/exhaustion bands. Prevents instant escape on day 1.
+ */
+const WHITE_PEACE_MIN_WAR_DAYS = 60;
 /**
  * Combat width soft cap (land battles only). Below this many regiments a side
  * fights at full effectiveness; beyond it, additional regiments still help
@@ -60,6 +72,53 @@ function combatWidthScale(totalRegiments: number): number {
   const excess = totalRegiments - LAND_COMBAT_WIDTH_CAP;
   const effective = LAND_COMBAT_WIDTH_CAP + Math.sqrt(excess) * LAND_COMBAT_WIDTH_EXCESS_FACTOR;
   return effective / totalRegiments;
+}
+
+// ---------------------------------------------------------------------------
+// Geographic distance for fleet movement
+// ---------------------------------------------------------------------------
+
+/** Haversine distance in km between two lon/lat points. */
+function haversineKm(lon1: number, lat1: number, lon2: number, lat2: number): number {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+    + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180)
+    * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+/** Cached province lon/lat lookup from WORLD_SEED. */
+let _provinceCoords: Array<{ lon: number; lat: number }> | null = null;
+function provinceCoords(): Array<{ lon: number; lat: number }> {
+  if (!_provinceCoords) {
+    _provinceCoords = WORLD_SEED.provinces.map((province) => ({ lon: province.lon, lat: province.lat }));
+  }
+  return _provinceCoords;
+}
+
+/** Distance in km between two provinces, or 0 if coordinates missing. */
+export function provinceDistanceKm(provinceA: ProvinceId, provinceB: ProvinceId): number {
+  const coords = provinceCoords();
+  const a = coords[provinceA];
+  const b = coords[provinceB];
+  if (!a || !b) return 0;
+  return haversineKm(a.lon, a.lat, b.lon, b.lat);
+}
+
+/**
+ * Estimated fleet travel days for UI display. Exported so the UI can
+ * show an accurate ETA before the fleet departs.
+ */
+export function estimateFleetMoveDays(_fleetOwnerId: NationId, sourceId: ProvinceId, targetId: ProvinceId): number {
+  const distKm = provinceDistanceKm(sourceId, targetId);
+  if (distKm < 1) return BASE_FLEET_MOVE_DAYS;
+  // Base speed ~400 km/day for a baseline fleet, improved by navy tech.
+  const baseSpeedKmPerDay = 400;
+  const rawDays = distKm / baseSpeedKmPerDay;
+  return clamp(Math.round(rawDays * 10) / 10, 2, 45);
 }
 
 const REGIMENT_ROLE: Record<Army['regiments'][number]['type'], {
@@ -367,8 +426,23 @@ function movementDaysForArmy(world: World, army: Army, target: Province): number
 function movementDaysForFleet(world: World, fleet: Fleet, target: Province): number {
   const source = world.provinces[fleet.location];
   if (!source) return BASE_FLEET_MOVE_DAYS;
-  const hostilePenalty = source.owner !== target.owner ? 1 : 0;
-  return clamp(BASE_FLEET_MOVE_DAYS + hostilePenalty + terrainMoveCost(target.terrain) * 0.3, 2, 10);
+  const distKm = provinceDistanceKm(fleet.location, target.id);
+  // Base speed ~400 km/day, improved by navy tech.
+  const baseSpeedKmPerDay = 400;
+  const nation = world.nations[fleet.owner];
+  const navyTechBonus = nation ? nationNavyTech(world, fleet.owner) * 0.06 : 0;
+  const speedFactor = clamp(1 + navyTechBonus, 1, 1.6);
+  const effectiveSpeed = baseSpeedKmPerDay * speedFactor;
+  // Embarked armies slow the fleet slightly (loaded transports).
+  const embarkPenalty = fleet.embarkedArmy >= 0 ? 1.15 : 1;
+  // Hostile destination adds a small approach caution delay.
+  const hostilePenalty = source.owner !== target.owner ? 0.5 : 0;
+  if (distKm < 1) {
+    // Fallback for missing coordinates: use old simple formula.
+    return clamp(BASE_FLEET_MOVE_DAYS + hostilePenalty + terrainMoveCost(target.terrain) * 0.3, 2, 10);
+  }
+  const rawDays = (distKm / effectiveSpeed) * embarkPenalty + hostilePenalty;
+  return clamp(Math.round(rawDays * 10) / 10, 2, 45);
 }
 
 function isFriendlyControlled(world: World, nationId: NationId, provinceId: ProvinceId): boolean {
@@ -1048,6 +1122,7 @@ export function offerPeaceTerms(
     const mutualExhaustion = war.attackerExhaustion >= WHITE_PEACE_MUTUAL_EXHAUSTION
       && war.defenderExhaustion >= WHITE_PEACE_MUTUAL_EXHAUSTION;
     const scoreBand = Math.abs(war.score) <= WHITE_PEACE_SCORE_BAND;
+    // Free white peace: stalemate or mutual exhaustion.
     if (mutualExhaustion || scoreBand) {
       endWar(world, warId);
       return {
@@ -1057,15 +1132,30 @@ export function offerPeaceTerms(
           : 'White peace signed (warscore stalemate).',
       };
     }
-    // Escape hatch closed: quitting outside free conditions costs prestige.
-    const quitter = world.nations[offeringNation];
-    if (quitter) {
-      quitter.prestige = Math.max(0, quitter.prestige - WHITE_PEACE_PRESTIGE_FEE);
+    // Deterministic acceptance: the opponent must agree.
+    // The opponent's perspective score tells us if they are winning.
+    const opponentScore = offeringAttackers ? -war.score : war.score;
+    const warDays = world.day - war.startDay;
+    // If the opponent is winning significantly and the war is young,
+    // they have no reason to accept a white peace.
+    if (opponentScore > WHITE_PEACE_OPPONENT_SCORE_THRESHOLD && warDays >= WHITE_PEACE_MIN_WAR_DAYS) {
+      return {
+        ok: false,
+        reason: `Opponent rejects white peace (they hold ${opponentScore.toFixed(1)} warscore and the war has lasted ${warDays} days).`,
+      };
     }
+    // If the war is too young and not a stalemate, reject.
+    if (warDays < WHITE_PEACE_MIN_WAR_DAYS && !scoreBand && !mutualExhaustion) {
+      return {
+        ok: false,
+        reason: `War is too young for white peace (${warDays} days; need ${WHITE_PEACE_MIN_WAR_DAYS} or a score stalemate).`,
+      };
+    }
+    // Otherwise, white peace accepted (close enough to even, or war has dragged on).
     endWar(world, warId);
     return {
       ok: true,
-      reason: `White peace signed (−${WHITE_PEACE_PRESTIGE_FEE} prestige).`,
+      reason: 'White peace signed.',
     };
   }
   const requested = goalsToEnforce
@@ -1559,6 +1649,9 @@ export function canEmbarkArmy(world: World, fleetId: FleetId, armyId: ArmyId): {
   if (fleet.owner !== army.owner) return { ok: false, reason: 'Fleet and army must share owner.' };
   if (fleet.location !== army.location) return { ok: false, reason: 'Fleet and army must be in same province.' };
   if (fleet.embarkedArmy >= 0) return { ok: false, reason: 'Fleet already carries an army.' };
+  // Prevent double embark: check if this army is already carried by any fleet.
+  const alreadyEmbarked = world.fleets.some((other) => other.id !== fleetId && other.embarkedArmy === armyId);
+  if (alreadyEmbarked) return { ok: false, reason: 'Army is already embarked on another fleet.' };
   const capacity = fleetTransportCapacity(fleet);
   if (capacity < army.regiments.length) return { ok: false, reason: 'Not enough transport capacity.' };
   return { ok: true, reason: 'Embark possible.' };
