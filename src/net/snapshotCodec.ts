@@ -120,6 +120,8 @@ export interface PlayerView {
   playerCulturePolicyCost?: number;
   playerCultures?: CultureLedgerEntry[];
   playerMovements?: MovementView[];
+  /** State ids highlighted as culture-movement heartlands for this player. */
+  playerCultureHeartlandStateIds?: StateId[];
   // Colonial (player-specific)
   colonialClaims?: ColonialClaimSummary[];
   playerClaimableColonialStates?: ColonialClaimableState[];
@@ -228,15 +230,25 @@ export function extractPlayerView(snap: WorldSnapshot): PlayerView {
     playerCulturePolicyCost: snap.playerCulturePolicyCost,
     playerCultures: snap.playerCultures,
     playerMovements: snap.playerMovements,
+    playerCultureHeartlandStateIds: Array.from(new Set(
+      snap.provinces
+        .filter((province) => province.cultureHeartland)
+        .map((province) => province.stateId),
+    )).sort((a, b) => a - b),
     colonialClaims: snap.colonialClaims,
     playerClaimableColonialStates: snap.playerClaimableColonialStates,
   };
 }
 
 export function mergeSnapshot(shared: SharedSnapshot, view: PlayerView): WorldSnapshot {
+  const heartlands = new Set(view.playerCultureHeartlandStateIds ?? []);
   return {
     ...shared,
     ...view,
+    provinces: shared.provinces.map((province) => ({
+      ...province,
+      cultureHeartland: heartlands.has(province.stateId),
+    })),
   };
 }
 

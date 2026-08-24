@@ -640,6 +640,11 @@ export function buildPlayerView(world: World, data: GameData, nationId: NationId
     playerCulturePolicyCost: CULTURE_TUNING.policyPrestigeCost,
     playerCultures: getCultureLedger(world, data, nationId),
     playerMovements: buildMovementViews(world, data, nationId),
+    playerCultureHeartlandStateIds: Array.from(new Set(
+      (world.movements ?? [])
+        .filter((movement) => movement.nation === nationId)
+        .flatMap((movement) => movement.heartlandStateIds),
+    )).sort((a, b) => a - b),
     // Colonial (player-specific)
     colonialClaims: listColonialClaimViews(world, nationId),
     playerClaimableColonialStates: world.states
