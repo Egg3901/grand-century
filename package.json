@@ -4,6 +4,7 @@
   "version": "1.6.1",
   "type": "module",
   "scripts": {
+    "map:reference:audit": "node scripts/audit-historical-basemap.mjs",
     "map:history": "node scripts/apply-historical-world.mjs",
     "map:history:check": "node scripts/apply-historical-world.mjs --check",
     "dev": "vite",

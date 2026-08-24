@@ -3,6 +3,12 @@
   "anchors": [
     { "id": "alaska-is-russian-america", "kind": "province", "provinceId": 521, "provinceName": "Alaska", "ownerTag": "RUA" },
     { "id": "hawaii-is-sovereign", "kind": "province", "provinceId": 530, "provinceName": "Hawaii", "ownerTag": "HAW" },
+    { "id": "alta-california-is-new-spain", "kind": "province", "provinceId": 524, "provinceName": "California", "ownerTag": "MEX" },
+    { "id": "nuevo-mexico-is-new-spain", "kind": "province", "provinceId": 550, "provinceName": "New Mexico", "ownerTag": "MEX" },
+    { "id": "florida-is-still-spanish", "kind": "province", "provinceId": 528, "provinceName": "Florida", "ownerTag": "ESP" },
+    { "id": "santo-domingo-is-still-spanish", "kind": "province", "provinceId": 140, "provinceName": "Santo Domingo", "ownerTag": "ESP" },
+    { "id": "east-prussia-is-prussian", "kind": "province", "provinceId": 381, "provinceName": "Kaliningrad", "ownerTag": "PRU" },
+    { "id": "cyprus-is-ottoman", "kind": "province", "provinceId": 133, "provinceName": "Cyprus", "ownerTag": "OTT" },
     { "id": "finland-is-russian-constituent", "kind": "relationship", "tag": "FIN", "polityStatus": "constituent", "overlordTag": "RUS" },
     { "id": "poland-is-russian-constituent", "kind": "relationship", "tag": "POL", "polityStatus": "constituent", "overlordTag": "RUS" },
     { "id": "lombardy-venetia-is-austrian-constituent", "kind": "relationship", "tag": "LVN", "polityStatus": "constituent", "overlordTag": "AUS" },

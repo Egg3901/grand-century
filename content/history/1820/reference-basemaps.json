@@ -1,0 +1,153 @@
+{
+  "asOf": "1820-01-01",
+  "references": [
+    {
+      "id": "aourednik-1815",
+      "representedDate": "1815-01-01",
+      "repository": "https://github.com/aourednik/historical-basemaps",
+      "commit": "62d8f1a03a71f2d3ff17f2d166f7553f256bce68",
+      "url": "https://raw.githubusercontent.com/aourednik/historical-basemaps/62d8f1a03a71f2d3ff17f2d166f7553f256bce68/geojson/world_1815.geojson",
+      "license": "GPL-3.0",
+      "usage": "validation-only-no-shipping-geometry",
+      "notes": "Country-scale comparison layer. It is not an exact 1820 source and must not enter the runtime map bundle."
+    }
+  ],
+  "entityTags": {
+    "Afghanistan": "AFG",
+    "Algiers": "ALG",
+    "Annam": "VIE",
+    "Asante": "ASH",
+    "Austrian Empire": ["AUS", "LVN"],
+    "Baden": "BAD",
+    "Bavaria": "BAV",
+    "Bhutan": "BHU",
+    "Burma": "BUR",
+    "Cambodia": "CAM",
+    "Canada": "ENG",
+    "Denmark": "DEN",
+    "Egypt": "EGY",
+    "Ethiopia": "ETH",
+    "Expansionist Kingdom of Merina": "MAD",
+    "France": "FRA",
+    "Fulani Empire": "SOK",
+    "Hanover": "HAN",
+    "Japan": "JPN",
+    "Korea": "KOR",
+    "Kingdom of Sardinia": "SAR",
+    "Kingdom of the Two Sicilies": "TSC",
+    "Kongldom of Hawaii": "HAW",
+    "Lombardy": "LVN",
+    "Morocco": "MOR",
+    "Nepal": "NEP",
+    "New South Wales": "ENG",
+    "Oudh": "AWA",
+    "Ottoman Empire": ["OTT", "ALG", "EGY", "HEJ", "SER", "TRI", "TUN"],
+    "Papal States": "PAP",
+    "Paraguay": "PRG",
+    "Persia": "PER",
+    "Portugal": "POR",
+    "Prussia": "PRU",
+    "Rattanakosin Kingdom": "SIA",
+    "Russian Empire": ["RUS", "FIN", "POL", "RUA"],
+    "Saxony": "SAX",
+    "Spain": "ESP",
+    "Sweden–Norway": "SWE",
+    "Switzerland": "SWI",
+    "Tunis": "TUN",
+    "Tuscany": "TUS",
+    "United Kingdom": "ENG",
+    "United Kingdom of Great Britain and Ireland": "ENG",
+    "United States": "USA",
+    "Vice-Royalty of Brazil": "BRA",
+    "Vice-Royalty of New Granada": "CLM",
+    "Vice-Royalty of New Spain": ["MEX", "UCA"],
+    "Vice-Royalty of Peru": ["BOL", "PEU"],
+    "Viceroyalty of Brazil": "BRA",
+    "Viceroyalty of New Granada": "CLM",
+    "Viceroyalty of New Spain": ["MEX", "UCA"],
+    "Viceroyalty of Peru": ["BOL", "PEU"],
+    "Württemberg": "WUR"
+  },
+  "provinceOverrides": [
+    {
+      "provinceId": 381,
+      "provinceName": "Kaliningrad",
+      "expectedOwnerTag": "PRU",
+      "confidence": "high",
+      "source": "docs/HISTORICAL-MAP-SOURCE-AUDIT.md",
+      "reason": "The province represents northern East Prussia, not Russian territory, at the opening date."
+    },
+    {
+      "provinceId": 522,
+      "provinceName": "Arizona",
+      "expectedOwnerTag": "MEX",
+      "confidence": "high",
+      "source": "docs/HISTORICAL-MAP-SOURCE-AUDIT.md",
+      "reason": "Spanish New Spain still controls the southwest before Mexican independence."
+    },
+    {
+      "provinceId": 528,
+      "provinceName": "Florida",
+      "expectedOwnerTag": "ESP",
+      "confidence": "high",
+      "source": "https://www.loc.gov/collections/east-florida-papers/about-this-collection/",
+      "reason": "Spain retains East Florida until the 1821 transfer to the United States."
+    },
+    {
+      "provinceId": 524,
+      "provinceName": "California",
+      "expectedOwnerTag": "MEX",
+      "confidence": "high",
+      "source": "docs/HISTORICAL-MAP-SOURCE-AUDIT.md",
+      "reason": "Alta California is part of Spanish New Spain on 1820-01-01."
+    },
+    {
+      "provinceId": 547,
+      "provinceName": "Nevada",
+      "expectedOwnerTag": "MEX",
+      "confidence": "high",
+      "source": "docs/HISTORICAL-MAP-SOURCE-AUDIT.md",
+      "reason": "The modern Nevada mesh lies inside Spanish Alta California at the opening date."
+    },
+    {
+      "provinceId": 550,
+      "provinceName": "New Mexico",
+      "expectedOwnerTag": "MEX",
+      "confidence": "high",
+      "source": "docs/HISTORICAL-MAP-SOURCE-AUDIT.md",
+      "reason": "Nuevo México remains part of Spanish New Spain on 1820-01-01."
+    },
+    {
+      "provinceId": 563,
+      "provinceName": "Utah",
+      "expectedOwnerTag": "MEX",
+      "confidence": "high",
+      "source": "docs/HISTORICAL-MAP-SOURCE-AUDIT.md",
+      "reason": "The modern Utah mesh lies inside Spanish Alta California at the opening date."
+    },
+    {
+      "provinceId": 133,
+      "provinceName": "Cyprus",
+      "expectedOwnerTag": "OTT",
+      "confidence": "high",
+      "source": "docs/HISTORICAL-MAP-SOURCE-AUDIT.md",
+      "reason": "Cyprus is Ottoman territory in 1820, not unassigned land."
+    },
+    {
+      "provinceId": 140,
+      "provinceName": "Santo Domingo",
+      "expectedOwnerTag": "ESP",
+      "confidence": "high",
+      "source": "docs/HISTORICAL-MAP-SOURCE-AUDIT.md",
+      "reason": "Spanish Santo Domingo remains outside independent Haiti until 1821."
+    },
+    {
+      "provinceId": 334,
+      "provinceName": "Northern Cyprus",
+      "expectedOwnerTag": "OTT",
+      "confidence": "high",
+      "source": "docs/HISTORICAL-MAP-SOURCE-AUDIT.md",
+      "reason": "The modern partition must not be projected backward into 1820."
+    }
+  ]
+}
