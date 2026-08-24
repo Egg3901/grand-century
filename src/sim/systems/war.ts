@@ -90,35 +90,45 @@ function haversineKm(lon1: number, lat1: number, lon2: number, lat2: number): nu
   return R * c;
 }
 
-/** Cached province lon/lat lookup from WORLD_SEED. */
-let _provinceCoords: Array<{ lon: number; lat: number }> | null = null;
-function provinceCoords(): Array<{ lon: number; lat: number }> {
-  if (!_provinceCoords) {
-    _provinceCoords = WORLD_SEED.provinces.map((province) => ({ lon: province.lon, lat: province.lat }));
-  }
-  return _provinceCoords;
-}
+/** Province coordinates keyed by id, independent of generated array order. */
+const PROVINCE_COORDS = new Map(
+  WORLD_SEED.provinces.map((province) => [province.id, { lon: province.lon, lat: province.lat }]),
+);
 
 /** Distance in km between two provinces, or 0 if coordinates missing. */
 export function provinceDistanceKm(provinceA: ProvinceId, provinceB: ProvinceId): number {
-  const coords = provinceCoords();
-  const a = coords[provinceA];
-  const b = coords[provinceB];
+  const a = PROVINCE_COORDS.get(provinceA);
+  const b = PROVINCE_COORDS.get(provinceB);
   if (!a || !b) return 0;
   return haversineKm(a.lon, a.lat, b.lon, b.lat);
+}
+
+export interface FleetMoveEstimateOptions {
+  navyTechCount?: number;
+  embarked?: boolean;
+  hostile?: boolean;
+}
+
+function fleetTravelDays(distanceKm: number, options: FleetMoveEstimateOptions): number {
+  if (distanceKm < 1) return BASE_FLEET_MOVE_DAYS;
+  const speedFactor = clamp(1 + Math.max(0, options.navyTechCount ?? 0) * 0.06, 1, 1.6);
+  const effectiveSpeed = 400 * speedFactor;
+  const embarkPenalty = options.embarked ? 1.15 : 1;
+  const hostilePenalty = options.hostile ? 0.5 : 0;
+  const rawDays = (distanceKm / effectiveSpeed) * embarkPenalty + hostilePenalty;
+  return clamp(Math.round(rawDays * 10) / 10, 2, 45);
 }
 
 /**
  * Estimated fleet travel days for UI display. Exported so the UI can
  * show an accurate ETA before the fleet departs.
  */
-export function estimateFleetMoveDays(_fleetOwnerId: NationId, sourceId: ProvinceId, targetId: ProvinceId): number {
-  const distKm = provinceDistanceKm(sourceId, targetId);
-  if (distKm < 1) return BASE_FLEET_MOVE_DAYS;
-  // Base speed ~400 km/day for a baseline fleet, improved by navy tech.
-  const baseSpeedKmPerDay = 400;
-  const rawDays = distKm / baseSpeedKmPerDay;
-  return clamp(Math.round(rawDays * 10) / 10, 2, 45);
+export function estimateFleetMoveDays(
+  sourceId: ProvinceId,
+  targetId: ProvinceId,
+  options: FleetMoveEstimateOptions = {},
+): number {
+  return fleetTravelDays(provinceDistanceKm(sourceId, targetId), options);
 }
 
 const REGIMENT_ROLE: Record<Army['regiments'][number]['type'], {
@@ -427,22 +437,16 @@ function movementDaysForFleet(world: World, fleet: Fleet, target: Province): num
   const source = world.provinces[fleet.location];
   if (!source) return BASE_FLEET_MOVE_DAYS;
   const distKm = provinceDistanceKm(fleet.location, target.id);
-  // Base speed ~400 km/day, improved by navy tech.
-  const baseSpeedKmPerDay = 400;
-  const nation = world.nations[fleet.owner];
-  const navyTechBonus = nation ? nationNavyTech(world, fleet.owner) * 0.06 : 0;
-  const speedFactor = clamp(1 + navyTechBonus, 1, 1.6);
-  const effectiveSpeed = baseSpeedKmPerDay * speedFactor;
-  // Embarked armies slow the fleet slightly (loaded transports).
-  const embarkPenalty = fleet.embarkedArmy >= 0 ? 1.15 : 1;
-  // Hostile destination adds a small approach caution delay.
-  const hostilePenalty = source.owner !== target.owner ? 0.5 : 0;
   if (distKm < 1) {
     // Fallback for missing coordinates: use old simple formula.
+    const hostilePenalty = source.owner !== target.owner ? 0.5 : 0;
     return clamp(BASE_FLEET_MOVE_DAYS + hostilePenalty + terrainMoveCost(target.terrain) * 0.3, 2, 10);
   }
-  const rawDays = (distKm / effectiveSpeed) * embarkPenalty + hostilePenalty;
-  return clamp(Math.round(rawDays * 10) / 10, 2, 45);
+  return fleetTravelDays(distKm, {
+    navyTechCount: nationNavyTech(world, fleet.owner),
+    embarked: fleet.embarkedArmy >= 0,
+    hostile: source.owner !== target.owner,
+  });
 }
 
 function isFriendlyControlled(world: World, nationId: NationId, provinceId: ProvinceId): boolean {

@@ -408,10 +408,19 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       if (!fleet || fleet.owner !== world.playerNation) return;
       const source = fleet ? world.provinces[fleet.location] : null;
       const target = world.provinces[cmd.target];
-      if (!fleet || !source || !target) return;
-      if (!source.coastal || !target.coastal) return;
+      if (!fleet || !source || !target) {
+        log(post, 'warn', 'Fleet move rejected: invalid fleet or destination.');
+        return;
+      }
+      if (!source.coastal || !target.coastal) {
+        log(post, 'warn', 'Fleet move rejected: both endpoints must be coastal.');
+        return;
+      }
       // Reject same-location orders.
-      if (fleet.location === cmd.target) return;
+      if (fleet.location === cmd.target) {
+        log(post, 'warn', 'Fleet is already at that destination.');
+        return;
+      }
       fleet.moveTarget = cmd.target;
       fleet.moveProgress = 0;
       return;
