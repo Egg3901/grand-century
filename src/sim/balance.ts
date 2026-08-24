@@ -41,7 +41,6 @@ export const BALANCE = {
     factoryInputIntensity: 0.15,
     factoryOutputBoost: 2.2,
     factoryRevenueMultiplier: 2.0,
-    factoryProfitFloor: 0.15,
     // National budget posture.
     armyUpkeepPerRegiment: 2.5,
     navyUpkeepPerShip: 1.7,
@@ -139,6 +138,24 @@ export const BALANCE = {
     // consciousness (0-10), up to +60% at full consciousness. Keeps late-game
     // scarcity tension alive once industry solves the 1820 basket.
     expectationPerConsciousness: 0.06,
+    // International migration. Pops consider foreign provinces reachable via
+    // province.neighbors when origin and destination both allow it. Rates are
+    // deliberately lower than domestic migration to avoid teleporting huge
+    // populations across borders.
+    /** Base monthly emigration rate as a fraction of pop size. */
+    intlMigrationBaseRate: 0.008,
+    /** Additional rate per unit of score advantage of the foreign destination. */
+    intlMigrationScoreScale: 0.015,
+    /** Hard cap on monthly emigration as a fraction of pop size. */
+    intlMigrationRateCap: 0.025,
+    /** Minimum pop size to consider emigration. */
+    intlMigrationMinPop: 300,
+    /** Score advantage a foreign province must have over the domestic best
+     * destination before emigration is considered. */
+    intlMigrationScoreThreshold: 0.12,
+    /** Per-level multiplier on emigration rate from migration_policy reform.
+     * 0=closed(0x), 1=restricted(0.4x), 2=open(0.8x), 3=free(1.0x). */
+    intlMigrationPolicyScale: [0, 0.4, 0.8, 1.0],
   },
   diplomacy: {
     // #35: monthly proportional prestige fade. See runDiplomacyMonthly.
