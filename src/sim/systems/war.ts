@@ -152,8 +152,6 @@ interface ColonialClaim {
 
 interface WarRuntime {
   generalPools: Map<NationId, Leader[]>;
-  /** Leaders currently assigned to an army, keyed by leader name. */
-  assignedLeaders: Map<NationId, Set<string>>;
   mobilizedNations: Set<NationId>;
   mobilizedArmyIds: Map<NationId, Set<ArmyId>>;
   battleScoreByWar: Map<WarId, number>;
@@ -211,21 +209,12 @@ function ensureRuntime(world: World): WarRuntime {
   if (existing) return existing;
   const created: WarRuntime = {
     generalPools: new Map<NationId, Leader[]>(),
-    assignedLeaders: new Map<NationId, Set<string>>(),
     mobilizedNations: new Set<NationId>(),
     mobilizedArmyIds: new Map<NationId, Set<ArmyId>>(),
     battleScoreByWar: new Map<WarId, number>(),
     colonialClaims: new Map<StateId, ColonialClaim>(),
     colonialPointModifiers: new Map<NationId, number>(),
   };
-  // Reconstruct assigned leaders from armies already present in the world
-  // (e.g. from createWorld bootstrap, not just imported snapshots).
-  for (const army of world.armies) {
-    if (!army.leader || army.rebel) continue;
-    const set = created.assignedLeaders.get(army.owner) ?? new Set<string>();
-    set.add(army.leader.name);
-    created.assignedLeaders.set(army.owner, set);
-  }
   RUNTIME_BY_WORLD.set(world, created);
   return created;
 }
@@ -265,7 +254,6 @@ export function importWarRuntime(world: World, snapshot: WarRuntimeSnapshot | nu
   }
   const runtime: WarRuntime = {
     generalPools: new Map(snapshot.generalPools.map((entry) => [entry.nation, entry.leaders.map((leader) => ({ ...leader }))])),
-    assignedLeaders: new Map<NationId, Set<string>>(),
     mobilizedNations: new Set(snapshot.mobilizedNations),
     mobilizedArmyIds: new Map(snapshot.mobilizedArmyIds.map((entry) => [entry.nation, new Set(entry.armyIds)])),
     battleScoreByWar: new Map(snapshot.battleScoreByWar.map((entry) => [entry.war, entry.score])),
@@ -276,13 +264,6 @@ export function importWarRuntime(world: World, snapshot: WarRuntimeSnapshot | nu
     }])),
     colonialPointModifiers: new Map((snapshot.colonialPointModifiers ?? []).map((entry) => [entry.nation, entry.amount])),
   };
-  // Reconstruct assigned leaders from current army state on load.
-  for (const army of world.armies) {
-    if (!army.leader || army.rebel) continue;
-    const set = runtime.assignedLeaders.get(army.owner) ?? new Set<string>();
-    set.add(army.leader.name);
-    runtime.assignedLeaders.set(army.owner, set);
-  }
   RUNTIME_BY_WORLD.set(world, runtime);
 }
 
@@ -393,24 +374,33 @@ function scoreLeaderForArmy(leader: Leader, army: Army): number {
   return score;
 }
 
+/** Derive the set of leader names currently held by living armies of a nation,
+ *  optionally excluding one army (e.g. the one being reassigned). */
+function deriveAssignedLeaderNames(world: World, nationId: NationId, excludeArmyId?: ArmyId): Set<string> {
+  const names = new Set<string>();
+  for (const army of world.armies) {
+    if (army.owner !== nationId || army.rebel || army.regiments.length === 0) continue;
+    if (excludeArmyId !== undefined && army.id === excludeArmyId) continue;
+    if (army.leader) names.add(army.leader.name);
+  }
+  return names;
+}
+
 export function assignGeneralToArmy(world: World, nationId: NationId, armyId: ArmyId): { ok: boolean; reason: string } {
   const army = armiesByIdMap(world).get(armyId);
   if (!army || army.owner !== nationId || army.rebel) return { ok: false, reason: 'Army unavailable for general assignment.' };
-  const runtime = ensureRuntime(world);
   const pool = getGeneralPool(world, nationId);
   if (pool.length === 0) return { ok: false, reason: 'No generals available.' };
-  const assigned = runtime.assignedLeaders.get(nationId) ?? new Set<string>();
+  // Derive assigned names from live armies, excluding this army so its old
+  // leader is freed before picking a new one.
+  const assigned = deriveAssignedLeaderNames(world, nationId, armyId);
   // Find the best unassigned leader for this army's composition.
   const available = pool.filter((leader) => !assigned.has(leader.name));
   // If all leaders are assigned, allow reuse (pick the best fit regardless).
   const candidates = available.length > 0 ? available : pool;
   const selected = candidates.slice()
     .sort((a, b) => scoreLeaderForArmy(b, army) - scoreLeaderForArmy(a, army) || a.name.localeCompare(b.name))[0];
-  // If the army already had a leader, release the old one.
-  if (army.leader) assigned.delete(army.leader.name);
   army.leader = { ...selected };
-  assigned.add(selected.name);
-  runtime.assignedLeaders.set(nationId, assigned);
   return { ok: true, reason: `${selected.name} assigned to army ${armyId}.` };
 }
 
@@ -979,15 +969,8 @@ function updateFleetMovement(world: World, armiesById: Map<ArmyId, Army>): void 
 }
 
 function cleanupDestroyedForces(world: World): void {
-  const runtime = ensureRuntime(world);
-  // Return leaders of destroyed armies to the available pool.
-  for (const army of world.armies) {
-    if (army.regiments.length > 0) continue;
-    if (army.leader && !army.rebel) {
-      const assigned = runtime.assignedLeaders.get(army.owner);
-      if (assigned) assigned.delete(army.leader.name);
-    }
-  }
+  // Leaders are derived from live armies, so simply removing empty armies
+  // implicitly frees their leaders -- no runtime tracking to maintain.
   world.armies = world.armies.filter((army) => army.regiments.length > 0);
   world.fleets = world.fleets.filter((fleet) => fleet.ships.length > 0);
 }
@@ -1519,6 +1502,61 @@ export function colonialDailyProgressRate(world: World, nationId: NationId, stat
   return rate;
 }
 
+/**
+ * Full effective daily colonization rate for a claimant, including reach,
+ * military presence, population resistance, and claimant competition.
+ * Shared between simulation progress (updateColonialClaims) and ETA display
+ * (listColonialClaimViews) so both agree on the current claim state.
+ *
+ * Pass pre-computed stateProvinceSet and statePop to avoid repeated
+ * allocations when calling inside a claimant loop.
+ */
+export function effectiveColonialDailyRate(
+  world: World,
+  nationId: NationId,
+  stateId: StateId,
+  claimantCount: number,
+  opts?: { stateProvinceSet?: Set<ProvinceId>; statePop?: number },
+): number {
+  const nation = world.nations[nationId];
+  if (!nation) return 0;
+  let rate = colonialDailyProgressRate(world, nationId, stateId);
+  if (rate <= 0) return 0;
+
+  const state = world.states[stateId];
+
+  // Military presence bonus: armies in or adjacent to state provinces.
+  const provinceSet = opts?.stateProvinceSet ?? (state ? new Set(state.provinceIds) : null);
+  if (provinceSet) {
+    const hasNearby = world.armies.some((army) => (
+      army.owner === nationId && !army.rebel && army.regiments.length > 0 &&
+      (provinceSet.has(army.location) ||
+        world.provinces[army.location]?.neighbors.some((nid) => provinceSet.has(nid)))
+    ));
+    if (hasNearby) rate *= 1.15;
+  }
+
+  // Resistance factor: higher population = slower colonization (0.5 to 1.0).
+  let statePop = opts?.statePop;
+  if (statePop === undefined && state) {
+    statePop = 0;
+    for (const provinceId of state.provinceIds) {
+      const province = world.provinces[provinceId];
+      if (province) {
+        for (const popId of province.popIds) {
+          statePop += Math.max(0, world.pops[popId]?.size ?? 0);
+        }
+      }
+    }
+  }
+  const resistanceFactor = clamp(1 - Math.min(0.5, (statePop ?? 0) / 200_000), 0.5, 1);
+
+  // Competition factor: more claimants = slower for everyone.
+  const competitionFactor = clamp(1 - (claimantCount - 1) * 0.12, 0.5, 1);
+
+  return rate * resistanceFactor * competitionFactor;
+}
+
 export function listColonialClaimViews(world: World, forNation?: NationId): Array<{
   stateId: StateId;
   tension: number;
@@ -1535,7 +1573,7 @@ export function listColonialClaimViews(world: World, forNation?: NationId): Arra
       if (forNation !== undefined && claim.claimants.has(forNation)) {
         const nation = world.nations[forNation];
         const progress = claim.claimants.get(forNation) ?? 0;
-        const rate = colonialDailyProgressRate(world, forNation, claim.stateId);
+        const rate = effectiveColonialDailyRate(world, forNation, claim.stateId, claim.claimants.size);
         if (nation && nation.colonialPoints >= COLONIAL_CLAIM_COST && rate > 0 && progress < 1) {
           etaDays = Math.ceil((1 - progress) / rate);
         }
@@ -1584,10 +1622,13 @@ function updateColonialClaims(world: World): void {
   }
   for (const claim of runtime.colonialClaims.values()) {
     const claimants = Array.from(claim.claimants.keys()).sort((a, b) => a - b);
-    // Calculate state population for resistance.
+    // Pre-compute state-level data once per claim to avoid repeated
+    // allocations inside the claimant loop.
     const state = world.states[claim.stateId];
     let statePop = 0;
+    let stateProvinceSet: Set<ProvinceId> | undefined;
     if (state) {
+      stateProvinceSet = new Set(state.provinceIds);
       for (const provinceId of state.provinceIds) {
         const province = world.provinces[provinceId];
         if (province) {
@@ -1597,27 +1638,13 @@ function updateColonialClaims(world: World): void {
         }
       }
     }
-    // Resistance factor: higher population = slower colonization (0.5 to 1.0).
-    const resistanceFactor = clamp(1 - Math.min(0.5, statePop / 200_000), 0.5, 1);
-    // Competing claim pressure: more claimants = slower for everyone.
-    const competitionFactor = clamp(1 - (claimants.length - 1) * 0.12, 0.5, 1);
     for (const claimant of claimants) {
       const nation = world.nations[claimant];
       if (!nation || nation.colonialPoints < COLONIAL_CLAIM_COST) continue;
-      // Base rate with reach modifier (shared with ETA display).
-      let rate = colonialDailyProgressRate(world, claimant, claim.stateId);
-      // Military presence bonus: armies in or adjacent to state provinces.
-      if (state) {
-        const stateProvinceSet = new Set(state.provinceIds);
-        const hasNearby = world.armies.some((army) => (
-          army.owner === claimant && !army.rebel && army.regiments.length > 0 &&
-          (stateProvinceSet.has(army.location) ||
-            world.provinces[army.location]?.neighbors.some((nid) => stateProvinceSet.has(nid)))
-        ));
-        if (hasNearby) rate *= 1.15;
-      }
-      // Apply resistance and competition factors.
-      rate *= resistanceFactor * competitionFactor;
+      const rate = effectiveColonialDailyRate(
+        world, claimant, claim.stateId, claimants.length,
+        { stateProvinceSet, statePop },
+      );
       const next = clamp((claim.claimants.get(claimant) ?? 0) + rate, 0, 1.2);
       claim.claimants.set(claimant, next);
     }

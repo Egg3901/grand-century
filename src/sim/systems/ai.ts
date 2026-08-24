@@ -327,7 +327,7 @@ function stepToward(world: World, from: ProvinceId, to: ProvinceId): ProvinceId 
  * Used for objective scoring so distance reflects actual graph reachability,
  * not arbitrary province-ID arithmetic.
  */
-export function graphHopDistance(world: World, from: ProvinceId, to: ProvinceId, maxHops = 15): number {
+export function graphHopDistance(world: World, from: ProvinceId, to: ProvinceId, maxHops = 128): number {
   if (from === to) return 0;
   const start = world.provinces[from];
   if (!start) return Infinity;
@@ -343,6 +343,8 @@ export function graphHopDistance(world: World, from: ProvinceId, to: ProvinceId,
       if (neighborId === to) return depth + 1;
       if (visited.has(neighborId)) continue;
       visited.add(neighborId);
+      // Hard budget: stop exploring if the visited set grows too large.
+      if (visited.size > 4096) return Infinity;
       queue.push({ id: neighborId, depth: depth + 1 });
     }
   }
@@ -447,29 +449,33 @@ export function scoreWarObjectives(
   enemies: Set<NationId>,
   threatened: ProvinceId[],
 ): Array<{ id: ProvinceId; score: number }> {
-  return objectives.map((obj) => {
-    let score = 0;
-    // Proximity: bounded BFS hop distance -- closer is better.
-    const hops = graphHopDistance(world, army.location, obj);
-    score += Math.max(0, 100 - hops * 8);
-    // War-goal bonus: provinces inside a war-goal state are critical.
-    for (const war of world.wars) {
-      if (!war.attackers.includes(nationId) && !war.defenders.includes(nationId)) continue;
-      for (const goal of war.goals) {
-        if (goal.holder !== nationId || goal.stateId < 0) continue;
-        const state = world.states[goal.stateId];
-        if (state && state.provinceIds.includes(obj)) score += 50;
+  return objectives
+    .map((obj) => {
+      let score = 0;
+      // Proximity: bounded BFS hop distance -- closer is better.
+      const hops = graphHopDistance(world, army.location, obj);
+      // Unreachable objectives are excluded entirely.
+      if (!Number.isFinite(hops)) return { id: obj, score: -1 };
+      score += Math.max(0, 100 - hops * 8);
+      // War-goal bonus: provinces inside a war-goal state are critical.
+      for (const war of world.wars) {
+        if (!war.attackers.includes(nationId) && !war.defenders.includes(nationId)) continue;
+        for (const goal of war.goals) {
+          if (goal.holder !== nationId || goal.stateId < 0) continue;
+          const state = world.states[goal.stateId];
+          if (state && state.provinceIds.includes(obj)) score += 50;
+        }
       }
-    }
-    // Enemy capital bonus.
-    for (const enemyId of enemies) {
-      if (world.nations[enemyId]?.capital === obj) score += 30;
-    }
-    // Threatened province bonus (defensive priority).
-    if (threatened.includes(obj)) score += 20;
-    // Tiebreaker: army.id for determinism.
-    return { id: obj, score: score * 1000 + (army.id % 100) };
-  }).sort((a, b) => b.score - a.score || a.id - b.id);
+      // Enemy capital bonus.
+      for (const enemyId of enemies) {
+        if (world.nations[enemyId]?.capital === obj) score += 30;
+      }
+      // Threatened province bonus (defensive priority).
+      if (threatened.includes(obj)) score += 20;
+      return { id: obj, score };
+    })
+    .filter((entry) => entry.score >= 0)
+    .sort((a, b) => b.score - a.score || a.id - b.id);
 }
 
 function manageWarMovement(world: World, nationId: NationId): void {
