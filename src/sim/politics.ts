@@ -313,6 +313,7 @@ export function reformDemandForPop(pop: Pop, nation: Nation, data: GameData): st
 
   if (ideology === 'liberal' && !reformAtMax(nation, maxByKey, 'economic_policy')) return 'economic_policy';
   if (ideology === 'socialist' && !reformAtMax(nation, maxByKey, 'trade_policy')) return 'trade_policy';
+  if ((ideology === 'liberal' || ideology === 'socialist') && consciousness > 3.5 && !reformAtMax(nation, maxByKey, 'migration_policy')) return 'migration_policy';
   return null;
 }
 
@@ -363,6 +364,7 @@ export function createNationParties(): Party[] {
         labor_safety: 0,
         conscription_level: 2,
         army_professionalism: 2,
+        migration_policy: 0,
       },
     },
     {
@@ -381,6 +383,7 @@ export function createNationParties(): Party[] {
         labor_safety: 1,
         conscription_level: 2,
         army_professionalism: 2,
+        migration_policy: 1,
       },
     },
     {
@@ -399,6 +402,7 @@ export function createNationParties(): Party[] {
         labor_safety: 1,
         conscription_level: 1,
         army_professionalism: 2,
+        migration_policy: 3,
       },
     },
     {
@@ -417,6 +421,7 @@ export function createNationParties(): Party[] {
         labor_safety: 3,
         conscription_level: 2,
         army_professionalism: 1,
+        migration_policy: 2,
       },
     },
   ];
@@ -704,6 +709,13 @@ export function reformMechanicalEffect(reformKey: string, level: number): string
     case 'economic_policy':
     case 'trade_policy':
       return 'Demand/party position only (no market hook yet)';
+    case 'migration_policy':
+      return [
+        'Closed borders: no international migration',
+        'Restricted: limited emigration to neighbors (0.4x rate)',
+        'Open: moderate cross-border flow (0.8x rate)',
+        'Free movement: unrestricted international migration (1.0x rate)',
+      ][lv] ?? null;
     default:
       return null;
   }

@@ -492,6 +492,17 @@ export const GAME_DATA: GameData = {
       ],
     },
     {
+      key: 'migration_policy',
+      category: 'social',
+      name: 'Migration Policy',
+      options: [
+        { key: 'closed_borders', name: 'Closed Borders', effects: ['No international migration in or out'] },
+        { key: 'restricted', name: 'Restricted Migration', effects: ['Limited emigration to neighboring nations'] },
+        { key: 'open', name: 'Open Migration', effects: ['Moderate cross-border labor flow'] },
+        { key: 'free_movement', name: 'Free Movement', effects: ['Unrestricted international migration'] },
+      ],
+    },
+    {
       key: 'voting_franchise',
       category: 'political',
       name: 'Voting Franchise',

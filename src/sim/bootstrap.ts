@@ -430,7 +430,12 @@ function religionIndex(data: GameData, key: string, fallback = 0): number {
 }
 
 function nationReforms(data: GameData): Record<string, number> {
-  return Object.fromEntries(data.reforms.map((reform) => [reform.key, 0]));
+  const reforms = Object.fromEntries(data.reforms.map((reform) => [reform.key, 0]));
+  // 19th-century default: restricted migration (level 1). Level 0 means
+  // closed borders, which would silently block all international migration
+  // for every nation unless the player/AI explicitly opens up.
+  reforms.migration_policy = 1;
+  return reforms;
 }
 
 function capitalId(worldSeed: WorldSeedData, id: number): number {
