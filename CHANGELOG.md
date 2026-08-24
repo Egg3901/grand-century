@@ -4,6 +4,16 @@ All notable changes to Grand Century are documented here.
 
 ## [Unreleased]
 
+## [1.6.1] - 2026-08-24
+
+- Added local, era-styled flags for all thirteen polities introduced by the
+  1820 reconstruction. The nation browser and HUD no longer request missing
+  flag assets.
+- Added a release gate that requires every playable polity to have a local
+  flag before the historical seed can ship.
+
+[1.6.1]: https://github.com/Egg3901/grand-century/releases/tag/v1.6.1
+
 ## [1.6.0] - 2026-08-24
 
 ### The world of 1820

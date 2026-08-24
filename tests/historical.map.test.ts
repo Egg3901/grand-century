@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { WORLD_SEED } from '../src/data/generated';
 import { compileHistoricalWorld, validateHistoricalAnchors } from '../content/history/compileHistoricalWorld.mjs';
@@ -49,6 +49,12 @@ describe('checked-in 1820 historical map', () => {
     expect(nation('RUA')).toMatchObject({ primaryCulture: 'russian', religion: 'orthodox' });
     for (const tag of ['ALG', 'HEJ', 'SEN', 'DAR', 'KZH', 'BUK', 'KHI', 'KOK']) {
       expect(nation(tag)?.religion).toBe('sunni');
+    }
+  });
+
+  it('ships a local flag for every playable polity', () => {
+    for (const nation of WORLD_SEED.nations) {
+      expect(existsSync(new URL(`../public/flags/${nation.tag}.svg`, import.meta.url)), nation.tag).toBe(true);
     }
   });
 });
