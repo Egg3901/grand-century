@@ -109,10 +109,6 @@ export function MainMenu() {
 
   const mapModeBlurb = CAMPAIGN_MAP_MODES.find((entry) => entry.id === mapMode)?.blurb ?? '';
 
-  const previewWorld = (nextMode: CampaignMapMode, nextSeed: number, playerNation = selectedNation) => {
-    sendCommand({ t: 'newGame', seed: nextSeed, playerNation, mapMode: nextMode });
-  };
-
   const startGame = () => {
     if (multiplayer) {
       // In an active MP session, Continue just closes the menu.
@@ -246,7 +242,6 @@ export function MainMenu() {
                       onChange={(event) => {
                         const next = parseCampaignMapMode(event.target.value);
                         setMapMode(next);
-                        previewWorld(next, parsedSeed());
                       }}
                     >
                       {CAMPAIGN_MAP_MODES.map((mode) => (
