@@ -1,8 +1,13 @@
 /**
- * WebSocket client for MP lobby + in-game transport (MP-M2 … MP-M5).
+ * WebSocket client for MP lobby + in-game transport (MP-M2 ... MP-M5).
  *
- * One connection covers create/join lobby → nation/team/ready → leaderStart →
+ * One connection covers create/join lobby -> nation/team/ready -> leaderStart ->
  * then acts as SimTransport for ToWorker / FromWorker (with snapshot diffs).
+ *
+ * Includes bounded exponential backoff reconnection: on unexpected close the
+ * client retains its session + player identity and reconnects using the
+ * server's `reconnect` wire message. The snapshot applier is reset so the
+ * server sends a full resync before any subsequent diffs are processed.
  */
 
 import type { FromWorker, ToWorker } from '../shared/types';
@@ -32,10 +37,17 @@ export type LobbyErrorHandler = (msg: string) => void;
 export type PresenceHandler = (players: PresencePlayer[]) => void;
 export type ChatHandler = (msg: { from: string; name: string; text: string; at: number }) => void;
 
+/** Reconnect backoff tuning. */
+const RECONNECT_BASE_MS = 1_000;
+const RECONNECT_MAX_MS = 30_000;
+const RECONNECT_MAX_ATTEMPTS = 10;
+
 export interface LobbyClientOptions {
   url?: string;
   WebSocketImpl?: typeof WebSocket;
   playerName?: string;
+  /** Disable automatic reconnect on close (default: false). */
+  disableReconnect?: boolean;
 }
 
 export class LobbyClient implements SimTransport {
@@ -50,20 +62,34 @@ export class LobbyClient implements SimTransport {
   private createdHandler: ((sessionId: string) => void) | null = null;
   private presenceHandler: PresenceHandler | null = null;
   private chatHandler: ChatHandler | null = null;
-  private readonly applier = createApplierState();
+  private applier = createApplierState();
   private clientId: string | null = null;
   private readonly url: string;
   private readonly WS: typeof WebSocket;
+  private readonly disableReconnect: boolean;
   lastLobby: LobbyStateMessage | null = null;
   sessionId: string | null = null;
   playerName: string;
+
+  // Reconnect state
+  private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  private reconnectAttempt = 0;
+  /** True while a reconnect WebSocket is open but handshake not yet confirmed. */
+  private reconnecting = false;
 
   constructor(options: LobbyClientOptions = {}) {
     this.WS = options.WebSocketImpl ?? WebSocket;
     this.url = options.url ?? resolveSocketUrl();
     this.playerName = options.playerName?.trim() || 'Player';
-    this.ws = new this.WS(this.url);
-    this.bindSocket(this.ws);
+    this.disableReconnect = options.disableReconnect ?? false;
+    this.ws = this.createSocket();
+  }
+
+  /** Create a fresh WebSocket and bind listeners. */
+  private createSocket(): WebSocket {
+    const ws = new this.WS(this.url);
+    this.bindSocket(ws);
+    return ws;
   }
 
   private bindSocket(ws: WebSocket): void {
@@ -72,6 +98,7 @@ export class LobbyClient implements SimTransport {
     ws.addEventListener('open', () => {
       if (this.disposed) return;
       this.open = true;
+      // Flush pending messages
       for (const msg of this.pending) {
         ws.send(JSON.stringify(msg));
       }
@@ -81,6 +108,20 @@ export class LobbyClient implements SimTransport {
     ws.addEventListener('message', (event: MessageEvent) => {
       if (this.disposed) return;
       this.enqueueRaw(event.data);
+    });
+
+    ws.addEventListener('close', () => {
+      if (this.disposed) return;
+      this.open = false;
+      // Only attempt reconnect if we had a session (not a pre-session close)
+      if (!this.disableReconnect && this.sessionId && this.clientId) {
+        this.scheduleReconnect();
+      }
+    });
+
+    ws.addEventListener('error', () => {
+      // Error is usually followed by close; let close handler drive reconnect.
+      // Swallow to avoid unhandled error events.
     });
   }
 
@@ -124,6 +165,11 @@ export class LobbyClient implements SimTransport {
       return;
     }
     if (isSessionJoinedMessage(raw)) {
+      // Reconnect confirmed: reset backoff
+      if (this.reconnecting) {
+        this.reconnecting = false;
+        this.reconnectAttempt = 0;
+      }
       return;
     }
     if (isPresenceMessage(raw)) {
@@ -137,6 +183,11 @@ export class LobbyClient implements SimTransport {
 
     const snap = applyServerSnapshotMessage(this.applier, raw as ServerToClient);
     if (snap) {
+      // A full snapshot after reconnect confirms the resync is complete
+      if (this.reconnecting) {
+        this.reconnecting = false;
+        this.reconnectAttempt = 0;
+      }
       this.simHandler?.(snap);
       return;
     }
@@ -157,6 +208,64 @@ export class LobbyClient implements SimTransport {
     }
     this.ws.send(JSON.stringify(msg));
   }
+
+  // --- Reconnect -----------------------------------------------------------
+
+  private scheduleReconnect(): void {
+    if (this.disposed) return;
+    if (this.reconnectAttempt >= RECONNECT_MAX_ATTEMPTS) {
+      this.errorHandler?.('reconnect: max attempts reached, giving up');
+      return;
+    }
+
+    const delay = Math.min(
+      RECONNECT_BASE_MS * Math.pow(2, this.reconnectAttempt),
+      RECONNECT_MAX_MS,
+    );
+    this.reconnectAttempt++;
+    this.reconnecting = true;
+
+    this.reconnectTimer = setTimeout(() => {
+      this.reconnectTimer = null;
+      if (this.disposed) return;
+      this.attemptReconnect();
+    }, delay);
+  }
+
+  private attemptReconnect(): void {
+    if (this.disposed) return;
+    if (!this.sessionId || !this.clientId) return;
+
+    // Close stale socket if still open
+    try {
+      if (this.ws.readyState < 2) this.ws.close();
+    } catch {
+      // ignore
+    }
+
+    // Reset applier so the server's full resync is accepted
+    this.applier = createApplierState();
+    this.pending.length = 0;
+    this.open = false;
+
+    const ws = this.createSocket();
+    this.ws = ws;
+
+    // Queue the reconnect message to be sent once the socket opens
+    this.wire({ t: 'reconnect', sessionId: this.sessionId, clientId: this.clientId });
+  }
+
+  /** Cancel any pending reconnect attempt. */
+  cancelReconnect(): void {
+    if (this.reconnectTimer !== null) {
+      clearTimeout(this.reconnectTimer);
+      this.reconnectTimer = null;
+    }
+    this.reconnecting = false;
+    this.reconnectAttempt = 0;
+  }
+
+  // --- Public API ----------------------------------------------------------
 
   onLobbyState(handler: LobbyStateHandler): void {
     this.lobbyHandler = handler;
@@ -232,6 +341,7 @@ export class LobbyClient implements SimTransport {
     this.wire({ t: 'leaveSession' } satisfies LobbyClientMessage);
     this.sessionId = null;
     this.lastLobby = null;
+    this.cancelReconnect();
   }
 
   sendChat(text: string): void {
@@ -240,6 +350,11 @@ export class LobbyClient implements SimTransport {
 
   getClientId(): string | null {
     return this.clientId;
+  }
+
+  /** True while the client is attempting to reconnect after a disconnect. */
+  get isReconnecting(): boolean {
+    return this.reconnecting;
   }
 
   // --- SimTransport -------------------------------------------------------
@@ -254,6 +369,7 @@ export class LobbyClient implements SimTransport {
 
   dispose(): void {
     this.disposed = true;
+    this.cancelReconnect();
     this.simHandler = null;
     this.lobbyHandler = null;
     this.listHandler = null;
