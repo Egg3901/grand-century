@@ -1659,6 +1659,14 @@ export function GrandMap() {
       [-30, 0],
       [26, -22],
       [-26, 22],
+      [0, -46],
+      [0, 46],
+      [52, 0],
+      [-52, 0],
+      [46, -34],
+      [-46, -34],
+      [46, 34],
+      [-46, 34],
     ];
     let refreshTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -1676,8 +1684,10 @@ export function GrandMap() {
       measureEl.textContent = text;
       // Province labels carry a settlement dot + flex gap (0.34em + 0.28em);
       // pad the measured box so the collision grid matches what renders.
-      const dotPad = province ? size * 0.62 + 2 : 0;
-      const width = Math.max(8, measureEl.offsetWidth + dotPad);
+      const decorationPad = province
+        ? size * 0.62 + 2
+        : Math.max(10, Math.round(size * 0.95)) + size * 0.3;
+      const width = Math.max(8, measureEl.offsetWidth + decorationPad);
       const height = Math.max(8, measureEl.offsetHeight);
       measureEl.textContent = '';
       return { width, height };
@@ -1782,6 +1792,9 @@ export function GrandMap() {
           .filter((label) => zoom >= label.minZoom - 0.4)
           .filter((label) => !regionFocusZoom || (!label.major && label.minZoom >= 3.0));
         countries.sort((a, b) => {
+          const aWorldEssential = MAJOR_LABEL_TAGS.has(a.tag);
+          const bWorldEssential = MAJOR_LABEL_TAGS.has(b.tag);
+          if (aWorldEssential !== bWorldEssential) return aWorldEssential ? -1 : 1;
           if (a.major !== b.major) return a.major ? -1 : 1;
           if (a.minZoom !== b.minZoom) return a.minZoom - b.minZoom;
           return b.prominence - a.prominence;

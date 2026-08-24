@@ -111,7 +111,7 @@ function leaveCurrent(state: SocketState, hard = false): void {
 function handleCreateSession(ws: WebSocket, state: SocketState, msg: CreateSessionMessage): void {
   leaveCurrent(state, true);
   const mode: SessionMode = msg.mode === 'coop' ? 'coop' : 'competitive';
-  const seed = Number.isFinite(msg.seed) ? Math.max(1, Math.floor(msg.seed)) : 1836;
+  const seed = Number.isFinite(msg.seed) ? Math.max(1, Math.floor(msg.seed)) : 1820;
   const session = manager.createLobby({
     name: msg.name,
     seed,
@@ -240,7 +240,7 @@ wss.on('connection', (ws) => {
     // --- M1 join permalink ----------------------------------------------
     if (isSessionJoinMessage(msg)) {
       leaveCurrent(state, true);
-      const seed = Number.isFinite(msg.seed) ? Math.max(1, Math.floor(msg.seed!)) : 1836;
+      const seed = Number.isFinite(msg.seed) ? Math.max(1, Math.floor(msg.seed!)) : 1820;
       const existing = manager.get(msg.sessionId);
       const session = existing ?? manager.getOrCreate(msg.sessionId, seed);
       const result = session.join(state.clientId, msg.nation, bindSend(ws, msg.sessionId));

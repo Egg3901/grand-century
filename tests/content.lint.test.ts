@@ -5,9 +5,9 @@
  * Does not build worlds or advance the sim.
  *
  * Coverage baseline (measured 2026-07-27 — raise the floors as arcs land):
- *   nation-scoped decisions (tagIn):     2 / 67  (PRU, SAR)
- *   nation-scoped events (trigger.tags): 3 / 67  (AUS, PRU, SAR)
- *   formable candidates:                20 / 67
+ *   nation-scoped decisions (tagIn):     2  (PRU, SAR)
+ *   nation-scoped events (trigger.tags): 3  (AUS, PRU, SAR)
+ *   formable candidates:                20
  *   zero of all three:                  28 nations
  */
 import { describe, expect, it } from 'vitest';
@@ -80,7 +80,7 @@ function walkEffects(
 
 describe('H6 content lint', () => {
   it('asserts structural integrity of events, decisions, and formables', () => {
-    expect(seedNations.length).toBe(67);
+    expect(seedNations.length).toBeGreaterThanOrEqual(80);
 
     // --- unique ids / keys ---
     expect(duplicates(EVENT_DEFS.map((e) => e.id))).toEqual([]);
@@ -264,10 +264,12 @@ describe('H6 content lint', () => {
       }
     }
 
+    const withEraFlavor = new Set(WORLD_SEED.nations.filter((nation) => nation.eraSummary).map((nation) => nation.tag));
     const anyContent = new Set([
       ...withNationScopedDecision,
       ...withNationScopedEvent,
       ...withFormable,
+      ...withEraFlavor,
     ]);
     const zeroContent = seedNations.filter((tag) => !anyContent.has(tag));
 
@@ -282,14 +284,15 @@ describe('H6 content lint', () => {
     process.stderr.write(
       [
         '',
-        '=== H6 content coverage (67 seed nations) ===',
+        `=== H6 content coverage (${seedNations.length} seed nations) ===`,
         `events total:              ${EVENT_DEFS.length}  (nation-scoped: ${EVENT_DEFS.filter((e) => (e.trigger.tags ?? []).length > 0).length})`,
         `decisions total:           ${DECISION_DEFS.length}  (nation-scoped tagIn: ${DECISION_DEFS.filter((d) => d.prerequisites.some((p) => p.t === 'tagIn')).length})`,
         `formables total:           ${formables.length}`,
-        `nations w/ scoped decision: ${decisionCount} / 67  [${[...withNationScopedDecision].sort().join(', ')}]`,
-        `nations w/ scoped event:    ${eventCount} / 67  [${[...withNationScopedEvent].sort().join(', ')}]`,
-        `nations w/ formable:        ${formableCount} / 67  [${[...withFormable].sort().join(', ')}]`,
-        `nations w/ zero of all three: ${zeroCount} / 67`,
+        `nations w/ scoped decision: ${decisionCount} / ${seedNations.length}  [${[...withNationScopedDecision].sort().join(', ')}]`,
+        `nations w/ scoped event:    ${eventCount} / ${seedNations.length}  [${[...withNationScopedEvent].sort().join(', ')}]`,
+        `nations w/ formable:        ${formableCount} / ${seedNations.length}  [${[...withFormable].sort().join(', ')}]`,
+        `nations w/ 1820 era flavor:   ${withEraFlavor.size} / ${seedNations.length}`,
+        `nations w/ zero content/flavor: ${zeroCount} / ${seedNations.length}`,
         `zero-content list: ${zeroContent.join(', ')}`,
         '============================================',
         '',

@@ -1,20 +1,20 @@
 # Master Document — "Grand Century" (working title)
 
-A single-player, browser-based grand strategy game in the spirit of **Victoria 2** (not Vic 3).
+A single-player, browser-based grand strategy game about the long nineteenth century.
 
 ---
 
 ## 1. Context — why this document exists
 
-The goal is a from-scratch, single-player web game that recreates the *feeling* of Victoria 2: a living 19th-century world you steer as a nation, watching population, industry, and armies evolve on a historical map. It must run entirely in the browser (client-side, no server sim), feel performant and look beautiful, and be buildable by driving **Cursor + Kimi K3 (kimi CLI)** against a well-specified spec.
+The goal is a from-scratch, single-player web game with a living 19th-century world you steer as a nation, watching population, industry, and armies evolve on a historical map. It must run entirely in the browser (client-side, no server sim), feel performant, and look beautiful.
 
 This is greenfield — there is no existing codebase. This document is the **master spec**: it defines the vision, the simulation model, the tech architecture, the data pipeline, the milestone roadmap, and the AI-assisted execution workflow. Every subsequent Cursor/Kimi session should be scoped against a section here.
 
 ### Confirmed decisions (from scoping)
 | Decision | Choice | Consequence |
 |---|---|---|
-| **Scope** | Broad-but-shallow full loop | All Vic2 pillars present (economy, pops, politics, diplomacy, war) but each simplified; the *whole* loop is playable end-to-end from an early milestone. |
-| **Setting** | Historical 1836 Earth | Vic2's actual premise. Requires a province map + historical seed data → a real content pipeline (Section 6). |
+| **Scope** | Broad-but-shallow full loop | Economy, population, politics, diplomacy, and war are all present but initially simplified; the *whole* loop is playable end-to-end from an early milestone. |
+| **Setting** | Historical 1820 Earth | Opens on the post-Napoleonic settlement and independence era. Requires a province map plus a source-backed historical content pipeline (Section 6). |
 | **Pillar** | **War & expansion** | War is the star: it gets the most mechanical depth; every other system is designed to *feed* war (economy funds it, pops man it, politics gates it, diplomacy sets it up). |
 | **Stack** | "Most performant & beautiful" → my call | TS + Vite + React UI + WebGL map + Web-Worker sim (Section 4). |
 
@@ -22,21 +22,21 @@ This is greenfield — there is no existing codebase. This document is the **mas
 
 ## 2. Design vision & pillars
 
-**One-line pitch:** *Take a nation in 1836 and carry it through a century of industry, reform, and conquest — with a world market and population that live and react on their own.*
+**One-line pitch:** *Take a nation in 1820 and reshape the long nineteenth century through industry, reform, diplomacy, and conquest, with a world market and population that live and react on their own.*
 
 **Design pillars (ranked, war-first):**
 1. **War & expansion is the payoff.** Mobilizing pops into armies, fronts that push and break, war goals, occupation, peace deals, the great-power pecking order, and the colonial land-grab. This is where the player spends the climaxes of a game.
 2. **A world that lives without you.** Pops grow/migrate/promote, factories boom and bust, prices move on a shared world market, AI nations pursue their own wars. The player nudges a system, they don't micromanage a spreadsheet.
 3. **Everything feeds the war engine.** Economy → money & goods for armies. Pops → soldiers & taxes. Politics → what reforms/mobilization you can enact. Diplomacy → alliances, casus belli, spheres. No pillar is a dead end.
-4. **Legible depth.** Vic2 is famously opaque; we keep the depth but expose *why* things happen (tooltips that trace every number to its inputs).
+4. **Legible depth.** We keep systemic depth but expose *why* things happen through tooltips that trace every number to its inputs.
 
-**Explicit non-goals (to protect scope):** multiplayer; modding tools; a scripted event tree the size of Vic2's; historically exact pop/goods numbers (we seed *plausible* history, then let the sim diverge).
+**Explicit non-goals (to protect scope):** multiplayer; modding tools; an encyclopedic scripted event tree; historically exact pop/goods numbers (we seed *plausible* history, then let the sim diverge).
 
 ---
 
 ## 3. Simulation model (broad-but-shallow, war-weighted)
 
-The sim is **real-time-with-pause** (Vic2-style): five speeds + pause. Base unit is a **day/tick**; heavier systems resolve on coarser cadences to stay cheap.
+The sim is **real-time-with-pause**: five speeds plus pause. Base unit is a **day/tick**; heavier systems resolve on coarser cadences to stay cheap.
 
 ### 3.1 Tick cadences
 | Cadence | Systems |
@@ -50,8 +50,8 @@ The sim is **real-time-with-pause** (Vic2-style): five speeds + pause. Base unit
 - **State/Region**: groups provinces; where factories live; the unit of colonial expansion.
 - **Pop**: type (aristocrat, capitalist, clerk, craftsman, clergy, **soldier**, officer, farmer, laborer, slave), size, culture, religion, ideology mix, consciousness/militancy, money, needs-satisfaction. Pops are the source of *soldiers, taxes, and unrest*.
 - **Nation**: treasury, tech, reforms, government type, ruling party, national value, prestige, infamy, sphere, great-power rank, army/navy, diplomatic relations, war goals.
-- **Good**: e.g. grain, iron, coal, machine parts, small arms, artillery, canned food, etc. — a compact goods list (~30) rather than Vic2's full set.
-- **Market**: one shared **world market** with per-good supply/demand → price, plus tariffs. (Simplification: skip Vic2's per-sphere markets initially; one global market with tariff frictions.)
+- **Good**: e.g. grain, iron, coal, machine parts, small arms, artillery, canned food, etc. — a compact goods list (~30).
+- **Market**: one shared **world market** with per-good supply/demand → price, plus tariffs. Regional and imperial market friction can deepen this later.
 
 ### 3.3 Pillar summaries (each intentionally simplified)
 
@@ -71,8 +71,8 @@ The sim is **real-time-with-pause** (Vic2-style): five speeds + pause. Base unit
 - **Great-power & colonial expansion**: top-8 GPs get sphere/colonization privileges. **Colonization**: spend colonial points (from naval bases + reforms) to plant/expand colonies in uncolonized regions; races with rival GPs can flip to crisis/war.
 - **War exhaustion / war score cap** keep wars from being infinite.
 
-### 3.4 Simplifications table (what we deliberately cut vs Vic2)
-| Vic2 feature | Our simplification |
+### 3.4 Simplifications table
+| Full-complexity feature | Our initial model |
 |---|---|
 | Per-nation/per-sphere markets | One global market + tariffs |
 | ~50+ goods, multi-input recipes | ~30 goods, ≤3-input recipes |
@@ -108,7 +108,7 @@ The sim is **real-time-with-pause** (Vic2-style): five speeds + pause. Base unit
 - **Build:** Vite (fast HMR, worker & WASM support out of the box).
 - **UI:** React 18 + TypeScript. Panels/ledgers are the bulk of the screen; React's ecosystem is the most Cursor/Kimi-friendly and the UI is *not* the perf bottleneck (the worker is).
 - **Map (the "beautiful" part):** **WebGL, GPU-accelerated.** Province fills recolor by owner/mapmode without CPU redraw. Two viable renderers — pick in M1 spike:
-  - **MapLibre GL JS** — real 1836 geography from GeoJSON/vector tiles, paper-map styling, pan/zoom for free. Best "beautiful historical map" out of the box.
+  - **MapLibre GL JS** — real 1820 geography from GeoJSON/vector tiles, paper-map styling, pan/zoom for free. Best "beautiful historical map" out of the box.
   - **deck.gl (+ optional MapLibre base)** — better for data overlays (mapmodes: political/economic/pop/military) and huge feature counts.
   - *Decision:* prototype MapLibre first; add deck.gl overlay layer for mapmodes if fills alone aren't enough.
 - **State:** Zustand (tiny, fast, no boilerplate) for UI + snapshot; the sim owns its own plain-object world model inside the worker.
@@ -149,13 +149,13 @@ The sim is **real-time-with-pause** (Vic2-style): five speeds + pause. Base unit
 
 ---
 
-## 6. Content pipeline (1836 Earth data)
+## 6. Content pipeline (1820 Earth data)
 
 Historical Earth is the biggest *content* risk. Treat data as a **build step**, not hand-typed constants.
 
 **Sources → baked artifacts:**
-1. **Province geometry:** start from an open historical/Natural-Earth-derived province GeoJSON (or a Vic2-style province map converted to polygons). Simplify to ~800–1500 provinces (Section 7). Bake to compact binary + a province-id ↔ polygon index.
-2. **Nations (1836):** a JSON table of starting countries, capitals, government type, primary/accepted cultures, starting techs/reforms, GP status.
+1. **Province geometry:** start from open historical and Natural Earth-derived geometry. Simplify to ~800–1500 provinces (Section 7). Bake to compact binary plus a province-id ↔ polygon index.
+2. **Nations (1820):** a JSON table of starting polities, capitals, constitutional relationships, government type, primary/accepted cultures, starting techs/reforms, and GP status.
 3. **Province seed:** owner, terrain, RGO good+level, starting fort/naval-base, starting pop stacks (type/size/culture/religion) — *plausible*, generated from a small ruleset + a few historical anchors, not exhaustively hand-authored.
 4. **Goods & recipes:** the ~30-good list + factory recipes + pop need baskets.
 5. **Tech/reform trees:** compact JSON.
@@ -167,8 +167,8 @@ Historical Earth is the biggest *content* risk. Treat data as a **build step**, 
 ## 7. Performance budget
 
 - **Target:** 60fps map interaction at all times; a monthly tick for the full world resolves in **< 16ms of worker time** at fastest speed (worker stutter never touches the UI thread anyway).
-- **Province count:** 800–1500. Real Vic2 (~2500) is a stretch for a JS/browser monthly pop pass; we cap and can raise later once profiled. **Log the cap** so it's never mistaken for "the whole world."
-- **Pops:** struct-of-arrays; process by type in tight loops; cap pop *count* by merging tiny same-attribute pops (Vic2 does this too).
+- **Province count:** 800–1500. Higher counts are a stretch for a JS/browser monthly pop pass; we cap and can raise later once profiled. **Log the cap** so it's never mistaken for "the whole world."
+- **Pops:** struct-of-arrays; process by type in tight loops; cap pop *count* by merging tiny same-attribute pops.
 - **Snapshots:** send diffs or a compact typed-array snapshot, not a deep clone of the whole world every frame. Map only re-uploads province colors that changed.
 - **Guardrail:** a perf test in CI that advances the world 5 sim-years headless and asserts a wall-clock ceiling.
 
@@ -180,7 +180,7 @@ This doc is the source of truth; each work session is a **scoped slice** of it.
 
 **Division of labor:**
 - **Cursor (interactive, main-model quality):** architecture, the tick loop, combat/market math, anything where a wrong abstraction is expensive. Work milestone-by-milestone (Section 9); paste the relevant section as context.
-- **Kimi K3 via kimi CLI (batch/grunt/generation):** high-volume, well-specified, verifiable work — generating the 1836 data tables, boilerplate React panels from a component spec, unit-test scaffolding, repetitive system stubs. You orchestrate and **verify** its output; keep the judgment-heavy math and abstractions in Cursor.
+- **Batch generation agents:** high-volume, well-specified, verifiable work such as generating 1820 data tables, boilerplate panels from a component spec, test scaffolding, and repetitive system stubs. Human-readable source packets and validation gates remain authoritative.
 
 **Per-session ritual:**
 1. Name the milestone + acceptance criteria from Section 9.
@@ -199,7 +199,7 @@ Each milestone is **independently playable/verifiable** — the "broad-but-shall
 | # | Milestone | Deliverable | Acceptance |
 |---|---|---|---|
 | **M0** | Scaffold | Vite + TS + React + worker + Zustand skeleton; empty MapLibre map renders; tick loop posts snapshots; save/load stub. | App boots; clock advances; map pans at 60fps. |
-| **M1** | Map & provinces | 1836 province GeoJSON baked & painted; click a province → info panel; **mapmodes** (political first). | ~1000 provinces selectable & recolor instantly. |
+| **M1** | Map & provinces | 1820 province GeoJSON baked and painted; click a province → info panel; **mapmodes** (political first). | ~1000 provinces selectable and recolor instantly. |
 | **M2** | Pops & economy | Pops, RGOs, factories, world market, weekly production/consumption, monthly budget & pop growth. | Prices move with supply/demand; a nation can go bankrupt; pops grow. |
 | **M3** | Politics | Reform tree, ruling party/upper house, taxes/tariffs sliders, militancy → unrest, elections. | Player can enact a legal reform; unmet needs raise militancy. |
 | **M4** | Diplomacy | Relations, alliances, CB/war goals, infamy, GP ranking, spheres. | Player can form an alliance and fabricate/declare a valid war. |
@@ -230,15 +230,15 @@ Each milestone is **independently playable/verifiable** — the "broad-but-shall
 | **"Broad-but-shallow" silently becomes broad-but-broken** | Each milestone has hard acceptance criteria; don't advance until green. |
 | **AI is the make-or-break for single-player fun** | M6 gives AI real weight; start with a competent economy+war heuristic AI, not a scripted one. |
 | **SharedArrayBuffer needs COOP/COEP headers** | Fall back to structured-clone snapshots if hosting can't set headers; measure before committing. |
-| **Opacity (Vic2's classic flaw)** | Tooltips that trace every displayed number to its inputs, built in as a shared component from M2. |
+| **System opacity** | Tooltips that trace every displayed number to its inputs, built in as a shared component from M2. |
 
 ---
 
 ## 12. Open questions (resolve before or during M0)
 
 1. **Map renderer:** MapLibre-only vs MapLibre+deck.gl overlay — decide via a 1-day M1 spike.
-2. **Art direction:** painterly Vic2 paper-map vs cleaner modern flat — pick a reference before M1 styling.
-3. **Time span & end date:** 1836 → 1936 like Vic2, or open-ended?
+2. **Art direction:** archival nineteenth-century atlas vs cleaner modern flat — pick a reference before M1 styling.
+3. **Time span & end date:** 1820 → 1920 as the authored century, or open-ended after 1920?
 4. **Save size / autosave cadence** acceptable to you (IndexedDB quota is generous but not infinite).
 5. **Hosting** target (static host is enough; only matters for the SharedArrayBuffer header question).
 

@@ -26,7 +26,7 @@ function jumpToYear(world: WorldT, year: number): void {
 }
 
 describe('1.0-U2 — the Risorgimento', () => {
-  it('ITALY cores include Austrian Lombardy-Venetia', () => {
+  it('ITALY cores include Austrian constituent Lombardy-Venetia', () => {
     const italy = GAME_DATA.formables?.find((entry) => entry.key === 'ITALY');
     expect(italy).toBeTruthy();
     const lombardy = WORLD_SEED.provinces.find((p) => p.name === 'Lombardy-Venetia')!.stateId;

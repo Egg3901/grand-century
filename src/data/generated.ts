@@ -3,7 +3,7 @@
 // collecting specs — which silently took the entire e2e suite to 0 tests
 // collected some time after 1.0.0. Vite/vitest/tsc all accept the attribute.
 import worldSeedRaw from './generated/worldSeed.json' with { type: 'json' };
-import type { GovernmentType, Terrain } from '../shared/types';
+import type { GovernmentType, PolityStatus, Terrain } from '../shared/types';
 
 export interface SeedNation {
   tag: string;
@@ -12,9 +12,17 @@ export interface SeedNation {
   government: GovernmentType;
   capitalProvinceId: number;
   primaryCulture: string;
+  /** Primary religion at the exact historical start date. */
+  religion?: string;
   coreStateIds?: number[];
   /** Optional 1–8 rank for procedural maps (overrides historical GP tag list). */
   greatPowerRank?: number;
+  /** Political relationship at the exact historical start date. */
+  polityStatus?: PolityStatus;
+  /** Stable tag of the polity exercising suzerainty or imperial authority. */
+  overlordTag?: string;
+  /** Short 1820-specific description for the nation browser. */
+  eraSummary?: string;
 }
 
 export interface SeedFormable {
@@ -35,6 +43,8 @@ export interface SeedProvince {
   id: number;
   name: string;
   ownerTag: string;
+  /** Optional initial military controller when sovereignty and ground control differ. */
+  controllerTag?: string;
   stateId: number;
   stateName: string;
   terrain: Terrain;

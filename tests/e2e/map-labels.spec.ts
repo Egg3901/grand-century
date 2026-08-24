@@ -42,7 +42,11 @@ async function visibleLabelTexts(page: Page, selector: string): Promise<string[]
           && rect.left < viewportWidth
           && rect.top < viewportHeight;
       })
-      .map((label) => label.textContent?.trim() ?? '')
+      .map((label) => (
+        label.querySelector<HTMLElement>(':scope > span:last-child')?.textContent?.trim()
+        ?? label.textContent?.trim()
+        ?? ''
+      ))
       .filter((label) => label.length > 0);
   }, selector);
 }
@@ -58,7 +62,9 @@ async function readLabelBoxes(page: Page): Promise<LabelSnapshot[]> {
         const opacity = Number.parseFloat(style.opacity || '1');
         const rect = label.getBoundingClientRect();
         return {
-          text: label.textContent?.trim() ?? '',
+          text: label.querySelector<HTMLElement>(':scope > span:last-child')?.textContent?.trim()
+            ?? label.textContent?.trim()
+            ?? '',
           left: rect.left,
           top: rect.top,
           right: rect.right,
@@ -131,7 +137,7 @@ test('map shows reliable labels and clear borders', async ({ page }) => {
     'France',
     'Austrian Empire',
     'Spain',
-    'Brazil',
+    'Kingdom of Brazil',
   ];
   mkdirSync('artifacts', { recursive: true });
   await jumpTo(page, [0, 22], 1.25);
@@ -140,7 +146,7 @@ test('map shows reliable labels and clear borders', async ({ page }) => {
   const worldCountrySet = new Set(worldCountries);
   for (const major of majors) {
     expect(worldCountrySet.has(major)).toBe(true);
-    await expect(page.locator('.grand-map__country-label', { hasText: new RegExp(`^${escapeRegExp(major)}$`, 'i') }).first()).toBeVisible();
+    await expect(page.locator('.grand-map__country-label > span:last-child', { hasText: new RegExp(`^${escapeRegExp(major)}$`, 'i') }).first()).toBeVisible();
   }
   const worldOverlaps = findOverlaps(await readLabelBoxes(page));
   expect(worldOverlaps).toEqual([]);

@@ -1,8 +1,9 @@
 # Grand Century
 
-A single-player, browser-based grand strategy game in the spirit of Victoria 2. Take a
-nation in 1836 and carry it through a century of industry, reform, and conquest, on a
-world whose population and markets move whether you are watching or not.
+A single-player, browser-based grand strategy game about the long nineteenth century.
+Take a nation in 1820, amid the fragile Concert of Europe and Atlantic revolutions, and
+carry it through a century of industry, reform, and conquest on a world whose population
+and markets move whether you are watching or not.
 
 Play at [lakesidegames.net/games/grand-century](https://lakesidegames.net/games/grand-century/).
 
@@ -18,8 +19,8 @@ goals, occupation, peace deals, the great-power pecking order, and the colonial 
 Every other system feeds it: the economy funds it, population mans it, politics gates what
 you can enact, diplomacy sets it up.
 
-**Legible depth.** Victoria 2 is famously opaque. This keeps the depth and exposes the
-reasoning, with tooltips that trace a number back to the inputs that produced it.
+**Legible depth.** Interlocking systems stay understandable through tooltips that trace a
+number back to the inputs that produced it.
 
 Real time with pause, five speeds, a daily tick, with the heavier systems resolving on
 coarser cadences to stay cheap in a browser tab.

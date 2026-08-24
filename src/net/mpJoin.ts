@@ -15,7 +15,7 @@ export interface LobbyInviteParams {
   sessionId: string;
 }
 
-const DEFAULT_SEED = 1836;
+const DEFAULT_SEED = 1820;
 
 function parseHashQuery(hash: string): URLSearchParams {
   const raw = hash.startsWith('#') ? hash.slice(1) : hash;
