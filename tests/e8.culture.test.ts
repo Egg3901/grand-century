@@ -145,11 +145,11 @@ describe('E8 culture — non-accepted pressure & assimilation', () => {
 
   it('assimilates isolated minorities toward the primary culture, conserving people', () => {
     const world = createWorld(GAME_DATA, 777);
-    const rus = nationByTag(world, 'RUS');
-    const germanIdx = cultureIdx('north_german');
-    // Kaliningrad Germans: a minority mostly surrounded by Russians.
-    const startMinority = nationCultureSize(world, rus.id, germanIdx);
-    const startTotal = nationPopTotal(world, rus.id);
+    const pru = nationByTag(world, 'PRU');
+    const polishIdx = cultureIdx('polish');
+    // Polish communities inside Prussia remain a non-accepted minority.
+    const startMinority = nationCultureSize(world, pru.id, polishIdx);
+    const startTotal = nationPopTotal(world, pru.id);
     expect(startMinority).toBeGreaterThan(0);
     // Keep pops calm so no movement forms and sizes only change via assimilation.
     for (const pop of world.pops) {
@@ -158,11 +158,11 @@ describe('E8 culture — non-accepted pressure & assimilation', () => {
       pop.needsMet = 0.8;
     }
     runMonths(world, 24);
-    const endMinority = nationCultureSize(world, rus.id, germanIdx);
-    const endTotal = nationPopTotal(world, rus.id);
+    const endMinority = nationCultureSize(world, pru.id, polishIdx);
+    const endTotal = nationPopTotal(world, pru.id);
     expect(endMinority).toBeLessThan(startMinority);
     expect(endTotal).toBe(startTotal); // assimilation moves people, never creates or destroys them
-    const primaryEnd = nationCultureSize(world, rus.id, rus.primaryCulture);
+    const primaryEnd = nationCultureSize(world, pru.id, pru.primaryCulture);
     expect(primaryEnd).toBeGreaterThan(0);
   });
 

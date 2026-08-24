@@ -38,6 +38,16 @@ describe('checked-in 1820 historical map', () => {
     expect(WORLD_SEED.provinces.filter((province) => province.ownerTag === 'UNC').length).toBeLessThanOrEqual(105);
   });
 
+  it('keeps the 1820 Spanish southwest, East Prussia, and Cyprus out of modern owners', () => {
+    const owner = (id: number) => WORLD_SEED.provinces.find((province) => province.id === id)?.ownerTag;
+    for (const id of [522, 524, 547, 550, 563, 655, 656]) expect(owner(id)).toBe('MEX');
+    expect(owner(528)).toBe('ESP');
+    expect(owner(140)).toBe('ESP');
+    expect(owner(381)).toBe('PRU');
+    expect(owner(133)).toBe('OTT');
+    expect(owner(334)).toBe('OTT');
+  });
+
   it('appends new polities without renumbering the original nation roster', () => {
     expect(WORLD_SEED.nations.slice(0, 67).map((nation) => nation.tag)).toEqual(ORIGINAL_TAGS);
     expect(WORLD_SEED.nations.slice(67).map((nation) => nation.tag)).toEqual(APPENDED_1820_TAGS);
