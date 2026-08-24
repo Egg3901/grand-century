@@ -939,6 +939,20 @@
   font-size: var(--gc-fs-small);
 }
 
+.save-confirm {
+  margin: var(--gc-space-2) 0;
+  padding: var(--gc-space-3);
+  border: 1px solid rgba(138, 43, 34, 0.35);
+  border-radius: var(--gc-radius);
+  background: rgba(138, 43, 34, 0.06);
+}
+
+.save-confirm p {
+  margin: 0 0 var(--gc-space-2);
+  font-size: var(--gc-fs-small);
+  color: var(--gc-ink);
+}
+
 .market-table-wrap {
   overflow-x: auto;
   margin-top: var(--gc-space-1);
@@ -1089,7 +1103,6 @@
   .panel-card p,
   .panel-subtle,
   .panel-list li,
-  .market-table,
   .ledger-grid div {
     font-size: 0.94rem;
   }
@@ -1120,9 +1133,104 @@
     gap: 0.35rem 0.65rem;
   }
 
-  .market-table th,
-  .market-table td {
-    padding: 0.4rem 0.24rem;
+  /* Market table: card layout on mobile */
+  .market-table-wrap {
+    overflow-x: visible;
+  }
+
+  .market-table,
+  .market-table thead {
+    display: none;
+  }
+
+  .market-table tbody {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .market-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.15rem 0.5rem;
+    padding: 0.55rem 0.6rem;
+    border: 1px solid var(--gc-border-soft);
+    border-radius: var(--gc-radius);
+    background: rgba(255, 248, 230, 0.22);
+    font-size: 0.94rem;
+  }
+
+  .market-table tbody td {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    padding: 0;
+    border: 0;
+    font-size: inherit;
+  }
+
+  .market-table tbody td::before {
+    content: attr(data-label);
+    font-family: var(--gc-font-display);
+    font-size: var(--gc-fs-caption);
+    letter-spacing: var(--gc-tracking-label);
+    text-transform: uppercase;
+    color: var(--gc-ink-faint);
+    min-width: 3.5rem;
+    flex-shrink: 0;
+  }
+
+  /* Good name: full-width header row of the card */
+  .market-table tbody td[data-label='Good'] {
+    grid-column: 1 / -1;
+    font-family: var(--gc-font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: var(--gc-tracking-label);
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--gc-rule);
+    margin-bottom: 0.1rem;
+  }
+
+  .market-table tbody td[data-label='Good']::before {
+    display: none;
+  }
+
+  /* Price: prominent, top-right of card header */
+  .market-table tbody td[data-label='Price'] {
+    grid-column: 2;
+    grid-row: 1;
+    justify-content: flex-end;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  /* Trend sparkline: hide label, show inline */
+  .market-table tbody td[data-label='Trend']::before {
+    display: none;
+  }
+
+  .market-table tbody td[data-label='Trend'] .sparkline {
+    width: 3rem;
+  }
+
+  /* Standing order: full-width bottom row with controls */
+  .market-table tbody td[data-label='Order'] {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    padding-top: 0.2rem;
+    border-top: 1px solid var(--gc-rule);
+    margin-top: 0.1rem;
+  }
+
+  .market-table tbody td[data-label='Order']::before {
+    display: none;
+  }
+
+  .market-table tbody td[data-label='Order'] .btn {
+    min-height: 44px;
+    min-width: 44px;
+    font-size: 0.82rem;
+    padding: 0.3rem 0.7rem;
   }
 
   .trace-tooltip {

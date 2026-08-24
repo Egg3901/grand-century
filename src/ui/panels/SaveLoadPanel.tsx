@@ -1,12 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useStore } from '../../store';
 import { useSnapshotFields } from '../useSnapshotFields';
-
-function dayToDate(day: number): string {
-  const year = 1836 + Math.floor(day / 365);
-  const dayOfYear = day % 365;
-  return `${year} (day ${dayOfYear + 1})`;
-}
+import { dayToLabel } from '../gameDate';
 
 export function SaveLoadPanel() {
   const snapshot = useSnapshotFields(['day', 'nations'] as const);
@@ -15,6 +10,7 @@ export function SaveLoadPanel() {
   const sendCommand = useStore((state) => state.sendCommand);
   const requestSaves = useStore((state) => state.requestSaves);
   const [slotName, setSlotName] = useState('slot-1');
+  const [confirmAction, setConfirmAction] = useState<{ action: 'load' | 'overwrite'; slot: string } | null>(null);
 
   useEffect(() => {
     requestSaves();
@@ -24,6 +20,12 @@ export function SaveLoadPanel() {
     new Map(snapshot?.nations.map((nation) => [nation.id, nation.name]) ?? [])
   ), [snapshot?.nations]);
 
+  const executeConfirmed = () => {
+    if (!confirmAction) return;
+    sendCommand({ t: confirmAction.action === 'overwrite' ? 'save' : 'load', slot: confirmAction.slot });
+    setConfirmAction(null);
+  };
+
   return (
     <section className="panel-card atlas-panel" data-coach-id="save-panel">
       <h2 className="atlas-heading">Save / Load</h2>
@@ -32,6 +34,24 @@ export function SaveLoadPanel() {
         <p className={`bankruptcy-pill ${saveStatus.ok ? '' : 'is-bankrupt'}`}>
           {saveStatus.action} [{saveStatus.slot}]: {saveStatus.msg}
         </p>
+      ) : null}
+
+      {confirmAction ? (
+        <div className="save-confirm" role="alertdialog" aria-label={`Confirm ${confirmAction.action}`}>
+          <p>
+            {confirmAction.action === 'overwrite'
+              ? `Overwrite slot "${confirmAction.slot}"? This cannot be undone.`
+              : `Load slot "${confirmAction.slot}"? Unsaved progress will be lost.`}
+          </p>
+          <div className="mil-actions">
+            <button type="button" className="btn btn--primary" onClick={executeConfirmed}>
+              {confirmAction.action === 'overwrite' ? 'Overwrite' : 'Load'}
+            </button>
+            <button type="button" className="btn btn--ghost" onClick={() => setConfirmAction(null)}>
+              Cancel
+            </button>
+          </div>
+        </div>
       ) : null}
 
       <h3 className="atlas-heading panel-small-heading">Named Slot</h3>
@@ -47,10 +67,28 @@ export function SaveLoadPanel() {
           />
         </label>
         <div className="mil-actions">
-          <button type="button" className="btn btn--primary" disabled={slotName.trim().length === 0} onClick={() => sendCommand({ t: 'save', slot: slotName.trim() })}>
+          <button
+            type="button"
+            className="btn btn--primary"
+            disabled={slotName.trim().length === 0}
+            onClick={() => {
+              const trimmed = slotName.trim();
+              const exists = saveSlots.some((s) => s.slot === trimmed);
+              if (exists) {
+                setConfirmAction({ action: 'overwrite', slot: trimmed });
+              } else {
+                sendCommand({ t: 'save', slot: trimmed });
+              }
+            }}
+          >
             Save
           </button>
-          <button type="button" className="btn btn--secondary" disabled={slotName.trim().length === 0} onClick={() => sendCommand({ t: 'load', slot: slotName.trim() })}>
+          <button
+            type="button"
+            className="btn btn--secondary"
+            disabled={slotName.trim().length === 0}
+            onClick={() => setConfirmAction({ action: 'load', slot: slotName.trim() })}
+          >
             Load
           </button>
           <button type="button" className="btn btn--ghost" onClick={() => requestSaves()}>
@@ -66,12 +104,12 @@ export function SaveLoadPanel() {
             <div>
               <strong>{slot.slot}</strong>
               <span>
-                {dayToDate(slot.day)} · {new Date(slot.updatedAt).toLocaleString()} · {playerNameById.get(slot.playerNation) ?? `Nation ${slot.playerNation}`}
+                {dayToLabel(slot.day)} · {new Date(slot.updatedAt).toLocaleString()} · {playerNameById.get(slot.playerNation) ?? `Nation ${slot.playerNation}`}
               </span>
             </div>
             <div className="mil-actions">
-              <button type="button" className="btn btn--primary" onClick={() => sendCommand({ t: 'load', slot: slot.slot })}>Load</button>
-              <button type="button" className="btn btn--secondary" onClick={() => sendCommand({ t: 'save', slot: slot.slot })}>Overwrite</button>
+              <button type="button" className="btn btn--primary" onClick={() => setConfirmAction({ action: 'load', slot: slot.slot })}>Load</button>
+              <button type="button" className="btn btn--secondary" onClick={() => setConfirmAction({ action: 'overwrite', slot: slot.slot })}>Overwrite</button>
             </div>
           </li>
         ))}
