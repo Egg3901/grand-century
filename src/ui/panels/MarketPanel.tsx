@@ -20,7 +20,7 @@ function Sparkline({ values }: { values: number[] }) {
   );
 }
 
-/** Default standing-order rate (units/day) when the player clicks Buy/Sell —
+/** Default standing-order rate (units/day) when the player clicks Buy/Sell --
  * matches BALANCE.economy.stockpileOrderMaxDaily's order of magnitude without
  * needing a bespoke amount-input widget per row. */
 const DEFAULT_STOCKPILE_DAILY_AMOUNT = 15;
@@ -77,11 +77,11 @@ export function MarketPanel() {
               const tight = good.demand > good.supply * 1.05 || good.unmet > good.supply * 0.05;
               return (
                 <tr key={good.good}>
-                  <td>{goodById.get(good.good) ?? `Good ${good.good}`}</td>
-                  <td className={tight ? 'status-danger' : undefined}>
-                    <TraceTooltip value={`£${good.price.toFixed(2)}`} trace={trace} />
+                  <td data-label="Good">{goodById.get(good.good) ?? `Good ${good.good}`}</td>
+                  <td data-label="Price" className={tight ? 'status-danger' : undefined}>
+                    <TraceTooltip value={`\u00a3${good.price.toFixed(2)}`} trace={trace} />
                   </td>
-                  <td>
+                  <td data-label="Supply">
                     <TraceTooltip
                       value={good.supply.toFixed(1)}
                       trace={[
@@ -90,7 +90,7 @@ export function MarketPanel() {
                       ]}
                     />
                   </td>
-                  <td>
+                  <td data-label="Demand">
                     <TraceTooltip
                       value={good.demand.toFixed(1)}
                       trace={[
@@ -99,8 +99,8 @@ export function MarketPanel() {
                       ]}
                     />
                   </td>
-                  <td>{good.sold.toFixed(1)}</td>
-                  <td>
+                  <td data-label="Sold">{good.sold.toFixed(1)}</td>
+                  <td data-label="Stockpile">
                     <TraceTooltip
                       value={good.worldStockpile.toFixed(1)}
                       trace={[
@@ -109,12 +109,12 @@ export function MarketPanel() {
                       ]}
                     />
                   </td>
-                  <td className={good.unmet > 0.5 ? 'status-danger' : undefined}>
+                  <td data-label="Unmet" className={good.unmet > 0.5 ? 'status-danger' : undefined}>
                     {good.unmet.toFixed(1)}
                   </td>
-                  <td className="market-table__trend"><Sparkline values={good.trend} /></td>
-                  <td>{reserve.toFixed(1)}</td>
-                  <td className="market-order-cell">
+                  <td data-label="Trend" className="market-table__trend"><Sparkline values={good.trend} /></td>
+                  <td data-label="Reserve">{reserve.toFixed(1)}</td>
+                  <td data-label="Order" className="market-order-cell">
                     <button
                       type="button"
                       className={`btn btn--secondary btn--xs${order?.mode === 'buy' ? ' is-active' : ''}`}
