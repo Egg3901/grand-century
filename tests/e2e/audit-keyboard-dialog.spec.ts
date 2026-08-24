@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { WORLD_SEED } from '../../src/data/generated';
 
 async function dismissTutorial(page: Page) {
   const skip = page.getByRole('button', { name: 'Skip' });
@@ -8,9 +9,10 @@ async function dismissTutorial(page: Page) {
   }
 }
 
-async function startCampaign(page: Page) {
+async function startCampaign(page: Page, nationTag?: string) {
   await page.goto('/');
   await expect(page.locator('.menu-overlay')).toBeVisible({ timeout: 30_000 });
+  if (nationTag) await page.getByTestId(`menu-nation-${nationTag}`).click();
   await page.getByTestId('menu-new-game').click();
   await expect(page.locator('.menu-overlay')).toBeHidden({ timeout: 30_000 });
   await dismissTutorial(page);
@@ -247,25 +249,42 @@ test.describe('audit: keyboard and dialog semantics', () => {
   });
 
   test('disabled Land At button has aria-describedby with visible reason', async ({ page }) => {
-    await startCampaign(page);
+    await startCampaign(page, 'ENG');
+    const coastalProvince = WORLD_SEED.provinces.find((province) => (
+      province.ownerTag === 'ENG' && province.coastal
+    ));
+    expect(coastalProvince).toBeDefined();
+
+    await page.evaluate((province) => {
+      const store = (window as {
+        __grandCenturyStore?: {
+          getState: () => { sendCommand: (command: unknown) => void };
+        };
+      }).__grandCenturyStore;
+      store?.getState().sendCommand({
+        t: 'buildFleet',
+        province,
+        shipType: 'transport',
+        count: 1,
+      });
+    }, coastalProvince!.id);
+
+    await expect.poll(async () => page.evaluate(() => {
+      const snapshot = (window as {
+        __grandCenturyStore?: {
+          getState: () => { snapshot?: { playerNation: number; fleets: Array<{ owner: number }> } };
+        };
+      }).__grandCenturyStore?.getState().snapshot;
+      return snapshot?.fleets.filter((fleet) => fleet.owner === snapshot.playerNation).length ?? 0;
+    }), { timeout: 10_000 }).toBeGreaterThan(0);
+
     await openPanel(page, 'military');
 
-    // Find the "Land At" button. It should be disabled
-    // (no fleet selected / no embarked army) and have aria-describedby.
-    const landButton = page.locator('button:has-text("Land At")');
-    // If there are no fleets the button may not exist.
-    const count = await landButton.count();
-    if (count === 0) {
-      test.skip(true, 'No fleets in this game seed; cannot test Land At button.');
-      return;
-    }
-    const first = landButton.first();
-    const isDisabled = await first.isDisabled();
-    if (!isDisabled) {
-      // Button is enabled (fleet has embarked army and province selected).
-      test.skip(true, 'Land At button is enabled in this state; reason test N/A.');
-      return;
-    }
+    // A newly built transport has no embarked army, so Land At must be
+    // disabled and expose its visible reason through aria-describedby.
+    const first = page.locator('button:has-text("Land At")').first();
+    await expect(first).toBeVisible();
+    await expect(first).toBeDisabled();
 
     // aria-describedby should reference a visible reason element.
     const describedBy = await first.getAttribute('aria-describedby');
