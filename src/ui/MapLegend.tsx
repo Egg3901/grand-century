@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { WORLD_SEED } from '../data/generated';
 import { TERRAIN_BIOME_COLORS, TERRAIN_LEGEND_ORDER } from '../map/mapDecor';
 import { useStore } from '../store';
+import { instantPressProps } from './instantPress';
 
 /** Biome swatches limited to terrains that actually exist in this world. */
 const TERRAIN_SWATCHES: Array<{ label: string; color: string }> = (() => {
@@ -58,6 +59,7 @@ function economyScaleLabel(value: number): string {
 
 export function MapLegend() {
   const mapMode = useStore((state) => state.mapMode);
+  const [mobileOpen, setMobileOpen] = useState(false);
   // Only the economy legend reads live province data. Subscribing to the 8Hz
   // snapshot solely in economy mode keeps the legend from re-rendering every
   // tick in every other mode; the min/max is memoised (and a loop, not a
@@ -142,32 +144,45 @@ export function MapLegend() {
         : [];
 
   return (
-    <aside className="map-legend atlas-panel">
-      <h3 className="atlas-heading">Legend</h3>
-      <p className="map-legend__mode">{mapModeTitle[0]?.toUpperCase()}{mapModeTitle.slice(1)}</p>
-      {scaleStops.length > 0 ? (
-        <div className="map-legend__scale">
-          <div className="map-legend__scale-bar">
-            {scaleStops.map((stop) => (
-              <span key={stop.label} style={{ backgroundColor: stop.color }} />
+    <>
+      {/* Mobile toggle button -- always visible on small screens */}
+      <button
+        type="button"
+        className="legend-mobile-toggle atlas-panel"
+        aria-label="Toggle map legend"
+        aria-expanded={mobileOpen}
+        data-testid="legend-mobile-toggle"
+        {...instantPressProps(() => setMobileOpen((open) => !open))}
+      >
+        Legend
+      </button>
+
+      <aside className={`map-legend atlas-panel${mobileOpen ? ' is-mobile-visible' : ''}`}>
+        <h3 className="atlas-heading">Legend</h3>
+        <p className="map-legend__mode">{mapModeTitle[0]?.toUpperCase()}{mapModeTitle.slice(1)}</p>
+        {scaleStops.length > 0 ? (
+          <div className="map-legend__scale">
+            <div className="map-legend__scale-bar">
+              {scaleStops.map((stop) => (
+                <span key={stop.label} style={{ backgroundColor: stop.color }} />
+              ))}
+            </div>
+            <div className="map-legend__scale-labels">
+              {scaleStops.map((stop) => <span key={stop.label}>{stop.label}</span>)}
+            </div>
+          </div>
+        ) : null}
+        {swatches.length > 0 ? (
+          <ul className="map-legend__swatches">
+            {swatches.map((swatch) => (
+              <li key={swatch.label}>
+                <span style={{ backgroundColor: swatch.color }} />
+                <span>{swatch.label}</span>
+              </li>
             ))}
-          </div>
-          <div className="map-legend__scale-labels">
-            {scaleStops.map((stop) => <span key={stop.label}>{stop.label}</span>)}
-          </div>
-        </div>
-      ) : null}
-      {swatches.length > 0 ? (
-        <ul className="map-legend__swatches">
-          {swatches.map((swatch) => (
-            <li key={swatch.label}>
-              <span style={{ backgroundColor: swatch.color }} />
-              <span>{swatch.label}</span>
-            </li>
-          ))}
-        </ul>
-      ) : null}
-    </aside>
+          </ul>
+        ) : null}
+      </aside>
+    </>
   );
 }
-
