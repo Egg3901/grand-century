@@ -122,21 +122,7 @@ describe('snapshot contract', () => {
       const shared = buildSharedSnapshot(world, GAME_DATA);
       const view = buildPlayerView(world, GAME_DATA, nationId);
 
-      // Mark heartland as buildSnapshot would
-      const heartlandStates = new Set<number>();
-      for (const movement of world.movements ?? []) {
-        if (movement.nation !== nationId) continue;
-        for (const stateId of movement.heartlandStateIds) heartlandStates.add(stateId);
-      }
-      const sharedWithHeartland = {
-        ...shared,
-        provinces: shared.provinces.map((province) => ({
-          ...province,
-          cultureHeartland: heartlandStates.has(province.stateId) ? true : false,
-        })),
-      };
-
-      const reconstructed = mergeSnapshot(sharedWithHeartland, view);
+      const reconstructed = mergeSnapshot(shared, view);
 
       // Every gameplay field must match
       expect(reconstructed.day).toBe(direct.day);
@@ -154,6 +140,8 @@ describe('snapshot contract', () => {
       expect(reconstructed.playerCulturePolicy).toBe(direct.playerCulturePolicy);
       expect(reconstructed.playerCultures).toEqual(direct.playerCultures);
       expect(reconstructed.playerMovements).toEqual(direct.playerMovements);
+      expect(reconstructed.provinces.map((province) => province.cultureHeartland))
+        .toEqual(direct.provinces.map((province) => province.cultureHeartland));
       expect(reconstructed.colonialClaims).toEqual(direct.colonialClaims);
       expect(reconstructed.playerClaimableColonialStates).toEqual(direct.playerClaimableColonialStates);
       expect(reconstructed.playerBudget).toEqual(direct.playerBudget);

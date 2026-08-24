@@ -146,7 +146,9 @@ export class LobbyClient implements SimTransport {
       && typeof (raw as { msg?: string }).msg === 'string'
     ) {
       const m = /clientId:(\S+)/.exec((raw as { msg: string }).msg);
-      if (m) this.clientId = m[1]!;
+      // Every fresh socket receives a temporary id before the reconnect
+      // envelope is processed. Retain the held seat id while reconnecting.
+      if (m && (!this.reconnecting || !this.clientId)) this.clientId = m[1]!;
     }
 
     if (isLobbyStateMessage(raw)) {
@@ -194,6 +196,9 @@ export class LobbyClient implements SimTransport {
 
     if (isFromWorkerMessage(raw)) {
       if (raw.t === 'log' && (raw.level === 'error' || raw.level === 'warn')) {
+        if (this.reconnecting && raw.level === 'error') {
+          this.reconnecting = false;
+        }
         this.errorHandler?.(raw.msg);
       }
       this.simHandler?.(raw);

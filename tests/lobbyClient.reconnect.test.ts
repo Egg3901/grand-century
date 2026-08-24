@@ -161,6 +161,32 @@ describe('LobbyClient reconnect', () => {
     client.dispose();
   });
 
+  it('retains the held seat id when a reconnect socket receives a temporary id', async () => {
+    const { LobbyClient } = await importClient();
+    const client = new LobbyClient({ WebSocketImpl: MockWS, url: 'ws://test' });
+    const first = latestSocket();
+    first.simulateOpen();
+    client.sessionId = 'sess1';
+    first.simulateMessage(JSON.stringify({ t: 'log', level: 'info', msg: 'clientId:held-seat' }));
+    await flush();
+
+    first.simulateClose();
+    await vi.advanceTimersByTimeAsync(1_100);
+    const second = latestSocket();
+    second.simulateOpen();
+    second.simulateMessage(JSON.stringify({ t: 'log', level: 'info', msg: 'clientId:temporary-socket' }));
+    await flush();
+
+    expect(client.getClientId()).toBe('held-seat');
+    expect(second.sent).toContainEqual({
+      t: 'reconnect',
+      sessionId: 'sess1',
+      clientId: 'held-seat',
+    });
+
+    client.dispose();
+  });
+
   it('resets applier state on reconnect so full resync is required', async () => {
     const { LobbyClient } = await importClient();
     const client = new LobbyClient({ WebSocketImpl: MockWS, url: 'ws://test' });
