@@ -335,6 +335,37 @@ export function buildSharedSnapshot(world: World, data: GameData): SharedSnapsho
         stateIds: rebellion.demand.stateIds?.slice(),
       },
     })),
+    // 0.7.0 Concert of Europe (world-global)
+    worldTension: getWorldTension(world),
+    tensionTrace: (() => {
+      const pressure = computeTensionContributions(world);
+      const decay = computeTensionDecay(world.tension ?? 15);
+      return [
+        ...pressure,
+        { label: 'Natural decay', value: Number((-decay).toFixed(2)) },
+      ];
+    })(),
+    tensionDecay: computeTensionDecay(world.tension ?? 15),
+    tensionNetDelta: (() => {
+      const pressure = computeTensionContributions(world).reduce((sum, entry) => sum + entry.value, 0);
+      const decay = computeTensionDecay(world.tension ?? 15);
+      return Number((pressure - decay).toFixed(2));
+    })(),
+    crisisCooldownUntil: world.crisisCooldownUntil ?? 0,
+    activeCrisis: world.crisis
+      ? {
+        ...world.crisis,
+        attackerBackers: world.crisis.attackerBackers.slice(),
+        defenderBackers: world.crisis.defenderBackers.slice(),
+        pressedBy: world.crisis.pressedBy.slice(),
+      }
+      : null,
+    crisisShowdown: world.crisis ? buildCrisisShowdownView(world, world.crisis) : null,
+    crisisCandidates: world.crisis ? [] : listCrisisCandidates(world, 5),
+    congressHistory: (world.congresses ?? []).map((record) => ({ ...record })),
+    // 1.0-U5 chronicle (world-global)
+    chronicle: world.chronicle ?? [],
+    chronicleWarsFought: (world.chronicleWarIds ?? []).length,
   };
 }
 
@@ -586,76 +617,19 @@ export function buildPlayerView(world: World, data: GameData, nationId: NationId
     playerBudget: zeroBudget(),
     playerStockpile: { ...(world.nations[nationId]?.stockpile ?? {}) },
     playerStockpileOrders: { ...(world.nations[nationId]?.stockpileOrders ?? {}) },
-  };
-}
-
-/**
- * Full WorldSnapshot for single-player / tests.
- * Composes shared + player view, then attaches fields that exist on
- * WorldSnapshot but are outside the MP wire SharedSnapshot/PlayerView split
- * (mapMode, crisis, culture ledgers, colonial claims, chronicle, …).
- */
-export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
-  const shared = buildSharedSnapshot(world, data);
-  const view = buildPlayerView(world, data, world.playerNation);
-  // Former single-pass marked heartland from world.playerNation onto provinces.
-  markCultureHeartland(shared.provinces, world, world.playerNation);
-
-  const playerNation = world.nations[world.playerNation];
-  const colonialClaims = listColonialClaimViews(world, world.playerNation);
-  const playerClaimableColonialStates = world.states
-    .map((state) => {
-      const reach = colonialReachKind(world, world.playerNation, state.id);
-      return reach ? { stateId: state.id, reach } : null;
-    })
-    .filter((entry): entry is { stateId: number; reach: 'adjacent' | 'overseas' } => entry !== null)
-    .sort((a, b) => a.stateId - b.stateId);
-
-  return {
-    ...shared,
-    ...view,
-    mapMode: world.mapMode,
-    playerBalanceOfPower: getPlayerBalanceOfPowerView(world, data, world.playerNation),
-    chronicle: world.chronicle ?? [],
-    chronicleWarsFought: (world.chronicleWarIds ?? []).length,
+    // Balance-of-power (player-specific)
+    playerBalanceOfPower: getPlayerBalanceOfPowerView(world, data, nationId),
+    // Battles involving this nation (player-specific filter)
+    recentBattles: (world.recentBattles ?? [])
+      .filter((battle) => battle.attackerNation === nationId || battle.defenderNation === nationId)
+      .slice(-8),
+    // Campaign end state (player-specific)
     campaignOver: (() => {
       if (world.day >= 100 * 365) return 'century' as const;
-      // numProvinces already bucketed in the shared province pass — no extra scan.
-      const alive = (shared.nations[world.playerNation]?.numProvinces ?? 0) > 0;
-      return alive ? null : ('eliminated' as const);
+      const hasProvinces = world.provinces.some((p) => p.owner === nationId);
+      return hasProvinces ? null : ('eliminated' as const);
     })(),
-    recentBattles: (world.recentBattles ?? [])
-      .filter((battle) => battle.attackerNation === world.playerNation || battle.defenderNation === world.playerNation)
-      .slice(-8),
-    // 0.7.0 Concert of Europe
-    worldTension: getWorldTension(world),
-    tensionTrace: (() => {
-      const pressure = computeTensionContributions(world);
-      const decay = computeTensionDecay(world.tension ?? 15);
-      return [
-        ...pressure,
-        { label: 'Natural decay', value: Number((-decay).toFixed(2)) },
-      ];
-    })(),
-    tensionDecay: computeTensionDecay(world.tension ?? 15),
-    tensionNetDelta: (() => {
-      const pressure = computeTensionContributions(world).reduce((sum, entry) => sum + entry.value, 0);
-      const decay = computeTensionDecay(world.tension ?? 15);
-      return Number((pressure - decay).toFixed(2));
-    })(),
-    crisisCooldownUntil: world.crisisCooldownUntil ?? 0,
-    activeCrisis: world.crisis
-      ? {
-        ...world.crisis,
-        attackerBackers: world.crisis.attackerBackers.slice(),
-        defenderBackers: world.crisis.defenderBackers.slice(),
-        pressedBy: world.crisis.pressedBy.slice(),
-      }
-      : null,
-    crisisShowdown: world.crisis ? buildCrisisShowdownView(world, world.crisis) : null,
-    crisisCandidates: world.crisis ? [] : listCrisisCandidates(world, 5),
-    congressHistory: (world.congresses ?? []).map((record) => ({ ...record })),
-    // 0.8.0 Age of Nationalism
+    // 0.8.0 Age of Nationalism (player-specific)
     playerCulturePolicy: playerNation ? culturePolicyOf(playerNation) : 'assimilationist',
     playerCulturePolicyCooldownDays: (() => {
       if (!playerNation) return 0;
@@ -664,9 +638,35 @@ export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
       return Math.max(0, CULTURE_TUNING.policyCooldownDays - (world.day - last));
     })(),
     playerCulturePolicyCost: CULTURE_TUNING.policyPrestigeCost,
-    playerCultures: getCultureLedger(world, data, world.playerNation),
-    playerMovements: buildMovementViews(world, data, world.playerNation),
-    colonialClaims,
-    playerClaimableColonialStates,
+    playerCultures: getCultureLedger(world, data, nationId),
+    playerMovements: buildMovementViews(world, data, nationId),
+    // Colonial (player-specific)
+    colonialClaims: listColonialClaimViews(world, nationId),
+    playerClaimableColonialStates: world.states
+      .map((state) => {
+        const reach = colonialReachKind(world, nationId, state.id);
+        return reach ? { stateId: state.id, reach } : null;
+      })
+      .filter((entry): entry is { stateId: number; reach: 'adjacent' | 'overseas' } => entry !== null)
+      .sort((a, b) => a.stateId - b.stateId),
+  };
+}
+
+/**
+ * Full WorldSnapshot for single-player / tests.
+ * Composes shared + player view, then attaches local-only UI state (mapMode).
+ * All gameplay fields now live in SharedSnapshot (world-global) or
+ * PlayerView (nation-private) so MP clients get full parity via the wire split.
+ */
+export function buildSnapshot(world: World, data: GameData): WorldSnapshot {
+  const shared = buildSharedSnapshot(world, data);
+  const view = buildPlayerView(world, data, world.playerNation);
+  // Former single-pass marked heartland from world.playerNation onto provinces.
+  markCultureHeartland(shared.provinces, world, world.playerNation);
+
+  return {
+    ...shared,
+    ...view,
+    mapMode: world.mapMode,
   };
 }

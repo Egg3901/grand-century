@@ -7,8 +7,19 @@
 import { gzipSync, gunzipSync, strFromU8, strToU8 } from 'fflate';
 import type {
   Army,
+  BalanceOfPowerView,
+  BattleReport,
   BudgetLine,
   CasusBelli,
+  ChronicleEntry,
+  ColonialClaimSummary,
+  ColonialClaimableState,
+  CongressRecord,
+  Crisis,
+  CrisisCandidateView,
+  CrisisShowdownView,
+  CultureLedgerEntry,
+  CulturePolicy,
   DecisionStatus,
   DiploRelation,
   Fleet,
@@ -19,6 +30,7 @@ import type {
   InfluenceTarget,
   AllianceAcceptancePreview,
   MarketGood,
+  MovementView,
   NationId,
   NationSummary,
   PendingEvent,
@@ -30,6 +42,7 @@ import type {
   Rebellion,
   StateId,
   StockpileOrder,
+  TensionContribution,
   War,
   WarGoalType,
   WorldSnapshot,
@@ -52,6 +65,19 @@ export interface SharedSnapshot {
   armies: Army[];
   fleets: Fleet[];
   rebellions: Rebellion[];
+  // 0.7.0 Concert of Europe (world-global)
+  worldTension?: number;
+  tensionTrace?: TensionContribution[];
+  tensionDecay?: number;
+  tensionNetDelta?: number;
+  crisisCooldownUntil?: number;
+  activeCrisis?: Crisis | null;
+  crisisShowdown?: CrisisShowdownView | null;
+  crisisCandidates?: CrisisCandidateView[];
+  congressHistory?: CongressRecord[];
+  // 1.0-U5 chronicle (world-global)
+  chronicle?: ChronicleEntry[];
+  chronicleWarsFought?: number;
 }
 
 /** Per-client private HUD/panel fields. */
@@ -84,6 +110,19 @@ export interface PlayerView {
   playerBudget: BudgetLine;
   playerStockpile: Record<GoodId, number>;
   playerStockpileOrders: Record<GoodId, StockpileOrder>;
+  // Fields previously only in single-player WorldSnapshot
+  playerBalanceOfPower?: BalanceOfPowerView | null;
+  recentBattles?: BattleReport[];
+  campaignOver?: 'century' | 'eliminated' | null;
+  // 0.8.0 Age of Nationalism (player-specific)
+  playerCulturePolicy?: CulturePolicy;
+  playerCulturePolicyCooldownDays?: number;
+  playerCulturePolicyCost?: number;
+  playerCultures?: CultureLedgerEntry[];
+  playerMovements?: MovementView[];
+  // Colonial (player-specific)
+  colonialClaims?: ColonialClaimSummary[];
+  playerClaimableColonialStates?: ColonialClaimableState[];
 }
 
 /** Sparse diff vs a previously sent SharedSnapshot. */
@@ -106,6 +145,19 @@ export interface SharedSnapshotDiff {
   armies?: Army[];
   fleets?: Fleet[];
   rebellions?: Rebellion[];
+  // 0.7.0 Concert of Europe
+  worldTension?: number;
+  tensionTrace?: TensionContribution[];
+  tensionDecay?: number;
+  tensionNetDelta?: number;
+  crisisCooldownUntil?: number;
+  activeCrisis?: Crisis | null;
+  crisisShowdown?: CrisisShowdownView | null;
+  crisisCandidates?: CrisisCandidateView[];
+  congressHistory?: CongressRecord[];
+  // 1.0-U5 chronicle
+  chronicle?: ChronicleEntry[];
+  chronicleWarsFought?: number;
 }
 
 export function extractShared(snap: WorldSnapshot): SharedSnapshot {
@@ -125,6 +177,17 @@ export function extractShared(snap: WorldSnapshot): SharedSnapshot {
     armies: snap.armies,
     fleets: snap.fleets,
     rebellions: snap.rebellions,
+    worldTension: snap.worldTension,
+    tensionTrace: snap.tensionTrace,
+    tensionDecay: snap.tensionDecay,
+    tensionNetDelta: snap.tensionNetDelta,
+    crisisCooldownUntil: snap.crisisCooldownUntil,
+    activeCrisis: snap.activeCrisis,
+    crisisShowdown: snap.crisisShowdown,
+    crisisCandidates: snap.crisisCandidates,
+    congressHistory: snap.congressHistory,
+    chronicle: snap.chronicle,
+    chronicleWarsFought: snap.chronicleWarsFought,
   };
 }
 
@@ -157,6 +220,16 @@ export function extractPlayerView(snap: WorldSnapshot): PlayerView {
     playerBudget: snap.playerBudget,
     playerStockpile: snap.playerStockpile,
     playerStockpileOrders: snap.playerStockpileOrders,
+    playerBalanceOfPower: snap.playerBalanceOfPower,
+    recentBattles: snap.recentBattles,
+    campaignOver: snap.campaignOver,
+    playerCulturePolicy: snap.playerCulturePolicy,
+    playerCulturePolicyCooldownDays: snap.playerCulturePolicyCooldownDays,
+    playerCulturePolicyCost: snap.playerCulturePolicyCost,
+    playerCultures: snap.playerCultures,
+    playerMovements: snap.playerMovements,
+    colonialClaims: snap.colonialClaims,
+    playerClaimableColonialStates: snap.playerClaimableColonialStates,
   };
 }
 
@@ -270,11 +343,29 @@ export function diffShared(
     if (!stableEqual(prev.armies, next.armies)) diff.armies = next.armies;
     if (!stableEqual(prev.fleets, next.fleets)) diff.fleets = next.fleets;
     if (!stableEqual(prev.rebellions, next.rebellions)) diff.rebellions = next.rebellions;
-  } else if (!stableEqual(prev.wars, next.wars)) {
+    // 0.7.0 Concert of Europe
+    if (prev.worldTension !== next.worldTension) diff.worldTension = next.worldTension;
+    if (!stableEqual(prev.tensionTrace, next.tensionTrace)) diff.tensionTrace = next.tensionTrace;
+    if (prev.tensionDecay !== next.tensionDecay) diff.tensionDecay = next.tensionDecay;
+    if (prev.tensionNetDelta !== next.tensionNetDelta) diff.tensionNetDelta = next.tensionNetDelta;
+    if (prev.crisisCooldownUntil !== next.crisisCooldownUntil) diff.crisisCooldownUntil = next.crisisCooldownUntil;
+    if (!stableEqual(prev.activeCrisis, next.activeCrisis)) diff.activeCrisis = next.activeCrisis;
+    if (!stableEqual(prev.crisisShowdown, next.crisisShowdown)) diff.crisisShowdown = next.crisisShowdown;
+    if (!stableEqual(prev.crisisCandidates, next.crisisCandidates)) diff.crisisCandidates = next.crisisCandidates;
+    if (!stableEqual(prev.congressHistory, next.congressHistory)) diff.congressHistory = next.congressHistory;
+    // 1.0-U5 chronicle
+    if (!stableEqual(prev.chronicle, next.chronicle)) diff.chronicle = next.chronicle;
+    if (prev.chronicleWarsFought !== next.chronicleWarsFought) diff.chronicleWarsFought = next.chronicleWarsFought;
+  } else {
     // Combat-critical: push wars + units even between soft refreshes.
-    diff.wars = next.wars;
-    if (!stableEqual(prev.armies, next.armies)) diff.armies = next.armies;
-    if (!stableEqual(prev.fleets, next.fleets)) diff.fleets = next.fleets;
+    if (!stableEqual(prev.wars, next.wars)) {
+      diff.wars = next.wars;
+      if (!stableEqual(prev.armies, next.armies)) diff.armies = next.armies;
+      if (!stableEqual(prev.fleets, next.fleets)) diff.fleets = next.fleets;
+    }
+    // Crisis state changes are gameplay-critical; always push.
+    if (!stableEqual(prev.activeCrisis, next.activeCrisis)) diff.activeCrisis = next.activeCrisis;
+    if (!stableEqual(prev.crisisShowdown, next.crisisShowdown)) diff.crisisShowdown = next.crisisShowdown;
   }
 
   return diff;
@@ -297,6 +388,19 @@ export function applySharedDiff(base: SharedSnapshot, diff: SharedSnapshotDiff):
     armies: diff.armies ?? base.armies,
     fleets: diff.fleets ?? base.fleets,
     rebellions: diff.rebellions ?? base.rebellions,
+    // 0.7.0 Concert of Europe
+    worldTension: diff.worldTension ?? base.worldTension,
+    tensionTrace: diff.tensionTrace ?? base.tensionTrace,
+    tensionDecay: diff.tensionDecay ?? base.tensionDecay,
+    tensionNetDelta: diff.tensionNetDelta ?? base.tensionNetDelta,
+    crisisCooldownUntil: diff.crisisCooldownUntil ?? base.crisisCooldownUntil,
+    activeCrisis: diff.activeCrisis !== undefined ? diff.activeCrisis : base.activeCrisis,
+    crisisShowdown: diff.crisisShowdown !== undefined ? diff.crisisShowdown : base.crisisShowdown,
+    crisisCandidates: diff.crisisCandidates ?? base.crisisCandidates,
+    congressHistory: diff.congressHistory ?? base.congressHistory,
+    // 1.0-U5 chronicle
+    chronicle: diff.chronicle ?? base.chronicle,
+    chronicleWarsFought: diff.chronicleWarsFought ?? base.chronicleWarsFought,
   };
 
   if (diff.nations) {
