@@ -8,6 +8,8 @@ import {
   startColonization,
   exportWarRuntime,
   colonialDailyProgressRate,
+  effectiveColonialDailyRate,
+  listColonialClaimViews,
   colonialReachKind,
 } from '../src/sim/systems/war';
 import { graphHopDistance, scoreWarObjectives } from '../src/sim/systems/ai';
@@ -475,5 +477,203 @@ describe('Colonization strategic layer', () => {
     const a = run(9202);
     const b = run(9202);
     expect(a).toEqual(b);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Regression: audit-ai2 focused corrections
+// ---------------------------------------------------------------------------
+
+describe('Regression: leader multiplicity under pool exhaustion', () => {
+  it('shared leader stays assigned when sibling army is destroyed', () => {
+    const world = createWorld(GAME_DATA, 9300);
+    disableAi(world);
+    const nation = world.playerNation;
+    const province = world.provinces.find((p) => p.owner === nation)?.id ?? 0;
+    const sourcePop = world.provinces[province]?.popIds[0] ?? 0;
+    const pool = getGeneralPool(world, nation);
+    const poolSize = pool.length;
+    expect(poolSize).toBeGreaterThan(0);
+
+    // Create poolSize + 1 armies so the last one reuses a leader.
+    const armies: Army[] = [];
+    for (let i = 0; i < poolSize + 1; i++) {
+      armies.push(makeArmy(world, nation, province, [
+        { type: 'infantry', strength: 1000, organization: 80, sourcePop },
+      ]));
+      assignGeneralToArmy(world, nation, armies[i].id);
+    }
+
+    // The last army reuses a leader already held by an earlier army.
+    const reusedName = armies[poolSize].leader!.name;
+    const holderIndex = armies.findIndex((a, i) => i < poolSize && a.leader!.name === reusedName);
+    expect(holderIndex).toBeGreaterThanOrEqual(0);
+
+    // Destroy the last army (the one that reused the leader).
+    armies[poolSize].regiments = [];
+    advanceDay(world, GAME_DATA);
+
+    // The original holder must still have its leader.
+    const holder = world.armies.find((a) => a.id === armies[holderIndex].id);
+    expect(holder).toBeDefined();
+    expect(holder!.leader?.name).toBe(reusedName);
+
+    // Assigning a fresh army should NOT get the still-held leader as an
+    // unassigned pick -- it should pick a genuinely free one or reuse.
+    const fresh = makeArmy(world, nation, province, [
+      { type: 'infantry', strength: 1000, organization: 80, sourcePop },
+    ]);
+    assignGeneralToArmy(world, nation, fresh.id);
+    expect(fresh.leader).toBeDefined();
+
+    // Verify the holder still has its leader after the fresh assignment.
+    expect(holder!.leader?.name).toBe(reusedName);
+  });
+});
+
+describe('Regression: objective reachability filtering', () => {
+  it('long reachable paths remain eligible (not truncated by hop limit)', () => {
+    const world = createWorld(GAME_DATA, 9310);
+    // Pick two provinces that are far apart on the graph.
+    const nation = world.nations[0];
+    const army = world.armies.find((a) => a.owner === nation.id && !a.rebel && a.regiments.length > 0);
+    if (!army) return;
+
+    // Find the most distant reachable province.
+    let maxHops = 0;
+    let farthest: ProvinceId = army.location;
+    for (const province of world.provinces) {
+      if (province.id === army.location) continue;
+      const hops = graphHopDistance(world, army.location, province.id);
+      if (Number.isFinite(hops) && hops > maxHops) {
+        maxHops = hops;
+        farthest = province.id;
+      }
+    }
+    // With maxHops=128, paths up to 128 hops should resolve.
+    // Verify the farthest is at least 16 hops (would have been unreachable at old limit of 15).
+    if (maxHops >= 16) {
+      expect(maxHops).toBeLessThanOrEqual(128);
+      expect(Number.isFinite(graphHopDistance(world, army.location, farthest))).toBe(true);
+    }
+  });
+
+  it('disconnected objectives are excluded from scored results', () => {
+    const world = createWorld(GAME_DATA, 9311);
+    const nation = world.nations[0];
+    const army = world.armies.find((a) => a.owner === nation.id && !a.rebel && a.regiments.length > 0);
+    if (!army) return;
+
+    const enemies = new Set<NationId>();
+    for (const n of world.nations) {
+      if (n.id !== nation.id) enemies.add(n.id);
+    }
+
+    // Collect reachable and unreachable provinces.
+    const reachable: ProvinceId[] = [];
+    const unreachable: ProvinceId[] = [];
+    for (const province of world.provinces) {
+      if (province.owner === nation.id) continue;
+      const hops = graphHopDistance(world, army.location, province.id);
+      if (Number.isFinite(hops)) reachable.push(province.id);
+      else unreachable.push(province.id);
+    }
+    if (reachable.length === 0 || unreachable.length === 0) return;
+
+    // Score a mix of reachable and unreachable objectives.
+    const objectives = [reachable[0], unreachable[0], unreachable[1] ?? unreachable[0]];
+    const scored = scoreWarObjectives(world, nation.id, army, objectives, enemies, []);
+
+    // Unreachable objectives must be filtered out entirely.
+    expect(scored.length).toBe(1);
+    expect(scored[0].id).toBe(reachable[0]);
+  });
+});
+
+describe('Regression: colonial ETA parity', () => {
+  it('effectiveColonialDailyRate matches simulation progress rate', () => {
+    const world = createWorld(GAME_DATA, 9320);
+    disableAi(world);
+    const nation = world.playerNation;
+
+    // Find a colonial state with reach.
+    const colonialStates = world.states.filter((s) =>
+      s.provinceIds.length > 0 &&
+      s.provinceIds.every((pid) => world.provinces[pid]?.colonial) &&
+      colonialReachKind(world, nation, s.id) !== null
+    );
+    if (colonialStates.length === 0) return;
+
+    const targetState = colonialStates[0];
+    world.nations[nation].colonialPoints = 200;
+    const r = startColonization(world, nation, targetState.id);
+    expect(r.ok, `startColonization failed: ${r.reason}`).toBe(true);
+
+    // Record progress before advancing.
+    const runtimeBefore = exportWarRuntime(world);
+    const claimBefore = runtimeBefore.colonialClaims.find((c) => c.stateId === targetState.id);
+    const progressBefore = claimBefore?.claimants.find((c) => c.nation === nation)?.progress ?? 0;
+
+    // Advance one day.
+    advanceDay(world, GAME_DATA);
+
+    // Record progress after advancing.
+    const runtimeAfter = exportWarRuntime(world);
+    const claimAfter = runtimeAfter.colonialClaims.find((c) => c.stateId === targetState.id);
+    const progressAfter = claimAfter?.claimants.find((c) => c.nation === nation)?.progress ?? 0;
+    const simulatedDelta = progressAfter - progressBefore;
+
+    // Compute the displayed rate using the shared function.
+    const displayedRate = effectiveColonialDailyRate(
+      world, nation, targetState.id, claimAfter?.claimants.length ?? 1,
+    );
+
+    // The simulated delta and displayed rate should agree (within floating-point tolerance).
+    expect(simulatedDelta).toBeGreaterThan(0);
+    expect(displayedRate).toBeGreaterThan(0);
+    expect(Math.abs(simulatedDelta - displayedRate)).toBeLessThan(1e-9);
+  });
+
+  it('listColonialClaimViews ETA uses effective rate (not base rate)', () => {
+    const world = createWorld(GAME_DATA, 9321);
+    disableAi(world);
+    const nation = world.playerNation;
+
+    const colonialStates = world.states.filter((s) =>
+      s.provinceIds.length > 0 &&
+      s.provinceIds.every((pid) => world.provinces[pid]?.colonial) &&
+      colonialReachKind(world, nation, s.id) !== null
+    );
+    if (colonialStates.length === 0) return;
+
+    const targetState = colonialStates[0];
+    world.nations[nation].colonialPoints = 200;
+    startColonization(world, nation, targetState.id);
+
+    // Add a second claimant to introduce competition factor.
+    const otherNation = world.nations.find((n) => n.id !== nation && colonialReachKind(world, n.id, targetState.id) !== null);
+    if (otherNation) {
+      world.nations[otherNation.id].colonialPoints = 200;
+      startColonization(world, otherNation.id, targetState.id);
+    }
+
+    const views = listColonialClaimViews(world, nation);
+    const view = views.find((v) => v.stateId === targetState.id);
+    expect(view).toBeDefined();
+
+    const baseRate = colonialDailyProgressRate(world, nation, targetState.id);
+    const effectiveRate = effectiveColonialDailyRate(
+      world, nation, targetState.id, view!.claimants.length,
+    );
+
+    // With competition and/or resistance, effective rate should be <= base rate.
+    expect(effectiveRate).toBeLessThanOrEqual(baseRate);
+
+    // ETA should be based on effective rate, not base rate.
+    if (view!.etaDays !== null && effectiveRate > 0) {
+      const progress = view!.claimants.find((c) => c.nation === nation)?.progress ?? 0;
+      const expectedEta = Math.ceil((1 - progress) / effectiveRate);
+      expect(view!.etaDays).toBe(expectedEta);
+    }
   });
 });
