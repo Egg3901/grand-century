@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { useStore } from '../store';
 import { useSnapshotFields } from './useSnapshotFields';
 import { APP_RELEASE, VERSION_LABEL } from '../buildInfo';
@@ -10,10 +10,7 @@ import {
   parseCampaignMapMode,
   type CampaignMapMode,
 } from '../shared/campaignMap';
-
-function yearFromDay(day: number): number {
-  return 1820 + Math.floor(day / 365);
-}
+import { yearFromDay } from './gameDate';
 
 function randomSeed(): number {
   return Math.floor(Math.random() * 899999) + 100000;
@@ -37,6 +34,8 @@ export function MainMenu() {
   const [shareStatus, setShareStatus] = useState<string | null>(null);
   const [nationFilter, setNationFilter] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+  const listboxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     sendCommand({ t: 'listSaves' });
@@ -67,6 +66,54 @@ export function MainMenu() {
     return nations.filter((nation) =>
       nation.name.toLowerCase().includes(query) || nation.tag.toLowerCase().includes(query));
   }, [nations, nationFilter]);
+
+  // Reset focused index when the filter changes
+  useEffect(() => {
+    setFocusedIndex(-1);
+  }, [nationFilter]);
+
+  const handleListboxKeyDown = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
+    const count = filteredNations.length;
+    if (count === 0) return;
+
+    let next = focusedIndex;
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        next = focusedIndex < count - 1 ? focusedIndex + 1 : 0;
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        next = focusedIndex > 0 ? focusedIndex - 1 : count - 1;
+        break;
+      case 'Home':
+        event.preventDefault();
+        next = 0;
+        break;
+      case 'End':
+        event.preventDefault();
+        next = count - 1;
+        break;
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        if (focusedIndex >= 0 && focusedIndex < count) {
+          setSelectedNation(filteredNations[focusedIndex].id);
+        }
+        return;
+      default:
+        return;
+    }
+
+    setFocusedIndex(next);
+    // Scroll the newly focused option into view
+    const listbox = listboxRef.current;
+    if (listbox) {
+      const option = listbox.querySelectorAll<HTMLButtonElement>('[role="option"]')[next];
+      option?.scrollIntoView({ block: 'nearest' });
+      option?.focus();
+    }
+  }, [filteredNations, focusedIndex]);
 
   const defaultNation = useMemo(() => {
     if (hashStart?.nationTag) {
@@ -200,16 +247,27 @@ export function MainMenu() {
                   onChange={(event) => setNationFilter(event.target.value)}
                 />
               </div>
-              <div className="menu-browser__grid" data-testid="menu-nation-grid" role="listbox" aria-label="Nations">
-                {filteredNations.map((nation) => (
+              <div
+                className="menu-browser__grid"
+                data-testid="menu-nation-grid"
+                role="listbox"
+                aria-label="Nations"
+                aria-activedescendant={focusedIndex >= 0 && focusedIndex < filteredNations.length ? `nation-option-${filteredNations[focusedIndex].id}` : undefined}
+                ref={listboxRef}
+                onKeyDown={handleListboxKeyDown}
+              >
+                {filteredNations.map((nation, index) => (
                   <button
                     key={nation.id}
+                    id={`nation-option-${nation.id}`}
                     type="button"
                     role="option"
                     aria-selected={nation.id === selectedNation}
-                    className={`nation-card${nation.id === selectedNation ? ' nation-card--selected' : ''}`}
+                    tabIndex={index === focusedIndex ? 0 : -1}
+                    className={`nation-card${nation.id === selectedNation ? ' nation-card--selected' : ''}${index === focusedIndex ? ' nation-card--focused' : ''}`}
                     data-testid={`menu-nation-${nation.tag}`}
                     onClick={() => setSelectedNation(nation.id)}
+                    onFocus={() => setFocusedIndex(index)}
                     onDoubleClick={startGame}
                   >
                     <span className="nation-card__shield">
