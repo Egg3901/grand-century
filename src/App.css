@@ -332,6 +332,13 @@
   background: rgba(31, 58, 95, 0.1);
 }
 
+.nation-card--focused {
+  outline: 2px solid rgba(31, 58, 95, 0.75);
+  outline-offset: 1px;
+  border-color: var(--gc-border);
+  background: rgba(252, 245, 228, 0.85);
+}
+
 .nation-card__shield {
   display: grid;
   place-items: center;
