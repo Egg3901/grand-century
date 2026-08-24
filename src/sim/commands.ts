@@ -371,6 +371,11 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       if (!province || !nation || province.owner !== world.playerNation || !province.coastal) return;
       const count = clamp(Math.floor(cmd.count ?? 1), 1, 8);
       const shipType = cmd.shipType;
+      // Gate ironclad construction behind navy_ironclad_warships tech.
+      if (shipType === 'ironclad' && !nation.techs.includes('navy_ironclad_warships')) {
+        log(post, 'warn', 'Ironclad construction requires Ironclad Warships technology.');
+        return;
+      }
       const shipCost = shipType === 'transport' ? 55 : shipType === 'frigate' ? 70 : shipType === 'manofwar' ? 95 : 120;
       const totalCost = shipCost * count;
       if (nation.treasury < totalCost) {
@@ -405,6 +410,8 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       const target = world.provinces[cmd.target];
       if (!fleet || !source || !target) return;
       if (!source.coastal || !target.coastal) return;
+      // Reject same-location orders.
+      if (fleet.location === cmd.target) return;
       fleet.moveTarget = cmd.target;
       fleet.moveProgress = 0;
       return;

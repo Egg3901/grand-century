@@ -126,7 +126,7 @@ export function PeaceConference({ war }: PeaceConferenceProps) {
       </ul>
       {!playerWinning ? (
         <p className="panel-subtle">
-          Your side is not currently winning this war. White peace costs prestige unless exhaustion is mutual or warscore is near zero.
+          Your side is not currently winning this war. White peace requires a score stalemate, mutual exhaustion, or the opponent must not hold a significant advantage.
         </p>
       ) : null}
       {overAcceptance ? (
