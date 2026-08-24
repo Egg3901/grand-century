@@ -19,7 +19,7 @@ const SAVE_VERSION = 1;
  * bump this when the *meaning* of seed fields in the fingerprint changes, so a
  * future denser-province release can reject older fingerprints loudly.
  */
-export const WORLD_CONTENT_SCHEMA_VERSION = 1;
+export const WORLD_CONTENT_SCHEMA_VERSION = 2;
 
 /** Identity of the static world seed a save was written against. */
 export interface WorldFingerprint {
@@ -86,7 +86,10 @@ function seedIdentityJson(seed: WorldSeedData): string {
       n.tag,
       n.capitalProvinceId,
       n.primaryCulture,
+      n.religion ?? null,
       n.government,
+      n.polityStatus ?? 'sovereign',
+      n.overlordTag ?? null,
       (n.coreStateIds ?? []).slice().sort((a, b) => a - b),
     ]),
     formables: (seed.formables ?? []).map((f) => [

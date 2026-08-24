@@ -83,7 +83,7 @@ const RECIPES: Recipe[] = [
   // --- Pre-industrial crafts (E1): available from 1820 — a vintner estate or
   // --- lumber mill is not 1850s technology. Only true industrial-revolution
   // --- chains (machine parts, artillery, cement, fertilizer, ammunition)
-  // --- stay tech-gated. Vic2 parity: ~11 civilian recipes at start.
+  // Stay tech-gated: roughly 11 civilian recipes at the 1820 start.
   {
     key: 'factory_fishing_wharf',
     name: 'Fishing Wharf',
@@ -297,7 +297,7 @@ for (const formable of FORMABLES) {
   if (formable.key === 'ITALY') {
     // U2: the Risorgimento runs through Austrian Lombardy-Venetia. Derived by
     // name — the old literal 274 rotted with the world renumbering.
-    for (const lombardy of statesNamed('AUS', ['Lombardy-Venetia'])) {
+    for (const lombardy of statesNamed('LVN', ['Lombardy-Venetia'])) {
       if (!formable.coreStateIds.includes(lombardy)) formable.coreStateIds.push(lombardy);
     }
     formable.coreStateIds.sort((a, b) => a - b);
@@ -457,6 +457,8 @@ export const GAME_DATA: GameData = {
     { key: 'korean', name: 'Korean', color: [162, 174, 162], religion: 'confucian' },
     { key: 'latin_american', name: 'Latin American', color: [178, 170, 140], religion: 'catholic' },
     { key: 'african', name: 'African', color: [158, 146, 122], religion: 'sunni' },
+    // --- 1.6.0 historical-map additions (append-only) ---
+    { key: 'polynesian', name: 'Polynesian', color: [132, 176, 170], religion: 'traditional' },
   ],
   religions: [
     { key: 'protestant', name: 'Protestant' },
@@ -467,6 +469,7 @@ export const GAME_DATA: GameData = {
     // --- 0.8.0 additions (append-only; indices are baked into saves) ---
     { key: 'hindu', name: 'Hindu' },
     { key: 'buddhist', name: 'Buddhist' },
+    { key: 'traditional', name: 'Traditional' },
   ],
   reforms: [
     {

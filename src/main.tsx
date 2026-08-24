@@ -73,7 +73,7 @@ if (mp) {
 } else {
   const transport = new WorkerTransport();
   attachTransport(transport);
-  transport.send({ t: 'init', seed: 1836 });
+  transport.send({ t: 'init', seed: 1820 });
   if (lobbyInvite) {
     useStore.getState().setShowMainMenu(false);
     useStore.getState().setShowLobby(true);

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * build-flags.mjs — era-appropriate nation flags (1836–1936) as small SVGs.
+ * build-flags.mjs: era-appropriate nation flags (1820-1920) as small SVGs.
  *
  * Every flag is hand-specified geometry (stripes, crosses, cantons, stylized
  * emblems) in a muted palette that sits well on the engraved-atlas UI —

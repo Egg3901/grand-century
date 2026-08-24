@@ -3,6 +3,18 @@
 Every step here exists because skipping it has cost us something. Read the
 notes, not just the commands.
 
+## Branches
+
+`master` **is production.** `/root/bin/auto-deploy.sh` polls it on a 2-minute
+timer, builds, rsyncs to `/var/www/grand-century/` and restarts the multiplayer
+server. There is no staging environment and no promotion step.
+
+`development` is the integration branch. Merge finished work there first. Nothing
+deploys from it, so it is the right home for work that is complete but not yet
+release-ready — a red balance band, an unfinished rebalance, anything you would
+not want players to see this minute. Release means merging `development` into
+`master`, at which point the gate below is not optional.
+
 ## Before you touch anything
 
 **Merging to `master` deploys to production.** `/root/bin/auto-deploy.sh` polls

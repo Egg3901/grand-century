@@ -4,6 +4,34 @@ All notable changes to Grand Century are documented here.
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-08-24
+
+### The world of 1820
+
+Grand Century now begins in 1820, after the Napoleonic settlement and amid the
+Atlantic independence era. The date is its own premise, not an inherited 1836
+starting line.
+
+- **Thirteen additional polities.** The roster grows from 67 to 80 with Russian
+  America, Hawaii, Finland, Congress Poland, Lombardy-Venetia, Algiers, Hejaz,
+  Funj, Darfur, the Kazakh Steppe, Bukhara, Khiva, and Kokand.
+- **Imperial relationships are explicit.** Constituent states, vassals, colonial
+  administrations, tributaries, and decentralized polities no longer have to be
+  flattened into either fully sovereign countries or blank land.
+- **The worst ownership blobs are broken up.** Central Asia, the Ottoman sphere,
+  North Africa, Russian America, Hawaii, and the post-colonial Americas now paint
+  from checked-in 1820 assignments. National borders regenerate from that data.
+- **The nation browser speaks to the date.** New and corrected polities carry an
+  1820 summary, primary culture, religion, and relationship instead of generic
+  fallback text.
+- **Historical content is reproducible.** A checked-in compiler validates dated
+  source packets, province identity, capitals, owners, controllers, relationship
+  chains, and historical anchors before producing the runtime seed.
+- **Save mismatches fail safely.** The world fingerprint schema advances so saves
+  from the former 67-country topology cannot silently load against the new map.
+
+[1.6.0]: https://github.com/Egg3901/grand-century/releases/tag/v1.6.0
+
 ## [1.5.0] — 2026-08-01
 
 ### The great game

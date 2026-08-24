@@ -11,13 +11,13 @@ npm run server          # listens on 127.0.0.1:${PORT:-3412}
 Join from the client (dev server or built static app):
 
 ```
-#/mp?session=<id>&nation=ENG&seed=1836
+#/mp?session=<id>&nation=ENG&seed=1820
 ```
 
 Example: two browsers share one world —
 
-1. Tab A: `#/mp?session=demo1&nation=ENG&seed=1836`
-2. Tab B: `#/mp?session=demo1&nation=FRA&seed=1836`
+1. Tab A: `#/mp?session=demo1&nation=ENG&seed=1820`
+2. Tab B: `#/mp?session=demo1&nation=FRA&seed=1820`
 3. Tab A (session leader) unpauses / sets speed; both see the same date advance.
 
 Or use the main menu **Multiplayer** button (hosts a random session id and prints a share URL).

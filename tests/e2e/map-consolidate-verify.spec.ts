@@ -48,7 +48,9 @@ test('consolidated map: real names, not boxy Europe/China', async ({ page }) => 
   expect(chinaCount).toBe(31);
   expect(WORLD_SEED.provinces.some((province) => province.name === 'Bavaria')).toBe(true);
   expect(WORLD_SEED.provinces.some((province) => province.name === 'Gansu')).toBe(true);
-  const frenchRegions = ['Île-de-France', 'Normandy', 'Brittany', 'Aquitaine', 'Occitanie', 'Provence'];
+  const frenchRegions = [
+    'Île-de-France', 'Normandy', 'Brittany', 'Guyenne', 'Gascony', 'Languedoc', 'Provence',
+  ];
   for (const name of frenchRegions) {
     expect(WORLD_SEED.provinces.some((province) => province.name === name)).toBe(true);
   }

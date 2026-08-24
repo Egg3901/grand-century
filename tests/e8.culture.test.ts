@@ -68,17 +68,20 @@ function runMonths(world: World, months: number): void {
 describe('E8 culture — seeding', () => {
   const world = createWorld(GAME_DATA, 4242);
 
-  it('seeds historical minorities inside the great empires', () => {
+  it('seeds historical cultures across empires and their constituent polities', () => {
     const eng = nationByTag(world, 'ENG');
     const aus = nationByTag(world, 'AUS');
-    const rus = nationByTag(world, 'RUS');
+    const pol = nationByTag(world, 'POL');
+    const fin = nationByTag(world, 'FIN');
     const ott = nationByTag(world, 'OTT');
     expect(nationCultureSize(world, eng.id, cultureIdx('irish'))).toBeGreaterThan(0);
     expect(nationCultureSize(world, eng.id, cultureIdx('south_asian'))).toBeGreaterThan(0);
     expect(nationCultureSize(world, aus.id, cultureIdx('hungarian'))).toBeGreaterThan(0);
     expect(nationCultureSize(world, aus.id, cultureIdx('italian'))).toBeGreaterThan(0);
-    expect(nationCultureSize(world, rus.id, cultureIdx('polish'))).toBeGreaterThan(0);
-    expect(nationCultureSize(world, rus.id, cultureIdx('finnish'))).toBeGreaterThan(0);
+    expect(pol.overlordNation).toBe(nationByTag(world, 'RUS').id);
+    expect(fin.overlordNation).toBe(nationByTag(world, 'RUS').id);
+    expect(nationCultureSize(world, pol.id, cultureIdx('polish'))).toBeGreaterThan(0);
+    expect(nationCultureSize(world, fin.id, cultureIdx('finnish'))).toBeGreaterThan(0);
     expect(nationCultureSize(world, ott.id, cultureIdx('greek'))).toBeGreaterThan(0);
     expect(nationCultureSize(world, ott.id, cultureIdx('arabic'))).toBeGreaterThan(0);
   });

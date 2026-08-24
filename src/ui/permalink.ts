@@ -1,6 +1,6 @@
 /**
  * Shareable start permalinks — hash-routed so they work under any BASE_URL
- * (e.g. /games/grand-century/#/new?seed=1836&nation=ENG).
+ * (e.g. /games/grand-century/#/new?seed=1820&nation=ENG).
  */
 
 import { parseCampaignMapMode } from '../shared/campaignMap';
@@ -11,7 +11,7 @@ export interface GameStartParams {
   mode?: string;
 }
 
-const DEFAULT_SEED = 1836;
+const DEFAULT_SEED = 1820;
 
 function parseHashQuery(hash: string): URLSearchParams {
   const raw = hash.startsWith('#') ? hash.slice(1) : hash;

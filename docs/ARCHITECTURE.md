@@ -45,4 +45,4 @@ src/ui/*              React panels + HUD
 ```
 
 ## Aesthetic
-Painterly Victoria-2 paper-map: aged parchment map, muted province fills, serif/period display type, ornate but legible panel frames. Dark, readable panel text on parchment/leather surfaces.
+Archival nineteenth-century atlas: aged parchment map, muted province fills, period display type, ornate but legible panel frames. Dark, readable panel text on parchment and leather surfaces.

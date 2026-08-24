@@ -186,6 +186,9 @@ function nationCriticalEqual(a: NationSummary, b: NationSummary): boolean {
     && a.atWar === b.atWar
     && a.numProvinces === b.numProvinces
     && a.spheredBy === b.spheredBy
+    && a.polityStatus === b.polityStatus
+    && a.overlordNation === b.overlordNation
+    && a.eraSummary === b.eraSummary
   );
 }
 
