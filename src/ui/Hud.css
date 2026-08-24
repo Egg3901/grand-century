@@ -439,6 +439,12 @@
   border: 1px solid var(--gc-border-soft);
 }
 
+/* Mobile toggle buttons: hidden on desktop */
+.outliner-mobile-toggle,
+.legend-mobile-toggle {
+  display: none;
+}
+
 .event-feed {
   position: absolute;
   top: 5.1rem;
@@ -613,10 +619,61 @@
 @media (max-width: 768px) {
   .hud-top,
   .hud-rail,
-  .hud-mapmodes,
+  .hud-mapmodes {
+    display: none;
+  }
+
+  /* Outliner and Legend: hidden by default, shown via toggle */
   .outliner,
   .map-legend {
     display: none;
+  }
+
+  .outliner.is-mobile-visible,
+  .map-legend.is-mobile-visible {
+    display: block;
+    position: fixed;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: calc(env(safe-area-inset-bottom) + 5.5rem);
+    width: auto;
+    max-height: 45vh;
+    overflow-y: auto;
+    z-index: 20;
+    border-radius: var(--gc-radius-lg);
+  }
+
+  .map-legend.is-mobile-visible {
+    left: auto;
+    width: min(14rem, calc(100vw - 1rem));
+  }
+
+  /* Mobile toggle buttons: compact floating pills */
+  .outliner-mobile-toggle,
+  .legend-mobile-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    position: fixed;
+    z-index: 19;
+    padding: 0.3rem 0.6rem;
+    font-family: var(--gc-font-display);
+    font-size: var(--gc-fs-caption);
+    letter-spacing: var(--gc-tracking-label);
+    text-transform: uppercase;
+    cursor: pointer;
+    min-height: 36px;
+    border-radius: var(--gc-radius);
+  }
+
+  .outliner-mobile-toggle {
+    left: 0.5rem;
+    bottom: calc(env(safe-area-inset-bottom) + 3.6rem);
+  }
+
+  .legend-mobile-toggle {
+    right: 0.5rem;
+    bottom: calc(env(safe-area-inset-bottom) + 3.6rem);
   }
 
   .hud-mobile-top {

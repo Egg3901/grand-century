@@ -10,6 +10,7 @@ export function Outliner() {
   const dismissAlert = useStore((state) => state.dismissAlert);
   const openPanelId = useStore((state) => state.openPanelId);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const playerName = useMemo(() => {
     if (!snapshot) return null;
@@ -31,55 +32,69 @@ export function Outliner() {
   );
 
   return (
-    <aside className="outliner atlas-panel">
-      <h3 className="atlas-heading">Outliner</h3>
-      <p>Armies {playerItems.armies} | Fleets {playerItems.fleets} | Wars {playerItems.wars}</p>
-      <ul className="outliner-alerts" data-testid="outliner-alerts">
-        {batches.map((batch) => (
-          <li key={batch.id} className={batch.prominent ? 'is-prominent' : 'is-quiet'} data-count={batch.count}>
-            <button
-              type="button"
-              className="outliner-alert-action"
-              {...instantPressProps(() => {
-                if (batch.expandable) {
-                  setExpandedId((id) => (id === batch.id ? null : batch.id));
-                  return;
-                }
-                if (batch.panel) openPanelId(batch.panel);
-              })}
-            >
-              <span>{batch.message}</span>
-              {batch.count === 1 && batch.suggestion ? <small>{batch.suggestion}</small> : null}
-              {batch.expandable ? <small>{expandedId === batch.id ? 'Tap to collapse' : 'Tap to expand'}</small> : null}
-            </button>
-            <button
-              type="button"
-              aria-label="Dismiss alert"
-              {...instantPressProps(() => {
-                for (const member of batch.members) dismissAlert(member.id);
-              })}
-            >
-              x
-            </button>
-            {expandedId === batch.id ? (
-              <ul className="outliner-alert-members">
-                {batch.members.map((member) => (
-                  <li key={member.id}>
-                    <button
-                      type="button"
-                      className="outliner-alert-action"
-                      {...instantPressProps(() => member.panel && openPanelId(member.panel))}
-                    >
-                      {member.message}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </li>
-        ))}
-        {batches.length === 0 ? <li><span>No active alerts</span></li> : null}
-      </ul>
-    </aside>
+    <>
+      {/* Mobile toggle button -- always visible on small screens */}
+      <button
+        type="button"
+        className="outliner-mobile-toggle atlas-panel"
+        aria-label="Toggle outliner"
+        aria-expanded={mobileOpen}
+        data-testid="outliner-mobile-toggle"
+        {...instantPressProps(() => setMobileOpen((open) => !open))}
+      >
+        Outliner {playerItems.armies}/{playerItems.fleets}/{playerItems.wars}
+      </button>
+
+      <aside className={`outliner atlas-panel${mobileOpen ? ' is-mobile-visible' : ''}`}>
+        <h3 className="atlas-heading">Outliner</h3>
+        <p>Armies {playerItems.armies} | Fleets {playerItems.fleets} | Wars {playerItems.wars}</p>
+        <ul className="outliner-alerts" data-testid="outliner-alerts">
+          {batches.map((batch) => (
+            <li key={batch.id} className={batch.prominent ? 'is-prominent' : 'is-quiet'} data-count={batch.count}>
+              <button
+                type="button"
+                className="outliner-alert-action"
+                {...instantPressProps(() => {
+                  if (batch.expandable) {
+                    setExpandedId((id) => (id === batch.id ? null : batch.id));
+                    return;
+                  }
+                  if (batch.panel) openPanelId(batch.panel);
+                })}
+              >
+                <span>{batch.message}</span>
+                {batch.count === 1 && batch.suggestion ? <small>{batch.suggestion}</small> : null}
+                {batch.expandable ? <small>{expandedId === batch.id ? 'Tap to collapse' : 'Tap to expand'}</small> : null}
+              </button>
+              <button
+                type="button"
+                aria-label="Dismiss alert"
+                {...instantPressProps(() => {
+                  for (const member of batch.members) dismissAlert(member.id);
+                })}
+              >
+                x
+              </button>
+              {expandedId === batch.id ? (
+                <ul className="outliner-alert-members">
+                  {batch.members.map((member) => (
+                    <li key={member.id}>
+                      <button
+                        type="button"
+                        className="outliner-alert-action"
+                        {...instantPressProps(() => member.panel && openPanelId(member.panel))}
+                      >
+                        {member.message}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </li>
+          ))}
+          {batches.length === 0 ? <li><span>No active alerts</span></li> : null}
+        </ul>
+      </aside>
+    </>
   );
 }
