@@ -83,4 +83,39 @@ describe('save fingerprint + compat', () => {
     expect(payload.worldFingerprint).toEqual(computeWorldFingerprint());
     expect(() => deserializeWorld(buffer)).not.toThrow();
   });
+
+  it('normalizes missing migration_policy to level 1 on legacy saves', () => {
+    // Build a fresh world and serialize it.
+    const world = createWorld(GAME_DATA, 9901);
+    const bytes = serializeWorld(world);
+
+    // Mutate the payload: strip migration_policy from every nation, but set
+    // one nation to explicit closed-borders (0) to prove we do NOT overwrite
+    // an explicitly saved value.
+    const payload = JSON.parse(strFromU8(gunzipSync(bytes))) as {
+      world: { nations: { reforms: Record<string, number> }[] };
+      worldFingerprint: unknown;
+      version: number;
+      createdAt: number;
+      runtimes: unknown;
+    };
+    const nations = payload.world.nations;
+    // Pick the first nation to keep an explicit 0.
+    const explicitClosed = nations[0];
+    explicitClosed.reforms.migration_policy = 0;
+    // Strip migration_policy from all remaining nations.
+    for (let i = 1; i < nations.length; i++) {
+      delete nations[i].reforms.migration_policy;
+    }
+    const mutated = gzipSync(strToU8(JSON.stringify(payload)));
+
+    // Deserialize and verify normalization.
+    const { world: loaded } = deserializeWorld(mutated);
+    // Explicit 0 must be preserved.
+    expect(loaded.nations[0].reforms.migration_policy).toBe(0);
+    // All others must receive the campaign default of 1.
+    for (let i = 1; i < loaded.nations.length; i++) {
+      expect(loaded.nations[i].reforms.migration_policy).toBe(1);
+    }
+  });
 });
