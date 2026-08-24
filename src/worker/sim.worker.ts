@@ -21,6 +21,7 @@ import { listSaveSlots, readSaveSlot, writeSaveSlot } from './saveSlots';
 import { DEFAULT_CAMPAIGN_MAP_MODE, parseCampaignMapMode } from '../shared/campaignMap';
 import { resolveWorldSeed } from '../sim/proceduralWorld';
 import { WORLD_SEED } from '../data/generated';
+import { CoalescingSaveQueue, type SaveRequest } from './saveQueue';
 
 const ctx: DedicatedWorkerGlobalScope = self as unknown as DedicatedWorkerGlobalScope;
 
@@ -28,7 +29,8 @@ let data: GameData = GAME_DATA;
 let world: World | null = null;
 let acc = 0;
 let lastAutosaveYear = -1;
-let saveBusy = false;
+let worldGeneration = 0;
+const saveQueue = new CoalescingSaveQueue();
 
 /** Cap UI snapshot rate while the clock is running (smooth, not 30 Hz). */
 const SNAPSHOT_HZ = 8;
@@ -63,6 +65,7 @@ function yearFromDay(day: number): number {
 function startWorld(seed: number, mapMode: CampaignMapMode, playerNation?: number): void {
   data = gameDataForMapMode(mapMode, seed);
   world = createWorld(data, seed, mapMode);
+  worldGeneration += 1;
   if (playerNation !== undefined && world.nations[playerNation]) {
     world.playerNation = playerNation;
   }
@@ -85,9 +88,13 @@ async function publishSaveSlots() {
   post({ t: 'saveSlots', slots });
 }
 
-async function saveCurrentWorld(slot: string, action: 'save' | 'autosave') {
-  if (!world || saveBusy) return;
-  saveBusy = true;
+async function writeCurrentWorld(request: SaveRequest) {
+  const { slot, action } = request;
+  if (action === 'load') return;
+  if (!world || (request.worldGeneration !== undefined && request.worldGeneration !== worldGeneration)) {
+    post({ t: 'saveStatus', action, slot, ok: false, msg: 'save canceled because the active world changed' });
+    return;
+  }
   try {
     const payload = serializeWorld(world);
     await writeSaveSlot(slot, payload, world.day, world.playerNation);
@@ -101,14 +108,10 @@ async function saveCurrentWorld(slot: string, action: 'save' | 'autosave') {
       ok: false,
       msg: error instanceof Error ? error.message : 'save failed',
     });
-  } finally {
-    saveBusy = false;
   }
 }
 
 async function loadWorldFromSlot(slot: string) {
-  if (saveBusy) return;
-  saveBusy = true;
   try {
     const payload = await readSaveSlot(slot);
     if (!payload) {
@@ -117,6 +120,7 @@ async function loadWorldFromSlot(slot: string) {
     }
     const loaded = deserializeWorld(payload);
     world = loaded.world;
+    worldGeneration += 1;
     if (!world.mapMode) world.mapMode = DEFAULT_CAMPAIGN_MAP_MODE;
     data = gameDataForMapMode(world.mapMode, world.seed);
     lastAutosaveYear = yearFromDay(world.day);
@@ -131,9 +135,22 @@ async function loadWorldFromSlot(slot: string) {
       ok: false,
       msg: error instanceof Error ? error.message : 'load failed',
     });
-  } finally {
-    saveBusy = false;
   }
+}
+
+async function runPersistence(request: SaveRequest): Promise<void> {
+  try {
+    if (request.action === 'load') await loadWorldFromSlot(request.slot);
+    else await writeCurrentWorld(request);
+  } finally {
+    const next = saveQueue.complete();
+    if (next) void runPersistence(next);
+  }
+}
+
+function requestPersistence(request: SaveRequest): void {
+  const next = saveQueue.request(request);
+  if (next) void runPersistence(next);
 }
 
 function tick(dtSeconds: number) {
@@ -151,7 +168,7 @@ function tick(dtSeconds: number) {
   if (world.day > 0 && world.day % 365 === 0 && year !== lastAutosaveYear) {
     lastAutosaveYear = year;
     const autosaveSlot = `autosave-${(year % 3) + 1}`;
-    void saveCurrentWorld(autosaveSlot, 'autosave');
+    requestPersistence({ slot: autosaveSlot, action: 'autosave', worldGeneration });
   }
 
   // Only schedule a snapshot when the world actually advanced.
@@ -209,11 +226,11 @@ function handleCommand(cmd: Command) {
     return;
   }
   if (cmd.t === 'save') {
-    void saveCurrentWorld(cmd.slot, 'save');
+    requestPersistence({ slot: cmd.slot, action: 'save', worldGeneration });
     return;
   }
   if (cmd.t === 'load') {
-    void loadWorldFromSlot(cmd.slot);
+    requestPersistence({ slot: cmd.slot, action: 'load', worldGeneration });
     return;
   }
   if (cmd.t === 'listSaves') {
