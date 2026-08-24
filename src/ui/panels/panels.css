@@ -812,6 +812,11 @@
   margin: var(--gc-space-2) 0;
 }
 
+.mil-disabled-reason {
+  margin-top: -0.15rem;
+  font-style: italic;
+}
+
 .diplo-list li,
 .mil-list li,
 .gp-list li {
