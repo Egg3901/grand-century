@@ -1,0 +1,102 @@
+{
+  "asOf": "1830-01-01",
+  "note": "Relationships the map itself cannot express. Victoria II's province history says who owns what; it does not say that Congress Poland is a Russian constituent kingdom rather than a Russian province, or that Egypt is an Ottoman vassal rather than a rival. Every entry merges onto a nation the map build already produced.",
+  "sources": [
+    "content/vic2/vic2-reference.json",
+    "docs/HISTORICAL-MAP-SOURCE-AUDIT.md"
+  ],
+  "nations": [
+    {
+      "tag": "POL",
+      "mode": "merge",
+      "name": "Kingdom of Poland",
+      "polityStatus": "constituent",
+      "overlordTag": "RUS",
+      "government": "constitutional_monarchy",
+      "eraSummary": "Congress Poland still has its own sejm, army and constitution. The November Uprising is ten months away."
+    },
+    {
+      "tag": "EGY",
+      "mode": "merge",
+      "polityStatus": "vassal",
+      "overlordTag": "OTT",
+      "eraSummary": "Muhammad Ali rules Egypt as an Ottoman viceroy in name and an independent power in fact. Syria is next."
+    },
+    {
+      "tag": "SER",
+      "mode": "merge",
+      "polityStatus": "vassal",
+      "overlordTag": "OTT",
+      "eraSummary": "The hatt-i sharif of 1830 confirms Serbian autonomy under Ottoman suzerainty."
+    },
+    {
+      "tag": "ALG",
+      "mode": "merge",
+      "polityStatus": "vassal",
+      "overlordTag": "OTT",
+      "eraSummary": "The Regency of Algiers answers to Constantinople only nominally. A French fleet is already being fitted out."
+    },
+    {
+      "tag": "TUN",
+      "mode": "merge",
+      "polityStatus": "vassal",
+      "overlordTag": "OTT",
+      "eraSummary": "The Husainid beys govern Tunis as hereditary Ottoman vassals."
+    },
+    {
+      "tag": "TRI",
+      "mode": "merge",
+      "polityStatus": "vassal",
+      "overlordTag": "OTT",
+      "eraSummary": "Karamanli Tripoli is in its last years of autonomy before direct Ottoman rule returns."
+    },
+    {
+      "tag": "GRE",
+      "mode": "merge",
+      "polityStatus": "sovereign",
+      "eraSummary": "The London Protocol of February 1830 makes Greek independence a fact of European law."
+    },
+    {
+      "tag": "HYD",
+      "mode": "merge",
+      "polityStatus": "tributary",
+      "overlordTag": "ENG",
+      "eraSummary": "The Nizam keeps his throne and his court, and the Company keeps a subsidiary army in Hyderabad."
+    },
+    {
+      "tag": "TIB",
+      "mode": "merge",
+      "polityStatus": "tributary",
+      "overlordTag": "QNG",
+      "eraSummary": "Lhasa governs itself under the watch of the Qing ambans."
+    },
+    {
+      "tag": "MGL",
+      "mode": "merge",
+      "polityStatus": "constituent",
+      "overlordTag": "QNG",
+      "eraSummary": "The Mongol banners are administered directly from Peking."
+    },
+    {
+      "tag": "XIN",
+      "mode": "merge",
+      "polityStatus": "constituent",
+      "overlordTag": "QNG",
+      "eraSummary": "Xinjiang is held by Qing garrisons and an uneasy peace with the Khojas."
+    },
+    {
+      "tag": "GXI",
+      "mode": "merge",
+      "polityStatus": "constituent",
+      "overlordTag": "QNG",
+      "eraSummary": "A southern Chinese province governed from Peking."
+    },
+    {
+      "tag": "YNN",
+      "mode": "merge",
+      "polityStatus": "constituent",
+      "overlordTag": "QNG",
+      "eraSummary": "Yunnan's frontier prefectures sit at the edge of Qing authority."
+    }
+  ]
+}

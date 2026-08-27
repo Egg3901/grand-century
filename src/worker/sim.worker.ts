@@ -57,7 +57,7 @@ function gameDataForMapMode(mapMode: CampaignMapMode, seed: number): GameData {
 }
 
 function yearFromDay(day: number): number {
-  return 1820 + Math.floor(day / 365);
+  return 1830 + Math.floor(day / 365);
 }
 
 function startWorld(seed: number, mapMode: CampaignMapMode, playerNation?: number): void {

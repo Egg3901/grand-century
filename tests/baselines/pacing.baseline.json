@@ -20,7 +20,7 @@
       "finalYear": 1920,
       "decades": [
         {
-          "startYear": 1820,
+          "startYear": 1830,
           "warsStarted": 82,
           "battles": 24,
           "priceIndexEnd": 1.413274616907634,
@@ -158,7 +158,7 @@
       ],
       "aliveNations": 30,
       "centuryContentNations": 42,
-      "totalGpChurnAfter1820s": 10
+      "totalGpChurnAfter1830s": 10
     },
     {
       "seed": 4711,
@@ -166,7 +166,7 @@
       "finalYear": 1920,
       "decades": [
         {
-          "startYear": 1820,
+          "startYear": 1830,
           "warsStarted": 84,
           "battles": 24,
           "priceIndexEnd": 1.399586354956558,
@@ -288,7 +288,7 @@
       ],
       "aliveNations": 32,
       "centuryContentNations": 41,
-      "totalGpChurnAfter1820s": 2
+      "totalGpChurnAfter1830s": 2
     }
   ]
 }

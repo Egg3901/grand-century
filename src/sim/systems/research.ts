@@ -34,7 +34,7 @@ import { partyByKey } from '../politics';
 import { getInfamyLimit } from './diplomacy';
 
 /** Same no-leap-year clock as world.ts / events.ts (kept local: no cycle). */
-const EPOCH_YEAR = 1820;
+const EPOCH_YEAR = 1830;
 function currentYear(day: number): number {
   return EPOCH_YEAR + Math.floor(day / 365);
 }

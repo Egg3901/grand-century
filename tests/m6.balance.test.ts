@@ -22,7 +22,7 @@ describe('M6 balance envelope', () => {
       expect(summary.warsResolved).toBeGreaterThanOrEqual(Math.floor(summary.warsStarted * 0.85));
       expect(summary.hegemonyShareYear20).toBeLessThanOrEqual(0.35);
       expect(summary.worldPopGrowthShare).toBeGreaterThanOrEqual(0.2);
-      // 1820-start + corrected coastal flags yield slightly stronger 60y growth than the old 1836 tune.
+      // 1830-start + corrected coastal flags yield slightly stronger 60y growth than the old 1836 tune.
       expect(summary.worldPopGrowthShare).toBeLessThanOrEqual(1.05);
       // 1.5.0: the old 0.9 ceilings dated from the broken economy, where the
       // year-30 supply decay (#41) dragged the mean to ~0.75 as an artifact.

@@ -163,8 +163,8 @@ describe('generated world seed data', () => {
     }
   });
 
-  it('uses the 1820 epoch in generated metadata', () => {
-    expect(WORLD_SEED.generatedAt.startsWith('1820')).toBe(true);
+  it('uses the 1830 epoch in generated metadata', () => {
+    expect(WORLD_SEED.generatedAt.startsWith('1830')).toBe(true);
   });
 
   it('keeps coastal count in a plausible band (not nearly-all)', () => {

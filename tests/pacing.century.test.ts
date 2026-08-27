@@ -75,7 +75,7 @@ type SeedReport = {
   aliveNations: number;
   /** Unique nation ids with any event/decision history by end of run. */
   centuryContentNations: number;
-  totalGpChurnAfter1820s: number;
+  totalGpChurnAfter1830s: number;
 };
 
 const seedReports: SeedReport[] = [];
@@ -152,8 +152,8 @@ describe.skipIf(!RUN)('U3 pacing — AI century runs', () => {
       for (const tag of ['GER', 'ITA', 'NGF']) {
         if (!formedTags.has(tag) && world.nations.some((nation) => nation.tag === tag)) {
           formedTags.add(tag);
-          // year+1 full years have elapsed since the 1820 start
-          formedYears[tag] = 1820 + year + 1;
+          // year+1 full years have elapsed since the 1830 start
+          formedYears[tag] = 1830 + year + 1;
         }
       }
       if ((year + 1) % 10 === 0) {
@@ -170,7 +170,7 @@ describe.skipIf(!RUN)('U3 pacing — AI century runs', () => {
         const dayHi = world.day;
         const contentNations = nationsWithContentInDayRange(world, decadeDayLo, dayHi);
         decades.push({
-          startYear: 1820 + year - 9,
+          startYear: 1830 + year - 9,
           warsStarted,
           battles: battlesNow - seenBattles >= 0 ? battlesNow : battlesNow,
           priceIndexEnd: priceIndex(),
@@ -187,15 +187,15 @@ describe.skipIf(!RUN)('U3 pacing — AI century runs', () => {
       }
     }
 
-    const totalGpChurnAfter1820s = decades.slice(1).reduce((sum, d) => sum + d.gpChurn, 0);
+    const totalGpChurnAfter1830s = decades.slice(1).reduce((sum, d) => sum + d.gpChurn, 0);
     const report: SeedReport = {
       seed,
       formedYears,
-      finalYear: 1820 + YEARS,
+      finalYear: 1830 + YEARS,
       decades,
       aliveNations: aliveNationCount(world),
       centuryContentNations: centuryContentNationCount(world),
-      totalGpChurnAfter1820s,
+      totalGpChurnAfter1830s,
     };
     seedReports.push(report);
 
@@ -205,7 +205,7 @@ describe.skipIf(!RUN)('U3 pacing — AI century runs', () => {
       `seed ${seed}: formed=${JSON.stringify(formedYears)} `
       + `warsTotal=${world.nextWarId} alive=${report.aliveNations} `
       + `contentNations=${report.centuryContentNations} `
-      + `gpChurnAfter1820s=${totalGpChurnAfter1820s} `
+      + `gpChurnAfter1830s=${totalGpChurnAfter1830s} `
       + `priceIdxFinal=${decades[decades.length - 1].priceIndexEnd.toFixed(2)}\n`);
 
     // ---- the pacing contract ----------------------------------------------
@@ -255,7 +255,7 @@ describe.skipIf(!RUN)('U3 pacing — AI century runs', () => {
       seeds: SEEDS,
       thresholds: THRESHOLDS,
       // H3 observations recorded in reports but not hard-gated (seed-noisy):
-      // GP churn after 1820s: 1836=6, 4711=0; formations: both seeds {}.
+      // GP churn after 1830s: 1836=6, 4711=0; formations: both seeds {}.
       reports: seedReports,
     };
     writeFileSync(BASELINE_PATH, `${JSON.stringify(baseline, null, 2)}\n`);
@@ -308,11 +308,11 @@ describe.skipIf(!RUN)('U3 pacing — AI century runs', () => {
    * GP rank churn — enabled 1.5.0: prestige decay (0.5%/month) broke the
    * incumbency moat. Observed after the change: 1836=10, 4711=2 (was 6 and 0).
    */
-  it('GP churn after 1820s ≥ 1 on every default seed', () => {
+  it('GP churn after 1830s ≥ 1 on every default seed', () => {
     expect(seedReports.length).toBe(SEEDS.length);
     for (const report of seedReports) {
       expect(
-        report.totalGpChurnAfter1820s,
+        report.totalGpChurnAfter1830s,
         `frozen GP table (seed ${report.seed})`,
       ).toBeGreaterThanOrEqual(1);
     }

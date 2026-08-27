@@ -72,8 +72,8 @@ function checkpoint(w: World, year: number): void {
   for (const p of parts) console.log('   ' + p);
 }
 
-checkpoint(world, 1820);
+checkpoint(world, 1830);
 for (let year = 1; year <= years; year++) {
   for (let day = 0; day < 365; day++) advanceDay(world, data);
-  if (year % 5 === 0) checkpoint(world, 1820 + year);
+  if (year % 5 === 0) checkpoint(world, 1830 + year);
 }

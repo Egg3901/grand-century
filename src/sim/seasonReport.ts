@@ -5,7 +5,7 @@ import { applyCommand } from './commands';
 import { computeReformLegality } from './politics';
 import { advanceDay, dayToDate } from './world';
 
-const EPOCH_YEAR = 1820;
+const EPOCH_YEAR = 1830;
 const DEFAULT_SEEDS = [6602, 6614, 6626];
 const URBAN_TYPES = new Set<PopType>(['craftsman', 'clerk', 'capitalist']);
 const MILITANCY_BANDS = [

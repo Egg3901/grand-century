@@ -16,7 +16,7 @@ import {
   upperHouseCompositionWeights,
 } from '../politics';
 
-const EPOCH_YEAR = 1820;
+const EPOCH_YEAR = 1830;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));

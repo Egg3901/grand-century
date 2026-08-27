@@ -37,7 +37,7 @@ const DECISION_CHAIN_IDS: string[][] = [
   ['il_risorgimento', 'french_entente', 'expedition_of_the_thousand', 'rome_question'],
 ];
 const TREASURY_MAX = 5_000_000;
-const EPOCH_YEAR = 1820;
+const EPOCH_YEAR = 1830;
 const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 function monthIndexFromDay(day: number): number {
@@ -773,7 +773,7 @@ const BOP_ALARM_SHARE = 0.5;
 const BOP_RIVALRY_SHARE = 0.8;
 
 /**
- * 1820-baseline core share per (formable, nation tag). After the world
+ * 1830-baseline core share per (formable, nation tag). After the world
  * overhaul several nations BEGIN owning large slices of their formable's
  * cores (Prussia holds 10/13 NGF states, Spain 5/6 of Iberia). Alarm and
  * rivalry must react to unification PROGRESS, not to the starting map, so

@@ -10,7 +10,7 @@ describe('1.0-U5 — campaign chronicle', () => {
     for (let day = 0; day < 365 * 3 + 5; day++) advanceDay(world, GAME_DATA);
     expect(world.chronicle?.length).toBe(3);
     const entry = world.chronicle![0];
-    expect(entry.year).toBe(1821);
+    expect(entry.year).toBe(1831);
     expect(entry.provinces).toBeGreaterThan(0);
     expect(entry.population).toBeGreaterThan(0);
     expect(entry.tag.length).toBeGreaterThanOrEqual(2);

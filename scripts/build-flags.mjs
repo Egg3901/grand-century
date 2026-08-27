@@ -11,7 +11,7 @@
  *
  * Run: node scripts/build-flags.mjs
  */
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const OUT = path.resolve(import.meta.dirname, '../public/flags');
@@ -323,10 +323,35 @@ Object.assign(FLAGS, {
   KOK: field(CR) + `<rect x="0" y="16" width="60" height="8" fill="${G}"/>` + star5(30, 20, 4, Y),
 });
 
+// ---- Fallback flags for the Vic2 region cut -----------------------------
+// Cutting provinces to Vic2's state regions brought in dozens of minor polities
+// (Chinese and Indian substates, Malay sultanates, Arabian emirates) that have
+// no hand-drawn design here. Rather than leave them flagless, derive a plain
+// but era-appropriate banner from the nation's own map colour, so the
+// "every playable polity ships a local flag" invariant holds.
+function fallbackFlag(color) {
+  const [r, g, b] = color;
+  const hex = (v) => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0');
+  const base = `#${hex(r)}${hex(g)}${hex(b)}`;
+  const shade = `#${hex(r * 0.62)}${hex(g * 0.62)}${hex(b * 0.62)}`;
+  // Horizontal bicolour with a parchment band: reads cleanly at flag size and
+  // stays inside the muted atlas palette because the hue comes from the map.
+  return field(base) + rect(0, 16, WIDTH, 8, W) + rect(0, 30, WIDTH, 10, shade);
+}
+
+const seedPath = path.resolve(import.meta.dirname, '../src/data/generated/worldSeed.json');
+const seed = JSON.parse(readFileSync(seedPath, 'utf8'));
+let generated = 0;
+for (const nation of seed.nations) {
+  if (FLAGS[nation.tag]) continue;
+  FLAGS[nation.tag] = fallbackFlag(nation.color ?? [107, 98, 82]);
+  generated += 1;
+}
+
 let count = 0;
 for (const [tag, body] of Object.entries(FLAGS)) {
   if (!body) continue;
   writeFileSync(path.join(OUT, `${tag}.svg`), svg(body));
   count++;
 }
-console.log(`wrote ${count} flags to ${OUT}`);
+console.log(`wrote ${count} flags to ${OUT} (${generated} generated from map colour)`);

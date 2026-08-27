@@ -1,0 +1,135 @@
+{
+  "asOf": "1830-01-01",
+  "baseline": "Victoria II 1836 grand campaign start",
+  "note": "Victoria II's earliest bookmark is 1836. Grand Century starts on 1830-01-01, so these deltas roll the Vic2 baseline back six years. Each entry names the Vic2 region, the owner Vic2 ships, and the owner that region actually had on 1830-01-01. Tags are Vic2 tags; the map build maps them to Grand Century tags afterwards.",
+  "ownership": [
+    {
+      "regionKey": "FRA_1700",
+      "regionName": "Algiers",
+      "from": "FRA",
+      "to": "ALD",
+      "why": "The French invasion of Algiers landed in June 1830 and the city fell on 5 July. On 1 January 1830 the Regency of Algiers was still whole under Ottoman suzerainty.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "BEL_387",
+      "regionName": "Vlaanderen",
+      "from": "BEL",
+      "to": "NET",
+      "why": "The Belgian Revolution began in August 1830 and independence was recognised in 1839. On 1 January 1830 Flanders was part of the United Kingdom of the Netherlands.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "BEL_394",
+      "regionName": "Wallonie",
+      "from": "BEL",
+      "to": "NET",
+      "why": "As Vlaanderen: still Dutch on 1 January 1830.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "TEX_132",
+      "regionName": "Texas",
+      "from": "TEX",
+      "to": "MEX",
+      "why": "The Republic of Texas declared independence in March 1836. In 1830 Texas was Mexican, under the colonisation restrictions of the Law of 6 April 1830.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "ECU_2279",
+      "regionName": "Ecuador",
+      "from": "ECU",
+      "to": "CLM",
+      "why": "Gran Colombia broke up over 1830-31; Ecuador seceded in May 1830. On 1 January 1830 the union was still formally intact.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "PEU_2289",
+      "regionName": "Pastaza",
+      "from": "ECU",
+      "to": "CLM",
+      "why": "Ecuadorian Amazonia, part of Gran Colombia at the start of 1830.",
+      "confidence": "medium"
+    },
+    {
+      "regionKey": "VNZ_2234",
+      "regionName": "Zulia",
+      "from": "VNZ",
+      "to": "CLM",
+      "why": "Venezuela's separation was declared through 1830 and completed in 1831; still Gran Colombian on 1 January 1830.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "VNZ_2265",
+      "regionName": "Miranda",
+      "from": "VNZ",
+      "to": "CLM",
+      "why": "As Zulia.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "VNZ_2278",
+      "regionName": "Bolívar",
+      "from": "VNZ",
+      "to": "CLM",
+      "why": "As Zulia.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "EGY_897",
+      "regionName": "Aleppo",
+      "from": "EGY",
+      "to": "TUR",
+      "why": "Muhammad Ali's invasion of Ottoman Syria ran 1831-33. In 1830 Aleppo was still governed from Constantinople.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "EGY_903",
+      "regionName": "Syria",
+      "from": "EGY",
+      "to": "TUR",
+      "why": "As Aleppo: Egyptian rule in Syria begins with the 1831 campaign.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "EGY_915",
+      "regionName": "Lebanon",
+      "from": "EGY",
+      "to": "TUR",
+      "why": "As Aleppo.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "EGY_921",
+      "regionName": "Palestine",
+      "from": "EGY",
+      "to": "TUR",
+      "why": "As Aleppo. Acre fell to Ibrahim Pasha in May 1832.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "EGY_910",
+      "regionName": "Transjordan",
+      "from": "EGY",
+      "to": "TUR",
+      "why": "As Aleppo.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "RUS_706",
+      "regionName": "Mazowieckie",
+      "from": "RUS",
+      "to": "POL",
+      "why": "Congress Poland kept its own sejm, army and constitution until the November Uprising of 1830 was crushed in 1831 and the Organic Statute abolished them. On 1 January 1830 it was a Russian constituent kingdom, not a Russian province.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "RUS_710",
+      "regionName": "Wielkopolskie",
+      "from": "RUS",
+      "to": "POL",
+      "why": "As Mazowieckie: within Congress Poland at the start of 1830.",
+      "confidence": "medium"
+    }
+  ]
+}

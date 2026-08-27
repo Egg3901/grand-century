@@ -1,0 +1,9 @@
+{
+  "asOf": "1830-01-01",
+  "note": "Province ownership is no longer patched here. It comes from Victoria II's own province history, rolled back to 1830 by content/vic2/vic2-1830-deltas.json and baked in by content/build-map.mjs. This file stays as the escape hatch for corrections that cannot be expressed as a Vic2 region delta.",
+  "sources": [
+    "content/vic2/vic2-reference.json",
+    "content/vic2/vic2-1830-deltas.json"
+  ],
+  "changes": []
+}

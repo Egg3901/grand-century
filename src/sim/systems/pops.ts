@@ -219,7 +219,7 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
 
     // Rising expectations: everyday/luxury needs grow with consciousness, so
     // needs-met is measured against the standards of the age, not the basket
-    // of 1820. Without this the labor/RGO fixes settle the whole century at
+    // of 1830. Without this the labor/RGO fixes settle the whole century at
     // ~0.98 needs-met — a solved economy with no scarcity tension left.
     // Life needs stay fixed: subsistence is subsistence.
     const expectation = 1 + clamp(pop.consciousness, 0, 10) * BALANCE.population.expectationPerConsciousness;

@@ -115,7 +115,7 @@ export function evaluateNationFormable(world: World, data: GameData, nationId: N
     || meetsPowerRequirement(world, nationId)
   ));
   const coreControl = controlled >= required;
-  const year = 1820 + Math.floor(world.day / 365);
+  const year = 1830 + Math.floor(world.day / 365);
   const eraMet = !formable.yearAtLeast || year >= formable.yearAtLeast;
   const prestigeReward = formablePrestigeReward(nation?.tag ?? '', formable, data);
   const requirements: FormableStatus['requirements'] = [

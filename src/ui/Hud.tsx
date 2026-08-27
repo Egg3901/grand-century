@@ -93,7 +93,7 @@ export function Hud() {
   const currentSpeed = optimisticSpeed ?? snapshotSpeed;
   const formattedDate = snapshot
     ? `${snapshot.date.year}-${String(snapshot.date.month).padStart(2, '0')}-${String(snapshot.date.day).padStart(2, '0')}`
-    : '1820-01-01';
+    : '1830-01-01';
   const researchChip = useMemo(() => {
     const tech = snapshot?.playerTech;
     if (!tech) return null;

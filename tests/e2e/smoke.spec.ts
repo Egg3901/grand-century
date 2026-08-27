@@ -31,7 +31,7 @@ test('boot, play one year, open panels, declare war', async ({ page }) => {
     const text = await page.getByTestId('hud-date').textContent();
     const year = Number(text?.split('-')[0] ?? 0);
     return year;
-  }, { timeout: 45_000 }).toBeGreaterThanOrEqual(1821); // 67-nation world boots slower on a cold dev server
+  }, { timeout: 45_000 }).toBeGreaterThanOrEqual(1831); // 92-nation world boots slower on a cold dev server
 
   // Pause before the panel sweep: at speed 5 the sim saturates the main
   // thread and panel renders crawl — this test was eating its whole budget

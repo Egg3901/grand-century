@@ -1,7 +1,7 @@
 # Grand Century
 
 A single-player, browser-based grand strategy game about the long nineteenth century.
-Take a nation in 1820, amid the fragile Concert of Europe and Atlantic revolutions, and
+Take a nation in 1830, amid the fragile Concert of Europe and Atlantic revolutions, and
 carry it through a century of industry, reform, and conquest on a world whose population
 and markets move whether you are watching or not.
 

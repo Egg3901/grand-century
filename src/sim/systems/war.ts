@@ -1701,7 +1701,7 @@ function createIndependentRebelNation(world: World, data: GameData, rebellion: R
     parties: createNationParties(),
     upperHouse: defaultUpperHouse(template?.government ?? 'presidential_dictatorship'),
     electionIntervalYears: 4,
-    lastElectionYear: 1820,
+    lastElectionYear: 1830,
     nextElectionYear: Number.MAX_SAFE_INTEGER,
     electionLastResult: 'Revolutionary council',
     capital,

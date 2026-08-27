@@ -22,14 +22,16 @@ function decision(id: string) {
   return def;
 }
 function jumpToYear(world: WorldT, year: number): void {
-  world.day = Math.max(world.day, (year - 1820) * 365 + 10);
+  world.day = Math.max(world.day, (year - 1830) * 365 + 10);
 }
 
 describe('1.0-U2 — the Risorgimento', () => {
-  it('ITALY cores include Austrian constituent Lombardy-Venetia', () => {
+  it('ITALY cores include Austrian Lombardy', () => {
     const italy = GAME_DATA.formables?.find((entry) => entry.key === 'ITALY');
     expect(italy).toBeTruthy();
-    const lombardy = WORLD_SEED.provinces.find((p) => p.name === 'Lombardy-Venetia')!.stateId;
+    // The Vic2 cut models Lombardy-Venetia as Austrian provinces rather than an
+    // LVN tag; Lombardia is the one the Risorgimento has to take.
+    const lombardy = WORLD_SEED.provinces.find((p) => p.name === 'Lombardia')!.stateId;
     expect(italy!.coreStateIds).toContain(lombardy);
     expect(italy!.yearAtLeast).toBe(1848);
   });
@@ -55,8 +57,9 @@ describe('1.0-U2 — the Risorgimento', () => {
     expect(takeDecision(world, GAME_DATA, sar, 'french_entente').ok).toBe(true);
     expect(opinionBetween(world, sar, fra)).toBeGreaterThanOrEqual(fraBefore + 60);
 
-    // sphere the northern minors to cross the expedition gate (2 of 7 cores)
-    for (const tag of ['MOD', 'PAR']) {
+    // sphere the northern minors to cross the expedition gate (2 of 7 cores).
+    // Parma is absorbed into Vic2's Emilia region and no longer exists as a tag.
+    for (const tag of ['MOD', 'TUS']) {
       const id = idByTag(world, tag);
       piedmont.sphereMembers.push(id);
       world.nations[id].spheredBy = sar;

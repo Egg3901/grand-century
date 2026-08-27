@@ -42,7 +42,7 @@ function setPlayer(world: WorldT, nationId: number): void {
 }
 
 function jumpToYear(world: WorldT, year: number): void {
-  world.day = Math.max(world.day, (year - 1820) * 365 + 10);
+  world.day = Math.max(world.day, (year - 1830) * 365 + 10);
 }
 
 function sphereTags(world: WorldT, holderId: number, tags: string[]): void {

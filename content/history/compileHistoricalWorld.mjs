@@ -7,7 +7,7 @@ const VALID_POLITY_STATUSES = new Set([
   'decentralized',
 ]);
 
-const HISTORICAL_SOURCE = 'Grand Century checked-in 1820 historical overlay v1';
+const HISTORICAL_SOURCE = 'Grand Century checked-in 1830 historical overlay v1';
 
 function clone(value) {
   return structuredClone(value);
@@ -19,7 +19,7 @@ function requireValue(condition, message) {
 
 function validateEpoch(...documents) {
   for (const document of documents) {
-    requireValue(document.asOf === '1820-01-01', `expected 1820-01-01, got ${document.asOf ?? 'no date'}`);
+    requireValue(document.asOf === '1830-01-01', `expected 1830-01-01, got ${document.asOf ?? 'no date'}`);
   }
 }
 
@@ -142,7 +142,7 @@ export function validateHistoricalAnchors(world, anchorData) {
 
 /**
  * Deep historical-data module. Callers supply the neutral seed and three
- * declarative 1820 documents; all mutation, validation and derived fields stay
+ * declarative 1830 documents; all mutation, validation and derived fields stay
  * behind this single interface.
  */
 export function compileHistoricalWorld(baseWorld, polityData, ownershipData, anchorData) {
@@ -152,7 +152,7 @@ export function compileHistoricalWorld(baseWorld, polityData, ownershipData, anc
   applyOwnership(world, ownershipData, nationsByTag);
   rebuildDerivedOwnership(world, nationsByTag);
   validateHistoricalAnchors(world, anchorData);
-  world.generatedAt = '1820-01-01T00:00:00.000Z';
+  world.generatedAt = '1830-01-01T00:00:00.000Z';
   world.source = HISTORICAL_SOURCE;
   world.provinceCount = world.provinces.length;
   return world;

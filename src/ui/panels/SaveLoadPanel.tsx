@@ -3,7 +3,7 @@ import { useStore } from '../../store';
 import { useSnapshotFields } from '../useSnapshotFields';
 
 function dayToDate(day: number): string {
-  const year = 1820 + Math.floor(day / 365);
+  const year = 1830 + Math.floor(day / 365);
   const dayOfYear = day % 365;
   return `${year} (day ${dayOfYear + 1})`;
 }

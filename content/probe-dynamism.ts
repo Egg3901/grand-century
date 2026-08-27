@@ -66,8 +66,8 @@ function checkpoint(w: World, year: number): void {
   }
 }
 
-checkpoint(world, 1820);
+checkpoint(world, 1830);
 for (let year = 1; year <= years; year++) {
   for (let day = 0; day < 365; day++) advanceDay(world, data);
-  if (year % 10 === 0) checkpoint(world, 1820 + year);
+  if (year % 10 === 0) checkpoint(world, 1830 + year);
 }

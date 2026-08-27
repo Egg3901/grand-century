@@ -640,7 +640,7 @@ function maybeBuildFactory(world: World, data: GameData, nationId: NationId): vo
       // moves, input cost is discounted to 15% by factoryInputIntensity, and
       // the same recipe therefore wins forever. Measured over 20 years the AI
       // built 329 furniture factories and never once built a lumber mill,
-      // fishing wharf, glassworks or paper mill — all tech-free from 1820 —
+      // fishing wharf, glassworks or paper mill — all tech-free from 1830 —
       // leaving 17 of 30 goods short and six at literally zero output (#40).
       //
       // Two market signals fix that without scripting the answer:

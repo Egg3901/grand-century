@@ -21,7 +21,7 @@ export interface SeedNation {
   polityStatus?: PolityStatus;
   /** Stable tag of the polity exercising suzerainty or imperial authority. */
   overlordTag?: string;
-  /** Short 1820-specific description for the nation browser. */
+  /** Short 1830-specific description for the nation browser. */
   eraSummary?: string;
 }
 

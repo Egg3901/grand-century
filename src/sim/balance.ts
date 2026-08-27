@@ -137,7 +137,7 @@ export const BALANCE = {
     demoteReturnRate: 0.01,
     // Rising expectations: everyday/luxury need quantities scale with pop
     // consciousness (0-10), up to +60% at full consciousness. Keeps late-game
-    // scarcity tension alive once industry solves the 1820 basket.
+    // scarcity tension alive once industry solves the 1830 basket.
     expectationPerConsciousness: 0.06,
   },
   diplomacy: {

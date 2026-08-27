@@ -116,7 +116,7 @@ export const DECISION_DEFS: DecisionDef[] = [
     description: 'Bind the German states into a Prussian-led customs union. Trade flows through Berlin — and with it, influence.',
     prerequisites: [
       { t: 'tagIn', tags: ['PRU'] },
-      { t: 'yearAtLeast', value: 1828 },
+      { t: 'yearAtLeast', value: 1834 },
       { t: 'isGreatPower' },
     ],
     cost: { treasury: 250 },

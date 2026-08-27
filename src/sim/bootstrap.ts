@@ -138,7 +138,7 @@ interface MinorityRule {
 }
 
 /**
- * 0.8.0 — the cultural fault lines of 1820, keyed by generated province name
+ * 0.8.0 — the cultural fault lines of 1830, keyed by generated province name
  * (names are unique in the baked seed). These are the *named* historical
  * minority regions; broad colonial sweeps are handled by geography below.
  */
@@ -465,8 +465,8 @@ function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
     parties: createNationParties(),
     upperHouse: defaultUpperHouse(seed.government),
     electionIntervalYears: seed.government === 'constitutional_monarchy' ? 5 : 4,
-    lastElectionYear: 1816,
-    nextElectionYear: isElectiveGovernment(seed.government) ? 1820 + (id % 4) : Number.MAX_SAFE_INTEGER,
+    lastElectionYear: 1826,
+    nextElectionYear: isElectiveGovernment(seed.government) ? 1830 + (id % 4) : Number.MAX_SAFE_INTEGER,
     electionLastResult: 'No election held yet.',
     capital: capitalId(worldSeed, seed.capitalProvinceId),
     polityStatus: seed.polityStatus ?? 'sovereign',

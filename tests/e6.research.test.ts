@@ -139,7 +139,7 @@ describe('E6 research progression', () => {
     const noPrereq = setNationResearch(world, GAME_DATA, world.playerNation, 'industry_electrification');
     expect(noPrereq.ok).toBe(false);
     const player = playerNation(world);
-    // Grant the full industry chain below electrification; the 1895 year gate must still block in 1820.
+    // Grant the full industry chain below electrification; the 1895 year gate must still block in 1830.
     player.techs.push(
       'mechanical_production', 'practical_steam_engine', 'industry_early_railroads',
       'industry_mechanized_sawmills', 'industry_interchangeable_parts', 'industry_machine_tooling',
@@ -360,14 +360,14 @@ describe('E6 effects & stability', () => {
     expect(view.statuses.every((status) => status.etaMonths === null || status.etaMonths === undefined || status.etaMonths >= 0)).toBe(true);
   }, 120_000);
 
-  it('year gates hold: nobody owns a post-1860 tech in 1845', () => {
+  it('year gates hold: nobody owns a post-1870 tech in 1855', () => {
     const world = createWorld(GAME_DATA, 77);
-    advanceDays(world, 365 * 25); // 1820 -> 1845
+    advanceDays(world, 365 * 25); // 1830 -> 1855
     const techByKey = new Map(GAME_DATA.techs.map((tech) => [tech.key, tech]));
     for (const nation of world.nations) {
       for (const key of nation.techs) {
         const def = techByKey.get(key);
-        expect((def?.year ?? 1820)).toBeLessThanOrEqual(1845);
+        expect((def?.year ?? 1830)).toBeLessThanOrEqual(1855);
       }
     }
   }, 120_000);
@@ -375,12 +375,12 @@ describe('E6 effects & stability', () => {
   it('availableTechsFor exposes only researchable frontier techs', () => {
     const world = createWorld(GAME_DATA, 88);
     const player = playerNation(world);
-    const available = availableTechsFor(player, GAME_DATA, 1820);
+    const available = availableTechsFor(player, GAME_DATA, 1830);
     expect(available.length).toBeGreaterThan(0);
     for (const tech of available) {
       expect(player.techs).not.toContain(tech.key);
       if (tech.prereq) expect(player.techs).toContain(tech.prereq);
-      expect(tech.year ?? 1820).toBeLessThanOrEqual(1820);
+      expect(tech.year ?? 1830).toBeLessThanOrEqual(1830);
     }
   });
 });

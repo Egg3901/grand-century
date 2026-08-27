@@ -12,7 +12,7 @@ import {
 } from '../shared/campaignMap';
 
 function yearFromDay(day: number): number {
-  return 1820 + Math.floor(day / 365);
+  return 1830 + Math.floor(day / 365);
 }
 
 function randomSeed(): number {
@@ -169,7 +169,7 @@ export function MainMenu() {
         <header className="menu-title">
           <h1 className="menu-title__name">Grand Century</h1>
           <p className="menu-title__rule" aria-hidden="true" />
-          <p className="menu-title__tag">An atlas of the long nineteenth century · 1820–1920</p>
+          <p className="menu-title__tag">An atlas of the long nineteenth century · 1830–1930</p>
         </header>
 
         {multiplayer ? (

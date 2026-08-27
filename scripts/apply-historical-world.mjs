@@ -6,7 +6,7 @@ import { compileHistoricalWorld } from '../content/history/compileHistoricalWorl
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const seedPath = path.join(root, 'src/data/generated/worldSeed.json');
-const historyPath = path.join(root, 'content/history/1820');
+const historyPath = path.join(root, 'content/history/1830');
 const readJson = async (file) => JSON.parse(await readFile(file, 'utf8'));
 
 const [seed, polities, ownership, anchors] = await Promise.all([
@@ -24,9 +24,9 @@ if (process.argv.includes('--check')) {
     console.error('[history] generated worldSeed.json is stale; run npm run map:history');
     process.exitCode = 1;
   } else {
-    console.log('[history] generated world seed matches the checked-in 1820 data');
+    console.log('[history] generated world seed matches the checked-in 1830 data');
   }
 } else {
   await writeFile(seedPath, output, 'utf8');
-  console.log(`[history] applied 1820 data to ${compiled.provinces.length} provinces and ${compiled.nations.length} polities`);
+  console.log(`[history] applied 1830 data to ${compiled.provinces.length} provinces and ${compiled.nations.length} polities`);
 }

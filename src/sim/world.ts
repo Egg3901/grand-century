@@ -24,7 +24,7 @@ import { runCrisisMonthly } from './systems/crisis';
 import { runCultureMonthly } from './systems/culture';
 import { buildSnapshot } from './snapshot';
 
-const EPOCH_YEAR = 1820;
+const EPOCH_YEAR = 1830;
 const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 export function dayToDate(day: GameDay): GameDate {
@@ -107,7 +107,7 @@ function recordChronicle(world: World): void {
     for (const popId of province.popIds) population += world.pops[popId]?.size ?? 0;
   }
   world.chronicle.push({
-    year: 1820 + Math.floor(world.day / 365),
+    year: 1830 + Math.floor(world.day / 365),
     tag: nation.tag,
     name: nation.name,
     provinces,

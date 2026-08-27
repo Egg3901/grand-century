@@ -7,13 +7,13 @@
  * Coverage baseline (measured 2026-07-27 — raise the floors as arcs land):
  *   nation-scoped decisions (tagIn):     2  (PRU, SAR)
  *   nation-scoped events (trigger.tags): 3  (AUS, PRU, SAR)
- *   formable candidates:                20
+ *   formable candidates:                18  (was 20; PAR and VEN have no tag in the Vic2 1830 cut)
  *   zero of all three:                  28 nations
  */
 import { describe, expect, it } from 'vitest';
 import { DECISION_DEFS } from '../src/data/decisions';
 import { EVENT_DEFS } from '../src/data/events';
-import { GAME_DATA } from '../src/data/gameData';
+import { GAME_DATA, UNRESOLVED_STATE_NAMES } from '../src/data/gameData';
 import { WORLD_SEED } from '../src/data/generated';
 import type { EventEffect, EventRequirement, EventTriggerDef } from '../src/shared/types';
 
@@ -291,7 +291,7 @@ describe('H6 content lint', () => {
         `nations w/ scoped decision: ${decisionCount} / ${seedNations.length}  [${[...withNationScopedDecision].sort().join(', ')}]`,
         `nations w/ scoped event:    ${eventCount} / ${seedNations.length}  [${[...withNationScopedEvent].sort().join(', ')}]`,
         `nations w/ formable:        ${formableCount} / ${seedNations.length}  [${[...withFormable].sort().join(', ')}]`,
-        `nations w/ 1820 era flavor:   ${withEraFlavor.size} / ${seedNations.length}`,
+        `nations w/ 1830 era flavor:   ${withEraFlavor.size} / ${seedNations.length}`,
         `nations w/ zero content/flavor: ${zeroCount} / ${seedNations.length}`,
         `zero-content list: ${zeroContent.join(', ')}`,
         '============================================',
@@ -303,7 +303,18 @@ describe('H6 content lint', () => {
     // Baseline 2026-07-27: decisions 2, events 3, formables 20, zero 28.
     expect(decisionCount).toBeGreaterThanOrEqual(2);
     expect(eventCount).toBeGreaterThanOrEqual(3);
-    expect(formableCount).toBeGreaterThanOrEqual(20);
+    // 18, not 20: Parma is absorbed into Vic2's Emilia region and Venezuela
+    // does not exist until Gran Colombia breaks up in 1831.
+    expect(formableCount).toBeGreaterThanOrEqual(18);
     expect(zeroCount).toBeLessThanOrEqual(47); // 19 moonshot nations ship without scoped content yet
+  });
+});
+
+describe('Vic2 state-name references', () => {
+  it('every statesNamed() lookup resolves against the generated map', () => {
+    // Province and state names come from the Vic2 region cut. When a rebuild
+    // renames or absorbs a state, the formable that referenced it silently
+    // loses its cores; this turns that into a failing test.
+    expect(UNRESOLVED_STATE_NAMES).toEqual([]);
   });
 });

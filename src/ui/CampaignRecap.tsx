@@ -62,8 +62,8 @@ export function CampaignRecap() {
         </div>
         <p className="recap-subtitle">
           {over === 'century'
-            ? `1820–${last.year}. One hundred years on the board.`
-            : `1820–${last.year}. The map closed over ${last.name}.`}
+            ? `1830–${last.year}. One hundred years on the board.`
+            : `1830–${last.year}. The map closed over ${last.name}.`}
           {identities.length > 1 ? ` Began the age as ${identities[0]}.` : ''}
         </p>
 
@@ -71,7 +71,7 @@ export function CampaignRecap() {
           <div className="recap-stat">
             <b>{last.provinces}</b>
             <span>provinces{first.provinces !== last.provinces
-              ? ` (${last.provinces >= first.provinces ? '+' : ''}${last.provinces - first.provinces} since 1820)` : ''}</span>
+              ? ` (${last.provinces >= first.provinces ? '+' : ''}${last.provinces - first.provinces} since 1830)` : ''}</span>
           </div>
           <div className="recap-stat">
             <b>{formatCount(last.population)}</b>
