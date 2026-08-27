@@ -31,19 +31,45 @@ Full pipeline documentation is in **`docs/VIC2-PIPELINE.md`** — read that firs
 - `node content/build-map.mjs && npm run map:history` runs clean end to end.
 
 **Not finished — pick up here**
-1. **The full unit suite had not finished on the last run.** Individually
-   verified green: `generated.mapdata`, `historical.map`, `u2.risorgimento`,
-   `u5.chronicle`, `content.lint`. Run `npm test` and work the remainder.
+
+1. **Unit suite: 188 passing, 17 failing across 7 files** (last full run, before
+   the Zollverein fix below — so roughly 16 remain). Get the current list with:
+
+   ```bash
+   npx vitest run --project unit 2>&1 | grep -E "^ FAIL|Tests "
+   ```
+
+   Verified green individually: `generated.mapdata` (7/7, the geometry gate),
+   `historical.map`, `u2.risorgimento`, `u5.chronicle`, `content.lint`.
+
+   Known remaining failure: `u1.unification` — *"great powers sour on a
+   near-complete unifier"* asserts `expected 0 to be less than 0`. Prussia's
+   core share of Germany changed with the new map, so the balance-of-power
+   pressure it is measuring no longer triggers. This is a real consequence of
+   the re-cut, not a mechanical port error, and wants a look at whether the
+   German core set or the threshold is what should move.
+
+   The Zollverein test *was* failing because the campaign now opens in 1830 and
+   the decision gate moved to 1834 (see point 3); its `jumpToYear` was still
+   1830. Fixed — treat it as the template for any other test that jumps to a
+   year that is now the start year.
+
 2. **`tests/baselines/pacing.baseline.json` is stale.** It records century-pacing
    observations from the old 620-province world. The map changed completely, so
    these numbers are meaningless now and the test will fail. Regenerating it is a
    balance judgement — look at the new numbers before pinning them.
-3. **Tech year gates were deliberately not shifted.** They are absolute
+3. **Three content gates were shifted so the date move did not unlock things on
+   day one:** Zollverein 1828 -> 1834 (the real German Customs Union date; 1828
+   would now be open at start), Gran Colombia formable 1825 -> 1835, and the
+   border-incident event 1820 -> 1830. Tests that assumed the old years need the
+   same treatment.
+
+4. **Tech year gates were deliberately not shifted.** They are absolute
    historical dates (Vic2 does the same across its 1836/1861 bookmarks), so the
    tree still completes at 1920 while the campaign now runs 1830–1930. You may
    want to extend the late-game tree by a decade. That is a design call, not a
    port bug.
-4. **`MainMenu` seed default is still 1820.** It is an RNG seed, not a date, so
+5. **`MainMenu` seed default is still 1820.** It is an RNG seed, not a date, so
    changing it alters procedural worlds and invalidates shared permalinks. Left
    alone on purpose.
 

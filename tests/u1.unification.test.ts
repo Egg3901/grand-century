@@ -98,9 +98,9 @@ describe('1.0-U1 — the Prussian unification arc', () => {
     world.nations[prussia].gpRank = Math.max(1, world.nations[prussia].gpRank);
     world.nations[prussia].treasury = 1_000;
 
-    // year gate
+    // year gate: the campaign opens in 1830 and the Zollverein gate is 1834
     expect(evaluateDecision(world, GAME_DATA, prussia, decisionById('zollverein')).available).toBe(false);
-    jumpToYear(world, 1830);
+    jumpToYear(world, 1836);
     expect(evaluateDecision(world, GAME_DATA, prussia, decisionById('zollverein')).available).toBe(true);
 
     // tag gate — France can never found the Zollverein
