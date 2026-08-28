@@ -1,6 +1,13 @@
 # Historical Map Source Audit
 
-## Recommendation
+> **Superseded on the start date.** This audit argued for 1820 and the game
+> shipped with it for a time, but the map was later re-cut from Victoria II's
+> state regions and the canonical start moved to **1830-01-01**. The sourcing
+> research below still stands and is why several 1830 rollbacks exist (Algiers,
+> Belgium, Texas, Gran Colombia, Ottoman Syria, Congress Poland). For how the
+> map is actually built today, see `docs/VIC2-PIPELINE.md`.
+
+## Recommendation (as written for 1820)
 
 Grand Century should lock **1820-01-01** as its canonical start date.
 
