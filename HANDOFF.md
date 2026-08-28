@@ -1,8 +1,10 @@
 # Handoff — Victoria II map re-cut + 1830 start
 
-Branch: `vic2-1830-map`. Written 2026-08-27.
+Branch `vic2-1830-map`, written 2026-08-27, **merged to `master` and deployed
+2026-08-28**. This is now a record of what changed and what to watch, not a list
+of work in progress.
 
-## What this branch does
+## What this branch did
 
 Grand Century's province map used to be Natural Earth's modern admin-1 units with
 a hand-written 1820 overlay on top. It is now cut to **Victoria II's 549 state
@@ -12,66 +14,63 @@ to **1 January 1830**.
 | | before | after |
 |---|---|---|
 | Provinces | 657 (modern admin-1) | **545** (Vic2 state regions) |
-| States | 657 (1:1, degenerate) | **202**, all single-owner |
-| Nations | 80 | **92 with land**, 101 tags in the library |
+| States | 657 (1:1, degenerate) | **216**, single-owner, cut along nationality |
+| Nations | 80 | **93 with land**, 102 tags in the library |
 | Epoch | 1820-01-01 | **1830-01-01** |
 | `provinces.geo.json` | 159 KB gzip | **86 KB gzip** |
+| Cultures | 33 | **34** (`indigenous_american` added) |
 
 Full pipeline documentation is in **`docs/VIC2-PIPELINE.md`** — read that first.
 
 ## State of play
 
-**Done and verified**
-- Vic2 extraction, projection calibration, region placement, the 1830 rollback,
-  the map re-cut, the epoch move, flags for all 92 nations.
-- `npx tsc -b` is clean.
-- `tests/generated.mapdata.test.ts` passes (7/7) — this is the geometry gate and
-  it was the hardest thing to get green.
-- `tests/historical.map.test.ts` rewritten for the Vic2 map and passing.
-- `node content/build-map.mjs && npm run map:history` runs clean end to end.
+Unit suite 211 passed / 0 failed, balance 11 passed, `tsc -b` clean, lint clean,
+the opt-in pacing probe green with a regenerated baseline. The geometry gate
+(`tests/generated.mapdata.test.ts`, 7/7) passes; it was the hardest thing to get
+green and it stayed green through everything below.
 
-**Not finished — pick up here**
+**The re-cut silently broke every derived layer, and no test caught any of it.**
+That is the single most useful thing on this page. The map was correct while the
+world built on top of it was not:
 
-1. **Unit suite: 188 passing, 17 failing across 7 files** (last full run, before
-   the Zollverein fix below — so roughly 16 remain). Get the current list with:
+- **67 of 96 `MINORITY_RULES` keys named provinces that no longer existed.**
+  The table is keyed by generated province name and the re-cut renamed
+  everything. Ireland had no Irish, Hungary no Hungarians, Greece no Greeks.
+- **36 of 93 nations came out British.** `cultureIndex` falls back to index 0,
+  which is `british`, and the re-cut writes raw Vic2 culture keys into the seed.
+  Serbia, Tibet, Zululand and Oman were all British; Greece was French.
+- **412 of 545 provinces were their own neighbour.** topojson's `neighbors()`
+  reports a merged MultiPolygon as adjacent to itself, and every Vic2 region is
+  merged from several polygons.
+- **Finland was deleted.** Vic2 ships the Grand Duchy as plain Russian territory,
+  so deferring to Vic2 ownership dropped a polity the game already modelled.
+- **States were cut by geography alone**, so Österreich, Bohemia, Central
+  Hungary, West Galicia and Slovakia shared one state. A movement heartland is a
+  state where a culture holds 35%, so no nationality in Austria could ever have
+  one and Hungary could not revolt.
+- **`statesOf` returned one id per province**, so a state repeated once per
+  province in it. `evaluateNationFormable` deduped and `seedCoreShare` did not,
+  so formable alarm thresholds were compared against an inflated baseline.
 
-   ```bash
-   npx vitest run --project unit 2>&1 | grep -E "^ FAIL|Tests "
-   ```
+All fixed, and each now has a lint that fails loudly instead: see the
+`cultural seeding tables resolve against the generated map` and
+`generated map adjacency` blocks in `tests/content.lint.test.ts`.
 
-   Verified green individually: `generated.mapdata` (7/7, the geometry gate),
-   `historical.map`, `u2.risorgimento`, `u5.chronicle`, `content.lint`.
+**Still open, all design calls rather than bugs**
 
-   Known remaining failure: `u1.unification` — *"great powers sour on a
-   near-complete unifier"* asserts `expected 0 to be less than 0`. Prussia's
-   core share of Germany changed with the new map, so the balance-of-power
-   pressure it is measuring no longer triggers. This is a real consequence of
-   the re-cut, not a mechanical port error, and wants a look at whether the
-   German core set or the threshold is what should move.
-
-   The Zollverein test *was* failing because the campaign now opens in 1830 and
-   the decision gate moved to 1834 (see point 3); its `jumpToYear` was still
-   1830. Fixed — treat it as the template for any other test that jumps to a
-   year that is now the start year.
-
-2. **`tests/baselines/pacing.baseline.json` is stale.** It records century-pacing
-   observations from the old 620-province world. The map changed completely, so
-   these numbers are meaningless now and the test will fail. Regenerating it is a
-   balance judgement — look at the new numbers before pinning them.
-3. **Three content gates were shifted so the date move did not unlock things on
-   day one:** Zollverein 1828 -> 1834 (the real German Customs Union date; 1828
-   would now be open at start), Gran Colombia formable 1825 -> 1835, and the
-   border-incident event 1820 -> 1830. Tests that assumed the old years need the
-   same treatment.
-
-4. **Tech year gates were deliberately not shifted.** They are absolute
-   historical dates (Vic2 does the same across its 1836/1861 bookmarks), so the
-   tree still completes at 1920 while the campaign now runs 1830–1930. You may
-   want to extend the late-game tree by a decade. That is a design call, not a
-   port bug.
-5. **`MainMenu` seed default is still 1820.** It is an RNG seed, not a date, so
-   changing it alters procedural worlds and invalidates shared permalinks. Left
-   alone on purpose.
+1. **The tech tree ends in 1915 and the campaign runs to 1930.** Tech year gates
+   were deliberately not shifted, since they are absolute historical dates and
+   Vic2 does the same across its bookmarks. The pacing probe no longer asserts a
+   tech cadence past the last tech year, but the last fifteen years of a
+   campaign still have nothing left to research. Extending the late tree by a
+   decade is the real fix.
+2. **`MainMenu` seed default is still 1820.** It is an RNG seed, not a date.
+   Changing it alters procedural worlds and invalidates shared permalinks, so it
+   is left alone on purpose.
+3. **Sim throughput is ~3.3 ms per province-year**, about 0.55 sim-years per
+   second. The perf ceiling was raised 4 -> 5.5 to cover 93 nations and a
+   culture system that now does real work. That is a recording, not an
+   aspiration, but the game is not fast.
 
 ## Getting the repo running on the VPS
 
@@ -137,12 +136,28 @@ Export quantization can also *re-introduce* self intersections after repair, so
 `compactGeojson` repairs once more on the quantized result. Both were needed to
 get the geometry test green.
 
-**States must be single-owner.** `compileHistoricalWorld` rejects a state that
-crosses owners, so `clusterRegionsIntoStates` groups by `ownerTag|regionPrefix`
-before clustering geographically. Clusters also split until every member sits
-within `MAX_STATE_RADIUS_DEG` (10°) of its centre — without that, Denmark's six
-regions become one "state" spanning Jutland, Iceland, Greenland and the Gold
-Coast.
+**States are cut by owner, then nationality, then geography.**
+`compileHistoricalWorld` rejects a state that crosses owners, so
+`clusterRegionsIntoStates` groups by `ownerTag|nationality` before clustering
+geographically, where the nationality comes from `NATIONALITY_GROUPS` in
+`content/build-map.mjs`. The nationality term is load-bearing, not cosmetic:
+without it k-means merges whichever peoples happen to be adjacent, and since a
+national movement's heartland is a state where its culture holds 35%, no
+minority in a multinational empire can ever hold one. Clusters also split until
+every member sits within `MAX_STATE_RADIUS_DEG` (10°) of its centre — without
+that, Denmark's six regions become one "state" spanning Jutland, Iceland,
+Greenland and the Gold Coast.
+
+**Anything keyed by generated province name will rot on the next rebuild.**
+`MINORITY_RULES`, `PLACEHOLDER_NAME_RULES`, `SOUTH_ASIAN_SUNNI` and
+`NATIONALITY_GROUPS` are all name-keyed, and a rename does not throw, it just
+silently stops matching. The content lint asserts every key still resolves. Add
+to that lint whenever you add a name-keyed table.
+
+**`cultureIndex` has a silent fallback to index 0.** Pass it an unknown culture
+key and you get `british`, with no warning. `VIC2_CULTURE_TO_GC` maps Vic2's
+~200 cultures onto this game's 34, and the content lint asserts every seeded
+primary culture resolves without hitting the fallback.
 
 **Micro-states are absorbed on purpose.** At 549-region granularity a nation that
 never *dominates* a region has nowhere to sit. Parma is a minority owner inside
@@ -182,7 +197,7 @@ content/vic2/build-region-points.mjs      regions -> real lon/lat via local warp
 content/vic2/vic2-reference.json          549 regions, 220 tags, 1836 ownership
 content/vic2/vic2-province-points.json    per-province pixel centroids
 content/vic2/vic2-region-points.json      per-region lon/lat (the map's seed points)
-content/vic2/vic2-1830-deltas.json        16 sourced 1836 -> 1830 rollback deltas
+content/vic2/vic2-1830-deltas.json        18 sourced 1836 -> 1830 rollback deltas
 docs/VIC2-PIPELINE.md                     full pipeline documentation
 ```
 
