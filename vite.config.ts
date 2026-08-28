@@ -162,7 +162,7 @@ export default defineConfig({
       manifest: {
         name: 'Grand Century',
         short_name: 'Grand Century',
-        description: 'Reshape the long nineteenth century from 1820, fully client-side.',
+        description: 'Reshape the long nineteenth century from 1830, fully client-side.',
         theme_color: '#e8dcc0',
         background_color: '#e8dcc0',
         display: 'standalone',

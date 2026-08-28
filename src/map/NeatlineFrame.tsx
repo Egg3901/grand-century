@@ -35,7 +35,7 @@ export function NeatlineFrame() {
         <div className="neatline__cartouche-text">
           <span className="neatline__title">Grand Century</span>
           <span className="neatline__subtitle">Atlas of the Long Nineteenth Century</span>
-          <span className="neatline__plate">MDCCCXX &ndash; MCMXX &middot; Plate I</span>
+          <span className="neatline__plate">MDCCCXXX &ndash; MCMXXX &middot; Plate I</span>
         </div>
       </div>
     </div>
