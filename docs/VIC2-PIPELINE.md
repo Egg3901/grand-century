@@ -107,7 +107,7 @@ between versions fails the run by name.
 
 | | |
 |---|---|
-| Provinces | 545 (4 island regions have no land at Natural Earth 50m) |
-| States | 216, single-owner, cut along nationality |
-| Nations | 93 with land, 102 tags in the library |
+| Provinces | 548 (1 Pacific region has no land at Natural Earth 10m) |
+| States | 219, single-owner, cut along nationality |
+| Nations | 94 with land, 102 tags in the library |
 | Epoch | 1830-01-01 |

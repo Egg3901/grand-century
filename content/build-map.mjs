@@ -16,7 +16,11 @@ const ADMIN1_FILES = [
   'ne_50m_admin_1_states_provinces.geojson',
   'ne_110m_admin_1_states_provinces.geojson',
 ];
-const ADMIN0_FILE = 'ne_110m_admin_0_countries.geojson';
+// 10m, not 110m. At 110m the entire United Kingdom is 56 coordinates, which is
+// why Britain, Denmark and Italy rendered as blobs: admin-1 at 50m only covers
+// nine large countries, so everything else falls back to this file for its
+// coastline. 10m carries 7,113 points for the UK alone.
+const ADMIN0_FILE = 'ne_10m_admin_0_countries.geojson';
 
 const MIN_PROVINCES = 300;
 const MAX_PROVINCES = 800;
@@ -958,6 +962,23 @@ function deterministicUnitSort(a, b) {
   );
 }
 
+/**
+ * A MultiPolygon country is a set of separate landmasses, and treating it as one
+ * parent gives it a bbox that means nothing. Split it, largest first, and drop
+ * specks below the piece floor: they are smaller than any real province and the
+ * downstream cut discards them anyway.
+ */
+function splitIntoLandmasses(geometry) {
+  if (!geometry) return [];
+  if (geometry.type !== 'MultiPolygon') return [geometry];
+  const parts = geometry.coordinates
+    .map((poly) => ({ type: 'Polygon', coordinates: poly }))
+    .map((part) => ({ part, area: Math.abs(geometryArea(part)) }))
+    .filter((entry) => entry.area > MIN_PIECE_AREA)
+    .sort((a, b) => b.area - a.area);
+  return parts.length ? parts.map((entry) => entry.part) : [geometry];
+}
+
 function buildParentsFromGeojson(geojson, _tolerance = 0, keyPrefix = '', forceCountryName = false) {
   const features = Array.isArray(geojson.features) ? geojson.features : [];
   const parents = [];
@@ -965,7 +986,13 @@ function buildParentsFromGeojson(geojson, _tolerance = 0, keyPrefix = '', forceC
     const feature = features[i];
     const props = feature.properties || {};
     // Keep RAW geometry here — topology-preserving simplify runs once after all splits.
-    const geometry = feature.geometry;
+    // One parent per landmass, not per country. candidateSeedsForBounds ranks
+    // seeds by distance to the parent bbox and keeps 64; a country whose bbox
+    // spans the globe scores every seed at distance zero, so the cut fell back
+    // to alphabetical order. At 10m that bbox includes France's overseas
+    // territories, and metropolitan France lost its whole interior because its
+    // own regions never made the 64.
+    for (const geometry of splitIntoLandmasses(feature.geometry)) {
     const bbox = geometryBounds(geometry);
     if (!bbox) continue;
     const area = Math.max(1e-6, geometryArea(geometry));
@@ -985,7 +1012,7 @@ function buildParentsFromGeojson(geojson, _tolerance = 0, keyPrefix = '', forceC
       || `${adminName}:${stateName}:${i + 1}`,
     );
     parents.push({
-      key: `${keyPrefix}${key}`,
+      key: `${keyPrefix}${key}${parents.length ? `#${parents.length}` : ''}`,
       stateName,
       ownerTag,
       adminName,
@@ -995,6 +1022,7 @@ function buildParentsFromGeojson(geojson, _tolerance = 0, keyPrefix = '', forceC
       centroid,
       geometry,
     });
+    }
   }
   return parents.sort(deterministicParentSort);
 }
@@ -1823,21 +1851,50 @@ function voronoiPartitionGeometry(geometry, seeds) {
   return cells;
 }
 
+/**
+ * Interior candidate points for Voronoi seeding.
+ *
+ * Sampled per polygon part against that part's own bbox. A single bbox over a
+ * multi-part country is worthless: at 10m Natural Earth, France runs from the
+ * Caribbean to the Indian Ocean, so one grid capped at ~15x15 spread its
+ * samples across half the planet and put almost none inside metropolitan
+ * France. Eleven French regions came out with no land at all and the country
+ * rendered as a coastal ring around a hole.
+ *
+ * Parts are taken largest-first and capped, so an archipelago like Indonesia
+ * does not generate tens of thousands of candidates for the Voronoi pass.
+ */
+const MAX_SAMPLED_PARTS = 40;
+const MAX_INTERIOR_SAMPLES = 1800;
+
 function sampleInteriorPoints(geometry, salt) {
-  const bbox = geometryBounds(geometry);
-  if (!bbox) return [];
-  const width = Math.max(1e-6, bbox.maxLon - bbox.minLon);
-  const height = Math.max(1e-6, bbox.maxLat - bbox.minLat);
-  const target = clamp(Math.round((width * height) / 4), 48, 220);
-  const grid = Math.max(6, Math.ceil(Math.sqrt(target)));
+  const parts = geometry.type === 'MultiPolygon'
+    ? geometry.coordinates.map((poly) => ({ type: 'Polygon', coordinates: poly }))
+    : [geometry];
+  const ranked = parts
+    .map((part) => ({ part, area: Math.abs(geometryArea(part)) }))
+    .sort((a, b) => b.area - a.area)
+    .slice(0, MAX_SAMPLED_PARTS);
+
   const points = [];
-  for (let gy = 0; gy < grid; gy++) {
-    for (let gx = 0; gx < grid; gx++) {
-      const jitter = ((hashString(`${salt}:${gx}:${gy}`) % 1000) / 1000 - 0.5) * 0.35;
-      const lon = bbox.minLon + ((gx + 0.5 + jitter) / grid) * width;
-      const lat = bbox.minLat + ((gy + 0.5 - jitter) / grid) * height;
-      const point = [roundCoord(lon), roundCoord(lat)];
-      if (pointInGeometry(point, geometry)) points.push(point);
+  for (let p = 0; p < ranked.length && points.length < MAX_INTERIOR_SAMPLES; p++) {
+    const { part, area } = ranked[p];
+    const bbox = geometryBounds(part);
+    if (!bbox) continue;
+    const width = Math.max(1e-6, bbox.maxLon - bbox.minLon);
+    const height = Math.max(1e-6, bbox.maxLat - bbox.minLat);
+    // Size the grid by the part's own area, not its bbox product: a long thin
+    // country should not be sampled as if it filled its bounding box.
+    const target = clamp(Math.round(area / 4), 24, 220);
+    const grid = Math.max(4, Math.ceil(Math.sqrt(target)));
+    for (let gy = 0; gy < grid; gy++) {
+      for (let gx = 0; gx < grid; gx++) {
+        const jitter = ((hashString(`${salt}:${p}:${gx}:${gy}`) % 1000) / 1000 - 0.5) * 0.35;
+        const lon = bbox.minLon + ((gx + 0.5 + jitter) / grid) * width;
+        const lat = bbox.minLat + ((gy + 0.5 - jitter) / grid) * height;
+        const point = [roundCoord(lon), roundCoord(lat)];
+        if (pointInGeometry(point, part)) points.push(point);
+      }
     }
   }
   if (points.length === 0) {
@@ -1847,7 +1904,6 @@ function sampleInteriorPoints(geometry, salt) {
   points.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
   return points;
 }
-
 function farthestPointSample(candidates, count, salt) {
   if (candidates.length === 0) return [];
   if (candidates.length <= count) return candidates.slice();

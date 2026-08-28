@@ -446,6 +446,11 @@
       "tag": "HEK",
       "mode": "merge",
       "eraSummary": "The Electorate of Hesse-Kassel is a small German state with an unpopular prince. The unrest of this autumn will win it a constitution in January."
+    },
+    {
+      "tag": "HAW",
+      "mode": "merge",
+      "eraSummary": "Kamehameha III rules a kingdom unified barely a generation ago. The sandalwood forests are nearly cut out and the whalers have found Honolulu."
     }
   ]
 }

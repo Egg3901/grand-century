@@ -13,11 +13,11 @@ to **1 January 1830**.
 
 | | before | after |
 |---|---|---|
-| Provinces | 657 (modern admin-1) | **545** (Vic2 state regions) |
-| States | 657 (1:1, degenerate) | **216**, single-owner, cut along nationality |
-| Nations | 80 | **93 with land**, 102 tags in the library |
+| Provinces | 657 (modern admin-1) | **548** (Vic2 state regions) |
+| States | 657 (1:1, degenerate) | **219**, single-owner, cut along nationality |
+| Nations | 80 | **94 with land**, 102 tags in the library |
 | Epoch | 1820-01-01 | **1830-01-01** |
-| `provinces.geo.json` | 159 KB gzip | **86 KB gzip** |
+| `provinces.geo.json` | 159 KB gzip | **200 KB gzip** (10m coastlines) |
 | Cultures | 33 | **34** (`indigenous_american` added) |
 
 Full pipeline documentation is in **`docs/VIC2-PIPELINE.md`** — read that first.
@@ -86,7 +86,7 @@ without the Natural Earth sources.** You only need those to *rebuild* the map.
 
 ### To rebuild the map
 
-`content/raw/` is gitignored (8.8 MB of Natural Earth data). Re-fetch it:
+`content/raw/` is gitignored (22 MB of Natural Earth data). Re-fetch it:
 
 ```bash
 mkdir -p content/raw && cd content/raw
@@ -94,6 +94,7 @@ BASE=https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojs
 for f in ne_50m_admin_1_states_provinces.geojson \
          ne_110m_admin_1_states_provinces.geojson \
          ne_110m_admin_0_countries.geojson \
+         ne_10m_admin_0_countries.geojson \
          ne_10m_populated_places_simple.geojson; do
   curl -sSL -o "$f" "$BASE/$f"
 done

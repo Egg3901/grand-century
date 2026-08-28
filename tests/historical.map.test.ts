@@ -24,12 +24,23 @@ describe('checked-in 1830 historical map', () => {
     expect(compiled).toEqual(WORLD_SEED);
   });
 
-  it('rejects province-id drift instead of silently assigning the wrong land', () => {
+  it('rejects an anchored province going missing instead of shipping the wrong land', () => {
+    // Anchors key on name, not id: ids renumber on every re-cut, so an id-keyed
+    // anchor fails on rebuilds for reasons unrelated to what it guards.
     const drifted = structuredClone(WORLD_SEED);
-    const anchorList = anchors.anchors as { kind: string; provinceId: number; provinceName: string }[];
+    const anchorList = anchors.anchors as { kind: string; provinceName: string }[];
     const target = anchorList.find((entry) => entry.kind === 'province')!;
-    const province = drifted.provinces.find((p) => p.id === target.provinceId)!;
+    const province = drifted.provinces.find((p) => p.name === target.provinceName)!;
     province.name = 'Wrong Province';
+    expect(() => validateHistoricalAnchors(drifted, anchors)).toThrow();
+  });
+
+  it('rejects an anchored province changing hands', () => {
+    const drifted = structuredClone(WORLD_SEED);
+    const anchorList = anchors.anchors as { kind: string; provinceName: string; ownerTag: string }[];
+    const target = anchorList.find((entry) => entry.kind === 'province')!;
+    const province = drifted.provinces.find((p) => p.name === target.provinceName)!;
+    province.ownerTag = province.ownerTag === 'FRA' ? 'ENG' : 'FRA';
     expect(() => validateHistoricalAnchors(drifted, anchors)).toThrow();
   });
 

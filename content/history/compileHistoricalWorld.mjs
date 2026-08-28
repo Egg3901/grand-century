@@ -126,11 +126,15 @@ function rebuildDerivedOwnership(world, nationsByTag) {
 
 export function validateHistoricalAnchors(world, anchorData) {
   const nationsByTag = new Map(world.nations.map((nation) => [nation.tag, nation]));
-  const provincesById = new Map(world.provinces.map((province) => [province.id, province]));
+  const provincesByName = new Map(world.provinces.map((province) => [province.name, province]));
   for (const anchor of anchorData.anchors) {
     if (anchor.kind === 'province') {
-      const province = provincesById.get(anchor.provinceId);
-      requireValue(province?.name === anchor.provinceName, `${anchor.id}: province identity mismatch`);
+      // Keyed by name, not id. Province ids renumber whenever the cut changes,
+      // so an id-keyed anchor fails on every rebuild for a reason that has
+      // nothing to do with the fact it is guarding. The name is the stable
+      // identity, and content.lint already asserts names resolve.
+      const province = provincesByName.get(anchor.provinceName);
+      requireValue(province, `${anchor.id}: no province named ${anchor.provinceName}`);
       requireValue(province.ownerTag === anchor.ownerTag, `${anchor.id}: expected owner ${anchor.ownerTag}, got ${province.ownerTag}`);
       if (anchor.controllerTag) requireValue(province.controllerTag === anchor.controllerTag, `${anchor.id}: expected controller ${anchor.controllerTag}`);
       continue;
