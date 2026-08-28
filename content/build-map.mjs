@@ -2275,6 +2275,108 @@ const MAX_STATE_RADIUS_DEG = 10;
  * Roughly 25 km^2 at the equator — below any real province fragment, and above
  * the degenerate crumbs Sutherland-Hodgman leaves on concave coastlines.
  */
+/**
+ * Nationality groups for the multinational empires.
+ *
+ * k-means over lon/lat alone has no idea where a border between peoples runs,
+ * so it happily put Österreich, Bohemia, Central Hungary, West Galicia and
+ * Slovakia in one state: Austrians, Czechs, Hungarians, Poles and Slovaks with
+ * a single owner and no majority. That is fatal to the culture system, which
+ * defines a national movement's heartland as a state where the culture is at
+ * least 35% of the population. No nationality could ever hold one, so Hungary
+ * could not revolt and the German Confederation core could not be expressed.
+ *
+ * Keyed by generated region name. Regions not listed fall back to geography,
+ * which is fine for nationally homogeneous territory. content.lint asserts
+ * every key here still names a real province.
+ */
+const NATIONALITY_GROUPS = {
+  // --- Habsburg lands: the hardest case on the map ---
+  'Österreich': 'Austria',
+  'Kärnten-Steiermark': 'Austria',
+  Tirol: 'Austria',
+  'South Tirol': 'Austria',
+  Bohemia: 'Bohemia',
+  Moravia: 'Bohemia',
+  'Central Hungary': 'Hungary',
+  Transdanubia: 'Hungary',
+  'Alföld': 'Hungary',
+  Slovakia: 'Hungary',
+  'Eastern Siebenbürgen': 'Transylvania',
+  'Western Siebenbürgen': 'Transylvania',
+  'West Galicia': 'West Galicia',
+  'East Galicia': 'East Galicia',
+  Croatia: 'Illyria',
+  Slavonia: 'Illyria',
+  Slovenia: 'Illyria',
+  Dalmatia: 'Illyria',
+  Istria: 'Illyria',
+  Lombardia: 'Lombardy-Venetia',
+  Venetia: 'Lombardy-Venetia',
+  // --- Russia's western borderlands ---
+  Estonia: 'Baltics',
+  Latvia: 'Baltics',
+  Lietuva: 'Baltics',
+  Minsk: 'Belarus',
+  Orsha: 'Belarus',
+  'Brêst': 'Belarus',
+  Kiev: 'Ukraine',
+  Rovne: 'Ukraine',
+  Cherson: 'Ukraine',
+  Luhansk: 'Ukraine',
+  Budjak: 'Ukraine',
+  Crimea: 'Crimea',
+  Karelia: 'Finnic',
+  Ingria: 'Finnic',
+  Armenia: 'Caucasus',
+  Azerbaijan: 'Caucasus',
+  Georgia: 'Caucasus',
+  'North Caucasia': 'Caucasus',
+  Ekaterinodar: 'Caucasus',
+  Akmolinsk: 'Steppe',
+  Uralsk: 'Steppe',
+  Tartaria: 'Steppe',
+  Astrakhan: 'Steppe',
+  // --- Ottoman Europe, Anatolia and the Arab provinces ---
+  'Thessalía': 'Greece',
+  'Aegean Islands': 'Greece',
+  Cyprus: 'Greece',
+  Bosnia: 'Bosnia',
+  Montenegro: 'Bosnia',
+  'Southern Serbia': 'Bosnia',
+  'North Macedonia': 'Macedonia',
+  'West Macedonia': 'Macedonia',
+  'East Macedonia': 'Macedonia',
+  Albania: 'Macedonia',
+  Bulgaria: 'Bulgaria',
+  Dobrudja: 'Bulgaria',
+  Rumelia: 'Bulgaria',
+  Thrace: 'Bulgaria',
+  Aydin: 'Anatolia',
+  Hudavendigar: 'Anatolia',
+  Kastamonu: 'Anatolia',
+  Konya: 'Anatolia',
+  'Ankara and Adana': 'Anatolia',
+  Trabzon: 'Anatolia',
+  Kars: 'Armenia',
+  'Diyarbakir-Van': 'Armenia',
+  Aleppo: 'Syria',
+  Syria: 'Syria',
+  Lebanon: 'Syria',
+  Palestine: 'Syria',
+  Transjordan: 'Syria',
+  Baghdad: 'Mesopotamia',
+  Basra: 'Mesopotamia',
+  Mosul: 'Mesopotamia',
+  // --- Prussia's Polish east ---
+  Posen: 'Prussian Poland',
+  'Westpreußen': 'Prussian Poland',
+  // --- Britain: Ireland is a nationality, not a region of Britain ---
+  'Leinster-Connacht': 'Ireland',
+  Munster: 'Ireland',
+  Ulster: 'Ireland',
+};
+
 const MIN_PIECE_AREA = 2e-3;
 
 function clusterRegionsIntoStates(regions) {
@@ -2283,7 +2385,11 @@ function clusterRegionsIntoStates(regions) {
   // border.
   const byPrefix = new Map();
   for (const region of regions) {
-    const prefix = `${region.ownerTag}|${region.key.split('_')[0]}`;
+    // Nationality first, then the Vic2 key prefix. Without the nationality term
+    // k-means merges peoples that happen to be adjacent, and no minority can
+    // ever hold the 35% of a state that a movement heartland requires.
+    const grouping = NATIONALITY_GROUPS[region.name] ?? region.key.split('_')[0];
+    const prefix = `${region.ownerTag}|${grouping}`;
     if (!byPrefix.has(prefix)) byPrefix.set(prefix, []);
     byPrefix.get(prefix).push(region);
   }
@@ -2341,10 +2447,13 @@ function clusterRegionsIntoStates(regions) {
     group.forEach((region, idx) => {
       const members = group.filter((_, i) => result.labels[i] === result.labels[idx]);
       const centre = result.centres[result.labels[idx]];
-      // Name the state after the region nearest its centre: representative, and
+      // Prefer the nationality name when the group has one: "Hungary" reads
+      // better than "Central Hungary" and is what content refers to. Otherwise
+      // name the state after the region nearest its centre: representative, and
       // never a vast empty member like Greenland. The group key is an internal
-      // "OWNER|prefix" string and must never reach the UI.
-      const name = members.slice().sort((a, b) => (
+      // "OWNER|group" string and must never reach the UI.
+      const nationality = NATIONALITY_GROUPS[region.name];
+      const name = nationality ?? members.slice().sort((a, b) => (
         Math.hypot(centre[0] - a.lon, centre[1] - a.lat) - Math.hypot(centre[0] - b.lon, centre[1] - b.lat)
         || a.key.localeCompare(b.key)
       ))[0].name;

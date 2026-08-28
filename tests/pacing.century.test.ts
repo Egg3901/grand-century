@@ -225,7 +225,16 @@ describe.skipIf(!RUN)('U3 pacing — AI century runs', () => {
 
     // tech cadence — unlocked-tech totals must keep rising each decade (no flatline).
     // Observed min delta 240; threshold 150 leaves ~37% headroom.
+    //
+    // Decades past the last tech year are exempt. The tree ends in 1915 and the
+    // probe runs a century from an 1830 epoch, so it finishes in 1930 with 15
+    // years of nothing left to research. That is content running out, not the
+    // research system stalling, and asserting on it measures the wrong thing.
+    const lastTechYear = Math.max(
+      ...GAME_DATA.techs.map((tech) => tech.year ?? 0),
+    );
     for (const decade of decades) {
+      if (decade.startYear > lastTechYear) continue;
       expect(
         decade.techDelta,
         `tech flatline in ${decade.startYear}s (seed ${seed}): delta=${decade.techDelta}`,

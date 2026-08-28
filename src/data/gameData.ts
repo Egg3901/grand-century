@@ -279,7 +279,19 @@ const STATE_IDS_BY_TAG: Map<string, number[]> = (() => {
   }
   return map;
 })();
-const statesOf = (tags: string[]): number[] => tags.flatMap((tag) => STATE_IDS_BY_TAG.get(tag) ?? []);
+/**
+ * State ids for a set of tags, deduped.
+ *
+ * Deduping is load-bearing, not tidiness. States now hold several provinces
+ * each, so a per-province flatMap repeats a state id once per province in it:
+ * Pommern appeared five times in the German core list. `evaluateNationFormable`
+ * dedupes before computing a share, but `seedCoreShare` divided by the raw
+ * length, so the two ran on different denominators and every formable's alarm
+ * threshold sat above the share it was compared against.
+ */
+const statesOf = (tags: string[]): number[] => [
+  ...new Set(tags.flatMap((tag) => STATE_IDS_BY_TAG.get(tag) ?? [])),
+].sort((a, b) => a - b);
 /**
  * State names come from the Vic2 region cut, so a rebuild can rename or absorb
  * one out from under this content. Unresolved lookups are recorded rather than
@@ -293,17 +305,17 @@ const statesNamed = (tag: string, names: string[]): number[] => {
     const found = WORLD_SEED.provinces.some((p) => p.ownerTag === tag && (p.stateName ?? p.name) === name);
     if (!found) UNRESOLVED_STATE_NAMES.push({ tag, name });
   }
-  return WORLD_SEED.provinces
+  return [...new Set(WORLD_SEED.provinces
     .filter((p) => p.ownerTag === tag && names.includes(p.stateName ?? p.name))
-    .map((p) => p.stateId);
+    .map((p) => p.stateId))].sort((a, b) => a - b);
 };
 
-// Vic2 region granularity is coarser than the old modern-admin cut: Austria's
-// German and Bohemian lands now sit in a single state alongside some Hungarian
-// territory, so the Confederation core is approximated by that state.
+// States are cut along nationality, so Austria's Confederation lands are now
+// separable from Hungary, Galicia and Illyria, which were never in it. This was
+// previously approximated by the single mixed state that held all of them.
 const GERMAN_CONFEDERATION_STATES = [
   ...statesOf(['PRU', 'BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES', 'HOL']),
-  ...statesNamed('AUS', ['Moravia']),
+  ...statesNamed('AUS', ['Österreich', 'Bohemia']),
 ];
 const NORTH_GERMAN_STATES = statesOf(['PRU', 'SAX', 'HAN', 'HES']);
 
