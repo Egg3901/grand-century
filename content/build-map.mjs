@@ -2843,6 +2843,7 @@ function buildNations(provinces, states) {
       government: def.government || GOV_DEFAULT,
       capitalProvinceId: byTag.get(tag)?.capital ?? 0,
       primaryCulture: def.primaryCulture || 'british',
+      ...(def.religion ? { religion: def.religion } : {}),
       coreStateIds: (coresByTag.get(tag) ?? []).slice().sort((a, b) => a - b),
     });
   }
@@ -2979,7 +2980,16 @@ function registerVic2Nations(countries, seeds) {
   const owning = new Set(seeds.map((seed) => seed.ownerTag));
   let added = 0;
   for (const tag of [...owning].sort()) {
-    if (NATION_LIBRARY[tag]) continue;
+    if (NATION_LIBRARY[tag]) {
+      // The hand-written entries predate the Vic2 extraction and carry no
+      // religion, so backfill it rather than letting them fall through to the
+      // protestant default. Everything else about them is left alone.
+      const known = byGcTag.get(tag);
+      if (known?.religion && !NATION_LIBRARY[tag].religion) {
+        NATION_LIBRARY[tag].religion = known.religion;
+      }
+      continue;
+    }
     const country = byGcTag.get(tag);
     if (!country) {
       NATION_LIBRARY[tag] = { ...NATION_LIBRARY.COL, name: tag };
@@ -2991,6 +3001,9 @@ function registerVic2Nations(countries, seeds) {
       color: country.color ?? [128, 128, 128],
       government: VIC2_GOVERNMENT[country.government] ?? GOV_DEFAULT,
       primaryCulture: country.primaryCulture ?? 'cosmopolitan',
+      // Vic2's key, not this game's. bootstrap maps it; carrying it raw keeps
+      // the extraction faithful and the mapping reviewable in one place.
+      religion: country.religion,
     };
     added += 1;
   }

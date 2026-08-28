@@ -18,9 +18,11 @@ import { WORLD_SEED } from '../src/data/generated';
 import {
   MINORITY_RULES,
   PLACEHOLDER_NAME_RULES,
+  PLACEHOLDER_RELIGION_RULES,
   PRIMARY_CULTURE_OVERRIDE,
   SOUTH_ASIAN_SUNNI,
   VIC2_CULTURE_TO_GC,
+  religionKeyFor,
 } from '../src/sim/bootstrap';
 import type { EventEffect, EventRequirement, EventTriggerDef } from '../src/shared/types';
 
@@ -364,6 +366,29 @@ describe('cultural seeding tables resolve against the generated map', () => {
     const deadSunni = [...SOUTH_ASIAN_SUNNI].filter((name) => !provinceNames.has(name));
     expect(deadPlaceholders).toEqual([]);
     expect(deadSunni).toEqual([]);
+  });
+
+  it('every seeded religion resolves without hitting the index-0 fallback', () => {
+    // religionIndex has the same fallback-to-0 as cultureIndex, and index 0 is
+    // 'protestant'. No seed nation carried a religion at all until the Vic2
+    // table was wired through, and RELIGION_BY_TAG covered 45 of 93 tags, so
+    // the Papal States, Tuscany, Bavaria, Poland, Serbia, Tibet, Oman, the
+    // Punjab and Zululand were all Protestant and nothing failed.
+    const unresolved: string[] = [];
+    for (const nation of WORLD_SEED.nations) {
+      const key = religionKeyFor(nation.tag, nation.religion);
+      if (!religionKeys.has(key)) unresolved.push(`${nation.tag}:${nation.religion ?? 'none'}`);
+    }
+    expect(unresolved).toEqual([]);
+  });
+
+  it('every PLACEHOLDER_RELIGION_RULES key names a province and a real religion', () => {
+    const deadNames = Object.keys(PLACEHOLDER_RELIGION_RULES).filter((name) => !provinceNames.has(name));
+    const badReligions = Object.entries(PLACEHOLDER_RELIGION_RULES)
+      .filter(([, religion]) => !religionKeys.has(religion))
+      .map(([name, religion]) => `${name}:${religion}`);
+    expect(deadNames).toEqual([]);
+    expect(badReligions).toEqual([]);
   });
 
   it('every seeded primary culture resolves without hitting the index-0 fallback', () => {

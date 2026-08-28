@@ -39,7 +39,46 @@ const RGO_GOOD_TO_RECIPE: Record<string, string> = {
   iron: 'rgo_iron',
   cotton: 'rgo_cotton',
 };
+/**
+ * Victoria II's religions onto this game's eight. Same trap as the culture
+ * table: `religionIndex` falls back to index 0, which is `protestant`, so an
+ * unmapped key does not fail, it converts. Before this existed no seed nation
+ * carried a religion at all and RELIGION_BY_TAG covered 45 of 93 tags, which
+ * left the Papal States, Tuscany, Bavaria, Poland, Serbia, Tibet, Oman, the
+ * Punjab and Zululand all Protestant.
+ */
+export const VIC2_RELIGION_TO_GC: Record<string, string> = {
+  catholic: 'catholic',
+  protestant: 'protestant',
+  orthodox: 'orthodox',
+  // No Miaphysite bucket; Ethiopia and the Copts sit closest to orthodox.
+  coptic: 'orthodox',
+  sunni: 'sunni',
+  // No shia bucket. Persia and Oman are the notable losses here.
+  shiite: 'sunni',
+  ibadi: 'sunni',
+  hindu: 'hindu',
+  // No sikh bucket; the Punjab reads as hindu rather than as a Muslim state.
+  sikh: 'hindu',
+  jain: 'hindu',
+  mahayana: 'buddhist',
+  theravada: 'buddhist',
+  gelugpa: 'buddhist',
+  shinto: 'buddhist',
+  confucian: 'confucian',
+  animist: 'traditional',
+  shamanist: 'traditional',
+  jewish: 'traditional',
+};
+
 const RELIGION_BY_TAG: Record<string, string> = {
+  // The Qing constituents follow the Qing. Vic2 calls them mahayana, which
+  // would read oddly as a different religion from the empire administering
+  // them. Xinjiang (sunni) and Mongolia/Tibet (buddhist) are genuinely
+  // different and are left to the Vic2 mapping.
+  GXI: 'confucian',
+  YNN: 'confucian',
+  MCK: 'confucian',
   ENG: 'protestant',
   FRA: 'catholic',
   PRU: 'protestant',
@@ -162,8 +201,8 @@ export const MINORITY_RULES: Record<string, MinorityRule[]> = {
   'Cape Colony': [{ culture: 'african', share: 0.62, religion: 'protestant' }],
   'Eastern Cape': [{ culture: 'african', share: 0.78, religion: 'protestant' }],
   'Northern Cape': [{ culture: 'african', share: 0.72, religion: 'protestant' }],
-  'Sierra Leone': [{ culture: 'african', share: 0.95 }],
-  Gambia: [{ culture: 'african', share: 0.95 }],
+  'Sierra Leone': [{ culture: 'african', share: 0.95, religion: 'traditional' }],
+  Gambia: [{ culture: 'african', share: 0.95, religion: 'traditional' }],
   'West Indies': [{ culture: 'african', share: 0.88, religion: 'protestant' }],
   'Caribbean Islands': [{ culture: 'african', share: 0.88, religion: 'protestant' }],
   'Lesser Antilles': [{ culture: 'african', share: 0.85, religion: 'protestant' }],
@@ -271,13 +310,13 @@ export const MINORITY_RULES: Record<string, MinorityRule[]> = {
   'Luzón': [{ culture: 'malay', share: 0.9, religion: 'catholic' }],
   Visayas: [{ culture: 'malay', share: 0.9, religion: 'catholic' }],
   Mindanao: [{ culture: 'malay', share: 0.9 }],
-  'South Cameroon': [{ culture: 'african', share: 0.95 }],
+  'South Cameroon': [{ culture: 'african', share: 0.95, religion: 'traditional' }],
   // --- Portugal's African coast ---
-  'North Angola': [{ culture: 'african', share: 0.92 }],
-  'South Angola': [{ culture: 'african', share: 0.92 }],
-  Mocambique: [{ culture: 'african', share: 0.92 }],
-  'Lourenço Marques': [{ culture: 'african', share: 0.9 }],
-  Zambezia: [{ culture: 'african', share: 0.92 }],
+  'North Angola': [{ culture: 'african', share: 0.92, religion: 'traditional' }],
+  'South Angola': [{ culture: 'african', share: 0.92, religion: 'traditional' }],
+  Mocambique: [{ culture: 'african', share: 0.92, religion: 'traditional' }],
+  'Lourenço Marques': [{ culture: 'african', share: 0.9, religion: 'traditional' }],
+  Zambezia: [{ culture: 'african', share: 0.92, religion: 'traditional' }],
 };
 
 /**
@@ -344,6 +383,39 @@ export const PLACEHOLDER_NAME_RULES: Record<string, string> = {
   Oklahoma: 'indigenous_american',
   Oregon: 'indigenous_american',
   Washington: 'indigenous_american',
+};
+
+/**
+ * Religion for named placeholder provinces where the culture's own default is
+ * wrong. `african` defaults to sunni, which is right across the Sahel and the
+ * Sudan and wrong everywhere south of it.
+ */
+export const PLACEHOLDER_RELIGION_RULES: Record<string, string> = {
+  Dahomey: 'traditional',
+  Togo: 'traditional',
+  'Niger Delta': 'traditional',
+  'Yoruba States': 'traditional',
+  Guinea: 'traditional',
+  'Windward Coast': 'traditional',
+  Gabon: 'traditional',
+  Congo: 'traditional',
+  'Bas-Congo': 'traditional',
+  'Congo Orientale': 'traditional',
+  Equateur: 'traditional',
+  Kasai: 'traditional',
+  Katanga: 'traditional',
+  Kazembe: 'traditional',
+  Zambia: 'traditional',
+  Zambezi: 'traditional',
+  'East Angola': 'traditional',
+  Botswana: 'traditional',
+  Hereroland: 'traditional',
+  Namaqualand: 'traditional',
+  'Rift Valley': 'traditional',
+  Uganda: 'traditional',
+  Tanganyika: 'traditional',
+  Equatoria: 'traditional',
+  'Ubangi-Shari': 'traditional',
 };
 
 /** Native culture for provinces owned by map-placeholder tags (UNC/UNA/COL). */
@@ -510,6 +582,11 @@ function capitalId(worldSeed: WorldSeedData, id: number): number {
 }
 
 /** 0.8.0: historical override wins, then the generated seed, then the fallback. */
+export function religionKeyFor(tag: string, seedReligion?: string): string {
+  const seeded = seedReligion ? VIC2_RELIGION_TO_GC[seedReligion] ?? seedReligion : undefined;
+  return RELIGION_BY_TAG[tag] ?? seeded ?? 'protestant';
+}
+
 function primaryCultureKeyFor(tag: string, seedPrimary: string): string {
   const seeded = VIC2_CULTURE_TO_GC[seedPrimary] ?? seedPrimary;
   return PRIMARY_CULTURE_OVERRIDE[tag] || seeded || CULTURE_BY_TAG[tag] || 'british';
@@ -721,7 +798,8 @@ function provinceCultureSlices(
   if (PLACEHOLDER_TAGS.has(seed.ownerTag)) {
     const nativeKey = placeholderCultureFor(seed.name, seed.lon, seed.lat);
     const native = nativeKey ? cultureIndex(data, nativeKey, primary) : primary;
-    return [{ culture: native, religion: cultureReligion(native), weight: 1 }];
+    const override = PLACEHOLDER_RELIGION_RULES[seed.name];
+    return [{ culture: native, religion: cultureReligion(native, override), weight: 1 }];
   }
 
   const rules = MINORITY_RULES[seed.name]
@@ -771,7 +849,10 @@ function createPops(worldSeed: WorldSeedData, worldProvinces: Province[], provin
   const pops: Pop[] = [];
   const religionByNation = nations.map((nation) => religionIndex(
     data,
-    worldSeed.nations[nation.id]?.religion ?? RELIGION_BY_TAG[nation.tag] ?? 'protestant',
+    // Curated table first: RELIGION_BY_TAG encodes deliberate calls (the Qing
+    // are confucian here, where Vic2 says mahayana). Vic2's own answer fills
+    // everything it does not cover.
+    religionKeyFor(nation.tag, worldSeed.nations[nation.id]?.religion),
   ));
   const runtimeByProvince = new Map(provinceRuntime.map((item) => [item.id, item]));
   const seedByProvince = new Map(worldSeed.provinces.map((seed) => [seed.id, seed]));
