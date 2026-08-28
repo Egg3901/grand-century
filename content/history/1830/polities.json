@@ -1,6 +1,6 @@
 {
   "asOf": "1830-01-01",
-  "note": "Relationships the map itself cannot express. Victoria II's province history says who owns what; it does not say that Congress Poland is a Russian constituent kingdom rather than a Russian province, or that Egypt is an Ottoman vassal rather than a rival. Every entry merges onto a nation the map build already produced.",
+  "note": "Two things the map itself cannot express. First, relationships: Victoria II's province history says who owns what, but not that Congress Poland is a Russian constituent kingdom rather than a Russian province, or that Egypt is an Ottoman vassal rather than a rival. Second, era flavour: one or two sentences describing where each polity actually stood on 1 January 1830. Every entry merges onto a nation the map build already produced.",
   "sources": [
     "content/vic2/vic2-reference.json",
     "docs/HISTORICAL-MAP-SOURCE-AUDIT.md"
@@ -106,6 +106,346 @@
       "polityStatus": "constituent",
       "overlordTag": "QNG",
       "eraSummary": "Yunnan's frontier prefectures sit at the edge of Qing authority."
+    },
+    {
+      "tag": "ENG",
+      "mode": "merge",
+      "eraSummary": "The workshop of the world and the first industrial society. Catholic emancipation passed last year, the Reform crisis is a year away, and the Company governs India in the Crown's name."
+    },
+    {
+      "tag": "FRA",
+      "mode": "merge",
+      "eraSummary": "Charles X governs through ministers the Chamber will not accept. An expedition against Algiers is fitting out, and the July Revolution is six months away."
+    },
+    {
+      "tag": "RUS",
+      "mode": "merge",
+      "eraSummary": "Nicholas I rules on Orthodoxy, autocracy and nationality. The Turkish war ended last year at Adrianople, and Poland keeps its own army and constitution for ten more months."
+    },
+    {
+      "tag": "OTT",
+      "mode": "merge",
+      "eraSummary": "Greece is lost and Serbian autonomy conceded. Mahmud II destroyed the janissaries in 1826 and is building a new army from nothing while Muhammad Ali watches from Cairo."
+    },
+    {
+      "tag": "QNG",
+      "mode": "merge",
+      "eraSummary": "The Qing govern roughly a third of humanity and treat foreign trade as a privilege granted at Canton. The silver balance of the opium trade has just begun to run the wrong way."
+    },
+    {
+      "tag": "USA",
+      "mode": "merge",
+      "eraSummary": "Twenty four states and Jackson in his first term. The Indian Removal Act passed this year, and cotton is moving west faster than Congress can organise territory for it."
+    },
+    {
+      "tag": "NLD",
+      "mode": "merge",
+      "eraSummary": "William I rules the United Kingdom of the Netherlands from The Hague. The southern provinces resent the Dutch language, the Dutch debt and the Dutch church, and are eight months from revolt."
+    },
+    {
+      "tag": "ESP",
+      "mode": "merge",
+      "eraSummary": "Ferdinand VII has no son and has just set aside the Salic law for his unborn child. The American empire is gone, and the Carlist question is being created in the palace."
+    },
+    {
+      "tag": "POR",
+      "mode": "merge",
+      "eraSummary": "Miguel holds Lisbon as an absolutist usurper while his brother Pedro rules Brazil. The civil war between them is coming."
+    },
+    {
+      "tag": "SWE",
+      "mode": "merge",
+      "eraSummary": "Bernadotte, once a marshal of Napoleon, rules Sweden and Norway in personal union. The two kingdoms share a king and almost nothing else."
+    },
+    {
+      "tag": "DEN",
+      "mode": "merge",
+      "eraSummary": "Frederick VI governs Denmark, Norway lost, and the German duchies of Schleswig and Holstein held on terms nobody has yet been forced to define."
+    },
+    {
+      "tag": "SWI",
+      "mode": "merge",
+      "eraSummary": "The Confederation is a league of sovereign cantons under the 1815 pact. The liberal Regeneration is beginning in the cantonal assemblies, not in Bern."
+    },
+    {
+      "tag": "SAR",
+      "mode": "merge",
+      "eraSummary": "Sardinia-Piedmont is the only Italian state with an army worth the name, which is why every plan for Italy eventually arrives at its door."
+    },
+    {
+      "tag": "TSC",
+      "mode": "merge",
+      "eraSummary": "The Two Sicilies are ruled from Naples by a Bourbon restored twice by Austrian bayonets."
+    },
+    {
+      "tag": "PAP",
+      "mode": "merge",
+      "eraSummary": "The Papal States are governed by cardinals and policed by Austria. The Legations have rebelled before and will again."
+    },
+    {
+      "tag": "MOL",
+      "mode": "merge",
+      "eraSummary": "Moldavia is an Ottoman tributary under Russian occupation, governed by the Reglement Organique that Russia wrote for it last year."
+    },
+    {
+      "tag": "WAL",
+      "mode": "merge",
+      "eraSummary": "Wallachia, like Moldavia, is Ottoman in law and Russian in practice, with a boyar assembly and a Russian protector."
+    },
+    {
+      "tag": "HOL",
+      "mode": "merge",
+      "eraSummary": "The duchies of Schleswig and Holstein answer to the Danish king, though Holstein is also a member of the German Confederation."
+    },
+    {
+      "tag": "PER",
+      "mode": "merge",
+      "eraSummary": "Qajar Persia lost the Caucasus to Russia at Turkmanchay two years ago, along with the right to keep a fleet on the Caspian."
+    },
+    {
+      "tag": "MOR",
+      "mode": "merge",
+      "eraSummary": "The sultan of Morocco governs the coast directly and the mountains by negotiation. The French landing at Algiers will change what its eastern border means."
+    },
+    {
+      "tag": "ETH",
+      "mode": "merge",
+      "eraSummary": "The Zemene Mesafint: the emperor at Gondar reigns, and the regional rases rule."
+    },
+    {
+      "tag": "OMA",
+      "mode": "merge",
+      "eraSummary": "Said bin Sultan rules from Muscat and increasingly from Zanzibar, holding the cloves, the slaves and the ivory of the East African trade."
+    },
+    {
+      "tag": "NEJ",
+      "mode": "merge",
+      "eraSummary": "The Al Saud have retaken Riyadh and are rebuilding the emirate that Egypt destroyed in 1818."
+    },
+    {
+      "tag": "YEM",
+      "mode": "merge",
+      "eraSummary": "The imams of Sanaa hold the highlands. The coffee trade of Mocha has passed its peak."
+    },
+    {
+      "tag": "HDJ",
+      "mode": "merge",
+      "eraSummary": "The holy cities are held for the Ottoman sultan by Muhammad Ali's Egyptian garrisons."
+    },
+    {
+      "tag": "ABU",
+      "mode": "merge",
+      "eraSummary": "The Trucial coast lives on pearls and lives with the British maritime truce that ended the Gulf's own naval wars."
+    },
+    {
+      "tag": "JPN",
+      "mode": "merge",
+      "eraSummary": "The Tokugawa keep the country closed. The outside world reaches Japan through one Dutch factory in Nagasaki harbour."
+    },
+    {
+      "tag": "KOR",
+      "mode": "merge",
+      "eraSummary": "Joseon Korea trades with Qing China and tolerates a Japanese post at Pusan. Catholic converts are persecuted."
+    },
+    {
+      "tag": "SIA",
+      "mode": "merge",
+      "eraSummary": "Rama III rules from Bangkok, pressing claims into Laos and Cambodia while Britain consolidates in Burma."
+    },
+    {
+      "tag": "BUR",
+      "mode": "merge",
+      "eraSummary": "Burma is five years past the treaty of Yandabo, which cost it Arakan, Assam and Tenasserim and put a British Resident in Ava."
+    },
+    {
+      "tag": "VIE",
+      "mode": "merge",
+      "eraSummary": "Minh Mang rules a Vietnam recently unified, centralising the administration on a Chinese model and closing it to missionaries."
+    },
+    {
+      "tag": "NEP",
+      "mode": "merge",
+      "eraSummary": "Nepal is bound by the treaty of Sugauli, its borders fixed and a British Resident in Kathmandu."
+    },
+    {
+      "tag": "AFG",
+      "mode": "merge",
+      "eraSummary": "Afghanistan is divided between Dost Mohammad in Kabul and rivals in Kandahar and Herat. Peshawar has been lost to the Sikhs."
+    },
+    {
+      "tag": "KHI",
+      "mode": "merge",
+      "eraSummary": "The khanate of Khiva raids the Turkmen steppe and the Russian caravan routes, which is the pretext Russia is waiting for."
+    },
+    {
+      "tag": "BUK",
+      "mode": "merge",
+      "eraSummary": "The emirate of Bukhara is the religious centre of Central Asia and a slave market that Russia will later cite as a reason to arrive."
+    },
+    {
+      "tag": "KOK",
+      "mode": "merge",
+      "eraSummary": "Kokand controls the Ferghana valley and the trade over the passes into Kashgar."
+    },
+    {
+      "tag": "MCK",
+      "mode": "merge",
+      "eraSummary": "Manchuria is the Qing dynasty's homeland, closed to Han settlement by law and settled by Han in practice."
+    },
+    {
+      "tag": "XBI",
+      "mode": "merge",
+      "eraSummary": "The northwestern Qing frontier, governed lightly and garrisoned thinly."
+    },
+    {
+      "tag": "MYS",
+      "mode": "merge",
+      "eraSummary": "Mysore is under Company administration this year, its raja set aside after the Nagar rebellion."
+    },
+    {
+      "tag": "NAG",
+      "mode": "merge",
+      "eraSummary": "The Bhonsle raja of Nagpur rules under a subsidiary alliance, his army capped and his foreign policy the Company's."
+    },
+    {
+      "tag": "BER",
+      "mode": "merge",
+      "eraSummary": "Berar is held under the same subsidiary terms that follow every Maratha defeat."
+    },
+    {
+      "tag": "ORI",
+      "mode": "merge",
+      "eraSummary": "Orissa has been Company territory since 1803, its salt and its pilgrim tax administered from Calcutta."
+    },
+    {
+      "tag": "TRA",
+      "mode": "merge",
+      "eraSummary": "Travancore is a subsidiary ally on the Malabar coast, with a Resident at the court and a Company garrison."
+    },
+    {
+      "tag": "SIN",
+      "mode": "merge",
+      "eraSummary": "The Talpur amirs rule Sindh from Hyderabad and Khairpur, watching the Company move up the Indus."
+    },
+    {
+      "tag": "KAL",
+      "mode": "merge",
+      "eraSummary": "The khan of Kalat holds the Baluch confederacy together loosely, between Sindh, Persia and Kabul."
+    },
+    {
+      "tag": "PAN",
+      "mode": "merge",
+      "eraSummary": "The Sikh empire under Ranjit Singh is the last independent power of any size in India, with an army drilled by European officers."
+    },
+    {
+      "tag": "ATJ",
+      "mode": "merge",
+      "eraSummary": "The sultanate of Aceh trades pepper on its own terms, guaranteed for now by the Anglo-Dutch treaty that drew a line down the Malacca strait."
+    },
+    {
+      "tag": "JOH",
+      "mode": "merge",
+      "eraSummary": "Johor and its Riau islands are split by that same treaty, the sultanate divided between British and Dutch spheres."
+    },
+    {
+      "tag": "BRU",
+      "mode": "merge",
+      "eraSummary": "Brunei's sultan claims the north Borneo coast and controls rather less of it than he claims."
+    },
+    {
+      "tag": "MEX",
+      "mode": "merge",
+      "eraSummary": "Mexico is nine years independent and already cycling through governments. Texas is filling with American settlers the government cannot count."
+    },
+    {
+      "tag": "BRA",
+      "mode": "merge",
+      "eraSummary": "Pedro I's empire is intact but his position is not. He will abdicate next year and leave a five year old on the throne."
+    },
+    {
+      "tag": "ARG",
+      "mode": "merge",
+      "eraSummary": "The provinces of the Rio de la Plata are a confederation in name. Rosas has just taken Buenos Aires."
+    },
+    {
+      "tag": "CLM",
+      "mode": "merge",
+      "eraSummary": "Gran Colombia is breaking apart. Bolivar has resigned, Venezuela and Ecuador are leaving, and he will be dead by December."
+    },
+    {
+      "tag": "CHL",
+      "mode": "merge",
+      "eraSummary": "Chile has just ended its civil war at Lircay. The conservative republic Portales is building will outlast almost every government on the continent."
+    },
+    {
+      "tag": "PEU",
+      "mode": "merge",
+      "eraSummary": "Peru is independent, indebted and governed by whichever general holds Lima."
+    },
+    {
+      "tag": "BOL",
+      "mode": "merge",
+      "eraSummary": "Bolivia carries Sucre's constitution and Bolivar's name, and has just lost both men."
+    },
+    {
+      "tag": "PRG",
+      "mode": "merge",
+      "eraSummary": "Francia rules Paraguay in isolation, with the rivers closed and the country fed by its own farms."
+    },
+    {
+      "tag": "URY",
+      "mode": "merge",
+      "eraSummary": "Uruguay is three years old, created as a buffer so that Brazil and Argentina would stop fighting over it. Its first constitution is sworn this year."
+    },
+    {
+      "tag": "UCA",
+      "mode": "merge",
+      "eraSummary": "The Federal Republic of Central America is held together by Morazan and very little else."
+    },
+    {
+      "tag": "HAI",
+      "mode": "merge",
+      "eraSummary": "Boyer governs the whole of Hispaniola and pays France for the recognition of a freedom Haiti won for itself."
+    },
+    {
+      "tag": "SOK",
+      "mode": "merge",
+      "eraSummary": "The Sokoto caliphate is the largest state in West Africa, run from Sokoto and Gwandu since Usman dan Fodio's jihad."
+    },
+    {
+      "tag": "ZUL",
+      "mode": "merge",
+      "eraSummary": "Dingane rules the Zulu kingdom after Shaka's assassination two years ago."
+    },
+    {
+      "tag": "MAD",
+      "mode": "merge",
+      "eraSummary": "Ranavalona I rules Madagascar and has begun turning the missionaries and their treaties back out to sea."
+    },
+    {
+      "tag": "LIB",
+      "mode": "merge",
+      "eraSummary": "Liberia is a settlement of freed American slaves on land bought by a colonisation society, not yet a state."
+    },
+    {
+      "tag": "TRN",
+      "mode": "merge",
+      "eraSummary": "The Transvaal is not a country yet. The trekboers who will make it are still in the Cape Colony, and increasingly unhappy there."
+    },
+    {
+      "tag": "ORA",
+      "mode": "merge",
+      "eraSummary": "The high veld beyond the Orange river is Griqua, Sotho and Tswana country, with Boer graziers pressing north into it."
+    },
+    {
+      "tag": "CAM",
+      "mode": "merge",
+      "eraSummary": "Cambodia is held down by Vietnam and claimed by Siam. Minh Mang's officials are reorganising the country as a Vietnamese province."
+    },
+    {
+      "tag": "HEK",
+      "mode": "merge",
+      "eraSummary": "The Electorate of Hesse-Kassel is a small German state with an unpopular prince. The unrest of this autumn will win it a constitution in January."
     }
   ]
 }

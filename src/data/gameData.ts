@@ -497,6 +497,13 @@ export const GAME_DATA: GameData = {
     { key: 'african', name: 'African', color: [158, 146, 122], religion: 'sunni' },
     // --- 1.6.0 historical-map additions (append-only) ---
     { key: 'polynesian', name: 'Polynesian', color: [132, 176, 170], religion: 'traditional' },
+    // The Vic2 cut leaves the interior of North America and the Arctic outside
+    // any state, and the vocabulary had nothing for the people living there, so
+    // those provinces were seeded with the settler culture that later absorbed
+    // them. One bucket, at the same coarseness as 'african' or 'south_asian'.
+    // Siberia's peoples fold into 'central_asian', which already carries the
+    // Mongol, Tibetan and Kazakh steppe.
+    { key: 'indigenous_american', name: 'Indigenous American', color: [196, 138, 106], religion: 'traditional' },
   ],
   religions: [
     { key: 'protestant', name: 'Protestant' },

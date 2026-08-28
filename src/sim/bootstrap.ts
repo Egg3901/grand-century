@@ -317,12 +317,6 @@ const PLACEHOLDER_TAGS = new Set(['UNC', 'UNA', 'COL']);
 /**
  * Native culture for named placeholder provinces. The lon/lat boxes below cover
  * the bulk of the uncolonized world; these are the provinces they get wrong.
- *
- * OPEN QUESTION for the owner: the 33-culture vocabulary has no indigenous
- * North American or Siberian bucket, so those provinces are seeded with the
- * settler culture that historically absorbed them. That is a placeholder, not a
- * claim, and it is the one spot here that wants a design decision rather than a
- * lookup fix.
  */
 export const PLACEHOLDER_NAME_RULES: Record<string, string> = {
   // Sahara and the Libyan interior sit north of the African lat box.
@@ -338,16 +332,18 @@ export const PLACEHOLDER_NAME_RULES: Record<string, string> = {
   'Northern New Guinea': 'polynesian',
   'Southern New Guinea': 'polynesian',
   'Christmas & Cocos Islands': 'malay',
-  // No indigenous bucket exists — see the note above.
-  'Inner Chukotka': 'russian',
-  'North Siberia': 'russian',
-  Sakhalin: 'russian',
-  'Northwest Territories': 'yankee',
-  'Yukon Territory': 'yankee',
-  Colorado: 'yankee',
-  Oklahoma: 'yankee',
-  Oregon: 'yankee',
-  Washington: 'yankee',
+  // Siberia's peoples fold into the steppe bucket that already carries the
+  // Mongols, Tibetans and Kazakhs.
+  'Inner Chukotka': 'central_asian',
+  'North Siberia': 'central_asian',
+  Sakhalin: 'central_asian',
+  // The North American interior is not empty and is not American yet.
+  'Northwest Territories': 'indigenous_american',
+  'Yukon Territory': 'indigenous_american',
+  Colorado: 'indigenous_american',
+  Oklahoma: 'indigenous_american',
+  Oregon: 'indigenous_american',
+  Washington: 'indigenous_american',
 };
 
 /** Native culture for provinces owned by map-placeholder tags (UNC/UNA/COL). */

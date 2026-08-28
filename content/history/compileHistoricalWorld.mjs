@@ -27,7 +27,13 @@ function applyPolities(world, polityData, isRecompile) {
   const byTag = new Map(world.nations.map((nation) => [nation.tag, nation]));
   for (const definition of polityData.nations) {
     requireValue(/^[A-Z0-9]{3}$/.test(definition.tag), `invalid polity tag ${definition.tag}`);
-    requireValue(VALID_POLITY_STATUSES.has(definition.polityStatus), `invalid status for ${definition.tag}`);
+    // polityStatus is optional: most entries in this file exist only to carry
+    // era flavour and should not assert a relationship. A merge that omits it
+    // leaves whatever the map build produced untouched.
+    requireValue(
+      definition.polityStatus === undefined || VALID_POLITY_STATUSES.has(definition.polityStatus),
+      `invalid status for ${definition.tag}`,
+    );
     const existing = byTag.get(definition.tag);
     const { mode, ...fields } = definition;
     requireValue(mode === 'merge' || mode === 'add', `${definition.tag} must declare mode add or merge`);

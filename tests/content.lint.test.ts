@@ -313,10 +313,11 @@ describe('H6 content lint', () => {
     // 18, not 20: Parma is absorbed into Vic2's Emilia region and Venezuela
     // does not exist until Gran Colombia breaks up in 1831.
     expect(formableCount).toBeGreaterThanOrEqual(18);
-    // 61, not 47: the Vic2 cut seeds 93 landholding tags where the modern
-    // admin-1 map seeded 80, and the 13 new ones (Finland, Serbia, Moldavia,
-    // Wallachia, the Qing constituents...) have no scoped content yet.
-    expect(zeroCount).toBeLessThanOrEqual(61);
+    // 1, and the 1 is UNC: the uncolonized placeholder tag, which owns the
+    // unclaimed world and should never carry flavour. Every real polity on the
+    // map has at least an 1830 era summary. Keep this tight — it was 61 when
+    // the Vic2 cut landed and nothing failed.
+    expect(zeroCount).toBeLessThanOrEqual(1);
   });
 });
 
