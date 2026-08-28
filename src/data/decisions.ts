@@ -177,7 +177,9 @@ export const DECISION_DEFS: DecisionDef[] = [
     effects: [
       { t: 'prestige', amount: 10 },
       { t: 'consciousness', amount: 0.5 },
-      { t: 'opinionWithTags', tags: ['TSC', 'PAP', 'MOD', 'PAR', 'TUS'], amount: 40 },
+      // Parma is absorbed into Vic2's Emilia region and has no land at the 1830
+      // cut, so it is not a seedable tag any more.
+      { t: 'opinionWithTags', tags: ['TSC', 'PAP', 'MOD', 'TUS'], amount: 40 },
       { t: 'opinionWithTags', tags: ['AUS'], amount: -35 },
     ],
     once: true,

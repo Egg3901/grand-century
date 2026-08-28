@@ -167,6 +167,9 @@ describe('E6 research progression', () => {
   it('AI nations research across a decade and respect prereq chains', () => {
     const world = createWorld(GAME_DATA, 1848);
     advanceDays(world, 365 * 10);
+    // Derived, not hardcoded: the epoch moved from 1820 to 1830 with the Vic2
+    // cut and a literal here silently became an off-by-a-decade assertion.
+    const currentYear = 1830 + Math.floor(world.day / 365);
     const techByKey = new Map(GAME_DATA.techs.map((tech) => [tech.key, tech]));
     let researchedSomething = 0;
     for (const nation of world.nations) {
@@ -175,7 +178,7 @@ describe('E6 research progression', () => {
         const def = techByKey.get(key);
         expect(def).toBeTruthy();
         if (def?.prereq) expect(nation.techs).toContain(def.prereq);
-        if (def?.year !== undefined) expect(def.year).toBeLessThanOrEqual(1830);
+        if (def?.year !== undefined) expect(def.year).toBeLessThanOrEqual(currentYear);
       }
       expect(new Set(nation.techs).size).toBe(nation.techs.length); // no dupes
     }

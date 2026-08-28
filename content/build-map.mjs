@@ -1642,7 +1642,13 @@ function applySharedTopology(provinceRecords) {
     provinceRecords[i].geometry = geometry;
     provinceRecords[i].bbox = geometryBounds(geometry);
     provinceRecords[i].coastal = Boolean(coastalFlags[i]);
-    provinceRecords[i].neighbors = (neighborLists[i] || []).slice().sort((a, b) => a - b);
+    // topojson's neighbors() reports a geometry as its own neighbor when its
+    // own parts share an arc. Vic2 regions are merged from several source
+    // polygons, so this fires constantly (412 of 545 at the 1830 cut) and a
+    // self-edge silently inflates every per-neighbor loop in the sim.
+    provinceRecords[i].neighbors = (neighborLists[i] || [])
+      .filter((neighborId) => neighborId !== i)
+      .sort((a, b) => a - b);
     provinceRecords[i].segments = [];
   }
 

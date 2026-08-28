@@ -26,6 +26,23 @@ function firstNationExcept(world: World, excluded: NationId): NationId {
   return excluded;
 }
 
+/**
+ * A neighbour of `owner` that actually shares a land border. The old map put
+ * nation 0 next to the player by accident; the Vic2 cut does not, and falling
+ * back to provinces 0/1 silently fought the battle in the Afghan mountains,
+ * where the defender bonus is large enough to invert the result.
+ */
+function borderingNationExcept(world: World, owner: NationId): NationId {
+  for (const province of world.provinces) {
+    if (province.owner !== owner) continue;
+    for (const neighborId of province.neighbors) {
+      const neighbor = world.provinces[neighborId];
+      if (neighbor && neighbor.owner >= 0 && neighbor.owner !== owner) return neighbor.owner;
+    }
+  }
+  return firstNationExcept(world, owner);
+}
+
 function firstOwnedProvince(world: World, nationId: NationId): ProvinceId {
   return world.provinces.find((province) => province.owner === nationId)?.id ?? 0;
 }
@@ -185,9 +202,10 @@ describe('M5 war and expansion', () => {
     const world = createWorld(GAME_DATA, 5502);
     disableAi(world);
     const attacker = world.playerNation;
-    const defender = firstNationExcept(world, attacker);
-    const pair = findBorderPair(world, attacker, defender) ?? { from: 0, to: 1 };
-    const battleProvince = pair.to;
+    const defender = borderingNationExcept(world, attacker);
+    const pair = findBorderPair(world, attacker, defender);
+    expect(pair, 'attacker and defender must share a land border').not.toBeNull();
+    const battleProvince = pair!.to;
 
     world.provinces[battleProvince].owner = defender;
     world.provinces[battleProvince].controller = defender;

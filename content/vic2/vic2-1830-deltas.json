@@ -1,7 +1,7 @@
 {
   "asOf": "1830-01-01",
   "baseline": "Victoria II 1836 grand campaign start",
-  "note": "Victoria II's earliest bookmark is 1836. Grand Century starts on 1830-01-01, so these deltas roll the Vic2 baseline back six years. Each entry names the Vic2 region, the owner Vic2 ships, and the owner that region actually had on 1830-01-01. Tags are Vic2 tags; the map build maps them to Grand Century tags afterwards.",
+  "note": "Victoria II's earliest bookmark is 1836. Grand Century starts on 1830-01-01, so these deltas roll the Vic2 baseline back six years. Each entry names the Vic2 region, the owner Vic2 ships, and the owner that region actually had on 1830-01-01. A few entries are not rollbacks but corrections: Vic2 flattens some autonomous polities into their overlord outright, and the why field says so. Tags are Vic2 tags; the map build maps them to Grand Century tags afterwards.",
   "ownership": [
     {
       "regionKey": "FRA_1700",
@@ -130,6 +130,22 @@
       "to": "POL",
       "why": "As Mazowieckie: within Congress Poland at the start of 1830.",
       "confidence": "medium"
+    },
+    {
+      "regionKey": "RUS_340",
+      "regionName": "Southern Finland",
+      "from": "RUS",
+      "to": "FIN",
+      "why": "The Grand Duchy of Finland has been a separate polity under the Tsar since 1809, with its own Senate, currency, laws and customs frontier. Victoria II does not model it and ships the region as plain Russian territory; on 1 January 1830 it was Russian only in the person of the sovereign.",
+      "confidence": "high"
+    },
+    {
+      "regionKey": "RUS_336",
+      "regionName": "Northern Finland",
+      "from": "RUS",
+      "to": "FIN",
+      "why": "As Southern Finland: Grand Duchy territory, administered from Helsinki rather than St Petersburg. Karelia (RUS_339) is deliberately left Russian, being Olonets and Kola rather than Finnish Karelia.",
+      "confidence": "high"
     }
   ]
 }

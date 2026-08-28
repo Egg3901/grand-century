@@ -16,6 +16,15 @@
       "eraSummary": "Congress Poland still has its own sejm, army and constitution. The November Uprising is ten months away."
     },
     {
+      "tag": "FIN",
+      "mode": "merge",
+      "name": "Grand Duchy of Finland",
+      "polityStatus": "constituent",
+      "overlordTag": "RUS",
+      "government": "absolute_monarchy",
+      "eraSummary": "The Tsar rules as Grand Duke through the Senate in Helsinki. Finland keeps Swedish law, its own customs frontier and no Diet: none has been convened since 1809."
+    },
+    {
       "tag": "EGY",
       "mode": "merge",
       "polityStatus": "vassal",
