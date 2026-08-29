@@ -27,6 +27,8 @@ import { decodeWire, encodeWire } from '../src/net/snapshotCodec.ts';
 import { SessionManager } from './session.ts';
 
 const PORT = Number(process.env.PORT ?? 3412);
+// Default to loopback so the box stays behind Caddy; Railway sets HOST=0.0.0.0 for public ingress.
+const HOST = process.env.HOST ?? '127.0.0.1';
 
 const manager = new SessionManager();
 
@@ -287,6 +289,6 @@ setInterval(() => {
   manager.tickAll(dt);
 }, 33);
 
-httpServer.listen(PORT, '127.0.0.1', () => {
-  console.log(`[grand-century-server] listening on ws://127.0.0.1:${PORT}`);
+httpServer.listen(PORT, HOST, () => {
+  console.log(`[grand-century-server] listening on ws://${HOST}:${PORT}`);
 });
