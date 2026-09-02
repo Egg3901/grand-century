@@ -846,6 +846,7 @@
       "distanceDegrees": 0.28812471967013453
     }
   ],
+  "explicitProvinceAssignments": [],
   "representedRosterPolities": 108,
   "rosterPolitiesWithoutProvinceCentroids": [
     "ANDORRA",

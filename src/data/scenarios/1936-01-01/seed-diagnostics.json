@@ -3,19 +3,8 @@
   "asOf": "1936-01-01",
   "nationalBorderGridDegrees": 0.05,
   "provinceCount": 548,
-  "assignedProvinces": 538,
-  "gapProvinceIds": [
-    11,
-    12,
-    15,
-    16,
-    17,
-    22,
-    201,
-    319,
-    333,
-    363
-  ],
+  "assignedProvinces": 548,
+  "gapProvinceIds": [],
   "overlaps": [
     {
       "provinceId": 3,
@@ -384,7 +373,179 @@
       "distanceDegrees": 0.3332758209786573
     }
   ],
-  "representedRosterPolities": 110,
+  "explicitProvinceAssignments": [
+    {
+      "provinceId": 11,
+      "provinceName": "Araucania",
+      "polityKey": "CHILE",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Araucania inherits a polar centroid. The named province is projected to Chile in the coarse 1936 mesh.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801347
+        }
+      ]
+    },
+    {
+      "provinceId": 12,
+      "provinceName": "Cape Colony",
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Cape Colony inherits a polar centroid. Its coarse 1936 province is projected to the Union of South Africa.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831731
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 31,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "provinceId": 15,
+      "provinceName": "Indian Ocean Territory",
+      "polityKey": "BRITISH_MAURITIUS",
+      "basis": "coarse_island_group_projection",
+      "notes": "The inherited Indian Ocean grouping lacks a usable island centroid. It is projected to British Mauritius for the preview mesh.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831873
+        }
+      ]
+    },
+    {
+      "provinceId": 16,
+      "provinceName": "Patagonia Meridional",
+      "polityKey": "ARGENTINA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Patagonia Meridional inherits a polar centroid and is projected to Argentina, matching the inherited province identity.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860947
+        }
+      ]
+    },
+    {
+      "provinceId": 17,
+      "provinceName": "South Atlantic Islands",
+      "polityKey": "UNITED_KINGDOM",
+      "basis": "coarse_island_group_projection",
+      "notes": "The South Atlantic island grouping has no single reviewed dependency polygon at this resolution. It is projected to the United Kingdom for preview gameplay.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2693292
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 74,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "provinceId": 22,
+      "provinceName": "Western Polynesia",
+      "polityKey": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "basis": "coarse_island_group_projection",
+      "notes": "Western Polynesia combines several islands and inherits a polar centroid. It is projected to the British Western Pacific Territories for the preview mesh.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846236
+        }
+      ]
+    },
+    {
+      "provinceId": 201,
+      "provinceName": "Highlands",
+      "polityKey": "UNITED_KINGDOM",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "The Scottish Highlands centroid is displaced into the North Atlantic and is projected to the United Kingdom.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2693292
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 74,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "provinceId": 319,
+      "provinceName": "Fiji",
+      "polityKey": "COLONY_OF_FIJI",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Fiji has a displaced inherited centroid and is projected to the Colony of Fiji.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846213
+        }
+      ]
+    },
+    {
+      "provinceId": 333,
+      "provinceName": "Nordnorge",
+      "polityKey": "NORWAY",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Nordnorge has an offshore high-latitude centroid and is projected to Norway.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851798
+        }
+      ]
+    },
+    {
+      "provinceId": 363,
+      "provinceName": "Macaronesia",
+      "polityKey": "PORTUGAL",
+      "basis": "coarse_island_group_projection",
+      "notes": "Macaronesia combines multiple archipelagos. The inherited Portuguese grouping is retained for preview gameplay and remains a documented coarse projection.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807009
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 57,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    }
+  ],
+  "representedRosterPolities": 113,
   "rosterPolitiesWithoutProvinceCentroids": [
     "AFRIQUE_EQUATORIALE_FRANCAISE",
     "ALAWITE_STATE",
@@ -398,11 +559,9 @@
     "BRITISH_HONG_KONG",
     "BRITISH_LEASED_LIUGONG_ISLAND",
     "BRITISH_LEEWARD_ISLANDS",
-    "BRITISH_MAURITIUS",
     "BRITISH_NORTH_BORNEO",
     "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
     "BRITISH_SOMALILAND",
-    "BRITISH_WESTERN_PACIFIC_TERRITORIES",
     "BRITISH_WINDWARD_ISLANDS",
     "CABINDA",
     "CAYMAN_ISLANDS",
@@ -412,7 +571,6 @@
     "COLONY_OF_BARBADOS",
     "COLONY_OF_BASUTOLAND",
     "COLONY_OF_BERMUDA",
-    "COLONY_OF_FIJI",
     "COLONY_OF_JAMAICA",
     "COLONY_OF_MALTA",
     "COLONY_OF_SEYCHELLES",
@@ -499,11 +657,9 @@
     "BRITISH_HONG_KONG",
     "BRITISH_LEASED_LIUGONG_ISLAND",
     "BRITISH_LEEWARD_ISLANDS",
-    "BRITISH_MAURITIUS",
     "BRITISH_NORTH_BORNEO",
     "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
     "BRITISH_SOMALILAND",
-    "BRITISH_WESTERN_PACIFIC_TERRITORIES",
     "BRITISH_WINDWARD_ISLANDS",
     "CABINDA",
     "CAYMAN_ISLANDS",
@@ -512,7 +668,6 @@
     "COLONY_OF_BARBADOS",
     "COLONY_OF_BASUTOLAND",
     "COLONY_OF_BERMUDA",
-    "COLONY_OF_FIJI",
     "COLONY_OF_JAMAICA",
     "COLONY_OF_MALTA",
     "COLONY_OF_SEYCHELLES",
@@ -586,5 +741,5 @@
     "ZANZIBAR_PROTECTORATE"
   ],
   "unrepresentedOverlordLinks": [],
-  "splitStates": 44
+  "splitStates": 42
 }

@@ -18,6 +18,15 @@ async function readJson(filePath) {
   return JSON.parse(await readFile(filePath, 'utf8'));
 }
 
+async function readOptionalJson(filePath, fallback) {
+  try {
+    return await readJson(filePath);
+  } catch (error) {
+    if (error?.code === 'ENOENT') return fallback;
+    throw error;
+  }
+}
+
 function requireValue(condition, message) {
   if (!condition) throw new Error(`[scenario] ${message}`);
 }
@@ -143,6 +152,10 @@ async function validateCompiledSeed(id, manifest) {
   const worldSeed = await readJson(path.join(generatedDir, 'worldSeed.json'));
   const borders = await readJson(path.join(generatedDir, 'nationalBorders.geo.json'));
   const diagnostics = await readJson(path.join(generatedDir, 'seed-diagnostics.json'));
+  const provinceOverrides = await readOptionalJson(
+    path.join(scenarioDir, 'sources', 'province-overrides.json'),
+    { overrides: [] },
+  );
   requireValue(diagnostics.schemaVersion === 1 && diagnostics.asOf === id, `${id} has invalid seed diagnostics`);
   requireValue(worldSeed.provinceCount === worldSeed.provinces.length, `${id} seed province count is stale`);
   requireValue(worldSeed.provinces.length > 0 && worldSeed.states.length > 0, `${id} seed is empty`);
@@ -195,6 +208,17 @@ async function validateCompiledSeed(id, manifest) {
     diagnostics.assignedProvinces === worldSeed.provinces.length - gapProvinceIds.length,
     `${id} seed assigned-province count is stale`,
   );
+  const expectedOverrideIds = (provinceOverrides.overrides ?? []).map((override) => override.provinceId);
+  const actualOverrideIds = (diagnostics.explicitProvinceAssignments ?? []).map((entry) => entry.provinceId);
+  requireValue(
+    JSON.stringify(actualOverrideIds) === JSON.stringify(expectedOverrideIds),
+    `${id} explicit province-assignment diagnostics are stale`,
+  );
+  for (const assignment of diagnostics.explicitProvinceAssignments ?? []) {
+    const source = provinceOverrides.overrides.find((override) => override.provinceId === assignment.provinceId);
+    requireValue(source?.polityKey === assignment.polityKey, `${id} explicit province assignment changed owner`);
+    requireValue(Boolean(assignment.notes && assignment.reviewedBy && assignment.reviewedAt), `${id} explicit province assignment lacks review provenance`);
+  }
   const represented = worldSeed.nations.filter((nation) => nation.tag !== 'UNC').length;
   requireValue(diagnostics.representedRosterPolities === represented, `${id} represented-polity count is stale`);
   const expectedMissing = roster.polities
@@ -218,6 +242,10 @@ async function validateCompiledSeed(id, manifest) {
     requireValue(diagnostics.nearestAssignments.length === 0, `${id} playable seed still has inferred nearest-border assignments`);
     requireValue(expectedTerritorialMissing.length === 0, `${id} playable seed omits territorial roster polities`);
     requireValue(diagnostics.unrepresentedOverlordLinks.length === 0, `${id} playable seed omits relationship participants`);
+  }
+  if (manifest.status === 'preview') {
+    requireValue(gapProvinceIds.length === 0, `${id} preview seed still has uncovered provinces`);
+    requireValue(diagnostics.unrepresentedOverlordLinks.length === 0, `${id} preview seed omits relationship participants`);
   }
   return {
     id,

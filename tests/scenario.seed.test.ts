@@ -27,7 +27,8 @@ describe('scenario seed compiler', () => {
           { ...baseProvince, id: 0, name: 'Overlap', lon: 0.5, lat: 0.5 },
           { ...baseProvince, id: 1, name: 'Large Only', lon: 1.5, lat: 1.5 },
           { ...baseProvince, id: 2, name: 'Near Gap', lon: 3.8, lat: 4.5 },
-          { ...baseProvince, id: 3, name: 'Uncovered', lon: 10, lat: 10 },
+          { ...baseProvince, id: 3, name: 'Reviewed Projection', lon: 10, lat: 10 },
+          { ...baseProvince, id: 4, name: 'Uncovered', lon: 20, lat: 20 },
         ],
         nations: [{ tag: 'OLD', primaryCulture: 'example', religion: 'example' }],
       },
@@ -47,13 +48,20 @@ describe('scenario seed compiler', () => {
         },
       },
       manifest: { id: '1700-01-01', startDate: { year: 1700, month: 1, day: 1 } },
+      provinceOverrides: {
+        asOf: '1700-01-01', reviewedBy: 'test', reviewedAt: '2026-09-02',
+        overrides: [{ provinceId: 3, polityKey: 'A', basis: 'test_projection', notes: 'Reviewed test assignment.' }],
+      },
     });
 
     expect(result.worldSeed.provinces.map((province: { ownerTag: string }) => province.ownerTag))
-      .toEqual(['B', 'A', 'C', 'UNC']);
+      .toEqual(['B', 'A', 'C', 'A', 'UNC']);
     expect(result.diagnostics.overlaps).toEqual([{ provinceId: 0, candidates: ['B', 'A'], selected: 'B' }]);
     expect(result.diagnostics.nearestAssignments[0]).toMatchObject({ provinceId: 2, polityKey: 'C' });
-    expect(result.diagnostics.gapProvinceIds).toEqual([3]);
+    expect(result.diagnostics.explicitProvinceAssignments).toEqual([expect.objectContaining({
+      provinceId: 3, polityKey: 'A', basis: 'test_projection',
+    })]);
+    expect(result.diagnostics.gapProvinceIds).toEqual([4]);
     expect(result.diagnostics.splitStates).toBe(1);
     expect(result.worldSeed.states).toHaveLength(4);
     expect(result.worldSeed.nations.find((nation: { tag: string }) => nation.tag === 'C')?.overlordTag).toBe('A');

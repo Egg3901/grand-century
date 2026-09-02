@@ -117,14 +117,53 @@ function borderLinesForFeature(feature, nationId) {
   };
 }
 
-export function compileScenarioSeed({ baseSeed, roster, relationships, compiledBorders, manifest }) {
+export function compileScenarioSeed({
+  baseSeed,
+  roster,
+  relationships,
+  compiledBorders,
+  manifest,
+  provinceOverrides = { overrides: [] },
+}) {
   requireValue(roster.asOf === manifest.id && compiledBorders.asOf === manifest.id, 'scenario source dates do not match');
+  requireValue(
+    provinceOverrides.asOf === undefined || provinceOverrides.asOf === manifest.id,
+    'province override date does not match',
+  );
   const polityByKey = new Map(roster.polities.map((polity) => [polity.key, polity]));
+  const baseProvinceById = new Map(baseSeed.provinces.map((province) => [province.id, province]));
+  const overrideByProvince = new Map();
+  for (const override of provinceOverrides.overrides ?? []) {
+    requireValue(baseProvinceById.has(override.provinceId), `override references unknown province ${override.provinceId}`);
+    requireValue(!overrideByProvince.has(override.provinceId), `duplicate override for province ${override.provinceId}`);
+    const polity = polityByKey.get(override.polityKey);
+    requireValue(Boolean(polity), `override references unknown polity ${override.polityKey}`);
+    requireValue(polity.status !== 'constituent', `override assigns province ${override.provinceId} to a constituent`);
+    requireValue(Boolean(override.notes), `override for province ${override.provinceId} needs review notes`);
+    overrideByProvince.set(override.provinceId, override);
+  }
   const shapes = ownershipShapes(compiledBorders);
   const overlapLedger = [];
   const nearestLedger = [];
+  const overrideLedger = [];
   const ownerByProvince = new Map();
   for (const province of baseSeed.provinces) {
+    const explicit = overrideByProvince.get(province.id);
+    if (explicit) {
+      const polity = polityByKey.get(explicit.polityKey);
+      ownerByProvince.set(province.id, explicit.polityKey);
+      overrideLedger.push({
+        provinceId: province.id,
+        provinceName: province.name,
+        polityKey: explicit.polityKey,
+        basis: explicit.basis,
+        notes: explicit.notes,
+        reviewedBy: provinceOverrides.reviewedBy,
+        reviewedAt: provinceOverrides.reviewedAt,
+        sources: polity.sources ?? [],
+      });
+      continue;
+    }
     const point = [province.lon, province.lat];
     const matches = shapes
       .filter((shape) => containsBounds(shape.bounds, point) && pointInPolygon(point, shape.polygon))
@@ -159,7 +198,6 @@ export function compileScenarioSeed({ baseSeed, roster, relationships, compiledB
   if (ownedProvinceIds.has('UNC')) nationIdByKey.set('UNC', nationIdByKey.size);
 
   const baseNationByTag = new Map(baseSeed.nations.map((nation) => [nation.tag, nation]));
-  const baseProvinceById = new Map(baseSeed.provinces.map((province) => [province.id, province]));
   const stateGroups = new Map();
   for (const province of baseSeed.provinces) {
     const ownerTag = ownerByProvince.get(province.id);
@@ -266,6 +304,7 @@ export function compileScenarioSeed({ baseSeed, roster, relationships, compiledB
       gapProvinceIds,
       overlaps: overlapLedger,
       nearestAssignments: nearestLedger,
+      explicitProvinceAssignments: overrideLedger,
       representedRosterPolities: representedKeys.length,
       rosterPolitiesWithoutProvinceCentroids: roster.polities
         .map((polity) => polity.key)
