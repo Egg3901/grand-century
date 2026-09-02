@@ -3,6 +3,7 @@ import {
   auditRosterReview,
   auditComplementReview,
   acceptSourceClassifications,
+  buildCarryForwardDecisionPack,
   applyManualRosterDecisions,
   buildCandidateCrosswalk,
   scaffoldRosterReview,
@@ -262,6 +263,80 @@ describe('scenario roster review compiler', () => {
     expect(result.roster.polities[0]).toMatchObject({ displayName: 'Island Dependency', status: 'vassal' });
     expect(result.ohmReview.entries[0]).toMatchObject({
       disposition: 'dependent_polity', polityKey: 'ISLAND', reviewedBy: 'historian',
+    });
+  });
+
+  it('lets an explicit review replace an automated fallback polity key', () => {
+    const result = applyManualRosterDecisions({
+      roster: {
+        asOf: '1945-09-02',
+        polities: [{
+          key: 'POLITY_Q865', displayName: '中國', status: 'sovereign', flagAssetTag: 'POLITY_Q865',
+          notes: 'Source-pack classification with a neutral procedural flag treatment pending historical art review.',
+          sources: [{ kind: 'ohm_relation', id: 9 }],
+        }],
+      },
+      ohmReview: {
+        entries: [{
+          identityKey: 'Q865', displayName: '中國', relationIds: [9], reviewLane: 'sovereignty_check',
+          disposition: 'polity', polityKey: 'POLITY_Q865', notes: 'Automated.',
+          reviewedBy: 'Codex source policy', reviewedAt: '2026-09-02',
+        }],
+      },
+      complementReview: { entries: [] },
+      decisionPack: {
+        schemaVersion: 1,
+        asOf: '1945-09-02',
+        reviewer: 'historian',
+        reviewedAt: '2026-09-02',
+        decisions: [{
+          source: 'ohm', identityKey: 'Q865', disposition: 'polity', polityKey: 'REPUBLIC_OF_CHINA',
+          displayName: 'Republic of China', notes: 'Reviewed semantic identity.',
+        }],
+      },
+    });
+    expect(result.roster.polities).toEqual([
+      expect.objectContaining({ key: 'REPUBLIC_OF_CHINA', displayName: 'Republic of China' }),
+    ]);
+    expect(result.ohmReview.entries[0]).toMatchObject({ polityKey: 'REPUBLIC_OF_CHINA' });
+  });
+
+  it('carries a stable reviewed identity forward with its semantic polity key', () => {
+    const currentRoster = { asOf: '1945-09-02', polities: [] };
+    const currentOhmReview = {
+      entries: [{
+        identityKey: 'Q-ISLAND', displayName: 'Island', relationIds: [9], reviewLane: 'manual',
+        disposition: 'unreviewed', polityKey: null,
+      }],
+    };
+    const pack = buildCarryForwardDecisionPack({
+      previousRoster: {
+        asOf: '1936-01-01',
+        polities: [{
+          key: 'ISLAND_STATE', displayName: 'Island State', status: 'vassal', flagAssetTag: 'ISLAND_STATE', sources: [],
+        }],
+      },
+      previousOhmReview: {
+        entries: [{ identityKey: 'Q-ISLAND', disposition: 'dependent_polity', polityKey: 'ISLAND_STATE' }],
+      },
+      previousComplementReview: { entries: [] },
+      currentRoster,
+      currentOhmReview,
+      currentComplementReview: { entries: [] },
+      reviewer: 'historian',
+      reviewedAt: '2026-09-02',
+    });
+    expect(pack.decisions[0]).toMatchObject({
+      identityKey: 'Q-ISLAND', disposition: 'dependent_polity', polityKey: 'ISLAND_STATE',
+    });
+    const applied = applyManualRosterDecisions({
+      roster: currentRoster,
+      ohmReview: currentOhmReview,
+      complementReview: { entries: [] },
+      decisionPack: pack,
+    });
+    expect(applied.roster.polities[0]).toMatchObject({
+      key: 'ISLAND_STATE', displayName: 'Island State', status: 'vassal',
     });
   });
 });

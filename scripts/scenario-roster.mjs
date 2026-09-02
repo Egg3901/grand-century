@@ -9,6 +9,7 @@ import {
   applyManualRosterDecisions,
   rebuildScenarioRoster,
   buildCandidateCrosswalk,
+  buildCarryForwardDecisionPack,
   loadScenarioRosterFiles,
   scaffoldRosterReview,
   scaffoldComplementReview,
@@ -30,6 +31,7 @@ function usage() {
     '  node scripts/scenario-roster.mjs accept-source --scenario-dir DIR --reviewer NAME [--date YYYY-MM-DD]',
     '  node scripts/scenario-roster.mjs apply-decisions --scenario-dir DIR --decisions FILE',
     '  node scripts/scenario-roster.mjs rebuild --scenario-dir DIR',
+    '  node scripts/scenario-roster.mjs carry-forward --scenario-dir DIR --from-scenario-dir DIR --out FILE',
   ].join('\n');
 }
 
@@ -158,6 +160,25 @@ if (command === 'scaffold') {
   process.stdout.write(
     `Rebuilt ${result.roster.polities.length} polities with ${result.applied} manual decisions.\n`,
   );
+} else if (command === 'carry-forward') {
+  const scenarioDir = option(args, '--scenario-dir');
+  const fromScenarioDir = option(args, '--from-scenario-dir');
+  const outputPath = option(args, '--out');
+  if (!scenarioDir || !fromScenarioDir || !outputPath) throw new Error(usage());
+  const current = await loadScenarioRosterFiles(path.resolve(scenarioDir));
+  const previous = await loadScenarioRosterFiles(path.resolve(fromScenarioDir));
+  const result = buildCarryForwardDecisionPack({
+    previousRoster: previous.roster,
+    previousOhmReview: previous.review,
+    previousComplementReview: previous.complementReview,
+    currentRoster: current.roster,
+    currentOhmReview: current.review,
+    currentComplementReview: current.complementReview,
+    reviewer: 'Codex temporal carry-forward review',
+    reviewedAt: new Date().toISOString().slice(0, 10),
+  });
+  await writeRosterReview(path.resolve(outputPath), result);
+  process.stdout.write(`Carried forward ${result.decisions.length} classifications from ${result.carriedFrom}.\n`);
 } else {
   throw new Error(usage());
 }

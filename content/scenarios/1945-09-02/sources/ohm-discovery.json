@@ -1,0 +1,2742 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1945-09-02",
+  "candidates": [
+    {
+      "relationId": 2865791,
+      "identityKey": "British occupation of the Comoros Islands",
+      "name": "British occupation of the Comoros Islands",
+      "wikidata": null,
+      "startDate": "1942-09-25",
+      "endDate": "1946-10-13",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2807664,
+      "identityKey": "Guatemala",
+      "name": "Guatemala",
+      "wikidata": null,
+      "startDate": "1922-01-14",
+      "endDate": "1976-06-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country"
+      }
+    },
+    {
+      "relationId": 2803504,
+      "identityKey": "Guiné Portuguesa",
+      "name": "Guiné Portuguesa",
+      "wikidata": null,
+      "startDate": "1800",
+      "endDate": "1973-09-24",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "colony_of": "Portugal",
+        "source": "Hammond's Atlas of the Modern World, 1917",
+        "wikipedia": "en:Portuguese Guinea"
+      }
+    },
+    {
+      "relationId": 2808161,
+      "identityKey": "Honduras",
+      "name": "Honduras",
+      "wikidata": null,
+      "startDate": "1922-01-14",
+      "endDate": "2007-10-07",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Honduras"
+      }
+    },
+    {
+      "relationId": 2871201,
+      "identityKey": "Nicaragua",
+      "name": "Nicaragua",
+      "wikidata": null,
+      "startDate": "1894-11-20",
+      "endDate": "1979-12-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://en.wikipedia.org/wiki/Nicaragua",
+        "wikipedia": "en:Nicaragua"
+      }
+    },
+    {
+      "relationId": 2828769,
+      "identityKey": "Q1014",
+      "name": "Liberia",
+      "wikidata": "Q1014",
+      "startDate": "1857-03-18",
+      "endDate": "1977-02-16",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Liberia"
+      }
+    },
+    {
+      "relationId": 2828750,
+      "identityKey": "Q1028835",
+      "name": "British Cameroons",
+      "wikidata": "Q1028835",
+      "startDate": "1916-07-20",
+      "endDate": "1961-06-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "mandated territory",
+        "colony_of": "British Empire",
+        "wikipedia": "en:British Cameroons"
+      }
+    },
+    {
+      "relationId": 2828747,
+      "identityKey": "Q1028848",
+      "name": "French Cameroon",
+      "wikidata": "Q1028848",
+      "startDate": "1916-07-20",
+      "endDate": "1960-01-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "mandated territory",
+        "colony_of": "French Empire",
+        "wikipedia": "en: French Cameroon"
+      }
+    },
+    {
+      "relationId": 2831866,
+      "identityKey": "Q1042",
+      "name": "Colony of Seychelles",
+      "wikidata": "Q1042",
+      "startDate": "1903-08-31",
+      "endDate": "1958",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:History of Seychelles"
+      }
+    },
+    {
+      "relationId": 2691746,
+      "identityKey": "Q1050",
+      "name": "Swaziland Protectorate",
+      "wikidata": "Q1050",
+      "startDate": "1903",
+      "endDate": "1968-09-06",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "colony_of": "British Empire",
+        "wikipedia": "en:History of Eswatini"
+      }
+    },
+    {
+      "relationId": 2846232,
+      "identityKey": "Q1050859",
+      "name": "Gilbert and Ellice Islands Colony",
+      "wikidata": "Q1050859",
+      "startDate": "1939-04-06",
+      "endDate": "1976-01-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Gilbert and Ellice Islands"
+      }
+    },
+    {
+      "relationId": 2694460,
+      "identityKey": "Q1054923",
+      "name": "英屬香港 British Hong Kong",
+      "wikidata": "Q1054923",
+      "startDate": "1945-08-30",
+      "endDate": "1997-06-30",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:British Hong Kong"
+      }
+    },
+    {
+      "relationId": 2848182,
+      "identityKey": "Q1074669",
+      "name": "Maldives Protectorate",
+      "wikidata": "Q1074669",
+      "startDate": "1887",
+      "endDate": "1965-07-26",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "wikipedia": "en:History of the Maldives"
+      }
+    },
+    {
+      "relationId": 2839975,
+      "identityKey": "Q107783136",
+      "name": "Colonie du Moyen-Congo",
+      "wikidata": "Q107783136",
+      "startDate": "1916-07-20",
+      "endDate": "1958-11-28",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "colony_of": "French Empire",
+        "wikipedia": "en:French Congo"
+      }
+    },
+    {
+      "relationId": 2831426,
+      "identityKey": "Q1097943",
+      "name": "Protectorate of Uganda",
+      "wikidata": "Q1097943",
+      "startDate": "1926",
+      "endDate": "1962-10-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "colony_of": "British Empire",
+        "wikipedia": "en:Protectorate of Uganda"
+      }
+    },
+    {
+      "relationId": 2848317,
+      "identityKey": "Q1121819",
+      "name": "إمارة شرق الأردن",
+      "wikidata": "Q1121819",
+      "startDate": "1920-08-10",
+      "endDate": "1946-06-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "wikipedia": "en:Emirate of Transjordan"
+      }
+    },
+    {
+      "relationId": 2834829,
+      "identityKey": "Q116282722",
+      "name": "Trinidad and Tobago Colony",
+      "wikidata": "Q116282722",
+      "startDate": "1889-10-20",
+      "endDate": "1958-01-03",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:History of Trinidad and Tobago"
+      }
+    },
+    {
+      "relationId": 2831873,
+      "identityKey": "Q12053604",
+      "name": "British Mauritius",
+      "wikidata": "Q12053604",
+      "startDate": "1903-08-31",
+      "endDate": "1965",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "crown colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:British Mauritius"
+      }
+    },
+    {
+      "relationId": 2878108,
+      "identityKey": "Q12100005",
+      "name": "Qeveria Demokratike e Shqipërisë",
+      "wikidata": "Q12100005",
+      "startDate": "1944-11-29",
+      "endDate": "1946-01-10",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country"
+      }
+    },
+    {
+      "relationId": 2860389,
+      "identityKey": "Q1232509",
+      "name": "Territorios Españoles del Golfo de Guinea",
+      "wikidata": "Q1232509",
+      "startDate": "1904",
+      "endDate": "1968-10-12",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Spanish Guinea"
+      }
+    },
+    {
+      "relationId": 2803204,
+      "identityKey": "Q124943",
+      "name": "المملكة المصرية",
+      "wikidata": "Q124943",
+      "startDate": "1922-02-28",
+      "endDate": "1953-06-18",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Kingdom of Egypt"
+      }
+    },
+    {
+      "relationId": 2923084,
+      "identityKey": "Q1277557",
+      "name": "DF Yugoslavia",
+      "wikidata": "Q1277557",
+      "startDate": "1943-11-29",
+      "endDate": "1946-03-31",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2848216,
+      "identityKey": "Q129286",
+      "name": "British Raj",
+      "wikidata": "Q129286",
+      "startDate": "1937-04-01",
+      "endDate": "1947-08-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:British Raj"
+      }
+    },
+    {
+      "relationId": 2831242,
+      "identityKey": "Q13410267",
+      "name": "British Solomon Islands Protectorate",
+      "wikidata": "Q13410267",
+      "startDate": "1898",
+      "endDate": "1975",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "colony_of": "British Empire",
+        "wikipedia": "en:British Solomon Islands"
+      }
+    },
+    {
+      "relationId": 2839746,
+      "identityKey": "Q136498582",
+      "name": "British Eritrea",
+      "wikidata": "Q136498582",
+      "startDate": "1941-11-27",
+      "endDate": "1952",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:British Military Administration (Eritrea)"
+      }
+    },
+    {
+      "relationId": 2692855,
+      "identityKey": "Q1410",
+      "name": "Gibraltar",
+      "wikidata": "Q1410",
+      "startDate": "1713",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "overseas_territory",
+        "wikipedia": "en:Gibraltar"
+      }
+    },
+    {
+      "relationId": 2839928,
+      "identityKey": "Q1421888",
+      "name": "Colonie du Oubangui-Chari-Tchad",
+      "wikidata": "Q1421888",
+      "startDate": "1920",
+      "endDate": "1958-12-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "colony_of": "French Empire",
+        "wikipedia": "en:Oubangui-Chari"
+      }
+    },
+    {
+      "relationId": 2885873,
+      "identityKey": "Q142965",
+      "name": "Japanese occupation of Portuguese Timor",
+      "wikidata": "Q142965",
+      "startDate": "1943-02-10",
+      "endDate": "1945-09-11",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "occupation"
+      }
+    },
+    {
+      "relationId": 2693292,
+      "identityKey": "Q145",
+      "name": "United Kingdom",
+      "wikidata": "Q145",
+      "startDate": "1922-12-05",
+      "endDate": "1987-05-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:United Kingdom"
+      }
+    },
+    {
+      "relationId": 2889831,
+      "identityKey": "Q146328",
+      "name": "Commonwealth of the Philippines",
+      "wikidata": "Q146328",
+      "startDate": "1945-08-17",
+      "endDate": "1946-07-04",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Commonwealth of the Philippines"
+      }
+    },
+    {
+      "relationId": 2848877,
+      "identityKey": "Q147909",
+      "name": "Царство България",
+      "wikidata": "Q147909",
+      "startDate": "1944-08-26",
+      "endDate": "1946-09-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "kingdom",
+        "wikipedia": "en:Kingdom of Bulgaria"
+      }
+    },
+    {
+      "relationId": 2922413,
+      "identityKey": "Q150058",
+      "name": "Kingdom of Travancore",
+      "wikidata": "Q150058",
+      "startDate": "1795",
+      "endDate": "1947-08-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Travancore"
+      }
+    },
+    {
+      "relationId": 2747937,
+      "identityKey": "Q1500976",
+      "name": null,
+      "wikidata": "Q1500976",
+      "startDate": "1945",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "condominium",
+        "border_type": "condominium",
+        "source": "https://archive.org/details/mapofeuropebytre01hert/page/450/mode/2up?view=theater"
+      }
+    },
+    {
+      "relationId": 2851155,
+      "identityKey": "Q15180",
+      "name": "Soviet Union",
+      "wikidata": "Q15180",
+      "startDate": "1945-09-02",
+      "endDate": "1948-09-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Soviet Union"
+      }
+    },
+    {
+      "relationId": 2851275,
+      "identityKey": "Q15180",
+      "name": "Soviet Union",
+      "wikidata": "Q15180",
+      "startDate": "1945-08-25",
+      "endDate": "1945-09-02",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Soviet Union"
+      }
+    },
+    {
+      "relationId": 2801349,
+      "identityKey": "Q15240466",
+      "name": "British Cyprus",
+      "wikidata": "Q15240466",
+      "startDate": "1925-05-01",
+      "endDate": "1960-08-16",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:British Cyprus"
+      }
+    },
+    {
+      "relationId": 2801070,
+      "identityKey": "Q15242873",
+      "name": "Советская гражданская администрация",
+      "wikidata": "Q15242873",
+      "startDate": "1945-08-24",
+      "endDate": "1948-09-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Soviet Civil Administration"
+      }
+    },
+    {
+      "relationId": 2848292,
+      "identityKey": "Q15243087",
+      "name": "Japanese occupation of Borneo",
+      "wikidata": "Q15243087",
+      "startDate": "1942-04-01",
+      "endDate": "1945-09-10",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "occupation",
+        "wikipedia": "en:Japanese occupation of British Borneo"
+      }
+    },
+    {
+      "relationId": 2846235,
+      "identityKey": "Q1545934",
+      "name": "British Western Pacific Territories",
+      "wikidata": "Q1545934",
+      "startDate": "1939",
+      "endDate": "1952",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "territory",
+        "colony_of": "British Empire",
+        "wikipedia": "en:British Western Pacific Territories"
+      }
+    },
+    {
+      "relationId": 2905001,
+      "identityKey": "Q155",
+      "name": "Brasil",
+      "wikidata": "Q155",
+      "startDate": "1909-09-08",
+      "endDate": "1970-03-27",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "nation",
+        "wikipedia": "en:Brazil"
+      }
+    },
+    {
+      "relationId": 2905974,
+      "identityKey": "Q157734",
+      "name": "Sultanate of Muscat and Oman",
+      "wikidata": "Q157734",
+      "startDate": "1856",
+      "endDate": "1958-09-08",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://en.wikipedia.org/wiki/Muscat_and_Oman"
+      }
+    },
+    {
+      "relationId": 2801206,
+      "identityKey": "Q158725",
+      "name": "Tanganyika Territory",
+      "wikidata": "Q158725",
+      "startDate": "1922-07-20",
+      "endDate": "1961-12-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "mandated territory",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Tanganyika Territory"
+      }
+    },
+    {
+      "relationId": 2855612,
+      "identityKey": "Q158725",
+      "name": "Tanganyika Territory",
+      "wikidata": "Q158725",
+      "startDate": "1920-01-10",
+      "endDate": "1961-12-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "mandated territory",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Tanganyika Territory"
+      }
+    },
+    {
+      "relationId": 2831062,
+      "identityKey": "Q16",
+      "name": "Canada",
+      "wikidata": "Q16",
+      "startDate": "1931-12-11",
+      "endDate": "1949-03-31",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "commonwealth",
+        "border_type": "commonwealth",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Canada"
+      }
+    },
+    {
+      "relationId": 2807603,
+      "identityKey": "Q1643555",
+      "name": "British Honduras Colony",
+      "wikidata": "Q1643555",
+      "startDate": "1862-05-12",
+      "endDate": "1964-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "colony",
+        "source": "Wikipedia page on British Honduras and History of Belize (1506–1862)",
+        "wikipedia": "en:British Honduras"
+      }
+    },
+    {
+      "relationId": 2803134,
+      "identityKey": "Q1649306",
+      "name": "Nyasaland",
+      "wikidata": "Q1649306",
+      "startDate": "1907-07-06",
+      "endDate": "1953-08-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Nyasaland"
+      }
+    },
+    {
+      "relationId": 2839750,
+      "identityKey": "Q168787",
+      "name": "Cabinda",
+      "wikidata": "Q168787",
+      "startDate": "1885-07-01",
+      "endDate": "1975-08-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "colony_of": "Portuguese Empire",
+        "wikipedia": "en:Cabinda Province"
+      }
+    },
+    {
+      "relationId": 2831555,
+      "identityKey": "Q16953965",
+      "name": "British Military Administration of Libya",
+      "wikidata": "Q16953965",
+      "startDate": "1943-05-13",
+      "endDate": "1949-03-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "League of nations mandated territory",
+        "colony_of": "British Empire",
+        "wikipedia": "en:British Military Administration (Libya)"
+      }
+    },
+    {
+      "relationId": 2861172,
+      "identityKey": "Q17012",
+      "name": "Colonie de la Guadeloupe",
+      "wikidata": "Q17012",
+      "startDate": "1878",
+      "endDate": "1946-03-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony"
+      }
+    },
+    {
+      "relationId": 2865901,
+      "identityKey": "Q17070",
+      "name": "La Réunion",
+      "wikidata": "Q17070",
+      "startDate": "1848-06-09",
+      "endDate": "1946-03-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2795081,
+      "identityKey": "Q172579",
+      "name": "Italia",
+      "wikidata": "Q172579",
+      "startDate": "1945-05-02",
+      "endDate": "1945-12-31",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "kingdom",
+        "wikipedia": "en:Kingdom of Italy"
+      }
+    },
+    {
+      "relationId": 2832971,
+      "identityKey": "Q1796551",
+      "name": "British Leeward Islands",
+      "wikidata": "Q1796551",
+      "startDate": "1940",
+      "endDate": "1958-01-03",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "dependency_of": "British Empire",
+        "wikipedia": "en:British Leeward Islands"
+      }
+    },
+    {
+      "relationId": 2848320,
+      "identityKey": "Q1852345",
+      "name": "Trucial States",
+      "wikidata": "Q1852345",
+      "startDate": "1820-01-08",
+      "endDate": "1970-04-05",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "wikipedia": "en:Trucial States"
+      }
+    },
+    {
+      "relationId": 2848485,
+      "identityKey": "Q1865132",
+      "name": "Aden Protectorate",
+      "wikidata": "Q1865132",
+      "startDate": "1917",
+      "endDate": "1963-01-18",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "wikipedia": "en:Aden Protectorate"
+      }
+    },
+    {
+      "relationId": 2801982,
+      "identityKey": "Q189",
+      "name": "Ísland",
+      "wikidata": "Q189",
+      "startDate": "1944-06-17",
+      "endDate": "1979-06-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Iceland"
+      }
+    },
+    {
+      "relationId": 2848193,
+      "identityKey": "Q192184",
+      "name": "Saint Helena Crown Colony",
+      "wikidata": "Q192184",
+      "startDate": "1938-01-12",
+      "endDate": "1983-01-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Saint Helena, Ascension and Tristan da Cunha"
+      }
+    },
+    {
+      "relationId": 2831731,
+      "identityKey": "Q193619",
+      "name": "Union of South Africa",
+      "wikidata": "Q193619",
+      "startDate": "1922",
+      "endDate": "1948-10-07",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "dominion",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Union of South Africa"
+      }
+    },
+    {
+      "relationId": 2848316,
+      "identityKey": "Q193714",
+      "name": "Palestine Mandate",
+      "wikidata": "Q193714",
+      "startDate": "1920-08-10",
+      "endDate": "1948-05-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "mandate",
+        "wikipedia": "en:Mandatory Palestine"
+      }
+    },
+    {
+      "relationId": 2828423,
+      "identityKey": "Q1998749",
+      "name": "Northern Territories",
+      "wikidata": "Q1998749",
+      "startDate": "1901-09-26",
+      "endDate": "1957-03-07",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "protectorate",
+        "wikipedia": "en:Northern Territories of the Gold Coast"
+      }
+    },
+    {
+      "relationId": 2851798,
+      "identityKey": "Q20",
+      "name": "Norge",
+      "wikidata": "Q20",
+      "startDate": "1925-08-14",
+      "endDate": "2004",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "territorial",
+        "wikipedia": "en:Norway"
+      }
+    },
+    {
+      "relationId": 2690947,
+      "identityKey": "Q2017684",
+      "name": "Protectorat français de Tunisie",
+      "wikidata": "Q2017684",
+      "startDate": "1881-05-12",
+      "endDate": "1956-03-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "colony_of": "France",
+        "wikipedia": "en:French protectorate of Tunisia"
+      }
+    },
+    {
+      "relationId": 2877966,
+      "identityKey": "Q203493",
+      "name": "Regatul României",
+      "wikidata": "Q203493",
+      "startDate": "1945-03-09",
+      "endDate": "1947-12-30",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "kingdom",
+        "wikipedia": "en:Kingdom of Romania"
+      }
+    },
+    {
+      "relationId": 2920399,
+      "identityKey": "Q209065",
+      "name": "Ελλάδα",
+      "wikidata": "Q209065",
+      "startDate": "1944-08-26",
+      "endDate": "1947",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Greece"
+      }
+    },
+    {
+      "relationId": 2917850,
+      "identityKey": "Q210682",
+      "name": "Afrique-Occidentale française",
+      "wikidata": "Q210682",
+      "startDate": "1931",
+      "endDate": "1958-10-02",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2692206,
+      "identityKey": "Q211274",
+      "name": "Polska",
+      "wikidata": "Q211274",
+      "startDate": "1945-08",
+      "endDate": "1948",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country"
+      }
+    },
+    {
+      "relationId": 2690860,
+      "identityKey": "Q213510",
+      "name": "Congo belge",
+      "wikidata": "Q213510",
+      "startDate": "1908-11-15",
+      "endDate": "1960-06-30",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "colony_of": "Belgium",
+        "wikipedia": "en:Belgian Congo"
+      }
+    },
+    {
+      "relationId": 2690948,
+      "identityKey": "Q218272",
+      "name": "Algérie française",
+      "wikidata": "Q218272",
+      "startDate": "1890",
+      "endDate": "1962-07-05",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "colony_of": "France",
+        "wikipedia": "fr:Algérie française"
+      }
+    },
+    {
+      "relationId": 2739874,
+      "identityKey": "Q228",
+      "name": "Andorra",
+      "wikidata": "Q228",
+      "startDate": "1278",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "principality",
+        "wikipedia": "en:Andorra"
+      }
+    },
+    {
+      "relationId": 2846200,
+      "identityKey": "Q23022146",
+      "name": "Protectorate of Tonga",
+      "wikidata": "Q23022146",
+      "startDate": "1900-05-18",
+      "endDate": "1970-06-04",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "wikipedia": "en:Kingdom of Tonga (1900–1970)"
+      }
+    },
+    {
+      "relationId": 2691741,
+      "identityKey": "Q2340665",
+      "name": "Colony of Basutoland",
+      "wikidata": "Q2340665",
+      "startDate": "1884-03-18",
+      "endDate": "1966-10-04",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "colony_of": "Britain",
+        "wikipedia": "en:Basutoland"
+      }
+    },
+    {
+      "relationId": 2693418,
+      "identityKey": "Q235",
+      "name": "Monaco",
+      "wikidata": "Q235",
+      "startDate": "1861-02-02",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2831964,
+      "identityKey": "Q23635",
+      "name": "Colony of Bermuda",
+      "wikidata": "Q23635",
+      "startDate": "1684",
+      "endDate": "1983-01-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "wikipedia": "en:History of Bermuda"
+      }
+    },
+    {
+      "relationId": 2751259,
+      "identityKey": "Q237",
+      "name": "Status Civitatis Vaticanae",
+      "wikidata": "Q237",
+      "startDate": "1929-02-11",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "source": "https://en.wikipedia.org/wiki/Vatican_City"
+      }
+    },
+    {
+      "relationId": 2801016,
+      "identityKey": "Q2376315",
+      "name": "British Burma",
+      "wikidata": "Q2376315",
+      "startDate": "1945-08-19",
+      "endDate": "1948-01-04",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:British rule in Burma"
+      }
+    },
+    {
+      "relationId": 2853735,
+      "identityKey": "Q238",
+      "name": "San Marino",
+      "wikidata": "Q238",
+      "startDate": "1740-02-05",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:San Marino"
+      }
+    },
+    {
+      "relationId": 2861549,
+      "identityKey": "Q241",
+      "name": "Cuba",
+      "wikidata": "Q241",
+      "startDate": "1925-03-23",
+      "endDate": "1978-01-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "nation",
+        "wikipedia": "en:Cuba"
+      }
+    },
+    {
+      "relationId": 2832944,
+      "identityKey": "Q244",
+      "name": "Colony of Barbados",
+      "wikidata": "Q244",
+      "startDate": "1885",
+      "endDate": "1958-01-03",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "dependency_of": "British Empire",
+        "wikipedia": "en:History of Barbados"
+      }
+    },
+    {
+      "relationId": 2828810,
+      "identityKey": "Q2444884",
+      "name": "བོད",
+      "wikidata": "Q2444884",
+      "startDate": "1912",
+      "endDate": "1951-05-23",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://commons.wikimedia.org/wiki/File:1912_China_map_from_National_Geographic.jpg",
+        "wikipedia": "en:Tibet (1912–1951)"
+      }
+    },
+    {
+      "relationId": 2692766,
+      "identityKey": "Q2454585",
+      "name": "Československá republika",
+      "wikidata": "Q2454585",
+      "startDate": "1945-05-08",
+      "endDate": "1947-09-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "republic",
+        "wikipedia": "en:Third Czechoslovak Republic"
+      }
+    },
+    {
+      "relationId": 2888098,
+      "identityKey": "Q252",
+      "name": "Indonesia",
+      "wikidata": "Q252",
+      "startDate": "1945-08-17",
+      "endDate": "1949-12-27",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Indonesia"
+      }
+    },
+    {
+      "relationId": 2828270,
+      "identityKey": "Q25230",
+      "name": "Guernsey",
+      "wikidata": "Q25230",
+      "startDate": "1290",
+      "endDate": "1987-05-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "bailiwick",
+        "source": "https://data.humdata.org/dataset/global-lsib-polygons-detailed?",
+        "wikipedia": "en:Bailiwick of Guernsey"
+      }
+    },
+    {
+      "relationId": 2834850,
+      "identityKey": "Q2526023",
+      "name": "Colony of Jamaica",
+      "wikidata": "Q2526023",
+      "startDate": "1873",
+      "endDate": "1958-01-03",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Colony of Jamaica"
+      }
+    },
+    {
+      "relationId": 2831411,
+      "identityKey": "Q2538511",
+      "name": "Protectorate of Kenya",
+      "wikidata": "Q2538511",
+      "startDate": "1920-07-23",
+      "endDate": "1963-12-12",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Kenya Colony"
+      }
+    },
+    {
+      "relationId": 2831414,
+      "identityKey": "Q2538511",
+      "name": "British Kenya",
+      "wikidata": "Q2538511",
+      "startDate": "1926",
+      "endDate": "1963-12-12",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Kenya Colony"
+      }
+    },
+    {
+      "relationId": 2846160,
+      "identityKey": "Q2594990",
+      "name": "Dominion of New Zealand",
+      "wikidata": "Q2594990",
+      "startDate": "1926",
+      "endDate": "1947-11-25",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "dominion",
+        "border_type": "dominion",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Dominion of New Zealand"
+      }
+    },
+    {
+      "relationId": 2863988,
+      "identityKey": "Q26234937",
+      "name": "République syrienne",
+      "wikidata": "Q26234937",
+      "startDate": "1938-09-07",
+      "endDate": "1945-10-24",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:First Syrian Republic"
+      }
+    },
+    {
+      "relationId": 2834740,
+      "identityKey": "Q2660774",
+      "name": "British Windward Islands",
+      "wikidata": "Q2660774",
+      "startDate": "1940",
+      "endDate": "1958-01-03",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "dependency_of": "British Empire",
+        "wikipedia": "en:British Windward Islands"
+      }
+    },
+    {
+      "relationId": 2846264,
+      "identityKey": "Q26988",
+      "name": "Cook Islands",
+      "wikidata": "Q26988",
+      "startDate": "1901-06-11",
+      "endDate": "1965-08-04",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "colony_of": "New Zealand",
+        "wikipedia": "en:Cook Islands"
+      }
+    },
+    {
+      "relationId": 2692985,
+      "identityKey": "Q27",
+      "name": "Éire / Ireland",
+      "wikidata": "Q27",
+      "startDate": "1937-12-29",
+      "endDate": "2006-04-04",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Republic of Ireland"
+      }
+    },
+    {
+      "relationId": 2839997,
+      "identityKey": "Q271894",
+      "name": "Afrique équatoriale française",
+      "wikidata": "Q271894",
+      "startDate": "1934-06-30",
+      "endDate": "1958-11-28",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "federation",
+        "colony_of": "French Empire",
+        "wikipedia": "en:French Equatorial Africa"
+      }
+    },
+    {
+      "relationId": 2690861,
+      "identityKey": "Q2826232",
+      "name": "África Ocidental Portuguesa",
+      "wikidata": "Q2826232",
+      "startDate": "1915",
+      "endDate": "1975",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "colony_of": "Portugal",
+        "source": "Hammond's Atlas of the Modern World, 1917",
+        "wikipedia": "en:Portuguese Angola"
+      }
+    },
+    {
+      "relationId": 2862761,
+      "identityKey": "Q29",
+      "name": "España",
+      "wikidata": "Q29",
+      "startDate": "1939-04-01",
+      "endDate": "1956-04-07",
+      "license": "CC0-1.0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "es:España"
+      }
+    },
+    {
+      "relationId": 2801347,
+      "identityKey": "Q298",
+      "name": "Chile",
+      "wikidata": "Q298",
+      "startDate": "1929-08-28",
+      "endDate": "1952-08-18",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Chile"
+      }
+    },
+    {
+      "relationId": 2883430,
+      "identityKey": "Q29999",
+      "name": "Koninkrijk der Nederlanden",
+      "wikidata": "Q29999",
+      "startDate": "1848-10-14",
+      "endDate": "1949-04-23",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "nl:Koninkrijk der Nederlanden"
+      }
+    },
+    {
+      "relationId": 2874803,
+      "identityKey": "Q30",
+      "name": "United States",
+      "wikidata": "Q30",
+      "startDate": "1935-03-26",
+      "endDate": "1946-07-03",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:United States"
+      }
+    },
+    {
+      "relationId": 2828774,
+      "identityKey": "Q30059027",
+      "name": "Sierra Leone Protectorate",
+      "wikidata": "Q30059027",
+      "startDate": "1896-08-31",
+      "endDate": "1961-04-27",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Sierra Leone Colony and Protectorate"
+      }
+    },
+    {
+      "relationId": 2876346,
+      "identityKey": "Q30971",
+      "name": "Établissements français de l'Océani",
+      "wikidata": "Q30971",
+      "startDate": "1903",
+      "endDate": "1946-10-27",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "protectorate"
+      }
+    },
+    {
+      "relationId": 2692857,
+      "identityKey": "Q31",
+      "name": "Belgique",
+      "wikidata": "Q31",
+      "startDate": "1945",
+      "endDate": "1987-10-06",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Belgium"
+      }
+    },
+    {
+      "relationId": 2692839,
+      "identityKey": "Q32",
+      "name": "Lëtzebuerg",
+      "wikidata": "Q32",
+      "startDate": "1945",
+      "endDate": "2007",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "grand_duchy",
+        "country": "grand_duchy",
+        "wikipedia": "en:Luxembourg"
+      }
+    },
+    {
+      "relationId": 2922053,
+      "identityKey": "Q323904",
+      "name": "Goa Portuguesa",
+      "wikidata": "Q323904",
+      "startDate": "1763",
+      "endDate": "1961-12-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Portuguese India"
+      }
+    },
+    {
+      "relationId": 2922074,
+      "identityKey": "Q323904",
+      "name": "India Portugues",
+      "wikidata": "Q323904",
+      "startDate": "1785",
+      "endDate": "1961-12-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony"
+      }
+    },
+    {
+      "relationId": 2855285,
+      "identityKey": "Q33",
+      "name": "Suomi",
+      "wikidata": "Q33",
+      "startDate": "1944",
+      "endDate": "1947-04-18",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Finland"
+      }
+    },
+    {
+      "relationId": 2870046,
+      "identityKey": "Q34",
+      "name": "Sverige",
+      "wikidata": "Q34",
+      "startDate": "1932-01-30",
+      "endDate": "1979-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "kingdom",
+        "wikipedia": "en:Sweden"
+      }
+    },
+    {
+      "relationId": 2831312,
+      "identityKey": "Q34617",
+      "name": "Saint-Pierre et Miquelon",
+      "wikidata": "Q34617",
+      "startDate": "1814-05-30",
+      "endDate": "1946-03-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony",
+        "wikipedia": "en:Saint Pierre and Miquelon"
+      }
+    },
+    {
+      "relationId": 2746467,
+      "identityKey": "Q347",
+      "name": "Liechtenstein",
+      "wikidata": "Q347",
+      "startDate": "1806-07-12",
+      "endDate": "1960-03-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "principality",
+        "wikipedia": "en:Liechtenstein"
+      }
+    },
+    {
+      "relationId": 2851793,
+      "identityKey": "Q35",
+      "name": "Danmark",
+      "wikidata": "Q35",
+      "startDate": "1944-06-17",
+      "endDate": "1999-04-07",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Denmark"
+      }
+    },
+    {
+      "relationId": 2803437,
+      "identityKey": "Q3518791",
+      "name": "Obock et Protectorats de la Côte des Somalis et des pays Dankils",
+      "wikidata": "Q3518791",
+      "startDate": "1896-05-20",
+      "endDate": "1946-10-27",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://www.worldstatesmen.org/Djibouti.html",
+        "wikipedia": "en:French Somaliland"
+      }
+    },
+    {
+      "relationId": 2831553,
+      "identityKey": "Q3518801",
+      "name": "Fezzan-Ghadames Military Territory",
+      "wikidata": "Q3518801",
+      "startDate": "1943-04-11",
+      "endDate": "1951-12-24",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "colony_of": "French Empire",
+        "wikipedia": "en:Fezzan-Ghadames Military Territory"
+      }
+    },
+    {
+      "relationId": 2876371,
+      "identityKey": "Q35555",
+      "name": "Kolonie d'Wallis-et-Futuna",
+      "wikidata": "Q35555",
+      "startDate": "1917",
+      "endDate": "1961-07-29",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony"
+      }
+    },
+    {
+      "relationId": 2803502,
+      "identityKey": "Q3557236",
+      "name": "Gambia Colony and Protectorate",
+      "wikidata": "Q3557236",
+      "startDate": "1816-10-17",
+      "endDate": "1965-02-18",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "colony_of": "British Empire",
+        "source": "Hammond's Atlas of the Modern World, 1917",
+        "wikipedia": "en:Gambia Colony and Protectorate"
+      }
+    },
+    {
+      "relationId": 2846172,
+      "identityKey": "Q35672",
+      "name": "Pitcairn Islands",
+      "wikidata": "Q35672",
+      "startDate": "1838-11-30",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "border_type": "possession",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Pitcairn Islands"
+      }
+    },
+    {
+      "relationId": 2690950,
+      "identityKey": "Q3574782",
+      "name": "Zanzibar Protectorate",
+      "wikidata": "Q3574782",
+      "startDate": "1890-07-01",
+      "endDate": "1963-12-10",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Zanzibar"
+      }
+    },
+    {
+      "relationId": 2861194,
+      "identityKey": "Q3769",
+      "name": "Colonie de la Guyane",
+      "wikidata": "Q3769",
+      "startDate": "1643",
+      "endDate": "1946-03-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "state",
+        "border_type": "colony"
+      }
+    },
+    {
+      "relationId": 2830878,
+      "identityKey": "Q38610",
+      "name": "Commission Government of Newfoundland",
+      "wikidata": "Q38610",
+      "startDate": "1934-02-16",
+      "endDate": "1949-03-31",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "commission government",
+        "wikipedia": "en:Newfoundland and Labrador"
+      }
+    },
+    {
+      "relationId": 2831077,
+      "identityKey": "Q38610",
+      "name": "Dominion of Newfoundland",
+      "wikidata": "Q38610",
+      "startDate": "1927-03-11",
+      "endDate": "1949-03-31",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "dominion",
+        "border_type": "dominion",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Dominion of Newfoundland"
+      }
+    },
+    {
+      "relationId": 2798802,
+      "identityKey": "Q39",
+      "name": "Schweiz",
+      "wikidata": "Q39",
+      "startDate": "1874-09-23",
+      "endDate": "1967-10-03",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Switzerland"
+      }
+    },
+    {
+      "relationId": 2839934,
+      "identityKey": "Q39072717",
+      "name": "Colonie du Gabon",
+      "wikidata": "Q39072717",
+      "startDate": "1916-07-20",
+      "endDate": "1960-08-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "French Empire",
+        "wikipedia": "en:History of Gabon"
+      }
+    },
+    {
+      "relationId": 2694462,
+      "identityKey": "Q3916279",
+      "name": "葡屬澳門 Portuguese Macau",
+      "wikidata": "Q3916279",
+      "startDate": "1887",
+      "endDate": "1999-12-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Portuguese Macau"
+      }
+    },
+    {
+      "relationId": 2848318,
+      "identityKey": "Q398",
+      "name": "Protectorate of Bahrain",
+      "wikidata": "Q398",
+      "startDate": "1868",
+      "endDate": "1971-08-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "wikipedia": "en:Bahrain"
+      }
+    },
+    {
+      "relationId": 2692360,
+      "identityKey": "Q40",
+      "name": "Österreich",
+      "wikidata": "Q40",
+      "startDate": "1945-04-27",
+      "endDate": "1960-03-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Austria"
+      }
+    },
+    {
+      "relationId": 2921515,
+      "identityKey": "Q404774",
+      "name": "سلطنة لحج",
+      "wikidata": "Q404774",
+      "startDate": "1839-01-18",
+      "endDate": "1967-04-30",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://en.wikipedia.org/wiki/Sultanate_of_Lahej",
+        "wikipedia": "en:Sultanate of Lahej"
+      }
+    },
+    {
+      "relationId": 2848197,
+      "identityKey": "Q408",
+      "name": "Australia",
+      "wikidata": "Q408",
+      "startDate": "1933",
+      "endDate": "1955-11-23",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Australia"
+      }
+    },
+    {
+      "relationId": 2801990,
+      "identityKey": "Q4096586",
+      "name": "British Military Administration of Malaya",
+      "wikidata": "Q4096586",
+      "startDate": "1945-09-02",
+      "endDate": "1946-04-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "wikipedia": "en:British Military Administration (Malaya)"
+      }
+    },
+    {
+      "relationId": 2860947,
+      "identityKey": "Q414",
+      "name": "Argentina",
+      "wikidata": "Q414",
+      "startDate": "1904-05-02",
+      "endDate": "1967-01-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "nation",
+        "wikipedia": "en:Argentina"
+      }
+    },
+    {
+      "relationId": 2806975,
+      "identityKey": "Q419",
+      "name": "Perú",
+      "wikidata": "Q419",
+      "startDate": "1942-01-29",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Peru"
+      }
+    },
+    {
+      "relationId": 2864004,
+      "identityKey": "Q43",
+      "name": "Türkiye",
+      "wikidata": "Q43",
+      "startDate": "1939-06-29",
+      "endDate": "1964-05-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Turkey"
+      }
+    },
+    {
+      "relationId": 2807009,
+      "identityKey": "Q45",
+      "name": "Portugal",
+      "wikidata": "Q45",
+      "startDate": "1910",
+      "endDate": "1951",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Portugal"
+      }
+    },
+    {
+      "relationId": 2860422,
+      "identityKey": "Q457242",
+      "name": "Protectorado español en Marruecos",
+      "wikidata": "Q457242",
+      "startDate": "1926-05-27",
+      "endDate": "1946-06-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2848223,
+      "identityKey": "Q49910",
+      "name": "Aden Colony",
+      "wikidata": "Q49910",
+      "startDate": "1937-04-01",
+      "endDate": "1963-01-18",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Aden Colony"
+      }
+    },
+    {
+      "relationId": 2828425,
+      "identityKey": "Q503623",
+      "name": "Gold Coast Colony",
+      "wikidata": "Q503623",
+      "startDate": "1872-04-06",
+      "endDate": "1956-12-11",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Gold Coast (British colony)"
+      }
+    },
+    {
+      "relationId": 2846213,
+      "identityKey": "Q5148320",
+      "name": "Colony of Fiji",
+      "wikidata": "Q5148320",
+      "startDate": "1874-10-10",
+      "endDate": "1970-10-10",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Colony of Fiji"
+      }
+    },
+    {
+      "relationId": 2690856,
+      "identityKey": "Q5148517",
+      "name": "Colony and Protectorate of Nigeria",
+      "wikidata": "Q5148517",
+      "startDate": "1914-01-01",
+      "endDate": "1954-10-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "colony_of": "Britain",
+        "wikipedia": "en:Colonial Nigeria"
+      }
+    },
+    {
+      "relationId": 2841711,
+      "identityKey": "Q51547013",
+      "name": "República Dominicana",
+      "wikidata": "Q51547013",
+      "startDate": "1924-09-18",
+      "endDate": "1965-04-28",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Third Dominican Republic"
+      }
+    },
+    {
+      "relationId": 2803203,
+      "identityKey": "Q541455",
+      "name": "Anglo-Egyptian Sudan",
+      "wikidata": "Q541455",
+      "startDate": "1934",
+      "endDate": "1956-01-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "condominium",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Anglo-Egyptian Sudan"
+      }
+    },
+    {
+      "relationId": 2865839,
+      "identityKey": "Q5501842",
+      "name": "Colonie de Madagascar et dépendances",
+      "wikidata": "Q5501842",
+      "startDate": "1942-09-25",
+      "endDate": "1955-08-06",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country"
+      }
+    },
+    {
+      "relationId": 2855433,
+      "identityKey": "Q55304",
+      "name": "American occupation zone in Germany",
+      "wikidata": "Q55304",
+      "startDate": "1945-08-01",
+      "endDate": "1945-09-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "source": "English-language Wikipedia page on the US occupation zone",
+        "wikipedia": "en:American occupation zone in Germany"
+      }
+    },
+    {
+      "relationId": 2852444,
+      "identityKey": "Q55306",
+      "name": "British occupation zone in Germany",
+      "wikidata": "Q55306",
+      "startDate": "1945-07-30",
+      "endDate": "1945-11-13",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2920369,
+      "identityKey": "Q555185",
+      "name": "Isole italiane dell'Egeo",
+      "wikidata": "Q555185",
+      "startDate": "1945-05-08",
+      "endDate": "1947-02-10",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Italian Islands of the Aegean"
+      }
+    },
+    {
+      "relationId": 2831970,
+      "identityKey": "Q5785",
+      "name": "Cayman Islands",
+      "wikidata": "Q5785",
+      "startDate": "1670-07-08",
+      "endDate": "1990-01-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "territory",
+        "wikipedia": "en:Cayman Islands"
+      }
+    },
+    {
+      "relationId": 2842571,
+      "identityKey": "Q5848651",
+      "name": "Estados Unidos de Venezuela",
+      "wikidata": "Q5848651",
+      "startDate": "1905",
+      "endDate": "1953-04-11",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:United States of Venezuela"
+      }
+    },
+    {
+      "relationId": 2863620,
+      "identityKey": "Q590743",
+      "name": "Ruanda-Urundi",
+      "wikidata": "Q590743",
+      "startDate": "1924-10-20",
+      "endDate": "1946-12-13",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "colony_of": "Belgium",
+        "source": "https://en.wikipedia.org/wiki/Burundi#History",
+        "wikipedia": "en:Ruanda-Urundi"
+      }
+    },
+    {
+      "relationId": 2859424,
+      "identityKey": "Q60776353",
+      "name": "British Military Administration of Somaliland",
+      "wikidata": "Q60776353",
+      "startDate": "1941-02-25",
+      "endDate": "1950-04-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country"
+      }
+    },
+    {
+      "relationId": 2917199,
+      "identityKey": "Q657",
+      "name": "Colonie du Tchad",
+      "wikidata": "Q657",
+      "startDate": "1931",
+      "endDate": "1960-08-11",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony",
+        "colony_of": "French Empire",
+        "wikipedia": "en:French Chad"
+      }
+    },
+    {
+      "relationId": 2801185,
+      "identityKey": "Q6744657",
+      "name": "Colony of Malta",
+      "wikidata": "Q6744657",
+      "startDate": "1814-05-30",
+      "endDate": "1964-09-21",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Crown Colony of Malta"
+      }
+    },
+    {
+      "relationId": 2846180,
+      "identityKey": "Q697",
+      "name": "Japanese occupation of Nauru",
+      "wikidata": "Q697",
+      "startDate": "1942-08-25",
+      "endDate": "1945-09-13",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "wikipedia": "en:Nauru"
+      }
+    },
+    {
+      "relationId": 2696301,
+      "identityKey": "Q69829",
+      "name": "France",
+      "wikidata": "Q69829",
+      "startDate": "1945-04-22",
+      "endDate": "1946-03-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "fr:France"
+      }
+    },
+    {
+      "relationId": 2801989,
+      "identityKey": "Q713768",
+      "name": "マライ",
+      "wikidata": "Q713768",
+      "startDate": "1941-12-08",
+      "endDate": "1945-09-02",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "wikipedia": "en:Japanese occupation of Malaya"
+      }
+    },
+    {
+      "relationId": 2885981,
+      "identityKey": "Q7232692",
+      "name": "Portuguese São Tomé and Príncipe",
+      "wikidata": "Q7232692",
+      "startDate": "1648",
+      "endDate": "1951",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony"
+      }
+    },
+    {
+      "relationId": 2802056,
+      "identityKey": "Q733",
+      "name": "Paraguay",
+      "wikidata": "Q733",
+      "startDate": "1938-07-31",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Paraguay"
+      }
+    },
+    {
+      "relationId": 2806974,
+      "identityKey": "Q736",
+      "name": "Ecuador",
+      "wikidata": "Q736",
+      "startDate": "1942-01-29",
+      "endDate": "1966-11-10",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "nation",
+        "wikipedia": "en:Ecuador"
+      }
+    },
+    {
+      "relationId": 2848975,
+      "identityKey": "Q739",
+      "name": "Colombia",
+      "wikidata": "Q739",
+      "startDate": "1916-07-15",
+      "endDate": "1978-08-04",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Colombia"
+      }
+    },
+    {
+      "relationId": 2860428,
+      "identityKey": "Q740930",
+      "name": "Saguía el Hamra",
+      "wikidata": "Q740930",
+      "startDate": "1904-04-08",
+      "endDate": "1946",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Saguia el-Hamra"
+      }
+    },
+    {
+      "relationId": 2691745,
+      "identityKey": "Q747314",
+      "name": "Bechuanaland Protectorate",
+      "wikidata": "Q747314",
+      "startDate": "1890-06-30",
+      "endDate": "1966-09-30",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "source": "Map of Africa 1922",
+        "wikipedia": "en:Bechuanaland Protectorate"
+      }
+    },
+    {
+      "relationId": 2802057,
+      "identityKey": "Q750",
+      "name": "Bolivia",
+      "wikidata": "Q750",
+      "startDate": "1938-07-31",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "nation",
+        "wikipedia": "en:Bolivia"
+      }
+    },
+    {
+      "relationId": 2831467,
+      "identityKey": "Q750583",
+      "name": "Southern Rhodesia",
+      "wikidata": "Q750583",
+      "startDate": "1923-09-12",
+      "endDate": "1953-08-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "crown colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Southern Rhodesia"
+      }
+    },
+    {
+      "relationId": 2846175,
+      "identityKey": "Q752431",
+      "name": "New Hebrides / Nouvelles-Hébrides",
+      "wikidata": "Q752431",
+      "startDate": "1907-12-02",
+      "endDate": "1980-07-30",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "condominium",
+        "wikipedia": "en:New Hebrides"
+      }
+    },
+    {
+      "relationId": 2805384,
+      "identityKey": "Q763141",
+      "name": "Territorio de Ifni",
+      "wikidata": "Q763141",
+      "startDate": "1860-04-26",
+      "endDate": "1946-07-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2802055,
+      "identityKey": "Q77",
+      "name": "Uruguay",
+      "wikidata": "Q77",
+      "startDate": "1851",
+      "endDate": "1969-12-03",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Uruguay"
+      }
+    },
+    {
+      "relationId": 2834851,
+      "identityKey": "Q778",
+      "name": "Colony of the Bahamas",
+      "wikidata": "Q778",
+      "startDate": "1848",
+      "endDate": "1973-07-10",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:History of the Bahamas"
+      }
+    },
+    {
+      "relationId": 2828299,
+      "identityKey": "Q785",
+      "name": "Jersey",
+      "wikidata": "Q785",
+      "startDate": "1290",
+      "endDate": "1987-05-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "bailiwick",
+        "source": "https://data.humdata.org/dataset/global-lsib-polygons-detailed",
+        "wikipedia": "en:Jersey"
+      }
+    },
+    {
+      "relationId": 2841717,
+      "identityKey": "Q790",
+      "name": "Haiti",
+      "wikidata": "Q790",
+      "startDate": "1934-08-01",
+      "endDate": "1977-04-08",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "country",
+        "wikipedia": "en:Haiti"
+      }
+    },
+    {
+      "relationId": 2808152,
+      "identityKey": "Q792",
+      "name": "El Salvador",
+      "wikidata": "Q792",
+      "startDate": "1922-01-14",
+      "endDate": "1950-07-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "country",
+        "wikipedia": "en:El Salvador"
+      }
+    },
+    {
+      "relationId": 2694890,
+      "identityKey": "Q794",
+      "name": "ایران",
+      "wikidata": "Q794",
+      "startDate": "1935",
+      "endDate": "1959-04-12",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Iran"
+      }
+    },
+    {
+      "relationId": 2694159,
+      "identityKey": "Q797527",
+      "name": "British Togoland",
+      "wikidata": "Q797527",
+      "startDate": "1916-12-27",
+      "endDate": "1956-12-11",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:British Togoland"
+      }
+    },
+    {
+      "relationId": 2859751,
+      "identityKey": "Q800",
+      "name": "Costa Rica",
+      "wikidata": "Q800",
+      "startDate": "1941-05-01",
+      "endDate": "1975-06-05",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "nation"
+      }
+    },
+    {
+      "relationId": 2859753,
+      "identityKey": "Q804",
+      "name": "Panamá",
+      "wikidata": "Q804",
+      "startDate": "1941-05-01",
+      "endDate": "1979-10-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Panama"
+      }
+    },
+    {
+      "relationId": 2848364,
+      "identityKey": "Q817",
+      "name": "Protectorate of Kuwait",
+      "wikidata": "Q817",
+      "startDate": "1899-01-23",
+      "endDate": "1961-06-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "wikipedia": "en:Kuwait"
+      }
+    },
+    {
+      "relationId": 2748904,
+      "identityKey": "Q822",
+      "name": "لبنان",
+      "wikidata": "Q822",
+      "startDate": "1943-11-22",
+      "endDate": "1982-06-06",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Lebanon"
+      }
+    },
+    {
+      "relationId": 2893390,
+      "identityKey": "Q837",
+      "name": "नेपाल",
+      "wikidata": "Q837",
+      "startDate": "1860",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Kingdom of Nepal"
+      }
+    },
+    {
+      "relationId": 2848319,
+      "identityKey": "Q846",
+      "name": "Protectorate of Qatar",
+      "wikidata": "Q846",
+      "startDate": "1916-11-03",
+      "endDate": "1971-09-03",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate"
+      }
+    },
+    {
+      "relationId": 2905965,
+      "identityKey": "Q851",
+      "name": "المملكة العربية السعودية",
+      "wikidata": "Q851",
+      "startDate": "1932-09-23",
+      "endDate": "1958-02-16",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "source": "https://www.naturalearthdata.com/",
+        "wikipedia": "en:Saudi Arabia"
+      }
+    },
+    {
+      "relationId": 2879275,
+      "identityKey": "Q862467",
+      "name": "Siin",
+      "wikidata": "Q862467",
+      "startDate": "1520",
+      "endDate": "1960-06-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Kingdom of Sine"
+      }
+    },
+    {
+      "relationId": 2948949,
+      "identityKey": "Q865",
+      "name": "中國",
+      "wikidata": "Q865",
+      "startDate": "1939-04-09",
+      "endDate": "1945-10-25",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "nation",
+        "wikipedia": "zh:中華民國"
+      }
+    },
+    {
+      "relationId": 2848473,
+      "identityKey": "Q869",
+      "name": "ประเทศไทย",
+      "wikidata": "Q869",
+      "startDate": "1943-10-18",
+      "endDate": "1945-09-02",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Thailand"
+      }
+    },
+    {
+      "relationId": 2848474,
+      "identityKey": "Q869",
+      "name": "ประเทศไทย",
+      "wikidata": "Q869",
+      "startDate": "1945-09-02",
+      "endDate": "1966-10-06",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Thailand"
+      }
+    },
+    {
+      "relationId": 2698263,
+      "identityKey": "Q889394",
+      "name": "Colónia de Moçambique",
+      "wikidata": "Q889394",
+      "startDate": "1926",
+      "endDate": "1950",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Portuguese Mozambique"
+      }
+    },
+    {
+      "relationId": 2690949,
+      "identityKey": "Q907234",
+      "name": "Protectorat français au Maroc",
+      "wikidata": "Q907234",
+      "startDate": "1926-05-27",
+      "endDate": "1956-04-07",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:French protectorate in Morocco"
+      }
+    },
+    {
+      "relationId": 2906073,
+      "identityKey": "Q917",
+      "name": "འབྲུག་རྒྱལ་ཁབ།",
+      "wikidata": "Q917",
+      "startDate": "1841",
+      "endDate": "1949-08-08",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Bhutan"
+      }
+    },
+    {
+      "relationId": 2806844,
+      "identityKey": "Q918126",
+      "name": "British Guiana",
+      "wikidata": "Q918126",
+      "startDate": "1886-10",
+      "endDate": "1966-05-26",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "source": "Wikipedia page on British Guiana",
+        "wikipedia": "en:British Guiana"
+      }
+    },
+    {
+      "relationId": 2848313,
+      "identityKey": "Q918153",
+      "name": "British Ceylon",
+      "wikidata": "Q918153",
+      "startDate": "1815-03-02",
+      "endDate": "1948-02-04",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:British Ceylon"
+      }
+    },
+    {
+      "relationId": 2860429,
+      "identityKey": "Q929147",
+      "name": "Colonia del Rio de Oro",
+      "wikidata": "Q929147",
+      "startDate": "1900-06-27",
+      "endDate": "1946-07-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Spanish Sahara"
+      }
+    },
+    {
+      "relationId": 2878067,
+      "identityKey": "Q940741",
+      "name": "Magyar Köztársaság",
+      "wikidata": "Q940741",
+      "startDate": "1945-02-01",
+      "endDate": "1949-08-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "republic"
+      }
+    },
+    {
+      "relationId": 2691743,
+      "identityKey": "Q953903",
+      "name": "Northern Rhodesia",
+      "wikidata": "Q953903",
+      "startDate": "1911-08-17",
+      "endDate": "1953-08-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "protectorate",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Northern Rhodesia"
+      }
+    },
+    {
+      "relationId": 2692906,
+      "identityKey": "Q96",
+      "name": "México",
+      "wikidata": "Q96",
+      "startDate": "1917-02-05",
+      "endDate": "1970-01-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Mexico"
+      }
+    },
+    {
+      "relationId": 2923088,
+      "identityKey": "Q96372444",
+      "name": "Ashanti Colony",
+      "wikidata": "Q96372444",
+      "startDate": "1901-09-26",
+      "endDate": "1957-03-07",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony"
+      }
+    },
+    {
+      "relationId": 2693293,
+      "identityKey": "Q9676",
+      "name": "Isle of Man",
+      "wikidata": "Q9676",
+      "startDate": "1333-08-09",
+      "endDate": "1987-05-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "state",
+        "wikipedia": "en:Isle of Man"
+      }
+    },
+    {
+      "relationId": 2846170,
+      "identityKey": "Territory of Western Samoa",
+      "name": "Territory of Western Samoa",
+      "wikidata": null,
+      "startDate": "1922-04-01",
+      "endDate": "1962-01-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "colony_of": "New Zealand",
+        "wikipedia": "en:Territory of Western Samoa"
+      }
+    },
+    {
+      "relationId": 2746077,
+      "identityKey": "Việt Nam Dân chủ Cộng hòa",
+      "name": "Việt Nam Dân chủ Cộng hòa",
+      "wikidata": null,
+      "startDate": "1945-09-02",
+      "endDate": "1954-07-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:North Vietnam"
+      }
+    },
+    {
+      "relationId": 2839466,
+      "identityKey": "المملكة العراقية الهاشمية",
+      "name": "المملكة العراقية الهاشمية",
+      "wikidata": null,
+      "startDate": "1932-10-03",
+      "endDate": "1958-07-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Kingdom of Iraq"
+      }
+    },
+    {
+      "relationId": 2822863,
+      "identityKey": "د افغانستان شاهي دولت",
+      "name": "د افغانستان شاهي دولت",
+      "wikidata": null,
+      "startDate": "1926",
+      "endDate": "1973",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Kingdom of Afghanistan"
+      }
+    },
+    {
+      "relationId": 2803446,
+      "identityKey": "ኢትዮጵያ",
+      "name": "ኢትዮጵያ",
+      "wikidata": null,
+      "startDate": "1942-01-31",
+      "endDate": "1952",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Ethiopia"
+      }
+    },
+    {
+      "relationId": 2746245,
+      "identityKey": "ປະເທດລາວ",
+      "name": "ປະເທດລາວ",
+      "wikidata": null,
+      "startDate": "1945-04-08",
+      "endDate": "1946-11-16",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2746209,
+      "identityKey": "កម្ពុជា",
+      "name": "កម្ពុជា",
+      "wikidata": null,
+      "startDate": "1945-03-13",
+      "endDate": "1946-11-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Cambodia"
+      }
+    },
+    {
+      "relationId": 2889870,
+      "identityKey": "大日本帝国",
+      "name": "大日本帝国",
+      "wikidata": null,
+      "startDate": "1945-09-02",
+      "endDate": "1945-10-25",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2948948,
+      "identityKey": "大日本帝国",
+      "name": "大日本帝国",
+      "wikidata": null,
+      "startDate": "1939-04-09",
+      "endDate": "1945-09-02",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    }
+  ]
+}

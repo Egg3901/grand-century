@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1945-09-02",
+  "coverage": "vertical_slice",
+  "polities": [
+    {
+      "key": "GERMANY",
+      "displayName": "Germany",
+      "status": "sovereign",
+      "flagAssetTag": "GER",
+      "notes": "Player-facing treatment is neutral. Occupation and divided administration require exact-date source review; historical source labels remain provenance only.",
+      "sources": []
+    }
+  ]
+}

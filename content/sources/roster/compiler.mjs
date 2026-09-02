@@ -312,14 +312,34 @@ export function applyManualRosterDecisions({ roster, ohmReview, complementReview
       }
     }
     const displayName = decision.displayName ?? entry.displayName;
+    let renamedAutomatedPolity = false;
     let polity = decision.mapTo
       ? polityByKey.get(decision.mapTo)
       : (wasAutomated && previousPolityKey
           ? polityByKey.get(previousPolityKey)
           : polityByName.get(normalizedName(displayName)));
     if (decision.mapTo) requireValue(Boolean(polity), `manual decision ${decisionKey} maps to unknown polity ${decision.mapTo}`);
+    if (polity && wasAutomated && previousPolityKey && decision.polityKey
+      && decision.polityKey !== previousPolityKey) {
+      requireValue(/^[A-Z0-9_]+$/.test(decision.polityKey), `manual decision ${decisionKey} has invalid polity key ${decision.polityKey}`);
+      requireValue(!reserved.has(decision.polityKey), `manual decision ${decisionKey} repeats polity key ${decision.polityKey}`);
+      polityByKey.delete(previousPolityKey);
+      reserved.delete(previousPolityKey);
+      polity.key = decision.polityKey;
+      polity.flagAssetTag = decision.flagAssetTag ?? decision.polityKey;
+      polityByKey.set(polity.key, polity);
+      reserved.add(polity.key);
+      renamedAutomatedPolity = true;
+      for (const review of [nextOhmReview, nextComplementReview]) {
+        for (const reviewedEntry of review.entries) {
+          if (reviewedEntry.polityKey === previousPolityKey) reviewedEntry.polityKey = polity.key;
+        }
+      }
+    }
     if (!polity) {
-      const key = uniquePolityKey({ ...entry, displayName }, reserved);
+      const key = decision.polityKey ?? uniquePolityKey({ ...entry, displayName }, reserved);
+      requireValue(/^[A-Z0-9_]+$/.test(key), `manual decision ${decisionKey} has invalid polity key ${key}`);
+      requireValue(!reserved.has(key), `manual decision ${decisionKey} repeats polity key ${key}`);
       polity = {
         key,
         displayName,
@@ -332,7 +352,7 @@ export function applyManualRosterDecisions({ roster, ohmReview, complementReview
       polityByKey.set(key, polity);
       polityByName.set(normalizedName(displayName), polity);
       reserved.add(key);
-    } else if (wasAutomated && previousPolityKey === polity.key) {
+    } else if (wasAutomated && (previousPolityKey === polity.key || renamedAutomatedPolity)) {
       polity.status = decision.polityStatus ?? statusForDisposition[decision.disposition];
       if (decision.displayName) {
         polityByName.delete(normalizedName(polity.displayName));
@@ -349,6 +369,65 @@ export function applyManualRosterDecisions({ roster, ohmReview, complementReview
 
   nextRoster.polities.sort((a, b) => a.key.localeCompare(b.key, 'en'));
   return { roster: nextRoster, ohmReview: nextOhmReview, complementReview: nextComplementReview, applied };
+}
+
+export function buildCarryForwardDecisionPack({
+  previousRoster,
+  previousOhmReview,
+  previousComplementReview,
+  currentRoster,
+  currentOhmReview,
+  currentComplementReview,
+  reviewer,
+  reviewedAt,
+}) {
+  requireValue(previousRoster.asOf !== currentRoster.asOf, 'carry-forward source and target dates must differ');
+  requireValue(Boolean(reviewer), 'carry-forward decisions need a reviewer');
+  requireValue(/^\d{4}-\d{2}-\d{2}$/.test(reviewedAt), 'carry-forward decisions need an ISO review date');
+  const previousPolityByKey = new Map(previousRoster.polities.map((polity) => [polity.key, polity]));
+  const existingOrScheduled = new Set(currentRoster.polities.map((polity) => polity.key));
+  const decisions = [];
+  const sources = [
+    ['ohm', previousOhmReview, currentOhmReview],
+    ['cliopatria', previousComplementReview, currentComplementReview],
+  ];
+  const polityDispositions = new Set(['polity', 'dependent_polity', 'constituent']);
+  for (const [source, previousReview, currentReview] of sources) {
+    const previousByIdentity = new Map(previousReview.entries.map((entry) => [entry.identityKey, entry]));
+    for (const entry of currentReview.entries) {
+      if (entry.disposition !== 'unreviewed') continue;
+      const prior = previousByIdentity.get(entry.identityKey);
+      if (!prior || prior.disposition === 'unreviewed') continue;
+      const decision = {
+        source,
+        identityKey: entry.identityKey,
+        disposition: prior.disposition,
+        notes: `Classification carried forward from ${previousRoster.asOf}: the same source identity remains active on ${currentRoster.asOf}. Exact-date geometry is audited separately.`,
+      };
+      if (polityDispositions.has(prior.disposition)) {
+        const previousPolity = previousPolityByKey.get(prior.polityKey);
+        requireValue(Boolean(previousPolity), `carry-forward identity ${entry.identityKey} has no previous polity`);
+        if (existingOrScheduled.has(previousPolity.key)) {
+          decision.mapTo = previousPolity.key;
+        } else {
+          decision.polityKey = previousPolity.key;
+          decision.displayName = previousPolity.displayName;
+          decision.polityStatus = previousPolity.status;
+          decision.flagAssetTag = previousPolity.flagAssetTag;
+          existingOrScheduled.add(previousPolity.key);
+        }
+      }
+      decisions.push(decision);
+    }
+  }
+  return {
+    schemaVersion: 1,
+    asOf: currentRoster.asOf,
+    reviewer,
+    reviewedAt,
+    carriedFrom: previousRoster.asOf,
+    decisions,
+  };
 }
 
 export function rebuildScenarioRoster({

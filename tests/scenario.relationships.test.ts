@@ -26,6 +26,7 @@ describe('scenario relationship compiler', () => {
         decisions: [{
           key: 'COLONY_B', action: 'joint_administration', runtimeOverlord: 'ALLY',
           participants: ['ALLY', 'EMPIRE'], basis: 'test_joint', notes: 'Explicit decision.',
+          evidence: ['https://example.test/joint', 'https://example.test/joint'],
         }],
       },
     });
@@ -34,6 +35,10 @@ describe('scenario relationship compiler', () => {
     ]);
     expect(result.resolutions.find((entry) => entry.polityKey === 'COLONY_B')).toMatchObject({
       action: 'joint_administration', participants: ['ALLY', 'EMPIRE'],
+      evidence: ['https://example.test/joint'],
+    });
+    expect(result.relationships.find((entry) => entry.to === 'COLONY_B')).toMatchObject({
+      evidence: ['https://example.test/joint'],
     });
   });
 

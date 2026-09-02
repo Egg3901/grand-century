@@ -16,6 +16,10 @@ function sourceEvidence(polity) {
   return (polity.sources ?? []).map((source) => ({ kind: source.kind, id: source.id }));
 }
 
+function documentaryEvidence(resolution) {
+  return [...new Set(resolution.evidence ?? [])];
+}
+
 export function compileRelationships({ manifest, roster, policy }) {
   requireValue(roster.asOf === manifest.id && policy.asOf === manifest.id, 'source dates do not match');
   const polityByKey = new Map(roster.polities.map((polity) => [polity.key, polity]));
@@ -35,6 +39,7 @@ export function compileRelationships({ manifest, roster, policy }) {
     requireValue(explicit.length <= 1, `${polity.key} has duplicate explicit decisions`);
     requireValue(explicit.length === 1 || rules.length === 1, `${polity.key} must match exactly one rule or explicit decision`);
     const resolution = explicit[0] ?? rules[0];
+    const evidence = documentaryEvidence(resolution);
     requireValue(explicit.length === 1 || rules.length === 1, `${polity.key} has ambiguous policy rules`);
     requireValue(
       ['overlord', 'joint_administration', 'no_runtime_overlord'].includes(resolution.action),
@@ -50,6 +55,7 @@ export function compileRelationships({ manifest, roster, policy }) {
         basis: resolution.basis,
         notes: resolution.notes,
         sources: sourceEvidence(polity),
+        ...(evidence.length > 0 ? { evidence } : {}),
       });
     } else {
       requireValue(resolution.action !== 'overlord', `${polity.key} overlord action lacks a runtime overlord`);
@@ -65,6 +71,7 @@ export function compileRelationships({ manifest, roster, policy }) {
       basis: resolution.basis,
       notes: resolution.notes,
       sources: sourceEvidence(polity),
+      ...(evidence.length > 0 ? { evidence } : {}),
     });
   }
 
