@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1945-09-02",
+  "reviewedBy": "Codex exact-date relationship review",
+  "reviewedAt": "2026-09-02",
+  "rules": [
+    {
+      "match": {
+        "prefixes": ["BRITISH_", "COLONY_OF_", "PROTECTORATE_OF_"],
+        "keys": ["ADEN_COLONY", "ADEN_PROTECTORATE", "ASHANTI_COLONY", "BECHUANALAND_PROTECTORATE", "CANADA", "CAYMAN_ISLANDS", "COLONY_AND_PROTECTORATE_OF_NIGERIA", "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND", "DOMINION_OF_NEW_ZEALAND", "EMIRATE_OF_TRANSJORDAN", "GAMBIA_COLONY_AND_PROTECTORATE", "GIBRALTAR", "GILBERT_AND_ELLICE_ISLANDS_COLONY", "GOLD_COAST_COLONY", "GUERNSEY", "ISLE_OF_MAN", "JERSEY", "MALDIVES_PROTECTORATE", "NORTHERN_RHODESIA", "NORTHERN_TERRITORIES", "NYASALAND", "PALESTINE_MANDATE", "PITCAIRN_ISLANDS", "SAINT_HELENA_CROWN_COLONY", "SIERRA_LEONE_PROTECTORATE", "SOUTHERN_RHODESIA", "SULTANATE_OF_LAHEJ", "SWAZILAND_PROTECTORATE", "TANGANYIKA_TERRITORY", "TRINIDAD_AND_TOBAGO_COLONY", "TRUCIAL_STATES", "UNION_OF_SOUTH_AFRICA", "ZANZIBAR_PROTECTORATE"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay."
+    },
+    {
+      "match": {
+        "prefixes": ["AFRIQUE_", "ALGERIE_", "COLONIE_DE_", "COLONIE_DU_", "ETABLISSEMENTS_", "FRENCH_", "KOLONIE_D_WALLIS"],
+        "keys": ["PROTECTORAT_FRANCAIS_DE_TUNISIE", "REUNION", "SAINT_PIERRE_ET_MIQUELON"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay."
+    },
+    {
+      "match": {
+        "prefixes": ["PORTUGUESE_"],
+        "keys": ["AFRICA_OCIDENTAL_PORTUGUESA", "CABINDA", "GOA_PORTUGUESA", "GUINE_PORTUGUESA"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay."
+    },
+    {
+      "match": {
+        "prefixes": ["SPANISH_"],
+        "keys": ["IFNI", "RIO_DE_ORO", "SAGUIA_EL_HAMRA"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "SPAIN",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under neutral player-facing Spain for gameplay."
+    },
+    {
+      "match": {
+        "keys": ["NETHERLANDS_ANTILLES"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "KONINKRIJK_DER_NEDERLANDEN",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch imperial administration represented under the Netherlands for gameplay."
+    },
+    {
+      "match": {
+        "keys": ["CONGO_BELGE", "RUANDA_URUNDI"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "BELGIQUE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Belgian colony or mandate represented under Belgium for gameplay."
+    }
+  ],
+  "decisions": [
+    {
+      "key": "AMERICAN_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_STATES",
+      "basis": "reviewed_military_occupation",
+      "notes": "The United States administered its German occupation zone under the four-power occupation framework.",
+      "evidence": [
+        "https://history.state.gov/countries/german-democratic-republic"
+      ]
+    },
+    {
+      "key": "ANGLO_EGYPTIAN_SUDAN",
+      "action": "joint_administration",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": ["UNITED_KINGDOM", "KINGDOM_OF_EGYPT"],
+      "basis": "reviewed_condominium",
+      "notes": "The Anglo-Egyptian condominium is explicit; the United Kingdom is the runtime authority because the simulation currently supports one overlord."
+    },
+    {
+      "key": "BRITISH_MILITARY_ADMINISTRATION_ERITREA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "reviewed_military_occupation",
+      "notes": "British military administration represented under the United Kingdom."
+    },
+    {
+      "key": "BRITISH_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "reviewed_military_occupation",
+      "notes": "The United Kingdom administered its German occupation zone under the four-power occupation framework.",
+      "evidence": [
+        "https://history.state.gov/countries/german-democratic-republic"
+      ]
+    },
+    {
+      "key": "COLONY_OF_MADAGASCAR_AND_DEPENDENCIES",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "The Madagascar colonial administration belonged to the French empire; an English key prefix must not route it to Britain."
+    },
+    {
+      "key": "COMMONWEALTH_OF_THE_PHILIPPINES",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_STATES",
+      "basis": "reviewed_historical_dependency",
+      "notes": "The Commonwealth of the Philippines remained under United States sovereignty until 1946."
+    },
+    {
+      "key": "COOK_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "DOMINION_OF_NEW_ZEALAND",
+      "basis": "reviewed_historical_dependency",
+      "notes": "New Zealand administration represented through the Dominion of New Zealand."
+    },
+    {
+      "key": "FEZZAN_GHADAMES_MILITARY_TERRITORY",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "basis": "reviewed_military_occupation",
+      "notes": "The French military territory in Fezzan-Ghadames is represented under France."
+    },
+    {
+      "key": "FRENCH_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "basis": "reviewed_military_occupation",
+      "notes": "France administered its German occupation zone under the four-power occupation framework.",
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    },
+    {
+      "key": "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "reviewed_military_occupation",
+      "notes": "The Dodecanese was under British military administration on the exact scenario date; its source label preserves the de jure Italian territorial identity."
+    },
+    {
+      "key": "KINGDOM_OF_TRAVANCORE",
+      "action": "overlord",
+      "runtimeOverlord": "BRITISH_RAJ",
+      "basis": "reviewed_princely_state",
+      "notes": "Travancore is represented as a princely state under British Indian paramountcy."
+    },
+    {
+      "key": "MONGOLIAN_PEOPLE_S_REPUBLIC",
+      "action": "overlord",
+      "runtimeOverlord": "SOVIET_UNION",
+      "basis": "gameplay_sphere_abstraction",
+      "notes": "Soviet client relationship represented with the single-overlord gameplay abstraction."
+    },
+    {
+      "key": "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+      "action": "joint_administration",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": ["UNITED_KINGDOM", "FRANCE"],
+      "basis": "reviewed_condominium",
+      "notes": "The Anglo-French condominium is explicit; the United Kingdom is the runtime authority because the simulation currently supports one overlord."
+    },
+    {
+      "key": "SOVIET_CIVIL_ADMINISTRATION",
+      "action": "overlord",
+      "runtimeOverlord": "SOVIET_UNION",
+      "basis": "reviewed_military_occupation",
+      "notes": "The Soviet Civil Administration in northern Korea is represented under the Soviet Union."
+    },
+    {
+      "key": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "SOVIET_UNION",
+      "basis": "reviewed_military_occupation",
+      "notes": "The Soviet Union administered its German occupation zone under the four-power occupation framework.",
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    },
+    {
+      "key": "TERRITORY_OF_WESTERN_SAMOA",
+      "action": "overlord",
+      "runtimeOverlord": "DOMINION_OF_NEW_ZEALAND",
+      "basis": "reviewed_historical_dependency",
+      "notes": "New Zealand mandate represented through the Dominion of New Zealand."
+    }
+  ]
+}

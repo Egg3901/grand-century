@@ -36,23 +36,18 @@ import { isRecipeUnlocked, setNationResearch } from './systems/research';
 import { crisisLeadBackDown, joinCrisisSide, pressCrisisDemand } from './systems/crisis';
 import { setCultureAccepted, setCulturePolicy } from './systems/culture';
 import { Rng } from './rng';
+import {
+  REGIMENT_TYPES,
+  regimentAvailability,
+  regimentSpec,
+  shipAvailability,
+  shipSpec,
+} from './militaryCatalog';
 
 type Poster = (msg: FromWorker) => void;
 type RegimentType = Regiment['type'];
 
-const REGIMENT_RECRUIT_PROFILE: Record<RegimentType, {
-  cost: number;
-  manpowerDrain: number;
-  baseStrength: number;
-  orgBonus: number;
-}> = {
-  infantry: { cost: 24, manpowerDrain: 70, baseStrength: 1000, orgBonus: 0 },
-  cavalry: { cost: 31, manpowerDrain: 82, baseStrength: 930, orgBonus: 3 },
-  artillery: { cost: 38, manpowerDrain: 90, baseStrength: 820, orgBonus: -5 },
-  guard: { cost: 45, manpowerDrain: 96, baseStrength: 1000, orgBonus: 8 },
-};
-
-const REGIMENT_ORDER: RegimentType[] = ['infantry', 'cavalry', 'artillery', 'guard'];
+const REGIMENT_ORDER: readonly RegimentType[] = REGIMENT_TYPES;
 
 function clamp(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) return min;
@@ -83,13 +78,7 @@ function atWarAgainst(world: World, a: NationId, b: NationId): boolean {
 function allowsRegimentType(world: World, nationId: NationId, type: RegimentType): boolean {
   const nation = world.nations[nationId];
   if (!nation) return false;
-  const conscription = Math.max(0, Math.floor(nation.reforms.conscription_level ?? 0));
-  const professionalism = Math.max(0, Math.floor(nation.reforms.army_professionalism ?? 0));
-  if (type === 'infantry') return true;
-  if (type === 'cavalry') return conscription >= 1;
-  if (type === 'artillery') return conscription >= 1 && professionalism >= 1;
-  if (type === 'guard') return conscription >= 2 && professionalism >= 2;
-  return false;
+  return regimentAvailability(nation, type).available;
 }
 
 function recruitArmyWithPlan(
@@ -150,17 +139,19 @@ function recruitArmyWithPlan(
     for (let i = 0; i < fallbackCount; i++) requested.push('infantry');
   }
 
-  const allowedRequested = requested.filter((type) => allowsRegimentType(world, nationId, type)).slice(0, capRemaining);
-  if (allowedRequested.length === 0) {
-    log(post, 'warn', 'Selected composition is blocked by current conscription/professionalism reforms.');
+  const blockedType = requested.find((type) => !allowsRegimentType(world, nationId, type));
+  if (blockedType) {
+    const availability = regimentAvailability(nation, blockedType);
+    log(post, 'warn', `Cannot recruit ${regimentSpec(blockedType).label}: ${availability.reason}.`);
     return;
   }
+  const allowedRequested = requested.slice(0, capRemaining);
 
   const regiments: Regiment[] = [];
-  const raisedByType: Record<RegimentType, number> = { infantry: 0, cavalry: 0, artillery: 0, guard: 0 };
+  const raisedByType = Object.fromEntries(REGIMENT_ORDER.map((type) => [type, 0])) as Record<RegimentType, number>;
 
   for (const type of allowedRequested) {
-    const profile = REGIMENT_RECRUIT_PROFILE[type];
+    const profile = regimentSpec(type);
     if (nation.treasury < profile.cost) break;
     const source = popPool.find((entry) => entry.slots > 0 && entry.pop.size > profile.manpowerDrain + 90);
     if (!source) break;
@@ -170,7 +161,7 @@ function recruitArmyWithPlan(
     regiments.push({
       type,
       strength: profile.baseStrength,
-      organization: clamp(Math.round(54 * nation.armyOrganization + profile.orgBonus), 18, 100),
+      organization: clamp(Math.round(54 * nation.armyOrganization + profile.organizationBonus), 18, 100),
       sourcePop: source.pop.id,
     });
     raisedByType[type] += 1;
@@ -371,7 +362,12 @@ export function applyCommand(world: World, data: GameData, cmd: Command, post: P
       if (!province || !nation || province.owner !== world.playerNation || !province.coastal) return;
       const count = clamp(Math.floor(cmd.count ?? 1), 1, 8);
       const shipType = cmd.shipType;
-      const shipCost = shipType === 'transport' ? 55 : shipType === 'frigate' ? 70 : shipType === 'manofwar' ? 95 : 120;
+      const availability = shipAvailability(nation, shipType);
+      if (!availability.available) {
+        log(post, 'warn', `Cannot build ${shipSpec(shipType).label}: ${availability.reason}.`);
+        return;
+      }
+      const shipCost = shipSpec(shipType).cost;
       const totalCost = shipCost * count;
       if (nation.treasury < totalCost) {
         log(post, 'warn', `Need £${totalCost.toFixed(0)} to build ships.`);

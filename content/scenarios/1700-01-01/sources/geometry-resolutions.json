@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1700-01-01",
+  "resolutions": [
+    {
+      "relationId": 2829139,
+      "action": "skip_nonexclusive",
+      "reason": "The OHM relation has only a label node. The Kingdom of Hungary is modeled as a nonexclusive Habsburg constituent."
+    },
+    {
+      "relationId": 2831111,
+      "action": "skip_nonexclusive",
+      "reason": "The Holy Roman Empire is an overlapping umbrella for separately represented member polities."
+    },
+    {
+      "relationId": 2848630,
+      "action": "skip_nonexclusive",
+      "reason": "OHM explicitly marks this relation as having no boundary. The Spanish Netherlands remains a nonexclusive constituent."
+    },
+    {
+      "relationId": 2861450,
+      "action": "close_outer_chain",
+      "maxGapDegrees": 1.1,
+      "reason": "One missing Pacific coastline segment leaves a single open chain. The compiler closes that reviewed coastline gap and records the repair."
+    },
+    {
+      "relationId": 2889978,
+      "action": "cliopatria_fallback",
+      "sourceRecords": [88],
+      "geometryHashes": ["54cea55712b9e61b5a8b272fa0804dff6483676176539ebc7a6813a0fd50a3ba"],
+      "reason": "The OHM Qing relation contains multiple large missing chains. The pinned Cliopatria Qing geometry is used as a reviewed fallback."
+    }
+  ]
+}

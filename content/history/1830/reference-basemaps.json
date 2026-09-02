@@ -1,0 +1,145 @@
+{
+  "asOf": "1830-01-01",
+  "references": [
+    {
+      "id": "aourednik-1815",
+      "representedDate": "1815-01-01",
+      "repository": "https://github.com/aourednik/historical-basemaps",
+      "commit": "62d8f1a03a71f2d3ff17f2d166f7553f256bce68",
+      "url": "https://raw.githubusercontent.com/aourednik/historical-basemaps/62d8f1a03a71f2d3ff17f2d166f7553f256bce68/geojson/world_1815.geojson",
+      "license": "GPL-3.0",
+      "usage": "validation-only-no-shipping-geometry",
+      "notes": "Country-scale comparison layer. It is not an exact 1830 source and must not enter the runtime map bundle."
+    }
+  ],
+  "entityTags": {
+    "Afghanistan": "AFG",
+    "Algiers": "ALG",
+    "Annam": "VIE",
+    "Asante": "ASH",
+    "Austrian Empire": ["AUS", "LVN"],
+    "Baden": "BAD",
+    "Bavaria": "BAV",
+    "Bhutan": "BHU",
+    "Burma": "BUR",
+    "Cambodia": "CAM",
+    "Canada": "ENG",
+    "Denmark": "DEN",
+    "Egypt": "EGY",
+    "Ethiopia": "ETH",
+    "Expansionist Kingdom of Merina": "MAD",
+    "France": "FRA",
+    "Fulani Empire": "SOK",
+    "Hanover": "HAN",
+    "Japan": "JPN",
+    "Korea": "KOR",
+    "Kingdom of Sardinia": "SAR",
+    "Kingdom of the Two Sicilies": "TSC",
+    "Kongldom of Hawaii": "HAW",
+    "Lombardy": "LVN",
+    "Morocco": "MOR",
+    "Nepal": "NEP",
+    "New South Wales": "ENG",
+    "Oudh": "AWA",
+    "Ottoman Empire": ["OTT", "ALG", "EGY", "HEJ", "SER", "TRI", "TUN"],
+    "Papal States": "PAP",
+    "Paraguay": "PRG",
+    "Persia": "PER",
+    "Portugal": "POR",
+    "Prussia": "PRU",
+    "Rattanakosin Kingdom": "SIA",
+    "Russian Empire": ["RUS", "FIN", "POL", "RUA"],
+    "Saxony": "SAX",
+    "Spain": "ESP",
+    "Sweden–Norway": "SWE",
+    "Switzerland": "SWI",
+    "Tunis": "TUN",
+    "Tuscany": "TUS",
+    "United Kingdom": "ENG",
+    "United Kingdom of Great Britain and Ireland": "ENG",
+    "United States": "USA",
+    "Vice-Royalty of Brazil": "BRA",
+    "Vice-Royalty of New Granada": "CLM",
+    "Vice-Royalty of New Spain": ["MEX", "UCA"],
+    "Vice-Royalty of Peru": ["BOL", "PEU"],
+    "Viceroyalty of Brazil": "BRA",
+    "Viceroyalty of New Granada": "CLM",
+    "Viceroyalty of New Spain": ["MEX", "UCA"],
+    "Viceroyalty of Peru": ["BOL", "PEU"],
+    "Württemberg": "WUR"
+  },
+  "provinceOverrides": [
+    {
+      "provinceId": 399,
+      "provinceName": "Ostpreußen",
+      "expectedOwnerTag": "PRU",
+      "confidence": "high",
+      "source": "content/history/1830/anchors.json",
+      "reason": "East Prussia belongs to Prussia at the scenario date."
+    },
+    {
+      "provinceId": 467,
+      "provinceName": "Cyprus",
+      "expectedOwnerTag": "OTT",
+      "confidence": "high",
+      "source": "content/history/1830/anchors.json",
+      "reason": "Cyprus is Ottoman territory at the scenario date."
+    },
+    {
+      "provinceId": 497,
+      "provinceName": "Arizona",
+      "expectedOwnerTag": "MEX",
+      "confidence": "high",
+      "source": "content/history/1830/anchors.json",
+      "reason": "The southwest remains Mexican territory at the scenario date."
+    },
+    {
+      "provinceId": 499,
+      "provinceName": "California",
+      "expectedOwnerTag": "MEX",
+      "confidence": "high",
+      "source": "content/history/1830/anchors.json",
+      "reason": "Alta California remains Mexican territory at the scenario date."
+    },
+    {
+      "provinceId": 502,
+      "provinceName": "Florida",
+      "expectedOwnerTag": "USA",
+      "confidence": "high",
+      "source": "content/history/1830/anchors.json",
+      "reason": "Florida transferred from Spain to the United States before the scenario date."
+    },
+    {
+      "provinceId": 519,
+      "provinceName": "Nevada-Utah",
+      "expectedOwnerTag": "MEX",
+      "confidence": "high",
+      "source": "content/history/1830/anchors.json",
+      "reason": "The region remains Mexican territory at the scenario date."
+    },
+    {
+      "provinceId": 521,
+      "provinceName": "New Mexico",
+      "expectedOwnerTag": "MEX",
+      "confidence": "high",
+      "source": "content/history/1830/anchors.json",
+      "reason": "New Mexico remains Mexican territory at the scenario date."
+    },
+    {
+      "provinceId": 530,
+      "provinceName": "Texas",
+      "expectedOwnerTag": "MEX",
+      "confidence": "high",
+      "source": "content/history/1830/anchors.json",
+      "reason": "Texas remains Mexican territory before the 1836 revolution."
+    },
+    {
+      "provinceId": 140,
+      "provinceName": "Hispaniola",
+      "expectedOwnerTag": "HAI",
+      "confidence": "high",
+      "source": "content/history/1830/anchors.json",
+      "reason": "Haiti controls Hispaniola at the scenario date."
+    }
+  ]
+}

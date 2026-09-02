@@ -12,9 +12,10 @@ import type {
   Terrain,
   World,
   CampaignMapMode,
+  TechDef,
 } from '../shared/types';
 import { Rng } from './rng';
-import { WORLD_SEED, type WorldSeedData } from '../data/generated';
+import { loadScenario, type WorldSeedData } from '../data/generated';
 import { DEFAULT_CAMPAIGN_MAP_MODE } from '../shared/campaignMap';
 import { resolveWorldSeed } from './proceduralWorld';
 import {
@@ -597,10 +598,30 @@ function gpRankFor(seed: { tag: string; greatPowerRank?: number }): number {
   return GP_ORDER.includes(seed.tag) ? GP_ORDER.indexOf(seed.tag) + 1 : 0;
 }
 
+export function initialTechKeysForSeed(
+  seed: { initialTechs?: string[]; initialTechYear?: number },
+  techs: readonly Pick<TechDef, 'key' | 'year'>[],
+): string[] | null {
+  if (seed.initialTechs) return seed.initialTechs.slice();
+  if (seed.initialTechYear === undefined) return null;
+  return techs
+    .filter((tech) => tech.year !== undefined && tech.year <= seed.initialTechYear!)
+    .map((tech) => tech.key);
+}
+
 function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
   const seedNationIdByTag = new Map(worldSeed.nations.map((seed, id) => [seed.tag, id]));
+  const compatibilityInitialTechs = [
+    'flintlock_drill',
+    'sailing_design',
+    'chartered_trade',
+    'manufacture_system',
+    'enlightenment',
+    'market_structure',
+  ];
   return worldSeed.nations.map((seed, id) => {
     const gpRank = gpRankFor(seed);
+    const seededTechs = initialTechKeysForSeed(seed, data.techs);
     return {
     coreStateIds: Array.from(new Set((data.nationCores?.[seed.tag] ?? seed.coreStateIds ?? []).slice())).sort((a, b) => a - b),
     id,
@@ -614,8 +635,8 @@ function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
     parties: createNationParties(),
     upperHouse: defaultUpperHouse(seed.government),
     electionIntervalYears: seed.government === 'constitutional_monarchy' ? 5 : 4,
-    lastElectionYear: 1826,
-    nextElectionYear: isElectiveGovernment(seed.government) ? 1830 + (id % 4) : Number.MAX_SAFE_INTEGER,
+    lastElectionYear: data.startDate.year - 4,
+    nextElectionYear: isElectiveGovernment(seed.government) ? data.startDate.year + (id % 4) : Number.MAX_SAFE_INTEGER,
     electionLastResult: 'No election held yet.',
     capital: capitalId(worldSeed, seed.capitalProvinceId),
     polityStatus: seed.polityStatus ?? 'sovereign',
@@ -628,7 +649,7 @@ function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
     nationalConsciousness: 1.2,
     researchPoints: 0,
     reforms: nationReforms(data),
-    techs: seed.government === 'uncivilized' ? [] : ['market_structure'],
+    techs: seededTechs ?? (seed.government === 'uncivilized' ? [] : compatibilityInitialTechs.slice()),
     currentResearch: null,
     researchProgress: 0,
     inventions: [],
@@ -967,7 +988,7 @@ export function createWorld(
   seed: number,
   mapMode: CampaignMapMode = DEFAULT_CAMPAIGN_MAP_MODE,
 ): World {
-  const worldSeed = resolveWorldSeed(WORLD_SEED, seed, mapMode);
+  const worldSeed = resolveWorldSeed(loadScenario(data.scenarioId).worldSeed, seed, mapMode);
   const rng = new Rng(seed >>> 0);
   const nations = createNations(data, worldSeed);
   const tagToNationId = Object.fromEntries(nations.map((nation) => [nation.tag, nation.id])) as Record<string, number>;
@@ -982,6 +1003,8 @@ export function createWorld(
 
   const world: World = {
     day: 0,
+    scenarioId: data.scenarioId,
+    startDate: { ...data.startDate },
     seed: seed >>> 0,
     rngState: rng.state,
     // Start paused so the player can survey the world before the clock runs.

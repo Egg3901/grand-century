@@ -1,0 +1,948 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1914-07-28",
+  "nationalBorderGridDegrees": 0.06,
+  "provinceCount": 548,
+  "assignedProvinces": 548,
+  "gapProvinceIds": [],
+  "overlaps": [
+    {
+      "provinceId": 0,
+      "candidates": [
+        "EMIRATE_OF_AFGHANISTAN",
+        "PROTECTORATE_OF_AFGHANISTAN"
+      ],
+      "selected": "EMIRATE_OF_AFGHANISTAN"
+    },
+    {
+      "provinceId": 1,
+      "candidates": [
+        "EMIRATE_OF_AFGHANISTAN",
+        "PROTECTORATE_OF_AFGHANISTAN"
+      ],
+      "selected": "EMIRATE_OF_AFGHANISTAN"
+    },
+    {
+      "provinceId": 3,
+      "candidates": [
+        "FRENCH_THIRD_REPUBLIC",
+        "ALGERIE_FRANCAISE"
+      ],
+      "selected": "FRENCH_THIRD_REPUBLIC"
+    },
+    {
+      "provinceId": 4,
+      "candidates": [
+        "FRENCH_THIRD_REPUBLIC",
+        "ALGERIE_FRANCAISE"
+      ],
+      "selected": "FRENCH_THIRD_REPUBLIC"
+    },
+    {
+      "provinceId": 5,
+      "candidates": [
+        "FRENCH_THIRD_REPUBLIC",
+        "ALGERIE_FRANCAISE"
+      ],
+      "selected": "FRENCH_THIRD_REPUBLIC"
+    },
+    {
+      "provinceId": 6,
+      "candidates": [
+        "FRENCH_THIRD_REPUBLIC",
+        "ALGERIE_FRANCAISE"
+      ],
+      "selected": "FRENCH_THIRD_REPUBLIC"
+    },
+    {
+      "provinceId": 7,
+      "candidates": [
+        "FRENCH_THIRD_REPUBLIC",
+        "ALGERIE_FRANCAISE"
+      ],
+      "selected": "FRENCH_THIRD_REPUBLIC"
+    },
+    {
+      "provinceId": 67,
+      "candidates": [
+        "HAUT_SENEGAL_ET_NIGER",
+        "FRENCH_WEST_AFRICA"
+      ],
+      "selected": "HAUT_SENEGAL_ET_NIGER"
+    },
+    {
+      "provinceId": 85,
+      "candidates": [
+        "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+        "AFRIQUE_EQUATORIALE_FRANCAISE"
+      ],
+      "selected": "COLONIE_DU_OUBANGUI_CHARI_TCHAD"
+    },
+    {
+      "provinceId": 86,
+      "candidates": [
+        "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+        "AFRIQUE_EQUATORIALE_FRANCAISE"
+      ],
+      "selected": "COLONIE_DU_OUBANGUI_CHARI_TCHAD"
+    },
+    {
+      "provinceId": 87,
+      "candidates": [
+        "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+        "AFRIQUE_EQUATORIALE_FRANCAISE"
+      ],
+      "selected": "COLONIE_DU_OUBANGUI_CHARI_TCHAD"
+    },
+    {
+      "provinceId": 176,
+      "candidates": [
+        "COLONIE_DU_GABON",
+        "AFRIQUE_EQUATORIALE_FRANCAISE"
+      ],
+      "selected": "COLONIE_DU_GABON"
+    },
+    {
+      "provinceId": 206,
+      "candidates": [
+        "NETHERLANDS_ANTILLES",
+        "KONINKRIJK_DER_NEDERLANDEN"
+      ],
+      "selected": "NETHERLANDS_ANTILLES"
+    },
+    {
+      "provinceId": 224,
+      "candidates": [
+        "KINGDOM_OF_TRAVANCORE",
+        "BRITISH_RAJ"
+      ],
+      "selected": "KINGDOM_OF_TRAVANCORE"
+    },
+    {
+      "provinceId": 286,
+      "candidates": [
+        "HAUT_SENEGAL_ET_NIGER",
+        "FRENCH_WEST_AFRICA"
+      ],
+      "selected": "HAUT_SENEGAL_ET_NIGER"
+    },
+    {
+      "provinceId": 287,
+      "candidates": [
+        "HAUT_SENEGAL_ET_NIGER",
+        "FRENCH_WEST_AFRICA"
+      ],
+      "selected": "HAUT_SENEGAL_ET_NIGER"
+    },
+    {
+      "provinceId": 288,
+      "candidates": [
+        "HAUT_SENEGAL_ET_NIGER",
+        "FRENCH_WEST_AFRICA"
+      ],
+      "selected": "HAUT_SENEGAL_ET_NIGER"
+    },
+    {
+      "provinceId": 307,
+      "candidates": [
+        "RIO_DE_ORO",
+        "SECOND_SPANISH_REPUBLIC"
+      ],
+      "selected": "RIO_DE_ORO"
+    },
+    {
+      "provinceId": 323,
+      "candidates": [
+        "HAUT_SENEGAL_ET_NIGER",
+        "FRENCH_WEST_AFRICA"
+      ],
+      "selected": "HAUT_SENEGAL_ET_NIGER"
+    },
+    {
+      "provinceId": 343,
+      "candidates": [
+        "PARAGUAY",
+        "BOLIVIA"
+      ],
+      "selected": "PARAGUAY"
+    },
+    {
+      "provinceId": 350,
+      "candidates": [
+        "UNITED_STATES",
+        "US_PHILIPPINES"
+      ],
+      "selected": "UNITED_STATES"
+    },
+    {
+      "provinceId": 351,
+      "candidates": [
+        "UNITED_STATES",
+        "US_PHILIPPINES"
+      ],
+      "selected": "UNITED_STATES"
+    },
+    {
+      "provinceId": 352,
+      "candidates": [
+        "UNITED_STATES",
+        "US_PHILIPPINES"
+      ],
+      "selected": "UNITED_STATES"
+    },
+    {
+      "provinceId": 368,
+      "candidates": [
+        "COLONIE_DU_MOYEN_CONGO",
+        "AFRIQUE_EQUATORIALE_FRANCAISE"
+      ],
+      "selected": "COLONIE_DU_MOYEN_CONGO"
+    },
+    {
+      "provinceId": 421,
+      "candidates": [
+        "HAUT_SENEGAL_ET_NIGER",
+        "FRENCH_WEST_AFRICA"
+      ],
+      "selected": "HAUT_SENEGAL_ET_NIGER"
+    },
+    {
+      "provinceId": 422,
+      "candidates": [
+        "HAUT_SENEGAL_ET_NIGER",
+        "FRENCH_WEST_AFRICA"
+      ],
+      "selected": "HAUT_SENEGAL_ET_NIGER"
+    },
+    {
+      "provinceId": 459,
+      "candidates": [
+        "EMIRATE_OF_BUKHARA",
+        "RUSSIAN_EMPIRE"
+      ],
+      "selected": "EMIRATE_OF_BUKHARA"
+    },
+    {
+      "provinceId": 544,
+      "candidates": [
+        "ADEN_PROTECTORATE",
+        "BRITISH_RAJ"
+      ],
+      "selected": "ADEN_PROTECTORATE"
+    }
+  ],
+  "nearestAssignments": [
+    {
+      "provinceId": 77,
+      "polityKey": "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND",
+      "distanceDegrees": 0.9251523542103729
+    },
+    {
+      "provinceId": 129,
+      "polityKey": "CUBA",
+      "distanceDegrees": 0.002838495552226927
+    },
+    {
+      "provinceId": 142,
+      "polityKey": "ECUADOR",
+      "distanceDegrees": 0.39343746763240056
+    },
+    {
+      "provinceId": 145,
+      "polityKey": "CIRENAICA_ITALIANA",
+      "distanceDegrees": 1.2832250000000016
+    },
+    {
+      "provinceId": 147,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "distanceDegrees": 1.000133950556251
+    },
+    {
+      "provinceId": 195,
+      "polityKey": "KINGDOM_OF_GREECE",
+      "distanceDegrees": 0.2688439999999943
+    },
+    {
+      "provinceId": 203,
+      "polityKey": "UNITED_STATES",
+      "distanceDegrees": 1.0128620525861292
+    },
+    {
+      "provinceId": 210,
+      "polityKey": "DANMARK",
+      "distanceDegrees": 0.058356173418071595
+    },
+    {
+      "provinceId": 229,
+      "polityKey": "DUTCH_EAST_INDIES",
+      "distanceDegrees": 0.1407640841159437
+    },
+    {
+      "provinceId": 230,
+      "polityKey": "DUTCH_EAST_INDIES",
+      "distanceDegrees": 0.009216000000000113
+    },
+    {
+      "provinceId": 232,
+      "polityKey": "DUTCH_EAST_INDIES",
+      "distanceDegrees": 0.07720963963132992
+    },
+    {
+      "provinceId": 238,
+      "polityKey": "IRAN",
+      "distanceDegrees": 0.22123686307891818
+    },
+    {
+      "provinceId": 303,
+      "polityKey": "FRENCH_MOROCCO",
+      "distanceDegrees": 0.09561166649494621
+    },
+    {
+      "provinceId": 306,
+      "polityKey": "FRENCH_MOROCCO",
+      "distanceDegrees": 0.2515015744404016
+    },
+    {
+      "provinceId": 320,
+      "polityKey": "DOMINION_OF_NEW_ZEALAND",
+      "distanceDegrees": 0.10098461766525453
+    },
+    {
+      "provinceId": 331,
+      "polityKey": "EMPIRE_OF_JAPAN",
+      "distanceDegrees": 0.00759000000000043
+    },
+    {
+      "provinceId": 342,
+      "polityKey": "AUSTRALIA",
+      "distanceDegrees": 0.9307857558777899
+    },
+    {
+      "provinceId": 392,
+      "polityKey": "RUSSIAN_EMPIRE",
+      "distanceDegrees": 0.09301336430858424
+    },
+    {
+      "provinceId": 397,
+      "polityKey": "RUSSIAN_EMPIRE",
+      "distanceDegrees": 0.1869354593756928
+    },
+    {
+      "provinceId": 418,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "distanceDegrees": 0.4031003630260584
+    },
+    {
+      "provinceId": 420,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "distanceDegrees": 0.9738414150017602
+    },
+    {
+      "provinceId": 457,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "distanceDegrees": 0.18807705869928407
+    },
+    {
+      "provinceId": 460,
+      "polityKey": "SIAM",
+      "distanceDegrees": 0.07620792264587375
+    },
+    {
+      "provinceId": 467,
+      "polityKey": "BRITISH_CYPRUS",
+      "distanceDegrees": 0.3332758209786573
+    },
+    {
+      "provinceId": 470,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "distanceDegrees": 0.022934799999997327
+    }
+  ],
+  "explicitProvinceAssignments": [
+    {
+      "provinceId": 8,
+      "provinceName": "East Angola",
+      "polityKey": "PORTUGAL",
+      "basis": "coarse_colonial_projection",
+      "notes": "East Angola is projected to Portugal because the exact-date roster lacks a separate Portuguese Angola polygon.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807009
+        }
+      ]
+    },
+    {
+      "provinceId": 9,
+      "provinceName": "North Angola",
+      "polityKey": "PORTUGAL",
+      "basis": "coarse_colonial_projection",
+      "notes": "North Angola is projected to Portugal because the exact-date roster lacks a separate Portuguese Angola polygon.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807009
+        }
+      ]
+    },
+    {
+      "provinceId": 10,
+      "provinceName": "South Angola",
+      "polityKey": "PORTUGAL",
+      "basis": "coarse_colonial_projection",
+      "notes": "South Angola is projected to Portugal because the exact-date roster lacks a separate Portuguese Angola polygon.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807009
+        }
+      ]
+    },
+    {
+      "provinceId": 11,
+      "provinceName": "Araucania",
+      "polityKey": "CHILE",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Araucania inherits a polar centroid and is projected to Chile.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848843
+        }
+      ]
+    },
+    {
+      "provinceId": 12,
+      "provinceName": "Cape Colony",
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Cape Colony inherits a polar centroid and is projected to the Union of South Africa.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691747
+        }
+      ]
+    },
+    {
+      "provinceId": 13,
+      "provinceName": "Christmas & Cocos Islands",
+      "polityKey": "COLONY_OF_THE_STRAITS_SETTLEMENT",
+      "basis": "coarse_island_group_projection",
+      "notes": "The combined Christmas and Cocos Islands province is projected to the Straits Settlements administration.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848278
+        }
+      ]
+    },
+    {
+      "provinceId": 14,
+      "provinceName": "Eastern Cape",
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Eastern Cape inherits a polar centroid and is projected to the Union of South Africa.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691747
+        }
+      ]
+    },
+    {
+      "provinceId": 15,
+      "provinceName": "Indian Ocean Territory",
+      "polityKey": "BRITISH_MAURITIUS",
+      "basis": "coarse_island_group_projection",
+      "notes": "The inherited Indian Ocean grouping lacks a usable island centroid and is projected to British Mauritius.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831873
+        }
+      ]
+    },
+    {
+      "provinceId": 16,
+      "provinceName": "Patagonia Meridional",
+      "polityKey": "ARGENTINA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Patagonia Meridional inherits a polar centroid and is projected to Argentina.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860947
+        }
+      ]
+    },
+    {
+      "provinceId": 17,
+      "provinceName": "South Atlantic Islands",
+      "polityKey": "UNITED_KINGDOM",
+      "basis": "coarse_island_group_projection",
+      "notes": "The South Atlantic island grouping is projected to the United Kingdom at this mesh resolution.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828388
+        }
+      ]
+    },
+    {
+      "provinceId": 18,
+      "provinceName": "South Island",
+      "polityKey": "DOMINION_OF_NEW_ZEALAND",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "New Zealand's South Island inherits a polar centroid and is projected to the Dominion of New Zealand.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801019
+        }
+      ]
+    },
+    {
+      "provinceId": 19,
+      "provinceName": "South Madagascar",
+      "polityKey": "COLONIE_DE_MADAGASCAR_ET_DEPENDANCES",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "South Madagascar inherits a polar centroid and is projected to French Madagascar.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865795
+        }
+      ]
+    },
+    {
+      "provinceId": 20,
+      "provinceName": "Victoria",
+      "polityKey": "AUSTRALIA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Victoria inherits a polar centroid and is projected to the Commonwealth of Australia.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828359
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2846174
+        }
+      ]
+    },
+    {
+      "provinceId": 21,
+      "provinceName": "Western Australia",
+      "polityKey": "AUSTRALIA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Western Australia inherits a polar centroid and is projected to the Commonwealth of Australia.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828359
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2846174
+        }
+      ]
+    },
+    {
+      "provinceId": 22,
+      "provinceName": "Western Polynesia",
+      "polityKey": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "basis": "coarse_island_group_projection",
+      "notes": "Western Polynesia combines several islands and is projected to the British Western Pacific Territories.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846233
+        }
+      ]
+    },
+    {
+      "provinceId": 143,
+      "provinceName": "Egyptian Desert",
+      "polityKey": "OTTOMAN_EMPIRE",
+      "basis": "coarse_suzerainty_projection",
+      "notes": "The Egyptian Desert is projected to the Ottoman Empire because the exact-date source pack lacks a separate Khedivate polygon.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2849728
+        }
+      ]
+    },
+    {
+      "provinceId": 144,
+      "provinceName": "Lower Egypt",
+      "polityKey": "OTTOMAN_EMPIRE",
+      "basis": "coarse_suzerainty_projection",
+      "notes": "Lower Egypt is projected to the Ottoman Empire because the exact-date source pack lacks a separate Khedivate polygon.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2849728
+        }
+      ]
+    },
+    {
+      "provinceId": 146,
+      "provinceName": "Middle Egypt",
+      "polityKey": "OTTOMAN_EMPIRE",
+      "basis": "coarse_suzerainty_projection",
+      "notes": "Middle Egypt is projected to the Ottoman Empire because the exact-date source pack lacks a separate Khedivate polygon.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2849728
+        }
+      ]
+    },
+    {
+      "provinceId": 148,
+      "provinceName": "Upper Egypt",
+      "polityKey": "OTTOMAN_EMPIRE",
+      "basis": "coarse_suzerainty_projection",
+      "notes": "Upper Egypt is projected to the Ottoman Empire because the exact-date source pack lacks a separate Khedivate polygon.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2849728
+        }
+      ]
+    },
+    {
+      "provinceId": 154,
+      "provinceName": "Micronesia",
+      "polityKey": "DEUTSCH_NEUGUINEA",
+      "basis": "coarse_island_group_projection",
+      "notes": "Micronesia is projected to German New Guinea at the inherited province resolution.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889769
+        }
+      ]
+    },
+    {
+      "provinceId": 201,
+      "provinceName": "Highlands",
+      "polityKey": "UNITED_KINGDOM",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "The Scottish Highlands centroid is displaced into the North Atlantic and is projected to the United Kingdom.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828388
+        }
+      ]
+    },
+    {
+      "provinceId": 319,
+      "provinceName": "Fiji",
+      "polityKey": "COLONY_OF_FIJI",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Fiji has a displaced inherited centroid and is projected to the Colony of Fiji.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846213
+        }
+      ]
+    },
+    {
+      "provinceId": 333,
+      "provinceName": "Nordnorge",
+      "polityKey": "NORWAY",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Nordnorge has an offshore high-latitude centroid and is projected to Norway.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692537
+        }
+      ]
+    },
+    {
+      "provinceId": 336,
+      "provinceName": "Oman",
+      "polityKey": "MUSCAT_AND_OMAN",
+      "basis": "coarse_state_projection",
+      "notes": "Oman is projected to Muscat and Oman where the inherited centroid misses the reviewed polygon.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2905974
+        }
+      ]
+    },
+    {
+      "provinceId": 363,
+      "provinceName": "Macaronesia",
+      "polityKey": "PORTUGAL",
+      "basis": "coarse_island_group_projection",
+      "notes": "Macaronesia combines multiple archipelagos and is projected to Portugal at this mesh resolution.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807009
+        }
+      ]
+    },
+    {
+      "provinceId": 419,
+      "provinceName": "Nejd",
+      "polityKey": "EMIRATE_OF_NEJD",
+      "basis": "coarse_state_projection",
+      "notes": "Nejd is projected to the explicitly reviewed Emirate of Nejd where the inherited centroid misses the source polygon.",
+      "reviewedBy": "Codex province projection review",
+      "reviewedAt": "2026-09-02",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 55,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    }
+  ],
+  "representedRosterPolities": 102,
+  "rosterPolitiesWithoutProvinceCentroids": [
+    "AFRIQUE_EQUATORIALE_FRANCAISE",
+    "ALGERIE_FRANCAISE",
+    "ANDORRA",
+    "BHUTAN",
+    "BRITISH_CONCESSION_IN_TIANJIN",
+    "BRITISH_GUIANA",
+    "BRITISH_HONDURAS_COLONY",
+    "BRITISH_HONG_KONG",
+    "BRITISH_LEEWARD_ISLANDS",
+    "BRITISH_NORTH_BORNEO",
+    "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
+    "BRITISH_SOMALILAND",
+    "BRITISH_WEIHAIWEI",
+    "BRITISH_WINDWARD_ISLANDS",
+    "CABINDA",
+    "CAYMAN_ISLANDS",
+    "COLONIE_DE_LA_GUADELOUPE",
+    "COLONIE_DE_LA_GUYANE",
+    "COLONY_OF_BARBADOS",
+    "COLONY_OF_BASUTOLAND",
+    "COLONY_OF_BERMUDA",
+    "COLONY_OF_JAMAICA",
+    "COLONY_OF_MALTA",
+    "COLONY_OF_SEYCHELLES",
+    "COLONY_OF_THE_BAHAMAS",
+    "COOK_ISLANDS",
+    "DANSK_VESTINDIEN",
+    "EL_SALVADOR",
+    "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
+    "FRENCH_SOMALILAND",
+    "GAMBIA_COLONY_AND_PROTECTORATE",
+    "GIBRALTAR",
+    "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+    "GOA_PORTUGUESA",
+    "GOLD_COAST_COLONY",
+    "GREENLAND",
+    "GUANGZHOUWAN",
+    "GUERNSEY",
+    "GUINE_PORTUGUESA",
+    "IFNI",
+    "ISLE_OF_MAN",
+    "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+    "JERSEY",
+    "JOHORE_PROTECTORATE",
+    "KEDAH_PROTECTORATE",
+    "KELANTAN_PROTECTORATE",
+    "KHANATE_OF_KHIVA",
+    "KIAUTSCHOU_BAY_CONCESSION",
+    "KINGDOM_OF_NEPAL",
+    "LETZEBUERG",
+    "LIECHTENSTEIN",
+    "LUXEMBOURG",
+    "MAJEERTEEN_SULTANATE",
+    "MALDIVES_PROTECTORATE",
+    "MONACO",
+    "NAURU",
+    "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+    "NORTHERN_TERRITORIES",
+    "NOUVELLE_CALEDONIE",
+    "NYASALAND",
+    "PERLIS_PROTECTORATE",
+    "PITCAIRN_ISLANDS",
+    "PORTUGUESE_MACAU",
+    "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+    "PORTUGUESE_TIMOR",
+    "PROTECTORATE_OF_AFGHANISTAN",
+    "PROTECTORATE_OF_BAHRAIN",
+    "PROTECTORATE_OF_BRUNEI",
+    "PROTECTORATE_OF_KUWAIT",
+    "PROTECTORATE_OF_TONGA",
+    "REPUBLIQUE_D_HAITI",
+    "REUNION",
+    "SAGUIA_EL_HAMRA",
+    "SAINT_HELENA_CROWN_COLONY",
+    "SAINT_PIERRE_ET_MIQUELON",
+    "SAN_MARINO",
+    "SIIN",
+    "SOMALIA_ITALIANA",
+    "SPANISH_GUINEA",
+    "SPANISH_MOROCCO",
+    "SULTANATE_OF_LAHEJ",
+    "SULTANATE_OF_SULU",
+    "SWAZILAND_PROTECTORATE",
+    "TANNU_URIANKHAI",
+    "TOKELAU_ISLANDS_PROTECTORATE",
+    "TRENGGANU_PROTECTORATE",
+    "TRINIDAD_AND_TOBAGO_COLONY",
+    "US_PHILIPPINES",
+    "WITULAND",
+    "ZANZIBAR_PROTECTORATE"
+  ],
+  "territorialRosterPolitiesWithoutProvinceCentroids": [
+    "AFRIQUE_EQUATORIALE_FRANCAISE",
+    "ALGERIE_FRANCAISE",
+    "ANDORRA",
+    "BHUTAN",
+    "BRITISH_CONCESSION_IN_TIANJIN",
+    "BRITISH_GUIANA",
+    "BRITISH_HONDURAS_COLONY",
+    "BRITISH_HONG_KONG",
+    "BRITISH_LEEWARD_ISLANDS",
+    "BRITISH_NORTH_BORNEO",
+    "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
+    "BRITISH_SOMALILAND",
+    "BRITISH_WEIHAIWEI",
+    "BRITISH_WINDWARD_ISLANDS",
+    "CABINDA",
+    "CAYMAN_ISLANDS",
+    "COLONIE_DE_LA_GUADELOUPE",
+    "COLONIE_DE_LA_GUYANE",
+    "COLONY_OF_BARBADOS",
+    "COLONY_OF_BASUTOLAND",
+    "COLONY_OF_BERMUDA",
+    "COLONY_OF_JAMAICA",
+    "COLONY_OF_MALTA",
+    "COLONY_OF_SEYCHELLES",
+    "COLONY_OF_THE_BAHAMAS",
+    "COOK_ISLANDS",
+    "DANSK_VESTINDIEN",
+    "EL_SALVADOR",
+    "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
+    "FRENCH_SOMALILAND",
+    "GAMBIA_COLONY_AND_PROTECTORATE",
+    "GIBRALTAR",
+    "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+    "GOA_PORTUGUESA",
+    "GOLD_COAST_COLONY",
+    "GREENLAND",
+    "GUANGZHOUWAN",
+    "GUERNSEY",
+    "GUINE_PORTUGUESA",
+    "IFNI",
+    "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+    "JERSEY",
+    "JOHORE_PROTECTORATE",
+    "KEDAH_PROTECTORATE",
+    "KELANTAN_PROTECTORATE",
+    "KHANATE_OF_KHIVA",
+    "KIAUTSCHOU_BAY_CONCESSION",
+    "KINGDOM_OF_NEPAL",
+    "LETZEBUERG",
+    "LIECHTENSTEIN",
+    "LUXEMBOURG",
+    "MAJEERTEEN_SULTANATE",
+    "MALDIVES_PROTECTORATE",
+    "MONACO",
+    "NAURU",
+    "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+    "NORTHERN_TERRITORIES",
+    "NOUVELLE_CALEDONIE",
+    "NYASALAND",
+    "PERLIS_PROTECTORATE",
+    "PITCAIRN_ISLANDS",
+    "PORTUGUESE_MACAU",
+    "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+    "PORTUGUESE_TIMOR",
+    "PROTECTORATE_OF_AFGHANISTAN",
+    "PROTECTORATE_OF_BAHRAIN",
+    "PROTECTORATE_OF_BRUNEI",
+    "PROTECTORATE_OF_KUWAIT",
+    "PROTECTORATE_OF_TONGA",
+    "REPUBLIQUE_D_HAITI",
+    "REUNION",
+    "SAGUIA_EL_HAMRA",
+    "SAINT_HELENA_CROWN_COLONY",
+    "SAINT_PIERRE_ET_MIQUELON",
+    "SAN_MARINO",
+    "SIIN",
+    "SOMALIA_ITALIANA",
+    "SPANISH_GUINEA",
+    "SPANISH_MOROCCO",
+    "SULTANATE_OF_LAHEJ",
+    "SULTANATE_OF_SULU",
+    "SWAZILAND_PROTECTORATE",
+    "TANNU_URIANKHAI",
+    "TOKELAU_ISLANDS_PROTECTORATE",
+    "TRENGGANU_PROTECTORATE",
+    "TRINIDAD_AND_TOBAGO_COLONY",
+    "US_PHILIPPINES",
+    "WITULAND",
+    "ZANZIBAR_PROTECTORATE"
+  ],
+  "unrepresentedOverlordLinks": [],
+  "splitStates": 34
+}

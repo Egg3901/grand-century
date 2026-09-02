@@ -77,6 +77,7 @@ export function Hud() {
   const muteAudio = useStore((state) => state.muteAudio);
   const setMuteAudio = useStore((state) => state.setMuteAudio);
   const multiplayer = useStore((state) => state.multiplayer);
+  const scenarioStartDate = useStore((state) => state.data?.startDate);
   const mpIsLeader = useStore((state) => state.mpIsLeader);
   const [mobilePanelsOpen, setMobilePanelsOpen] = useState(false);
   const [mobileMapModesOpen, setMobileMapModesOpen] = useState(false);
@@ -93,7 +94,9 @@ export function Hud() {
   const currentSpeed = optimisticSpeed ?? snapshotSpeed;
   const formattedDate = snapshot
     ? `${snapshot.date.year}-${String(snapshot.date.month).padStart(2, '0')}-${String(snapshot.date.day).padStart(2, '0')}`
-    : '1830-01-01';
+    : scenarioStartDate
+      ? `${scenarioStartDate.year}-${String(scenarioStartDate.month).padStart(2, '0')}-${String(scenarioStartDate.day).padStart(2, '0')}`
+      : '';
   const researchChip = useMemo(() => {
     const tech = snapshot?.playerTech;
     if (!tech) return null;

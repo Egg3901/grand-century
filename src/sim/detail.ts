@@ -17,7 +17,7 @@ import {
   topReformDemandEntries,
   yearsToElection,
 } from './politics';
-import { dayToDate } from './world';
+import { dateAtDay } from './calendar';
 import {
   getCbsForNation,
   getCoalitionAgainst,
@@ -177,7 +177,7 @@ export function detailNation(world: World, data: GameData, id: NationId): Nation
       popCount += 1;
     }
   }
-  const date = dayToDate(world.day);
+  const date = dateAtDay(world.day, world.startDate ?? data.startDate);
   const power = getNationPowerBreakdown(world, nation.id);
   const ruling = partyByKey(nation, nation.rulingParty);
   const upperHouse = (Object.entries(nation.upperHouse) as [PartyIdeology, number][])

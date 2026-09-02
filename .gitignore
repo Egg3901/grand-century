@@ -26,6 +26,7 @@ content/raw/
 docs/season-report.json
 docs/mcp-worldsim/
 artifacts/
+.scenario-cache/
 test-results/
 .claude/worktrees/
 worktrees/

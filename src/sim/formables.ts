@@ -6,6 +6,7 @@ import type {
   StateId,
   World,
 } from '../shared/types';
+import { yearAtDay } from './calendar';
 import { getEighthPowerScore, getNationPowerBreakdown, refreshGreatPowerRanking } from './systems/diplomacy';
 
 /** #34: the great-power gate also admits a nation within striking distance of
@@ -115,7 +116,7 @@ export function evaluateNationFormable(world: World, data: GameData, nationId: N
     || meetsPowerRequirement(world, nationId)
   ));
   const coreControl = controlled >= required;
-  const year = 1830 + Math.floor(world.day / 365);
+  const year = yearAtDay(world.day, world.startDate ?? data.startDate);
   const eraMet = !formable.yearAtLeast || year >= formable.yearAtLeast;
   const prestigeReward = formablePrestigeReward(nation?.tag ?? '', formable, data);
   const requirements: FormableStatus['requirements'] = [

@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
-import { WORLD_SEED } from '../../data/generated';
 import { useStore } from '../../store';
 import { useSnapshotFields } from '../useSnapshotFields';
+import { useScenarioWorldSeed } from '../useScenarioWorldSeed';
 
 function coreStateLabel(stateId: number, stateNameById: Map<number, string>): string {
   return stateNameById.get(stateId) ?? `State ${stateId}`;
@@ -14,6 +14,7 @@ function kindLabel(kind: string): string {
 }
 
 export function FormablesPanel() {
+  const worldSeed = useScenarioWorldSeed();
   const snapshot = useSnapshotFields([
     'day',
     'playerNation',
@@ -31,8 +32,8 @@ export function FormablesPanel() {
   }, [requestNation, snapshot?.day, snapshot?.playerNation]);
 
   const stateNameById = useMemo(() => (
-    new Map<number, string>(WORLD_SEED.states.map((state) => [state.id, state.name]))
-  ), []);
+    new Map<number, string>(worldSeed.states.map((state) => [state.id, state.name]))
+  ), [worldSeed]);
   const nationById = useMemo(() => (
     new Map(snapshot?.nations.map((nation) => [nation.id, nation]) ?? [])
   ), [snapshot?.nations]);

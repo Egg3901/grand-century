@@ -61,10 +61,10 @@ describe('E6 research data integrity', () => {
         expect(recipeKeys.has(recipeKey)).toBe(true);
       }
       expect(tech.cost).toBeGreaterThan(0);
-      expect(tech.cost).toBeLessThanOrEqual(400);
+      expect(tech.cost).toBeLessThanOrEqual(500);
       if (tech.year !== undefined) {
-        expect(tech.year).toBeGreaterThanOrEqual(1820);
-        expect(tech.year).toBeLessThanOrEqual(1920);
+        expect(tech.year).toBeGreaterThanOrEqual(1700);
+        expect(tech.year).toBeLessThanOrEqual(1945);
       }
     }
     expect(GAME_DATA.inventions?.length ?? 0).toBeGreaterThanOrEqual(18);

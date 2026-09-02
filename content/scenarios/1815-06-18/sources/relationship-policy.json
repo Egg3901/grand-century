@@ -1,0 +1,511 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1815-06-18",
+  "reviewedBy": "Codex temporal relationship review",
+  "reviewedAt": "2026-09-02",
+  "rules": [],
+  "decisions": [
+    {
+      "key": "BAOL",
+      "action": "no_runtime_overlord",
+      "basis": "temporal_carry_forward:conflicting_source_classification",
+      "notes": "OHM marks Baol as a vassal, while historical summaries describe independence after 1549 and intermittent personal union with Cayor. It remains a dependent gameplay type without an invented fixed overlord pending a finer sovereignty model. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "BRITISH_ARCTIC_TERRITORIES",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "BRITISH_BENCOOLEN",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "BRITISH_CEYLON",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "BRITISH_LEEWARD_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "BRITISH_MAURITIUS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "BRITISH_OCCUPATION_OF_JAVA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "BRITISH_SETTLEMENTS_ON_THE_BAY_OF_HONDURAS",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "CAPE_COLONY",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "CAPITANIA_GENERAL_DE_CUBA",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "CAPITANIA_GENERAL_DE_FILIPINAS",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "CAPITANIA_GENERAL_DE_PUERTO_RICO",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "CAPITANIA_GENERAL_DE_YUCATAN",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "CAPTAINCY_GENERAL_OF_CHILE",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "CAPTAINCY_GENERAL_OF_SANTO_DOMINGO",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "CAPTAINCY_GENERAL_OF_VENEZUELA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "CAYMAN_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "COLONIA_DO_SACRAMENTO",
+      "action": "overlord",
+      "runtimeOverlord": "REINO_DE_PORTUGAL",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "COLONIA_TRINIDAD",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "COLONIE_DE_LA_GRENADE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "COLONIE_DE_LA_GUADELOUPE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "COLONIE_DE_LA_GUYANE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "COLONIE_DE_SAINTE_LUCIE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "COLONY_OF_BARBADOS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "COLONY_OF_BERMUDA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "COLONY_OF_CAPE_BRETON",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "COLONY_OF_DEMERARA_ESSEQUIBO",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "COLONY_OF_JAMAICA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "COLONY_OF_MALTA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "COLONY_OF_NEW_BRUNSWICK",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "COLONY_OF_NEW_SOUTH_WALES",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "COLONY_OF_NOVA_SCOTIA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "COLONY_OF_SIERRA_LEONE",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "COLONY_OF_TOBAGO",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "COLUMBIA_DISTRICT",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "COMPANY_RAJ",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "DANISH_GOLD_COAST",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "DANISH_INDIA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "DANSK_VESTINDIEN",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "DUTCH_EAST_INDIES",
+      "action": "overlord",
+      "runtimeOverlord": "KONINKRIJK_DER_NEDERLANDEN",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Dutch imperial administration represented under the Netherlands for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "ESTADO_DO_BRASIL",
+      "action": "overlord",
+      "runtimeOverlord": "REINO_DE_PORTUGAL",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "ESTADO_DO_GRAO_PARA_E_RIO_NEGRO",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "FREE_CITY_OF_CRACOW",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "GIBRALTAR",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "GOA_PORTUGUESA",
+      "action": "overlord",
+      "runtimeOverlord": "REINO_DE_PORTUGAL",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "GOVERNORATE_OF_CHILOE",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "GREENLAND",
+      "action": "overlord",
+      "runtimeOverlord": "DANMARK",
+      "basis": "temporal_carry_forward:reviewed_historical_dependency",
+      "notes": "Greenland represented under Denmark. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "GUINE_PORTUGUESA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "HELGOLAND",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "INDE_FRANCAISE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "ISLE_BOURBON",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "KOLONIE_BERBICE",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "LOUISIANA_NEUTRAL_GROUND",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "NAM_BAN",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "NETHERLANDS_ANTILLES",
+      "action": "overlord",
+      "runtimeOverlord": "KONINKRIJK_DER_NEDERLANDEN",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Dutch imperial administration represented under the Netherlands for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "NEW_CALEDONIA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "NEWFOUNDLAND_COLONY",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "NORTH_WEST_TERRITORIES",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "action": "overlord",
+      "runtimeOverlord": "REINO_DE_PORTUGAL",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "PORTUGUESE_TIMOR",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "PRINCE_EDWARD_ISLAND_COLONY",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "PRINCIPALITY_OF_ABKHAZIA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "PRINCIPALITY_OF_GURIA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "PRINCIPALITY_OF_MOLDAVIA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "PRINCIPALITY_OF_THUAN_THANH",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "PRINCIPALITY_OF_WALLACHIA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "PROVINCE_OF_LOWER_CANADA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "PROVINCE_OF_UPPER_CANADA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "RED_RIVER_COLONY",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "RUPERT_S_LAND",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "RUSSIAN_AMERICA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "SAINT_HELENA_COLONY",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "SAINT_PIERRE_ET_MIQUELON",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "SPANISH_GUINEA",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "ST_VINCENT_AND_THE_GRENADINES_TERRITORY",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "SULTANATE_OF_LAHEJ",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1815-06-18 for the same semantic polity key."
+    },
+    {
+      "key": "SURINAME",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    },
+    {
+      "key": "WALVIS_BAY_COLONY",
+      "action": "no_runtime_overlord",
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1815-06-18; the compiler does not invent an overlord."
+    }
+  ]
+}

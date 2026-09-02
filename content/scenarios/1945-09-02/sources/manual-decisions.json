@@ -1,0 +1,945 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1945-09-02",
+  "reviewer": "Codex temporal carry-forward review",
+  "reviewedAt": "2026-09-02",
+  "carriedFrom": "1936-01-01",
+  "decisions": [
+    {
+      "source": "ohm",
+      "identityKey": "Honduras",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "HONDURAS",
+      "displayName": "Honduras",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "HONDURAS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Nicaragua",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "NICARAGUA",
+      "displayName": "Nicaragua",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "NICARAGUA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1054923",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_HONG_KONG",
+      "displayName": "British Hong Kong",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_HONG_KONG"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1232509",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "SPANISH_GUINEA",
+      "displayName": "Spanish Guinea",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SPANISH_GUINEA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q142965",
+      "disposition": "map_fragment",
+      "notes": "OHM relation 2885873 explicitly describes the Japanese occupation of Portuguese Timor. It is retained as a ground-control fragment, not promoted into the de jure country roster."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q145",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "UNITED_KINGDOM",
+      "displayName": "United Kingdom",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "UNITED_KINGDOM"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q146328",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "COMMONWEALTH_OF_THE_PHILIPPINES",
+      "displayName": "Commonwealth of the Philippines",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COMMONWEALTH_OF_THE_PHILIPPINES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q15180",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "SOVIET_UNION",
+      "displayName": "Soviet Union",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SOVIET_UNION"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q157734",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "MUSCAT_AND_OMAN",
+      "displayName": "Muscat and Oman",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "MUSCAT_AND_OMAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q17070",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "REUNION",
+      "displayName": "Reunion",
+      "polityStatus": "vassal",
+      "flagAssetTag": "REUNION"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q20",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "NORWAY",
+      "displayName": "Norway",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "NORWAY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q210682",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "FRENCH_WEST_AFRICA",
+      "displayName": "French West Africa",
+      "polityStatus": "vassal",
+      "flagAssetTag": "FRENCH_WEST_AFRICA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q235",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "MONACO",
+      "displayName": "Monaco",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "MONACO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2444884",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "TIBET",
+      "displayName": "Tibet",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "TIBET"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q26234937",
+      "disposition": "polity",
+      "notes": "The Syrian Republic was an independent signatory of the Arab League pact in 1945. Remaining French military pressure is modeled separately from sovereignty.",
+      "polityKey": "SYRIAN_REPUBLIC",
+      "displayName": "Syrian Republic",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SYRIAN_REPUBLIC"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q29",
+      "disposition": "polity",
+      "notes": "OHM identifies Spain on the exact scenario date. The 1936 Second Republic semantic key is not carried into the post-civil-war 1945 roster.",
+      "polityKey": "SPAIN",
+      "displayName": "Spain",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SPAIN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q33",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "FINLAND",
+      "displayName": "Finland",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "FINLAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q35",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "DANMARK",
+      "displayName": "Danmark",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DANMARK"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3518791",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "FRENCH_SOMALILAND",
+      "displayName": "French Somaliland",
+      "polityStatus": "vassal",
+      "flagAssetTag": "FRENCH_SOMALILAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q39",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "SWITZERLAND",
+      "displayName": "Switzerland",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SWITZERLAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3916279",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "PORTUGUESE_MACAU",
+      "displayName": "Portuguese Macau",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PORTUGUESE_MACAU"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q404774",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_LAHEJ",
+      "displayName": "Sultanate of Lahej",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SULTANATE_OF_LAHEJ"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q457242",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "SPANISH_MOROCCO",
+      "displayName": "Spanish Morocco",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SPANISH_MOROCCO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q555185",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+      "displayName": "Italian Islands of the Aegean",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ITALIAN_ISLANDS_OF_THE_AEGEAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q740930",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "SAGUIA_EL_HAMRA",
+      "displayName": "Saguia el-Hamra",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SAGUIA_EL_HAMRA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q763141",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "IFNI",
+      "displayName": "Ifni",
+      "polityStatus": "vassal",
+      "flagAssetTag": "IFNI"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q837",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "KINGDOM_OF_NEPAL",
+      "displayName": "Kingdom of Nepal",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_NEPAL"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q889394",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "PORTUGUESE_MOZAMBIQUE",
+      "displayName": "Portuguese Mozambique",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PORTUGUESE_MOZAMBIQUE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q907234",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "FRENCH_MOROCCO",
+      "displayName": "French Morocco",
+      "polityStatus": "vassal",
+      "flagAssetTag": "FRENCH_MOROCCO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q917",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "BHUTAN",
+      "displayName": "Bhutan",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "BHUTAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q929147",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "RIO_DE_ORO",
+      "displayName": "Rio de Oro",
+      "polityStatus": "vassal",
+      "flagAssetTag": "RIO_DE_ORO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "المملكة العراقية الهاشمية",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "KINGDOM_OF_IRAQ",
+      "displayName": "Kingdom of Iraq",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_IRAQ"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "د افغانستان شاهي دولت",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "KINGDOM_OF_AFGHANISTAN",
+      "displayName": "Kingdom of Afghanistan",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_AFGHANISTAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "大日本帝国",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "EMPIRE_OF_JAPAN",
+      "displayName": "Empire of Japan",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "EMPIRE_OF_JAPAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "British occupation of the Comoros Islands",
+      "disposition": "map_fragment",
+      "notes": "OHM relation 2865791 describes a temporary wartime occupation. It remains ground-control evidence and is not a sovereign roster entry."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q12100005",
+      "disposition": "polity",
+      "notes": "OHM relation 2878108 identifies the Democratic Government of Albania from 1944-11-29. A January 1945 diplomatic record describes it as the authority administering liberated Albania.",
+      "polityKey": "DEMOCRATIC_GOVERNMENT_OF_ALBANIA",
+      "displayName": "Democratic Government of Albania",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DEMOCRATIC_GOVERNMENT_OF_ALBANIA",
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v04/d2"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1277557",
+      "disposition": "polity",
+      "notes": "OHM relation 2923084 identifies Democratic Federal Yugoslavia. The united provisional government had been formed in March 1945, so the prewar kingdom key is not carried forward.",
+      "polityKey": "DEMOCRATIC_FEDERAL_YUGOSLAVIA",
+      "displayName": "Democratic Federal Yugoslavia",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DEMOCRATIC_FEDERAL_YUGOSLAVIA",
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v05/d968fn33"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q136498582",
+      "disposition": "dependent_polity",
+      "notes": "OHM identifies British Eritrea on the exact scenario date. It is a military administration rather than a sovereign state.",
+      "polityKey": "BRITISH_MILITARY_ADMINISTRATION_ERITREA",
+      "displayName": "British Military Administration of Eritrea",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_MILITARY_ADMINISTRATION_ERITREA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q15242873",
+      "disposition": "dependent_polity",
+      "notes": "OHM relation 2801070 identifies the Soviet Civil Administration beginning 1945-08-24. It is an occupation administration, not a sovereign Korean state.",
+      "polityKey": "SOVIET_CIVIL_ADMINISTRATION",
+      "displayName": "Soviet Civil Administration",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SOVIET_CIVIL_ADMINISTRATION"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q15243087",
+      "disposition": "map_fragment",
+      "notes": "OHM relation 2848292 explicitly identifies the Japanese occupation of Borneo. The formal surrender on the scenario date makes this ground-control evidence rather than a de jure polity.",
+      "evidence": [
+        "https://www.archives.gov/milestone-documents/surrender-of-japan"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q189",
+      "disposition": "polity",
+      "notes": "OHM identifies Iceland on the exact scenario date as an independent country.",
+      "polityKey": "ICELAND",
+      "displayName": "Iceland",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ICELAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q252",
+      "disposition": "polity",
+      "notes": "OHM relation 2888098 begins on Indonesia's 1945-08-17 proclamation. The republic is included as a de facto claimant while Dutch claims and postwar military control remain separate layers.",
+      "polityKey": "REPUBLIC_OF_INDONESIA",
+      "displayName": "Republic of Indonesia",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REPUBLIC_OF_INDONESIA",
+      "evidence": [
+        "https://kemlu.go.id/files/repositori/74504/Business%20Guide%20Indonesia-EN.pdf"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q5501842",
+      "disposition": "dependent_polity",
+      "notes": "The OHM identity is explicitly the Colony of Madagascar and dependencies. A country place tag does not make the colonial administration sovereign.",
+      "polityKey": "COLONY_OF_MADAGASCAR_AND_DEPENDENCIES",
+      "displayName": "Colony of Madagascar and Dependencies",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_MADAGASCAR_AND_DEPENDENCIES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q55304",
+      "disposition": "dependent_polity",
+      "notes": "The American occupation zone was administered under Allied supreme authority in Germany and was not a sovereign country.",
+      "displayName": "American Occupation Zone in Germany",
+      "polityStatus": "vassal",
+      "evidence": [
+        "https://history.state.gov/countries/german-democratic-republic"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q55306",
+      "disposition": "dependent_polity",
+      "notes": "The British occupation zone was administered under Allied supreme authority in Germany and was not a sovereign country.",
+      "polityKey": "BRITISH_OCCUPATION_ZONE_IN_GERMANY",
+      "displayName": "British Occupation Zone in Germany",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_OCCUPATION_ZONE_IN_GERMANY",
+      "evidence": [
+        "https://history.state.gov/countries/german-democratic-republic"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q60776353",
+      "disposition": "dependent_polity",
+      "notes": "The source identity is explicitly a British military administration. It is retained as a dependency rather than accepted as sovereign from its generic country tag.",
+      "displayName": "British Military Administration of Somaliland",
+      "polityStatus": "vassal"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q697",
+      "disposition": "map_fragment",
+      "notes": "OHM relation 2846180 describes the Japanese occupation of Nauru through 1945-09-13. It remains a ground-control fragment rather than a de jure polity.",
+      "evidence": [
+        "https://www.archives.gov/milestone-documents/surrender-of-japan"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q713768",
+      "disposition": "map_fragment",
+      "notes": "OHM relation 2801989 describes the Japanese occupation of Malaya ending on the scenario date. It remains a ground-control fragment rather than a de jure polity.",
+      "evidence": [
+        "https://www.archives.gov/milestone-documents/surrender-of-japan"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q822",
+      "disposition": "polity",
+      "notes": "OHM relation 2748904 starts with Lebanon's 1943 independence. Lebanon ratified the Arab League pact as an independent participant in 1945, so the 1936 mandate classification is not carried forward.",
+      "polityKey": "LEBANON",
+      "displayName": "Lebanon",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "LEBANON",
+      "evidence": [
+        "https://treaties.un.org/pages/showDetails.aspx?objid=080000028015a44b"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q865",
+      "disposition": "polity",
+      "notes": "OHM relation 2948949 identifies the Republic of China through the source's Chinese-language label and linked article. The semantic key replaces an autogenerated fallback.",
+      "polityKey": "REPUBLIC_OF_CHINA",
+      "displayName": "Republic of China",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REPUBLIC_OF_CHINA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q869",
+      "disposition": "polity",
+      "notes": "OHM identifies Thailand on the exact scenario date as a country-level polity.",
+      "polityKey": "THAILAND",
+      "displayName": "Thailand",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "THAILAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q940741",
+      "disposition": "polity",
+      "notes": "The OHM relation geometry is usable, but its republic label starts too early. Hungary still had a provisional national government on 1945-09-02 and the republic was not proclaimed until 1946-02-01.",
+      "polityKey": "HUNGARY",
+      "displayName": "Hungary",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "HUNGARY",
+      "evidence": [
+        "https://mnl.gov.hu/mnl/ol/bevezeto_0",
+        "https://history.state.gov/historicaldocuments/frus1945Berlinv01/d287"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Việt Nam Dân chủ Cộng hòa",
+      "disposition": "polity",
+      "notes": "The source relation begins exactly on 1945-09-02, when the Democratic Republic of Vietnam proclaimed independence. Competing French claims and Allied occupation are separate layers.",
+      "polityKey": "DEMOCRATIC_REPUBLIC_OF_VIETNAM",
+      "displayName": "Democratic Republic of Vietnam",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DEMOCRATIC_REPUBLIC_OF_VIETNAM",
+      "evidence": [
+        "https://caa.gov.vn/hoat-dong-nganh/tuyen-ngon-doc-lap-khai-sinh-nuoc-viet-nam-dan-chu-cong-hoa-20250819142510145.htm"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "ኢትዮጵያ",
+      "disposition": "polity",
+      "notes": "OHM identifies Ethiopia on the exact scenario date as a country-level polity.",
+      "polityKey": "ETHIOPIA",
+      "displayName": "Ethiopia",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ETHIOPIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "ປະເທດລາວ",
+      "disposition": "polity",
+      "notes": "The source captures the disputed Lao independence administration. On 1945-09-02 Phetsarath continued to assert independence while the king treated the French protectorate as still in force, so the conflicting claim must remain explicit in later relationship data.",
+      "polityKey": "LAOS",
+      "displayName": "Laos",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "LAOS",
+      "evidence": [
+        "https://tile.loc.gov/storage-services/master/frd/frdcstdy/la/laoscountrystudy00sava_0/laoscountrystudy00sava_0.pdf"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "កម្ពុជា",
+      "disposition": "polity",
+      "notes": "Cambodia's Japanese-sponsored independence government still operated on 1945-09-02 under Prime Minister Son Ngoc Thanh. French restoration is modeled as a subsequent transition.",
+      "polityKey": "CAMBODIA",
+      "displayName": "Cambodia",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "CAMBODIA",
+      "evidence": [
+        "https://tile.loc.gov/storage-services/master/frd/frdcstdy/ca/cambodiacountrys00ross/cambodiacountrys00ross.pdf"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1121819",
+      "disposition": "dependent_polity",
+      "notes": "OHM identifies the Emirate of Transjordan as a protectorate through 1946. The semantic key replaces a generic fallback.",
+      "polityKey": "EMIRATE_OF_TRANSJORDAN",
+      "displayName": "Emirate of Transjordan",
+      "polityStatus": "vassal",
+      "flagAssetTag": "EMIRATE_OF_TRANSJORDAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q124943",
+      "disposition": "polity",
+      "notes": "OHM identifies the Kingdom of Egypt on the exact scenario date. The semantic key replaces a generic fallback.",
+      "polityKey": "KINGDOM_OF_EGYPT",
+      "displayName": "Kingdom of Egypt",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_EGYPT"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q147909",
+      "disposition": "polity",
+      "notes": "OHM identifies the Kingdom of Bulgaria on the exact scenario date. The semantic key replaces a generic fallback.",
+      "polityKey": "KINGDOM_OF_BULGARIA",
+      "displayName": "Kingdom of Bulgaria",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_BULGARIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q150058",
+      "disposition": "dependent_polity",
+      "notes": "Travancore remained a princely state under British paramountcy in 1945. It is retained as a dependent playable polity rather than a fully sovereign country.",
+      "displayName": "Kingdom of Travancore",
+      "polityStatus": "vassal"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1500976",
+      "disposition": "map_fragment",
+      "notes": "The Germany-Luxembourg river condominium is a small unpopulated joint-sovereignty geometry, not a country roster entry.",
+      "evidence": [
+        "https://www.wikidata.org/wiki/Q1500976"
+      ]
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q209065",
+      "disposition": "polity",
+      "notes": "OHM identifies Greece on the exact scenario date. The semantic key replaces a generic fallback.",
+      "polityKey": "GREECE",
+      "displayName": "Greece",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "GREECE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q25230",
+      "disposition": "dependent_polity",
+      "notes": "Guernsey is a Crown Dependency, not a sovereign country. The dependency relationship is compiled separately.",
+      "displayName": "Guernsey",
+      "polityStatus": "vassal"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q32",
+      "disposition": "polity",
+      "notes": "OHM identifies Luxembourg through its Luxembourgish label. The normalized semantic key also prevents a duplicate Cliopatria roster entry.",
+      "polityKey": "LUXEMBOURG",
+      "displayName": "Luxembourg",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "LUXEMBOURG"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q51547013",
+      "disposition": "polity",
+      "notes": "OHM identifies the Dominican Republic through its Spanish label. The normalized semantic key also prevents a duplicate Cliopatria roster entry.",
+      "polityKey": "DOMINICAN_REPUBLIC",
+      "displayName": "Dominican Republic",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DOMINICAN_REPUBLIC"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q785",
+      "disposition": "dependent_polity",
+      "notes": "Jersey is a Crown Dependency, not a sovereign country. The dependency relationship is compiled separately.",
+      "displayName": "Jersey",
+      "polityStatus": "vassal"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q794",
+      "disposition": "polity",
+      "notes": "OHM identifies Iran through its Persian label. The normalized semantic key also prevents a duplicate dynasty-based Cliopatria roster entry.",
+      "polityKey": "IRAN",
+      "displayName": "Iran",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "IRAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q851",
+      "disposition": "polity",
+      "notes": "OHM identifies Saudi Arabia on the exact scenario date. The semantic key replaces a generic fallback.",
+      "polityKey": "SAUDI_ARABIA",
+      "displayName": "Saudi Arabia",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SAUDI_ARABIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q862467",
+      "disposition": "constituent",
+      "notes": "The Kingdom of Sine was a traditional constituent polity inside French West Africa in 1945, not an independent sovereign country.",
+      "displayName": "Kingdom of Sine",
+      "polityStatus": "constituent"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q9676",
+      "disposition": "dependent_polity",
+      "notes": "The Isle of Man is a Crown Dependency, not a subnational constituent of the United Kingdom.",
+      "displayName": "Isle of Man",
+      "polityStatus": "vassal"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1138904",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "mapTo": "KINGDOM_OF_AFGHANISTAN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q139708",
+      "disposition": "polity",
+      "notes": "Cliopatria's Lebanon identity maps to the exact-date OHM Lebanon polity. The 1936 French mandate classification is not carried forward.",
+      "mapTo": "LEBANON",
+      "evidence": [
+        "https://treaties.un.org/pages/showDetails.aspx?objid=080000028015a44b"
+      ]
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q148",
+      "disposition": "polity",
+      "notes": "Cliopatria's Republic of China identity maps to the exact-date OHM Republic of China polity.",
+      "mapTo": "REPUBLIC_OF_CHINA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q17427",
+      "disposition": "constituent",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "CHINESE_COMMUNIST_BASE_AREAS",
+      "displayName": "Chinese Communist Base Areas",
+      "polityStatus": "constituent",
+      "flagAssetTag": "CHINESE_COMMUNIST_BASE_AREAS"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q179848",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q185682",
+      "disposition": "duplicate_geometry",
+      "notes": "Cliopatria's year-level French Indochina geometry overlaps the exact-date OHM Vietnam, Laos, and Cambodia identities, and its Vichy France membership is stale by 1945-09-02."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q188712",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "mapTo": "EMPIRE_OF_JAPAN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q19951607",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1998401",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "MUTAWAKKILITE_KINGDOM_OF_YEMEN",
+      "displayName": "Mutawakkilite Kingdom of Yemen",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "MUTAWAKKILITE_KINGDOM_OF_YEMEN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q207991",
+      "disposition": "polity",
+      "notes": "Cliopatria's Pahlavi dynasty identity maps to the exact-date OHM Iran polity and does not create a second country.",
+      "mapTo": "IRAN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q212056",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "MONGOLIAN_PEOPLE_S_REPUBLIC",
+      "displayName": "Mongolian People's Republic",
+      "polityStatus": "vassal",
+      "flagAssetTag": "MONGOLIAN_PEOPLE_S_REPUBLIC"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q222",
+      "disposition": "polity",
+      "notes": "Cliopatria's generic Albania identity maps to the exact-date Democratic Government of Albania. The prewar monarchy key is not carried forward.",
+      "mapTo": "DEMOCRATIC_GOVERNMENT_OF_ALBANIA",
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v04/d2"
+      ]
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q23666",
+      "disposition": "duplicate_geometry",
+      "notes": "The Kingdom of Great Britain label is obsolete for 1945. Its geometry duplicates the exact-date United Kingdom source and does not create a roster identity."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q25227",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "polityKey": "NETHERLANDS_ANTILLES",
+      "displayName": "Netherlands Antilles",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NETHERLANDS_ANTILLES"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q258",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "mapTo": "UNION_OF_SOUTH_AFRICA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2719360",
+      "disposition": "polity",
+      "notes": "Cliopatria's Luxembourg identity maps to the exact-date OHM Luxembourg polity and does not create a second country.",
+      "mapTo": "LUXEMBOURG"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q521263",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "mapTo": "TIBET"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q55",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "mapTo": "KONINKRIJK_DER_NEDERLANDEN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q717",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "mapTo": "ESTADOS_UNIDOS_DE_VENEZUELA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q786",
+      "disposition": "polity",
+      "notes": "Cliopatria's Dominican Republic identity maps to the exact-date OHM Dominican Republic polity and does not create a second country.",
+      "mapTo": "DOMINICAN_REPUBLIC"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q811",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "mapTo": "NICARAGUA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q824489",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "mapTo": "PORTUGAL"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q83286",
+      "disposition": "polity",
+      "notes": "Cliopatria's generic Yugoslavia identity maps to Democratic Federal Yugoslavia. The prewar kingdom key is not carried forward.",
+      "mapTo": "DEMOCRATIC_FEDERAL_YUGOSLAVIA",
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v05/d968fn33"
+      ]
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q8680",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q115",
+      "disposition": "polity",
+      "notes": "Cliopatria's Ethiopia identity corroborates the exact-date OHM Ethiopia polity.",
+      "mapTo": "ETHIOPIA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q13474305",
+      "disposition": "polity",
+      "notes": "The regime-specific Cliopatria identity is mapped to neutral player-facing Spain. No regime imagery is introduced.",
+      "mapTo": "SPAIN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q3497642",
+      "disposition": "map_fragment",
+      "notes": "Cliopatria's year-level Tangier International Zone geometry is not exact for 1945-09-02. Spanish occupation continued until the provisional international regime took over on 1945-10-11.",
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v08/d651"
+      ]
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q350186",
+      "disposition": "polity",
+      "notes": "Cliopatria's Denmark identity maps to the exact-date OHM Denmark polity.",
+      "mapTo": "DANMARK"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q5306909",
+      "disposition": "polity",
+      "notes": "Cliopatria's Eire identity maps to the exact-date OHM Eire and Ireland polity.",
+      "mapTo": "EIRE_IRELAND"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q840601",
+      "disposition": "polity",
+      "notes": "Cliopatria records the de facto East Turkestan Republic in 1945. Its unrecognized status and Soviet influence are handled in relationship data rather than erasing it from the roster.",
+      "polityKey": "EAST_TURKESTAN_REPUBLIC",
+      "displayName": "East Turkestan Republic",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "EAST_TURKESTAN_REPUBLIC"
+    }
+  ]
+}

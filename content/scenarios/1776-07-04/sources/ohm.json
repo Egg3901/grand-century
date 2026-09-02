@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1776-07-04",
+  "note": "The exact-date OHM discovery and geometry audit are the source of record. This pinned relation guards source identity drift.",
+  "boundaries": [
+    {
+      "relationId": 2739874,
+      "polityKey": "ANDORRA",
+      "purpose": "exact_date_boundary_validation",
+      "expectedName": "Andorra",
+      "expectedWikidata": "Q228"
+    }
+  ]
+}

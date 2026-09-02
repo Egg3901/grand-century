@@ -9,6 +9,7 @@ import { LobbyClient } from '../net/lobbyClient';
 import { buildLobbyInviteUrl } from '../net/mpJoin';
 import type { LobbyStateMessage, SessionListEntry, SessionMode } from '../net/sessionProtocol';
 import { useStore } from '../store';
+import { DEFAULT_SCENARIO_ID, listScenarios } from '../data/generated';
 
 type LobbyView = 'browser' | 'room';
 
@@ -35,6 +36,8 @@ export function LobbyScreen({ initialSessionId = null }: LobbyScreenProps) {
   const [createSeed, setCreateSeed] = useState('1820');
   const [createMode, setCreateMode] = useState<SessionMode>('competitive');
   const [createMax, setCreateMax] = useState('4');
+  const playableScenarios = useMemo(() => listScenarios().filter((scenario) => scenario.status === 'playable'), []);
+  const [createScenarioId, setCreateScenarioId] = useState(DEFAULT_SCENARIO_ID);
 
   const you = lobby?.you ?? null;
   const self = useMemo(
@@ -125,6 +128,7 @@ export function LobbyScreen({ initialSessionId = null }: LobbyScreenProps) {
       seed: Number.isFinite(seed) ? Math.max(1, Math.floor(seed)) : 1820,
       mode: createMode,
       maxPlayers: Number.isFinite(maxPlayers) ? maxPlayers : 4,
+      scenarioId: createScenarioId,
     });
   };
 
@@ -184,6 +188,21 @@ export function LobbyScreen({ initialSessionId = null }: LobbyScreenProps) {
                 Seed
                 <input className="gc-input" data-testid="lobby-create-seed" value={createSeed} onChange={(e) => setCreateSeed(e.target.value)} />
               </label>
+              {playableScenarios.length > 1 ? (
+                <label>
+                  Scenario
+                  <select
+                    className="gc-select"
+                    data-testid="lobby-create-scenario"
+                    value={createScenarioId}
+                    onChange={(event) => setCreateScenarioId(event.target.value)}
+                  >
+                    {playableScenarios.map((scenario) => (
+                      <option key={scenario.id} value={scenario.id}>{scenario.title}</option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
               <label>
                 Mode
                 <select
@@ -220,7 +239,7 @@ export function LobbyScreen({ initialSessionId = null }: LobbyScreenProps) {
                       <div>
                         <strong>{s.name}</strong>
                         <span className="lobby-meta">
-                          {s.mode} · {s.playerCount}/{s.maxPlayers} · seed {s.seed}
+                          {s.mode} · {s.playerCount}/{s.maxPlayers} · {s.scenarioId} · seed {s.seed}
                         </span>
                       </div>
                       <button
@@ -243,7 +262,7 @@ export function LobbyScreen({ initialSessionId = null }: LobbyScreenProps) {
         ) : lobby ? (
           <>
             <p>
-              {lobby.name} · {lobby.mode} · seed {lobby.seed}
+              {lobby.name} · {lobby.mode} · {lobby.scenarioId} · seed {lobby.seed}
             </p>
             <ul className="lobby-player-list" data-testid="lobby-player-list">
               {lobby.players.map((p) => (

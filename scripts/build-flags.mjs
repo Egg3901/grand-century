@@ -11,7 +11,8 @@
  *
  * Run: node scripts/build-flags.mjs
  */
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const OUT = path.resolve(import.meta.dirname, '../public/flags');
@@ -339,13 +340,37 @@ function fallbackFlag(color) {
   return field(base) + rect(0, 16, WIDTH, 8, W) + rect(0, 30, WIDTH, 10, shade);
 }
 
-const seedPath = path.resolve(import.meta.dirname, '../src/data/generated/worldSeed.json');
-const seed = JSON.parse(readFileSync(seedPath, 'utf8'));
+const root = path.resolve(import.meta.dirname, '..');
+const seedPaths = [path.join(root, 'src/data/generated/worldSeed.json')];
+const scenarioSeedRoot = path.join(root, 'src/data/scenarios');
+if (existsSync(scenarioSeedRoot)) {
+  for (const scenarioId of readdirSync(scenarioSeedRoot)) {
+    const seedPath = path.join(scenarioSeedRoot, scenarioId, 'worldSeed.json');
+    if (existsSync(seedPath)) seedPaths.push(seedPath);
+  }
+}
+const seeds = seedPaths.map((seedPath) => JSON.parse(readFileSync(seedPath, 'utf8')));
 let generated = 0;
-for (const nation of seed.nations) {
-  if (FLAGS[nation.tag]) continue;
-  FLAGS[nation.tag] = fallbackFlag(nation.color ?? [107, 98, 82]);
-  generated += 1;
+for (const seed of seeds) {
+  for (const nation of seed.nations) {
+    if (FLAGS[nation.tag]) continue;
+    FLAGS[nation.tag] = fallbackFlag(nation.color ?? [107, 98, 82]);
+    generated += 1;
+  }
+}
+const scenarioContentRoot = path.join(root, 'content/scenarios');
+for (const scenarioId of readdirSync(scenarioContentRoot)) {
+  const rosterPath = path.join(scenarioContentRoot, scenarioId, 'polities.json');
+  if (!existsSync(rosterPath)) continue;
+  const roster = JSON.parse(readFileSync(rosterPath, 'utf8'));
+  for (const polity of roster.polities ?? []) {
+    if (FLAGS[polity.flagAssetTag]) continue;
+    const bytes = createHash('sha256').update(polity.key).digest();
+    FLAGS[polity.flagAssetTag] = fallbackFlag([
+      64 + (bytes[0] % 144), 64 + (bytes[1] % 144), 64 + (bytes[2] % 144),
+    ]);
+    generated += 1;
+  }
 }
 
 let count = 0;

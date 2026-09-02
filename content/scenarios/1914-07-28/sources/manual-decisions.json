@@ -1,0 +1,1840 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1914-07-28",
+  "reviewer": "Codex multi-anchor temporal review",
+  "reviewedAt": "2026-09-02",
+  "decisions": [
+    {
+      "source": "cliopatria",
+      "identityKey": "Q127885",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1335260",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q146862",
+      "disposition": "polity",
+      "polityKey": "EMIRATE_OF_NEJD",
+      "displayName": "Emirate of Nejd",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "EMIRATE_OF_NEJD",
+      "notes": "The Cliopatria interval spans 1913 through 1915 and identifies the Emirate of Nejd as a separate territorial polity on the exact scenario date."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q148",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "displayName": "Republic of China",
+      "polityStatus": "sovereign"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q179848",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q189326",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q19951607",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2006756",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q222",
+      "disposition": "duplicate_geometry",
+      "notes": "The Cliopatria Albania geometry duplicates the exact-date OHM Principality of Albania and is excluded as a second playable country."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q223",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "GREENLAND",
+      "displayName": "Greenland",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GREENLAND"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2342282",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q236",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q23666",
+      "disposition": "duplicate_geometry",
+      "notes": "The Cliopatria British world geometry duplicates the exact-date OHM United Kingdom polity and is excluded as a second playable country."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q241",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q25227",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "NETHERLANDS_ANTILLES",
+      "displayName": "Netherlands Antilles",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NETHERLANDS_ANTILLES"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2719360",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "LUXEMBOURG",
+      "displayName": "Luxembourg",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "LUXEMBOURG"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q3497642",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q419",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q528546",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "displayName": "Kingdom of Greece",
+      "polityStatus": "sovereign"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q5362837",
+      "disposition": "polity",
+      "polityKey": "EMIRATE_OF_JABAL_SHAMMAR",
+      "displayName": "Emirate of Jabal Shammar",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "EMIRATE_OF_JABAL_SHAMMAR",
+      "notes": "The Cliopatria interval spans 1905 through 1915 and identifies the Emirate of Jabal Shammar as a separate territorial polity on the exact scenario date."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q5551337",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q7313",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q786",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "REPUBLICA_DOMINICANA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q792",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q80702",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q815731",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "KINGDOM_OF_BULGARIA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q832554",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q846",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q8680",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q926295",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q958291",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "British concession of Hankou",
+      "disposition": "map_fragment",
+      "notes": "The concession is retained as source geometry but is too small and administratively nested for a separate country slot."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Costa Rica",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COSTA_RICA",
+      "displayName": "Costa Rica",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "COSTA_RICA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "El Salvador",
+      "disposition": "polity",
+      "polityKey": "EL_SALVADOR",
+      "displayName": "El Salvador",
+      "notes": "El Salvador is retained as a sovereign republic."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Guatemala",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "GUATEMALA",
+      "displayName": "Guatemala",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "GUATEMALA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Guiné Portuguesa",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "GUINE_PORTUGUESA",
+      "displayName": "Guiné Portuguesa",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GUINE_PORTUGUESA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Honduras",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "HONDURAS",
+      "displayName": "Honduras",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "HONDURAS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Nicaragua",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "NICARAGUA",
+      "displayName": "Nicaragua",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "NICARAGUA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1014",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "LIBERIA",
+      "displayName": "Liberia",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "LIBERIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1042",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_SEYCHELLES",
+      "displayName": "Colony of Seychelles",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_SEYCHELLES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1050",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SWAZILAND_PROTECTORATE",
+      "displayName": "Swaziland Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SWAZILAND_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1050859",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+      "displayName": "Gilbert and Ellice Islands Colony",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GILBERT_AND_ELLICE_ISLANDS_COLONY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1054923",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_HONG_KONG",
+      "displayName": "British Hong Kong",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_HONG_KONG"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1074669",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "MALDIVES_PROTECTORATE",
+      "displayName": "Maldives Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "MALDIVES_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q107783136",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIE_DU_MOYEN_CONGO",
+      "displayName": "Colonie du Moyen-Congo",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIE_DU_MOYEN_CONGO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q10940330",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_CONCESSION_IN_TIANJIN",
+      "displayName": "British concession in Tianjin",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_CONCESSION_IN_TIANJIN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1097943",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PROTECTORATE_OF_UGANDA",
+      "displayName": "Protectorate of Uganda",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_UGANDA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1147441",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_NORTH_BORNEO",
+      "displayName": "British North Borneo",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_NORTH_BORNEO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1155700",
+      "disposition": "polity",
+      "polityKey": "SIAM",
+      "displayName": "Siam",
+      "notes": "The Rattanakosin kingdom is retained under the exact-date player-facing name Siam."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q116282722",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "TRINIDAD_AND_TOBAGO_COLONY",
+      "displayName": "Trinidad and Tobago Colony",
+      "polityStatus": "vassal",
+      "flagAssetTag": "TRINIDAD_AND_TOBAGO_COLONY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q12053604",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_MAURITIUS",
+      "displayName": "British Mauritius",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_MAURITIUS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1232509",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SPANISH_GUINEA",
+      "displayName": "Spanish Guinea",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SPANISH_GUINEA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1232988",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIA_ERITREA",
+      "displayName": "Colonia Eritrea",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIA_ERITREA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1271523",
+      "disposition": "dependent_polity",
+      "polityKey": "HAUT_SENEGAL_ET_NIGER",
+      "displayName": "Haut-Sénégal et Niger",
+      "notes": "The French West African colonial administration is retained as a dependency."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q129286",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_RAJ",
+      "displayName": "British Raj",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_RAJ"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q13410267",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
+      "displayName": "British Solomon Islands Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_SOLOMON_ISLANDS_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1400154",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "FEDERATED_MALAY_STATES",
+      "displayName": "Federated Malay States",
+      "polityStatus": "vassal",
+      "flagAssetTag": "FEDERATED_MALAY_STATES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1410",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "GIBRALTAR",
+      "displayName": "Gibraltar",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GIBRALTAR"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1421888",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+      "displayName": "Colonie du Oubangui-Chari-Tchad",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIE_DU_OUBANGUI_CHARI_TCHAD"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q142965",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PORTUGUESE_TIMOR",
+      "displayName": "Portuguese Timor",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PORTUGUESE_TIMOR"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q147909",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "displayName": "Kingdom of Bulgaria",
+      "polityStatus": "sovereign"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q150058",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "KINGDOM_OF_TRAVANCORE",
+      "displayName": "Kingdom of Travancore",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_TRAVANCORE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1506615",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "GUANGZHOUWAN",
+      "displayName": "Guangzhouwan",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GUANGZHOUWAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q15240466",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_CYPRUS",
+      "displayName": "British Cyprus",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_CYPRUS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1545934",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "displayName": "British Western Pacific Territories",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_WESTERN_PACIFIC_TERRITORIES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q155",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRASIL",
+      "displayName": "Brasil",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "BRASIL"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q157734",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "MUSCAT_AND_OMAN",
+      "displayName": "Muscat and Oman",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "MUSCAT_AND_OMAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q16",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "CANADA",
+      "displayName": "Canada",
+      "polityStatus": "vassal",
+      "flagAssetTag": "CANADA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1643555",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_HONDURAS_COLONY",
+      "displayName": "British Honduras Colony",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_HONDURAS_COLONY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1649306",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "NYASALAND",
+      "displayName": "Nyasaland",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NYASALAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1658411",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PROTECTORATE_OF_SARAWAK",
+      "displayName": "Protectorate of Sarawak",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_SARAWAK"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q168787",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "CABINDA",
+      "displayName": "Cabinda",
+      "polityStatus": "vassal",
+      "flagAssetTag": "CABINDA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q17012",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIE_DE_LA_GUADELOUPE",
+      "displayName": "Colonie de la Guadeloupe",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIE_DE_LA_GUADELOUPE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q17070",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "REUNION",
+      "displayName": "Reunion",
+      "polityStatus": "vassal",
+      "flagAssetTag": "REUNION"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1796551",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_LEEWARD_ISLANDS",
+      "displayName": "British Leeward Islands",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_LEEWARD_ISLANDS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q183032",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "JOHORE_PROTECTORATE",
+      "displayName": "Johore Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "JOHORE_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1852345",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "TRUCIAL_STATES",
+      "displayName": "Trucial States",
+      "polityStatus": "vassal",
+      "flagAssetTag": "TRUCIAL_STATES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q185944",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "KELANTAN_PROTECTORATE",
+      "displayName": "Kelantan Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "KELANTAN_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1865132",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ADEN_PROTECTORATE",
+      "displayName": "Aden Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ADEN_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q187035",
+      "disposition": "polity",
+      "polityKey": "PRINCIPALITY_OF_ALBANIA",
+      "displayName": "Principality of Albania",
+      "notes": "Albania is retained as an internationally recognized sovereign principality on the scenario date."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q188161",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "DUTCH_EAST_INDIES",
+      "displayName": "Dutch East Indies",
+      "polityStatus": "vassal",
+      "flagAssetTag": "DUTCH_EAST_INDIES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q188947",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "KEDAH_PROTECTORATE",
+      "displayName": "Kedah Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "KEDAH_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q189701",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "TRENGGANU_PROTECTORATE",
+      "displayName": "Trengganu Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "TRENGGANU_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q192184",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SAINT_HELENA_CROWN_COLONY",
+      "displayName": "Saint Helena Crown Colony",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SAINT_HELENA_CROWN_COLONY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q193619",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "displayName": "Union of South Africa",
+      "polityStatus": "vassal",
+      "flagAssetTag": "UNION_OF_SOUTH_AFRICA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1998749",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "NORTHERN_TERRITORIES",
+      "displayName": "Northern Territories",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NORTHERN_TERRITORIES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q20",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "NORWAY",
+      "displayName": "Norway",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "NORWAY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2017684",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PROTECTORAT_FRANCAIS_DE_TUNISIE",
+      "displayName": "Protectorat français de Tunisie",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PROTECTORAT_FRANCAIS_DE_TUNISIE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q207521",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "displayName": "መንግሥተ ኢትዮጵያ",
+      "polityStatus": "sovereign"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q209065",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "KINGDOM_OF_GREECE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q210682",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "FRENCH_WEST_AFRICA",
+      "displayName": "French West Africa",
+      "polityStatus": "vassal",
+      "flagAssetTag": "FRENCH_WEST_AFRICA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q213467",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PERLIS_PROTECTORATE",
+      "displayName": "Perlis Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PERLIS_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q213510",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "CONGO_BELGE",
+      "displayName": "Congo belge",
+      "polityStatus": "vassal",
+      "flagAssetTag": "CONGO_BELGE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q218",
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_ROMANIA",
+      "displayName": "Kingdom of Romania",
+      "notes": "Romania is retained as a sovereign kingdom."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q218272",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ALGERIE_FRANCAISE",
+      "displayName": "Algérie française",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ALGERIE_FRANCAISE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q228",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ANDORRA",
+      "displayName": "Andorra",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ANDORRA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q23022146",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PROTECTORATE_OF_TONGA",
+      "displayName": "Protectorate of Tonga",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_TONGA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2340665",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_BASUTOLAND",
+      "displayName": "Colony of Basutoland",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_BASUTOLAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q235",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "MONACO",
+      "displayName": "Monaco",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "MONACO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q23635",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_BERMUDA",
+      "displayName": "Colony of Bermuda",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_BERMUDA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q238",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SAN_MARINO",
+      "displayName": "San Marino",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SAN_MARINO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q244",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_BARBADOS",
+      "displayName": "Colony of Barbados",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_BARBADOS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2444884",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "TIBET",
+      "displayName": "Tibet",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "TIBET"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q25230",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "GUERNSEY",
+      "displayName": "Guernsey",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GUERNSEY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2526023",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_JAMAICA",
+      "displayName": "Colony of Jamaica",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_JAMAICA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2594990",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "DOMINION_OF_NEW_ZEALAND",
+      "displayName": "Dominion of New Zealand",
+      "polityStatus": "vassal",
+      "flagAssetTag": "DOMINION_OF_NEW_ZEALAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2660774",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_WINDWARD_ISLANDS",
+      "displayName": "British Windward Islands",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_WINDWARD_ISLANDS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q26988",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COOK_ISLANDS",
+      "displayName": "Cook Islands",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COOK_ISLANDS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q271894",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "AFRIQUE_EQUATORIALE_FRANCAISE",
+      "displayName": "Afrique équatoriale française",
+      "polityStatus": "vassal",
+      "flagAssetTag": "AFRIQUE_EQUATORIALE_FRANCAISE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q29",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SECOND_SPANISH_REPUBLIC",
+      "displayName": "Second Spanish Republic",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SECOND_SPANISH_REPUBLIC"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q298",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "CHILE",
+      "displayName": "Chile",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "CHILE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q29999",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "KONINKRIJK_DER_NEDERLANDEN",
+      "displayName": "Koninkrijk der Nederlanden",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KONINKRIJK_DER_NEDERLANDEN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q30",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "UNITED_STATES",
+      "displayName": "United States",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "UNITED_STATES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q30059027",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SIERRA_LEONE_PROTECTORATE",
+      "displayName": "Sierra Leone Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SIERRA_LEONE_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q30971",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
+      "displayName": "Établissements français de l'Océani",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q31",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BELGIQUE",
+      "displayName": "Belgique",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "BELGIQUE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q319984",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SOMALIA_ITALIANA",
+      "displayName": "Somalia italiana",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SOMALIA_ITALIANA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q32",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "LETZEBUERG",
+      "displayName": "Lëtzebuerg",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "LETZEBUERG"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q323904",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "GOA_PORTUGUESA",
+      "displayName": "Goa Portuguesa",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GOA_PORTUGUESA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q33788",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "NOUVELLE_CALEDONIE",
+      "displayName": "Nouvelle-Calédonie",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NOUVELLE_CALEDONIE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q34",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SVERIGE",
+      "displayName": "Sverige",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SVERIGE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q34617",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SAINT_PIERRE_ET_MIQUELON",
+      "displayName": "Saint-Pierre et Miquelon",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SAINT_PIERRE_ET_MIQUELON"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q347",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "LIECHTENSTEIN",
+      "displayName": "Liechtenstein",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "LIECHTENSTEIN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q35",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "DANMARK",
+      "displayName": "Danmark",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DANMARK"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3518791",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "FRENCH_SOMALILAND",
+      "displayName": "French Somaliland",
+      "polityStatus": "vassal",
+      "flagAssetTag": "FRENCH_SOMALILAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3557236",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "GAMBIA_COLONY_AND_PROTECTORATE",
+      "displayName": "Gambia Colony and Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GAMBIA_COLONY_AND_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q35672",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PITCAIRN_ISLANDS",
+      "displayName": "Pitcairn Islands",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PITCAIRN_ISLANDS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3574782",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ZANZIBAR_PROTECTORATE",
+      "displayName": "Zanzibar Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ZANZIBAR_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q376178",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_THE_STRAITS_SETTLEMENT",
+      "displayName": "Colony of the Straits Settlement",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_THE_STRAITS_SETTLEMENT"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3769",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIE_DE_LA_GUYANE",
+      "displayName": "Colonie de la Guyane",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIE_DE_LA_GUYANE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q38610",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND",
+      "displayName": "Commission Government of Newfoundland",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q39",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SWITZERLAND",
+      "displayName": "Switzerland",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SWITZERLAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q39072717",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIE_DU_GABON",
+      "displayName": "Colonie du Gabon",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIE_DU_GABON"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3916279",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PORTUGUESE_MACAU",
+      "displayName": "Portuguese Macau",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PORTUGUESE_MACAU"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q398",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PROTECTORATE_OF_BAHRAIN",
+      "displayName": "Protectorate of Bahrain",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_BAHRAIN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q404774",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_LAHEJ",
+      "displayName": "Sultanate of Lahej",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SULTANATE_OF_LAHEJ"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q408",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "AUSTRALIA",
+      "displayName": "Commonwealth of Australia",
+      "polityStatus": "vassal",
+      "flagAssetTag": "AUSTRALIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q414",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ARGENTINA",
+      "displayName": "Argentina",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ARGENTINA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q422065",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_SULU",
+      "displayName": "Sultanate of Sulu",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_SULU"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q45",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PORTUGAL",
+      "displayName": "Portugal",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "PORTUGAL"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q457242",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SPANISH_MOROCCO",
+      "displayName": "Spanish Morocco",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SPANISH_MOROCCO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q503623",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "GOLD_COAST_COLONY",
+      "displayName": "Gold Coast Colony",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GOLD_COAST_COLONY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q5148320",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_FIJI",
+      "displayName": "Colony of Fiji",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_FIJI"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q5148517",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_AND_PROTECTORATE_OF_NIGERIA",
+      "displayName": "Colony and Protectorate of Nigeria",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_AND_PROTECTORATE_OF_NIGERIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q541455",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ANGLO_EGYPTIAN_SUDAN",
+      "displayName": "Anglo-Egyptian Sudan",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ANGLO_EGYPTIAN_SUDAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q5501842",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIE_DE_MADAGASCAR_ET_DEPENDANCES",
+      "displayName": "French Madagascar",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIE_DE_MADAGASCAR_ET_DEPENDANCES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q555185",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+      "displayName": "Italian Islands of the Aegean",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ITALIAN_ISLANDS_OF_THE_AEGEAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q5785",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "CAYMAN_ISLANDS",
+      "displayName": "Cayman Islands",
+      "polityStatus": "vassal",
+      "flagAssetTag": "CAYMAN_ISLANDS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q5848651",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ESTADOS_UNIDOS_DE_VENEZUELA",
+      "displayName": "Estados Unidos de Venezuela",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ESTADOS_UNIDOS_DE_VENEZUELA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q63158027",
+      "disposition": "polity",
+      "polityKey": "IRAN",
+      "displayName": "Iran",
+      "notes": "Qajar Iran is retained under the stable player-facing country name Iran."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q662653",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_SOMALILAND",
+      "displayName": "British Somaliland",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_SOMALILAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q6744657",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_MALTA",
+      "displayName": "Colony of Malta",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_MALTA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q675321",
+      "disposition": "dependent_polity",
+      "polityKey": "KIAUTSCHOU_BAY_CONCESSION",
+      "displayName": "Kiautschou Bay Concession",
+      "notes": "The German leased territory is represented as a dependent administration."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q697",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "NAURU",
+      "displayName": "Nauru",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NAURU"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q70802",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "FRENCH_THIRD_REPUBLIC",
+      "displayName": "French Third Republic",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "FRENCH_THIRD_REPUBLIC"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q7232692",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "displayName": "Portuguese São Tomé and Príncipe",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PORTUGUESE_SAO_TOME_AND_PRINCIPE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q733",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PARAGUAY",
+      "displayName": "Paraguay",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "PARAGUAY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q736",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ECUADOR",
+      "displayName": "Ecuador",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ECUADOR"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q739",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLOMBIA",
+      "displayName": "Colombia",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "COLOMBIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q740930",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SAGUIA_EL_HAMRA",
+      "displayName": "Saguia el-Hamra",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SAGUIA_EL_HAMRA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q746558",
+      "disposition": "dependent_polity",
+      "polityKey": "EMIRATE_OF_BUKHARA",
+      "displayName": "Emirate of Bukhara",
+      "notes": "Bukhara is represented as a Russian protectorate rather than a fully sovereign country slot."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q747314",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BECHUANALAND_PROTECTORATE",
+      "displayName": "Bechuanaland Protectorate",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BECHUANALAND_PROTECTORATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q750",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BOLIVIA",
+      "displayName": "Bolivia",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "BOLIVIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q750583",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SOUTHERN_RHODESIA",
+      "displayName": "Southern Rhodesia",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SOUTHERN_RHODESIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q752431",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+      "displayName": "New Hebrides / Nouvelles-Hébrides",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NEW_HEBRIDES_NOUVELLES_HEBRIDES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q763141",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "IFNI",
+      "displayName": "Ifni",
+      "polityStatus": "vassal",
+      "flagAssetTag": "IFNI"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q77",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "URUGUAY",
+      "displayName": "Uruguay",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "URUGUAY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q778",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_THE_BAHAMAS",
+      "displayName": "Colony of the Bahamas",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_THE_BAHAMAS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q785",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "JERSEY",
+      "displayName": "Jersey",
+      "polityStatus": "vassal",
+      "flagAssetTag": "JERSEY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q804",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PANAMA",
+      "displayName": "Panamá",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "PANAMA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q817",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PROTECTORATE_OF_KUWAIT",
+      "displayName": "Protectorate of Kuwait",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_KUWAIT"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q829655",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "DANSK_VESTINDIEN",
+      "displayName": "Dansk Vestindien",
+      "polityStatus": "vassal",
+      "flagAssetTag": "DANSK_VESTINDIEN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q837",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "KINGDOM_OF_NEPAL",
+      "displayName": "Kingdom of Nepal",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_NEPAL"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q862467",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "SIIN",
+      "displayName": "Siin",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SIIN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q865",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "REPUBLIC_OF_CHINA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q907234",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "FRENCH_MOROCCO",
+      "displayName": "French Morocco",
+      "polityStatus": "vassal",
+      "flagAssetTag": "FRENCH_MOROCCO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q917",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BHUTAN",
+      "displayName": "Bhutan",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "BHUTAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q918126",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_GUIANA",
+      "displayName": "British Guiana",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_GUIANA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q918153",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_CEYLON",
+      "displayName": "British Ceylon",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_CEYLON"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q921",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "PROTECTORATE_OF_BRUNEI",
+      "displayName": "Protectorate of Brunei",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_BRUNEI"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q929147",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "RIO_DE_ORO",
+      "displayName": "Rio de Oro",
+      "polityStatus": "vassal",
+      "flagAssetTag": "RIO_DE_ORO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q9384736",
+      "disposition": "map_fragment",
+      "notes": "The British concession at Jiujiang is retained as source geometry but is too small and administratively nested for a separate country slot."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q953903",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "NORTHERN_RHODESIA",
+      "displayName": "Northern Rhodesia",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NORTHERN_RHODESIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q96372444",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ASHANTI_COLONY",
+      "displayName": "Ashanti Colony",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ASHANTI_COLONY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q9676",
+      "disposition": "constituent",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "ISLE_OF_MAN",
+      "displayName": "Isle of Man",
+      "polityStatus": "constituent",
+      "flagAssetTag": "ISLE_OF_MAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Union Indochinoise",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "UNION_INDOCHINOISE",
+      "displayName": "French Indochina",
+      "polityStatus": "vassal",
+      "flagAssetTag": "UNION_INDOCHINOISE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "امارت افغانستان",
+      "disposition": "polity",
+      "polityKey": "EMIRATE_OF_AFGHANISTAN",
+      "displayName": "Emirate of Afghanistan",
+      "notes": "Afghanistan is retained as a sovereign emirate."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "大日本帝国",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "polityKey": "EMPIRE_OF_JAPAN",
+      "displayName": "Empire of Japan",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "EMPIRE_OF_JAPAN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q185682",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "UNION_INDOCHINOISE"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q188712",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "EMPIRE_OF_JAPAN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q521263",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "TIBET"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q55",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "KONINKRIJK_DER_NEDERLANDEN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q62651",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "DANMARK"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q717",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "ESTADOS_UNIDOS_DE_VENEZUELA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q800",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "COSTA_RICA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q811",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1914-07-28. Exact-date geometry is audited separately.",
+      "mapTo": "NICARAGUA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2257830",
+      "disposition": "polity",
+      "polityKey": "MAJEERTEEN_SULTANATE",
+      "displayName": "Majeerteen Sultanate",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "MAJEERTEEN_SULTANATE",
+      "notes": "The OHM identity is the Majeerteen Sultanate and receives a stable semantic key for cross-date compilation."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q56282586",
+      "disposition": "polity",
+      "polityKey": "TANNU_URIANKHAI",
+      "displayName": "Tannu Uriankhai",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "TANNU_URIANKHAI",
+      "notes": "The OHM identity is Tannu Uriankhai and receives a stable semantic key for cross-date compilation."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q174193",
+      "disposition": "polity",
+      "polityKey": "UNITED_KINGDOM",
+      "displayName": "United Kingdom of Great Britain and Ireland",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "UNITED_KINGDOM",
+      "notes": "The exact-date OHM identity receives the stable cross-era United Kingdom key while retaining its period display name."
+    }
+  ]
+}

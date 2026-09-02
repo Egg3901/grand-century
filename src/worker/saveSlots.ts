@@ -1,4 +1,5 @@
 import { openDB } from 'idb';
+import type { GameDate, ScenarioId } from '../shared/types';
 
 const DB_NAME = 'grand-century-saves';
 const DB_VERSION = 1;
@@ -9,6 +10,8 @@ interface SaveSlotRecord {
   updatedAt: number;
   day: number;
   playerNation: number;
+  scenarioId?: ScenarioId;
+  startDate?: GameDate;
   payload: ArrayBufferLike;
 }
 
@@ -17,6 +20,8 @@ export interface SaveSlotSummary {
   updatedAt: number;
   day: number;
   playerNation: number;
+  scenarioId?: ScenarioId;
+  startDate?: GameDate;
 }
 
 async function db() {
@@ -34,6 +39,8 @@ export async function writeSaveSlot(
   payload: Uint8Array,
   day: number,
   playerNation: number,
+  scenarioId?: ScenarioId,
+  startDate?: GameDate,
 ): Promise<void> {
   const database = await db();
   const record: SaveSlotRecord = {
@@ -41,6 +48,8 @@ export async function writeSaveSlot(
     updatedAt: Date.now(),
     day,
     playerNation,
+    scenarioId,
+    startDate,
     payload: payload.slice().buffer,
   };
   await database.put(STORE, record);
@@ -62,7 +71,8 @@ export async function listSaveSlots(): Promise<SaveSlotSummary[]> {
       updatedAt: record.updatedAt,
       day: record.day,
       playerNation: record.playerNation,
+      scenarioId: record.scenarioId,
+      startDate: record.startDate,
     }))
     .sort((a, b) => b.updatedAt - a.updatedAt || a.slot.localeCompare(b.slot));
 }
-

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "1945-09-02",
+  "title": "A World Remade",
+  "startDate": { "year": 1945, "month": 9, "day": 2 },
+  "status": "preview",
+  "summary": "A reviewed postwar seed for demobilization, reconstruction, decolonization pressure, and the emerging four-power order. OHM supplies exact-date global candidates and most borders; two German occupation-zone gaps use cited, near-contemporaneous OHM fallbacks.",
+  "visualPolicy": {
+    "naziImagery": "prohibited",
+    "germanyPresentation": {
+      "displayName": "Germany",
+      "flagAssetTag": "GER",
+      "treatment": "neutral_tricolor"
+    }
+  }
+}

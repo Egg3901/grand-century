@@ -17,12 +17,12 @@
  * (`data-view`), so the phone shows an index or a country, never both.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { WORLD_SEED } from '../../data/generated';
 import type {
   DiploRelationKind, NationId, NationSummary, TraceLine, WarGoalType,
 } from '../../shared/types';
 import { useStore } from '../../store';
 import { useSnapshotFields } from '../useSnapshotFields';
+import { useScenarioWorldSeed } from '../useScenarioWorldSeed';
 import { NationFlag } from '../components/NationFlag';
 import { TraceTooltip } from '../components/TraceTooltip';
 
@@ -219,6 +219,7 @@ function ChanceryMeter({
 }
 
 export function DiplomacyPanel() {
+  const worldSeed = useScenarioWorldSeed();
   const snapshot = useSnapshotFields(DIPLO_FIELDS);
   const sendCommand = useStore((state) => state.sendCommand);
   const openPanelId = useStore((state) => state.openPanelId);
@@ -243,11 +244,11 @@ export function DiplomacyPanel() {
   }, [diploFocusNation, clearDiploFocus]);
 
   const provinceSeedById = useMemo(() => (
-    new Map<number, number[]>(WORLD_SEED.provinces.map((province) => [province.id, province.neighbors]))
-  ), []);
+    new Map<number, number[]>(worldSeed.provinces.map((province) => [province.id, province.neighbors]))
+  ), [worldSeed]);
   const stateNameById = useMemo(() => (
-    new Map<number, string>(WORLD_SEED.states.map((state) => [state.id, state.name]))
-  ), []);
+    new Map<number, string>(worldSeed.states.map((state) => [state.id, state.name]))
+  ), [worldSeed]);
 
   const nations = snapshot?.nations;
   const provinces = snapshot?.provinces;

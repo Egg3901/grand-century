@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "1914-07-28",
+  "title": "The July Crisis",
+  "startDate": {
+    "year": 1914,
+    "month": 7,
+    "day": 28
+  },
+  "status": "preview",
+  "summary": "An exact-date preview seed for alliance warfare, mobilization, blockade, and mass politics.",
+  "visualPolicy": {
+    "naziImagery": "prohibited"
+  }
+}

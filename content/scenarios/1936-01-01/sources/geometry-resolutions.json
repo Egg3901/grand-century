@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1936-01-01",
+  "resolutions": [
+    {
+      "relationId": 2694422,
+      "action": "skip_nonexclusive",
+      "reason": "This is a Soviet-Finnish boundary fragment, not an owner polygon."
+    },
+    {
+      "relationId": 2694424,
+      "action": "skip_nonexclusive",
+      "reason": "This is a Soviet-Finnish boundary fragment, not an owner polygon."
+    },
+    {
+      "relationId": 2694430,
+      "action": "skip_nonexclusive",
+      "reason": "This is a Soviet-Finnish boundary fragment, not an owner polygon."
+    },
+    {
+      "relationId": 2695633,
+      "action": "close_outer_chain",
+      "maxGapDegrees": 0.01,
+      "reason": "The Hungarian polygon has one sub-kilometer endpoint gap. The compiler closes it and records the repair."
+    }
+  ]
+}

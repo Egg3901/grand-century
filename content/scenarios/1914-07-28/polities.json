@@ -1,0 +1,2593 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1914-07-28",
+  "coverage": "vertical_slice",
+  "polities": [
+    {
+      "key": "ADEN_PROTECTORATE",
+      "displayName": "Aden Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "ADEN_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2921507
+        }
+      ]
+    },
+    {
+      "key": "AFRIQUE_EQUATORIALE_FRANCAISE",
+      "displayName": "Afrique équatoriale française",
+      "status": "vassal",
+      "flagAssetTag": "AFRIQUE_EQUATORIALE_FRANCAISE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2840000
+        }
+      ]
+    },
+    {
+      "key": "ALGERIE_FRANCAISE",
+      "displayName": "Algérie française",
+      "status": "vassal",
+      "flagAssetTag": "ALGERIE_FRANCAISE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690948
+        }
+      ]
+    },
+    {
+      "key": "ANDORRA",
+      "displayName": "Andorra",
+      "status": "sovereign",
+      "flagAssetTag": "ANDORRA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2739874
+        }
+      ]
+    },
+    {
+      "key": "ANGLO_EGYPTIAN_SUDAN",
+      "displayName": "Anglo-Egyptian Sudan",
+      "status": "vassal",
+      "flagAssetTag": "ANGLO_EGYPTIAN_SUDAN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2926749
+        }
+      ]
+    },
+    {
+      "key": "ARGENTINA",
+      "displayName": "Argentina",
+      "status": "sovereign",
+      "flagAssetTag": "ARGENTINA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860947
+        }
+      ]
+    },
+    {
+      "key": "ASHANTI_COLONY",
+      "displayName": "Ashanti Colony",
+      "status": "vassal",
+      "flagAssetTag": "ASHANTI_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923088
+        }
+      ]
+    },
+    {
+      "key": "AUSTRALIA",
+      "displayName": "Commonwealth of Australia",
+      "status": "vassal",
+      "flagAssetTag": "AUSTRALIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828359
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2846174
+        }
+      ]
+    },
+    {
+      "key": "BECHUANALAND_PROTECTORATE",
+      "displayName": "Bechuanaland Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "BECHUANALAND_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691745
+        }
+      ]
+    },
+    {
+      "key": "BELGIQUE",
+      "displayName": "Belgique",
+      "status": "sovereign",
+      "flagAssetTag": "BELGIQUE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2797729
+        }
+      ]
+    },
+    {
+      "key": "BHUTAN",
+      "displayName": "Bhutan",
+      "status": "sovereign",
+      "flagAssetTag": "BHUTAN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2906073
+        }
+      ]
+    },
+    {
+      "key": "BOLIVIA",
+      "displayName": "Bolivia",
+      "status": "sovereign",
+      "flagAssetTag": "BOLIVIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848686
+        }
+      ]
+    },
+    {
+      "key": "BRASIL",
+      "displayName": "Brasil",
+      "status": "sovereign",
+      "flagAssetTag": "BRASIL",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2905001
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_CEYLON",
+      "displayName": "British Ceylon",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_CEYLON",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848313
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_CONCESSION_IN_TIANJIN",
+      "displayName": "British concession in Tianjin",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_CONCESSION_IN_TIANJIN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2901231
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_CYPRUS",
+      "displayName": "British Cyprus",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_CYPRUS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848135
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2848136
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_EAST_AFRICA",
+      "displayName": "British East Africa",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_EAST_AFRICA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831417
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_GUIANA",
+      "displayName": "British Guiana",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_GUIANA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806844
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_HONDURAS_COLONY",
+      "displayName": "British Honduras Colony",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_HONDURAS_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807603
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_HONG_KONG",
+      "displayName": "British Hong Kong",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_HONG_KONG",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694575
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_LEEWARD_ISLANDS",
+      "displayName": "British Leeward Islands",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_LEEWARD_ISLANDS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832972
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_MAURITIUS",
+      "displayName": "British Mauritius",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_MAURITIUS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831873
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_NORTH_BORNEO",
+      "displayName": "British North Borneo",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_NORTH_BORNEO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848286
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_RAJ",
+      "displayName": "British Raj",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_RAJ",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923715
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
+      "displayName": "British Solomon Islands Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831242
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_SOMALILAND",
+      "displayName": "British Somaliland",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_SOMALILAND",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2926848
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_WEIHAIWEI",
+      "displayName": "威海衛 British Weihaiwei",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_WEIHAIWEI",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848211
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "displayName": "British Western Pacific Territories",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846233
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_WINDWARD_ISLANDS",
+      "displayName": "British Windward Islands",
+      "status": "vassal",
+      "flagAssetTag": "BRITISH_WINDWARD_ISLANDS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834750
+        }
+      ]
+    },
+    {
+      "key": "CABINDA",
+      "displayName": "Cabinda",
+      "status": "vassal",
+      "flagAssetTag": "CABINDA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839750
+        }
+      ]
+    },
+    {
+      "key": "CANADA",
+      "displayName": "Canada",
+      "status": "vassal",
+      "flagAssetTag": "CANADA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831069
+        }
+      ]
+    },
+    {
+      "key": "CAYMAN_ISLANDS",
+      "displayName": "Cayman Islands",
+      "status": "vassal",
+      "flagAssetTag": "CAYMAN_ISLANDS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831970
+        }
+      ]
+    },
+    {
+      "key": "CHILE",
+      "displayName": "Chile",
+      "status": "sovereign",
+      "flagAssetTag": "CHILE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848843
+        }
+      ]
+    },
+    {
+      "key": "CIRENAICA_ITALIANA",
+      "displayName": "Cirenaica Italiana",
+      "status": "vassal",
+      "flagAssetTag": "CIRENAICA_ITALIANA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803190
+        }
+      ]
+    },
+    {
+      "key": "COLOMBIA",
+      "displayName": "Colombia",
+      "status": "sovereign",
+      "flagAssetTag": "COLOMBIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848976
+        }
+      ]
+    },
+    {
+      "key": "COLONIA_ERITREA",
+      "displayName": "Colonia Eritrea",
+      "status": "vassal",
+      "flagAssetTag": "COLONIA_ERITREA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690839
+        }
+      ]
+    },
+    {
+      "key": "COLONIE_DE_LA_GUADELOUPE",
+      "displayName": "Colonie de la Guadeloupe",
+      "status": "vassal",
+      "flagAssetTag": "COLONIE_DE_LA_GUADELOUPE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861172
+        }
+      ]
+    },
+    {
+      "key": "COLONIE_DE_LA_GUYANE",
+      "displayName": "Colonie de la Guyane",
+      "status": "vassal",
+      "flagAssetTag": "COLONIE_DE_LA_GUYANE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861194
+        }
+      ]
+    },
+    {
+      "key": "COLONIE_DE_MADAGASCAR_ET_DEPENDANCES",
+      "displayName": "French Madagascar",
+      "status": "vassal",
+      "flagAssetTag": "COLONIE_DE_MADAGASCAR_ET_DEPENDANCES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865795
+        }
+      ]
+    },
+    {
+      "key": "COLONIE_DU_GABON",
+      "displayName": "Colonie du Gabon",
+      "status": "vassal",
+      "flagAssetTag": "COLONIE_DU_GABON",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2840002
+        }
+      ]
+    },
+    {
+      "key": "COLONIE_DU_MOYEN_CONGO",
+      "displayName": "Colonie du Moyen-Congo",
+      "status": "vassal",
+      "flagAssetTag": "COLONIE_DU_MOYEN_CONGO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839974
+        }
+      ]
+    },
+    {
+      "key": "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+      "displayName": "Colonie du Oubangui-Chari-Tchad",
+      "status": "vassal",
+      "flagAssetTag": "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2918030
+        }
+      ]
+    },
+    {
+      "key": "COLONY_AND_PROTECTORATE_OF_NIGERIA",
+      "displayName": "Colony and Protectorate of Nigeria",
+      "status": "vassal",
+      "flagAssetTag": "COLONY_AND_PROTECTORATE_OF_NIGERIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690856
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_BARBADOS",
+      "displayName": "Colony of Barbados",
+      "status": "vassal",
+      "flagAssetTag": "COLONY_OF_BARBADOS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832944
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_BASUTOLAND",
+      "displayName": "Colony of Basutoland",
+      "status": "vassal",
+      "flagAssetTag": "COLONY_OF_BASUTOLAND",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691741
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_BERMUDA",
+      "displayName": "Colony of Bermuda",
+      "status": "vassal",
+      "flagAssetTag": "COLONY_OF_BERMUDA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831964
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_FIJI",
+      "displayName": "Colony of Fiji",
+      "status": "vassal",
+      "flagAssetTag": "COLONY_OF_FIJI",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846213
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_JAMAICA",
+      "displayName": "Colony of Jamaica",
+      "status": "vassal",
+      "flagAssetTag": "COLONY_OF_JAMAICA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834850
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_MALTA",
+      "displayName": "Colony of Malta",
+      "status": "vassal",
+      "flagAssetTag": "COLONY_OF_MALTA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801185
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_SEYCHELLES",
+      "displayName": "Colony of Seychelles",
+      "status": "vassal",
+      "flagAssetTag": "COLONY_OF_SEYCHELLES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831866
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_THE_BAHAMAS",
+      "displayName": "Colony of the Bahamas",
+      "status": "vassal",
+      "flagAssetTag": "COLONY_OF_THE_BAHAMAS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834851
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_THE_STRAITS_SETTLEMENT",
+      "displayName": "Colony of the Straits Settlement",
+      "status": "vassal",
+      "flagAssetTag": "COLONY_OF_THE_STRAITS_SETTLEMENT",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848278
+        }
+      ]
+    },
+    {
+      "key": "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND",
+      "displayName": "Commission Government of Newfoundland",
+      "status": "vassal",
+      "flagAssetTag": "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828507
+        }
+      ]
+    },
+    {
+      "key": "CONGO_BELGE",
+      "displayName": "Congo belge",
+      "status": "vassal",
+      "flagAssetTag": "CONGO_BELGE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690860
+        }
+      ]
+    },
+    {
+      "key": "COOK_ISLANDS",
+      "displayName": "Cook Islands",
+      "status": "vassal",
+      "flagAssetTag": "COOK_ISLANDS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846264
+        }
+      ]
+    },
+    {
+      "key": "COSTA_RICA",
+      "displayName": "Costa Rica",
+      "status": "sovereign",
+      "flagAssetTag": "COSTA_RICA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2808163
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 29,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "CUBA",
+      "displayName": "Cuba",
+      "status": "sovereign",
+      "flagAssetTag": "CUBA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861550
+        }
+      ]
+    },
+    {
+      "key": "DANMARK",
+      "displayName": "Danmark",
+      "status": "sovereign",
+      "flagAssetTag": "DANMARK",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2869935
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 7,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "DANSK_VESTINDIEN",
+      "displayName": "Dansk Vestindien",
+      "status": "vassal",
+      "flagAssetTag": "DANSK_VESTINDIEN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2696415
+        }
+      ]
+    },
+    {
+      "key": "DEUTSCH_NEUGUINEA",
+      "displayName": "Deutsch-Neuguinea",
+      "status": "vassal",
+      "flagAssetTag": "DEUTSCH_NEUGUINEA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889769
+        }
+      ]
+    },
+    {
+      "key": "DEUTSCH_OSTAFRIKA",
+      "displayName": "Deutsch-Ostafrika",
+      "status": "vassal",
+      "flagAssetTag": "DEUTSCH_OSTAFRIKA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2863617
+        }
+      ]
+    },
+    {
+      "key": "DEUTSCH_SUDWESTAFRIKA",
+      "displayName": "Deutsch-Südwestafrika",
+      "status": "vassal",
+      "flagAssetTag": "DEUTSCH_SUDWESTAFRIKA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2840010
+        }
+      ]
+    },
+    {
+      "key": "DEUTSCHE_KOLONIE_TOGO",
+      "displayName": "Deutsche Kolonie Togo",
+      "status": "vassal",
+      "flagAssetTag": "DEUTSCHE_KOLONIE_TOGO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691472
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2694162
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2828418
+        }
+      ]
+    },
+    {
+      "key": "DEUTSCHES_REICH",
+      "displayName": "Deutsches Reich",
+      "status": "sovereign",
+      "flagAssetTag": "DEUTSCHES_REICH",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692425
+        }
+      ]
+    },
+    {
+      "key": "DOMINION_OF_NEW_ZEALAND",
+      "displayName": "Dominion of New Zealand",
+      "status": "vassal",
+      "flagAssetTag": "DOMINION_OF_NEW_ZEALAND",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801019
+        }
+      ]
+    },
+    {
+      "key": "DUTCH_EAST_INDIES",
+      "displayName": "Dutch East Indies",
+      "status": "vassal",
+      "flagAssetTag": "DUTCH_EAST_INDIES",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2864434
+        }
+      ]
+    },
+    {
+      "key": "ECUADOR",
+      "displayName": "Ecuador",
+      "status": "sovereign",
+      "flagAssetTag": "ECUADOR",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848860
+        }
+      ]
+    },
+    {
+      "key": "EL_SALVADOR",
+      "displayName": "El Salvador",
+      "status": "sovereign",
+      "flagAssetTag": "EL_SALVADOR",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2808164
+        }
+      ]
+    },
+    {
+      "key": "EMIRATE_OF_AFGHANISTAN",
+      "displayName": "Emirate of Afghanistan",
+      "status": "sovereign",
+      "flagAssetTag": "EMIRATE_OF_AFGHANISTAN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2822864
+        }
+      ]
+    },
+    {
+      "key": "EMIRATE_OF_BUKHARA",
+      "displayName": "Emirate of Bukhara",
+      "status": "vassal",
+      "flagAssetTag": "EMIRATE_OF_BUKHARA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851360
+        }
+      ]
+    },
+    {
+      "key": "EMIRATE_OF_JABAL_SHAMMAR",
+      "displayName": "Emirate of Jabal Shammar",
+      "status": "sovereign",
+      "flagAssetTag": "EMIRATE_OF_JABAL_SHAMMAR",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 24,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "EMIRATE_OF_NEJD",
+      "displayName": "Emirate of Nejd",
+      "status": "sovereign",
+      "flagAssetTag": "EMIRATE_OF_NEJD",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 55,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "EMPIRE_OF_JAPAN",
+      "displayName": "Empire of Japan",
+      "status": "sovereign",
+      "flagAssetTag": "EMPIRE_OF_JAPAN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694484
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 42,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "ESTADOS_UNIDOS_DE_VENEZUELA",
+      "displayName": "Estados Unidos de Venezuela",
+      "status": "sovereign",
+      "flagAssetTag": "ESTADOS_UNIDOS_DE_VENEZUELA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2842571
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 22,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
+      "displayName": "Établissements français de l'Océani",
+      "status": "vassal",
+      "flagAssetTag": "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876346
+        }
+      ]
+    },
+    {
+      "key": "ETHIOPIAN_EMPIRE",
+      "displayName": "መንግሥተ ኢትዮጵያ",
+      "status": "sovereign",
+      "flagAssetTag": "ETHIOPIAN_EMPIRE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690843
+        }
+      ]
+    },
+    {
+      "key": "FEDERATED_MALAY_STATES",
+      "displayName": "Federated Malay States",
+      "status": "vassal",
+      "flagAssetTag": "FEDERATED_MALAY_STATES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848459
+        }
+      ]
+    },
+    {
+      "key": "FRENCH_MOROCCO",
+      "displayName": "French Morocco",
+      "status": "vassal",
+      "flagAssetTag": "FRENCH_MOROCCO",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2866016
+        }
+      ]
+    },
+    {
+      "key": "FRENCH_SOMALILAND",
+      "displayName": "French Somaliland",
+      "status": "vassal",
+      "flagAssetTag": "FRENCH_SOMALILAND",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803437
+        }
+      ]
+    },
+    {
+      "key": "FRENCH_THIRD_REPUBLIC",
+      "displayName": "French Third Republic",
+      "status": "sovereign",
+      "flagAssetTag": "FRENCH_THIRD_REPUBLIC",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2866012
+        }
+      ]
+    },
+    {
+      "key": "FRENCH_WEST_AFRICA",
+      "displayName": "French West Africa",
+      "status": "vassal",
+      "flagAssetTag": "FRENCH_WEST_AFRICA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917206
+        }
+      ]
+    },
+    {
+      "key": "GAMBIA_COLONY_AND_PROTECTORATE",
+      "displayName": "Gambia Colony and Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "GAMBIA_COLONY_AND_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803502
+        }
+      ]
+    },
+    {
+      "key": "GIBRALTAR",
+      "displayName": "Gibraltar",
+      "status": "vassal",
+      "flagAssetTag": "GIBRALTAR",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692855
+        }
+      ]
+    },
+    {
+      "key": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+      "displayName": "Gilbert and Ellice Islands Colony",
+      "status": "vassal",
+      "flagAssetTag": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831184
+        }
+      ]
+    },
+    {
+      "key": "GOA_PORTUGUESA",
+      "displayName": "Goa Portuguesa",
+      "status": "vassal",
+      "flagAssetTag": "GOA_PORTUGUESA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922053
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922074
+        }
+      ]
+    },
+    {
+      "key": "GOLD_COAST_COLONY",
+      "displayName": "Gold Coast Colony",
+      "status": "vassal",
+      "flagAssetTag": "GOLD_COAST_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828425
+        }
+      ]
+    },
+    {
+      "key": "GREENLAND",
+      "displayName": "Greenland",
+      "status": "vassal",
+      "flagAssetTag": "GREENLAND",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 38,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "GUANGZHOUWAN",
+      "displayName": "Guangzhouwan",
+      "status": "vassal",
+      "flagAssetTag": "GUANGZHOUWAN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889933
+        }
+      ]
+    },
+    {
+      "key": "GUATEMALA",
+      "displayName": "Guatemala",
+      "status": "sovereign",
+      "flagAssetTag": "GUATEMALA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2859573
+        }
+      ]
+    },
+    {
+      "key": "GUERNSEY",
+      "displayName": "Guernsey",
+      "status": "vassal",
+      "flagAssetTag": "GUERNSEY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828270
+        }
+      ]
+    },
+    {
+      "key": "GUINE_PORTUGUESA",
+      "displayName": "Guiné Portuguesa",
+      "status": "vassal",
+      "flagAssetTag": "GUINE_PORTUGUESA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803504
+        }
+      ]
+    },
+    {
+      "key": "HAUT_SENEGAL_ET_NIGER",
+      "displayName": "Haut-Sénégal et Niger",
+      "status": "vassal",
+      "flagAssetTag": "HAUT_SENEGAL_ET_NIGER",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917202
+        }
+      ]
+    },
+    {
+      "key": "HONDURAS",
+      "displayName": "Honduras",
+      "status": "sovereign",
+      "flagAssetTag": "HONDURAS",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2808172
+        }
+      ]
+    },
+    {
+      "key": "IFNI",
+      "displayName": "Ifni",
+      "status": "vassal",
+      "flagAssetTag": "IFNI",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2805384
+        }
+      ]
+    },
+    {
+      "key": "IRAN",
+      "displayName": "Iran",
+      "status": "sovereign",
+      "flagAssetTag": "IRAN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694889
+        }
+      ]
+    },
+    {
+      "key": "ISLE_OF_MAN",
+      "displayName": "Isle of Man",
+      "status": "constituent",
+      "flagAssetTag": "ISLE_OF_MAN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2693293
+        }
+      ]
+    },
+    {
+      "key": "ITALIA",
+      "displayName": "Italia",
+      "status": "sovereign",
+      "flagAssetTag": "ITALIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2696424
+        }
+      ]
+    },
+    {
+      "key": "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+      "displayName": "Italian Islands of the Aegean",
+      "status": "vassal",
+      "flagAssetTag": "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830316
+        }
+      ]
+    },
+    {
+      "key": "JERSEY",
+      "displayName": "Jersey",
+      "status": "vassal",
+      "flagAssetTag": "JERSEY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828299
+        }
+      ]
+    },
+    {
+      "key": "JOHORE_PROTECTORATE",
+      "displayName": "Johore Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "JOHORE_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848476
+        }
+      ]
+    },
+    {
+      "key": "KAMERUN",
+      "displayName": "Kamerun",
+      "status": "vassal",
+      "flagAssetTag": "KAMERUN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828752
+        }
+      ]
+    },
+    {
+      "key": "KEDAH_PROTECTORATE",
+      "displayName": "Kedah Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "KEDAH_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848479
+        }
+      ]
+    },
+    {
+      "key": "KELANTAN_PROTECTORATE",
+      "displayName": "Kelantan Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "KELANTAN_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848477
+        }
+      ]
+    },
+    {
+      "key": "KHANATE_OF_KHIVA",
+      "displayName": "خیوه خانلیگی",
+      "status": "sovereign",
+      "flagAssetTag": "KHANATE_OF_KHIVA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851348
+        }
+      ]
+    },
+    {
+      "key": "KIAUTSCHOU_BAY_CONCESSION",
+      "displayName": "Kiautschou Bay Concession",
+      "status": "vassal",
+      "flagAssetTag": "KIAUTSCHOU_BAY_CONCESSION",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889899
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_BULGARIA",
+      "displayName": "Kingdom of Bulgaria",
+      "status": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_BULGARIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2746680
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 58,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_GREECE",
+      "displayName": "Kingdom of Greece",
+      "status": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_GREECE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 57,
+          "source": "cliopatria-0.2.0"
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2692585
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_MONTENEGRO",
+      "displayName": "Краљевина Црна Горa",
+      "status": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_MONTENEGRO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2739656
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_NEPAL",
+      "displayName": "Kingdom of Nepal",
+      "status": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_NEPAL",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2893390
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_ROMANIA",
+      "displayName": "Kingdom of Romania",
+      "status": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_ROMANIA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2693260
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_SERBIA",
+      "displayName": "Краљевина Србија",
+      "status": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_SERBIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2746681
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_TRAVANCORE",
+      "displayName": "Kingdom of Travancore",
+      "status": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_TRAVANCORE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922413
+        }
+      ]
+    },
+    {
+      "key": "KONINKRIJK_DER_NEDERLANDEN",
+      "displayName": "Koninkrijk der Nederlanden",
+      "status": "sovereign",
+      "flagAssetTag": "KONINKRIJK_DER_NEDERLANDEN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2883430
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 6,
+          "source": "cliopatria-0.2.0"
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 72,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "LETZEBUERG",
+      "displayName": "Lëtzebuerg",
+      "status": "sovereign",
+      "flagAssetTag": "LETZEBUERG",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2748545
+        }
+      ]
+    },
+    {
+      "key": "LIBERIA",
+      "displayName": "Liberia",
+      "status": "sovereign",
+      "flagAssetTag": "LIBERIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828769
+        }
+      ]
+    },
+    {
+      "key": "LIECHTENSTEIN",
+      "displayName": "Liechtenstein",
+      "status": "sovereign",
+      "flagAssetTag": "LIECHTENSTEIN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2746467
+        }
+      ]
+    },
+    {
+      "key": "LUXEMBOURG",
+      "displayName": "Luxembourg",
+      "status": "sovereign",
+      "flagAssetTag": "LUXEMBOURG",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 14,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "MAJEERTEEN_SULTANATE",
+      "displayName": "Majeerteen Sultanate",
+      "status": "sovereign",
+      "flagAssetTag": "MAJEERTEEN_SULTANATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923109
+        }
+      ]
+    },
+    {
+      "key": "MALDIVES_PROTECTORATE",
+      "displayName": "Maldives Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "MALDIVES_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848182
+        }
+      ]
+    },
+    {
+      "key": "MEXICO",
+      "displayName": "México",
+      "status": "sovereign",
+      "flagAssetTag": "MEXICO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841937
+        }
+      ]
+    },
+    {
+      "key": "MONACO",
+      "displayName": "Monaco",
+      "status": "sovereign",
+      "flagAssetTag": "MONACO",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2693418
+        }
+      ]
+    },
+    {
+      "key": "MUSCAT_AND_OMAN",
+      "displayName": "Muscat and Oman",
+      "status": "sovereign",
+      "flagAssetTag": "MUSCAT_AND_OMAN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2905974
+        }
+      ]
+    },
+    {
+      "key": "NAURU",
+      "displayName": "Nauru",
+      "status": "vassal",
+      "flagAssetTag": "NAURU",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846178
+        }
+      ]
+    },
+    {
+      "key": "NETHERLANDS_ANTILLES",
+      "displayName": "Netherlands Antilles",
+      "status": "vassal",
+      "flagAssetTag": "NETHERLANDS_ANTILLES",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 11,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+      "displayName": "New Hebrides / Nouvelles-Hébrides",
+      "status": "vassal",
+      "flagAssetTag": "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846175
+        }
+      ]
+    },
+    {
+      "key": "NICARAGUA",
+      "displayName": "Nicaragua",
+      "status": "sovereign",
+      "flagAssetTag": "NICARAGUA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2871201
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 19,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "NORTHERN_RHODESIA",
+      "displayName": "Northern Rhodesia",
+      "status": "vassal",
+      "flagAssetTag": "NORTHERN_RHODESIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691743
+        }
+      ]
+    },
+    {
+      "key": "NORTHERN_TERRITORIES",
+      "displayName": "Northern Territories",
+      "status": "vassal",
+      "flagAssetTag": "NORTHERN_TERRITORIES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828423
+        }
+      ]
+    },
+    {
+      "key": "NORWAY",
+      "displayName": "Norway",
+      "status": "sovereign",
+      "flagAssetTag": "NORWAY",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692537
+        }
+      ]
+    },
+    {
+      "key": "NOUVELLE_CALEDONIE",
+      "displayName": "Nouvelle-Calédonie",
+      "status": "vassal",
+      "flagAssetTag": "NOUVELLE_CALEDONIE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876367
+        }
+      ]
+    },
+    {
+      "key": "NYASALAND",
+      "displayName": "Nyasaland",
+      "status": "vassal",
+      "flagAssetTag": "NYASALAND",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803134
+        }
+      ]
+    },
+    {
+      "key": "OSTERREICH_UNGARN_AUSZTRIA_MAGYARORSZAG",
+      "displayName": "Österreich-Ungarn / Ausztria-Magyarország",
+      "status": "sovereign",
+      "flagAssetTag": "OSTERREICH_UNGARN_AUSZTRIA_MAGYARORSZAG",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692361
+        }
+      ]
+    },
+    {
+      "key": "OTTOMAN_EMPIRE",
+      "displayName": "دولتْ علیّه عثمانیّه",
+      "status": "sovereign",
+      "flagAssetTag": "OTTOMAN_EMPIRE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2849728
+        }
+      ]
+    },
+    {
+      "key": "PANAMA",
+      "displayName": "Panamá",
+      "status": "sovereign",
+      "flagAssetTag": "PANAMA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2873307
+        }
+      ]
+    },
+    {
+      "key": "PARAGUAY",
+      "displayName": "Paraguay",
+      "status": "sovereign",
+      "flagAssetTag": "PARAGUAY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2863122
+        }
+      ]
+    },
+    {
+      "key": "PERLIS_PROTECTORATE",
+      "displayName": "Perlis Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "PERLIS_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848480
+        }
+      ]
+    },
+    {
+      "key": "PERU",
+      "displayName": "Perú",
+      "status": "sovereign",
+      "flagAssetTag": "PERU",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2905000
+        }
+      ]
+    },
+    {
+      "key": "PITCAIRN_ISLANDS",
+      "displayName": "Pitcairn Islands",
+      "status": "vassal",
+      "flagAssetTag": "PITCAIRN_ISLANDS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846172
+        }
+      ]
+    },
+    {
+      "key": "PORTUGAL",
+      "displayName": "Portugal",
+      "status": "sovereign",
+      "flagAssetTag": "PORTUGAL",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807009
+        }
+      ]
+    },
+    {
+      "key": "PORTUGUESE_MACAU",
+      "displayName": "Portuguese Macau",
+      "status": "vassal",
+      "flagAssetTag": "PORTUGUESE_MACAU",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694462
+        }
+      ]
+    },
+    {
+      "key": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "displayName": "Portuguese São Tomé and Príncipe",
+      "status": "vassal",
+      "flagAssetTag": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2885981
+        }
+      ]
+    },
+    {
+      "key": "PORTUGUESE_TIMOR",
+      "displayName": "Portuguese Timor",
+      "status": "vassal",
+      "flagAssetTag": "PORTUGUESE_TIMOR",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2864414
+        }
+      ]
+    },
+    {
+      "key": "PRINCIPALITY_OF_ALBANIA",
+      "displayName": "Principality of Albania",
+      "status": "sovereign",
+      "flagAssetTag": "PRINCIPALITY_OF_ALBANIA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2855613
+        }
+      ]
+    },
+    {
+      "key": "PROTECTORAT_DE_LA_MAURITANIE",
+      "displayName": "Protectorat de la Mauritanie",
+      "status": "vassal",
+      "flagAssetTag": "PROTECTORAT_DE_LA_MAURITANIE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917211
+        }
+      ]
+    },
+    {
+      "key": "PROTECTORAT_FRANCAIS_DE_TUNISIE",
+      "displayName": "Protectorat français de Tunisie",
+      "status": "vassal",
+      "flagAssetTag": "PROTECTORAT_FRANCAIS_DE_TUNISIE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690947
+        }
+      ]
+    },
+    {
+      "key": "PROTECTORATE_OF_AFGHANISTAN",
+      "displayName": "Protectorate of Afghanistan",
+      "status": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_AFGHANISTAN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848338
+        }
+      ]
+    },
+    {
+      "key": "PROTECTORATE_OF_BAHRAIN",
+      "displayName": "Protectorate of Bahrain",
+      "status": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_BAHRAIN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848318
+        }
+      ]
+    },
+    {
+      "key": "PROTECTORATE_OF_BRUNEI",
+      "displayName": "Protectorate of Brunei",
+      "status": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_BRUNEI",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848297
+        }
+      ]
+    },
+    {
+      "key": "PROTECTORATE_OF_KUWAIT",
+      "displayName": "Protectorate of Kuwait",
+      "status": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_KUWAIT",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848364
+        }
+      ]
+    },
+    {
+      "key": "PROTECTORATE_OF_SARAWAK",
+      "displayName": "Protectorate of Sarawak",
+      "status": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_SARAWAK",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848299
+        }
+      ]
+    },
+    {
+      "key": "PROTECTORATE_OF_TONGA",
+      "displayName": "Protectorate of Tonga",
+      "status": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_TONGA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846200
+        }
+      ]
+    },
+    {
+      "key": "PROTECTORATE_OF_UGANDA",
+      "displayName": "Protectorate of Uganda",
+      "status": "vassal",
+      "flagAssetTag": "PROTECTORATE_OF_UGANDA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2695210
+        }
+      ]
+    },
+    {
+      "key": "PROVINCIA_DE_MOCAMBIQUE",
+      "displayName": "Província de Moçambique",
+      "status": "vassal",
+      "flagAssetTag": "PROVINCIA_DE_MOCAMBIQUE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690864
+        }
+      ]
+    },
+    {
+      "key": "REPUBLIC_OF_CHINA",
+      "displayName": "Republic of China",
+      "status": "sovereign",
+      "flagAssetTag": "REPUBLIC_OF_CHINA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 73,
+          "source": "cliopatria-0.2.0"
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2694664
+        }
+      ]
+    },
+    {
+      "key": "REPUBLICA_DOMINICANA",
+      "displayName": "República Dominicana",
+      "status": "sovereign",
+      "flagAssetTag": "REPUBLICA_DOMINICANA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841713
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 3,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "REPUBLIQUE_D_HAITI",
+      "displayName": "République d'Haïti",
+      "status": "sovereign",
+      "flagAssetTag": "REPUBLIQUE_D_HAITI",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841719
+        }
+      ]
+    },
+    {
+      "key": "REUNION",
+      "displayName": "Reunion",
+      "status": "vassal",
+      "flagAssetTag": "REUNION",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865901
+        }
+      ]
+    },
+    {
+      "key": "RIO_DE_ORO",
+      "displayName": "Rio de Oro",
+      "status": "vassal",
+      "flagAssetTag": "RIO_DE_ORO",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860429
+        }
+      ]
+    },
+    {
+      "key": "RUSSIAN_EMPIRE",
+      "displayName": "Российская империя",
+      "status": "sovereign",
+      "flagAssetTag": "RUSSIAN_EMPIRE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851294
+        }
+      ]
+    },
+    {
+      "key": "SAGUIA_EL_HAMRA",
+      "displayName": "Saguia el-Hamra",
+      "status": "vassal",
+      "flagAssetTag": "SAGUIA_EL_HAMRA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860428
+        }
+      ]
+    },
+    {
+      "key": "SAINT_HELENA_CROWN_COLONY",
+      "displayName": "Saint Helena Crown Colony",
+      "status": "vassal",
+      "flagAssetTag": "SAINT_HELENA_CROWN_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848195
+        }
+      ]
+    },
+    {
+      "key": "SAINT_PIERRE_ET_MIQUELON",
+      "displayName": "Saint-Pierre et Miquelon",
+      "status": "vassal",
+      "flagAssetTag": "SAINT_PIERRE_ET_MIQUELON",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831312
+        }
+      ]
+    },
+    {
+      "key": "SAN_MARINO",
+      "displayName": "San Marino",
+      "status": "sovereign",
+      "flagAssetTag": "SAN_MARINO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2853735
+        }
+      ]
+    },
+    {
+      "key": "SECOND_SPANISH_REPUBLIC",
+      "displayName": "Second Spanish Republic",
+      "status": "sovereign",
+      "flagAssetTag": "SECOND_SPANISH_REPUBLIC",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860486
+        }
+      ]
+    },
+    {
+      "key": "SIAM",
+      "displayName": "Siam",
+      "status": "sovereign",
+      "flagAssetTag": "SIAM",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2874871
+        }
+      ]
+    },
+    {
+      "key": "SIERRA_LEONE_PROTECTORATE",
+      "displayName": "Sierra Leone Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "SIERRA_LEONE_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828774
+        }
+      ]
+    },
+    {
+      "key": "SIIN",
+      "displayName": "Siin",
+      "status": "sovereign",
+      "flagAssetTag": "SIIN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879275
+        }
+      ]
+    },
+    {
+      "key": "SOMALIA_ITALIANA",
+      "displayName": "Somalia italiana",
+      "status": "vassal",
+      "flagAssetTag": "SOMALIA_ITALIANA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923095
+        }
+      ]
+    },
+    {
+      "key": "SOUTHERN_RHODESIA",
+      "displayName": "Southern Rhodesia",
+      "status": "vassal",
+      "flagAssetTag": "SOUTHERN_RHODESIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831468
+        }
+      ]
+    },
+    {
+      "key": "SPANISH_GUINEA",
+      "displayName": "Spanish Guinea",
+      "status": "vassal",
+      "flagAssetTag": "SPANISH_GUINEA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860389
+        }
+      ]
+    },
+    {
+      "key": "SPANISH_MOROCCO",
+      "displayName": "Spanish Morocco",
+      "status": "vassal",
+      "flagAssetTag": "SPANISH_MOROCCO",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860424
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_HOBYO",
+      "displayName": "𐒈𐒚𐒐𐒆𐒖𐒒𐒖𐒊𐒖 𐒔𐒙𐒁𐒕𐒙",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_HOBYO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923111
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_LAHEJ",
+      "displayName": "Sultanate of Lahej",
+      "status": "vassal",
+      "flagAssetTag": "SULTANATE_OF_LAHEJ",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2921515
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_SULU",
+      "displayName": "Sultanate of Sulu",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_SULU",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860768
+        }
+      ]
+    },
+    {
+      "key": "SVERIGE",
+      "displayName": "Sverige",
+      "status": "sovereign",
+      "flagAssetTag": "SVERIGE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692524
+        }
+      ]
+    },
+    {
+      "key": "SWAZILAND_PROTECTORATE",
+      "displayName": "Swaziland Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "SWAZILAND_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691746
+        }
+      ]
+    },
+    {
+      "key": "SWITZERLAND",
+      "displayName": "Switzerland",
+      "status": "sovereign",
+      "flagAssetTag": "SWITZERLAND",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2798802
+        }
+      ]
+    },
+    {
+      "key": "TANNU_URIANKHAI",
+      "displayName": "Tannu Uriankhai",
+      "status": "sovereign",
+      "flagAssetTag": "TANNU_URIANKHAI",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851295
+        }
+      ]
+    },
+    {
+      "key": "TIBET",
+      "displayName": "Tibet",
+      "status": "sovereign",
+      "flagAssetTag": "TIBET",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828810
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 75,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "TOKELAU_ISLANDS_PROTECTORATE",
+      "displayName": "Tokelau Islands Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "TOKELAU_ISLANDS_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831185
+        }
+      ]
+    },
+    {
+      "key": "TRENGGANU_PROTECTORATE",
+      "displayName": "Trengganu Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "TRENGGANU_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848478
+        }
+      ]
+    },
+    {
+      "key": "TRINIDAD_AND_TOBAGO_COLONY",
+      "displayName": "Trinidad and Tobago Colony",
+      "status": "vassal",
+      "flagAssetTag": "TRINIDAD_AND_TOBAGO_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834829
+        }
+      ]
+    },
+    {
+      "key": "TRIPOLITANIA_ITALIANA",
+      "displayName": "Tripolitania Italiana",
+      "status": "vassal",
+      "flagAssetTag": "TRIPOLITANIA_ITALIANA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690837
+        }
+      ]
+    },
+    {
+      "key": "TRUCIAL_STATES",
+      "displayName": "Trucial States",
+      "status": "vassal",
+      "flagAssetTag": "TRUCIAL_STATES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848320
+        }
+      ]
+    },
+    {
+      "key": "UNION_INDOCHINOISE",
+      "displayName": "French Indochina",
+      "status": "vassal",
+      "flagAssetTag": "UNION_INDOCHINOISE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745674
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 36,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "UNION_OF_SOUTH_AFRICA",
+      "displayName": "Union of South Africa",
+      "status": "vassal",
+      "flagAssetTag": "UNION_OF_SOUTH_AFRICA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691747
+        }
+      ]
+    },
+    {
+      "key": "UNITED_KINGDOM",
+      "displayName": "United Kingdom of Great Britain and Ireland",
+      "status": "sovereign",
+      "flagAssetTag": "UNITED_KINGDOM",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828388
+        }
+      ]
+    },
+    {
+      "key": "UNITED_STATES",
+      "displayName": "United States",
+      "status": "sovereign",
+      "flagAssetTag": "UNITED_STATES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2873299
+        }
+      ]
+    },
+    {
+      "key": "URUGUAY",
+      "displayName": "Uruguay",
+      "status": "sovereign",
+      "flagAssetTag": "URUGUAY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2802055
+        }
+      ]
+    },
+    {
+      "key": "US_PHILIPPINES",
+      "displayName": "US Philippines",
+      "status": "vassal",
+      "flagAssetTag": "US_PHILIPPINES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889835
+        }
+      ]
+    },
+    {
+      "key": "WITULAND",
+      "displayName": "Wituland",
+      "status": "vassal",
+      "flagAssetTag": "WITULAND",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831408
+        }
+      ]
+    },
+    {
+      "key": "ZANZIBAR_PROTECTORATE",
+      "displayName": "Zanzibar Protectorate",
+      "status": "vassal",
+      "flagAssetTag": "ZANZIBAR_PROTECTORATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690950
+        }
+      ]
+    }
+  ]
+}

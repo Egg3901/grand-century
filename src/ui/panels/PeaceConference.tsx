@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { WORLD_SEED } from '../../data/generated';
 import type { War } from '../../shared/types';
 import { useStore } from '../../store';
 import { useSnapshotFields } from '../useSnapshotFields';
+import { useScenarioWorldSeed } from '../useScenarioWorldSeed';
 
 interface PeaceConferenceProps {
   war: War;
@@ -53,12 +53,13 @@ function warGoalLabel(goal: War['goals'][number], stateNameById: Map<number, str
 }
 
 export function PeaceConference({ war }: PeaceConferenceProps) {
+  const worldSeed = useScenarioWorldSeed();
   const snapshot = useSnapshotFields(['nations', 'playerNation'] as const);
   const sendCommand = useStore((state) => state.sendCommand);
   const [selectedGoals, setSelectedGoals] = useState<number[]>([]);
   const stateNameById = useMemo(() => (
-    new Map<number, string>(WORLD_SEED.states.map((state) => [state.id, state.name]))
-  ), []);
+    new Map<number, string>(worldSeed.states.map((state) => [state.id, state.name]))
+  ), [worldSeed]);
 
   useEffect(() => {
     setSelectedGoals([]);

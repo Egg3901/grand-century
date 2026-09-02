@@ -1,0 +1,3012 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1815-06-18",
+  "candidates": [
+    {
+      "relationId": 2698260,
+      "identityKey": "Capitania-Geral de Moçambique, Sofala e Rios de Sena",
+      "name": "Capitania-Geral de Moçambique, Sofala e Rios de Sena",
+      "wikidata": null,
+      "startDate": "1752",
+      "endDate": "1835",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "colony_of": "Portugal"
+      }
+    },
+    {
+      "relationId": 2803504,
+      "identityKey": "Guiné Portuguesa",
+      "name": "Guiné Portuguesa",
+      "wikidata": null,
+      "startDate": "1800",
+      "endDate": "1973-09-24",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "colony_of": "Portugal",
+        "source": "Hammond's Atlas of the Modern World, 1917",
+        "wikipedia": "en:Portuguese Guinea"
+      }
+    },
+    {
+      "relationId": 2698293,
+      "identityKey": "Hohenzollern-Hechingen",
+      "name": "Hohenzollern-Hechingen",
+      "wikidata": null,
+      "startDate": "1806-08-06",
+      "endDate": "1850-03-12",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2694607,
+      "identityKey": "Hohenzollern-Sigmaringen",
+      "name": "Hohenzollern-Sigmaringen",
+      "wikidata": null,
+      "startDate": "1806",
+      "endDate": "1850-03-12",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2694888,
+      "identityKey": "Iran",
+      "name": "Iran",
+      "wikidata": null,
+      "startDate": "1813-10-24",
+      "endDate": "1828-02-22",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2890079,
+      "identityKey": "ohm:relation:2890079",
+      "name": null,
+      "wikidata": null,
+      "startDate": "1612",
+      "endDate": "1872-09-13",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Ryukyu Kingdom"
+      }
+    },
+    {
+      "relationId": 2841619,
+      "identityKey": "Provincias Internas",
+      "name": "Provincias Internas",
+      "wikidata": null,
+      "startDate": "1812",
+      "endDate": "1821-02-22",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "captaincy_general"
+      }
+    },
+    {
+      "relationId": 2842583,
+      "identityKey": "Q10463",
+      "name": "Capitanía General de Venezuela",
+      "wikidata": "Q10463",
+      "startDate": "1814-07-16",
+      "endDate": "1817-07-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "captaincy_general",
+        "wikipedia": "en:Captaincy General of Venezuela"
+      }
+    },
+    {
+      "relationId": 2879282,
+      "identityKey": "Q1052040",
+      "name": "Kajoor",
+      "wikidata": "Q1052040",
+      "startDate": "1756",
+      "endDate": "1886",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom"
+      }
+    },
+    {
+      "relationId": 2856441,
+      "identityKey": "Q1055",
+      "name": "Freie und Hansestadt Hamburg",
+      "wikidata": "Q1055",
+      "startDate": "1815-06-09",
+      "endDate": "1867-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "city",
+        "wikipedia": "de:Geschichte Hamburgs"
+      }
+    },
+    {
+      "relationId": 2865803,
+      "identityKey": "Q1071439",
+      "name": "Fanjakan'Imerina",
+      "wikidata": "Q1071439",
+      "startDate": "1750",
+      "endDate": "1885-12-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country"
+      }
+    },
+    {
+      "relationId": 2830912,
+      "identityKey": "Q107457458",
+      "name": "Colony of Cape Breton",
+      "wikidata": "Q107457458",
+      "startDate": "1784",
+      "endDate": "1820",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Cape Breton Island"
+      }
+    },
+    {
+      "relationId": 2830930,
+      "identityKey": "Q107499350",
+      "name": "Colony of New Brunswick",
+      "wikidata": "Q107499350",
+      "startDate": "1784-06-18",
+      "endDate": "1842-08-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:New Brunswick"
+      }
+    },
+    {
+      "relationId": 2745639,
+      "identityKey": "Q10825475",
+      "name": "順城鎮",
+      "wikidata": "Q10825475",
+      "startDate": "1697",
+      "endDate": "1831",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Principality of Thuận Thành"
+      }
+    },
+    {
+      "relationId": 2830999,
+      "identityKey": "Q1134180",
+      "name": "Province of Lower Canada",
+      "wikidata": "Q1134180",
+      "startDate": "1791-12-26",
+      "endDate": "1841-02-10",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "province",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Lower Canada"
+      }
+    },
+    {
+      "relationId": 2834879,
+      "identityKey": "Q1155700",
+      "name": "Rattanakosin Kingdom Mandala",
+      "wikidata": "Q1155700",
+      "startDate": "1810-04",
+      "endDate": "1827",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Rattanakosin Kingdom (1782–1932)"
+      }
+    },
+    {
+      "relationId": 2834830,
+      "identityKey": "Q116288296",
+      "name": "Colony of Trinidad",
+      "wikidata": "Q116288296",
+      "startDate": "1797",
+      "endDate": "1889-10-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:History of Trinidad and Tobago"
+      }
+    },
+    {
+      "relationId": 2860719,
+      "identityKey": "Q11876909",
+      "name": "Estado do Brasil",
+      "wikidata": "Q11876909",
+      "startDate": "1777-10-01",
+      "endDate": "1815-12-16",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "state",
+        "wikipedia": "en:State of Brazil"
+      }
+    },
+    {
+      "relationId": 2863640,
+      "identityKey": "Q1192936",
+      "name": "Ubwami bw'Urundi",
+      "wikidata": "Q1192936",
+      "startDate": "1680",
+      "endDate": "1890-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Kingdom of Burundi"
+      }
+    },
+    {
+      "relationId": 2831875,
+      "identityKey": "Q12053604",
+      "name": "British Mauritius",
+      "wikidata": "Q12053604",
+      "startDate": "1810-12-03",
+      "endDate": "1903",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "crown colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:British Mauritius"
+      }
+    },
+    {
+      "relationId": 2691499,
+      "identityKey": "Q1209",
+      "name": "Bremen",
+      "wikidata": "Q1209",
+      "startDate": "1813",
+      "endDate": "1827",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Hannover%2C_Braunschweig%2C_Oldenburg_und_Bremen.jpg",
+        "wikipedia": "de:Freie Hansestadt Bremen"
+      }
+    },
+    {
+      "relationId": 2860392,
+      "identityKey": "Q1232509",
+      "name": "Posessiones Españoles del Golfo de Guinea",
+      "wikidata": "Q1232509",
+      "startDate": "1780",
+      "endDate": "1844",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2879807,
+      "identityKey": "Q124881664",
+      "name": "Niani",
+      "wikidata": "Q124881664",
+      "startDate": "1520",
+      "endDate": "1888",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom"
+      }
+    },
+    {
+      "relationId": 2746683,
+      "identityKey": "Q12560",
+      "name": "دولتْ علیّه عثمانیّه",
+      "wikidata": "Q12560",
+      "startDate": "1812-07-05",
+      "endDate": "1821-05",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "empire",
+        "country": "empire",
+        "wikipedia": "en:Ottoman Empire"
+      }
+    },
+    {
+      "relationId": 2861416,
+      "identityKey": "Q131429368",
+      "name": "السلطنة الشريفة",
+      "wikidata": "Q131429368",
+      "startDate": "1666",
+      "endDate": "1907-08-07",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://commons.wikimedia.org/wiki/File:North_Africa_or_Barbary_I,_Morocco_-_DPLA_-_1eba6eef43201f8cab6901ba48cceca3.jpg"
+      }
+    },
+    {
+      "relationId": 2661274,
+      "identityKey": "Q13816636",
+      "name": "Fürstentum Isenburg",
+      "wikidata": "Q13816636",
+      "startDate": "1806",
+      "endDate": "1815",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "country": "principality",
+        "wikipedia": "de:Fürstentum Isenburg (Rheinbund)"
+      }
+    },
+    {
+      "relationId": 2922445,
+      "identityKey": "Q139948",
+      "name": "Khanate of Kalat",
+      "wikidata": "Q139948",
+      "startDate": "1666",
+      "endDate": "1876",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "khanate"
+      }
+    },
+    {
+      "relationId": 2692855,
+      "identityKey": "Q1410",
+      "name": "Gibraltar",
+      "wikidata": "Q1410",
+      "startDate": "1713",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "overseas_territory",
+        "wikipedia": "en:Gibraltar"
+      }
+    },
+    {
+      "relationId": 2864416,
+      "identityKey": "Q142965",
+      "name": "Timor Português",
+      "wikidata": "Q142965",
+      "startDate": "1702",
+      "endDate": "1860-08-18",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Portuguese Timor"
+      }
+    },
+    {
+      "relationId": 2849532,
+      "identityKey": "Q1433867",
+      "name": "قزاق خاندیغی",
+      "wikidata": "Q1433867",
+      "startDate": "1520",
+      "endDate": "1847",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "khanate",
+        "wikipedia": "en:Kazakh Khanate"
+      }
+    },
+    {
+      "relationId": 2806794,
+      "identityKey": "Q14551680",
+      "name": "Lippe",
+      "wikidata": "Q14551680",
+      "startDate": "1806-08-06",
+      "endDate": "1867-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "principality",
+        "source": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Provinz_Westfalen_1905.png",
+        "wikipedia": "de:Fürstentum Lippe"
+      }
+    },
+    {
+      "relationId": 2879270,
+      "identityKey": "Q1471373",
+      "name": "Saluum",
+      "wikidata": "Q1471373",
+      "startDate": "1520",
+      "endDate": "1867",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Saloum"
+      }
+    },
+    {
+      "relationId": 2841726,
+      "identityKey": "Q1472105",
+      "name": "Royaume d'Haïti",
+      "wikidata": "Q1472105",
+      "startDate": "1811-03-28",
+      "endDate": "1820-10-08",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "kingdom",
+        "wikipedia": "en:Kingdom of Haiti"
+      }
+    },
+    {
+      "relationId": 2922413,
+      "identityKey": "Q150058",
+      "name": "Kingdom of Travancore",
+      "wikidata": "Q150058",
+      "startDate": "1795",
+      "endDate": "1947-08-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Travancore"
+      }
+    },
+    {
+      "relationId": 2834804,
+      "identityKey": "Q15238409",
+      "name": "Colony of Saint Lucia",
+      "wikidata": "Q15238409",
+      "startDate": "1803",
+      "endDate": "1833",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:History of Saint Lucia"
+      }
+    },
+    {
+      "relationId": 2693578,
+      "identityKey": "Q153015",
+      "name": "Königreich Sachsen",
+      "wikidata": "Q153015",
+      "startDate": "1815-06-09",
+      "endDate": "1845",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "country": "kingdom",
+        "wikipedia": "en:Kingdom of Saxony"
+      }
+    },
+    {
+      "relationId": 2696931,
+      "identityKey": "Q154849",
+      "name": "Granducato di Toscana",
+      "wikidata": "Q154849",
+      "startDate": "1815-06-09",
+      "endDate": "1847-12-17",
+      "license": "CC0-1.0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "grand_duchy",
+        "source": "https://commons.wikimedia.org/wiki/File:1853_Mitchell_Map_of_Northern_Italy",
+        "wikipedia": "en:Grand Duchy of Tuscany"
+      }
+    },
+    {
+      "relationId": 2840195,
+      "identityKey": "Q156418",
+      "name": "Ke Aupuni Hawaiʻi",
+      "wikidata": "Q156418",
+      "startDate": "1795",
+      "endDate": "1862-06-18",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Hawaiian Kingdom"
+      }
+    },
+    {
+      "relationId": 2696937,
+      "identityKey": "Q158290",
+      "name": "Ducato di Lucca",
+      "wikidata": "Q158290",
+      "startDate": "1815-06-09",
+      "endDate": "1847-12-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "duchy",
+        "wikipedia": "en:Duchy of Lucca"
+      }
+    },
+    {
+      "relationId": 2830658,
+      "identityKey": "Q158445",
+      "name": "Großherzogtum Mecklenburg-Schwerin",
+      "wikidata": "Q158445",
+      "startDate": "1815-06-14",
+      "endDate": "1867-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "grand_duchy",
+        "country": "grand_duchy"
+      }
+    },
+    {
+      "relationId": 2877455,
+      "identityKey": "Q15864",
+      "name": "Koningrijk der Nederlanden",
+      "wikidata": "Q15864",
+      "startDate": "1815-03-16",
+      "endDate": "1815-08-24",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:United Kingdom of the Netherlands"
+      }
+    },
+    {
+      "relationId": 2921509,
+      "identityKey": "Q1591062",
+      "name": "سلطنة الحواشب",
+      "wikidata": "Q1591062",
+      "startDate": "1750",
+      "endDate": "1895-08-06",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "sultanate",
+        "source": "https://en.wikipedia.org/wiki/Haushabi",
+        "wikipedia": "en:Haushabi"
+      }
+    },
+    {
+      "relationId": 2661271,
+      "identityKey": "Q159631",
+      "name": "Württemberg",
+      "wikidata": "Q159631",
+      "startDate": "1810",
+      "endDate": "1871-05-04",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "kingdom",
+        "country": "kingdom",
+        "wikipedia": "de:Königreich Württemberg"
+      }
+    },
+    {
+      "relationId": 2848839,
+      "identityKey": "Q1620773",
+      "name": "Capitania General de Chile",
+      "wikidata": "Q1620773",
+      "startDate": "1814-10-02",
+      "endDate": "1817-02-12",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "captaincy_general",
+        "wikipedia": "en:Reconquest (Chile)"
+      }
+    },
+    {
+      "relationId": 2745246,
+      "identityKey": "Q164079",
+      "name": "Hannover",
+      "wikidata": "Q164079",
+      "startDate": "1814-10-12",
+      "endDate": "1817",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "source": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Hannover%2C_Braunschweig%2C_Oldenburg_und_Bremen.jpg",
+        "wikipedia": "de:Königreich Hannover"
+      }
+    },
+    {
+      "relationId": 2748794,
+      "identityKey": "Q1643555",
+      "name": "British Settlements on the Bay of Honduras",
+      "wikidata": "Q1643555",
+      "startDate": "1786",
+      "endDate": "1841",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "territory",
+        "wikipedia": "en:British Honduras"
+      }
+    },
+    {
+      "relationId": 2696938,
+      "identityKey": "Q165040",
+      "name": "Ducato di Parma e Piacenza",
+      "wikidata": "Q165040",
+      "startDate": "1814-04-11",
+      "endDate": "1847-12-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "duchy",
+        "wikipedia": "en:Duchy of Parma and Piacenza"
+      }
+    },
+    {
+      "relationId": 2852041,
+      "identityKey": "Q165154",
+      "name": "Regno di Sardegna",
+      "wikidata": "Q165154",
+      "startDate": "1815-06-09",
+      "endDate": "1816-03-16",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "source": "Carta Topografica degli Stati in Terraferma di S. M. iL Re di Sardegna alla scala di 1. a 50,000 opera del corpo reale dello stato maggiore",
+        "wikipedia": "en:Kingdom of Sardinia"
+      }
+    },
+    {
+      "relationId": 2806795,
+      "identityKey": "Q165763",
+      "name": "Waldeck",
+      "wikidata": "Q165763",
+      "startDate": "1806-08-06",
+      "endDate": "1849",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Provinz_Westfalen_1905.png",
+        "wikipedia": "de:Waldeck"
+      }
+    },
+    {
+      "relationId": 2871332,
+      "identityKey": "Q1660566",
+      "name": "كسلطانن بنجر",
+      "wikidata": "Q1660566",
+      "startDate": "1801",
+      "endDate": "1830",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://en.wikipedia.org/wiki/Sultanate_of_Banjar",
+        "wikipedia": "en:Sultanate of Banjar"
+      }
+    },
+    {
+      "relationId": 2879271,
+      "identityKey": "Q16850784",
+      "name": "Wolof",
+      "wikidata": "Q16850784",
+      "startDate": "1549",
+      "endDate": "1890",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Kingdom of Jolof"
+      }
+    },
+    {
+      "relationId": 2861176,
+      "identityKey": "Q17012",
+      "name": "Colonie de la Guadeloupe",
+      "wikidata": "Q17012",
+      "startDate": "1814-05-30",
+      "endDate": "1815-07-06",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony"
+      }
+    },
+    {
+      "relationId": 2696930,
+      "identityKey": "Q170174",
+      "name": "Status Ecclesiasticus",
+      "wikidata": "Q170174",
+      "startDate": "1815-06-09",
+      "endDate": "1852",
+      "license": "CC0-1.0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "theocracy",
+        "country": "theocracy",
+        "wikipedia": "en:Papal States"
+      }
+    },
+    {
+      "relationId": 2842078,
+      "identityKey": "Q170603",
+      "name": "Reino de Mexico",
+      "wikidata": "Q170603",
+      "startDate": "1602",
+      "endDate": "1821-09-27",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "kingdom",
+        "border_type": "kingdom",
+        "wikipedia": "en:New Spain"
+      }
+    },
+    {
+      "relationId": 2845863,
+      "identityKey": "Q170603",
+      "name": "Nueva España",
+      "wikidata": "Q170603",
+      "startDate": "1813-04-12",
+      "endDate": "1819-02-22",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "viceroyalty",
+        "wikipedia": "en:New Spain"
+      }
+    },
+    {
+      "relationId": 2865902,
+      "identityKey": "Q17070",
+      "name": "Isle Bourbon",
+      "wikidata": "Q17070",
+      "startDate": "1810-07-09",
+      "endDate": "1848-06-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2750052,
+      "identityKey": "Q173065",
+      "name": "Regno di Napoli",
+      "wikidata": "Q173065",
+      "startDate": "1815-05-20",
+      "endDate": "1816-12-08",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "kingdom",
+        "source": "https://commons.wikimedia.org/wiki/File:Regno_Di_Napoli_-_Atlas_Maior,_vol_9,_map_47_-_Joan_Blaeu,_1667_-_BL_114.h(star).9.(47).jpg",
+        "wikipedia": "en:Kingdom of Naples"
+      }
+    },
+    {
+      "relationId": 2828388,
+      "identityKey": "Q174193",
+      "name": "United Kingdom of Great Britain and Ireland",
+      "wikidata": "Q174193",
+      "startDate": "1801-01-01",
+      "endDate": "1922-12-04",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:United Kingdom of Great Britain and Ireland"
+      }
+    },
+    {
+      "relationId": 2834763,
+      "identityKey": "Q1796551",
+      "name": "British Leeward Islands",
+      "wikidata": "Q1796551",
+      "startDate": "1783-09-03",
+      "endDate": "1816",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "dependency_of": "British Empire",
+        "wikipedia": "en:British Leeward Islands"
+      }
+    },
+    {
+      "relationId": 2846197,
+      "identityKey": "Q18348382",
+      "name": "Colony of New South Wales",
+      "wikidata": "Q18348382",
+      "startDate": "1810",
+      "endDate": "1825-12-03",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Colony of New South Wales"
+      }
+    },
+    {
+      "relationId": 2834833,
+      "identityKey": "Q185111",
+      "name": "Colony of Tobago",
+      "wikidata": "Q185111",
+      "startDate": "1793",
+      "endDate": "1833",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:History of Trinidad and Tobago"
+      }
+    },
+    {
+      "relationId": 2744913,
+      "identityKey": "Q186320",
+      "name": "Baden",
+      "wikidata": "Q186320",
+      "startDate": "1810",
+      "endDate": "1819-09-07",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "grand_duchy",
+        "country": "grand_duchy",
+        "wikipedia": "de:Großherzogtum Baden"
+      }
+    },
+    {
+      "relationId": 2848266,
+      "identityKey": "Q188161",
+      "name": "Nederlands-Indië",
+      "wikidata": "Q188161",
+      "startDate": "1814-08-13",
+      "endDate": "1815-11-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Dutch East Indies"
+      }
+    },
+    {
+      "relationId": 2920979,
+      "identityKey": "Q1885093",
+      "name": "Sultanate of Qishn and Socotra",
+      "wikidata": "Q1885093",
+      "startDate": "1511",
+      "endDate": "1886",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "sultanate",
+        "source": "https://en.wikipedia.org/wiki/Mahra_Sultanate"
+      }
+    },
+    {
+      "relationId": 2750114,
+      "identityKey": "Q188586",
+      "name": "Regno di Sicilia",
+      "wikidata": "Q188586",
+      "startDate": "1734",
+      "endDate": "1816-12-08",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "kingdom",
+        "country": "kingdom",
+        "source": "https://commons.wikimedia.org/wiki/File:Map_of_Italy_in_the_early_14th_century.png",
+        "wikipedia": "en:Kingdom of Sicily"
+      }
+    },
+    {
+      "relationId": 2848196,
+      "identityKey": "Q192184",
+      "name": "Saint Helena Colony",
+      "wikidata": "Q192184",
+      "startDate": "1657",
+      "endDate": "1834-04-22",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Saint Helena, Ascension and Tristan da Cunha"
+      }
+    },
+    {
+      "relationId": 2830904,
+      "identityKey": "Q1978",
+      "name": "Prince Edward Island Colony",
+      "wikidata": "Q1978",
+      "startDate": "1798-11-29",
+      "endDate": "1873-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Prince Edward Island"
+      }
+    },
+    {
+      "relationId": 2922243,
+      "identityKey": "Q19892830",
+      "name": "Kingdom of Coorg",
+      "wikidata": "Q19892830",
+      "startDate": "1788",
+      "endDate": "1834-06",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg",
+        "wikipedia": "en:Kingdom of Coorg"
+      }
+    },
+    {
+      "relationId": 2848335,
+      "identityKey": "Q2001966",
+      "name": "Company Raj",
+      "wikidata": "Q2001966",
+      "startDate": "1815",
+      "endDate": "1819",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Company rule in India"
+      }
+    },
+    {
+      "relationId": 2922160,
+      "identityKey": "Q2001966",
+      "name": "Company Raj",
+      "wikidata": "Q2001966",
+      "startDate": "1812-10-05",
+      "endDate": "1815",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Company rule in India"
+      }
+    },
+    {
+      "relationId": 2831207,
+      "identityKey": "Q2007",
+      "name": "North-West Territories",
+      "wikidata": "Q2007",
+      "startDate": "1670",
+      "endDate": "1870-07-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "border_type": "territory",
+        "colony_of": "British Empire",
+        "wikipedia": "en:North-Western Territory"
+      }
+    },
+    {
+      "relationId": 2661272,
+      "identityKey": "Q20135",
+      "name": "Großherzogtum Hessen",
+      "wikidata": "Q20135",
+      "startDate": "1815-06-09",
+      "endDate": "1866-03-24",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "grand_duchy",
+        "country": "grand_duchy",
+        "wikipedia": "de:Großherzogtum Hessen"
+      }
+    },
+    {
+      "relationId": 2828531,
+      "identityKey": "Q2032545",
+      "name": "Red River Colony",
+      "wikidata": "Q2032545",
+      "startDate": "1811",
+      "endDate": "1819-01-29",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Red River Colony"
+      }
+    },
+    {
+      "relationId": 2841670,
+      "identityKey": "Q2039931",
+      "name": "Capitanía General de Cuba",
+      "wikidata": "Q2039931",
+      "startDate": "1813-04-12",
+      "endDate": "1821-07-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "captaincy_general",
+        "wikipedia": "en:Captaincy General of Cuba"
+      }
+    },
+    {
+      "relationId": 2889893,
+      "identityKey": "Q205662",
+      "name": "江戸幕府",
+      "wikidata": "Q205662",
+      "startDate": "1600-10-21",
+      "endDate": "1862-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2879269,
+      "identityKey": "Q206279",
+      "name": "Waalo",
+      "wikidata": "Q206279",
+      "startDate": "1549",
+      "endDate": "1855",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Kingdom of Waalo"
+      }
+    },
+    {
+      "relationId": 2913644,
+      "identityKey": "Q207162",
+      "name": "Royaume de France",
+      "wikidata": "Q207162",
+      "startDate": "1815-06-09",
+      "endDate": "1825-12-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom"
+      }
+    },
+    {
+      "relationId": 2873458,
+      "identityKey": "Q2077243",
+      "name": "Capitanía General de Guatemala",
+      "wikidata": "Q2077243",
+      "startDate": "1814-05-04",
+      "endDate": "1820-03-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Captaincy General of Guatemala"
+      }
+    },
+    {
+      "relationId": 2850563,
+      "identityKey": "Q211435",
+      "name": "Virreinato del Perú",
+      "wikidata": "Q211435",
+      "startDate": "1814-10-02",
+      "endDate": "1817-02-12",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "viceroyalty"
+      }
+    },
+    {
+      "relationId": 2831213,
+      "identityKey": "Q2201031",
+      "name": "New Caledonia",
+      "wikidata": "Q2201031",
+      "startDate": "1805",
+      "endDate": "1858-08-02",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "colony_of": "British Empire",
+        "wikipedia": "en:New Caledonia (Canada)"
+      }
+    },
+    {
+      "relationId": 2831730,
+      "identityKey": "Q220843",
+      "name": "Walvis Bay Colony",
+      "wikidata": "Q220843",
+      "startDate": "1795",
+      "endDate": "1884",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Walvis Bay"
+      }
+    },
+    {
+      "relationId": 2692576,
+      "identityKey": "Q221457",
+      "name": "Królestwo Polskie",
+      "wikidata": "Q221457",
+      "startDate": "1815-06-09",
+      "endDate": "1835",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Congress Poland"
+      }
+    },
+    {
+      "relationId": 2923110,
+      "identityKey": "Q2257830",
+      "name": "𐒈𐒚𐒐𐒆𐒖𐒒𐒖𐒆𐒆𐒖 𐒑𐒖𐒃𐒜𐒇𐒂𐒜𐒒",
+      "wikidata": "Q2257830",
+      "startDate": "1420",
+      "endDate": "1894-05-05",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "sultanate",
+        "wikipedia": "en:Majeerteen Sultanate"
+      }
+    },
+    {
+      "relationId": 2920986,
+      "identityKey": "Q22684779",
+      "name": "الْإِمْبَرَاطُورِيَّة الْعُمَانِيَّة",
+      "wikidata": "Q22684779",
+      "startDate": "1696",
+      "endDate": "1854",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://en.wikipedia.org/wiki/Muscat_and_Oman",
+        "wikipedia": "en:Omani Empire"
+      }
+    },
+    {
+      "relationId": 2739874,
+      "identityKey": "Q228",
+      "name": "Andorra",
+      "wikidata": "Q228",
+      "startDate": "1278",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "principality",
+        "wikipedia": "en:Andorra"
+      }
+    },
+    {
+      "relationId": 2851283,
+      "identityKey": "Q235",
+      "name": "Monaco",
+      "wikidata": "Q235",
+      "startDate": "1815-06-09",
+      "endDate": "1861-02-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2831964,
+      "identityKey": "Q23635",
+      "name": "Colony of Bermuda",
+      "wikidata": "Q23635",
+      "startDate": "1684",
+      "endDate": "1983-01-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "wikipedia": "en:History of Bermuda"
+      }
+    },
+    {
+      "relationId": 2853735,
+      "identityKey": "Q238",
+      "name": "San Marino",
+      "wikidata": "Q238",
+      "startDate": "1740-02-05",
+      "endDate": null,
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:San Marino"
+      }
+    },
+    {
+      "relationId": 2841591,
+      "identityKey": "Q2437292",
+      "name": "Nueva Galicia",
+      "wikidata": "Q2437292",
+      "startDate": "1531",
+      "endDate": "1821-09-27",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Nueva Galicia"
+      }
+    },
+    {
+      "relationId": 2832946,
+      "identityKey": "Q244",
+      "name": "Colony of Barbados",
+      "wikidata": "Q244",
+      "startDate": "1625-05-14",
+      "endDate": "1833",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "dependency_of": "British Empire",
+        "wikipedia": "en:History of Barbados"
+      }
+    },
+    {
+      "relationId": 2860763,
+      "identityKey": "Q248572",
+      "name": "Kasultanan nu Magindanaw",
+      "wikidata": "Q248572",
+      "startDate": "1705",
+      "endDate": "1899-04-11",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Sultanate of Maguindanao"
+      }
+    },
+    {
+      "relationId": 2848332,
+      "identityKey": "Q248705",
+      "name": "Awadh",
+      "wikidata": "Q248705",
+      "startDate": "1815",
+      "endDate": "1856-02-11",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg",
+        "wikipedia": "en:Awadh"
+      }
+    },
+    {
+      "relationId": 2848333,
+      "identityKey": "Q248705",
+      "name": "Awadh",
+      "wikidata": "Q248705",
+      "startDate": "1801",
+      "endDate": "1815",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg",
+        "wikipedia": "en:Awadh"
+      }
+    },
+    {
+      "relationId": 2828270,
+      "identityKey": "Q25230",
+      "name": "Guernsey",
+      "wikidata": "Q25230",
+      "startDate": "1290",
+      "endDate": "1987-05-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "bailiwick",
+        "source": "https://data.humdata.org/dataset/global-lsib-polygons-detailed?",
+        "wikipedia": "en:Bailiwick of Guernsey"
+      }
+    },
+    {
+      "relationId": 2747005,
+      "identityKey": "Q252580",
+      "name": "Ducato di Modena e Reggio",
+      "wikidata": "Q252580",
+      "startDate": "1814-07-14",
+      "endDate": "1829-11-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "duchy",
+        "source": "https://commons.wikimedia.org/wiki/File:1853_Mitchell_Map_of_Northern_Italy",
+        "wikipedia": "en:Duchy of Modena and Reggio"
+      }
+    },
+    {
+      "relationId": 2831981,
+      "identityKey": "Q2526023",
+      "name": "Colony of Jamaica",
+      "wikidata": "Q2526023",
+      "startDate": "1707",
+      "endDate": "1866",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Colony of Jamaica"
+      }
+    },
+    {
+      "relationId": 2918515,
+      "identityKey": "Q25282",
+      "name": "Tourane française",
+      "wikidata": "Q25282",
+      "startDate": "1787",
+      "endDate": "1883-08-25",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://en.wikipedia.org/wiki/Annam_(French_protectorate)",
+        "wikipedia": "en:Da Nang"
+      }
+    },
+    {
+      "relationId": 2841926,
+      "identityKey": "Q2556639",
+      "name": "Intendencia de Yucatán",
+      "wikidata": "Q2556639",
+      "startDate": "1787",
+      "endDate": "1821-09-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "intendency",
+        "border_type": "intendancy",
+        "wikipedia": "en:Captaincy General of Yucatán"
+      }
+    },
+    {
+      "relationId": 2879810,
+      "identityKey": "Q2594899",
+      "name": "Wuuli Mansa Banko",
+      "wikidata": "Q2594899",
+      "startDate": "1520",
+      "endDate": "1888",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom"
+      }
+    },
+    {
+      "relationId": 2808604,
+      "identityKey": "Q264970",
+      "name": "Herzogtum Anhalt-Cöthen",
+      "wikidata": "Q264970",
+      "startDate": "1806-08-06",
+      "endDate": "1853-05-22",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "duchy",
+        "country": "duchy",
+        "wikipedia": "en:Anhalt-Köthen"
+      }
+    },
+    {
+      "relationId": 2953509,
+      "identityKey": "Q26774",
+      "name": "Shoshone",
+      "wikidata": "Q26774",
+      "startDate": "1700",
+      "endDate": "1877-04-16",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Shoshone"
+      }
+    },
+    {
+      "relationId": 2860776,
+      "identityKey": "Q2721139",
+      "name": "Capitanía General de Filipinas",
+      "wikidata": "Q2721139",
+      "startDate": "1705",
+      "endDate": "1828",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "captaincy_general",
+        "wikipedia": "en:Captaincy General of the Philippines"
+      }
+    },
+    {
+      "relationId": 2694593,
+      "identityKey": "Q27306",
+      "name": "Königreich Preußen",
+      "wikidata": "Q27306",
+      "startDate": "1815-06-09",
+      "endDate": "1829-10-23",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "kingdom",
+        "country": "kingdom",
+        "wikipedia": "en:Kingdom of Prussia"
+      }
+    },
+    {
+      "relationId": 2856450,
+      "identityKey": "Q2751106",
+      "name": "Herzogtum Mecklenburg-Strelitz",
+      "wikidata": "Q2751106",
+      "startDate": "1806-08-06",
+      "endDate": "1815-06-28",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "duchy"
+      }
+    },
+    {
+      "relationId": 2809697,
+      "identityKey": "Q278874",
+      "name": "Herzogtum Anhalt-Dessau",
+      "wikidata": "Q278874",
+      "startDate": "1807-07-07",
+      "endDate": "1853-05-22",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "duchy",
+        "country": "duchy",
+        "wikipedia": "en:Anhalt-Dessau"
+      }
+    },
+    {
+      "relationId": 2694486,
+      "identityKey": "Q28179",
+      "name": "朝鮮 조선",
+      "wikidata": "Q28179",
+      "startDate": "1449",
+      "endDate": "1897-10-12",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Joseon"
+      }
+    },
+    {
+      "relationId": 2860664,
+      "identityKey": "Q29",
+      "name": "España",
+      "wikidata": "Q29",
+      "startDate": "1802-03-27",
+      "endDate": "1899-04-11",
+      "license": "CC0-1.0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "es:España"
+      }
+    },
+    {
+      "relationId": 2831217,
+      "identityKey": "Q2980922",
+      "name": "Columbia District",
+      "wikidata": "Q2980922",
+      "startDate": "1810",
+      "endDate": "1821-02-21",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "border_type": "territory",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Columbia District"
+      }
+    },
+    {
+      "relationId": 2861327,
+      "identityKey": "Q2984260",
+      "name": "Newfoundland Colony",
+      "wikidata": "Q2984260",
+      "startDate": "1763-02-10",
+      "endDate": "1824",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "wikipedia": "en:Newfoundland Colony"
+      }
+    },
+    {
+      "relationId": 2800401,
+      "identityKey": "Q30",
+      "name": "United States",
+      "wikidata": "Q30",
+      "startDate": "1803-04-30",
+      "endDate": "1819-01-29",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "source": "Newberry Library Atlas of Historical County Boundaries",
+        "wikipedia": "en:United States"
+      }
+    },
+    {
+      "relationId": 2828775,
+      "identityKey": "Q30059027",
+      "name": "Colony of Sierra Leone",
+      "wikidata": "Q30059027",
+      "startDate": "1808-01-01",
+      "endDate": "1896-08-31",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Sierra Leone Colony and Protectorate"
+      }
+    },
+    {
+      "relationId": 2848139,
+      "identityKey": "Q3038",
+      "name": "Heligoland",
+      "wikidata": "Q3038",
+      "startDate": "1807-09-11",
+      "endDate": "1890-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "possession",
+        "wikipedia": "en:Heligoland"
+      }
+    },
+    {
+      "relationId": 2861415,
+      "identityKey": "Q3045696",
+      "name": "دولة الجزائر",
+      "wikidata": "Q3045696",
+      "startDate": "1516",
+      "endDate": "1830-07-05",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Regency of Algiers"
+      }
+    },
+    {
+      "relationId": 2690420,
+      "identityKey": "Q310650",
+      "name": "Schaumburg-Lippe",
+      "wikidata": "Q310650",
+      "startDate": "1807-04-18",
+      "endDate": "1867-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "principality",
+        "source": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Provinz_Westfalen_1905.png",
+        "wikipedia": "de:Schaumburg-Lippe"
+      }
+    },
+    {
+      "relationId": 2841733,
+      "identityKey": "Q31389",
+      "name": "Capitania General de Santo Domingo",
+      "wikidata": "Q31389",
+      "startDate": "1809-07-09",
+      "endDate": "1821-11-30",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "captaincy_general",
+        "wikipedia": "en:España Boba"
+      }
+    },
+    {
+      "relationId": 2860736,
+      "identityKey": "Q3199818",
+      "name": "Filipinas españolas",
+      "wikidata": "Q3199818",
+      "startDate": "1705",
+      "endDate": "1899-04-11",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2877391,
+      "identityKey": "Q32",
+      "name": "Groot-Hertogdom van Luxemburg",
+      "wikidata": "Q32",
+      "startDate": "1815-06-08",
+      "endDate": "1815-08-24",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "grand_duchy",
+        "country": "grand_duchy",
+        "wikipedia": "en:Luxembourg"
+      }
+    },
+    {
+      "relationId": 2922053,
+      "identityKey": "Q323904",
+      "name": "Goa Portuguesa",
+      "wikidata": "Q323904",
+      "startDate": "1763",
+      "endDate": "1961-12-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Portuguese India"
+      }
+    },
+    {
+      "relationId": 2922074,
+      "identityKey": "Q323904",
+      "name": "India Portugues",
+      "wikidata": "Q323904",
+      "startDate": "1785",
+      "endDate": "1961-12-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony"
+      }
+    },
+    {
+      "relationId": 2691497,
+      "identityKey": "Q326029",
+      "name": "Braunschweig",
+      "wikidata": "Q326029",
+      "startDate": "1814",
+      "endDate": "1867-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "duchy",
+        "source": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Hannover%2C_Braunschweig%2C_Oldenburg_und_Bremen.jpg",
+        "wikipedia": "de:Herzogtum Braunschweig"
+      }
+    },
+    {
+      "relationId": 2857706,
+      "identityKey": "Q3324486",
+      "name": "Митрополство Црногорско",
+      "wikidata": "Q3324486",
+      "startDate": "1789",
+      "endDate": "1852-03-13",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Prince-Bishopric of Montenegro"
+      }
+    },
+    {
+      "relationId": 2848719,
+      "identityKey": "Q3339389",
+      "name": "Estado do Grão-Pará e Rio Negro",
+      "wikidata": "Q3339389",
+      "startDate": "1772",
+      "endDate": "1817",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "state",
+        "wikipedia": "en:State of Grão-Pará and Rio Negro"
+      }
+    },
+    {
+      "relationId": 2692536,
+      "identityKey": "Q34",
+      "name": "Sverige",
+      "wikidata": "Q34",
+      "startDate": "1814-01-14",
+      "endDate": "1905",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "kingdom",
+        "wikipedia": "en:Sweden"
+      }
+    },
+    {
+      "relationId": 2746527,
+      "identityKey": "Q34266",
+      "name": "Российская империя",
+      "wikidata": "Q34266",
+      "startDate": "1815-06-09",
+      "endDate": "1830-11-29",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "empire",
+        "country": "empire",
+        "wikipedia": "en:Russian Empire"
+      }
+    },
+    {
+      "relationId": 2831312,
+      "identityKey": "Q34617",
+      "name": "Saint-Pierre et Miquelon",
+      "wikidata": "Q34617",
+      "startDate": "1814-05-30",
+      "endDate": "1946-03-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony",
+        "wikipedia": "en:Saint Pierre and Miquelon"
+      }
+    },
+    {
+      "relationId": 2746467,
+      "identityKey": "Q347",
+      "name": "Liechtenstein",
+      "wikidata": "Q347",
+      "startDate": "1806-07-12",
+      "endDate": "1960-03-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "principality",
+        "wikipedia": "en:Liechtenstein"
+      }
+    },
+    {
+      "relationId": 2856878,
+      "identityKey": "Q3482103",
+      "name": "مملكة الشلك",
+      "wikidata": "Q3482103",
+      "startDate": "1490",
+      "endDate": "1861",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Shilluk Kingdom"
+      }
+    },
+    {
+      "relationId": 2914604,
+      "identityKey": "Q369587",
+      "name": "Kingdom of Kakongo",
+      "wikidata": "Q369587",
+      "startDate": "1250",
+      "endDate": "1885",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Kakongo"
+      }
+    },
+    {
+      "relationId": 2691739,
+      "identityKey": "Q370736",
+      "name": "Cape Colony",
+      "wikidata": "Q370736",
+      "startDate": "1814-08-13",
+      "endDate": "1877",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Cape Colony"
+      }
+    },
+    {
+      "relationId": 2847907,
+      "identityKey": "Q37211",
+      "name": "Sindh Sultanate",
+      "wikidata": "Q37211",
+      "startDate": "-0500",
+      "endDate": "1843",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Sindh"
+      }
+    },
+    {
+      "relationId": 2922476,
+      "identityKey": "Q37211",
+      "name": "استان سند",
+      "wikidata": "Q37211",
+      "startDate": "1737",
+      "endDate": "1843-03-24",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg"
+      }
+    },
+    {
+      "relationId": 2861194,
+      "identityKey": "Q3769",
+      "name": "Colonie de la Guyane",
+      "wikidata": "Q3769",
+      "startDate": "1643",
+      "endDate": "1946-03-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "state",
+        "border_type": "colony"
+      }
+    },
+    {
+      "relationId": 2852042,
+      "identityKey": "Q39",
+      "name": "Schweiz",
+      "wikidata": "Q39",
+      "startDate": "1815-05-15",
+      "endDate": "1816-03-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Switzerland"
+      }
+    },
+    {
+      "relationId": 2847600,
+      "identityKey": "Q3929733",
+      "name": "Rajputana",
+      "wikidata": "Q3929733",
+      "startDate": "1526",
+      "endDate": "1832",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "federation",
+        "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg",
+        "wikipedia": "en:Rajputana"
+      }
+    },
+    {
+      "relationId": 2921516,
+      "identityKey": "Q404774",
+      "name": "سلطنة لحج",
+      "wikidata": "Q404774",
+      "startDate": "1740",
+      "endDate": "1839-01-18",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://en.wikipedia.org/wiki/Sultanate_of_Lahej",
+        "wikipedia": "en:Sultanate of Lahej"
+      }
+    },
+    {
+      "relationId": 2860769,
+      "identityKey": "Q422065",
+      "name": "Kasultanan sin Sūg",
+      "wikidata": "Q422065",
+      "startDate": "1703",
+      "endDate": "1878-01-22",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Sultanate of Sulu"
+      }
+    },
+    {
+      "relationId": 2860981,
+      "identityKey": "Q45670",
+      "name": "Reino de Portugal",
+      "wikidata": "Q45670",
+      "startDate": "1801-06-06",
+      "endDate": "1910",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "kingdom",
+        "wikipedia": "en:Kingdom of Portugal"
+      }
+    },
+    {
+      "relationId": 2914815,
+      "identityKey": "Q468814",
+      "name": "Danhɔmɛ",
+      "wikidata": "Q468814",
+      "startDate": "1600",
+      "endDate": "1894",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2831205,
+      "identityKey": "Q4969463",
+      "name": "British Arctic Territories",
+      "wikidata": "Q4969463",
+      "startDate": "1576",
+      "endDate": "1880-09-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "border_type": "territory",
+        "colony_of": "British Empire",
+        "wikipedia": "en:British Arctic Territories"
+      }
+    },
+    {
+      "relationId": 2848468,
+      "identityKey": "Q4969562",
+      "name": "British Bencoolen",
+      "wikidata": "Q4969562",
+      "startDate": "1685",
+      "endDate": "1824-03-17",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "wikipedia": "en:British Bencoolen"
+      }
+    },
+    {
+      "relationId": 2692575,
+      "identityKey": "Q501303",
+      "name": "Wolne Miasto Kraków",
+      "wikidata": "Q501303",
+      "startDate": "1815-06-09",
+      "endDate": "1846-11-16",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Free City of Cracow"
+      }
+    },
+    {
+      "relationId": 2860735,
+      "identityKey": "Q5159852",
+      "name": "Pat a Pangampong sa Ranao",
+      "wikidata": "Q5159852",
+      "startDate": "1616",
+      "endDate": "1903-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Confederate States of Lanao"
+      }
+    },
+    {
+      "relationId": 2848059,
+      "identityKey": "Q5255160",
+      "name": "Colony of Demerara-Essequibo",
+      "wikidata": "Q5255160",
+      "startDate": "1812-04-28",
+      "endDate": "1831-07-21",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "wikipedia": "en:Demerara-Essequibo"
+      }
+    },
+    {
+      "relationId": 2745247,
+      "identityKey": "Q529605",
+      "name": "Kurhessen",
+      "wikidata": "Q529605",
+      "startDate": "1815-06-09",
+      "endDate": "1831-12-23",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "Kurfürstenthum Hessen: Niveau Karte auf 112 Blättern (1840-61, 1:25000): https://www.lagis-hessen.de/en/subjects/browse/id/2/sn/hkw",
+        "wikipedia": "de:Kurfürstentum Hessen"
+      }
+    },
+    {
+      "relationId": 2831855,
+      "identityKey": "Q531783",
+      "name": "Fürstentum Reuß-Greiz",
+      "wikidata": "Q531783",
+      "startDate": "1806-08-06",
+      "endDate": "1867-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "principality"
+      }
+    },
+    {
+      "relationId": 2841681,
+      "identityKey": "Q541745",
+      "name": "Capitanía General de Puerto Rico",
+      "wikidata": "Q541745",
+      "startDate": "1580",
+      "endDate": "1854",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "captaincy general",
+        "border_type": "captaincy_general",
+        "wikipedia": "en:Captaincy General of Puerto Rico"
+      }
+    },
+    {
+      "relationId": 2860670,
+      "identityKey": "Q56064",
+      "name": "Colonia del Sacramento",
+      "wikidata": "Q56064",
+      "startDate": "1777-10-01",
+      "endDate": "1815-06-29",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony",
+        "wikipedia": "en:Colonia del Sacramento"
+      }
+    },
+    {
+      "relationId": 2831970,
+      "identityKey": "Q5785",
+      "name": "Cayman Islands",
+      "wikidata": "Q5785",
+      "startDate": "1670-07-08",
+      "endDate": "1990-01-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "territory",
+        "wikipedia": "en:Cayman Islands"
+      }
+    },
+    {
+      "relationId": 2861460,
+      "identityKey": "Q5881890",
+      "name": "Gobernación de Chiloé",
+      "wikidata": "Q5881890",
+      "startDate": "1810-09-18",
+      "endDate": "1826-01-18",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "intendency",
+        "border_type": "governorate",
+        "wikipedia": "en:Governorate of Chiloé"
+      }
+    },
+    {
+      "relationId": 2830677,
+      "identityKey": "Q630163",
+      "name": "Fürstentum Schwarzburg-Sondershausen",
+      "wikidata": "Q630163",
+      "startDate": "1809-10-14",
+      "endDate": "1867-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "principality",
+        "wikipedia": "de:Schwarzburg-Sondershausen"
+      }
+    },
+    {
+      "relationId": 2831854,
+      "identityKey": "Q639100",
+      "name": "Fürstentum Reuß-Gera",
+      "wikidata": "Q639100",
+      "startDate": "1806-08-06",
+      "endDate": "1867-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "principality",
+        "wikipedia": "en:Principality of Reuss-Gera"
+      }
+    },
+    {
+      "relationId": 2922307,
+      "identityKey": "Q646374",
+      "name": "Inde française",
+      "wikidata": "Q646374",
+      "startDate": "1751-09",
+      "endDate": "1900",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony",
+        "wikipedia": "en:French India"
+      }
+    },
+    {
+      "relationId": 2692912,
+      "identityKey": "Q648279",
+      "name": "Nʉmʉnʉʉ Sookobitʉ",
+      "wikidata": "Q648279",
+      "startDate": "1750",
+      "endDate": "1860",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "nation",
+        "source": "https://texashistory.unt.edu/ark:/67531/metapth493255/",
+        "wikipedia": "en:Comancheria"
+      }
+    },
+    {
+      "relationId": 2801185,
+      "identityKey": "Q6744657",
+      "name": "Colony of Malta",
+      "wikidata": "Q6744657",
+      "startDate": "1814-05-30",
+      "endDate": "1964-09-21",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Crown Colony of Malta"
+      }
+    },
+    {
+      "relationId": 2848053,
+      "identityKey": "Q675322",
+      "name": "Colony of Berbice",
+      "wikidata": "Q675322",
+      "startDate": "1803-09",
+      "endDate": "1831-07-21",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "wikipedia": "en:Berbice"
+      }
+    },
+    {
+      "relationId": 2808603,
+      "identityKey": "Q686965",
+      "name": "Herzogtum Anhalt-Bernburg",
+      "wikidata": "Q686965",
+      "startDate": "1806-08-06",
+      "endDate": "1863-08-19",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "duchy",
+        "country": "duchy",
+        "wikipedia": "en:Anhalt-Bernburg"
+      }
+    },
+    {
+      "relationId": 2697612,
+      "identityKey": "Q693669",
+      "name": "Oldenburg",
+      "wikidata": "Q693669",
+      "startDate": "1815-06-09",
+      "endDate": "1817",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "grand_duchy",
+        "country": "grand_duchy",
+        "source": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Hannover%2C_Braunschweig%2C_Oldenburg_und_Bremen.jpg",
+        "wikipedia": "de:Großherzogtum Oldenburg"
+      }
+    },
+    {
+      "relationId": 2690441,
+      "identityKey": "Q694269",
+      "name": "Hessen-Homburg",
+      "wikidata": "Q694269",
+      "startDate": "1815-06-09",
+      "endDate": "1866-03-24",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "Landgraviate",
+        "wikipedia": "de:Hessen-Homburg"
+      }
+    },
+    {
+      "relationId": 2831863,
+      "identityKey": "Q695316",
+      "name": "Fürstentum Schwarzburg-Rudolstadt",
+      "wikidata": "Q695316",
+      "startDate": "1809-10-14",
+      "endDate": "1825",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "principality",
+        "wikipedia": "de:Schwarzburg-Rudolstadt"
+      }
+    },
+    {
+      "relationId": 2851355,
+      "identityKey": "Q696241",
+      "name": "خان‌نشین خوقند",
+      "wikidata": "Q696241",
+      "startDate": "1709",
+      "endDate": "1876",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "khanate"
+      }
+    },
+    {
+      "relationId": 2885981,
+      "identityKey": "Q7232692",
+      "name": "Portuguese São Tomé and Príncipe",
+      "wikidata": "Q7232692",
+      "startDate": "1648",
+      "endDate": "1951",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony"
+      }
+    },
+    {
+      "relationId": 2848691,
+      "identityKey": "Q733",
+      "name": "Paraguay",
+      "wikidata": "Q733",
+      "startDate": "1811-05-14",
+      "endDate": "1872-01-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Paraguay"
+      }
+    },
+    {
+      "relationId": 2848683,
+      "identityKey": "Q738144",
+      "name": "Provincias Unidas del Río de la Plata",
+      "wikidata": "Q738144",
+      "startDate": "1811-05-14",
+      "endDate": "1815-06-29",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:United Provinces of the Río de la Plata"
+      }
+    },
+    {
+      "relationId": 2861322,
+      "identityKey": "Q738395",
+      "name": "Rupert's Land",
+      "wikidata": "Q738395",
+      "startDate": "1763-02-10",
+      "endDate": "1819-01-29",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Rupert's Land"
+      }
+    },
+    {
+      "relationId": 2851361,
+      "identityKey": "Q746558",
+      "name": "امارت بخارا",
+      "wikidata": "Q746558",
+      "startDate": "1785",
+      "endDate": "1868",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Emirate of Bukhara"
+      }
+    },
+    {
+      "relationId": 2834820,
+      "identityKey": "Q757",
+      "name": "Colony of St Vincent and the Grenadines",
+      "wikidata": "Q757",
+      "startDate": "1783-09-03",
+      "endDate": "1833",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:History of Saint Vincent and the Grenadines"
+      }
+    },
+    {
+      "relationId": 2806842,
+      "identityKey": "Q7646305",
+      "name": "Suriname",
+      "wikidata": "Q7646305",
+      "startDate": "1667-03-06",
+      "endDate": "1848-10-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "colony",
+        "colony": "yes",
+        "wikipedia": "nl:Suriname (kolonie)"
+      }
+    },
+    {
+      "relationId": 2834756,
+      "identityKey": "Q769",
+      "name": "Colony of Grenada",
+      "wikidata": "Q769",
+      "startDate": "1783-09-03",
+      "endDate": "1833",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:History of Grenada"
+      }
+    },
+    {
+      "relationId": 2828430,
+      "identityKey": "Q770833",
+      "name": "Danish Gold Coast",
+      "wikidata": "Q770833",
+      "startDate": "1663-04-20",
+      "endDate": "1850-03-30",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Danish Gold Coast"
+      }
+    },
+    {
+      "relationId": 2832950,
+      "identityKey": "Q778",
+      "name": "Colony of the Bahamas",
+      "wikidata": "Q778",
+      "startDate": "1783-09-03",
+      "endDate": "1848",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "dependency_of": "British Empire",
+        "wikipedia": "en:History of the Bahamas"
+      }
+    },
+    {
+      "relationId": 2834744,
+      "identityKey": "Q784",
+      "name": "Colony of Dominica",
+      "wikidata": "Q784",
+      "startDate": "1783-09-03",
+      "endDate": "1871",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "dependency_of": "British Empire",
+        "wikipedia": "en:History of Dominica"
+      }
+    },
+    {
+      "relationId": 2828299,
+      "identityKey": "Q785",
+      "name": "Jersey",
+      "wikidata": "Q785",
+      "startDate": "1290",
+      "endDate": "1987-05-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "bailiwick",
+        "source": "https://data.humdata.org/dataset/global-lsib-polygons-detailed",
+        "wikipedia": "en:Jersey"
+      }
+    },
+    {
+      "relationId": 2852251,
+      "identityKey": "Q7886026",
+      "name": "Schweizerische Eidgenossenschaft",
+      "wikidata": "Q7886026",
+      "startDate": "1803-02-19",
+      "endDate": "1815-09-07",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2831002,
+      "identityKey": "Q795427",
+      "name": "Province of Upper Canada",
+      "wikidata": "Q795427",
+      "startDate": "1791-12-26",
+      "endDate": "1841-02-10",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "province",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Upper Canada"
+      }
+    },
+    {
+      "relationId": 2857300,
+      "identityKey": "Q800236",
+      "name": "ریاست بہاولپور",
+      "wikidata": "Q800236",
+      "startDate": "1748",
+      "endDate": "1879",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2923782,
+      "identityKey": "Q800236",
+      "name": "بہاولپور دی ریاست",
+      "wikidata": "Q800236",
+      "startDate": "1748",
+      "endDate": "1879",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom"
+      }
+    },
+    {
+      "relationId": 2879278,
+      "identityKey": "Q807068",
+      "name": "Baol",
+      "wikidata": "Q807068",
+      "startDate": "1756",
+      "endDate": "1874",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom"
+      }
+    },
+    {
+      "relationId": 2690422,
+      "identityKey": "Q825489",
+      "name": "Pyrmont",
+      "wikidata": "Q825489",
+      "startDate": "1807",
+      "endDate": "1849",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "source": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Provinz_Westfalen_1905.png",
+        "wikipedia": "de:Grafschaft Pyrmont"
+      }
+    },
+    {
+      "relationId": 2696415,
+      "identityKey": "Q829655",
+      "name": "Dansk Vestindien",
+      "wikidata": "Q829655",
+      "startDate": "1733-06-28",
+      "endDate": "1917-03-31",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2922052,
+      "identityKey": "Q83618",
+      "name": "मराठा साम्राज्य",
+      "wikidata": "Q83618",
+      "startDate": "1763",
+      "endDate": "1818",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "country": "empire",
+        "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg",
+        "wikipedia": "en:Maratha Empire"
+      }
+    },
+    {
+      "relationId": 2690443,
+      "identityKey": "Q836680",
+      "name": "Nassau",
+      "wikidata": "Q836680",
+      "startDate": "1815-06-09",
+      "endDate": "1866-09-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "de:Herzogtum Nassau"
+      }
+    },
+    {
+      "relationId": 2692832,
+      "identityKey": "Q841667",
+      "name": "Louisiana Neutral Ground",
+      "wikidata": "Q841667",
+      "startDate": "1806-11-05",
+      "endDate": "1821-02-22",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "territory": "neutral",
+        "wikipedia": "en:Neutral Ground (Louisiana)"
+      }
+    },
+    {
+      "relationId": 2923778,
+      "identityKey": "Q860407",
+      "name": "Kahlur Kingdom",
+      "wikidata": "Q860407",
+      "startDate": "0697",
+      "endDate": "1815",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom"
+      }
+    },
+    {
+      "relationId": 2869648,
+      "identityKey": "Q861795",
+      "name": "إمامة فوتة تورو",
+      "wikidata": "Q861795",
+      "startDate": "1776",
+      "endDate": "1859",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Imamate of Futa Toro"
+      }
+    },
+    {
+      "relationId": 2879275,
+      "identityKey": "Q862467",
+      "name": "Siin",
+      "wikidata": "Q862467",
+      "startDate": "1520",
+      "endDate": "1960-06-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Kingdom of Sine"
+      }
+    },
+    {
+      "relationId": 2889977,
+      "identityKey": "Q8733",
+      "name": "大淸 ᡩᠠᡳ᠌ᠴᡳᠩ ᡤᡠᡵᡠᠨ",
+      "wikidata": "Q8733",
+      "startDate": "1755",
+      "endDate": "1842-08-29",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "zh:清朝"
+      }
+    },
+    {
+      "relationId": 2870400,
+      "identityKey": "Q878461",
+      "name": "Danmark",
+      "wikidata": "Q878461",
+      "startDate": "1815-06-09",
+      "endDate": "1851",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "nation",
+        "wikipedia": "en:Danish Unitary State"
+      }
+    },
+    {
+      "relationId": 2923682,
+      "identityKey": "Q889030",
+      "name": "Manipur Kingdom",
+      "wikidata": "Q889030",
+      "startDate": "1724",
+      "endDate": "1891",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom"
+      }
+    },
+    {
+      "relationId": 2863642,
+      "identityKey": "Q889884",
+      "name": "Ubwami bw'u Rwanda",
+      "wikidata": "Q889884",
+      "startDate": "1650",
+      "endDate": "1890-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Kingdom of Rwanda"
+      }
+    },
+    {
+      "relationId": 2879806,
+      "identityKey": "Q892272",
+      "name": "Boundou",
+      "wikidata": "Q892272",
+      "startDate": "1690",
+      "endDate": "1885",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Bundu"
+      }
+    },
+    {
+      "relationId": 2848983,
+      "identityKey": "Q8965",
+      "name": "Virreinato de la Nueva Granada",
+      "wikidata": "Q8965",
+      "startDate": "1803-11-20",
+      "endDate": "1820-10-09",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "viceroyalty",
+        "wikipedia": "en:New Kingdom of Granada"
+      }
+    },
+    {
+      "relationId": 2906074,
+      "identityKey": "Q917",
+      "name": "འབྲུག་རྒྱལ་ཁབ།",
+      "wikidata": "Q917",
+      "startDate": "1784",
+      "endDate": "1841",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Bhutan"
+      }
+    },
+    {
+      "relationId": 2848264,
+      "identityKey": "Q918132",
+      "name": "British occupation of Java",
+      "wikidata": "Q918132",
+      "startDate": "1811-09-18",
+      "endDate": "1815-11-20",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "territory",
+        "wikipedia": "en:Invasion of Java (1811)"
+      }
+    },
+    {
+      "relationId": 2848313,
+      "identityKey": "Q918153",
+      "name": "British Ceylon",
+      "wikidata": "Q918153",
+      "startDate": "1815-03-02",
+      "endDate": "1948-02-04",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:British Ceylon"
+      }
+    },
+    {
+      "relationId": 2832340,
+      "identityKey": "Q933592",
+      "name": "Ducato di Massa e Principato di Carrara",
+      "wikidata": "Q933592",
+      "startDate": "1814-05-30",
+      "endDate": "1829-11-14",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "border_type": "duchy",
+        "wikipedia": "en:Duchy of Massa and Carrara"
+      }
+    },
+    {
+      "relationId": 2748578,
+      "identityKey": "Q950240",
+      "name": "Freie und Hansestadt Lübeck",
+      "wikidata": "Q950240",
+      "startDate": "1815-06-09",
+      "endDate": "1867-07-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:History of the Free and Hanseatic City of Lübeck"
+      }
+    },
+    {
+      "relationId": 2835764,
+      "identityKey": "Q953432",
+      "name": "Couto Misto",
+      "wikidata": "Q953432",
+      "startDate": "1000",
+      "endDate": "1868",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Couto Misto"
+      }
+    },
+    {
+      "relationId": 2914603,
+      "identityKey": "Q967246",
+      "name": "Kingdom of Ngoyo",
+      "wikidata": "Q967246",
+      "startDate": "1250",
+      "endDate": "1885",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Ngoyo"
+      }
+    },
+    {
+      "relationId": 2693293,
+      "identityKey": "Q9676",
+      "name": "Isle of Man",
+      "wikidata": "Q9676",
+      "startDate": "1333-08-09",
+      "endDate": "1987-05-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "state",
+        "wikipedia": "en:Isle of Man"
+      }
+    },
+    {
+      "relationId": 2841724,
+      "identityKey": "Q97704156",
+      "name": "République d'Haïti",
+      "wikidata": "Q97704156",
+      "startDate": "1809-07-09",
+      "endDate": "1820-10-08",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Republic of Haiti (1806–1820)"
+      }
+    },
+    {
+      "relationId": 2914608,
+      "identityKey": "Q986822",
+      "name": "Rozvi",
+      "wikidata": "Q986822",
+      "startDate": "1681",
+      "endDate": "1822",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country"
+      }
+    },
+    {
+      "relationId": 2830922,
+      "identityKey": "Q98931415",
+      "name": "Colony of Nova Scotia",
+      "wikidata": "Q98931415",
+      "startDate": "1784-06-18",
+      "endDate": "1820",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "border_type": "colony",
+        "colony_of": "British Empire",
+        "wikipedia": "en:Nova Scotia"
+      }
+    },
+    {
+      "relationId": 2750737,
+      "identityKey": "Republica de' Cošpäja",
+      "name": "Republica de' Cošpäja",
+      "wikidata": null,
+      "startDate": "1440",
+      "endDate": "1826-05-25",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "wikipedia": "en:Republic of Cospaia"
+      }
+    },
+    {
+      "relationId": 2827168,
+      "identityKey": "Sarawak",
+      "name": "Sarawak",
+      "wikidata": null,
+      "startDate": "1600",
+      "endDate": "1853",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2865810,
+      "identityKey": "Sultanate of Maore",
+      "name": "Sultanate of Maore",
+      "wikidata": null,
+      "startDate": "1503",
+      "endDate": "1832",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2865813,
+      "identityKey": "Sultanate of Ndzuwani",
+      "name": "Sultanate of Ndzuwani",
+      "wikidata": null,
+      "startDate": "1490",
+      "endDate": "1830",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    },
+    {
+      "relationId": 2851143,
+      "identityKey": "Русская Америка",
+      "name": "Русская Америка",
+      "wikidata": null,
+      "startDate": "1799",
+      "endDate": "1867-10-18",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "colony",
+        "wikipedia": "en:Russian America"
+      }
+    },
+    {
+      "relationId": 2851349,
+      "identityKey": "خیوه خانلیگی",
+      "name": "خیوه خانلیگی",
+      "wikidata": null,
+      "startDate": "1511",
+      "endDate": "1873-08-12",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "khanate",
+        "wikipedia": "en:Khanate of Khiva"
+      }
+    },
+    {
+      "relationId": 2869649,
+      "identityKey": "دولة الخلافة في بلاد السودان",
+      "name": "دولة الخلافة في بلاد السودان",
+      "wikidata": null,
+      "startDate": "1804-02-21",
+      "endDate": "1903-03-13",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "country",
+        "source": "https://en.m.wikipedia.org/wiki/Sokoto_Caliphate",
+        "wikipedia": "en:Sokoto Caliphate"
+      }
+    },
+    {
+      "relationId": 2874736,
+      "identityKey": "ދިވެހިރާއްޖެ",
+      "name": "ދިވެހިރާއްޖެ",
+      "wikidata": null,
+      "startDate": "1153",
+      "endDate": "1887",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "en:Sultanate of the Maldive Islands"
+      }
+    },
+    {
+      "relationId": 2830728,
+      "identityKey": "南蟠 Nam Bàn",
+      "name": "南蟠 Nam Bàn",
+      "wikidata": null,
+      "startDate": "1713",
+      "endDate": "1893",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "wikipedia": "vi:Nam Bàn"
+      }
+    },
+    {
+      "relationId": 2748645,
+      "identityKey": "大越",
+      "name": "大越",
+      "wikidata": null,
+      "startDate": "1802-07",
+      "endDate": "1827",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {}
+    }
+  ]
+}

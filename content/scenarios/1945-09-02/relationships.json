@@ -1,0 +1,3092 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1945-09-02",
+  "relationships": [
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "ADEN_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848223
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "ADEN_PROTECTORATE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848485
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "AFRICA_OCIDENTAL_PORTUGUESA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690861
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "AFRIQUE_EQUATORIALE_FRANCAISE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839997
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "ALGERIE_FRANCAISE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690948
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_STATES",
+      "to": "AMERICAN_OCCUPATION_ZONE_IN_GERMANY",
+      "basis": "reviewed_military_occupation",
+      "notes": "The United States administered its German occupation zone under the four-power occupation framework.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2855433
+        }
+      ],
+      "evidence": [
+        "https://history.state.gov/countries/german-democratic-republic"
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "ANGLO_EGYPTIAN_SUDAN",
+      "basis": "reviewed_condominium",
+      "notes": "The Anglo-Egyptian condominium is explicit; the United Kingdom is the runtime authority because the simulation currently supports one overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803203
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "ASHANTI_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923088
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BECHUANALAND_PROTECTORATE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691745
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_BURMA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801016
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_CAMEROONS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828750
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_CEYLON",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848313
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_CYPRUS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801349
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_GUIANA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806844
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_HONDURAS_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807603
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_HONG_KONG",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694460
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_LEEWARD_ISLANDS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832971
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_MAURITIUS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831873
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_MILITARY_ADMINISTRATION_ERITREA",
+      "basis": "reviewed_military_occupation",
+      "notes": "British military administration represented under the United Kingdom.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839746
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_MILITARY_ADMINISTRATION_OF_LIBYA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831555
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_MILITARY_ADMINISTRATION_OF_MALAYA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801990
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_MILITARY_ADMINISTRATION_OF_SOMALILAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2859424
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_OCCUPATION_ZONE_IN_GERMANY",
+      "basis": "reviewed_military_occupation",
+      "notes": "The United Kingdom administered its German occupation zone under the four-power occupation framework.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2852444
+        }
+      ],
+      "evidence": [
+        "https://history.state.gov/countries/german-democratic-republic"
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_RAJ",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848216
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831242
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_TOGOLAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694159
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846235
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_WINDWARD_ISLANDS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834740
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "CABINDA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839750
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "CANADA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831062
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "CAYMAN_ISLANDS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831970
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "COLONIE_DE_LA_GUADELOUPE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861172
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "COLONIE_DE_LA_GUYANE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861194
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "COLONIE_DU_GABON",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839934
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "COLONIE_DU_MOYEN_CONGO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839975
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839928
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "COLONIE_DU_TCHAD",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917199
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_AND_PROTECTORATE_OF_NIGERIA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690856
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_BARBADOS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832944
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_BASUTOLAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691741
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_BERMUDA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831964
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_FIJI",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846213
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_JAMAICA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834850
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "COLONY_OF_MADAGASCAR_AND_DEPENDENCIES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "The Madagascar colonial administration belonged to the French empire; an English key prefix must not route it to Britain.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865839
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_MALTA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801185
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_SEYCHELLES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831866
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_THE_BAHAMAS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834851
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830878
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2831077
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_STATES",
+      "to": "COMMONWEALTH_OF_THE_PHILIPPINES",
+      "basis": "reviewed_historical_dependency",
+      "notes": "The Commonwealth of the Philippines remained under United States sovereignty until 1946.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889831
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "BELGIQUE",
+      "to": "CONGO_BELGE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Belgian colony or mandate represented under Belgium for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690860
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DOMINION_OF_NEW_ZEALAND",
+      "to": "COOK_ISLANDS",
+      "basis": "reviewed_historical_dependency",
+      "notes": "New Zealand administration represented through the Dominion of New Zealand.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846264
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "DOMINION_OF_NEW_ZEALAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846160
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "EMIRATE_OF_TRANSJORDAN",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848317
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876346
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "FEZZAN_GHADAMES_MILITARY_TERRITORY",
+      "basis": "reviewed_military_occupation",
+      "notes": "The French military territory in Fezzan-Ghadames is represented under France.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831553
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "FRENCH_CAMEROON",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828747
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "FRENCH_MOROCCO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690949
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "FRENCH_OCCUPATION_ZONE_IN_GERMANY",
+      "basis": "reviewed_military_occupation",
+      "notes": "France administered its German occupation zone under the four-power occupation framework.",
+      "sources": [],
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "FRENCH_SOMALILAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803437
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "FRENCH_WEST_AFRICA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917850
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "GAMBIA_COLONY_AND_PROTECTORATE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803502
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "GIBRALTAR",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692855
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846232
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "GOA_PORTUGUESA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922053
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922074
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "GOLD_COAST_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828425
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "GUERNSEY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828270
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "GUINE_PORTUGUESA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803504
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPAIN",
+      "to": "IFNI",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under neutral player-facing Spain for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2805384
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "ISLE_OF_MAN",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2693293
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+      "basis": "reviewed_military_occupation",
+      "notes": "The Dodecanese was under British military administration on the exact scenario date; its source label preserves the de jure Italian territorial identity.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2920369
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "JERSEY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828299
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "BRITISH_RAJ",
+      "to": "KINGDOM_OF_TRAVANCORE",
+      "basis": "reviewed_princely_state",
+      "notes": "Travancore is represented as a princely state under British Indian paramountcy.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922413
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "KOLONIE_D_WALLIS_ET_FUTUNA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876371
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "MALDIVES_PROTECTORATE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848182
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SOVIET_UNION",
+      "to": "MONGOLIAN_PEOPLE_S_REPUBLIC",
+      "basis": "gameplay_sphere_abstraction",
+      "notes": "Soviet client relationship represented with the single-overlord gameplay abstraction.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 58
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "KONINKRIJK_DER_NEDERLANDEN",
+      "to": "NETHERLANDS_ANTILLES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch imperial administration represented under the Netherlands for gameplay.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 2
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+      "basis": "reviewed_condominium",
+      "notes": "The Anglo-French condominium is explicit; the United Kingdom is the runtime authority because the simulation currently supports one overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846175
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "NORTHERN_RHODESIA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691743
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "NORTHERN_TERRITORIES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828423
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "NYASALAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803134
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PALESTINE_MANDATE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848316
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PITCAIRN_ISLANDS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846172
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "PORTUGUESE_MACAU",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694462
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "PORTUGUESE_MOZAMBIQUE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2698263
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2885981
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "PROTECTORAT_FRANCAIS_DE_TUNISIE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690947
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_BAHRAIN",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848318
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_KENYA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831411
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2831414
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_KUWAIT",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848364
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_QATAR",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848319
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_TONGA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846200
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_UGANDA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831426
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "REUNION",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865901
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPAIN",
+      "to": "RIO_DE_ORO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under neutral player-facing Spain for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860429
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "BELGIQUE",
+      "to": "RUANDA_URUNDI",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Belgian colony or mandate represented under Belgium for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2863620
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPAIN",
+      "to": "SAGUIA_EL_HAMRA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under neutral player-facing Spain for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860428
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "SAINT_HELENA_CROWN_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848193
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
+      "to": "SAINT_PIERRE_ET_MIQUELON",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831312
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "SIERRA_LEONE_PROTECTORATE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828774
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "SOUTHERN_RHODESIA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831467
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SOVIET_UNION",
+      "to": "SOVIET_CIVIL_ADMINISTRATION",
+      "basis": "reviewed_military_occupation",
+      "notes": "The Soviet Civil Administration in northern Korea is represented under the Soviet Union.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801070
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SOVIET_UNION",
+      "to": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
+      "basis": "reviewed_military_occupation",
+      "notes": "The Soviet Union administered its German occupation zone under the four-power occupation framework.",
+      "sources": [],
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPAIN",
+      "to": "SPANISH_GUINEA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under neutral player-facing Spain for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860389
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPAIN",
+      "to": "SPANISH_MOROCCO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under neutral player-facing Spain for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860422
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "SULTANATE_OF_LAHEJ",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2921515
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "SWAZILAND_PROTECTORATE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691746
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "TANGANYIKA_TERRITORY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801206
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2855612
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DOMINION_OF_NEW_ZEALAND",
+      "to": "TERRITORY_OF_WESTERN_SAMOA",
+      "basis": "reviewed_historical_dependency",
+      "notes": "New Zealand mandate represented through the Dominion of New Zealand.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846170
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "TRINIDAD_AND_TOBAGO_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834829
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "TRUCIAL_STATES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848320
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "UNION_OF_SOUTH_AFRICA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831731
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 19
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "ZANZIBAR_PROTECTORATE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690950
+        }
+      ]
+    }
+  ],
+  "resolutions": [
+    {
+      "polityKey": "ADEN_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848223
+        }
+      ]
+    },
+    {
+      "polityKey": "ADEN_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848485
+        }
+      ]
+    },
+    {
+      "polityKey": "AFRICA_OCIDENTAL_PORTUGUESA",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690861
+        }
+      ]
+    },
+    {
+      "polityKey": "AFRIQUE_EQUATORIALE_FRANCAISE",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839997
+        }
+      ]
+    },
+    {
+      "polityKey": "ALGERIE_FRANCAISE",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690948
+        }
+      ]
+    },
+    {
+      "polityKey": "AMERICAN_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_STATES",
+      "participants": [],
+      "basis": "reviewed_military_occupation",
+      "notes": "The United States administered its German occupation zone under the four-power occupation framework.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2855433
+        }
+      ],
+      "evidence": [
+        "https://history.state.gov/countries/german-democratic-republic"
+      ]
+    },
+    {
+      "polityKey": "ANGLO_EGYPTIAN_SUDAN",
+      "action": "joint_administration",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [
+        "UNITED_KINGDOM",
+        "KINGDOM_OF_EGYPT"
+      ],
+      "basis": "reviewed_condominium",
+      "notes": "The Anglo-Egyptian condominium is explicit; the United Kingdom is the runtime authority because the simulation currently supports one overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803203
+        }
+      ]
+    },
+    {
+      "polityKey": "ASHANTI_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923088
+        }
+      ]
+    },
+    {
+      "polityKey": "BECHUANALAND_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691745
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_BURMA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801016
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_CAMEROONS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828750
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_CEYLON",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848313
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_CYPRUS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801349
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_GUIANA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806844
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_HONDURAS_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807603
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_HONG_KONG",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694460
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_LEEWARD_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832971
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_MAURITIUS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831873
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_MILITARY_ADMINISTRATION_ERITREA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_military_occupation",
+      "notes": "British military administration represented under the United Kingdom.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839746
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_MILITARY_ADMINISTRATION_OF_LIBYA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831555
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_MILITARY_ADMINISTRATION_OF_MALAYA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801990
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_MILITARY_ADMINISTRATION_OF_SOMALILAND",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2859424
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_military_occupation",
+      "notes": "The United Kingdom administered its German occupation zone under the four-power occupation framework.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2852444
+        }
+      ],
+      "evidence": [
+        "https://history.state.gov/countries/german-democratic-republic"
+      ]
+    },
+    {
+      "polityKey": "BRITISH_RAJ",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848216
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831242
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_TOGOLAND",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694159
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846235
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_WINDWARD_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834740
+        }
+      ]
+    },
+    {
+      "polityKey": "CABINDA",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839750
+        }
+      ]
+    },
+    {
+      "polityKey": "CANADA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831062
+        }
+      ]
+    },
+    {
+      "polityKey": "CAYMAN_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831970
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DE_LA_GUADELOUPE",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861172
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DE_LA_GUYANE",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861194
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DU_GABON",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839934
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DU_MOYEN_CONGO",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839975
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839928
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DU_TCHAD",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917199
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_AND_PROTECTORATE_OF_NIGERIA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690856
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_BARBADOS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832944
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_BASUTOLAND",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691741
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_BERMUDA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831964
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_FIJI",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846213
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_JAMAICA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834850
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_MADAGASCAR_AND_DEPENDENCIES",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "The Madagascar colonial administration belonged to the French empire; an English key prefix must not route it to Britain.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865839
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_MALTA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801185
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_SEYCHELLES",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831866
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_THE_BAHAMAS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834851
+        }
+      ]
+    },
+    {
+      "polityKey": "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830878
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2831077
+        }
+      ]
+    },
+    {
+      "polityKey": "COMMONWEALTH_OF_THE_PHILIPPINES",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_STATES",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "The Commonwealth of the Philippines remained under United States sovereignty until 1946.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889831
+        }
+      ]
+    },
+    {
+      "polityKey": "CONGO_BELGE",
+      "action": "overlord",
+      "runtimeOverlord": "BELGIQUE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Belgian colony or mandate represented under Belgium for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690860
+        }
+      ]
+    },
+    {
+      "polityKey": "COOK_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "DOMINION_OF_NEW_ZEALAND",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "New Zealand administration represented through the Dominion of New Zealand.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846264
+        }
+      ]
+    },
+    {
+      "polityKey": "DOMINION_OF_NEW_ZEALAND",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846160
+        }
+      ]
+    },
+    {
+      "polityKey": "EMIRATE_OF_TRANSJORDAN",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848317
+        }
+      ]
+    },
+    {
+      "polityKey": "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876346
+        }
+      ]
+    },
+    {
+      "polityKey": "FEZZAN_GHADAMES_MILITARY_TERRITORY",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_military_occupation",
+      "notes": "The French military territory in Fezzan-Ghadames is represented under France.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831553
+        }
+      ]
+    },
+    {
+      "polityKey": "FRENCH_CAMEROON",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828747
+        }
+      ]
+    },
+    {
+      "polityKey": "FRENCH_MOROCCO",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690949
+        }
+      ]
+    },
+    {
+      "polityKey": "FRENCH_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_military_occupation",
+      "notes": "France administered its German occupation zone under the four-power occupation framework.",
+      "sources": [],
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    },
+    {
+      "polityKey": "FRENCH_SOMALILAND",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803437
+        }
+      ]
+    },
+    {
+      "polityKey": "FRENCH_WEST_AFRICA",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917850
+        }
+      ]
+    },
+    {
+      "polityKey": "GAMBIA_COLONY_AND_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803502
+        }
+      ]
+    },
+    {
+      "polityKey": "GIBRALTAR",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692855
+        }
+      ]
+    },
+    {
+      "polityKey": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846232
+        }
+      ]
+    },
+    {
+      "polityKey": "GOA_PORTUGUESA",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922053
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922074
+        }
+      ]
+    },
+    {
+      "polityKey": "GOLD_COAST_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828425
+        }
+      ]
+    },
+    {
+      "polityKey": "GUERNSEY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828270
+        }
+      ]
+    },
+    {
+      "polityKey": "GUINE_PORTUGUESA",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803504
+        }
+      ]
+    },
+    {
+      "polityKey": "IFNI",
+      "action": "overlord",
+      "runtimeOverlord": "SPAIN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under neutral player-facing Spain for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2805384
+        }
+      ]
+    },
+    {
+      "polityKey": "ISLE_OF_MAN",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2693293
+        }
+      ]
+    },
+    {
+      "polityKey": "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_military_occupation",
+      "notes": "The Dodecanese was under British military administration on the exact scenario date; its source label preserves the de jure Italian territorial identity.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2920369
+        }
+      ]
+    },
+    {
+      "polityKey": "JERSEY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828299
+        }
+      ]
+    },
+    {
+      "polityKey": "KINGDOM_OF_TRAVANCORE",
+      "action": "overlord",
+      "runtimeOverlord": "BRITISH_RAJ",
+      "participants": [],
+      "basis": "reviewed_princely_state",
+      "notes": "Travancore is represented as a princely state under British Indian paramountcy.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922413
+        }
+      ]
+    },
+    {
+      "polityKey": "KOLONIE_D_WALLIS_ET_FUTUNA",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876371
+        }
+      ]
+    },
+    {
+      "polityKey": "MALDIVES_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848182
+        }
+      ]
+    },
+    {
+      "polityKey": "MONGOLIAN_PEOPLE_S_REPUBLIC",
+      "action": "overlord",
+      "runtimeOverlord": "SOVIET_UNION",
+      "participants": [],
+      "basis": "gameplay_sphere_abstraction",
+      "notes": "Soviet client relationship represented with the single-overlord gameplay abstraction.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 58
+        }
+      ]
+    },
+    {
+      "polityKey": "NETHERLANDS_ANTILLES",
+      "action": "overlord",
+      "runtimeOverlord": "KONINKRIJK_DER_NEDERLANDEN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch imperial administration represented under the Netherlands for gameplay.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 2
+        }
+      ]
+    },
+    {
+      "polityKey": "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+      "action": "joint_administration",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [
+        "UNITED_KINGDOM",
+        "FRANCE"
+      ],
+      "basis": "reviewed_condominium",
+      "notes": "The Anglo-French condominium is explicit; the United Kingdom is the runtime authority because the simulation currently supports one overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846175
+        }
+      ]
+    },
+    {
+      "polityKey": "NORTHERN_RHODESIA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691743
+        }
+      ]
+    },
+    {
+      "polityKey": "NORTHERN_TERRITORIES",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828423
+        }
+      ]
+    },
+    {
+      "polityKey": "NYASALAND",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803134
+        }
+      ]
+    },
+    {
+      "polityKey": "PALESTINE_MANDATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848316
+        }
+      ]
+    },
+    {
+      "polityKey": "PITCAIRN_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846172
+        }
+      ]
+    },
+    {
+      "polityKey": "PORTUGUESE_MACAU",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694462
+        }
+      ]
+    },
+    {
+      "polityKey": "PORTUGUESE_MOZAMBIQUE",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2698263
+        }
+      ]
+    },
+    {
+      "polityKey": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2885981
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORAT_FRANCAIS_DE_TUNISIE",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690947
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_BAHRAIN",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848318
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_KENYA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831411
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2831414
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_KUWAIT",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848364
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_QATAR",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848319
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_TONGA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846200
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_UGANDA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831426
+        }
+      ]
+    },
+    {
+      "polityKey": "REUNION",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865901
+        }
+      ]
+    },
+    {
+      "polityKey": "RIO_DE_ORO",
+      "action": "overlord",
+      "runtimeOverlord": "SPAIN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under neutral player-facing Spain for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860429
+        }
+      ]
+    },
+    {
+      "polityKey": "RUANDA_URUNDI",
+      "action": "overlord",
+      "runtimeOverlord": "BELGIQUE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Belgian colony or mandate represented under Belgium for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2863620
+        }
+      ]
+    },
+    {
+      "polityKey": "SAGUIA_EL_HAMRA",
+      "action": "overlord",
+      "runtimeOverlord": "SPAIN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under neutral player-facing Spain for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860428
+        }
+      ]
+    },
+    {
+      "polityKey": "SAINT_HELENA_CROWN_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848193
+        }
+      ]
+    },
+    {
+      "polityKey": "SAINT_PIERRE_ET_MIQUELON",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831312
+        }
+      ]
+    },
+    {
+      "polityKey": "SIERRA_LEONE_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828774
+        }
+      ]
+    },
+    {
+      "polityKey": "SOUTHERN_RHODESIA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831467
+        }
+      ]
+    },
+    {
+      "polityKey": "SOVIET_CIVIL_ADMINISTRATION",
+      "action": "overlord",
+      "runtimeOverlord": "SOVIET_UNION",
+      "participants": [],
+      "basis": "reviewed_military_occupation",
+      "notes": "The Soviet Civil Administration in northern Korea is represented under the Soviet Union.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801070
+        }
+      ]
+    },
+    {
+      "polityKey": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "SOVIET_UNION",
+      "participants": [],
+      "basis": "reviewed_military_occupation",
+      "notes": "The Soviet Union administered its German occupation zone under the four-power occupation framework.",
+      "sources": [],
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    },
+    {
+      "polityKey": "SPANISH_GUINEA",
+      "action": "overlord",
+      "runtimeOverlord": "SPAIN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under neutral player-facing Spain for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860389
+        }
+      ]
+    },
+    {
+      "polityKey": "SPANISH_MOROCCO",
+      "action": "overlord",
+      "runtimeOverlord": "SPAIN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under neutral player-facing Spain for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860422
+        }
+      ]
+    },
+    {
+      "polityKey": "SULTANATE_OF_LAHEJ",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2921515
+        }
+      ]
+    },
+    {
+      "polityKey": "SWAZILAND_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691746
+        }
+      ]
+    },
+    {
+      "polityKey": "TANGANYIKA_TERRITORY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801206
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2855612
+        }
+      ]
+    },
+    {
+      "polityKey": "TERRITORY_OF_WESTERN_SAMOA",
+      "action": "overlord",
+      "runtimeOverlord": "DOMINION_OF_NEW_ZEALAND",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "New Zealand mandate represented through the Dominion of New Zealand.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846170
+        }
+      ]
+    },
+    {
+      "polityKey": "TRINIDAD_AND_TOBAGO_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834829
+        }
+      ]
+    },
+    {
+      "polityKey": "TRUCIAL_STATES",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848320
+        }
+      ]
+    },
+    {
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831731
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 19
+        }
+      ]
+    },
+    {
+      "polityKey": "ZANZIBAR_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, dominion, Crown Dependency, or military administration represented under the United Kingdom for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690950
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "dependentPolities": 112,
+    "runtimeOverlords": 112,
+    "jointAdministrations": 2,
+    "noRuntimeOverlord": 0
+  }
+}

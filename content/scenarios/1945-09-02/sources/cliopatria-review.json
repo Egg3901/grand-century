@@ -1,0 +1,824 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1945-09-02",
+  "source": {
+    "key": "cliopatria-0.2.0",
+    "commit": "ad28a691b7c07c1fca89d0e0636d324667d2a258",
+    "archiveSha256": "d01ae3a20d358cc5d54f69d9d725d390767d9c8759ac89ad6f90c58d106f3370",
+    "license": "CC BY 4.0",
+    "attribution": "Cliopatria by Seshat Global History Databank, used under CC BY 4.0.",
+    "transformations": "Filtered to the exact scenario year, normalized into source-candidate records, hashed per geometry, and compared with independently curated scenario assertions."
+  },
+  "entries": [
+    {
+      "identityKey": "Q1138904",
+      "displayName": "Kingdom of Afghanistan",
+      "wikidata": "Q1138904",
+      "sourceRecords": [
+        37
+      ],
+      "intervals": [
+        {
+          "fromYear": 1943,
+          "toYear": 1946
+        }
+      ],
+      "geometryHashes": [
+        "803ff481c233be644d2ef1d829e25244a3c28bd5a5136e268bb6a17b868d65ed"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_AFGHANISTAN",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q115",
+      "displayName": "Ethiopia",
+      "wikidata": "Q115",
+      "sourceRecords": [
+        35
+      ],
+      "intervals": [
+        {
+          "fromYear": 1942,
+          "toYear": 1952
+        }
+      ],
+      "geometryHashes": [
+        "47d11ed21cb79606a2ece855f52fe4651c123811520e96269be1ac87f177d6b1"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "ETHIOPIA",
+      "notes": "Cliopatria's Ethiopia identity corroborates the exact-date OHM Ethiopia polity.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q13474305",
+      "displayName": "Francoist Spain",
+      "wikidata": "Q13474305",
+      "sourceRecords": [
+        52
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1957
+        }
+      ],
+      "geometryHashes": [
+        "17332f65528e33148d30cb7ec11dfd2b8064758ae3212c9fd6779353610e70a4"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SPAIN",
+      "notes": "The regime-specific Cliopatria identity is mapped to neutral player-facing Spain. No regime imagery is introduced.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q139708",
+      "displayName": "Lebanon",
+      "wikidata": "Q139708",
+      "sourceRecords": [
+        40,
+        69
+      ],
+      "intervals": [
+        {
+          "fromYear": 1944,
+          "toYear": 1945
+        },
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "e084d931385bcc5fbc49531cff9b61819d92246a7d1821385e8e7e16b77d94a0",
+        "e7a1f7478972e41feec731ef70c31573d116f1d8824a3e99f11d706ffe884759"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "LEBANON",
+      "notes": "Cliopatria's Lebanon identity maps to the exact-date OHM Lebanon polity. The 1936 French mandate classification is not carried forward.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q148",
+      "displayName": "Republic of China",
+      "wikidata": "Q148",
+      "sourceRecords": [
+        66
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "94eb21d3946b045e2bd3d2280705177240da9de386cae79b15a7cdd4151f9147"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "REPUBLIC_OF_CHINA",
+      "notes": "Cliopatria's Republic of China identity maps to the exact-date OHM Republic of China polity.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q17427",
+      "displayName": "Communist Party of China",
+      "wikidata": "Q17427",
+      "sourceRecords": [
+        29
+      ],
+      "intervals": [
+        {
+          "fromYear": 1938,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "52113f17f9fd3f0a4e21b42a4b4b15350649947a5ffac95e1db02139b2a314f3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "constituent",
+      "polityKey": "CHINESE_COMMUNIST_BASE_AREAS",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q179848",
+      "displayName": "British Africa",
+      "wikidata": "Q179848",
+      "sourceRecords": [
+        74
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "d6519f9f72bc649e83c308cca7563da510c4061173fa37652a71f3a034143e1f"
+      ],
+      "memberOf": [
+        "(British Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q185682",
+      "displayName": "French Indochina",
+      "wikidata": "Q185682",
+      "sourceRecords": [
+        32
+      ],
+      "intervals": [
+        {
+          "fromYear": 1941,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "4fb40dcf0da8bef1722721ca0fd5228cd0a3db6f6ec97216ec745b2ce841daa3"
+      ],
+      "memberOf": [
+        "(Vichy France)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Cliopatria's year-level French Indochina geometry overlaps the exact-date OHM Vietnam, Laos, and Cambodia identities, and its Vichy France membership is stale by 1945-09-02.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q188712",
+      "displayName": "Empire of Japan",
+      "wikidata": "Q188712",
+      "sourceRecords": [
+        54
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "d4773ad5203c69857baf559819045854a625a252a4262a8c0e5d1cff669c89c9"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "EMPIRE_OF_JAPAN",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q19951607",
+      "displayName": "French Africa",
+      "wikidata": "Q19951607",
+      "sourceRecords": [
+        67
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "94b6c14ab022d52b5dfb29c0b6dee5c215bf087b2221bde5e72e153d7bf42a87"
+      ],
+      "memberOf": [
+        "(French Fourth Republic)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1998401",
+      "displayName": "North Yemen",
+      "wikidata": "Q1998401",
+      "sourceRecords": [
+        26
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1986
+        }
+      ],
+      "geometryHashes": [
+        "63739a9bfc77399e75b5aebd030fabcb85ea8ddb9e069dfa3d9599afa300d104"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "MUTAWAKKILITE_KINGDOM_OF_YEMEN",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q207991",
+      "displayName": "Pahlavi Dynasty",
+      "wikidata": "Q207991",
+      "sourceRecords": [
+        33
+      ],
+      "intervals": [
+        {
+          "fromYear": 1942,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "12cdfddb54c083b3de7bc04d22c520ba41063db0a408073568d1af26ef48a60c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "IRAN",
+      "notes": "Cliopatria's Pahlavi dynasty identity maps to the exact-date OHM Iran polity and does not create a second country.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q212056",
+      "displayName": "Mongolian People's Republic",
+      "wikidata": "Q212056",
+      "sourceRecords": [
+        58
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "3b8d815389613e990a51c1aa95d26c3c9c556c856de456a3ce48ea40946eb654"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "MONGOLIAN_PEOPLE_S_REPUBLIC",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q222",
+      "displayName": "Albania",
+      "wikidata": "Q222",
+      "sourceRecords": [
+        56
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "99e64568786a4a522c7fb114b2713a1686f83cb02b203bb633e71bd2516ebece"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "DEMOCRATIC_GOVERNMENT_OF_ALBANIA",
+      "notes": "Cliopatria's generic Albania identity maps to the exact-date Democratic Government of Albania. The prewar monarchy key is not carried forward.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q23666",
+      "displayName": "Kingdom of Great Britain",
+      "wikidata": "Q23666",
+      "sourceRecords": [
+        48
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1946
+        }
+      ],
+      "geometryHashes": [
+        "3a3230b3f0e0e4bb95dcd7d65de2e794b0afdb39bcfe14bad3ee55a341be60b7"
+      ],
+      "memberOf": [
+        "(British Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The Kingdom of Great Britain label is obsolete for 1945. Its geometry duplicates the exact-date United Kingdom source and does not create a roster identity.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q25227",
+      "displayName": "Netherlands Antilles",
+      "wikidata": "Q25227",
+      "sourceRecords": [
+        2
+      ],
+      "intervals": [
+        {
+          "fromYear": 1877,
+          "toYear": 2023
+        }
+      ],
+      "geometryHashes": [
+        "230dde77fd2a46ca6eef3a0cc15d0b52c38f29bdb717e8e77596301c66aa7488"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "NETHERLANDS_ANTILLES",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q258",
+      "displayName": "South Africa",
+      "wikidata": "Q258",
+      "sourceRecords": [
+        19
+      ],
+      "intervals": [
+        {
+          "fromYear": 1932,
+          "toYear": 1972
+        }
+      ],
+      "geometryHashes": [
+        "31811f8a921670f97a2d16dd10a5977fba794c50a10a598c850fc3890ad2ffa6"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q2719360",
+      "displayName": "Luxembourg",
+      "wikidata": "Q2719360",
+      "sourceRecords": [
+        47
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1949
+        }
+      ],
+      "geometryHashes": [
+        "b8acf7ac1380ca14cee673ba1ab6f483431a22017142c1f581b69219a6f303ca"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "LUXEMBOURG",
+      "notes": "Cliopatria's Luxembourg identity maps to the exact-date OHM Luxembourg polity and does not create a second country.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q3497642",
+      "displayName": "Tangier International Zone",
+      "wikidata": "Q3497642",
+      "sourceRecords": [
+        11
+      ],
+      "intervals": [
+        {
+          "fromYear": 1912,
+          "toYear": 1955
+        }
+      ],
+      "geometryHashes": [
+        "e4cc9564b484d242aa57a0ad1d48f8d29cc96727e59eeb9e2709fe0eec20eaad"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "map_fragment",
+      "polityKey": null,
+      "notes": "Cliopatria's year-level Tangier International Zone geometry is not exact for 1945-09-02. Spanish occupation continued until the provisional international regime took over on 1945-10-11.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q350186",
+      "displayName": "Denmark",
+      "wikidata": "Q350186",
+      "sourceRecords": [
+        72
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "8f88107ae13a51a42ceaf95a26186c56cf5390320b909c79e46a9b5d25e0f90b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "DANMARK",
+      "notes": "Cliopatria's Denmark identity maps to the exact-date OHM Denmark polity.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q521263",
+      "displayName": "Tibet",
+      "wikidata": "Q521263",
+      "sourceRecords": [
+        42
+      ],
+      "intervals": [
+        {
+          "fromYear": 1944,
+          "toYear": 1946
+        }
+      ],
+      "geometryHashes": [
+        "1309d0ab7de04b773ef8308d841d76ecc89c756f2a9cbea5c68580053e45b0f3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "TIBET",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q5306909",
+      "displayName": "Éire",
+      "wikidata": "Q5306909",
+      "sourceRecords": [
+        28
+      ],
+      "intervals": [
+        {
+          "fromYear": 1938,
+          "toYear": 1972
+        }
+      ],
+      "geometryHashes": [
+        "b23696c7c536911be5b3617ff71e4b5e93dc8b3870cdead5ca59236a8dd0e924"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "EIRE_IRELAND",
+      "notes": "Cliopatria's Eire identity maps to the exact-date OHM Eire and Ireland polity.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q55",
+      "displayName": "Netherlands",
+      "wikidata": "Q55",
+      "sourceRecords": [
+        61,
+        71
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1949
+        },
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "5359c1fbd046049cd6f396c44d384c00c4cbd778cd74fc9ff7b6341b530f24df",
+        "5359c1fbd046049cd6f396c44d384c00c4cbd778cd74fc9ff7b6341b530f24df"
+      ],
+      "memberOf": [
+        "(Netherlands)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "polity",
+      "polityKey": "KONINKRIJK_DER_NEDERLANDEN",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q717",
+      "displayName": "Venezuela",
+      "wikidata": "Q717",
+      "sourceRecords": [
+        7
+      ],
+      "intervals": [
+        {
+          "fromYear": 1900,
+          "toYear": 1986
+        }
+      ],
+      "geometryHashes": [
+        "2d1d550aefc272e9e0136c975adf61cec6e242418e4a4fa1d9ae9466fc737d56"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "ESTADOS_UNIDOS_DE_VENEZUELA",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q786",
+      "displayName": "Dominican Republic",
+      "wikidata": "Q786",
+      "sourceRecords": [
+        15
+      ],
+      "intervals": [
+        {
+          "fromYear": 1924,
+          "toYear": 2023
+        }
+      ],
+      "geometryHashes": [
+        "8d0f940cbab838c3a0845e8eff4002d5838982d25ae7a492ced0f69b7a071744"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "DOMINICAN_REPUBLIC",
+      "notes": "Cliopatria's Dominican Republic identity maps to the exact-date OHM Dominican Republic polity and does not create a second country.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q811",
+      "displayName": "Republic of Nicaragua",
+      "wikidata": "Q811",
+      "sourceRecords": [
+        6
+      ],
+      "intervals": [
+        {
+          "fromYear": 1898,
+          "toYear": 2023
+        }
+      ],
+      "geometryHashes": [
+        "ea115676eac4096e80b9f64a73449ea6bb50afa1498b07d3cd5e5acbfa0d695d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "NICARAGUA",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q824489",
+      "displayName": "Estado Novo",
+      "wikidata": "Q824489",
+      "sourceRecords": [
+        75
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "32004502732d20243520d8136c0d54bc7be45cc2eac8a591493d8141e4bbc6c3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "PORTUGAL",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q83286",
+      "displayName": "Yugoslavia",
+      "wikidata": "Q83286",
+      "sourceRecords": [
+        45
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "c9970d55c8040cd566fb59c401e21c2c260b8db42ed3e6c3c3fe7d8924af72d5"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "DEMOCRATIC_FEDERAL_YUGOSLAVIA",
+      "notes": "Cliopatria's generic Yugoslavia identity maps to Democratic Federal Yugoslavia. The prewar kingdom key is not carried forward.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q840601",
+      "displayName": "East Turkestan Republic",
+      "wikidata": "Q840601",
+      "sourceRecords": [
+        70
+      ],
+      "intervals": [
+        {
+          "fromYear": 1945,
+          "toYear": 1947
+        }
+      ],
+      "geometryHashes": [
+        "0c4f9aa62a312780e95b091d3ae44d035655ade296f77d99501da9aa76110218"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "EAST_TURKESTAN_REPUBLIC",
+      "notes": "Cliopatria records the de facto East Turkestan Republic in 1945. Its unrecognized status and Soviet influence are handled in relationship data rather than erasing it from the roster.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q8680",
+      "displayName": "British Colonial Empire",
+      "wikidata": "Q8680",
+      "sourceRecords": [
+        34,
+        63
+      ],
+      "intervals": [
+        {
+          "fromYear": 1942,
+          "toYear": 1945
+        },
+        {
+          "fromYear": 1945,
+          "toYear": 1945
+        }
+      ],
+      "geometryHashes": [
+        "e73d568c9e69e0a321dfc49e293aa6d0657013f0f0c1c410c635a6dabd1447c8",
+        "233d76c19be39bb2b3bf9899562294767c6b902b01194fdebce7d71c36869737"
+      ],
+      "memberOf": [
+        "(British Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1945-09-02. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex temporal carry-forward review",
+      "reviewedAt": "2026-09-02"
+    }
+  ]
+}

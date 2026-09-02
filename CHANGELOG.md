@@ -4,6 +4,37 @@ All notable changes to Grand Century are documented here.
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-09-02
+
+### The long century
+
+Grand Century now treats its Victoria 2 inspired simulation as an engine for
+multiple historical worlds, not a game tied to one opening day.
+
+- **Seven selectable starts.** The scenario ladder now covers 1700-01-01,
+  1776-07-04, 1815-06-18, 1830-01-01, 1914-07-28, 1936-01-01, and
+  1945-09-02. The established 1830 world remains the compatibility start.
+- **Seeded exact-date worlds.** Scenario manifests, rosters, diplomatic
+  relationships, ownership, geometry assignments, and provenance compile into
+  deterministic runtime seeds. The 1914, 1936, and 1945 maps assign all 548
+  provinces; earlier development scenarios retain explicit coverage gaps rather
+  than inventing unsupported owners.
+- **A reusable historical pipeline.** OpenHistoricalMap and Cliopatria inputs
+  are classified and reviewed through checked-in source packets. Third-party
+  geometry remains a validation and compilation input and is not vendored into
+  the shipped map.
+- **Simulation dates are no longer Victorian-only.** Runtime clocks, saves,
+  military systems, diplomacy, economy, AI, events, and UI date handling now
+  support the full 1700 to 1945 range and long campaigns beyond it.
+- **Historically neutral visual policy.** Twentieth-century German scenarios
+  use neutral civic and military presentation. Nazi symbols and imagery are
+  prohibited from generated and shipped assets.
+- **Reproducible national borders.** Historical seed generation now rebuilds
+  national border geometry and checks it for drift alongside the 1830 baseline.
+  A pinned validation-only basemap audit remains available for research.
+
+[1.7.0]: https://github.com/Egg3901/grand-century/releases/tag/v1.7.0
+
 ## [1.6.1] - 2026-08-24
 
 - Added local, era-styled flags for all thirteen polities introduced by the

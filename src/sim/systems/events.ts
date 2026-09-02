@@ -6,7 +6,7 @@
  */
 
 import { DECISION_DEFS } from '../../data/decisions';
-import { WORLD_SEED } from '../../data/generated';
+import { loadScenario } from '../../data/generated';
 import { EVENT_DEFS } from '../../data/events';
 import type {
   DecisionDef,
@@ -28,6 +28,7 @@ import type { Rng } from '../rng';
 import { getOrCreateRelation, grantContentCb, relationForNations } from './diplomacy';
 import { RESEARCH_POINT_CAP } from './research';
 import { addColonialPointsModifier, COLONIAL_CLAIM_COST, startColonization } from './war';
+import { monthIndexAtDay, yearAtDay } from '../calendar';
 
 const STAGGER_BUCKETS = 6;
 const TREASURY_MIN = -25_000;
@@ -37,23 +38,6 @@ const DECISION_CHAIN_IDS: string[][] = [
   ['il_risorgimento', 'french_entente', 'expedition_of_the_thousand', 'rome_question'],
 ];
 const TREASURY_MAX = 5_000_000;
-const EPOCH_YEAR = 1830;
-const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-function monthIndexFromDay(day: number): number {
-  let remaining = day;
-  let year = EPOCH_YEAR;
-  while (remaining >= 365) {
-    remaining -= 365;
-    year += 1;
-  }
-  let month = 0;
-  while (month < 12 && remaining >= DAYS_IN_MONTH[month]) {
-    remaining -= DAYS_IN_MONTH[month];
-    month += 1;
-  }
-  return (year - EPOCH_YEAR) * 12 + month;
-}
 
 function clamp(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) return min;
@@ -66,10 +50,6 @@ function historyKey(id: string, nationId: NationId): string {
 
 function monthsBetween(earlierDay: number, laterDay: number): number {
   return Math.max(0, Math.floor((laterDay - earlierDay) / 30));
-}
-
-function currentYear(day: number): number {
-  return EPOCH_YEAR + Math.floor(day / 365);
 }
 
 function ensureEventState(world: World): void {
@@ -227,7 +207,7 @@ export function checkRequirement(
   nation: Nation,
   req: EventRequirement,
 ): { ok: boolean; reason: string } {
-  const year = currentYear(world.day);
+  const year = yearAtDay(world.day, world.startDate ?? data.startDate);
   switch (req.t) {
     case 'minTreasury':
       return nation.treasury >= req.value
@@ -309,7 +289,7 @@ function triggerMet(
   nation: Nation,
   trigger: EventTriggerDef,
 ): boolean {
-  const year = currentYear(world.day);
+  const year = yearAtDay(world.day, world.startDate ?? data.startDate);
   if (trigger.yearAtLeast !== undefined && year < trigger.yearAtLeast) return false;
   if (trigger.yearAtMost !== undefined && year > trigger.yearAtMost) return false;
   if (trigger.isCivilized !== undefined && nation.isCivilized !== trigger.isCivilized) return false;
@@ -780,16 +760,16 @@ const BOP_RIVALRY_SHARE = 0.8;
  * each nation's thresholds sit above its seed-day share.
  */
 const BOP_SEED_SHARE = new Map<string, number>();
-const seedShareKey = (formableKey: string, tag: string) => `${formableKey}|${tag}`;
+const seedShareKey = (scenarioId: string, formableKey: string, tag: string) => `${scenarioId}|${formableKey}|${tag}`;
 function seedCoreShare(data: GameData, formableKey: string, tag: string): number {
-  const key = seedShareKey(formableKey, tag);
+  const key = seedShareKey(data.scenarioId, formableKey, tag);
   const cached = BOP_SEED_SHARE.get(key);
   if (cached !== undefined) return cached;
   const formable = data.formables?.find((entry) => entry.key === formableKey);
   let share = 0;
   if (formable && formable.coreStateIds.length > 0) {
     const stateOwner = new Map<number, string>();
-    for (const p of WORLD_SEED.provinces) stateOwner.set(p.stateId, p.ownerTag);
+    for (const p of loadScenario(data.scenarioId).worldSeed.provinces) stateOwner.set(p.stateId, p.ownerTag);
     const owned = formable.coreStateIds.filter((stateId) => stateOwner.get(stateId) === tag).length;
     share = owned / formable.coreStateIds.length;
   }
@@ -881,7 +861,7 @@ export function applyBalanceOfPowerPressure(world: World, data: GameData): void 
 export function runEventsMonthly(world: World, data: GameData, rng: Rng): void {
   ensureEventState(world);
   applyBalanceOfPowerPressure(world, data);
-  const monthIndex = monthIndexFromDay(world.day);
+  const monthIndex = monthIndexAtDay(world.day, world.startDate ?? data.startDate);
   const bucket = ((monthIndex % STAGGER_BUCKETS) + STAGGER_BUCKETS) % STAGGER_BUCKETS;
 
   const nationIds = world.nations.map((n) => n.id).sort((a, b) => a - b);

@@ -4,8 +4,7 @@ import { createWorld } from './bootstrap';
 import { applyCommand } from './commands';
 import { computeReformLegality } from './politics';
 import { advanceDay, dayToDate } from './world';
-
-const EPOCH_YEAR = 1830;
+import { yearAtDay } from './calendar';
 const DEFAULT_SEEDS = [6602, 6614, 6626];
 const URBAN_TYPES = new Set<PopType>(['craftsman', 'clerk', 'capitalist']);
 const MILITANCY_BANDS = [
@@ -216,7 +215,7 @@ function toDecadeCounts(map: Map<number, number>): DecadeCount[] {
 }
 
 function firstDayOfYear(world: World): boolean {
-  const date = dayToDate(world.day);
+  const date = dayToDate(world.day, world.startDate);
   return date.day === 1 && date.month === 1;
 }
 
@@ -418,7 +417,7 @@ export function runCampaignMetrics(data: GameData, seed: number, years: number):
 
   for (let day = 0; day < days; day++) {
     advanceDay(world, data);
-    const year = EPOCH_YEAR + Math.floor(world.day / 365);
+    const year = yearAtDay(world.day, world.startDate ?? data.startDate);
     const activeRebellions = world.rebellions.filter((rebellion) => rebellion.status === 'active').length;
     const rebelArmies = world.armies.filter((army) => army.rebel && army.regiments.length > 0).length;
     peakActiveRebellions = Math.max(peakActiveRebellions, activeRebellions);
@@ -479,7 +478,7 @@ export function runCampaignMetrics(data: GameData, seed: number, years: number):
   const inflationYoYByGood: Record<string, ScalarPoint[]> = {};
   for (const [good, points] of Object.entries(priceRatioByGood)) inflationYoYByGood[good] = toInflationCurve(points);
 
-  const hegemonyAtYear20 = hegemonySeries.find((point) => point.year >= EPOCH_YEAR + 20)?.value ?? hegemonySeries[0]?.value ?? 0;
+  const hegemonyAtYear20 = hegemonySeries.find((point) => point.year >= data.startDate.year + 20)?.value ?? hegemonySeries[0]?.value ?? 0;
   const finalMil = militancySeries[militancySeries.length - 1]?.bands['8-10'] ?? 0;
   const startPop = totalPopSeries[0]?.value ?? 0;
   const endPop = totalPopSeries[totalPopSeries.length - 1]?.value ?? startPop;
@@ -675,7 +674,7 @@ function runPlayerScenario(
   let enactedReforms = 0;
 
   for (let day = 0; day < days; day++) {
-    const upcomingDate = dayToDate(world.day + 1);
+    const upcomingDate = dayToDate(world.day + 1, world.startDate ?? data.startDate);
     if (upcomingDate.day === 1) {
       const before = { ...(world.nations[world.playerNation]?.reforms ?? {}) };
       applyMonthly(world, upcomingDate.year);
@@ -728,7 +727,7 @@ function evaluatePlayerSteerability(data: GameData, seed: number, years: number)
   austerity.name = 'tax_tariff_relief';
 
   const factoryPush = runPlayerScenario(data, seed, years, (world, year) => {
-    if ((year - EPOCH_YEAR) % 2 !== 0) return;
+    if ((year - data.startDate.year) % 2 !== 0) return;
     const state = pickPlayerState(world);
     if (state < 0) return;
     const recipe = data.recipes
@@ -748,7 +747,7 @@ function evaluatePlayerSteerability(data: GameData, seed: number, years: number)
   factoryPush.name = 'factory_build_push';
 
   const reformPush = runPlayerScenario(data, seed, years, (world, year) => {
-    if ((year - EPOCH_YEAR) % 3 !== 0) return;
+    if ((year - data.startDate.year) % 3 !== 0) return;
     const reform = pickReformCommand(world, data);
     if (!reform) return;
     applyCommand(world, data, { t: 'enactReform', reform: reform.reform, level: reform.level }, post);
@@ -829,4 +828,3 @@ export function runSeasonReport(data: GameData, options: SeasonReportOptions = {
     steerability,
   };
 }
-

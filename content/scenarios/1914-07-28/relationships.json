@@ -1,0 +1,3122 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1914-07-28",
+  "relationships": [
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "ADEN_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2921507
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "AFRIQUE_EQUATORIALE_FRANCAISE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2840000
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "ALGERIE_FRANCAISE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690948
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "ASHANTI_COLONY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923088
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "AUSTRALIA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828359
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2846174
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BECHUANALAND_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691745
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_CEYLON",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848313
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_CONCESSION_IN_TIANJIN",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2901231
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_CYPRUS",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848135
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2848136
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_GUIANA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806844
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_HONDURAS_COLONY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807603
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_HONG_KONG",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694575
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_LEEWARD_ISLANDS",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832972
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_MAURITIUS",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831873
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_NORTH_BORNEO",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848286
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_RAJ",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923715
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831242
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_SOMALILAND",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2926848
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846233
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "BRITISH_WINDWARD_ISLANDS",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834750
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "CABINDA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839750
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "CANADA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831069
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "CAYMAN_ISLANDS",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831970
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ITALIA",
+      "to": "COLONIA_ERITREA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Italian imperial administration represented under Italy for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690839
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "COLONIE_DE_LA_GUADELOUPE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861172
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "COLONIE_DE_LA_GUYANE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861194
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "COLONIE_DE_MADAGASCAR_ET_DEPENDANCES",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865795
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "COLONIE_DU_GABON",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2840002
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "COLONIE_DU_MOYEN_CONGO",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839974
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2918030
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_AND_PROTECTORATE_OF_NIGERIA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690856
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_BARBADOS",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832944
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_BASUTOLAND",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691741
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_BERMUDA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831964
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_FIJI",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846213
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_JAMAICA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834850
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_MALTA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801185
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_SEYCHELLES",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831866
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_THE_BAHAMAS",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834851
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COLONY_OF_THE_STRAITS_SETTLEMENT",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848278
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828507
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "BELGIQUE",
+      "to": "CONGO_BELGE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Belgian colony or mandate represented under Belgium for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690860
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DOMINION_OF_NEW_ZEALAND",
+      "to": "COOK_ISLANDS",
+      "basis": "temporal_carry_forward:reviewed_historical_dependency",
+      "notes": "New Zealand administration represented through the Dominion of New Zealand. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846264
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "DOMINION_OF_NEW_ZEALAND",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801019
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "KONINKRIJK_DER_NEDERLANDEN",
+      "to": "DUTCH_EAST_INDIES",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Dutch imperial administration represented under the Netherlands for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2864434
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876346
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "FEDERATED_MALAY_STATES",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848459
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "FRENCH_MOROCCO",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2866016
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "FRENCH_SOMALILAND",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803437
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "FRENCH_WEST_AFRICA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917206
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "GAMBIA_COLONY_AND_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803502
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "GIBRALTAR",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692855
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831184
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "GOA_PORTUGUESA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922053
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922074
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "GOLD_COAST_COLONY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828425
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DANMARK",
+      "to": "GREENLAND",
+      "basis": "temporal_carry_forward:reviewed_historical_dependency",
+      "notes": "Greenland represented under Denmark. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 38
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "GUANGZHOUWAN",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889933
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "GUERNSEY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828270
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "GUINE_PORTUGUESA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803504
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SECOND_SPANISH_REPUBLIC",
+      "to": "IFNI",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Second Spanish Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2805384
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ITALIA",
+      "to": "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Italian imperial administration represented under Italy for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830316
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "JERSEY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828299
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "JOHORE_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848476
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "KEDAH_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848479
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "KELANTAN_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848477
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "MALDIVES_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848182
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "AUSTRALIA",
+      "to": "NAURU",
+      "basis": "temporal_carry_forward:reviewed_joint_mandate",
+      "notes": "The joint mandate is recorded explicitly; Australia is the runtime authority as administering power. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846178
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "KONINKRIJK_DER_NEDERLANDEN",
+      "to": "NETHERLANDS_ANTILLES",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Dutch imperial administration represented under the Netherlands for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 11
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+      "basis": "temporal_carry_forward:reviewed_condominium",
+      "notes": "The Anglo-French condominium is recorded explicitly; the United Kingdom is the runtime authority because the simulation currently supports one overlord. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846175
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "NORTHERN_RHODESIA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691743
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "NORTHERN_TERRITORIES",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828423
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "NOUVELLE_CALEDONIE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876367
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "NYASALAND",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803134
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PERLIS_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848480
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PITCAIRN_ISLANDS",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846172
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "PORTUGUESE_MACAU",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694462
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2885981
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "PORTUGAL",
+      "to": "PORTUGUESE_TIMOR",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2864414
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "PROTECTORAT_FRANCAIS_DE_TUNISIE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690947
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_BAHRAIN",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848318
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_BRUNEI",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848297
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_KUWAIT",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848364
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_SARAWAK",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848299
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_TONGA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846200
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "PROTECTORATE_OF_UGANDA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2695210
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "REUNION",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865901
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SECOND_SPANISH_REPUBLIC",
+      "to": "RIO_DE_ORO",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Second Spanish Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860429
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SECOND_SPANISH_REPUBLIC",
+      "to": "SAGUIA_EL_HAMRA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Second Spanish Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860428
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "SAINT_HELENA_CROWN_COLONY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848195
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "SAINT_PIERRE_ET_MIQUELON",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831312
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "SIERRA_LEONE_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828774
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ITALIA",
+      "to": "SOMALIA_ITALIANA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Italian imperial administration represented under Italy for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923095
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "SOUTHERN_RHODESIA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831468
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SECOND_SPANISH_REPUBLIC",
+      "to": "SPANISH_GUINEA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Second Spanish Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860389
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SECOND_SPANISH_REPUBLIC",
+      "to": "SPANISH_MOROCCO",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Second Spanish Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860424
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "SULTANATE_OF_LAHEJ",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2921515
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "SWAZILAND_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691746
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "TRENGGANU_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848478
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "TRINIDAD_AND_TOBAGO_COLONY",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834829
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "TRUCIAL_STATES",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848320
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRENCH_THIRD_REPUBLIC",
+      "to": "UNION_INDOCHINOISE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745674
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 36
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "UNION_OF_SOUTH_AFRICA",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691747
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "UNITED_KINGDOM",
+      "to": "ZANZIBAR_PROTECTORATE",
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690950
+        }
+      ]
+    }
+  ],
+  "resolutions": [
+    {
+      "polityKey": "ADEN_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2921507
+        }
+      ]
+    },
+    {
+      "polityKey": "AFRIQUE_EQUATORIALE_FRANCAISE",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2840000
+        }
+      ]
+    },
+    {
+      "polityKey": "ALGERIE_FRANCAISE",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690948
+        }
+      ]
+    },
+    {
+      "polityKey": "ANGLO_EGYPTIAN_SUDAN",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2926749
+        }
+      ]
+    },
+    {
+      "polityKey": "ASHANTI_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923088
+        }
+      ]
+    },
+    {
+      "polityKey": "AUSTRALIA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828359
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2846174
+        }
+      ]
+    },
+    {
+      "polityKey": "BECHUANALAND_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691745
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_CEYLON",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848313
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_CONCESSION_IN_TIANJIN",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2901231
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_CYPRUS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848135
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2848136
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_EAST_AFRICA",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831417
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_GUIANA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806844
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_HONDURAS_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807603
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_HONG_KONG",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694575
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_LEEWARD_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832972
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_MAURITIUS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831873
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_NORTH_BORNEO",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848286
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_RAJ",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923715
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831242
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_SOMALILAND",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2926848
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_WEIHAIWEI",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848211
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846233
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_WINDWARD_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834750
+        }
+      ]
+    },
+    {
+      "polityKey": "CABINDA",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839750
+        }
+      ]
+    },
+    {
+      "polityKey": "CANADA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831069
+        }
+      ]
+    },
+    {
+      "polityKey": "CAYMAN_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831970
+        }
+      ]
+    },
+    {
+      "polityKey": "CIRENAICA_ITALIANA",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803190
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIA_ERITREA",
+      "action": "overlord",
+      "runtimeOverlord": "ITALIA",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Italian imperial administration represented under Italy for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690839
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DE_LA_GUADELOUPE",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861172
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DE_LA_GUYANE",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861194
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DE_MADAGASCAR_ET_DEPENDANCES",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865795
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DU_GABON",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2840002
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DU_MOYEN_CONGO",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839974
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2918030
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_AND_PROTECTORATE_OF_NIGERIA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690856
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_BARBADOS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832944
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_BASUTOLAND",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691741
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_BERMUDA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831964
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_FIJI",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846213
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_JAMAICA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834850
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_MALTA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801185
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_SEYCHELLES",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831866
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_THE_BAHAMAS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834851
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_THE_STRAITS_SETTLEMENT",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848278
+        }
+      ]
+    },
+    {
+      "polityKey": "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828507
+        }
+      ]
+    },
+    {
+      "polityKey": "CONGO_BELGE",
+      "action": "overlord",
+      "runtimeOverlord": "BELGIQUE",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Belgian colony or mandate represented under Belgium for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690860
+        }
+      ]
+    },
+    {
+      "polityKey": "COOK_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "DOMINION_OF_NEW_ZEALAND",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_historical_dependency",
+      "notes": "New Zealand administration represented through the Dominion of New Zealand. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846264
+        }
+      ]
+    },
+    {
+      "polityKey": "DANSK_VESTINDIEN",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2696415
+        }
+      ]
+    },
+    {
+      "polityKey": "DEUTSCH_NEUGUINEA",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889769
+        }
+      ]
+    },
+    {
+      "polityKey": "DEUTSCH_OSTAFRIKA",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2863617
+        }
+      ]
+    },
+    {
+      "polityKey": "DEUTSCH_SUDWESTAFRIKA",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2840010
+        }
+      ]
+    },
+    {
+      "polityKey": "DEUTSCHE_KOLONIE_TOGO",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691472
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2694162
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2828418
+        }
+      ]
+    },
+    {
+      "polityKey": "DOMINION_OF_NEW_ZEALAND",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801019
+        }
+      ]
+    },
+    {
+      "polityKey": "DUTCH_EAST_INDIES",
+      "action": "overlord",
+      "runtimeOverlord": "KONINKRIJK_DER_NEDERLANDEN",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Dutch imperial administration represented under the Netherlands for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2864434
+        }
+      ]
+    },
+    {
+      "polityKey": "EMIRATE_OF_BUKHARA",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851360
+        }
+      ]
+    },
+    {
+      "polityKey": "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876346
+        }
+      ]
+    },
+    {
+      "polityKey": "FEDERATED_MALAY_STATES",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848459
+        }
+      ]
+    },
+    {
+      "polityKey": "FRENCH_MOROCCO",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2866016
+        }
+      ]
+    },
+    {
+      "polityKey": "FRENCH_SOMALILAND",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803437
+        }
+      ]
+    },
+    {
+      "polityKey": "FRENCH_WEST_AFRICA",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917206
+        }
+      ]
+    },
+    {
+      "polityKey": "GAMBIA_COLONY_AND_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803502
+        }
+      ]
+    },
+    {
+      "polityKey": "GIBRALTAR",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692855
+        }
+      ]
+    },
+    {
+      "polityKey": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831184
+        }
+      ]
+    },
+    {
+      "polityKey": "GOA_PORTUGUESA",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922053
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922074
+        }
+      ]
+    },
+    {
+      "polityKey": "GOLD_COAST_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828425
+        }
+      ]
+    },
+    {
+      "polityKey": "GREENLAND",
+      "action": "overlord",
+      "runtimeOverlord": "DANMARK",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_historical_dependency",
+      "notes": "Greenland represented under Denmark. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 38
+        }
+      ]
+    },
+    {
+      "polityKey": "GUANGZHOUWAN",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889933
+        }
+      ]
+    },
+    {
+      "polityKey": "GUERNSEY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828270
+        }
+      ]
+    },
+    {
+      "polityKey": "GUINE_PORTUGUESA",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803504
+        }
+      ]
+    },
+    {
+      "polityKey": "HAUT_SENEGAL_ET_NIGER",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917202
+        }
+      ]
+    },
+    {
+      "polityKey": "IFNI",
+      "action": "overlord",
+      "runtimeOverlord": "SECOND_SPANISH_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Second Spanish Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2805384
+        }
+      ]
+    },
+    {
+      "polityKey": "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+      "action": "overlord",
+      "runtimeOverlord": "ITALIA",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Italian imperial administration represented under Italy for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830316
+        }
+      ]
+    },
+    {
+      "polityKey": "JERSEY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828299
+        }
+      ]
+    },
+    {
+      "polityKey": "JOHORE_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848476
+        }
+      ]
+    },
+    {
+      "polityKey": "KAMERUN",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828752
+        }
+      ]
+    },
+    {
+      "polityKey": "KEDAH_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848479
+        }
+      ]
+    },
+    {
+      "polityKey": "KELANTAN_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848477
+        }
+      ]
+    },
+    {
+      "polityKey": "KIAUTSCHOU_BAY_CONCESSION",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889899
+        }
+      ]
+    },
+    {
+      "polityKey": "MALDIVES_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848182
+        }
+      ]
+    },
+    {
+      "polityKey": "NAURU",
+      "action": "joint_administration",
+      "runtimeOverlord": "AUSTRALIA",
+      "participants": [
+        "AUSTRALIA",
+        "UNITED_KINGDOM",
+        "DOMINION_OF_NEW_ZEALAND"
+      ],
+      "basis": "temporal_carry_forward:reviewed_joint_mandate",
+      "notes": "The joint mandate is recorded explicitly; Australia is the runtime authority as administering power. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846178
+        }
+      ]
+    },
+    {
+      "polityKey": "NETHERLANDS_ANTILLES",
+      "action": "overlord",
+      "runtimeOverlord": "KONINKRIJK_DER_NEDERLANDEN",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Dutch imperial administration represented under the Netherlands for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 11
+        }
+      ]
+    },
+    {
+      "polityKey": "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+      "action": "joint_administration",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [
+        "UNITED_KINGDOM",
+        "FRENCH_THIRD_REPUBLIC"
+      ],
+      "basis": "temporal_carry_forward:reviewed_condominium",
+      "notes": "The Anglo-French condominium is recorded explicitly; the United Kingdom is the runtime authority because the simulation currently supports one overlord. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846175
+        }
+      ]
+    },
+    {
+      "polityKey": "NORTHERN_RHODESIA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691743
+        }
+      ]
+    },
+    {
+      "polityKey": "NORTHERN_TERRITORIES",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828423
+        }
+      ]
+    },
+    {
+      "polityKey": "NOUVELLE_CALEDONIE",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876367
+        }
+      ]
+    },
+    {
+      "polityKey": "NYASALAND",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803134
+        }
+      ]
+    },
+    {
+      "polityKey": "PERLIS_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848480
+        }
+      ]
+    },
+    {
+      "polityKey": "PITCAIRN_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846172
+        }
+      ]
+    },
+    {
+      "polityKey": "PORTUGUESE_MACAU",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694462
+        }
+      ]
+    },
+    {
+      "polityKey": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2885981
+        }
+      ]
+    },
+    {
+      "polityKey": "PORTUGUESE_TIMOR",
+      "action": "overlord",
+      "runtimeOverlord": "PORTUGAL",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under Portugal for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2864414
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORAT_DE_LA_MAURITANIE",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917211
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORAT_FRANCAIS_DE_TUNISIE",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690947
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_AFGHANISTAN",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848338
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_BAHRAIN",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848318
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_BRUNEI",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848297
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_KUWAIT",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848364
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_SARAWAK",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848299
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_TONGA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846200
+        }
+      ]
+    },
+    {
+      "polityKey": "PROTECTORATE_OF_UGANDA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2695210
+        }
+      ]
+    },
+    {
+      "polityKey": "PROVINCIA_DE_MOCAMBIQUE",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690864
+        }
+      ]
+    },
+    {
+      "polityKey": "REUNION",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865901
+        }
+      ]
+    },
+    {
+      "polityKey": "RIO_DE_ORO",
+      "action": "overlord",
+      "runtimeOverlord": "SECOND_SPANISH_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Second Spanish Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860429
+        }
+      ]
+    },
+    {
+      "polityKey": "SAGUIA_EL_HAMRA",
+      "action": "overlord",
+      "runtimeOverlord": "SECOND_SPANISH_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Second Spanish Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860428
+        }
+      ]
+    },
+    {
+      "polityKey": "SAINT_HELENA_CROWN_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848195
+        }
+      ]
+    },
+    {
+      "polityKey": "SAINT_PIERRE_ET_MIQUELON",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831312
+        }
+      ]
+    },
+    {
+      "polityKey": "SIERRA_LEONE_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828774
+        }
+      ]
+    },
+    {
+      "polityKey": "SOMALIA_ITALIANA",
+      "action": "overlord",
+      "runtimeOverlord": "ITALIA",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Italian imperial administration represented under Italy for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923095
+        }
+      ]
+    },
+    {
+      "polityKey": "SOUTHERN_RHODESIA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831468
+        }
+      ]
+    },
+    {
+      "polityKey": "SPANISH_GUINEA",
+      "action": "overlord",
+      "runtimeOverlord": "SECOND_SPANISH_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Second Spanish Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860389
+        }
+      ]
+    },
+    {
+      "polityKey": "SPANISH_MOROCCO",
+      "action": "overlord",
+      "runtimeOverlord": "SECOND_SPANISH_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Second Spanish Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860424
+        }
+      ]
+    },
+    {
+      "polityKey": "SULTANATE_OF_LAHEJ",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2921515
+        }
+      ]
+    },
+    {
+      "polityKey": "SWAZILAND_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691746
+        }
+      ]
+    },
+    {
+      "polityKey": "TOKELAU_ISLANDS_PROTECTORATE",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831185
+        }
+      ]
+    },
+    {
+      "polityKey": "TRENGGANU_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848478
+        }
+      ]
+    },
+    {
+      "polityKey": "TRINIDAD_AND_TOBAGO_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834829
+        }
+      ]
+    },
+    {
+      "polityKey": "TRIPOLITANIA_ITALIANA",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690837
+        }
+      ]
+    },
+    {
+      "polityKey": "TRUCIAL_STATES",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848320
+        }
+      ]
+    },
+    {
+      "polityKey": "UNION_INDOCHINOISE",
+      "action": "overlord",
+      "runtimeOverlord": "FRENCH_THIRD_REPUBLIC",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "French colony, protectorate, or mandate represented under the French Third Republic for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745674
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 36
+        }
+      ]
+    },
+    {
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691747
+        }
+      ]
+    },
+    {
+      "polityKey": "US_PHILIPPINES",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889835
+        }
+      ]
+    },
+    {
+      "polityKey": "WITULAND",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "unresolved_exact_date_relationship",
+      "notes": "No same-key relationship with represented participants carried into 1914-07-28; the compiler does not invent an overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831408
+        }
+      ]
+    },
+    {
+      "polityKey": "ZANZIBAR_PROTECTORATE",
+      "action": "overlord",
+      "runtimeOverlord": "UNITED_KINGDOM",
+      "participants": [],
+      "basis": "temporal_carry_forward:reviewed_colonial_identity",
+      "notes": "British colony, protectorate, mandate, or dominion represented under the United Kingdom for gameplay. Relationship classification carried to 1914-07-28 for the same semantic polity key.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690950
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "dependentPolities": 123,
+    "runtimeOverlords": 103,
+    "jointAdministrations": 2,
+    "noRuntimeOverlord": 20
+  }
+}
