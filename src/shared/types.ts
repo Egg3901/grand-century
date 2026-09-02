@@ -664,8 +664,10 @@ export interface Leader {
   trait: string;
 }
 
+export type RegimentType = 'infantry' | 'cavalry' | 'artillery' | 'guard' | 'armor' | 'aircraft';
+
 export interface Regiment {
-  type: 'infantry' | 'cavalry' | 'artillery' | 'guard';
+  type: RegimentType;
   strength: number;      // manpower 0-1000
   organization: number;  // 0-100, depleted before strength
   sourcePop: PopId;      // soldier pop that supplies it
@@ -709,8 +711,10 @@ export interface Army {
   supplied?: boolean;
 }
 
+export type ShipType = 'transport' | 'frigate' | 'manofwar' | 'ironclad' | 'destroyer' | 'submarine' | 'carrier';
+
 export interface Ship {
-  type: 'transport' | 'frigate' | 'manofwar' | 'ironclad';
+  type: ShipType;
   strength: number;
   organization: number;
 }
@@ -1176,6 +1180,10 @@ export interface NationSummary {
   mobilizationCapacity: number;
   /** Standing peacetime regiment cap (from soldier pops / reforms). */
   standingRegimentCapacity?: number;
+  /** Technology and reform gated land formations this nation may raise. */
+  availableRegimentTypes?: RegimentType[];
+  /** Technology gated ships this nation may construct. */
+  availableShipTypes?: ShipType[];
   /** Available colonial points after claim commitments. */
   colonialPoints?: number;
   /** Breakdown of colonial capacity sources. */

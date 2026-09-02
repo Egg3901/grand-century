@@ -112,8 +112,13 @@ export const TECHS: TechDef[] = [
     modifiers: { armyMovement: 0.05 },
   },
   {
-    key: 'army_mobile_warfare', name: 'Mobile Warfare', category: 'army', cost: 330, year: 1922,
+    key: 'army_military_aviation', name: 'Military Aviation', category: 'army', cost: 310, year: 1918,
     prereq: 'army_combined_arms',
+    effects: ['+Army combat power', 'Unlocks aircraft formations'],
+  },
+  {
+    key: 'army_mobile_warfare', name: 'Mobile Warfare', category: 'army', cost: 330, year: 1922,
+    prereq: 'army_military_aviation',
     effects: ['+Army combat power', '+Army movement'],
     modifiers: { armyMovement: 0.06, supplyRange: 0.5 },
   },

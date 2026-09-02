@@ -31,6 +31,7 @@ import {
   listCrisisCandidates,
 } from './systems/crisis';
 import { buildMovementViews, culturePolicyOf, CULTURE_TUNING, getCultureLedger } from './systems/culture';
+import { availableRegimentTypes, availableShipTypes } from './militaryCatalog';
 import {
   colonialReachKind,
   computeColonialPointsBreakdown,
@@ -294,6 +295,8 @@ export function buildSharedSnapshot(world: World, data: GameData): SharedSnapsho
       constructionBlocked: nation.constructionBlocked,
       mobilizationCapacity: nation.mobilizationCapacity,
       standingRegimentCapacity: nation.standingRegimentCapacity,
+      availableRegimentTypes: availableRegimentTypes(nation),
+      availableShipTypes: availableShipTypes(nation),
       colonialPoints: cpBreakdown.available,
       colonialPointsBreakdown: cpBreakdown,
     };

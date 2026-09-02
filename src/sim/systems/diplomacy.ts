@@ -6,12 +6,14 @@ import type {
   GreatPowerStanding,
   InfluenceTarget,
   NationId,
+  Ship,
   WarGoalType,
   World,
 } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
 import { gameDataForScenario } from '../../data/gameData';
+import { shipSpec } from '../militaryCatalog';
 
 const TRUCE_DURATION_DAYS = 365 * 5;
 const ALLIANCE_DURATION_DAYS = 365 * 10;
@@ -223,14 +225,8 @@ function cleanExpiredRelations(world: World): void {
   }
 }
 
-function militaryShipWeight(type: string): number {
-  switch (type) {
-    case 'transport': return 0.6;
-    case 'frigate': return 1;
-    case 'manofwar': return 1.45;
-    case 'ironclad': return 2.1;
-    default: return 1;
-  }
+function militaryShipWeight(type: Ship['type']): number {
+  return shipSpec(type).combatPower;
 }
 
 function computePowerScores(world: World): PowerScoreEntry[] {
