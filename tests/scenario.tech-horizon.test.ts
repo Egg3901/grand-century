@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { GAME_DATA } from '../src/data/gameData';
-import { createWorld } from '../src/sim/bootstrap';
+import { createWorld, initialTechKeysForSeed } from '../src/sim/bootstrap';
 
 const CATEGORIES = ['army', 'navy', 'commerce', 'industry', 'culture'] as const;
 
@@ -37,5 +37,22 @@ describe('multi-era technology horizon', () => {
       'enlightenment',
       'market_structure',
     ]));
+  });
+
+  it('derives dated starting technologies through the requested year', () => {
+    expect(initialTechKeysForSeed({ initialTechYear: 1700 }, [
+      { key: 'early', year: 1690 },
+      { key: 'current', year: 1700 },
+      { key: 'future', year: 1701 },
+      { key: 'undated' },
+    ])).toEqual(['early', 'current']);
+  });
+
+  it('lets an explicit technology list override the derived horizon', () => {
+    expect(initialTechKeysForSeed({ initialTechs: ['future'], initialTechYear: 1700 }, [])).toEqual(['future']);
+  });
+
+  it('preserves compatibility behavior when no horizon is supplied', () => {
+    expect(initialTechKeysForSeed({}, [])).toBeNull();
   });
 });

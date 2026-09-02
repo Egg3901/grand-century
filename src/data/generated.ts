@@ -34,6 +34,8 @@ export interface SeedNation {
   eraSummary?: string;
   /** Technologies held on the exact scenario start date. */
   initialTechs?: string[];
+  /** Include every dated technology at or before this year when no explicit list is supplied. */
+  initialTechYear?: number;
 }
 
 export interface SeedFormable {

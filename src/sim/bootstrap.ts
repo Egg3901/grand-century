@@ -12,6 +12,7 @@ import type {
   Terrain,
   World,
   CampaignMapMode,
+  TechDef,
 } from '../shared/types';
 import { Rng } from './rng';
 import { loadScenario, type WorldSeedData } from '../data/generated';
@@ -597,6 +598,17 @@ function gpRankFor(seed: { tag: string; greatPowerRank?: number }): number {
   return GP_ORDER.includes(seed.tag) ? GP_ORDER.indexOf(seed.tag) + 1 : 0;
 }
 
+export function initialTechKeysForSeed(
+  seed: { initialTechs?: string[]; initialTechYear?: number },
+  techs: readonly Pick<TechDef, 'key' | 'year'>[],
+): string[] | null {
+  if (seed.initialTechs) return seed.initialTechs.slice();
+  if (seed.initialTechYear === undefined) return null;
+  return techs
+    .filter((tech) => tech.year !== undefined && tech.year <= seed.initialTechYear!)
+    .map((tech) => tech.key);
+}
+
 function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
   const seedNationIdByTag = new Map(worldSeed.nations.map((seed, id) => [seed.tag, id]));
   const compatibilityInitialTechs = [
@@ -609,6 +621,7 @@ function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
   ];
   return worldSeed.nations.map((seed, id) => {
     const gpRank = gpRankFor(seed);
+    const seededTechs = initialTechKeysForSeed(seed, data.techs);
     return {
     coreStateIds: Array.from(new Set((data.nationCores?.[seed.tag] ?? seed.coreStateIds ?? []).slice())).sort((a, b) => a - b),
     id,
@@ -636,7 +649,7 @@ function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
     nationalConsciousness: 1.2,
     researchPoints: 0,
     reforms: nationReforms(data),
-    techs: seed.initialTechs?.slice() ?? (seed.government === 'uncivilized' ? [] : compatibilityInitialTechs.slice()),
+    techs: seededTechs ?? (seed.government === 'uncivilized' ? [] : compatibilityInitialTechs.slice()),
     currentResearch: null,
     researchProgress: 0,
     inventions: [],

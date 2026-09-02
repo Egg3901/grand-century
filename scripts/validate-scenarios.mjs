@@ -130,6 +130,97 @@ async function validateCompiledBorders(id) {
   }
 }
 
+async function validateCompiledSeed(id, manifest) {
+  const scenarioDir = path.join(scenariosRoot, id);
+  const generatedDir = path.join(root, 'src', 'data', 'scenarios', id);
+  const roster = await readJson(path.join(scenarioDir, 'polities.json'));
+  const worldSeed = await readJson(path.join(generatedDir, 'worldSeed.json'));
+  const borders = await readJson(path.join(generatedDir, 'nationalBorders.geo.json'));
+  const diagnostics = await readJson(path.join(generatedDir, 'seed-diagnostics.json'));
+  requireValue(diagnostics.schemaVersion === 1 && diagnostics.asOf === id, `${id} has invalid seed diagnostics`);
+  requireValue(worldSeed.provinceCount === worldSeed.provinces.length, `${id} seed province count is stale`);
+  requireValue(worldSeed.provinces.length > 0 && worldSeed.states.length > 0, `${id} seed is empty`);
+  requireValue(
+    worldSeed.provinces.every((province, index) => province.id === index),
+    `${id} seed province ids are not contiguous`,
+  );
+  requireValue(
+    worldSeed.states.every((state, index) => state.id === index),
+    `${id} seed state ids are not contiguous`,
+  );
+  const nationTags = worldSeed.nations.map((nation) => nation.tag);
+  const nationTagSet = new Set(nationTags);
+  requireValue(nationTagSet.size === nationTags.length, `${id} seed repeats a nation tag`);
+  const provinceById = new Map(worldSeed.provinces.map((province) => [province.id, province]));
+  const stateById = new Map(worldSeed.states.map((state) => [state.id, state]));
+  for (const province of worldSeed.provinces) {
+    requireValue(nationTagSet.has(province.ownerTag), `${id} province ${province.id} has unknown owner ${province.ownerTag}`);
+    const state = stateById.get(province.stateId);
+    requireValue(Boolean(state), `${id} province ${province.id} has unknown state ${province.stateId}`);
+    requireValue(state.ownerTag === province.ownerTag, `${id} province ${province.id} and state owner disagree`);
+    requireValue(state.provinceIds.includes(province.id), `${id} state ${state.id} omits province ${province.id}`);
+  }
+  for (const state of worldSeed.states) {
+    requireValue(nationTagSet.has(state.ownerTag), `${id} state ${state.id} has unknown owner ${state.ownerTag}`);
+    requireValue(state.provinceIds.length > 0, `${id} state ${state.id} has no provinces`);
+    for (const provinceId of state.provinceIds) {
+      requireValue(provinceById.get(provinceId)?.stateId === state.id, `${id} state ${state.id} has a stale province reference`);
+    }
+  }
+  for (const nation of worldSeed.nations) {
+    requireValue(provinceById.get(nation.capitalProvinceId)?.ownerTag === nation.tag, `${id} nation ${nation.tag} has an invalid capital`);
+    if (nation.overlordTag) {
+      requireValue(nationTagSet.has(nation.overlordTag), `${id} nation ${nation.tag} has an absent overlord`);
+    }
+  }
+  requireValue(borders.type === 'FeatureCollection', `${id} seed borders are not GeoJSON`);
+  for (const feature of borders.features ?? []) {
+    const nationId = feature.properties?.id;
+    requireValue(Number.isInteger(nationId) && nationId >= 0 && nationId < worldSeed.nations.length, `${id} seed border has an invalid nation id`);
+  }
+  const gapProvinceIds = worldSeed.provinces
+    .filter((province) => province.ownerTag === 'UNC')
+    .map((province) => province.id);
+  requireValue(
+    JSON.stringify(diagnostics.gapProvinceIds) === JSON.stringify(gapProvinceIds),
+    `${id} seed gap diagnostics are stale`,
+  );
+  requireValue(
+    diagnostics.assignedProvinces === worldSeed.provinces.length - gapProvinceIds.length,
+    `${id} seed assigned-province count is stale`,
+  );
+  const represented = worldSeed.nations.filter((nation) => nation.tag !== 'UNC').length;
+  requireValue(diagnostics.representedRosterPolities === represented, `${id} represented-polity count is stale`);
+  const expectedMissing = roster.polities
+    .map((polity) => polity.key)
+    .filter((key) => !nationTagSet.has(key));
+  requireValue(
+    JSON.stringify(diagnostics.rosterPolitiesWithoutProvinceCentroids) === JSON.stringify(expectedMissing),
+    `${id} missing-polity diagnostics are stale`,
+  );
+  const expectedTerritorialMissing = roster.polities
+    .filter((polity) => polity.status !== 'constituent')
+    .map((polity) => polity.key)
+    .filter((key) => !nationTagSet.has(key));
+  requireValue(
+    JSON.stringify(diagnostics.territorialRosterPolitiesWithoutProvinceCentroids) === JSON.stringify(expectedTerritorialMissing),
+    `${id} territorial missing-polity diagnostics are stale`,
+  );
+  if (manifest.status === 'playable') {
+    requireValue(gapProvinceIds.length === 0, `${id} playable seed still has uncovered provinces`);
+    requireValue(diagnostics.overlaps.length === 0, `${id} playable seed still has unresolved border overlaps`);
+    requireValue(diagnostics.nearestAssignments.length === 0, `${id} playable seed still has inferred nearest-border assignments`);
+    requireValue(expectedTerritorialMissing.length === 0, `${id} playable seed omits territorial roster polities`);
+  }
+  return {
+    id,
+    assigned: diagnostics.assignedProvinces,
+    total: diagnostics.provinceCount,
+    represented,
+    roster: roster.polities.length,
+  };
+}
+
 async function validateCliopatria(id, files) {
   const source = await readJson(path.join(root, 'content', 'sources', 'cliopatria', 'source.json'));
   requireValue(source.license === 'CC BY 4.0', 'Cliopatria source license changed');
@@ -224,6 +315,7 @@ requireValue(new Set(catalog.scenarios).size === catalog.scenarios.length, 'dupl
 const rosterAudits = [];
 const complementAudits = [];
 const geometryAudits = [];
+const seedAudits = [];
 for (const id of catalog.scenarios) {
   const manifest = await readJson(path.join(scenariosRoot, id, 'manifest.json'));
   validateManifest(manifest, id);
@@ -232,6 +324,7 @@ for (const id of catalog.scenarios) {
     await validateRoster(id, manifest);
     geometryAudits.push({ id, ...await validateGeometryAudit(id, manifest) });
     await validateCompiledBorders(id);
+    seedAudits.push(await validateCompiledSeed(id, manifest));
     const files = await loadScenarioRosterFiles(path.join(scenariosRoot, id));
     await validateCliopatria(id, files);
     rosterAudits.push(auditRosterReview(files));
@@ -261,5 +354,10 @@ for (const audit of complementAudits) {
 for (const audit of geometryAudits) {
   process.stdout.write(
     `${audit.id}: ${audit.valid}/${audit.total} OHM relations are raw-valid; ${audit.resolved}/${audit.invalid} invalid relations have explicit resolutions.\n`,
+  );
+}
+for (const audit of seedAudits) {
+  process.stdout.write(
+    `${audit.id}: ${audit.assigned}/${audit.total} province centroids represent ${audit.represented}/${audit.roster} roster polities.\n`,
   );
 }
