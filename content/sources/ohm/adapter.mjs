@@ -27,6 +27,47 @@ export function curatedRelationsQuery(relationIds) {
   return `[out:json][timeout:180];relation(id:${relationIds.join(',')})->.roots;(.roots;.roots >>;);out geom;`;
 }
 
+export function relationsByWikidataQuery(wikidataIds) {
+  if (!Array.isArray(wikidataIds) || wikidataIds.length === 0) {
+    throw new Error('[ohm] no Wikidata IDs requested');
+  }
+  const normalized = [...new Set(wikidataIds.map((id) => String(id).trim()))].sort();
+  for (const id of normalized) {
+    if (!/^Q[1-9]\d*$/.test(id)) throw new Error(`[ohm] invalid Wikidata ID ${id}`);
+  }
+  return `[out:json][timeout:180];relation["wikidata"~"^(${normalized.join('|')})$"];out tags;`;
+}
+
+export function relationsByNameQuery(searchText) {
+  const normalized = String(searchText ?? '').trim();
+  if (normalized.length < 3 || normalized.length > 120) throw new Error('[ohm] name search must be 3 to 120 characters');
+  const literalPattern = normalized.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return `[out:json][timeout:180];relation["name"~${JSON.stringify(literalPattern)},i];out tags;`;
+}
+
+export function discoverRelationsByWikidata(document, { asOf, wikidataIds }) {
+  if (!Array.isArray(document?.elements)) throw new Error('[ohm] identity lookup document has no elements array');
+  const requested = new Set(wikidataIds);
+  return document.elements
+    .filter((element) => element.type === 'relation' && requested.has(element.tags?.wikidata))
+    .map((element) => {
+      const license = evaluateOhmLicense(element.tags);
+      return {
+        relationId: element.id,
+        name: element.tags?.name ?? null,
+        wikidata: element.tags.wikidata,
+        startDate: element.tags?.start_date ?? null,
+        endDate: element.tags?.end_date ?? null,
+        activeOnDate: relationActiveOn(element.tags, asOf),
+        boundary: element.tags?.boundary ?? null,
+        adminLevel: element.tags?.admin_level ?? null,
+        license: license.effective,
+        licenseStatus: license.status,
+      };
+    })
+    .sort((left, right) => left.wikidata.localeCompare(right.wikidata) || left.relationId - right.relationId);
+}
+
 export function expandNestedRelation(relation, byId, ancestry = new Set()) {
   if (ancestry.has(relation.id)) throw new Error(`[ohm] relation ${relation.id} contains a nested relation cycle`);
   const nextAncestry = new Set(ancestry).add(relation.id);
@@ -68,6 +109,9 @@ export function compileOhmRelationGeometry(document, {
   const byId = elementIndex ?? indexOhmDocument(document);
   const relation = byId.get(`relation:${relationId}`);
   if (!relation) throw new Error(`[ohm] cache is missing relation ${relationId}`);
+  if (relation.tags?.type === 'chronology') {
+    throw new Error(`[ohm] relation ${relationId} is a chronology container, not a dated boundary`);
+  }
   if (!relationActiveOn(relation.tags, asOf)) throw new Error(`[ohm] relation ${relationId} is not active on ${asOf}`);
   requireAllowedOhmLicense(relation.tags, `relation ${relationId}`);
   return relationToGeoJsonFeature(
@@ -229,6 +273,9 @@ export function auditOhmGeometry(document, { asOf, relationIds }) {
       return { relationId, name, wikidata, status: 'license_review', license: license.effective };
     }
     try {
+      if (relation.tags?.type === 'chronology') {
+        throw new Error(`relation ${relationId} is a chronology container, not a dated boundary`);
+      }
       const feature = relationToGeoJsonFeature(expandNestedRelation(relation, byId));
       const polygons = feature.geometry.type === 'MultiPolygon' ? feature.geometry.coordinates.length : 1;
       return {
@@ -261,6 +308,41 @@ export async function loadSourcePack(specPath) {
 export async function discoverFromOhm({ asOf, cachePath, refresh = false, fetchImpl }) {
   const document = await queryOverpassCached(adminBoundaryDiscoveryQuery(), { cachePath, refresh, fetchImpl });
   return discoverActiveAdminBoundaries(document, asOf);
+}
+
+export async function findOhmRelationsByWikidata({ asOf, wikidataIds, cachePath, refresh = false, fetchImpl }) {
+  const document = await queryOverpassCached(relationsByWikidataQuery(wikidataIds), {
+    cachePath,
+    refresh,
+    fetchImpl,
+  });
+  return discoverRelationsByWikidata(document, { asOf, wikidataIds });
+}
+
+export async function findOhmRelationsByName({ asOf, searchText, cachePath, refresh = false, fetchImpl }) {
+  const document = await queryOverpassCached(relationsByNameQuery(searchText), {
+    cachePath,
+    refresh,
+    fetchImpl,
+  });
+  const candidates = document.elements
+    .filter((element) => element.type === 'relation')
+    .map((element) => {
+      const license = evaluateOhmLicense(element.tags);
+      return {
+        relationId: element.id,
+        name: element.tags?.name ?? null,
+        wikidata: element.tags?.wikidata ?? null,
+        startDate: element.tags?.start_date ?? null,
+        endDate: element.tags?.end_date ?? null,
+        activeOnDate: relationActiveOn(element.tags, asOf),
+        boundary: element.tags?.boundary ?? null,
+        adminLevel: element.tags?.admin_level ?? null,
+        license: license.effective,
+        licenseStatus: license.status,
+      };
+    });
+  return candidates.sort((left, right) => String(left.name).localeCompare(String(right.name)) || left.relationId - right.relationId);
 }
 
 export async function compileOhmSourcePack({ specPath, cachePath, refresh = false, fetchImpl }) {

@@ -8,7 +8,10 @@ import {
   compileCuratedRelations,
   curatedRelationsQuery,
   discoverActiveAdminBoundaries,
+  discoverRelationsByWikidata,
   queryOverpassCached,
+  relationsByNameQuery,
+  relationsByWikidataQuery,
 } from '../content/sources/ohm/adapter.mjs';
 import { evaluateOhmLicense, requireAllowedOhmLicense } from '../content/sources/ohm/license.mjs';
 import { relationToGeoJsonFeature } from '../content/sources/ohm/multipolygon.mjs';
@@ -132,6 +135,25 @@ describe('OHM multipolygon assembly', () => {
     expect(curatedRelationsQuery([parent.id])).toContain('.roots >>;');
   });
 
+  it('rejects chronology containers instead of merging every historical boundary', () => {
+    const child = sampleRelation();
+    child.id = 2;
+    const chronology = {
+      ...sampleRelation(),
+      id: 1,
+      tags: { type: 'chronology', name: 'Germany', start_date: '1871-01-18' },
+      members: [{ type: 'relation', ref: 2, role: '' }],
+    };
+    expect(() => compileOhmRelationGeometry(
+      { elements: [chronology, child] },
+      { relationId: 1, asOf: '1945-09-02' },
+    )).toThrow(/chronology container/i);
+    expect(auditOhmGeometry(
+      { elements: [chronology, child] },
+      { asOf: '1945-09-02', relationIds: [1] },
+    )[0]).toMatchObject({ status: 'invalid_geometry', error: expect.stringMatching(/chronology container/i) });
+  });
+
   it('indexes nested relation IDs separately from colliding way IDs', () => {
     const child = sampleRelation();
     child.id = 2;
@@ -150,6 +172,32 @@ describe('OHM multipolygon assembly', () => {
 });
 
 describe('OHM cached adapter', () => {
+  it('looks up curated Wikidata identities without requiring admin level 2', () => {
+    const active = sampleRelation();
+    active.id = 10;
+    active.tags.wikidata = 'Q55300';
+    active.tags.start_date = '1945-07-01';
+    active.tags.end_date = '1949-10-07';
+    delete active.tags.admin_level;
+    const inactive = sampleRelation();
+    inactive.id = 11;
+    inactive.tags.wikidata = 'Q55309';
+    inactive.tags.end_date = '1945-08-31';
+    const candidates = discoverRelationsByWikidata(
+      { elements: [active, inactive] },
+      { asOf: '1945-09-02', wikidataIds: ['Q55300', 'Q55309'] },
+    );
+    expect(candidates).toEqual([
+      expect.objectContaining({ relationId: 10, wikidata: 'Q55300', activeOnDate: true }),
+      expect.objectContaining({ relationId: 11, wikidata: 'Q55309', activeOnDate: false }),
+    ]);
+    expect(relationsByWikidataQuery(['Q55309', 'Q55300', 'Q55300']))
+      .toContain('^(Q55300|Q55309)$');
+    expect(() => relationsByWikidataQuery(['not-a-qid'])).toThrow(/invalid Wikidata ID/i);
+    expect(relationsByNameQuery('occupation zone')).toContain('["name"~"occupation zone",i]');
+    expect(relationsByNameQuery('zone (Germany)')).toContain(JSON.stringify('zone \\(Germany\\)'));
+  });
+
   it('requires an explicit refresh before any network request and then replays offline', async () => {
     const directory = await mkdtemp(path.join(tmpdir(), 'grand-century-ohm-'));
     temporaryDirectories.push(directory);

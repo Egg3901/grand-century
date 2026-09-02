@@ -6,6 +6,8 @@ import {
   compileOhmSourcePack,
   curatedRelationsQuery,
   discoverFromOhm,
+  findOhmRelationsByName,
+  findOhmRelationsByWikidata,
   queryOverpassCached,
   writeOhmCompileResult,
 } from '../content/sources/ohm/adapter.mjs';
@@ -20,6 +22,8 @@ function usage() {
   return [
     'Usage:',
     '  node scripts/ohm-source.mjs discover --date YYYY-MM-DD --cache FILE [--refresh] [--out FILE]',
+    '  node scripts/ohm-source.mjs identity-search --date YYYY-MM-DD --wikidata QID,QID --cache FILE [--refresh] [--out FILE]',
+    '  node scripts/ohm-source.mjs name-search --date YYYY-MM-DD --name TEXT --cache FILE [--refresh] [--out FILE]',
     '  node scripts/ohm-source.mjs compile --spec FILE --cache FILE [--refresh] --out FILE',
     '  node scripts/ohm-source.mjs geometry-audit --discovery FILE --cache-dir DIR [--chunk-size N] [--refresh] --out FILE',
   ].join('\n');
@@ -38,6 +42,32 @@ if (command === 'discover') {
   if (!asOf || !cachePath) throw new Error(usage());
   const candidates = await discoverFromOhm({ asOf, cachePath: path.resolve(cachePath), refresh });
   const result = { schemaVersion: 1, asOf, candidates };
+  if (outputPath) await writeOhmCompileResult(path.resolve(outputPath), result);
+  else process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+} else if (command === 'identity-search') {
+  const asOf = option(args, '--date');
+  const wikidataIds = (option(args, '--wikidata') ?? '').split(',').map((id) => id.trim()).filter(Boolean);
+  if (!asOf || wikidataIds.length === 0 || !cachePath) throw new Error(usage());
+  const candidates = await findOhmRelationsByWikidata({
+    asOf,
+    wikidataIds,
+    cachePath: path.resolve(cachePath),
+    refresh,
+  });
+  const result = { schemaVersion: 1, asOf, wikidataIds, candidates };
+  if (outputPath) await writeOhmCompileResult(path.resolve(outputPath), result);
+  else process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+} else if (command === 'name-search') {
+  const asOf = option(args, '--date');
+  const searchText = option(args, '--name');
+  if (!asOf || !searchText || !cachePath) throw new Error(usage());
+  const candidates = await findOhmRelationsByName({
+    asOf,
+    searchText,
+    cachePath: path.resolve(cachePath),
+    refresh,
+  });
+  const result = { schemaVersion: 1, asOf, searchText, candidates };
   if (outputPath) await writeOhmCompileResult(path.resolve(outputPath), result);
   else process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
 } else if (command === 'compile') {
