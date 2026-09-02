@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "asOf": "1700-01-01",
-  "nationalBorderGridDegrees": 0.05,
+  "nationalBorderGridDegrees": 0.06,
   "provinceCount": 548,
   "assignedProvinces": 450,
   "gapProvinceIds": [

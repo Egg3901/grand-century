@@ -78,7 +78,7 @@ async function validateOhmSpec(id) {
   }
 }
 
-async function validateGeometryAudit(id, manifest) {
+async function validateGeometryAudit(id) {
   const scenarioDir = path.join(scenariosRoot, id);
   const discovery = await readJson(path.join(scenarioDir, 'sources', 'ohm-discovery.json'));
   const audit = await readJson(path.join(scenarioDir, 'sources', 'ohm-geometry-audit.json'));
@@ -378,7 +378,7 @@ for (const id of catalog.scenarios) {
   await validateOhmSpec(id);
   if (id !== '1830-01-01') {
     await validateRoster(id, manifest);
-    geometryAudits.push({ id, ...await validateGeometryAudit(id, manifest) });
+    geometryAudits.push({ id, ...await validateGeometryAudit(id) });
     await validateCompiledBorders(id);
     seedAudits.push(await validateCompiledSeed(id, manifest));
     const files = await loadScenarioRosterFiles(path.join(scenariosRoot, id));
