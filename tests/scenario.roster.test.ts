@@ -3,6 +3,7 @@ import {
   auditRosterReview,
   auditComplementReview,
   acceptSourceClassifications,
+  applyManualRosterDecisions,
   buildCandidateCrosswalk,
   scaffoldRosterReview,
   scaffoldComplementReview,
@@ -79,6 +80,24 @@ describe('scenario roster review compiler', () => {
       cliopatriaOnly: 1,
     });
     expect(crosswalk.matches[0]).toMatchObject({ matchMethod: 'wikidata', identityKey: 'Q-ALPHA' });
+  });
+
+  it('keeps distinct non-Latin names distinct during source crosswalks', () => {
+    const crosswalk = buildCandidateCrosswalk({
+      schemaVersion: 1,
+      asOf: '1936-01-01',
+      candidates: [
+        { relationId: 1, identityKey: 'ohm:greece', name: 'Ελλάδα' },
+        { relationId: 2, identityKey: 'ohm:china', name: '中國' },
+      ],
+    }, {
+      asOf: '1936-01-01',
+      candidates: [
+        { sourceRecord: 1, identityKey: 'source:greece', name: 'Ελλάδα' },
+        { sourceRecord: 2, identityKey: 'source:china', name: '中國' },
+      ],
+    });
+    expect(crosswalk.matches.map((match) => match.identityKey)).toEqual(['ohm:china', 'ohm:greece']);
   });
 
   it('tracks every complementary-source omission in its own review gate', () => {
@@ -198,13 +217,51 @@ describe('scenario roster review compiler', () => {
       reviewedAt: '2026-09-02',
     });
 
-    expect(result.counts).toEqual({ ohmAccepted: 1, complementAccepted: 1 });
+    expect(result.counts).toEqual({
+      ohmAccepted: 1,
+      complementAccepted: 0,
+      ohmRetracted: 0,
+      complementRetracted: 0,
+    });
     expect(result.ohmReview.entries[0]).toMatchObject({ disposition: 'polity', reviewedBy: 'Codex source policy' });
     expect(result.ohmReview.entries[1]).toMatchObject({ disposition: 'unreviewed' });
-    expect(result.complementReview.entries[0]).toMatchObject({ disposition: 'polity' });
+    expect(result.complementReview.entries[0]).toMatchObject({ disposition: 'unreviewed' });
     expect(result.complementReview.entries[1]).toMatchObject({ disposition: 'unreviewed' });
-    expect(result.roster.polities.map((polity) => polity.key)).toEqual(expect.arrayContaining([
-      'KINGDOM_EXAMPLE', 'GAMMA_POLITY',
-    ]));
+    expect(result.roster.polities.map((polity) => polity.key)).toContain('KINGDOM_EXAMPLE');
+    expect(result.roster.polities.map((polity) => polity.key)).not.toContain('GAMMA_POLITY');
+  });
+
+  it('applies explicit manual decisions and can correct an automated status', () => {
+    const result = applyManualRosterDecisions({
+      roster: {
+        asOf: '1936-01-01',
+        polities: [{
+          key: 'ISLAND', displayName: 'Island', status: 'sovereign', flagAssetTag: 'TBD_NEUTRAL',
+          notes: 'Source-pack classification pending final gameplay identity, relationship, and flag treatment.',
+          sources: [{ kind: 'ohm_relation', id: 8 }],
+        }],
+      },
+      ohmReview: {
+        entries: [{
+          identityKey: 'Q-ISLAND', displayName: 'Island', relationIds: [8], reviewLane: 'sovereignty_check',
+          disposition: 'polity', polityKey: 'ISLAND', notes: 'Automated.', reviewedBy: 'Codex source policy', reviewedAt: '2026-09-02',
+        }],
+      },
+      complementReview: { entries: [] },
+      decisionPack: {
+        schemaVersion: 1,
+        asOf: '1936-01-01',
+        reviewer: 'historian',
+        reviewedAt: '2026-09-02',
+        decisions: [{
+          source: 'ohm', identityKey: 'Q-ISLAND', disposition: 'dependent_polity',
+          displayName: 'Island Dependency', notes: 'Reviewed as a dependency.',
+        }],
+      },
+    });
+    expect(result.roster.polities[0]).toMatchObject({ displayName: 'Island Dependency', status: 'vassal' });
+    expect(result.ohmReview.entries[0]).toMatchObject({
+      disposition: 'dependent_polity', polityKey: 'ISLAND', reviewedBy: 'historian',
+    });
   });
 });

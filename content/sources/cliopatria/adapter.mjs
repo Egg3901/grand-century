@@ -106,6 +106,19 @@ export function discoverCliopatria(document, asOf, source) {
     .sort((left, right) => String(left.identityKey).localeCompare(String(right.identityKey), 'en'));
 }
 
+export function cliopatriaFeatureRecords(document, asOf) {
+  const year = Number(String(asOf).slice(0, 4));
+  if (!Number.isInteger(year)) throw new Error(`[cliopatria] invalid scenario date ${asOf}`);
+  return document.features
+    .filter((feature) => {
+      const properties = feature.properties ?? {};
+      return properties.Type === 'POLITY'
+        && Number(properties.FromYear) <= year
+        && Number(properties.ToYear) >= year;
+    })
+    .map((feature, sourceRecord) => ({ sourceRecord, feature }));
+}
+
 export async function discoverCliopatriaFromArchive(options) {
   const { source, bytes } = await loadCliopatriaArchive(options);
   const document = parseCliopatriaArchive(bytes);

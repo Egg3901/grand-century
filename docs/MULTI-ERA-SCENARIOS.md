@@ -119,15 +119,26 @@ npm run scenario:ohm -- geometry-audit \
   --cache-dir .scenario-cache/ohm/geometry-1700 \
   --refresh \
   --out content/scenarios/1700-01-01/sources/ohm-geometry-audit.json
+
+# Rebuild the roster deterministically from its curated base and decision pack.
+npm run scenario:roster -- rebuild \
+  --scenario-dir content/scenarios/1700-01-01
+
+# Compile a compact, provenance-carrying world border layer entirely offline.
+npm run scenario:geometry -- compile \
+  --scenario-dir content/scenarios/1700-01-01 \
+  --ohm-cache-dir .scenario-cache/ohm/geometry-1700-recursive \
+  --cliopatria-cache .scenario-cache/cliopatria/cliopatria-0.2.0.zip \
+  --out content/scenarios/1700-01-01/compiled/world-borders.geo.json
 ```
 
 Discovery output is a review queue, not a roster. Compilation verifies the exact date, expected name and Wikidata identity, element license, closed boundary rings, and hole placement. It emits GeoJSON plus a provenance ledger. The 1830 pilot currently curates Baden relation `2660798` for boundary validation.
 
 The checked-in 1700 discovery currently contains 186 active relations grouped into 180 stable identity keys. The 1936 discovery contains 206 relations grouped into 200 identities. Every identity receives an explicit review disposition before a scenario can become playable. Valid dispositions distinguish playable polities and dependencies from constituents, claims, duplicate geometry, map fragments, and exclusions. The validator blocks playable status unless coverage is global and no identity remains unreviewed.
 
-The conservative source-acceptance pass classifies 124 of 180 OHM identities and 70 of 77 Cliopatria-only identities for 1700. It classifies 154 of 200 OHM identities and 32 of 39 Cliopatria-only identities for 1936. It accepts only explicit OHM taxonomy and Cliopatria polities without a parent membership value. Ambiguous OHM records and coarse empire memberships remain unreviewed. Newly accepted development entries use `TBD_NEUTRAL` as an explicit flag placeholder; playable validation rejects every unresolved placeholder.
+The conservative source-acceptance pass handles explicit OHM taxonomy. Checked-in manual decision packs then classify or exclude every remaining identity, including source-label corrections and exact-date exclusions. The current result is 180 of 180 OHM plus 77 of 77 Cliopatria-only identities for 1700, and 200 of 200 plus 39 of 39 for 1936. Cliopatria remains a candidate and geometry-comparison source because its date intervals can carry anachronistic labels. Newly accepted development entries use `TBD_NEUTRAL` as an explicit flag placeholder; playable validation rejects every unresolved placeholder.
 
-The global geometry audit recursively expands nested OHM boundary relations, then assembles and validates every discovered relation independently. At the current source snapshot, 181 of 186 relations for 1700 and 202 of 206 relations for 1936 assemble as closed licensed polygon geometry. The remaining entries are checked in as explicit correction work, not silently omitted. Individual validity does not prove global coverage; later compilation must still detect ownership holes, exclusive overlaps, duplicate claims, and coastline mismatches.
+The global geometry audit recursively expands nested OHM boundary relations, then assembles and validates every discovered relation independently. At the current source snapshot, 181 of 186 relations for 1700 and 202 of 206 relations for 1936 assemble as closed licensed polygon geometry. Resolution packs account for every failure: nonexclusive fragments are skipped, the reviewed Peru and Hungary endpoint gaps are closed with recorded thresholds, and Qing uses a hash-pinned Cliopatria fallback. The compact compiled layers represent all 226 exclusive 1700 polities and all 207 exclusive 1936 polities. Individual validity does not prove global coverage; promotion still requires gap and exclusive-overlap analysis against the final province topology.
 
 The complementary global candidate layer is the pinned Cliopatria 0.2.0 archive at commit `ad28a691b7c07c1fca89d0e0636d324667d2a258`, verified by SHA-256 before parsing. Its CC BY 4.0 source manifest records attribution and transformations. Crosswalking stable Wikidata IDs first, then unique normalized names, finds 77 Cliopatria-only identities for 1700 and 39 for 1936. Those candidates have a separate review queue and block playable promotion until classified. See [Historical roster and boundary sources](research/HISTORICAL-ROSTER-SOURCES.md) for the primary-source and licensing audit.
 

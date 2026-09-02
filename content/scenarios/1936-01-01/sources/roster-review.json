@@ -32,11 +32,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_LEASED_LIUGONG_ISLAND",
+      "notes": "The leased territory is retained as a British dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Costa Rica",
@@ -183,11 +183,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "HONDURAS",
+      "notes": "Honduras is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Libia",
@@ -220,11 +220,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "ITALIAN_LIBYA",
+      "notes": "Italian Libya is retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Nicaragua",
@@ -258,11 +258,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "NICARAGUA",
+      "notes": "Nicaragua is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1014",
@@ -567,11 +567,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_HONG_KONG",
+      "notes": "British Hong Kong is retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1074669",
@@ -679,11 +679,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_CONCESSION_IN_TIANJIN",
+      "notes": "The British concession in Tianjin is retained as a leased dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1097943",
@@ -912,8 +912,8 @@
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
       "polityKey": "GERMANY",
-      "notes": "Mapped to neutral player-facing Germany. The OHM source name remains provenance only and the flag treatment uses the neutral GER tricolor.",
-      "reviewedBy": "Grand Century source review",
+      "notes": "The historical source identity maps to neutral player-facing Germany and the GER tricolor.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -947,11 +947,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "SPANISH_GUINEA",
+      "notes": "Spanish Guinea is retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1232988",
@@ -1025,7 +1025,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_Q124943",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -1099,11 +1099,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "ALAWITE_STATE",
+      "notes": "The Alawite State is retained as a French-mandate dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q130842",
@@ -1134,11 +1134,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "LEBANESE_REPUBLIC",
+      "notes": "The Lebanese Republic is retained under the French mandate relationship at this date.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q13410267",
@@ -1365,11 +1365,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PORTUGUESE_TIMOR",
+      "notes": "Portuguese Timor is retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q145",
@@ -1402,11 +1402,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "The United Kingdom is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q146328",
@@ -1439,10 +1439,10 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "COMMONWEALTH_OF_THE_PHILIPPINES",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Philippine Commonwealth remains under United States sovereignty at the scenario date.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1476,11 +1476,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "JABAL_DRUZE_STATE",
+      "notes": "Jabal Druze is retained as a French-mandate dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q147909",
@@ -1516,9 +1516,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "POLITY_Q147909",
+      "notes": "The Bulgarian-language OHM identity is normalized to the Kingdom of Bulgaria.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1590,11 +1590,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "GUANGZHOUWAN",
+      "notes": "Guangzhouwan is retained as a French leased territory.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q15180",
@@ -1627,11 +1627,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SOVIET_UNION",
+      "notes": "The Soviet Union is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q15240466",
@@ -1780,11 +1780,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "MUSCAT_AND_OMAN",
+      "notes": "Muscat and Oman is retained as a treaty-bound polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q158725",
@@ -2106,11 +2106,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "REUNION",
+      "notes": "Reunion is retained as a French colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1796551",
@@ -2334,11 +2334,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "DUTCH_EAST_INDIES",
+      "notes": "The Dutch East Indies is retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q188947",
@@ -2678,11 +2678,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "NORWAY",
+      "notes": "Norway is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2017684",
@@ -2834,7 +2834,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_Q207521",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -2872,9 +2872,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "POLITY_Q209065",
+      "notes": "The Greek-language OHM identity is normalized to the Kingdom of Greece.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -2906,11 +2906,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "FRENCH_WEST_AFRICA",
+      "notes": "French West Africa is retained as a colonial federation.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q211",
@@ -2943,11 +2943,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "LATVIA",
+      "notes": "Latvia is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q213467",
@@ -3057,11 +3057,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "FREE_CITY_OF_DANZIG",
+      "notes": "The Free City of Danzig is retained as a League-protected polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q218272",
@@ -3245,11 +3245,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "MONACO",
+      "notes": "Monaco is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q23635",
@@ -3477,11 +3477,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "TIBET",
+      "notes": "Tibet is retained as a de facto polity with its disputed status represented separately.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q25230",
@@ -3517,10 +3517,10 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "GUERNSEY",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Guernsey is represented as a British Crown dependency.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -3692,11 +3692,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "SYRIAN_REPUBLIC",
+      "notes": "The Syrian Republic is retained under the French mandate relationship at this date.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2660774",
@@ -3887,11 +3887,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SECOND_SPANISH_REPUBLIC",
+      "notes": "Spain is represented by the Second Spanish Republic on 1936-01-01.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q298",
@@ -4077,11 +4077,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "MANCHUKUO",
+      "notes": "Manchukuo is retained as a Japanese-dependent polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q30971",
@@ -4361,11 +4361,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "FINLAND",
+      "notes": "Finland is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q33788",
@@ -4630,11 +4630,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "FRENCH_SOMALILAND",
+      "notes": "French Somaliland is retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q35555",
@@ -4957,11 +4957,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SWITZERLAND",
+      "notes": "Switzerland is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q39072717",
@@ -5034,11 +5034,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PORTUGUESE_MACAU",
+      "notes": "Portuguese Macau is retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q398",
@@ -5148,11 +5148,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "SULTANATE_OF_LAHEJ",
+      "notes": "Lahej is retained as a British-protected polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q408",
@@ -5186,10 +5186,10 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "AUSTRALIA",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Australia is represented as a self-governing dominion in the British relationship system.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -5374,11 +5374,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "SPANISH_MOROCCO",
+      "notes": "Spanish Morocco is retained as a protectorate.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q48742118",
@@ -5643,10 +5643,10 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "COLONIE_DE_MADAGASCAR_ET_DEPENDANCES",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Madagascar is represented as a French colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -5680,11 +5680,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "ITALIAN_ISLANDS_OF_THE_AEGEAN",
+      "notes": "The Italian Aegean Islands are retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q5785",
@@ -6063,11 +6063,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "FRENCH_THIRD_REPUBLIC",
+      "notes": "France is retained as the French Third Republic.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q7232692",
@@ -6252,11 +6252,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "SAGUIA_EL_HAMRA",
+      "notes": "Saguia el-Hamra is retained as a Spanish colonial territory.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q747314",
@@ -6442,11 +6442,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "IFNI",
+      "notes": "Ifni is retained as a Spanish colonial territory.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q77",
@@ -6560,10 +6560,10 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "JERSEY",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Jersey is represented as a British Crown dependency.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -6675,7 +6675,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_Q794",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -6787,11 +6787,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "TUVAN_PEOPLE_S_REPUBLIC",
+      "notes": "Tuva is retained as a Soviet-dependent polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q817",
@@ -6900,11 +6900,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_NEPAL",
+      "notes": "Nepal is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q846",
@@ -6977,7 +6977,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_Q851",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -7053,9 +7053,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "POLITY_Q865",
+      "notes": "The Chinese-language OHM identity is normalized to the Republic of China.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -7089,11 +7089,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PORTUGUESE_MOZAMBIQUE",
+      "notes": "Portuguese Mozambique is retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q907234",
@@ -7126,11 +7126,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "FRENCH_MOROCCO",
+      "notes": "French Morocco is retained as a protectorate.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q917",
@@ -7163,11 +7163,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "BHUTAN",
+      "notes": "Bhutan is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q918126",
@@ -7317,11 +7317,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "RIO_DE_ORO",
+      "notes": "Rio de Oro is retained as a Spanish colonial territory.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q953903",
@@ -7545,10 +7545,10 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "UNION_INDOCHINOISE",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "French Indochina is represented as a colonial federation.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -7612,11 +7612,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
+      "disposition": "map_fragment",
       "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "notes": "These relations are boundary fragments, not an owner polygon or country slot.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "المملكة العراقية الهاشمية",
@@ -7649,11 +7649,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_IRAQ",
+      "notes": "The Kingdom of Iraq is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "د افغانستان شاهي دولت",
@@ -7686,11 +7686,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_AFGHANISTAN",
+      "notes": "The Kingdom of Afghanistan is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "大日本帝国",
@@ -7721,11 +7721,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "EMPIRE_OF_JAPAN",
+      "notes": "Japan is retained as the Empire of Japan.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     }
   ]
 }

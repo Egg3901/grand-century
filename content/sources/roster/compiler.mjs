@@ -75,7 +75,7 @@ function normalizedName(value) {
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .trim();
 }
 
@@ -161,6 +161,36 @@ function acceptEntries({ roster, review, sourceKind, reviewer, reviewedAt, allow
   return accepted;
 }
 
+function retractAutomatedClassifications(roster, review, sourceKind, sourceIdsForEntry) {
+  const polityByKey = new Map((roster.polities ?? []).map((polity) => [polity.key, polity]));
+  const removalCandidates = new Set();
+  let retracted = 0;
+  for (const entry of review.entries ?? []) {
+    if (entry.reviewedBy !== 'Codex source policy') continue;
+    if (entry.polityKey) {
+      const polity = polityByKey.get(entry.polityKey);
+      if (polity) {
+        const sourceIds = new Set(sourceIdsForEntry(entry));
+        polity.sources = (polity.sources ?? []).filter((source) => (
+          source.kind !== sourceKind || !sourceIds.has(source.id)
+        ));
+        if (polity.sources.length === 0
+          && polity.notes === 'Source-pack classification pending final gameplay identity, relationship, and flag treatment.') {
+          removalCandidates.add(polity.key);
+        }
+      }
+    }
+    entry.disposition = 'unreviewed';
+    entry.polityKey = null;
+    entry.notes = null;
+    entry.reviewedBy = null;
+    entry.reviewedAt = null;
+    retracted += 1;
+  }
+  roster.polities = (roster.polities ?? []).filter((polity) => !removalCandidates.has(polity.key));
+  return retracted;
+}
+
 export function acceptSourceClassifications({ roster, ohmReview, complementReview, reviewer, reviewedAt }) {
   requireValue(Boolean(reviewer), 'source classification acceptance needs a reviewer');
   requireValue(/^\d{4}-\d{2}-\d{2}$/.test(reviewedAt), 'source classification acceptance needs an ISO review date');
@@ -168,6 +198,18 @@ export function acceptSourceClassifications({ roster, ohmReview, complementRevie
   const nextOhmReview = structuredClone(ohmReview);
   const nextComplementReview = structuredClone(complementReview);
   nextRoster.polities = nextRoster.polities ?? [];
+  const ohmRetracted = retractAutomatedClassifications(
+    nextRoster,
+    nextOhmReview,
+    'ohm_relation',
+    (entry) => entry.relationIds ?? [],
+  );
+  const complementRetracted = retractAutomatedClassifications(
+    nextRoster,
+    nextComplementReview,
+    'cliopatria_record',
+    (entry) => entry.sourceRecords ?? [],
+  );
   for (const polity of nextRoster.polities) {
     if (!polity.flagAssetTag) polity.flagAssetTag = 'TBD_NEUTRAL';
   }
@@ -179,20 +221,164 @@ export function acceptSourceClassifications({ roster, ohmReview, complementRevie
     reviewedAt,
     allowDependency: true,
   });
-  const complementAccepted = acceptEntries({
-    roster: nextRoster,
-    review: nextComplementReview,
-    sourceKind: 'cliopatria',
-    reviewer,
-    reviewedAt,
-    allowDependency: false,
-  });
+  const complementAccepted = 0;
   nextRoster.polities.sort((a, b) => a.key.localeCompare(b.key, 'en'));
   return {
     roster: nextRoster,
     ohmReview: nextOhmReview,
     complementReview: nextComplementReview,
-    counts: { ohmAccepted, complementAccepted },
+    counts: { ohmAccepted, complementAccepted, ohmRetracted, complementRetracted },
+  };
+}
+
+export function applyManualRosterDecisions({ roster, ohmReview, complementReview, decisionPack }) {
+  requireValue(decisionPack.schemaVersion === 1, 'unsupported manual decision schema');
+  requireValue(decisionPack.asOf === roster.asOf, 'manual decision date does not match roster');
+  requireValue(Boolean(decisionPack.reviewer), 'manual decisions need a reviewer');
+  requireValue(/^\d{4}-\d{2}-\d{2}$/.test(decisionPack.reviewedAt), 'manual decisions need an ISO review date');
+  const nextRoster = structuredClone(roster);
+  const nextOhmReview = structuredClone(ohmReview);
+  const nextComplementReview = structuredClone(complementReview);
+  const reviews = {
+    ohm: new Map(nextOhmReview.entries.map((entry) => [entry.identityKey, entry])),
+    cliopatria: new Map(nextComplementReview.entries.map((entry) => [entry.identityKey, entry])),
+  };
+  const polityByKey = new Map(nextRoster.polities.map((polity) => [polity.key, polity]));
+  const polityByName = new Map(nextRoster.polities.map((polity) => [normalizedName(polity.displayName), polity]));
+  const reserved = new Set(polityByKey.keys());
+  const seenDecisions = new Set();
+  const statusForDisposition = {
+    polity: 'sovereign',
+    dependent_polity: 'vassal',
+    constituent: 'constituent',
+  };
+  let applied = 0;
+
+  for (const decision of decisionPack.decisions ?? []) {
+    requireValue(['ohm', 'cliopatria'].includes(decision.source), `invalid decision source ${decision.source}`);
+    const decisionKey = `${decision.source}:${decision.identityKey}`;
+    requireValue(!seenDecisions.has(decisionKey), `duplicate manual decision ${decisionKey}`);
+    seenDecisions.add(decisionKey);
+    requireValue(REVIEW_DISPOSITIONS.has(decision.disposition) && decision.disposition !== 'unreviewed', `invalid manual disposition for ${decisionKey}`);
+    requireValue(Boolean(decision.notes), `manual decision ${decisionKey} needs notes`);
+    const entry = reviews[decision.source].get(decision.identityKey);
+    requireValue(Boolean(entry), `manual decision ${decisionKey} has no review entry`);
+    const wasAutomated = entry.reviewedBy === 'Codex source policy';
+    const previousPolityKey = entry.polityKey;
+    requireValue(
+      entry.disposition === 'unreviewed' || entry.disposition === decision.disposition || wasAutomated,
+      `manual decision ${decisionKey} conflicts with ${entry.disposition}`,
+    );
+    entry.disposition = decision.disposition;
+    entry.notes = decision.notes;
+    entry.reviewedBy = decisionPack.reviewer;
+    entry.reviewedAt = decisionPack.reviewedAt;
+    entry.polityKey = null;
+    applied += 1;
+
+    if (!Object.hasOwn(statusForDisposition, decision.disposition)) {
+      if (wasAutomated && previousPolityKey) {
+        const priorPolity = polityByKey.get(previousPolityKey);
+        if (priorPolity) {
+          const sourceIds = new Set(decision.source === 'ohm' ? entry.relationIds : entry.sourceRecords);
+          const sourceKind = decision.source === 'ohm' ? 'ohm_relation' : 'cliopatria_record';
+          priorPolity.sources = (priorPolity.sources ?? []).filter((source) => (
+            source.kind !== sourceKind || !sourceIds.has(source.id)
+          ));
+          if (priorPolity.sources.length === 0
+            && priorPolity.notes === 'Source-pack classification pending final gameplay identity, relationship, and flag treatment.') {
+            nextRoster.polities = nextRoster.polities.filter((polity) => polity.key !== priorPolity.key);
+            polityByKey.delete(priorPolity.key);
+            polityByName.delete(normalizedName(priorPolity.displayName));
+          }
+        }
+      }
+      continue;
+    }
+    if (wasAutomated && previousPolityKey && decision.mapTo && decision.mapTo !== previousPolityKey) {
+      const priorPolity = polityByKey.get(previousPolityKey);
+      if (priorPolity) {
+        const sourceIds = new Set(decision.source === 'ohm' ? entry.relationIds : entry.sourceRecords);
+        const sourceKind = decision.source === 'ohm' ? 'ohm_relation' : 'cliopatria_record';
+        priorPolity.sources = (priorPolity.sources ?? []).filter((source) => (
+          source.kind !== sourceKind || !sourceIds.has(source.id)
+        ));
+        if (priorPolity.sources.length === 0
+          && priorPolity.notes === 'Source-pack classification pending final gameplay identity, relationship, and flag treatment.') {
+          nextRoster.polities = nextRoster.polities.filter((polity) => polity.key !== priorPolity.key);
+          polityByKey.delete(priorPolity.key);
+          polityByName.delete(normalizedName(priorPolity.displayName));
+        }
+      }
+    }
+    const displayName = decision.displayName ?? entry.displayName;
+    let polity = decision.mapTo
+      ? polityByKey.get(decision.mapTo)
+      : (wasAutomated && previousPolityKey
+          ? polityByKey.get(previousPolityKey)
+          : polityByName.get(normalizedName(displayName)));
+    if (decision.mapTo) requireValue(Boolean(polity), `manual decision ${decisionKey} maps to unknown polity ${decision.mapTo}`);
+    if (!polity) {
+      const key = uniquePolityKey({ ...entry, displayName }, reserved);
+      polity = {
+        key,
+        displayName,
+        status: decision.polityStatus ?? statusForDisposition[decision.disposition],
+        flagAssetTag: decision.flagAssetTag ?? 'TBD_NEUTRAL',
+        notes: 'Manually classified source-pack identity pending final gameplay and flag treatment.',
+        sources: [],
+      };
+      nextRoster.polities.push(polity);
+      polityByKey.set(key, polity);
+      polityByName.set(normalizedName(displayName), polity);
+      reserved.add(key);
+    } else if (wasAutomated && previousPolityKey === polity.key) {
+      polity.status = decision.polityStatus ?? statusForDisposition[decision.disposition];
+      if (decision.displayName) {
+        polityByName.delete(normalizedName(polity.displayName));
+        polity.displayName = decision.displayName;
+        polityByName.set(normalizedName(polity.displayName), polity);
+      }
+    }
+    const sourceRefs = decision.source === 'ohm'
+      ? entry.relationIds.map((id) => ({ kind: 'ohm_relation', id }))
+      : entry.sourceRecords.map((id) => ({ kind: 'cliopatria_record', id, source: 'cliopatria-0.2.0' }));
+    appendUniqueSources(polity, sourceRefs);
+    entry.polityKey = polity.key;
+  }
+
+  nextRoster.polities.sort((a, b) => a.key.localeCompare(b.key, 'en'));
+  return { roster: nextRoster, ohmReview: nextOhmReview, complementReview: nextComplementReview, applied };
+}
+
+export function rebuildScenarioRoster({
+  baseRoster,
+  discovery,
+  cliopatriaDiscovery,
+  crosswalk,
+  decisionPack,
+  sourceReviewer = 'Codex source policy',
+  reviewedAt,
+}) {
+  requireValue(baseRoster.asOf === discovery.asOf, 'base roster and OHM discovery dates do not match');
+  const ohmReview = scaffoldRosterReview(discovery);
+  const complementReview = scaffoldComplementReview(cliopatriaDiscovery, crosswalk);
+  const accepted = acceptSourceClassifications({
+    roster: baseRoster,
+    ohmReview,
+    complementReview,
+    reviewer: sourceReviewer,
+    reviewedAt,
+  });
+  const decided = applyManualRosterDecisions({
+    roster: accepted.roster,
+    ohmReview: accepted.ohmReview,
+    complementReview: accepted.complementReview,
+    decisionPack,
+  });
+  return {
+    ...decided,
+    sourceCounts: accepted.counts,
   };
 }
 

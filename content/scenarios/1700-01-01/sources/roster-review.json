@@ -34,11 +34,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "constituent",
+      "polityKey": "BABA_MAHAL",
+      "notes": "The source depicts a mahal-level Indian territorial unit, not an independent country.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "East Jersey Colony",
@@ -153,10 +153,10 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "polity",
+      "disposition": "constituent",
       "polityKey": "MAGYAR_KIRALYSAG",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Kingdom of Hungary is represented as a Habsburg constituent rather than an overlapping exclusive owner polygon.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -227,11 +227,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "RYUKYU_KINGDOM",
+      "notes": "The relation cites the Ryukyu Kingdom and is treated as a distinct polity at the scenario date.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1044394",
@@ -269,8 +269,8 @@
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
       "disposition": "dependent_polity",
       "polityKey": "CAROLINA",
-      "notes": "Classified as an English colonial administration in the 1700 vertical slice, not as a sovereign country slot.",
-      "reviewedBy": "Grand Century source review",
+      "notes": "The Province of Carolina maps to the curated English colonial administration.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -417,11 +417,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "POLITY_Q10825475",
+      "notes": "The cited Principality of Thuan Thanh is retained as a dependent polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q10921634",
@@ -571,11 +571,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "UBWAMI_BW_URUNDI",
+      "notes": "The cited Kingdom of Burundi is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1235720",
@@ -687,10 +687,10 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "polity",
-      "polityKey": "SACRUM_IMPERIUM_ROMANUM",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The Holy Roman Empire is an overlapping umbrella over separately represented member polities, not an exclusive owner polygon.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -728,7 +728,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_Q12560",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -764,11 +764,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SHARIFIAN_SULTANATE",
+      "notes": "The relation depicts the Moroccan Sharifian sultanate at the scenario date.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1368792",
@@ -879,7 +879,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_Q1433867",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -1032,11 +1032,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
+      "disposition": "map_fragment",
       "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "notes": "Gondwana is an aggregate historical region here and cannot safely become one owner slot.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q157367",
@@ -1070,11 +1070,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "BRANDENBURG_PREUSSEN",
+      "notes": "Brandenburg-Prussia is retained as a personal-union polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1615455",
@@ -1225,11 +1225,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "POLITY_Q1660566",
+      "notes": "The cited Sultanate of Banjar is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q16850784",
@@ -1508,11 +1508,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "ISLE_BOURBON",
+      "notes": "Isle Bourbon is retained as a French colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q172107",
@@ -1737,11 +1737,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "MANCHE_CH_OL",
+      "notes": "The Manche Chol are represented as a decentralized Indigenous polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1827039",
@@ -1774,11 +1774,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "POLITY_Q1827039",
+      "notes": "Dang Trong is retained as a distinct southern Vietnamese polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q186096",
@@ -1809,11 +1809,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "TSARDOM_OF_RUSSIA",
+      "notes": "The relation depicts the Tsardom of Russia at the scenario date.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q187549",
@@ -1846,11 +1846,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "HOSPITALLER_MALTA",
+      "notes": "The Knights Hospitaller territorial state is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1885093",
@@ -2001,7 +2001,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_Q1923401",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -2155,11 +2155,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "CAPITANIA_GENERAL_DE_CUBA",
+      "notes": "The Captaincy General of Cuba is retained as a Spanish colonial administration.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2044695",
@@ -2190,11 +2190,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PORTUGUESE_EAST_INDIES",
+      "notes": "Portuguese East Indies is retained as a colonial administration.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q205662",
@@ -2225,11 +2225,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "TOKUGAWA_SHOGUNATE",
+      "notes": "The Edo shogunate is retained as Japan's governing polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q206279",
@@ -2610,7 +2610,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_Q2257830",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -2647,11 +2647,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "OMANI_EMPIRE",
+      "notes": "The cited Omani Empire is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q228",
@@ -3090,11 +3090,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KASULTANAN_NU_MAGINDANAW",
+      "notes": "The Sultanate of Maguindanao is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q25230",
@@ -3246,11 +3246,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "CAPITANIA_GENERAL_DE_YUCATAN",
+      "notes": "The Captaincy General of Yucatan is retained as a Spanish colonial administration.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2569593",
@@ -3360,11 +3360,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "MYSORE_KINGDOM",
+      "notes": "The Kingdom of Mysore is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q26774",
@@ -3397,11 +3397,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SHOSHONE",
+      "notes": "The Shoshone are represented as a decentralized Indigenous polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2721139",
@@ -3435,11 +3435,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "CAPITANIA_GENERAL_DE_FILIPINAS",
+      "notes": "The Captaincy General of the Philippines is retained as a Spanish colonial administration.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q28179",
@@ -3472,11 +3472,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "JOSEON",
+      "notes": "Joseon is retained as the Korean polity at the scenario date.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q29",
@@ -3509,11 +3509,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SPANISH_MONARCHY",
+      "notes": "Spain is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2919465",
@@ -3547,11 +3547,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
+      "notes": "The Captaincy General of Santo Domingo is retained as a Spanish colonial administration.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2984260",
@@ -3623,11 +3623,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "REGENCY_OF_ALGIERS",
+      "notes": "The Regency of Algiers is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3137802",
@@ -3660,11 +3660,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "PRINCIPAUTE_DE_NEUCHATEL",
+      "notes": "The Principality of Neuchatel is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3199818",
@@ -3695,11 +3695,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
+      "disposition": "duplicate_geometry",
       "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "notes": "This Spanish Philippines geometry duplicates the curated captaincy-level administration.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q323904",
@@ -3788,11 +3788,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "CARNATIC_SULTANATE",
+      "notes": "The Carnatic Sultanate is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q33296",
@@ -3992,11 +3992,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "constituent",
+      "polityKey": "REPUBLIK_DER_SIEBEN_ZENDEN",
+      "notes": "The Republic of the Seven Tithings is treated as a constituent of the Swiss Confederacy.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3482103",
@@ -4029,11 +4029,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "POLITY_Q3482103",
+      "notes": "The Shilluk Kingdom is retained as a decentralized polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3688464",
@@ -4066,11 +4066,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "COMITATUS_NOVELLARIAE_ET_BAGNOLO",
+      "notes": "The County of Novellara and Bagnolo is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q369587",
@@ -4141,11 +4141,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SINDH",
+      "notes": "Sindh is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3769",
@@ -4256,11 +4256,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
+      "disposition": "map_fragment",
       "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "notes": "Rajputana is an aggregate of multiple states and cannot safely become one owner slot.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3933247",
@@ -4294,11 +4294,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "REPUBLIC_OF_NOLI",
+      "notes": "The Republic of Noli is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q4118614",
@@ -4349,7 +4349,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_Q4118614",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -4383,11 +4383,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_SULU",
+      "notes": "The Sultanate of Sulu is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q435583",
@@ -4420,11 +4420,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "OLD_SWISS_CONFEDERACY",
+      "notes": "The Old Swiss Confederacy is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q45670",
@@ -4494,11 +4494,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "DAHOMEY",
+      "notes": "Dahomey is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q4948",
@@ -4687,11 +4687,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "PAT_A_PANGAMPONG_SA_RANAO",
+      "notes": "The Confederate States of Lanao are represented as a decentralized polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q5245668",
@@ -4763,11 +4763,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "PRINCIPATO_DI_PIOMBINO",
+      "notes": "The Principality of Piombino is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q541745",
@@ -4877,11 +4877,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "CATAWBA",
+      "notes": "The Catawba are represented as a decentralized Indigenous polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q56064",
@@ -4953,7 +4953,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_Q577668",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -5028,10 +5028,10 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "polity",
+      "disposition": "constituent",
       "polityKey": "PAISES_BAJOS_ESPANOLES",
-      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Spanish Netherlands is retained as a constituent administration; OHM explicitly records that this relation has no usable boundary.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -5101,11 +5101,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "FRENCH_SAINT_CROIX",
+      "notes": "French Saint Croix is retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q646374",
@@ -5561,11 +5561,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "GOBERNACION_DE_CHILE",
+      "notes": "The Captaincy General of Chile is retained as a Spanish colonial administration.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q7646305",
@@ -5929,11 +5929,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BAOL",
+      "notes": "OHM explicitly marks Baol as a vassal.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q829655",
@@ -5966,11 +5966,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "DANSK_VESTINDIEN",
+      "notes": "Danish West Indies is retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q83618",
@@ -6007,7 +6007,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_Q83618",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -6194,11 +6194,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "QING_EMPIRE",
+      "notes": "The Qing state is retained as a polity; its invalid OHM geometry remains separately blocked.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q889030",
@@ -6268,11 +6268,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "UBWAMI_BW_U_RWANDA",
+      "notes": "The Kingdom of Rwanda is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q892272",
@@ -6343,11 +6343,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "BHUTAN",
+      "notes": "Bhutan is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q933592",
@@ -6458,11 +6458,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "COUTO_MISTO",
+      "notes": "Couto Misto is retained as a small border polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q967246",
@@ -6644,11 +6644,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "constituent",
+      "polityKey": "SARAWAK",
+      "notes": "Sarawak is treated as a constituent territory at this date, before the later independent raj.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Sultanate of Maore",
@@ -6679,11 +6679,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_MAORE",
+      "notes": "The Sultanate of Maore is retained as an island polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Sultanate of Ndzuwani",
@@ -6714,11 +6714,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_NDZUWANI",
+      "notes": "The Sultanate of Ndzuwani is retained as an island polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "West Jersey Colony",
@@ -6792,7 +6792,7 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
       "disposition": "polity",
-      "polityKey": "POLITY",
+      "polityKey": "POLITY_POLITY",
       "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
       "reviewedBy": "Codex source policy",
       "reviewedAt": "2026-09-02"
@@ -6828,11 +6828,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_THE_MALDIVES",
+      "notes": "The Maldives sultanate is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "อาณาจักรอยุธยา",
@@ -6865,11 +6865,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "AYUTTHAYA_KINGDOM",
+      "notes": "The Ayutthaya Kingdom is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "南蟠 Nam Bàn",
@@ -6900,11 +6900,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "NAM_BAN",
+      "notes": "Nam Ban is retained as a dependent southern Vietnamese principality.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "大越 - 主鄭",
@@ -6935,11 +6935,11 @@
       ],
       "reviewLane": "manual",
       "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "TRINH_LORDS",
+      "notes": "The Trinh-ruled northern Vietnamese state is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     }
   ]
 }

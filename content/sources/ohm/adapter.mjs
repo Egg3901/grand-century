@@ -27,7 +27,7 @@ export function curatedRelationsQuery(relationIds) {
   return `[out:json][timeout:180];relation(id:${relationIds.join(',')})->.roots;(.roots;.roots >>;);out geom;`;
 }
 
-function expandNestedRelation(relation, byId, ancestry = new Set()) {
+export function expandNestedRelation(relation, byId, ancestry = new Set()) {
   if (ancestry.has(relation.id)) throw new Error(`[ohm] relation ${relation.id} contains a nested relation cycle`);
   const nextAncestry = new Set(ancestry).add(relation.id);
   const members = [];
@@ -36,7 +36,7 @@ function expandNestedRelation(relation, byId, ancestry = new Set()) {
       members.push(member);
       continue;
     }
-    const child = byId.get(member.ref);
+    const child = byId.get(`relation:${member.ref}`);
     if (!child || child.type !== 'relation') {
       throw new Error(`[ohm] relation ${relation.id} is missing nested relation ${member.ref}`);
     }
@@ -53,6 +53,27 @@ function expandNestedRelation(relation, byId, ancestry = new Set()) {
     }
   }
   return { ...relation, members };
+}
+
+export function indexOhmDocument(document) {
+  return new Map((document?.elements ?? []).map((element) => [`${element.type}:${element.id}`, element]));
+}
+
+export function compileOhmRelationGeometry(document, {
+  relationId,
+  asOf,
+  closeOuterChainsMaxGapDegrees = 0,
+  elementIndex = null,
+}) {
+  const byId = elementIndex ?? indexOhmDocument(document);
+  const relation = byId.get(`relation:${relationId}`);
+  if (!relation) throw new Error(`[ohm] cache is missing relation ${relationId}`);
+  if (!relationActiveOn(relation.tags, asOf)) throw new Error(`[ohm] relation ${relationId} is not active on ${asOf}`);
+  requireAllowedOhmLicense(relation.tags, `relation ${relationId}`);
+  return relationToGeoJsonFeature(
+    expandNestedRelation(relation, byId),
+    { closeOuterChainsMaxGapDegrees },
+  );
 }
 
 /** Read a deterministic cache by default. Network access requires refresh=true. */
@@ -156,11 +177,11 @@ export function compileCuratedRelations(document, sourcePack) {
   if (!Array.isArray(sourcePack.boundaries) || sourcePack.boundaries.length === 0) {
     throw new Error('[ohm] source pack has no curated boundaries');
   }
-  const byId = new Map((document?.elements ?? []).map((element) => [element.id, element]));
+  const byId = new Map((document?.elements ?? []).map((element) => [`${element.type}:${element.id}`, element]));
   const features = [];
   const provenance = [];
   for (const boundary of sourcePack.boundaries) {
-    const relation = byId.get(boundary.relationId);
+    const relation = byId.get(`relation:${boundary.relationId}`);
     if (!relation) throw new Error(`[ohm] cache is missing curated relation ${boundary.relationId}`);
     if (!relationActiveOn(relation.tags, sourcePack.asOf)) {
       throw new Error(`[ohm] relation ${relation.id} is not active on ${sourcePack.asOf}`);
@@ -194,9 +215,9 @@ function coordinateCount(geometry) {
 
 export function auditOhmGeometry(document, { asOf, relationIds }) {
   if (!Array.isArray(document?.elements)) throw new Error('[ohm] geometry audit document has no elements array');
-  const byId = new Map(document.elements.map((element) => [element.id, element]));
+  const byId = new Map(document.elements.map((element) => [`${element.type}:${element.id}`, element]));
   return relationIds.slice().sort((a, b) => a - b).map((relationId) => {
-    const relation = byId.get(relationId);
+    const relation = byId.get(`relation:${relationId}`);
     if (!relation) return { relationId, status: 'missing', error: 'Relation is absent from the Overpass response.' };
     const name = relation.tags?.name ?? null;
     const wikidata = relation.tags?.wikidata ?? null;

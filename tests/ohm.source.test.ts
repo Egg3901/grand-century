@@ -4,6 +4,7 @@ import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
   auditOhmGeometry,
+  compileOhmRelationGeometry,
   compileCuratedRelations,
   curatedRelationsQuery,
   discoverActiveAdminBoundaries,
@@ -89,6 +90,15 @@ describe('OHM multipolygon assembly', () => {
     expect(() => relationToGeoJsonFeature(relation)).toThrow(/unclosed boundary chains/i);
   });
 
+  it('closes only explicitly bounded outer-chain repairs and records the transformation', () => {
+    const relation = sampleRelation();
+    relation.members = [way(1, 'outer', [[0, 0], [2, 0], [2, 2], [0, 0.005]])];
+    expect(() => relationToGeoJsonFeature(relation)).toThrow(/unclosed boundary chains/i);
+    const repaired = relationToGeoJsonFeature(relation, { closeOuterChainsMaxGapDegrees: 0.01 });
+    expect(repaired.geometry.type).toBe('Polygon');
+    expect(repaired.properties.geometryRepair).toEqual({ closedOuterChains: 1, maxGapDegrees: 0.01 });
+  });
+
   it('audits every requested relation without hiding individual geometry failures', () => {
     const valid = sampleRelation();
     valid.id = 1;
@@ -120,6 +130,22 @@ describe('OHM multipolygon assembly', () => {
     );
     expect(results[0]).toMatchObject({ relationId: parent.id, status: 'valid' });
     expect(curatedRelationsQuery([parent.id])).toContain('.roots >>;');
+  });
+
+  it('indexes nested relation IDs separately from colliding way IDs', () => {
+    const child = sampleRelation();
+    child.id = 2;
+    const parent = {
+      ...sampleRelation(),
+      id: 1,
+      members: [{ type: 'relation', ref: 2, role: 'outer' }],
+    };
+    const collidingWay = way(2, 'outer', [[10, 10], [11, 11]]);
+    const feature = compileOhmRelationGeometry(
+      { elements: [parent, collidingWay, child] },
+      { relationId: 1, asOf: '1830-01-01' },
+    );
+    expect(feature.geometry.type).toBe('Polygon');
   });
 });
 

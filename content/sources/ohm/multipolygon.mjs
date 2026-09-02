@@ -55,6 +55,12 @@ export function stitchMemberWays(members, role) {
   return { rings, openChains };
 }
 
+function endpointGap(chain) {
+  const start = chain[0];
+  const end = chain[chain.length - 1];
+  return Math.hypot(start[0] - end[0], start[1] - end[1]);
+}
+
 function pointInRing(point, ring) {
   let inside = false;
   for (let index = 0, previous = ring.length - 1; index < ring.length; previous = index++) {
@@ -75,7 +81,7 @@ function ringArea(ring) {
   return Math.abs(area / 2);
 }
 
-export function relationToGeoJsonFeature(relation) {
+export function relationToGeoJsonFeature(relation, options = {}) {
   if (relation?.type !== 'relation' || !Array.isArray(relation.members)) {
     throw new Error('[ohm] expected an Overpass relation with members');
   }
@@ -88,6 +94,18 @@ export function relationToGeoJsonFeature(relation) {
 
   const outer = stitchMemberWays(relation.members, 'outer');
   const inner = stitchMemberWays(relation.members, 'inner');
+  const repairedOuterRings = [];
+  const remainingOuterChains = [];
+  const maxRepairGap = options.closeOuterChainsMaxGapDegrees ?? 0;
+  for (const chain of outer.openChains) {
+    if (maxRepairGap > 0 && chain.length >= 3 && endpointGap(chain) <= maxRepairGap) {
+      repairedOuterRings.push([...chain, chain[0]]);
+    } else {
+      remainingOuterChains.push(chain);
+    }
+  }
+  outer.rings.push(...repairedOuterRings);
+  outer.openChains = remainingOuterChains;
   const outerRings = outer.rings.sort((a, b) => ringArea(b) - ringArea(a));
   const openChains = [...outer.openChains, ...inner.openChains];
   if (openChains.length > 0) {
@@ -110,6 +128,9 @@ export function relationToGeoJsonFeature(relation) {
     startDate: relation.tags?.start_date ?? null,
     endDate: relation.tags?.end_date ?? null,
     license,
+    geometryRepair: repairedOuterRings.length > 0
+      ? { closedOuterChains: repairedOuterRings.length, maxGapDegrees: maxRepairGap }
+      : null,
   };
   return polygons.length === 1
     ? { type: 'Feature', id: relation.id, properties, geometry: { type: 'Polygon', coordinates: polygons[0] } }

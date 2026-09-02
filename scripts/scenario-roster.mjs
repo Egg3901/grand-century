@@ -6,6 +6,8 @@ import {
   auditRosterReview,
   auditComplementReview,
   acceptSourceClassifications,
+  applyManualRosterDecisions,
+  rebuildScenarioRoster,
   buildCandidateCrosswalk,
   loadScenarioRosterFiles,
   scaffoldRosterReview,
@@ -26,6 +28,8 @@ function usage() {
     '  node scripts/scenario-roster.mjs crosswalk --ohm FILE --cliopatria FILE --out FILE',
     '  node scripts/scenario-roster.mjs scaffold-complement --cliopatria FILE --crosswalk FILE --out FILE',
     '  node scripts/scenario-roster.mjs accept-source --scenario-dir DIR --reviewer NAME [--date YYYY-MM-DD]',
+    '  node scripts/scenario-roster.mjs apply-decisions --scenario-dir DIR --decisions FILE',
+    '  node scripts/scenario-roster.mjs rebuild --scenario-dir DIR',
   ].join('\n');
 }
 
@@ -116,7 +120,43 @@ if (command === 'scaffold') {
   await writeRosterReview(path.join(resolvedDir, 'sources/roster-review.json'), result.ohmReview);
   await writeRosterReview(path.join(resolvedDir, 'sources/cliopatria-review.json'), result.complementReview);
   process.stdout.write(
-    `Accepted ${result.counts.ohmAccepted} OHM and ${result.counts.complementAccepted} Cliopatria source classifications.\n`,
+    `Accepted ${result.counts.ohmAccepted} OHM classifications after rebuilding ${result.counts.ohmRetracted}; retracted ${result.counts.complementRetracted} automatic Cliopatria classifications.\n`,
+  );
+} else if (command === 'apply-decisions') {
+  const scenarioDir = option(args, '--scenario-dir');
+  const decisionsPath = option(args, '--decisions');
+  if (!scenarioDir || !decisionsPath) throw new Error(usage());
+  const resolvedDir = path.resolve(scenarioDir);
+  const files = await loadScenarioRosterFiles(resolvedDir);
+  const result = applyManualRosterDecisions({
+    roster: files.roster,
+    ohmReview: files.review,
+    complementReview: files.complementReview,
+    decisionPack: await readJson(path.resolve(decisionsPath)),
+  });
+  await writeRosterReview(path.join(resolvedDir, 'polities.json'), result.roster);
+  await writeRosterReview(path.join(resolvedDir, 'sources/roster-review.json'), result.ohmReview);
+  await writeRosterReview(path.join(resolvedDir, 'sources/cliopatria-review.json'), result.complementReview);
+  process.stdout.write(`Applied ${result.applied} manual roster decisions.\n`);
+} else if (command === 'rebuild') {
+  const scenarioDir = option(args, '--scenario-dir');
+  if (!scenarioDir) throw new Error(usage());
+  const resolvedDir = path.resolve(scenarioDir);
+  const files = await loadScenarioRosterFiles(resolvedDir);
+  const decisionPack = await readJson(path.join(resolvedDir, 'sources/manual-decisions.json'));
+  const result = rebuildScenarioRoster({
+    baseRoster: await readJson(path.join(resolvedDir, 'sources/roster-base.json')),
+    discovery: files.discovery,
+    cliopatriaDiscovery: files.cliopatriaDiscovery,
+    crosswalk: files.crosswalk,
+    decisionPack,
+    reviewedAt: decisionPack.reviewedAt,
+  });
+  await writeRosterReview(path.join(resolvedDir, 'polities.json'), result.roster);
+  await writeRosterReview(path.join(resolvedDir, 'sources/roster-review.json'), result.ohmReview);
+  await writeRosterReview(path.join(resolvedDir, 'sources/cliopatria-review.json'), result.complementReview);
+  process.stdout.write(
+    `Rebuilt ${result.roster.polities.length} polities with ${result.applied} manual decisions.\n`,
   );
 } else {
   throw new Error(usage());

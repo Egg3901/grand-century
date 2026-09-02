@@ -8,6 +8,7 @@ import {
   buildCandidateCrosswalk,
   loadScenarioRosterFiles,
 } from '../content/sources/roster/compiler.mjs';
+import { validateGeometryResolutions } from '../content/sources/geometry/compiler.mjs';
 
 const root = process.cwd();
 const scenariosRoot = path.join(root, 'content', 'scenarios');
@@ -75,10 +76,58 @@ async function validateGeometryAudit(id, manifest) {
     `${id} geometry audit does not cover the discovery relation set`,
   );
   const invalid = audit.entries.filter((entry) => entry.status !== 'valid');
-  if (manifest.status === 'playable') {
-    requireValue(invalid.length === 0, `${id} is playable with ${invalid.length} unresolved OHM geometries`);
+  const resolutions = await readJson(path.join(scenarioDir, 'sources', 'geometry-resolutions.json'));
+  const review = await readJson(path.join(scenarioDir, 'sources', 'roster-review.json'));
+  const cliopatriaDiscovery = await readJson(path.join(scenarioDir, 'sources', 'cliopatria-discovery.json'));
+  validateGeometryResolutions({ asOf: id, audit, resolutions, review, cliopatriaDiscovery });
+  return {
+    valid: audit.entries.length - invalid.length,
+    total: audit.entries.length,
+    invalid: invalid.length,
+    resolved: resolutions.resolutions.length,
+  };
+}
+
+async function validateCompiledBorders(id) {
+  const scenarioDir = path.join(scenariosRoot, id);
+  const roster = await readJson(path.join(scenarioDir, 'polities.json'));
+  const compiled = await readJson(path.join(scenarioDir, 'compiled', 'world-borders.geo.json'));
+  const resolutions = await readJson(path.join(scenarioDir, 'sources', 'geometry-resolutions.json'));
+  requireValue(compiled.schemaVersion === 1 && compiled.asOf === id, `${id} has an invalid compiled border artifact`);
+  requireValue(compiled.featureCollection?.type === 'FeatureCollection', `${id} compiled borders are not GeoJSON`);
+  const polityKeys = new Set(roster.polities.map((polity) => polity.key));
+  const exclusive = roster.polities.filter((polity) => polity.status !== 'constituent');
+  const represented = new Set();
+  for (const feature of compiled.featureCollection.features ?? []) {
+    const polityKey = feature.properties?.polityKey;
+    requireValue(polityKeys.has(polityKey), `${id} compiled borders reference unknown polity ${polityKey}`);
+    requireValue(['Polygon', 'MultiPolygon'].includes(feature.geometry?.type), `${id} has unsupported border geometry`);
+    represented.add(polityKey);
+    if (polityKey === 'GERMANY') {
+      requireValue(feature.properties.displayName === 'Germany', `${id} compiled Germany has a non-neutral name`);
+    }
   }
-  return { valid: audit.entries.length - invalid.length, total: audit.entries.length, invalid: invalid.length };
+  for (const polity of exclusive) {
+    requireValue(represented.has(polity.key), `${id} compiled borders omit ${polity.key}`);
+  }
+  requireValue(compiled.counts.exclusivePolities === exclusive.length, `${id} compiled exclusive-polity count is stale`);
+  requireValue(compiled.counts.representedPolities === represented.size, `${id} compiled represented-polity count is stale`);
+  for (const resolution of resolutions.resolutions) {
+    if (resolution.action === 'close_outer_chain') {
+      requireValue(
+        compiled.provenance.some((entry) => entry.relationId === resolution.relationId && entry.repair?.closedOuterChains > 0),
+        `${id} compiled borders omit repair provenance for relation ${resolution.relationId}`,
+      );
+    }
+    if (resolution.action === 'cliopatria_fallback') {
+      for (const sourceRecord of resolution.sourceRecords) {
+        requireValue(
+          compiled.provenance.some((entry) => entry.source === 'Cliopatria' && entry.sourceRecord === sourceRecord),
+          `${id} compiled borders omit fallback record ${sourceRecord}`,
+        );
+      }
+    }
+  }
 }
 
 async function validateCliopatria(id, files) {
@@ -182,6 +231,7 @@ for (const id of catalog.scenarios) {
   if (id !== '1830-01-01') {
     await validateRoster(id, manifest);
     geometryAudits.push({ id, ...await validateGeometryAudit(id, manifest) });
+    await validateCompiledBorders(id);
     const files = await loadScenarioRosterFiles(path.join(scenariosRoot, id));
     await validateCliopatria(id, files);
     rosterAudits.push(auditRosterReview(files));
@@ -209,5 +259,7 @@ for (const audit of complementAudits) {
   );
 }
 for (const audit of geometryAudits) {
-  process.stdout.write(`${audit.id}: ${audit.valid}/${audit.total} OHM relations have valid geometry.\n`);
+  process.stdout.write(
+    `${audit.id}: ${audit.valid}/${audit.total} OHM relations are raw-valid; ${audit.resolved}/${audit.invalid} invalid relations have explicit resolutions.\n`,
+  );
 }

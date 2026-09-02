@@ -7,6 +7,7 @@
     "scenario:validate": "node scripts/validate-scenarios.mjs",
     "scenario:roster": "node scripts/scenario-roster.mjs",
     "scenario:cliopatria": "node scripts/cliopatria-source.mjs",
+    "scenario:geometry": "node scripts/scenario-geometry.mjs",
     "scenario:ohm": "node scripts/ohm-source.mjs",
     "map:history": "node scripts/apply-historical-world.mjs",
     "map:history:check": "node scripts/apply-historical-world.mjs --check",

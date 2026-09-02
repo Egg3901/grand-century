@@ -32,8 +32,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "KINGDOM_OF_AFGHANISTAN",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Cliopatria Afghanistan record maps to the reviewed Kingdom of Afghanistan.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -58,11 +58,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "FRENCH_MANDATE_FOR_SYRIA_AND_LEBANON",
+      "notes": "The French mandate aggregate is retained as a dependent administration.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q148",
@@ -85,9 +85,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "REPUBLIC_OF_CHINA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "POLITY_Q865",
+      "notes": "The Cliopatria China record maps to the reviewed Republic of China polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -112,8 +112,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "KINGDOM_OF_IRAQ",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Cliopatria Iraq record maps to the reviewed Kingdom of Iraq.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -137,9 +137,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "KINGDOM_OF_LITHUANIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "LIETUVA",
+      "notes": "The source's Kingdom of Lithuania label is anachronistic; its geometry maps to the Republic of Lithuania polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -163,9 +163,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "KINGDOM_OF_ITALY",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "ITALIA",
+      "notes": "The Kingdom of Italy record maps to the reviewed Italian polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -188,10 +188,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "COMMUNIST_PARTY_OF_CHINA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "constituent",
+      "polityKey": "CHINESE_COMMUNIST_BASE_AREAS",
+      "notes": "Communist-controlled areas are represented as a constituent belligerent, not a sovereign country.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -216,8 +216,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SECOND_SPANISH_REPUBLIC",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Spanish Republic record maps to the reviewed Spanish polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -242,11 +242,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
+      "disposition": "duplicate_geometry",
       "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "notes": "British Africa is an overlapping colonial aggregate, not a separate country slot.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q185682",
@@ -270,11 +270,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "UNION_INDOCHINOISE",
+      "notes": "The French Indochina record maps to the reviewed colonial federation.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q188712",
@@ -298,8 +298,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "EMPIRE_OF_JAPAN",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Cliopatria Japan record maps to the reviewed Japanese polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -324,11 +324,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
+      "disposition": "duplicate_geometry",
       "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "notes": "French Africa is an overlapping colonial aggregate, not a separate country slot.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1998401",
@@ -351,9 +351,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "NORTH_YEMEN",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "MUTAWAKKILITE_KINGDOM_OF_YEMEN",
+      "notes": "North Yemen is retained as the Mutawakkilite Kingdom.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -377,9 +377,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "PAHLAVI_DYNASTY",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "IRAN",
+      "notes": "The dynastic source label is normalized to Iran.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -402,10 +402,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "MONGOLIAN_PEOPLE_S_REPUBLIC",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Mongolian People's Republic is retained as a Soviet-aligned dependent polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -429,9 +429,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "ALBANIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "MBRETNIJA_SHQIPTARE",
+      "notes": "The Albania record maps to the reviewed Albanian polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -454,10 +454,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "GREENLAND",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Greenland is retained as a Danish dependency.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -482,11 +482,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "The anachronistic Kingdom of Great Britain label is normalized and mapped to the United Kingdom.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q25227",
@@ -508,10 +508,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "NETHERLANDS_ANTILLES",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Netherlands Antilles is retained as a Dutch colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -534,10 +534,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "SOUTH_AFRICA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "dependent_polity",
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "notes": "South Africa maps to the reviewed self-governing dominion.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -562,8 +562,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "LUXEMBOURG",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Luxembourg is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -586,10 +586,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "SPANISH_NATIONALISTS",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Spanish Nationalist territorial control did not exist on 1936-01-01; the source interval is only year-granular.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -613,9 +613,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "HUNGARIAN_REPUBLIC",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "MAGYAR_KIRALYSAG",
+      "notes": "The source's Hungarian Republic label is corrected and mapped to the Kingdom of Hungary.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -639,9 +639,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "CZECHOSLOVAKIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "CESKOSLOVENSKA_REPUBLIKA",
+      "notes": "The Czechoslovakia record maps to the reviewed Czechoslovak polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -666,8 +666,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "TIBET",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Cliopatria Tibet record maps to the reviewed Tibetan polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -691,9 +691,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "FIRST_HELLENIC_REPUBLIC",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "POLITY_Q209065",
+      "notes": "The anachronistic First Hellenic Republic label is corrected and mapped to the Kingdom of Greece.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -724,11 +724,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KONINKRIJK_DER_NEDERLANDEN",
+      "notes": "The Netherlands record maps to the reviewed Dutch polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q62651",
@@ -751,9 +751,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "DENMARK_NORWAY",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "DANMARK",
+      "notes": "The anachronistic Denmark-Norway label is corrected and mapped to Denmark.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -777,9 +777,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "VENEZUELA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "ESTADOS_UNIDOS_DE_VENEZUELA",
+      "notes": "The Venezuela record maps to the reviewed Venezuelan polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -803,9 +803,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "NAZI_GERMANY",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "GERMANY",
+      "notes": "The historical source label is provenance only; the game uses neutral Germany naming and the GER tricolor.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -830,8 +830,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "DOMINICAN_REPUBLIC",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Dominican Republic is retained as a sovereign polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -855,9 +855,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "REPUBLIC_OF_COSTA_RICA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "COSTA_RICA",
+      "notes": "The Costa Rica record maps to the reviewed Costa Rican polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -881,9 +881,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "REPUBLIC_OF_NICARAGUA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "NICARAGUA",
+      "notes": "The Nicaragua record maps to the reviewed Nicaraguan polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -907,9 +907,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "PRINCIPALITY_OF_BULGARIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "POLITY_Q147909",
+      "notes": "The anachronistic Principality label is corrected and mapped to the Kingdom of Bulgaria.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -933,9 +933,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "ESTADO_NOVO",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "PORTUGAL",
+      "notes": "Estado Novo is a regime label and maps to Portugal rather than a separate country.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -959,9 +959,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "YUGOSLAVIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "KRALJEVINA_JUGOSLAVIJA",
+      "notes": "The Yugoslavia record maps to the reviewed Kingdom of Yugoslavia.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -992,11 +992,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
+      "disposition": "duplicate_geometry",
       "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "notes": "The British Colonial Empire aggregate overlaps separately represented dependencies.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q869",
@@ -1019,9 +1019,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "KINGDOM_OF_THAILAND",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "SIAM",
+      "notes": "The source label is normalized to Siam for 1936-01-01.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1044,10 +1044,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "ITALIAN_AFRICA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Italian Africa is an overlapping colonial aggregate, not a separate country slot.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     }
   ]

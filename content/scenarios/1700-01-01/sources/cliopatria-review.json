@@ -31,9 +31,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "MOROCCO",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "ALAOUITE_MOROCCO",
+      "notes": "The geometry is retained for the Alaouite Moroccan polity; the broad source label is normalized for 1700.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -58,8 +58,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_ACEH",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Aceh is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -84,8 +84,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "KINGDOM_OF_IMERETI",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Kingdom of Imereti is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -110,8 +110,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "ZAPOROZHIAN_COSSACKS",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Zaporozhian Host is represented as a decentralized polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -136,8 +136,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "KINGDOM_OF_MRAUK_U",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Kingdom of Mrauk U is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -160,10 +160,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "PRINCIPALITY_OF_MOLDAVIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Moldavia is retained as an Ottoman tributary polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -186,10 +186,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "COMTAT_VENAISSIN",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Comtat Venaissin is retained as a papal dependency.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -214,8 +214,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "WADAI_EMPIRE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Wadai Empire is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -238,10 +238,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "SAADI_SULTANATE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The Saadi label is anachronistic in 1700 and duplicates the separately reviewed Moroccan geometry.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -266,8 +266,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "BORNU_EMPIRE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Bornu Empire is retained as a decentralized polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -292,8 +292,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_JOHOR",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Johor is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -318,8 +318,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_KEDAH",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Kedah is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -342,10 +342,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "AI_VIET",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The broad Dai Viet record overlaps the separately represented Trinh and Nguyen polities.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -370,8 +370,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_DARFUR",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Darfur is retained as a decentralized polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -396,8 +396,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "FUNJ_SULTANATE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Funj Sultanate is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -420,10 +420,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "REPUBLIC_OF_FLORENCE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The Republic of Florence label is anachronistic and overlaps the reviewed Tuscan polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -446,10 +446,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "COUNTY_OF_URGELL",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "The County of Urgell label is anachronistic for a sovereign 1700 owner slot.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -474,8 +474,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "NAYAKS_OF_MADURAI",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Madurai Nayak kingdom is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -500,8 +500,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "DUCHY_OF_LORRAINE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Duchy of Lorraine is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -524,10 +524,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "CRIMEAN_KHANATE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Crimean Khanate is retained as an Ottoman tributary polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -551,9 +551,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "SAFAVID_DYNASTY",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "SAFAVID_IRAN",
+      "notes": "The Safavid state is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -578,8 +578,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_JAMBI",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Jambi is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -602,10 +602,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "PRINCIPALITY_OF_WALLACHIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Wallachia is retained as an Ottoman tributary polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -629,9 +629,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "YARUBID_DYNASTY",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "YARUBID_OMAN",
+      "notes": "The Yarubid state in Oman is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -654,10 +654,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "PRINCIPALITY_OF_ABKHAZIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Principality of Abkhazia is retained as a dependent polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -682,8 +682,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "KUTAI_KINGDOM",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Kutai Kingdom is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -708,11 +708,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "DUTCH_CEYLON",
+      "notes": "Dutch Ceylon is retained as a dependency of the Dutch Republic.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q195972",
@@ -736,8 +736,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "KINGDOM_OF_KARTLI",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Kingdom of Kartli is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -762,8 +762,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_MEMPAWAH",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Mempawah is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -787,9 +787,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "HOUSE_OF_SAVOY",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "DUCHY_OF_SAVOY",
+      "notes": "The dynastic source label is normalized to the Duchy of Savoy polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -826,11 +826,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
+      "disposition": "duplicate_geometry",
       "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "notes": "The Portuguese Empire aggregate overlaps separately represented metropole and colonial administrations.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q201705",
@@ -852,10 +852,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "KHMER_EMPIRE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The Khmer Empire label is anachronistic and duplicates the reviewed Cambodian polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -886,11 +886,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "ROYAUME_DE_FRANCE",
+      "notes": "The Cliopatria Kingdom of France record maps to the accepted French polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q207521",
@@ -914,8 +914,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "ETHIOPIAN_EMPIRE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Ethiopian Empire is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -938,10 +938,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "ASTRAKHAN_KHANATE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "The Astrakhan Khanate label is anachronistic for 1700.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -964,10 +964,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "PRINCIPALITY_OF_GURIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Principality of Guria is retained as a dependent polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -992,11 +992,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "DUTCH_CAPE_COAST",
+      "notes": "Dutch Cape Coast is retained as a dependency of the Dutch Republic.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2267508",
@@ -1020,8 +1020,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "TRINH_LORDS",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Cliopatria Trinh record maps to the reviewed Trinh polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1046,8 +1046,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "NGUYEN_LORDS",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Nguyen-ruled southern Vietnamese polity is retained.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1070,10 +1070,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "FIRST_TOUNGOO_EMPIRE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "The First Toungoo Empire label is anachronistic for 1700 and cannot be safely relabeled from this record alone.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1098,8 +1098,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "PRINCIPALITY_OF_MONACO",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Principality of Monaco is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1124,8 +1124,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_PERAK",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Perak is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1150,8 +1150,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_BIMA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Bima is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1176,8 +1176,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "JOSEON",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Cliopatria Joseon record maps to the reviewed Joseon polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1202,8 +1202,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "BLAMBANGAN_KINGDOM",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Blambangan Kingdom is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1226,10 +1226,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "PRINCIPALITY_OF_MINGRELIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Principality of Mingrelia is retained as a dependent polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1253,9 +1253,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "KATHMANDU",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "KINGDOM_OF_KANTIPUR",
+      "notes": "The Kathmandu source label is normalized to the Kingdom of Kantipur polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1280,8 +1280,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_SAMBAS",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Sambas is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1306,8 +1306,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "BALI",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Bali is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1332,8 +1332,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "GORKHA_KINGDOM",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Gorkha Kingdom is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1358,8 +1358,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_SUKADANA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Sukadana is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1384,8 +1384,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_PALEMBANG",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Palembang is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1410,8 +1410,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "THANJAVUR_MARATHA_KINGDOM",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Thanjavur Maratha kingdom is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1434,10 +1434,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "NEW_NETHERLAND",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "New Netherland is anachronistic in 1700.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1461,9 +1461,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "SWISS_CONFEDERATION",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "SWISS_CONFEDERACY",
+      "notes": "The Swiss Confederacy is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1488,8 +1488,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "MATARAM_SULTANATE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Mataram Sultanate is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1512,10 +1512,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "KALMYK_KHANATE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Kalmyk Khanate is retained as a Russian-dependent polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1540,8 +1540,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "CAMBODIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Cambodia is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1566,8 +1566,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_BONE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Bone is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1590,10 +1590,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "JESUIT_REDUCCIONES",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Jesuit reductions are represented as a dependent mission polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1616,10 +1616,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
-      "polityKey": "SULTANATE_OF_MALACCA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "The Sultanate of Malacca label is anachronistic in 1700.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1643,9 +1643,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "DUCHY_OF_BAVARIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "ELECTORATE_OF_BAVARIA",
+      "notes": "The source label is normalized to the Electorate of Bavaria for 1700.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1670,8 +1670,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "KHANATE_OF_KHIVA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Khanate of Khiva is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1696,8 +1696,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "TIBET",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Tibet is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1721,9 +1721,9 @@
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
-      "polityKey": "QASIMIDS",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "polityKey": "QASIMID_YEMEN",
+      "notes": "The Qasimid state in Yemen is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1746,10 +1746,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "constituent",
       "polityKey": "SLOBODA_UKRAINE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Sloboda Ukraine is treated as a constituent frontier territory.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1774,11 +1774,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
+      "disposition": "duplicate_geometry",
       "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "notes": "The English Colonial Empire aggregate overlaps separately represented colonial administrations.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q631210",
@@ -1802,8 +1802,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SMALL_HORDE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Small Horde is represented as a decentralized Kazakh polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1834,11 +1834,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "HABSBURG_MONARCHY",
+      "notes": "The Habsburg Monarchy is retained as a composite polity.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q68518",
@@ -1862,8 +1862,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "HAUDENOSAUNEE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Haudenosaunee Confederacy is represented as a decentralized polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1888,8 +1888,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_BANTEN",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Banten is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1920,11 +1920,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "dependency_check",
       "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
-      "disposition": "unreviewed",
+      "disposition": "duplicate_geometry",
       "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "notes": "The Spanish Empire aggregate overlaps Spain and separately represented colonial administrations.",
+      "reviewedBy": "Codex historical roster review",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q841364",
@@ -1948,8 +1948,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "AYUTTHAYA_KINGDOM",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Cliopatria Ayutthaya record maps to the reviewed Ayutthaya polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -1974,8 +1974,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "OYO_EMPIRE",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Oyo Empire is retained as a decentralized polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -2000,8 +2000,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "LAN_XANG",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Lan Xang is retained as a polity in 1700.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -2026,8 +2026,8 @@
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
       "disposition": "polity",
       "polityKey": "SULTANATE_OF_BRUNEI",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "The Sultanate of Brunei is retained as a polity.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     },
     {
@@ -2050,10 +2050,10 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "polity",
+      "disposition": "dependent_polity",
       "polityKey": "DANISH_INDIA",
-      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
-      "reviewedBy": "Codex source policy",
+      "notes": "Danish India is retained as a colonial dependency.",
+      "reviewedBy": "Codex historical roster review",
       "reviewedAt": "2026-09-02"
     }
   ]
