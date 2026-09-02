@@ -96,7 +96,7 @@ async function validateCliopatria(id, files) {
   );
 }
 
-async function validateRoster(id) {
+async function validateRoster(id, manifest) {
   const scenarioDir = path.join(scenariosRoot, id);
   const roster = await readJson(path.join(scenarioDir, 'polities.json'));
   const relationships = await readJson(path.join(scenarioDir, 'relationships.json'));
@@ -119,6 +119,9 @@ async function validateRoster(id) {
     requireValue(Boolean(polity.key) && Boolean(polity.displayName), `${id} has an unnamed polity`);
     requireValue(validStatuses.has(polity.status), `${id} polity ${polity.key} has an invalid status`);
     requireValue(Boolean(polity.flagAssetTag), `${id} polity ${polity.key} has no flag treatment`);
+    if (manifest.status === 'playable') {
+      requireValue(polity.flagAssetTag !== 'TBD_NEUTRAL', `${id} polity ${polity.key} still has a neutral placeholder flag`);
+    }
   }
 
   requireValue(relationships.schemaVersion === 1, `${id} has an unsupported relationship schema`);
@@ -177,7 +180,7 @@ for (const id of catalog.scenarios) {
   validateManifest(manifest, id);
   await validateOhmSpec(id);
   if (id !== '1830-01-01') {
-    await validateRoster(id);
+    await validateRoster(id, manifest);
     geometryAudits.push({ id, ...await validateGeometryAudit(id, manifest) });
     const files = await loadScenarioRosterFiles(path.join(scenariosRoot, id));
     await validateCliopatria(id, files);

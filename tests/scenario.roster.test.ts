@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   auditRosterReview,
   auditComplementReview,
+  acceptSourceClassifications,
   buildCandidateCrosswalk,
   scaffoldRosterReview,
   scaffoldComplementReview,
@@ -164,5 +165,46 @@ describe('scenario roster review compiler', () => {
     };
     expect(() => auditRosterReview({ manifest, roster, relationships, discovery, review }))
       .toThrow(/unknown polity MISSING/i);
+  });
+
+  it('accepts only explicit source classifications and leaves ambiguous entries blocked', () => {
+    const result = acceptSourceClassifications({
+      roster,
+      ohmReview: {
+        entries: [
+          {
+            identityKey: 'Q-KINGDOM', displayName: 'Kingdom Example', wikidata: 'Q-KINGDOM', relationIds: [20],
+            reviewLane: 'sovereignty_check', disposition: 'unreviewed', polityKey: null,
+          },
+          {
+            identityKey: 'Q-UNKNOWN', displayName: 'Unknown Example', wikidata: 'Q-UNKNOWN', relationIds: [21],
+            reviewLane: 'manual', disposition: 'unreviewed', polityKey: null,
+          },
+        ],
+      },
+      complementReview: {
+        entries: [
+          {
+            identityKey: 'Q-GAMMA', displayName: 'Gamma Polity', wikidata: 'Q-GAMMA', sourceRecords: [9],
+            reviewLane: 'sovereignty_check', disposition: 'unreviewed', polityKey: null,
+          },
+          {
+            identityKey: 'Q-EMPIRE', displayName: 'Empire Member', wikidata: 'Q-EMPIRE', sourceRecords: [10],
+            reviewLane: 'dependency_check', disposition: 'unreviewed', polityKey: null,
+          },
+        ],
+      },
+      reviewer: 'Codex source policy',
+      reviewedAt: '2026-09-02',
+    });
+
+    expect(result.counts).toEqual({ ohmAccepted: 1, complementAccepted: 1 });
+    expect(result.ohmReview.entries[0]).toMatchObject({ disposition: 'polity', reviewedBy: 'Codex source policy' });
+    expect(result.ohmReview.entries[1]).toMatchObject({ disposition: 'unreviewed' });
+    expect(result.complementReview.entries[0]).toMatchObject({ disposition: 'polity' });
+    expect(result.complementReview.entries[1]).toMatchObject({ disposition: 'unreviewed' });
+    expect(result.roster.polities.map((polity) => polity.key)).toEqual(expect.arrayContaining([
+      'KINGDOM_EXAMPLE', 'GAMMA_POLITY',
+    ]));
   });
 });

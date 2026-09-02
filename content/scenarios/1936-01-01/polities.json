@@ -4,6 +4,993 @@
   "coverage": "vertical_slice",
   "polities": [
     {
+      "key": "ADEN_PROTECTORATE",
+      "displayName": "Aden Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848485
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "AFRICA_OCIDENTAL_PORTUGUESA",
+      "displayName": "África Ocidental Portuguesa",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690861
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "AFRIQUE_EQUATORIALE_FRANCAISE",
+      "displayName": "Afrique équatoriale française",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839997
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ALBANIA",
+      "displayName": "Albania",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 50,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ALGERIE_FRANCAISE",
+      "displayName": "Algérie française",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690948
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ANDORRA",
+      "displayName": "Andorra",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2739874
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ANGLO_EGYPTIAN_SUDAN",
+      "displayName": "Anglo-Egyptian Sudan",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803203
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ARGENTINA",
+      "displayName": "Argentina",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860947
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ASHANTI_COLONY",
+      "displayName": "Ashanti Colony",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923088
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "AUSTRALIA",
+      "displayName": "Australia",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848197
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BECHUANALAND_PROTECTORATE",
+      "displayName": "Bechuanaland Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691745
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BELGIQUE",
+      "displayName": "Belgique",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2800293
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BOLIVIA",
+      "displayName": "Bolivia",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848686
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRASIL",
+      "displayName": "Brasil",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2905001
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_CAMEROONS",
+      "displayName": "British Cameroons",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828750
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_CEYLON",
+      "displayName": "British Ceylon",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848313
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_CYPRUS",
+      "displayName": "British Cyprus",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801349
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_GUIANA",
+      "displayName": "British Guiana",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806844
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_HONDURAS_COLONY",
+      "displayName": "British Honduras Colony",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807603
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_LEEWARD_ISLANDS",
+      "displayName": "British Leeward Islands",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832972
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_MAURITIUS",
+      "displayName": "British Mauritius",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831873
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_NORTH_BORNEO",
+      "displayName": "British North Borneo",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848286
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_RAJ",
+      "displayName": "British Raj",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848483
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
+      "displayName": "British Solomon Islands Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831242
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_SOMALILAND",
+      "displayName": "British Somaliland",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2926848
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_TOGOLAND",
+      "displayName": "British Togoland",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694159
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "displayName": "British Western Pacific Territories",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846236
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "BRITISH_WINDWARD_ISLANDS",
+      "displayName": "British Windward Islands",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834750
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "CABINDA",
+      "displayName": "Cabinda",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839750
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "CANADA",
+      "displayName": "Canada",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831062
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "CAYMAN_ISLANDS",
+      "displayName": "Cayman Islands",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831970
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "CESKOSLOVENSKA_REPUBLIKA",
+      "displayName": "Československá republika",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692233
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "CHILE",
+      "displayName": "Chile",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801347
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLOMBIA",
+      "displayName": "Colombia",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848975
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONIA_ERITREA",
+      "displayName": "Colonia Eritrea",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690839
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONIE_DE_LA_GUADELOUPE",
+      "displayName": "Colonie de la Guadeloupe",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861172
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONIE_DE_LA_GUYANE",
+      "displayName": "Colonie de la Guyane",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861194
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONIE_DE_MADAGASCAR_ET_DEPENDANCES",
+      "displayName": "Colonie de Madagascar et dépendances",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865840
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONIE_DU_GABON",
+      "displayName": "Colonie du Gabon",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839934
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONIE_DU_MOYEN_CONGO",
+      "displayName": "Colonie du Moyen-Congo",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839975
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+      "displayName": "Colonie du Oubangui-Chari-Tchad",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2839928
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONIE_DU_TCHAD",
+      "displayName": "Colonie du Tchad",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2917199
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONY_AND_PROTECTORATE_OF_NIGERIA",
+      "displayName": "Colony and Protectorate of Nigeria",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690856
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONY_OF_BARBADOS",
+      "displayName": "Colony of Barbados",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832944
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONY_OF_BASUTOLAND",
+      "displayName": "Colony of Basutoland",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691741
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONY_OF_BERMUDA",
+      "displayName": "Colony of Bermuda",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831964
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONY_OF_FIJI",
+      "displayName": "Colony of Fiji",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846213
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONY_OF_JAMAICA",
+      "displayName": "Colony of Jamaica",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834850
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONY_OF_MALTA",
+      "displayName": "Colony of Malta",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801185
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONY_OF_SEYCHELLES",
+      "displayName": "Colony of Seychelles",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831866
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONY_OF_THE_BAHAMAS",
+      "displayName": "Colony of the Bahamas",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834851
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COLONY_OF_THE_STRAITS_SETTLEMENT",
+      "displayName": "Colony of the Straits Settlement",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848277
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND",
+      "displayName": "Commission Government of Newfoundland",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830878
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2831077
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COMMONWEALTH_OF_THE_PHILIPPINES",
+      "displayName": "Commonwealth of the Philippines",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889834
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COMMUNIST_PARTY_OF_CHINA",
+      "displayName": "Communist Party of China",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 53,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "CONGO_BELGE",
+      "displayName": "Congo belge",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690860
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COOK_ISLANDS",
+      "displayName": "Cook Islands",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846264
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "COSTA_RICA",
+      "displayName": "Costa Rica",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2808163
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "CUBA",
+      "displayName": "Cuba",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861549
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "CZECHOSLOVAKIA",
+      "displayName": "Czechoslovakia",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 78,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "DANMARK",
+      "displayName": "Danmark",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2869937
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "DENMARK_NORWAY",
+      "displayName": "Denmark-Norway",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 87,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "DOMINICAN_REPUBLIC",
+      "displayName": "Dominican Republic",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 24,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "DOMINION_OF_NEW_ZEALAND",
+      "displayName": "Dominion of New Zealand",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846160
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ECUADOR",
+      "displayName": "Ecuador",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848857
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "EESTI",
+      "displayName": "Eesti",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801387
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "EL_SALVADOR",
+      "displayName": "El Salvador",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2808152
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "EMPIRE_OF_JAPAN",
+      "displayName": "Empire of Japan",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 83,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ESTADO_NOVO",
+      "displayName": "Estado Novo",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 57,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ESTADOS_UNIDOS_DE_VENEZUELA",
+      "displayName": "Estados Unidos de Venezuela",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2842571
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
+      "displayName": "Établissements français de l'Océani",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876346
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "FEDERATED_MALAY_STATES",
+      "displayName": "Federated Malay States",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848458
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "FIRST_HELLENIC_REPUBLIC",
+      "displayName": "First Hellenic Republic",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 81,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "FRENCH_CAMEROON",
+      "displayName": "French Cameroon",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828747
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "GAMBIA_COLONY_AND_PROTECTORATE",
+      "displayName": "Gambia Colony and Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803502
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
       "key": "GERMANY",
       "displayName": "Germany",
       "status": "sovereign",
@@ -15,6 +1002,1409 @@
           "id": 2694638
         }
       ]
+    },
+    {
+      "key": "GIBRALTAR",
+      "displayName": "Gibraltar",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692855
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+      "displayName": "Gilbert and Ellice Islands Colony",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831167
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "GOA_PORTUGUESA",
+      "displayName": "Goa Portuguesa",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922053
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922074
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "GOLD_COAST_COLONY",
+      "displayName": "Gold Coast Colony",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828425
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "GREENLAND",
+      "displayName": "Greenland",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 40,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "GUATEMALA",
+      "displayName": "Guatemala",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807664
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "GUERNSEY",
+      "displayName": "Guernsey",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828270
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "GUINE_PORTUGUESA",
+      "displayName": "Guiné Portuguesa",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803504
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "HAITI",
+      "displayName": "Haiti",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841717
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "HUNGARIAN_REPUBLIC",
+      "displayName": "Hungarian Republic",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 19,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ISLE_OF_MAN",
+      "displayName": "Isle of Man",
+      "status": "constituent",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2693293
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ITALIA",
+      "displayName": "Italia",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851104
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ITALIAN_AFRICA",
+      "displayName": "Italian Africa",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 88,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "JERSEY",
+      "displayName": "Jersey",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828299
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "JOHORE_PROTECTORATE",
+      "displayName": "Johore Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848476
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KEDAH_PROTECTORATE",
+      "displayName": "Kedah Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848479
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KELANTAN_PROTECTORATE",
+      "displayName": "Kelantan Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848477
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KINGDOM_OF_AFGHANISTAN",
+      "displayName": "Kingdom of Afghanistan",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 26,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KINGDOM_OF_IRAQ",
+      "displayName": "Kingdom of Iraq",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 52,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KINGDOM_OF_ITALY",
+      "displayName": "Kingdom of Italy",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 69,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KINGDOM_OF_LITHUANIA",
+      "displayName": "Kingdom of Lithuania",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 85,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KINGDOM_OF_THAILAND",
+      "displayName": "Kingdom of Thailand",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 34,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KINGDOM_OF_TRAVANCORE",
+      "displayName": "Kingdom of Travancore",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922413
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KOLONIE_D_WALLIS_ET_FUTUNA",
+      "displayName": "Kolonie d'Wallis-et-Futuna",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876371
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KONINKRIJK_DER_NEDERLANDEN",
+      "displayName": "Koninkrijk der Nederlanden",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2883430
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KONUNGSRIKI_ISLAND",
+      "displayName": "Konungsríkið Ísland",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801981
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "KRALJEVINA_JUGOSLAVIJA",
+      "displayName": "Kraljevina Jugoslavija / Краљевина Југославија",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2747831
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "LETZEBUERG",
+      "displayName": "Lëtzebuerg",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2748545
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "LIBERIA",
+      "displayName": "Liberia",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828769
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "LIECHTENSTEIN",
+      "displayName": "Liechtenstein",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2746467
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "LIETUVA",
+      "displayName": "Lietuva",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692218
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "LUXEMBOURG",
+      "displayName": "Luxembourg",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 72,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "MAGYAR_KIRALYSAG",
+      "displayName": "Magyar Királyság",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2695633
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "MALDIVES_PROTECTORATE",
+      "displayName": "Maldives Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848182
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "MBRETNIJA_SHQIPTARE",
+      "displayName": "Mbretnija Shqiptare",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2800554
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "MEXICO",
+      "displayName": "México",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692906
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "MONGOLIAN_PEOPLE_S_REPUBLIC",
+      "displayName": "Mongolian People's Republic",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 35,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "NAURU",
+      "displayName": "Nauru",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846179
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "NAZI_GERMANY",
+      "displayName": "Nazi Germany",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 71,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "NETHERLANDS_ANTILLES",
+      "displayName": "Netherlands Antilles",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 2,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+      "displayName": "New Hebrides / Nouvelles-Hébrides",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846175
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "NORTH_YEMEN",
+      "displayName": "North Yemen",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 84,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "NORTHERN_RHODESIA",
+      "displayName": "Northern Rhodesia",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691743
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "NORTHERN_TERRITORIES",
+      "displayName": "Northern Territories",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828423
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "NOUVELLE_CALEDONIE",
+      "displayName": "Nouvelle-Calédonie",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2876367
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "NYASALAND",
+      "displayName": "Nyasaland",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803134
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "OSTERREICH",
+      "displayName": "Österreich",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2858751
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PAHLAVI_DYNASTY",
+      "displayName": "Pahlavi Dynasty",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 73,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PALESTINE_MANDATE",
+      "displayName": "Palestine Mandate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848316
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PANAMA",
+      "displayName": "Panamá",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2873306
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PARAGUAY",
+      "displayName": "Paraguay",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2863122
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PERLIS_PROTECTORATE",
+      "displayName": "Perlis Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848480
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PERU",
+      "displayName": "Perú",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848865
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PITCAIRN_ISLANDS",
+      "displayName": "Pitcairn Islands",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846172
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "POLITY",
+      "displayName": "إمارة شرق الأردن",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848317
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2803204
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2848878
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2923091
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2801340
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2694890
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2905965
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2694471
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "POLSKA",
+      "displayName": "Polska",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692205
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PORTUGAL",
+      "displayName": "Portugal",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807009
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "displayName": "Portuguese São Tomé and Príncipe",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2885981
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PRINCIPALITY_OF_BULGARIA",
+      "displayName": "Principality of Bulgaria",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 23,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PROTECTORAT_FRANCAIS_DE_TUNISIE",
+      "displayName": "Protectorat français de Tunisie",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690947
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PROTECTORATE_OF_BAHRAIN",
+      "displayName": "Protectorate of Bahrain",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848318
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PROTECTORATE_OF_BRUNEI",
+      "displayName": "Protectorate of Brunei",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848297
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PROTECTORATE_OF_KENYA",
+      "displayName": "Protectorate of Kenya",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831411
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2831414
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PROTECTORATE_OF_KUWAIT",
+      "displayName": "Protectorate of Kuwait",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848364
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PROTECTORATE_OF_QATAR",
+      "displayName": "Protectorate of Qatar",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848319
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PROTECTORATE_OF_SARAWAK",
+      "displayName": "Protectorate of Sarawak",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848299
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PROTECTORATE_OF_TONGA",
+      "displayName": "Protectorate of Tonga",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846200
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "PROTECTORATE_OF_UGANDA",
+      "displayName": "Protectorate of Uganda",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831426
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "REGATUL_ROMANIEI",
+      "displayName": "Regatul României",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2693259
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "REPUBLIC_OF_CHINA",
+      "displayName": "Republic of China",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 67,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "REPUBLIC_OF_COSTA_RICA",
+      "displayName": "Republic of Costa Rica",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 11,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "REPUBLIC_OF_NICARAGUA",
+      "displayName": "Republic of Nicaragua",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 7,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "REPUBLICA_DOMINICANA",
+      "displayName": "República Dominicana",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841711
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "RUANDA_URUNDI",
+      "displayName": "Ruanda-Urundi",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2863620
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SAINT_HELENA_CROWN_COLONY",
+      "displayName": "Saint Helena Crown Colony",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848194
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SAINT_PIERRE_ET_MIQUELON",
+      "displayName": "Saint-Pierre et Miquelon",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831312
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SAN_MARINO",
+      "displayName": "San Marino",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2853735
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SAORSTAT_EIREANN_IRISH_FREE_STATE",
+      "displayName": "Saorstát Éireann / Irish Free State",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2697727
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SECOND_SPANISH_REPUBLIC",
+      "displayName": "Second Spanish Republic",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 41,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SIERRA_LEONE_PROTECTORATE",
+      "displayName": "Sierra Leone Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828774
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SIIN",
+      "displayName": "Siin",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879275
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SOMALIA_ITALIANA",
+      "displayName": "Somalia italiana",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923092
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SOUTH_AFRICA",
+      "displayName": "South Africa",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 31,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SOUTHERN_RHODESIA",
+      "displayName": "Southern Rhodesia",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831467
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SPANISH_NATIONALISTS",
+      "displayName": "Spanish Nationalists",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 58,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "STATUS_CIVITATIS_VATICANAE",
+      "displayName": "Status Civitatis Vaticanae",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2751259
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SVERIGE",
+      "displayName": "Sverige",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2870046
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "SWAZILAND_PROTECTORATE",
+      "displayName": "Swaziland Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691746
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "TANGANYIKA_TERRITORY",
+      "displayName": "Tanganyika Territory",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801206
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2855612
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "TANGIER_INTERNATIONAL_ZONE",
+      "displayName": "Tangier International Zone",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848366
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "TERRITORY_OF_WESTERN_SAMOA",
+      "displayName": "Territory of Western Samoa",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2846170
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "TIBET",
+      "displayName": "Tibet",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 33,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "TRENGGANU_PROTECTORATE",
+      "displayName": "Trengganu Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848478
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "TRINIDAD_AND_TOBAGO_COLONY",
+      "displayName": "Trinidad and Tobago Colony",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834829
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "TRUCIAL_STATES",
+      "displayName": "Trucial States",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848320
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "TURKIYE",
+      "displayName": "Türkiye",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801012
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "UNION_INDOCHINOISE",
+      "displayName": "Union Indochinoise",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745674
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "UNION_OF_SOUTH_AFRICA",
+      "displayName": "Union of South Africa",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831731
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "UNITED_STATES",
+      "displayName": "United States",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2874803
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "URUGUAY",
+      "displayName": "Uruguay",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2802055
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "VENEZUELA",
+      "displayName": "Venezuela",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 8,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "YUGOSLAVIA",
+      "displayName": "Yugoslavia",
+      "status": "sovereign",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 75,
+          "source": "cliopatria-0.2.0"
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
+    },
+    {
+      "key": "ZANZIBAR_PROTECTORATE",
+      "displayName": "Zanzibar Protectorate",
+      "status": "vassal",
+      "notes": "Source-pack classification pending final gameplay identity, relationship, and flag treatment.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690950
+        }
+      ],
+      "flagAssetTag": "TBD_NEUTRAL"
     }
   ]
 }

@@ -12,6 +12,13 @@ const REVIEW_DISPOSITIONS = new Set([
   'exclude',
 ]);
 
+const SOURCE_LANE_DISPOSITION = Object.freeze({
+  sovereignty_check: 'polity',
+  dependency_check: 'dependent_polity',
+  constituent_check: 'constituent',
+  claim_check: 'claim',
+});
+
 async function readJson(filePath) {
   return JSON.parse(await readFile(filePath, 'utf8'));
 }
@@ -70,6 +77,123 @@ function normalizedName(value) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
+}
+
+function normalizedPolityKey(value) {
+  const key = String(value ?? '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toUpperCase()
+    .replace(/[^A-Z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+  return key || 'POLITY';
+}
+
+function uniquePolityKey(entry, reserved) {
+  const base = normalizedPolityKey(entry.displayName ?? entry.identityKey);
+  if (!reserved.has(base)) return base;
+  const identitySuffix = normalizedPolityKey(entry.wikidata ?? entry.identityKey);
+  const withIdentity = `${base}_${identitySuffix}`;
+  if (!reserved.has(withIdentity)) return withIdentity;
+  let ordinal = 2;
+  while (reserved.has(`${withIdentity}_${ordinal}`)) ordinal += 1;
+  return `${withIdentity}_${ordinal}`;
+}
+
+function appendUniqueSources(polity, sources) {
+  const existing = new Set((polity.sources ?? []).map((source) => JSON.stringify(source)));
+  polity.sources = polity.sources ?? [];
+  for (const source of sources) {
+    const serialized = JSON.stringify(source);
+    if (existing.has(serialized)) continue;
+    polity.sources.push(source);
+    existing.add(serialized);
+  }
+}
+
+function acceptEntries({ roster, review, sourceKind, reviewer, reviewedAt, allowDependency }) {
+  const polityByName = new Map((roster.polities ?? []).map((polity) => [normalizedName(polity.displayName), polity]));
+  const reserved = new Set((roster.polities ?? []).map((polity) => polity.key));
+  const statusForDisposition = {
+    polity: 'sovereign',
+    dependent_polity: 'vassal',
+    constituent: 'constituent',
+  };
+  let accepted = 0;
+
+  for (const entry of review.entries ?? []) {
+    if (entry.disposition !== 'unreviewed') continue;
+    const disposition = SOURCE_LANE_DISPOSITION[entry.reviewLane];
+    if (!disposition) continue;
+    if (!allowDependency && disposition === 'dependent_polity') continue;
+
+    entry.disposition = disposition;
+    entry.reviewedBy = reviewer;
+    entry.reviewedAt = reviewedAt;
+    entry.notes = sourceKind === 'ohm'
+      ? `Accepted from explicit OpenHistoricalMap ${entry.reviewLane} tags; geometry and identity remain separately audited.`
+      : 'Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.';
+    entry.polityKey = null;
+    accepted += 1;
+
+    if (!Object.hasOwn(statusForDisposition, disposition)) continue;
+    const sourceRefs = sourceKind === 'ohm'
+      ? entry.relationIds.map((id) => ({ kind: 'ohm_relation', id }))
+      : entry.sourceRecords.map((id) => ({ kind: 'cliopatria_record', id, source: 'cliopatria-0.2.0' }));
+    let polity = polityByName.get(normalizedName(entry.displayName));
+    if (!polity) {
+      const key = uniquePolityKey(entry, reserved);
+      polity = {
+        key,
+        displayName: entry.displayName,
+        status: statusForDisposition[disposition],
+        flagAssetTag: 'TBD_NEUTRAL',
+        notes: 'Source-pack classification pending final gameplay identity, relationship, and flag treatment.',
+        sources: [],
+      };
+      roster.polities.push(polity);
+      polityByName.set(normalizedName(entry.displayName), polity);
+      reserved.add(key);
+    }
+    appendUniqueSources(polity, sourceRefs);
+    entry.polityKey = polity.key;
+  }
+  return accepted;
+}
+
+export function acceptSourceClassifications({ roster, ohmReview, complementReview, reviewer, reviewedAt }) {
+  requireValue(Boolean(reviewer), 'source classification acceptance needs a reviewer');
+  requireValue(/^\d{4}-\d{2}-\d{2}$/.test(reviewedAt), 'source classification acceptance needs an ISO review date');
+  const nextRoster = structuredClone(roster);
+  const nextOhmReview = structuredClone(ohmReview);
+  const nextComplementReview = structuredClone(complementReview);
+  nextRoster.polities = nextRoster.polities ?? [];
+  for (const polity of nextRoster.polities) {
+    if (!polity.flagAssetTag) polity.flagAssetTag = 'TBD_NEUTRAL';
+  }
+  const ohmAccepted = acceptEntries({
+    roster: nextRoster,
+    review: nextOhmReview,
+    sourceKind: 'ohm',
+    reviewer,
+    reviewedAt,
+    allowDependency: true,
+  });
+  const complementAccepted = acceptEntries({
+    roster: nextRoster,
+    review: nextComplementReview,
+    sourceKind: 'cliopatria',
+    reviewer,
+    reviewedAt,
+    allowDependency: false,
+  });
+  nextRoster.polities.sort((a, b) => a.key.localeCompare(b.key, 'en'));
+  return {
+    roster: nextRoster,
+    ohmReview: nextOhmReview,
+    complementReview: nextComplementReview,
+    counts: { ohmAccepted, complementAccepted },
+  };
 }
 
 export function buildCandidateCrosswalk(ohmDiscovery, cliopatriaDiscovery) {
@@ -172,7 +296,8 @@ function reviewLaneFor(evidence) {
     'colony', 'crown colony', 'protectorate', 'mandate', 'mandated territory', 'dominion',
     'territory', 'captaincy general', 'commission government', 'condominium',
   ]);
-  if (values('place').some((value) => dependentPlaces.has(value))) {
+  if (values('place').some((value) => dependentPlaces.has(value))
+    || values('border_type').some((value) => dependentPlaces.has(value))) {
     return { lane: 'dependency_check', reason: 'OHM place type indicates a dependent or jointly administered territory.' };
   }
   const constituentPlaces = new Set(['state', 'province', 'county', 'settlement']);

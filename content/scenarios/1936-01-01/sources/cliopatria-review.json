@@ -30,11 +30,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_AFGHANISTAN",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q139708",
@@ -84,11 +84,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "REPUBLIC_OF_CHINA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q149805",
@@ -110,11 +110,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_IRAQ",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1656775",
@@ -136,11 +136,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_LITHUANIA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q172579",
@@ -162,11 +162,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_ITALY",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q17427",
@@ -188,11 +188,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "COMMUNIST_PARTY_OF_CHINA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q178038",
@@ -214,11 +214,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SECOND_SPANISH_REPUBLIC",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q179848",
@@ -296,11 +296,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "EMPIRE_OF_JAPAN",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q19951607",
@@ -350,11 +350,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "NORTH_YEMEN",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q207991",
@@ -376,11 +376,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "PAHLAVI_DYNASTY",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q212056",
@@ -402,11 +402,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "MONGOLIAN_PEOPLE_S_REPUBLIC",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q222",
@@ -428,11 +428,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "ALBANIA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q223",
@@ -454,11 +454,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "GREENLAND",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q23666",
@@ -508,11 +508,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "NETHERLANDS_ANTILLES",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q258",
@@ -534,11 +534,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SOUTH_AFRICA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2719360",
@@ -560,11 +560,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "LUXEMBOURG",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2742116",
@@ -586,11 +586,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SPANISH_NATIONALISTS",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q28",
@@ -612,11 +612,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "HUNGARIAN_REPUBLIC",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q33946",
@@ -638,11 +638,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "CZECHOSLOVAKIA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q521263",
@@ -664,11 +664,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "TIBET",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q528546",
@@ -690,11 +690,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "FIRST_HELLENIC_REPUBLIC",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q55",
@@ -750,11 +750,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "DENMARK_NORWAY",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q717",
@@ -776,11 +776,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "VENEZUELA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q7318",
@@ -802,11 +802,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "NAZI_GERMANY",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q786",
@@ -828,11 +828,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "DOMINICAN_REPUBLIC",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q800",
@@ -854,11 +854,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "REPUBLIC_OF_COSTA_RICA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q811",
@@ -880,11 +880,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "REPUBLIC_OF_NICARAGUA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q815731",
@@ -906,11 +906,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "PRINCIPALITY_OF_BULGARIA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q824489",
@@ -932,11 +932,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "ESTADO_NOVO",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q83286",
@@ -958,11 +958,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "YUGOSLAVIA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q8680",
@@ -1018,11 +1018,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_THAILAND",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q926295",
@@ -1044,11 +1044,11 @@
       "license": "CC BY 4.0",
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "ITALIAN_AFRICA",
+      "notes": "Accepted as a Cliopatria polity with no parent membership value; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     }
   ]
 }

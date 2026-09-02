@@ -107,6 +107,12 @@ npm run scenario:roster -- scaffold \
 npm run scenario:roster -- audit \
   --scenario-dir content/scenarios/1700-01-01
 
+# Accept only explicit source-level classifications. Manual lanes remain blocked.
+npm run scenario:roster -- accept-source \
+  --scenario-dir content/scenarios/1700-01-01 \
+  --reviewer "Codex source policy" \
+  --date 2026-09-02
+
 # Audit every discovered relation in cached network batches.
 npm run scenario:ohm -- geometry-audit \
   --discovery content/scenarios/1700-01-01/sources/ohm-discovery.json \
@@ -118,6 +124,8 @@ npm run scenario:ohm -- geometry-audit \
 Discovery output is a review queue, not a roster. Compilation verifies the exact date, expected name and Wikidata identity, element license, closed boundary rings, and hole placement. It emits GeoJSON plus a provenance ledger. The 1830 pilot currently curates Baden relation `2660798` for boundary validation.
 
 The checked-in 1700 discovery currently contains 186 active relations grouped into 180 stable identity keys. The 1936 discovery contains 206 relations grouped into 200 identities. Every identity receives an explicit review disposition before a scenario can become playable. Valid dispositions distinguish playable polities and dependencies from constituents, claims, duplicate geometry, map fragments, and exclusions. The validator blocks playable status unless coverage is global and no identity remains unreviewed.
+
+The conservative source-acceptance pass classifies 124 of 180 OHM identities and 70 of 77 Cliopatria-only identities for 1700. It classifies 154 of 200 OHM identities and 32 of 39 Cliopatria-only identities for 1936. It accepts only explicit OHM taxonomy and Cliopatria polities without a parent membership value. Ambiguous OHM records and coarse empire memberships remain unreviewed. Newly accepted development entries use `TBD_NEUTRAL` as an explicit flag placeholder; playable validation rejects every unresolved placeholder.
 
 The global geometry audit recursively expands nested OHM boundary relations, then assembles and validates every discovered relation independently. At the current source snapshot, 181 of 186 relations for 1700 and 202 of 206 relations for 1936 assemble as closed licensed polygon geometry. The remaining entries are checked in as explicit correction work, not silently omitted. Individual validity does not prove global coverage; later compilation must still detect ownership holes, exclusive overlaps, duplicate claims, and coastline mismatches.
 

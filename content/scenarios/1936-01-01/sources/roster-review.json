@@ -70,11 +70,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "COSTA_RICA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Guatemala",
@@ -107,11 +107,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "GUATEMALA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Guiné Portuguesa",
@@ -146,11 +146,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "GUINE_PORTUGUESA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Honduras",
@@ -296,11 +296,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "LIBERIA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1028835",
@@ -335,11 +335,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_CAMEROONS",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1028848",
@@ -374,11 +374,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "FRENCH_CAMEROON",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1042",
@@ -413,11 +413,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONY_OF_SEYCHELLES",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1048340",
@@ -451,11 +451,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "MBRETNIJA_SHQIPTARE",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1050",
@@ -490,11 +490,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "SWAZILAND_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1050859",
@@ -530,11 +530,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1054923",
@@ -605,11 +605,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "MALDIVES_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q107783136",
@@ -644,11 +644,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONIE_DU_MOYEN_CONGO",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q10940330",
@@ -717,11 +717,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PROTECTORATE_OF_UGANDA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1121819",
@@ -755,11 +755,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "POLITY",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1147441",
@@ -793,11 +793,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_NORTH_BORNEO",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q116282722",
@@ -833,11 +833,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "TRINIDAD_AND_TOBAGO_COLONY",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q12053604",
@@ -872,11 +872,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_MAURITIUS",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1206012",
@@ -986,11 +986,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONIA_ERITREA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q124943",
@@ -1024,11 +1024,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "POLITY",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q129286",
@@ -1062,11 +1062,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_RAJ",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q130802",
@@ -1173,11 +1173,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_SOLOMON_ISLANDS_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1400154",
@@ -1211,11 +1211,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "FEDERATED_MALAY_STATES",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q140359",
@@ -1250,11 +1250,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "CESKOSLOVENSKA_REPUBLIKA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1410",
@@ -1289,11 +1289,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "GIBRALTAR",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1421888",
@@ -1328,11 +1328,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONIE_DU_OUBANGUI_CHARI_TCHAD",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q142965",
@@ -1439,11 +1439,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "COMMONWEALTH_OF_THE_PHILIPPINES",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q146740",
@@ -1515,11 +1515,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "POLITY",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q150058",
@@ -1553,11 +1553,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_TRAVANCORE",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1506615",
@@ -1665,11 +1665,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_CYPRUS",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1545934",
@@ -1705,11 +1705,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q155",
@@ -1743,11 +1743,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "BRASIL",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q157734",
@@ -1838,11 +1838,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "TANGANYIKA_TERRITORY",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q16",
@@ -1878,11 +1878,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "CANADA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1643555",
@@ -1916,13 +1916,13 @@
           }
         }
       ],
-      "reviewLane": "sovereignty_check",
-      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_HONDURAS_COLONY",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1649306",
@@ -1957,11 +1957,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "NYASALAND",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1658411",
@@ -1995,11 +1995,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PROTECTORATE_OF_SARAWAK",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q168787",
@@ -2034,11 +2034,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "CABINDA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q17012",
@@ -2069,13 +2069,13 @@
           }
         }
       ],
-      "reviewLane": "manual",
-      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "COLONIE_DE_LA_GUADELOUPE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q17070",
@@ -2147,11 +2147,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_LEEWARD_ISLANDS",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q183032",
@@ -2185,11 +2185,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "JOHORE_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1852345",
@@ -2223,11 +2223,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "TRUCIAL_STATES",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q185944",
@@ -2261,11 +2261,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "KELANTAN_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1865132",
@@ -2299,11 +2299,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "ADEN_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q188161",
@@ -2372,11 +2372,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "KEDAH_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q189701",
@@ -2410,11 +2410,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "TRENGGANU_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q191",
@@ -2448,11 +2448,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "EESTI",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q191077",
@@ -2487,11 +2487,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KRALJEVINA_JUGOSLAVIJA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q192184",
@@ -2525,11 +2525,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "SAINT_HELENA_CROWN_COLONY",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q193619",
@@ -2564,11 +2564,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q193714",
@@ -2602,11 +2602,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PALESTINE_MANDATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q1998749",
@@ -2638,13 +2638,13 @@
           }
         }
       ],
-      "reviewLane": "manual",
-      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "NORTHERN_TERRITORIES",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q20",
@@ -2716,11 +2716,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PROTECTORAT_FRANCAIS_DE_TUNISIE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q203493",
@@ -2755,11 +2755,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "REGATUL_ROMANIEI",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q207272",
@@ -2793,11 +2793,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "POLSKA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q207521",
@@ -2833,11 +2833,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "POLITY",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q209065",
@@ -2871,11 +2871,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "POLITY",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q210682",
@@ -2981,11 +2981,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PERLIS_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q213510",
@@ -3020,11 +3020,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "CONGO_BELGE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q216173",
@@ -3095,11 +3095,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "ALGERIE_FRANCAISE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q228",
@@ -3133,11 +3133,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "ANDORRA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q23022146",
@@ -3171,11 +3171,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PROTECTORATE_OF_TONGA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2340665",
@@ -3210,11 +3210,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONY_OF_BASUTOLAND",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q235",
@@ -3284,11 +3284,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONY_OF_BERMUDA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q237",
@@ -3322,11 +3322,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "STATUS_CIVITATIS_VATICANAE",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q238",
@@ -3360,11 +3360,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SAN_MARINO",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q241",
@@ -3398,11 +3398,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "CUBA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q244",
@@ -3439,11 +3439,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONY_OF_BARBADOS",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2444884",
@@ -3517,11 +3517,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "GUERNSEY",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2526023",
@@ -3557,11 +3557,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONY_OF_JAMAICA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2538511",
@@ -3615,11 +3615,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PROTECTORATE_OF_KENYA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2594990",
@@ -3655,11 +3655,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "DOMINION_OF_NEW_ZEALAND",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q26234937",
@@ -3733,11 +3733,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_WINDWARD_ISLANDS",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q26988",
@@ -3772,11 +3772,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COOK_ISLANDS",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q271894",
@@ -3811,11 +3811,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "AFRIQUE_EQUATORIALE_FRANCAISE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q2826232",
@@ -3850,11 +3850,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "AFRICA_OCIDENTAL_PORTUGUESA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q29",
@@ -3925,11 +3925,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "CHILE",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q29999",
@@ -3963,11 +3963,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KONINKRIJK_DER_NEDERLANDEN",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q30",
@@ -4001,11 +4001,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "UNITED_STATES",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q30059027",
@@ -4040,11 +4040,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "SIERRA_LEONE_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q30623",
@@ -4112,13 +4112,13 @@
           }
         }
       ],
-      "reviewLane": "manual",
-      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q31",
@@ -4152,11 +4152,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "BELGIQUE",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q31747",
@@ -4190,11 +4190,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SAORSTAT_EIREANN_IRISH_FREE_STATE",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q319984",
@@ -4230,11 +4230,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "SOMALIA_ITALIANA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q32",
@@ -4270,11 +4270,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "LETZEBUERG",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q323904",
@@ -4322,13 +4322,13 @@
           }
         }
       ],
-      "reviewLane": "manual",
-      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "GOA_PORTUGUESA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q33",
@@ -4398,13 +4398,13 @@
           }
         }
       ],
-      "reviewLane": "manual",
-      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "NOUVELLE_CALEDONIE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q34",
@@ -4439,11 +4439,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SVERIGE",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q34617",
@@ -4475,13 +4475,13 @@
           }
         }
       ],
-      "reviewLane": "manual",
-      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "SAINT_PIERRE_ET_MIQUELON",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q347",
@@ -4516,11 +4516,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "LIECHTENSTEIN",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3497642",
@@ -4554,11 +4554,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "TANGIER_INTERNATIONAL_ZONE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q35",
@@ -4592,11 +4592,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "DANMARK",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3518791",
@@ -4665,13 +4665,13 @@
           }
         }
       ],
-      "reviewLane": "manual",
-      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "KOLONIE_D_WALLIS_ET_FUTUNA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3557236",
@@ -4707,11 +4707,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "GAMBIA_COLONY_AND_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q35672",
@@ -4747,11 +4747,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PITCAIRN_ISLANDS",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3574782",
@@ -4786,11 +4786,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "ZANZIBAR_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q376178",
@@ -4824,11 +4824,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONY_OF_THE_STRAITS_SETTLEMENT",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3769",
@@ -4860,13 +4860,13 @@
           }
         }
       ],
-      "reviewLane": "constituent_check",
-      "reviewLaneReason": "OHM place type indicates a subnational or constituent unit.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "COLONIE_DE_LA_GUYANE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q38610",
@@ -4920,11 +4920,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COMMISSION_GOVERNMENT_OF_NEWFOUNDLAND",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q39",
@@ -4997,11 +4997,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONIE_DU_GABON",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q3916279",
@@ -5072,11 +5072,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PROTECTORATE_OF_BAHRAIN",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q40",
@@ -5110,11 +5110,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "OSTERREICH",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q404774",
@@ -5186,11 +5186,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "AUSTRALIA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q414",
@@ -5225,11 +5225,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "ARGENTINA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q419",
@@ -5263,11 +5263,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "PERU",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q43",
@@ -5301,11 +5301,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "TURKIYE",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q45",
@@ -5339,11 +5339,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "PORTUGAL",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q457242",
@@ -5413,11 +5413,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "ITALIA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q503623",
@@ -5451,11 +5451,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "GOLD_COAST_COLONY",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q5148320",
@@ -5489,11 +5489,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONY_OF_FIJI",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q5148517",
@@ -5528,11 +5528,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONY_AND_PROTECTORATE_OF_NIGERIA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q51547013",
@@ -5566,11 +5566,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "REPUBLICA_DOMINICANA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q541455",
@@ -5605,11 +5605,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "ANGLO_EGYPTIAN_SUDAN",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q5501842",
@@ -5643,11 +5643,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "COLONIE_DE_MADAGASCAR_ET_DEPENDANCES",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q555185",
@@ -5716,13 +5716,13 @@
           }
         }
       ],
-      "reviewLane": "manual",
-      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "CAYMAN_ISLANDS",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q5848651",
@@ -5756,11 +5756,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "ESTADOS_UNIDOS_DE_VENEZUELA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q590743",
@@ -5795,11 +5795,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "RUANDA_URUNDI",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q600018",
@@ -5834,11 +5834,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "MAGYAR_KIRALYSAG",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q62567",
@@ -5872,11 +5872,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "KONUNGSRIKI_ISLAND",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q657",
@@ -5911,11 +5911,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONIE_DU_TCHAD",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q662653",
@@ -5950,11 +5950,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_SOMALILAND",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q6744657",
@@ -5988,11 +5988,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONY_OF_MALTA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q697",
@@ -6026,11 +6026,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "NAURU",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q70802",
@@ -6098,13 +6098,13 @@
           }
         }
       ],
-      "reviewLane": "manual",
-      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q733",
@@ -6138,11 +6138,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "PARAGUAY",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q736",
@@ -6177,11 +6177,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "ECUADOR",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q739",
@@ -6215,11 +6215,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "COLOMBIA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q740930",
@@ -6291,11 +6291,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BECHUANALAND_PROTECTORATE",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q750",
@@ -6330,11 +6330,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "BOLIVIA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q750583",
@@ -6369,11 +6369,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "SOUTHERN_RHODESIA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q752431",
@@ -6407,11 +6407,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "NEW_HEBRIDES_NOUVELLES_HEBRIDES",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q763141",
@@ -6480,11 +6480,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "URUGUAY",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q778",
@@ -6520,11 +6520,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "COLONY_OF_THE_BAHAMAS",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q785",
@@ -6560,11 +6560,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "JERSEY",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q790",
@@ -6598,11 +6598,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "HAITI",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q792",
@@ -6636,11 +6636,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "EL_SALVADOR",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q794",
@@ -6674,11 +6674,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "POLITY",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q797527",
@@ -6712,11 +6712,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_TOGOLAND",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q804",
@@ -6750,11 +6750,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "PANAMA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q816709",
@@ -6825,11 +6825,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PROTECTORATE_OF_KUWAIT",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q8272919",
@@ -6863,11 +6863,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "LIETUVA",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q837",
@@ -6937,11 +6937,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PROTECTORATE_OF_QATAR",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q851",
@@ -6976,11 +6976,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "POLITY",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q862467",
@@ -7014,11 +7014,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "SIIN",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q865",
@@ -7052,11 +7052,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "POLITY",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q889394",
@@ -7204,11 +7204,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_GUIANA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q918153",
@@ -7242,11 +7242,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "BRITISH_CEYLON",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q921",
@@ -7280,11 +7280,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "PROTECTORATE_OF_BRUNEI",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q929147",
@@ -7356,11 +7356,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "NORTHERN_RHODESIA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q96",
@@ -7394,11 +7394,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "MEXICO",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q96372444",
@@ -7429,13 +7429,13 @@
           }
         }
       ],
-      "reviewLane": "manual",
-      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "dependent_polity",
+      "polityKey": "ASHANTI_COLONY",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Q9676",
@@ -7469,11 +7469,11 @@
       ],
       "reviewLane": "constituent_check",
       "reviewLaneReason": "OHM place type indicates a subnational or constituent unit.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "constituent",
+      "polityKey": "ISLE_OF_MAN",
+      "notes": "Accepted from explicit OpenHistoricalMap constituent_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Territory of Western Samoa",
@@ -7507,11 +7507,11 @@
       ],
       "reviewLane": "dependency_check",
       "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "dependent_polity",
+      "polityKey": "TERRITORY_OF_WESTERN_SAMOA",
+      "notes": "Accepted from explicit OpenHistoricalMap dependency_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Union Indochinoise",
@@ -7545,11 +7545,11 @@
       ],
       "reviewLane": "sovereignty_check",
       "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
-      "disposition": "unreviewed",
-      "polityKey": null,
-      "notes": null,
-      "reviewedBy": null,
-      "reviewedAt": null
+      "disposition": "polity",
+      "polityKey": "UNION_INDOCHINOISE",
+      "notes": "Accepted from explicit OpenHistoricalMap sovereignty_check tags; geometry and identity remain separately audited.",
+      "reviewedBy": "Codex source policy",
+      "reviewedAt": "2026-09-02"
     },
     {
       "identityKey": "Граница СССР-Финляндия",

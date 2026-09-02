@@ -5,6 +5,7 @@ import process from 'node:process';
 import {
   auditRosterReview,
   auditComplementReview,
+  acceptSourceClassifications,
   buildCandidateCrosswalk,
   loadScenarioRosterFiles,
   scaffoldRosterReview,
@@ -24,6 +25,7 @@ function usage() {
     '  node scripts/scenario-roster.mjs audit --scenario-dir DIR',
     '  node scripts/scenario-roster.mjs crosswalk --ohm FILE --cliopatria FILE --out FILE',
     '  node scripts/scenario-roster.mjs scaffold-complement --cliopatria FILE --crosswalk FILE --out FILE',
+    '  node scripts/scenario-roster.mjs accept-source --scenario-dir DIR --reviewer NAME [--date YYYY-MM-DD]',
   ].join('\n');
 }
 
@@ -96,6 +98,26 @@ if (command === 'scaffold') {
   );
   await writeRosterReview(resolvedOutput, result);
   process.stdout.write(`Scaffolded ${result.entries.length} Cliopatria-only roster identities for ${result.asOf}.\n`);
+} else if (command === 'accept-source') {
+  const scenarioDir = option(args, '--scenario-dir');
+  const reviewer = option(args, '--reviewer');
+  const reviewedAt = option(args, '--date') ?? new Date().toISOString().slice(0, 10);
+  if (!scenarioDir || !reviewer) throw new Error(usage());
+  const resolvedDir = path.resolve(scenarioDir);
+  const files = await loadScenarioRosterFiles(resolvedDir);
+  const result = acceptSourceClassifications({
+    roster: files.roster,
+    ohmReview: files.review,
+    complementReview: files.complementReview,
+    reviewer,
+    reviewedAt,
+  });
+  await writeRosterReview(path.join(resolvedDir, 'polities.json'), result.roster);
+  await writeRosterReview(path.join(resolvedDir, 'sources/roster-review.json'), result.ohmReview);
+  await writeRosterReview(path.join(resolvedDir, 'sources/cliopatria-review.json'), result.complementReview);
+  process.stdout.write(
+    `Accepted ${result.counts.ohmAccepted} OHM and ${result.counts.complementAccepted} Cliopatria source classifications.\n`,
+  );
 } else {
   throw new Error(usage());
 }
