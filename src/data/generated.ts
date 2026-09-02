@@ -32,6 +32,8 @@ export interface SeedNation {
   overlordTag?: string;
   /** Short 1830-specific description for the nation browser. */
   eraSummary?: string;
+  /** Technologies held on the exact scenario start date. */
+  initialTechs?: string[];
 }
 
 export interface SeedFormable {

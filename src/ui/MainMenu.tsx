@@ -352,6 +352,13 @@ export function MainMenu() {
           ) : null}
         </div>
         {shareStatus ? <p className="menu-share-status" data-testid="menu-share-status">{shareStatus}</p> : null}
+        <p className="menu-version" data-testid="menu-data-credits">
+          Historical source pipeline:{' '}
+          <a href="https://www.openhistoricalmap.org/copyright" target="_blank" rel="noreferrer">OpenHistoricalMap</a>
+          {' '}and{' '}
+          <a href="https://github.com/Seshat-Global-History-Databank/cliopatria" target="_blank" rel="noreferrer">Cliopatria by Seshat Global History Databank</a>
+          {' '}(CC BY 4.0, filtered and normalized).
+        </p>
         <p className="menu-version" data-testid="menu-version" title={APP_RELEASE}>{VERSION_LABEL}</p>
       </section>
     </div>

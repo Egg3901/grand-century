@@ -97,9 +97,33 @@ npm run scenario:ohm -- compile \
 
 # Validate catalog dates, source references, roster links, and visual policy.
 npm run scenario:validate
+
+# Regenerate the stable identity review queue while preserving prior decisions.
+npm run scenario:roster -- scaffold \
+  --discovery content/scenarios/1700-01-01/sources/ohm-discovery.json \
+  --out content/scenarios/1700-01-01/sources/roster-review.json
+
+# Report classified and unreviewed identities for one scenario.
+npm run scenario:roster -- audit \
+  --scenario-dir content/scenarios/1700-01-01
+
+# Audit every discovered relation in cached network batches.
+npm run scenario:ohm -- geometry-audit \
+  --discovery content/scenarios/1700-01-01/sources/ohm-discovery.json \
+  --cache-dir .scenario-cache/ohm/geometry-1700 \
+  --refresh \
+  --out content/scenarios/1700-01-01/sources/ohm-geometry-audit.json
 ```
 
 Discovery output is a review queue, not a roster. Compilation verifies the exact date, expected name and Wikidata identity, element license, closed boundary rings, and hole placement. It emits GeoJSON plus a provenance ledger. The 1830 pilot currently curates Baden relation `2660798` for boundary validation.
+
+The checked-in 1700 discovery currently contains 186 active relations grouped into 180 stable identity keys. The 1936 discovery contains 206 relations grouped into 200 identities. Every identity receives an explicit review disposition before a scenario can become playable. Valid dispositions distinguish playable polities and dependencies from constituents, claims, duplicate geometry, map fragments, and exclusions. The validator blocks playable status unless coverage is global and no identity remains unreviewed.
+
+The global geometry audit recursively expands nested OHM boundary relations, then assembles and validates every discovered relation independently. At the current source snapshot, 181 of 186 relations for 1700 and 202 of 206 relations for 1936 assemble as closed licensed polygon geometry. The remaining entries are checked in as explicit correction work, not silently omitted. Individual validity does not prove global coverage; later compilation must still detect ownership holes, exclusive overlaps, duplicate claims, and coastline mismatches.
+
+The complementary global candidate layer is the pinned Cliopatria 0.2.0 archive at commit `ad28a691b7c07c1fca89d0e0636d324667d2a258`, verified by SHA-256 before parsing. Its CC BY 4.0 source manifest records attribution and transformations. Crosswalking stable Wikidata IDs first, then unique normalized names, finds 77 Cliopatria-only identities for 1700 and 39 for 1936. Those candidates have a separate review queue and block playable promotion until classified. See [Historical roster and boundary sources](research/HISTORICAL-ROSTER-SOURCES.md) for the primary-source and licensing audit.
+
+CShapes, China Historical GIS, and Correlates of War must remain outside downloads, tests, generated artifacts, and product validation under their current non-commercial or no-redistribution terms. They require written permission before operational use.
 
 ## Deep modules and seams
 

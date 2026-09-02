@@ -24,7 +24,35 @@ export function curatedRelationsQuery(relationIds) {
   for (const id of relationIds) {
     if (!Number.isInteger(id) || id <= 0) throw new Error(`[ohm] invalid relation ID ${String(id)}`);
   }
-  return `[out:json][timeout:180];relation(id:${relationIds.join(',')});out geom;`;
+  return `[out:json][timeout:180];relation(id:${relationIds.join(',')})->.roots;(.roots;.roots >>;);out geom;`;
+}
+
+function expandNestedRelation(relation, byId, ancestry = new Set()) {
+  if (ancestry.has(relation.id)) throw new Error(`[ohm] relation ${relation.id} contains a nested relation cycle`);
+  const nextAncestry = new Set(ancestry).add(relation.id);
+  const members = [];
+  for (const member of relation.members ?? []) {
+    if (member.type !== 'relation') {
+      members.push(member);
+      continue;
+    }
+    const child = byId.get(member.ref);
+    if (!child || child.type !== 'relation') {
+      throw new Error(`[ohm] relation ${relation.id} is missing nested relation ${member.ref}`);
+    }
+    const expandedChild = expandNestedRelation(child, byId, nextAncestry);
+    for (const childMember of expandedChild.members ?? []) {
+      const childRole = childMember.role ?? '';
+      const role = member.role === 'inner'
+        ? (childRole === 'inner' ? 'outer' : 'inner')
+        : childRole || member.role;
+      members.push({
+        ...childMember,
+        role,
+      });
+    }
+  }
+  return { ...relation, members };
 }
 
 /** Read a deterministic cache by default. Network access requires refresh=true. */
@@ -73,6 +101,19 @@ export function discoverActiveAdminBoundaries(document, asOf) {
     .filter((element) => element.type === 'relation' && relationActiveOn(element.tags, asOf))
     .map((element) => {
       const license = evaluateOhmLicense(element.tags);
+      const evidenceTags = Object.fromEntries([
+        'place',
+        'border_type',
+        'country',
+        'colony',
+        'colony_of',
+        'dependency_of',
+        'protectorate_of',
+        'territory',
+        'disputed',
+        'source',
+        'wikipedia',
+      ].flatMap((key) => element.tags?.[key] === undefined ? [] : [[key, element.tags[key]]]));
       return {
         relationId: element.id,
         identityKey: element.tags?.wikidata ?? element.tags?.name ?? `ohm:relation:${element.id}`,
@@ -82,6 +123,7 @@ export function discoverActiveAdminBoundaries(document, asOf) {
         endDate: element.tags?.end_date ?? null,
         license: license.effective,
         licenseStatus: license.status,
+        evidenceTags,
       };
     })
     .sort((left, right) => (
@@ -130,7 +172,7 @@ export function compileCuratedRelations(document, sourcePack) {
       throw new Error(`[ohm] relation ${relation.id} changed Wikidata identity`);
     }
     const license = requireAllowedOhmLicense(relation.tags, `relation ${relation.id}`);
-    const feature = relationToGeoJsonFeature(relation);
+    const feature = relationToGeoJsonFeature(expandNestedRelation(relation, byId));
     feature.properties.polityKey = boundary.polityKey;
     feature.properties.purpose = boundary.purpose;
     features.push(feature);
@@ -142,6 +184,53 @@ export function compileCuratedRelations(document, sourcePack) {
     featureCollection: { type: 'FeatureCollection', features },
     provenance,
   };
+}
+
+function coordinateCount(geometry) {
+  if (!Array.isArray(geometry)) return 0;
+  if (geometry.length > 0 && typeof geometry[0] === 'number') return 1;
+  return geometry.reduce((sum, child) => sum + coordinateCount(child), 0);
+}
+
+export function auditOhmGeometry(document, { asOf, relationIds }) {
+  if (!Array.isArray(document?.elements)) throw new Error('[ohm] geometry audit document has no elements array');
+  const byId = new Map(document.elements.map((element) => [element.id, element]));
+  return relationIds.slice().sort((a, b) => a - b).map((relationId) => {
+    const relation = byId.get(relationId);
+    if (!relation) return { relationId, status: 'missing', error: 'Relation is absent from the Overpass response.' };
+    const name = relation.tags?.name ?? null;
+    const wikidata = relation.tags?.wikidata ?? null;
+    if (!relationActiveOn(relation.tags, asOf)) {
+      return { relationId, name, wikidata, status: 'inactive', error: `Relation is not active on ${asOf}.` };
+    }
+    const license = evaluateOhmLicense(relation.tags);
+    if (license.status !== 'allowed') {
+      return { relationId, name, wikidata, status: 'license_review', license: license.effective };
+    }
+    try {
+      const feature = relationToGeoJsonFeature(expandNestedRelation(relation, byId));
+      const polygons = feature.geometry.type === 'MultiPolygon' ? feature.geometry.coordinates.length : 1;
+      return {
+        relationId,
+        name,
+        wikidata,
+        status: 'valid',
+        geometryType: feature.geometry.type,
+        polygons,
+        coordinates: coordinateCount(feature.geometry.coordinates),
+        license: license.effective,
+      };
+    } catch (error) {
+      return {
+        relationId,
+        name,
+        wikidata,
+        status: 'invalid_geometry',
+        error: error instanceof Error ? error.message : String(error),
+        license: license.effective,
+      };
+    }
+  });
 }
 
 export async function loadSourcePack(specPath) {

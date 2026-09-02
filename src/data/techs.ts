@@ -22,7 +22,12 @@ import type { InventionDef, TechDef } from '../shared/types';
 export const TECHS: TechDef[] = [
   // --- ARMY --------------------------------------------------------------
   {
+    key: 'flintlock_drill', name: 'Flintlock Drill', category: 'army', cost: 5, year: 1700,
+    effects: ['Foundation of early modern land warfare'],
+  },
+  {
     key: 'muzzle_loaded_rifles', name: 'Muzzle-loaded Rifles', category: 'army', cost: 8, year: 1820,
+    prereq: 'flintlock_drill',
     effects: ['Foundation of the army column'],
   },
   {
@@ -106,10 +111,39 @@ export const TECHS: TechDef[] = [
     effects: ['+Army combat power', '+Army movement'],
     modifiers: { armyMovement: 0.05 },
   },
+  {
+    key: 'army_mobile_warfare', name: 'Mobile Warfare', category: 'army', cost: 330, year: 1922,
+    prereq: 'army_combined_arms',
+    effects: ['+Army combat power', '+Army movement'],
+    modifiers: { armyMovement: 0.06, supplyRange: 0.5 },
+  },
+  {
+    key: 'army_mechanized_operations', name: 'Mechanized Operations', category: 'army', cost: 370, year: 1930,
+    prereq: 'army_mobile_warfare',
+    effects: ['+Army combat power', '+Army movement', '+Supply range'],
+    modifiers: { armyMovement: 0.08, supplyRange: 0.75 },
+  },
+  {
+    key: 'army_operational_depth', name: 'Operational Depth', category: 'army', cost: 420, year: 1939,
+    prereq: 'army_mechanized_operations',
+    effects: ['+Army combat power', '+Supply range'],
+    modifiers: { supplyRange: 1 },
+  },
+  {
+    key: 'army_integrated_logistics', name: 'Integrated Logistics', category: 'army', cost: 470, year: 1945,
+    prereq: 'army_operational_depth',
+    effects: ['+Army movement', '+Supply range'],
+    modifiers: { armyMovement: 0.08, supplyRange: 1.25 },
+  },
 
   // --- NAVY --------------------------------------------------------------
   {
+    key: 'sailing_design', name: 'Sailing Ship Design', category: 'navy', cost: 5, year: 1700,
+    effects: ['Foundation of sailing fleets and oceanic logistics'],
+  },
+  {
     key: 'steamers', name: 'Steamers', category: 'navy', cost: 10, year: 1820,
+    prereq: 'sailing_design',
     effects: ['Foundation of the navy column'],
   },
   {
@@ -157,10 +191,35 @@ export const TECHS: TechDef[] = [
     prereq: 'navy_oil_firing',
     effects: ['+Naval combat power', '+Colonial reach'],
   },
+  {
+    key: 'navy_carrier_aviation', name: 'Carrier Aviation', category: 'navy', cost: 345, year: 1922,
+    prereq: 'navy_battlecruiser_doctrine',
+    effects: ['+Naval combat power', '+Colonial reach'],
+  },
+  {
+    key: 'navy_fleet_air_arm', name: 'Fleet Air Arm', category: 'navy', cost: 390, year: 1932,
+    prereq: 'navy_carrier_aviation',
+    effects: ['+Naval combat power', '+Colonial reach'],
+  },
+  {
+    key: 'navy_radar_direction', name: 'Radar Fire Direction', category: 'navy', cost: 435, year: 1940,
+    prereq: 'navy_fleet_air_arm',
+    effects: ['+Naval combat power'],
+  },
+  {
+    key: 'navy_amphibious_logistics', name: 'Amphibious Logistics', category: 'navy', cost: 480, year: 1945,
+    prereq: 'navy_radar_direction',
+    effects: ['+Naval combat power', '+Colonial reach'],
+  },
 
   // --- COMMERCE ----------------------------------------------------------
   {
+    key: 'chartered_trade', name: 'Chartered Trade', category: 'commerce', cost: 5, year: 1700,
+    effects: ['Foundation of state-chartered long-distance commerce'],
+  },
+  {
     key: 'market_structure', name: 'Market Structure', category: 'commerce', cost: 8, year: 1820,
+    prereq: 'chartered_trade',
     effects: ['+5% tax efficiency'],
     modifiers: { taxEfficiency: 0.05 },
   },
@@ -219,10 +278,39 @@ export const TECHS: TechDef[] = [
     effects: ['+4% factory throughput', '+4% factory profit'],
     modifiers: { factoryThroughput: 0.04, factoryProfit: 0.04 },
   },
+  {
+    key: 'commerce_managed_currency', name: 'Managed Currency', category: 'commerce', cost: 325, year: 1922,
+    prereq: 'commerce_corporate_trusts',
+    effects: ['+Tax efficiency', '+Factory profit'],
+    modifiers: { taxEfficiency: 0.05, factoryProfit: 0.04 },
+  },
+  {
+    key: 'commerce_national_accounts', name: 'National Accounts', category: 'commerce', cost: 365, year: 1932,
+    prereq: 'commerce_managed_currency',
+    effects: ['+Tax efficiency', '+Research'],
+    modifiers: { taxEfficiency: 0.06, researchRate: 0.05 },
+  },
+  {
+    key: 'commerce_wartime_planning', name: 'Wartime Planning', category: 'commerce', cost: 415, year: 1939,
+    prereq: 'commerce_national_accounts',
+    effects: ['+Factory throughput', '+Trade efficiency'],
+    modifiers: { factoryThroughput: 0.06, tradeEfficiency: 0.04 },
+  },
+  {
+    key: 'commerce_reconstruction_finance', name: 'Reconstruction Finance', category: 'commerce', cost: 465, year: 1945,
+    prereq: 'commerce_wartime_planning',
+    effects: ['+Factory profit', '+Tax efficiency'],
+    modifiers: { factoryProfit: 0.06, taxEfficiency: 0.05 },
+  },
 
   // --- INDUSTRY ----------------------------------------------------------
   {
+    key: 'manufacture_system', name: 'Manufacture System', category: 'industry', cost: 5, year: 1700,
+    effects: ['Foundation of workshops and centralized manufactures'],
+  },
+  {
     key: 'mechanical_production', name: 'Mechanical Production', category: 'industry', cost: 9, year: 1820,
+    prereq: 'manufacture_system',
     effects: ['+6% factory throughput'],
     modifiers: { factoryThroughput: 0.06 },
   },
@@ -305,10 +393,39 @@ export const TECHS: TechDef[] = [
     effects: ['+6% factory throughput', '+4% RGO throughput'],
     modifiers: { factoryThroughput: 0.06, rgoThroughput: 0.04 },
   },
+  {
+    key: 'industry_mass_motorization', name: 'Mass Motorization', category: 'industry', cost: 335, year: 1922,
+    prereq: 'industry_synthetic_materials',
+    effects: ['+Factory throughput', '+Army movement'],
+    modifiers: { factoryThroughput: 0.07, armyMovement: 0.05 },
+  },
+  {
+    key: 'industry_high_pressure_chemistry', name: 'High-Pressure Chemistry', category: 'industry', cost: 375, year: 1930,
+    prereq: 'industry_mass_motorization',
+    effects: ['+Factory throughput', '+RGO throughput'],
+    modifiers: { factoryThroughput: 0.06, rgoThroughput: 0.05 },
+  },
+  {
+    key: 'industry_radar_electronics', name: 'Radar and Electronics', category: 'industry', cost: 425, year: 1938,
+    prereq: 'industry_high_pressure_chemistry',
+    effects: ['+Factory throughput', '+Research'],
+    modifiers: { factoryThroughput: 0.06, researchRate: 0.06 },
+  },
+  {
+    key: 'industry_automated_production', name: 'Automated Production', category: 'industry', cost: 475, year: 1945,
+    prereq: 'industry_radar_electronics',
+    effects: ['+Factory throughput'],
+    modifiers: { factoryThroughput: 0.1 },
+  },
 
   // --- CULTURE -----------------------------------------------------------
   {
+    key: 'enlightenment', name: 'Enlightenment', category: 'culture', cost: 5, year: 1700,
+    effects: ['Foundation of early modern scholarship and administration'],
+  },
+  {
     key: 'romanticism', name: 'Romanticism', category: 'culture', cost: 7, year: 1820,
+    prereq: 'enlightenment',
     effects: ['+Prestige drip'],
     modifiers: { prestigeMonthly: 0.15 },
   },
@@ -372,6 +489,30 @@ export const TECHS: TechDef[] = [
     prereq: 'culture_modernist_age',
     effects: ['+Literacy growth', '+Prestige drip', '+5% research'],
     modifiers: { literacyRate: 0.0004, prestigeMonthly: 0.25, researchRate: 0.05 },
+  },
+  {
+    key: 'culture_mass_cinema', name: 'Mass Cinema', category: 'culture', cost: 320, year: 1922,
+    prereq: 'culture_radio_broadcast',
+    effects: ['+Prestige', '+Literacy growth'],
+    modifiers: { prestigeMonthly: 0.25, literacyRate: 0.0003 },
+  },
+  {
+    key: 'culture_public_broadcasting', name: 'Public Broadcasting', category: 'culture', cost: 360, year: 1930,
+    prereq: 'culture_mass_cinema',
+    effects: ['+Literacy growth', '+Research'],
+    modifiers: { literacyRate: 0.0004, researchRate: 0.05 },
+  },
+  {
+    key: 'culture_applied_social_research', name: 'Applied Social Research', category: 'culture', cost: 410, year: 1938,
+    prereq: 'culture_public_broadcasting',
+    effects: ['+Research', '+Tax efficiency'],
+    modifiers: { researchRate: 0.06, taxEfficiency: 0.04 },
+  },
+  {
+    key: 'culture_international_institutions', name: 'International Institutions', category: 'culture', cost: 460, year: 1945,
+    prereq: 'culture_applied_social_research',
+    effects: ['+Prestige', '+Research'],
+    modifiers: { prestigeMonthly: 0.3, researchRate: 0.06 },
   },
 ];
 

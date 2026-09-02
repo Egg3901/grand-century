@@ -1,0 +1,2060 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1700-01-01",
+  "source": {
+    "key": "cliopatria-0.2.0",
+    "commit": "ad28a691b7c07c1fca89d0e0636d324667d2a258",
+    "archiveSha256": "d01ae3a20d358cc5d54f69d9d725d390767d9c8759ac89ad6f90c58d106f3370",
+    "license": "CC BY 4.0",
+    "attribution": "Cliopatria by Seshat Global History Databank, used under CC BY 4.0.",
+    "transformations": "Filtered to the exact scenario year, normalized into source-candidate records, hashed per geometry, and compared with independently curated scenario assertions."
+  },
+  "entries": [
+    {
+      "identityKey": "Q1028",
+      "displayName": "Morocco",
+      "wikidata": "Q1028",
+      "sourceRecords": [
+        60
+      ],
+      "intervals": [
+        {
+          "fromYear": 1687,
+          "toYear": 1740
+        }
+      ],
+      "geometryHashes": [
+        "70c34cd0148eec9f00aee57c807015b82eece48987fa1085f27bea75dcdd04ea"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1061057",
+      "displayName": "Sultanate of Aceh",
+      "wikidata": "Q1061057",
+      "sourceRecords": [
+        24
+      ],
+      "intervals": [
+        {
+          "fromYear": 1640,
+          "toYear": 1861
+        }
+      ],
+      "geometryHashes": [
+        "9b3343cce766d2c5f0ca4bfd94127106a69ef39d513068cf572cabb79dc5a4ba"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1069959",
+      "displayName": "Kingdom of Imereti",
+      "wikidata": "Q1069959",
+      "sourceRecords": [
+        89
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1720
+        }
+      ],
+      "geometryHashes": [
+        "db638c6c36850f80708fd796ab4ce84bc672b5faf5594d8b3f0dc4bc7fc95d53"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1076173",
+      "displayName": "Zaporozhian Cossacks",
+      "wikidata": "Q1076173",
+      "sourceRecords": [
+        55
+      ],
+      "intervals": [
+        {
+          "fromYear": 1683,
+          "toYear": 1751
+        }
+      ],
+      "geometryHashes": [
+        "87bc72bcfa88fb8230c9aa778de30b0effc26ab9127ace48fbf5302c8fdc7b9e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q10791211",
+      "displayName": "Kingdom of Mrauk U",
+      "wikidata": "Q10791211",
+      "sourceRecords": [
+        38
+      ],
+      "intervals": [
+        {
+          "fromYear": 1670,
+          "toYear": 1740
+        }
+      ],
+      "geometryHashes": [
+        "6012a994f91504c13be75082c794802e2eaacfc8720fb146f0c695d79b9d6493"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q10957559",
+      "displayName": "Principality of Moldavia",
+      "wikidata": "Q10957559",
+      "sourceRecords": [
+        73
+      ],
+      "intervals": [
+        {
+          "fromYear": 1696,
+          "toYear": 1712
+        }
+      ],
+      "geometryHashes": [
+        "d499b2f45d9b9e148b89ce92ca58da8ba7f5bb2a13fcfd7f8cea15ee9ded6a93"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1122980",
+      "displayName": "Comtat Venaissin",
+      "wikidata": "Q1122980",
+      "sourceRecords": [
+        47
+      ],
+      "intervals": [
+        {
+          "fromYear": 1677,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "7552342bc3cb3b054856ebe9c710803432e2173b5017f4466f0496d4a0699fe1"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1132786",
+      "displayName": "Wadai Empire",
+      "wikidata": "Q1132786",
+      "sourceRecords": [
+        19
+      ],
+      "intervals": [
+        {
+          "fromYear": 1636,
+          "toYear": 1889
+        }
+      ],
+      "geometryHashes": [
+        "b92d2ff957812767b014af5ed375344b90ae84acc6184fb6d9015cb006f082f3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1136188",
+      "displayName": "Saadi Sultanate",
+      "wikidata": "Q1136188",
+      "sourceRecords": [
+        43
+      ],
+      "intervals": [
+        {
+          "fromYear": 1670,
+          "toYear": 1737
+        }
+      ],
+      "geometryHashes": [
+        "c1209a548d03320431fefe69c6420f1d7a6c3d575d067f406dde00bebc4ca410"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1139762",
+      "displayName": "Bornu Empire",
+      "wikidata": "Q1139762",
+      "sourceRecords": [
+        21
+      ],
+      "intervals": [
+        {
+          "fromYear": 1636,
+          "toYear": 1804
+        }
+      ],
+      "geometryHashes": [
+        "01dae64abaed578a920037331b72059a21e53921d4dde6cc78c7b1db2b59518b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1150344",
+      "displayName": "Sultanate of Johor",
+      "wikidata": "Q1150344",
+      "sourceRecords": [
+        71
+      ],
+      "intervals": [
+        {
+          "fromYear": 1691,
+          "toYear": 1726
+        }
+      ],
+      "geometryHashes": [
+        "32e3ae715c49ae97a42927314a040d1687b757699de3ddc62cccb9af17e30903"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1317579",
+      "displayName": "Sultanate of Kedah",
+      "wikidata": "Q1317579",
+      "sourceRecords": [
+        72
+      ],
+      "intervals": [
+        {
+          "fromYear": 1691,
+          "toYear": 1799
+        }
+      ],
+      "geometryHashes": [
+        "8a9b38f7ae7dcf6521614b33c0a050d726c9748bf7329cfb86cef51919c45736"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1317991",
+      "displayName": "Đại Việt",
+      "wikidata": "Q1317991",
+      "sourceRecords": [
+        56
+      ],
+      "intervals": [
+        {
+          "fromYear": 1683,
+          "toYear": 1793
+        }
+      ],
+      "geometryHashes": [
+        "5bcbb4bbe7584e74f023ee668d7dc8d6ae6f64fb50978bb055b039cd5f526ced"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1474791",
+      "displayName": "Sultanate of Darfur",
+      "wikidata": "Q1474791",
+      "sourceRecords": [
+        22
+      ],
+      "intervals": [
+        {
+          "fromYear": 1636,
+          "toYear": 1821
+        }
+      ],
+      "geometryHashes": [
+        "ba8e5bf48c0221d041cd25de363665ef14ec1666eeca5c8744c5cd3040ddfd78"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1475713",
+      "displayName": "Funj Sultanate",
+      "wikidata": "Q1475713",
+      "sourceRecords": [
+        20
+      ],
+      "intervals": [
+        {
+          "fromYear": 1636,
+          "toYear": 1768
+        }
+      ],
+      "geometryHashes": [
+        "95a6c96daa2445d58c3018744a4a601fd1719682609107fd6d26ee3932bf8016"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q148540",
+      "displayName": "Republic of Florence",
+      "wikidata": "Q148540",
+      "sourceRecords": [
+        6
+      ],
+      "intervals": [
+        {
+          "fromYear": 1600,
+          "toYear": 1708
+        }
+      ],
+      "geometryHashes": [
+        "3545f43b716710b394dd7440251153bc0aa049548422c7353daf258bf90b8a88"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1514510",
+      "displayName": "County of Urgell",
+      "wikidata": "Q1514510",
+      "sourceRecords": [
+        28
+      ],
+      "intervals": [
+        {
+          "fromYear": 1642,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "49ed35661d917d865948f8a8f64cb12f53a09541b941b0a96863f8d40779320a"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1530838",
+      "displayName": "Nayaks of Madurai",
+      "wikidata": "Q1530838",
+      "sourceRecords": [
+        3
+      ],
+      "intervals": [
+        {
+          "fromYear": 1572,
+          "toYear": 1712
+        }
+      ],
+      "geometryHashes": [
+        "18924d96e84a18639bc90916e1cd226a59d9ee33e45d263e3b4eeb4c2348708e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q155019",
+      "displayName": "Duchy of Lorraine",
+      "wikidata": "Q155019",
+      "sourceRecords": [
+        80
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "19294549532c43f2c591450508131582e4027ffa4cd74d0205f5ca3d85bed532"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q160440",
+      "displayName": "Crimean Khanate",
+      "wikidata": "Q160440",
+      "sourceRecords": [
+        62
+      ],
+      "intervals": [
+        {
+          "fromYear": 1687,
+          "toYear": 1737
+        }
+      ],
+      "geometryHashes": [
+        "63c40012d779916809f0cfcacd7d47454fdc116392b3dc850f7bfc1f7c18e7cd"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q161205",
+      "displayName": "Safavid Dynasty",
+      "wikidata": "Q161205",
+      "sourceRecords": [
+        31
+      ],
+      "intervals": [
+        {
+          "fromYear": 1648,
+          "toYear": 1705
+        }
+      ],
+      "geometryHashes": [
+        "ae8c2f3d96084d6a37f81e665fd4f933e6ee47f0c8854158ed519071a1a9711d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1679856",
+      "displayName": "Sultanate of Jambi",
+      "wikidata": "Q1679856",
+      "sourceRecords": [
+        42
+      ],
+      "intervals": [
+        {
+          "fromYear": 1670,
+          "toYear": 1821
+        }
+      ],
+      "geometryHashes": [
+        "f77abba32274f74bdea6688da197826723cccb8caee0186f3cc74bc87a22e62c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q171393",
+      "displayName": "Principality of Wallachia",
+      "wikidata": "Q171393",
+      "sourceRecords": [
+        76
+      ],
+      "intervals": [
+        {
+          "fromYear": 1696,
+          "toYear": 1717
+        }
+      ],
+      "geometryHashes": [
+        "d54ca0664a3d70084f165edc8b57b53855a80f57369ada9d7898b5de310671d3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1752110",
+      "displayName": "Yarubid dynasty",
+      "wikidata": "Q1752110",
+      "sourceRecords": [
+        83
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1717
+        }
+      ],
+      "geometryHashes": [
+        "f161bc6f7320472291b52908c2e1943b6862b9e692faf9f62c8c6b478dfa718c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1760473",
+      "displayName": "Principality of Abkhazia",
+      "wikidata": "Q1760473",
+      "sourceRecords": [
+        90
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1726
+        }
+      ],
+      "geometryHashes": [
+        "4e8a5150663c0b390f1597907e90e49c8042b27c21a74cb6ed472d57448f5637"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1794655",
+      "displayName": "Kutai Kingdom",
+      "wikidata": "Q1794655",
+      "sourceRecords": [
+        32
+      ],
+      "intervals": [
+        {
+          "fromYear": 1648,
+          "toYear": 1726
+        }
+      ],
+      "geometryHashes": [
+        "7e7f68bfdf29a14a2328c26b8a95aa8d26869bbddf6474a22cec51a6213759c2"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1841483",
+      "displayName": "Dutch Ceylon",
+      "wikidata": "Q1841483",
+      "sourceRecords": [
+        59
+      ],
+      "intervals": [
+        {
+          "fromYear": 1687,
+          "toYear": 1768
+        }
+      ],
+      "geometryHashes": [
+        "cf62eacf9716f598ae5009547841787325e39ab869d64b90388ca8f0184c8897"
+      ],
+      "memberOf": [
+        "(Dutch Republic)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q195972",
+      "displayName": "Kingdom of Kartli",
+      "wikidata": "Q195972",
+      "sourceRecords": [
+        11
+      ],
+      "intervals": [
+        {
+          "fromYear": 1612,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "9075946487144a18d69791e284c67df156f67b12f56704ef3bfdd998b5aec469"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q19746028",
+      "displayName": "Sultanate of Mempawah",
+      "wikidata": "Q19746028",
+      "sourceRecords": [
+        14
+      ],
+      "intervals": [
+        {
+          "fromYear": 1619,
+          "toYear": 1824
+        }
+      ],
+      "geometryHashes": [
+        "254b0bd0a4c6cfd7039dafdbd75aa1bfc75b48942e005bdb4a963f76714104e1"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q200229",
+      "displayName": "House of Savoy",
+      "wikidata": "Q200229",
+      "sourceRecords": [
+        78
+      ],
+      "intervals": [
+        {
+          "fromYear": 1696,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "8d4d073a68634295adc64dcd05f51ca320255c23b9b6f576e0d248341ff53048"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q200464",
+      "displayName": "Portuguese Empire",
+      "wikidata": "Q200464",
+      "sourceRecords": [
+        81,
+        92,
+        112
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1705
+        },
+        {
+          "fromYear": 1700,
+          "toYear": 1705
+        },
+        {
+          "fromYear": 1700,
+          "toYear": 1705
+        }
+      ],
+      "geometryHashes": [
+        "18f78a3558c42393285c4885643c5c069269ae9d44edecfb493627df68471e4e",
+        "b87c8e181e301d177f3306dc844e9784b31c7cc583d1623c2bac92b92fa60b70",
+        "a38a1f710d6713aa0e425ff125bc181a07ff5999f86d4ca6b1b9455f11ed2a1e"
+      ],
+      "memberOf": [
+        "(Portuguese Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q201705",
+      "displayName": "Khmer Empire",
+      "wikidata": "Q201705",
+      "sourceRecords": [
+        98
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "90ca9837f84a181e085972f77cf7f1fc965db261c88582b2abf87ad22358d1dc"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q207162",
+      "displayName": "Kingdom of France",
+      "wikidata": "Q207162",
+      "sourceRecords": [
+        86,
+        105
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1701
+        },
+        {
+          "fromYear": 1700,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "d53db5f2af6cb5fbc4c045175c5a0cf604f57b76f0a670db23e153348087d7e4",
+        "a152c19a612f27a41bf77c9ec785e23de5f62ce27faf2fa02835d2228d298c22"
+      ],
+      "memberOf": [
+        "(Kingdom of France)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q207521",
+      "displayName": "Ethiopian Empire",
+      "wikidata": "Q207521",
+      "sourceRecords": [
+        23
+      ],
+      "intervals": [
+        {
+          "fromYear": 1636,
+          "toYear": 1768
+        }
+      ],
+      "geometryHashes": [
+        "baff9e9c9138c7f45f52d5275f22c047d7e20f630070204903102997306be3ff"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q210163",
+      "displayName": "Astrakhan Khanate",
+      "wikidata": "Q210163",
+      "sourceRecords": [
+        40
+      ],
+      "intervals": [
+        {
+          "fromYear": 1670,
+          "toYear": 1762
+        }
+      ],
+      "geometryHashes": [
+        "c47a0a561551e8e149f35960ea9bdc4af7282491b5598a6ef7a334e7cd4c9d53"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2195101",
+      "displayName": "Principality of Guria",
+      "wikidata": "Q2195101",
+      "sourceRecords": [
+        9
+      ],
+      "intervals": [
+        {
+          "fromYear": 1612,
+          "toYear": 1726
+        }
+      ],
+      "geometryHashes": [
+        "568c84591d3801b7cb3395ed350b3c11db734e59eaede456cd12a25aff8333fc"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q221283",
+      "displayName": "Dutch Cape Coast",
+      "wikidata": "Q221283",
+      "sourceRecords": [
+        111
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1720
+        }
+      ],
+      "geometryHashes": [
+        "b9da350dec83b4cc05e0f6bda956d64a3b1185ee66d3a9baf182ea9af02d7aa6"
+      ],
+      "memberOf": [
+        "(Dutch Republic)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2267508",
+      "displayName": "Trịnh lords",
+      "wikidata": "Q2267508",
+      "sourceRecords": [
+        48
+      ],
+      "intervals": [
+        {
+          "fromYear": 1677,
+          "toYear": 1708
+        }
+      ],
+      "geometryHashes": [
+        "b54c2d757dd59609f20c1aaf7501dba51776810c9ad3ebbaaed35b141492310a"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2301908",
+      "displayName": "Nguyễn lords",
+      "wikidata": "Q2301908",
+      "sourceRecords": [
+        95
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "d3b917927c8b19317ac6ac8b599403ffba800975856d6b5d3eb0534ce345cc99"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q23039102",
+      "displayName": "First Toungoo Empire",
+      "wikidata": "Q23039102",
+      "sourceRecords": [
+        57
+      ],
+      "intervals": [
+        {
+          "fromYear": 1683,
+          "toYear": 1733
+        }
+      ],
+      "geometryHashes": [
+        "dab38935e13ca399dbf59e14d9ff459bb3107b35d96029a21a90e02b57e142e0"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q235",
+      "displayName": "Principality of Monaco",
+      "wikidata": "Q235",
+      "sourceRecords": [
+        29
+      ],
+      "intervals": [
+        {
+          "fromYear": 1645,
+          "toYear": 1793
+        }
+      ],
+      "geometryHashes": [
+        "9ef96e86fd50194fa8b6e5e3ecbfce4cd6cfcf5f576b4ac4d62217ab5b2c21ae"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2649311",
+      "displayName": "Sultanate of Perak",
+      "wikidata": "Q2649311",
+      "sourceRecords": [
+        8
+      ],
+      "intervals": [
+        {
+          "fromYear": 1609,
+          "toYear": 1821
+        }
+      ],
+      "geometryHashes": [
+        "605e19ea0bad85bd625c48c5d11a292f287a7cce3192ef912b47c4b878508dd0"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2817348",
+      "displayName": "Sultanate of Bima",
+      "wikidata": "Q2817348",
+      "sourceRecords": [
+        16
+      ],
+      "intervals": [
+        {
+          "fromYear": 1626,
+          "toYear": 1865
+        }
+      ],
+      "geometryHashes": [
+        "a4b2d07cf8d229730b71f7d47eab7091d8edc61fc59d04a3edc978c4d323848c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q28405",
+      "displayName": "Joseon",
+      "wikidata": "Q28405",
+      "sourceRecords": [
+        25
+      ],
+      "intervals": [
+        {
+          "fromYear": 1640,
+          "toYear": 1859
+        }
+      ],
+      "geometryHashes": [
+        "6fb08a7388f22612e64d1a96ff981819657a6306d91d7eab9185a66ec0fdb438"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q287996",
+      "displayName": "Blambangan Kingdom",
+      "wikidata": "Q287996",
+      "sourceRecords": [
+        15
+      ],
+      "intervals": [
+        {
+          "fromYear": 1622,
+          "toYear": 1740
+        }
+      ],
+      "geometryHashes": [
+        "8342822d8bf9858a730efdf2cda2d5c61cecc8618d81e5237afd624f90acffae"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2907860",
+      "displayName": "Principality of Mingrelia",
+      "wikidata": "Q2907860",
+      "sourceRecords": [
+        87
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1720
+        }
+      ],
+      "geometryHashes": [
+        "2c14e9427d5acb347002207bb06a48b50becf78228a3b695d4f3f817e8c5f5c8"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3037",
+      "displayName": "Kathmandu",
+      "wikidata": "Q3037",
+      "sourceRecords": [
+        0
+      ],
+      "intervals": [
+        {
+          "fromYear": 1202,
+          "toYear": 1743
+        }
+      ],
+      "geometryHashes": [
+        "2ea1fbbad957f7e5e5f0ad44ce98cb04e754ae4180909d5fc07656a37c3fec3c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3109927",
+      "displayName": "Sultanate of Sambas",
+      "wikidata": "Q3109927",
+      "sourceRecords": [
+        13
+      ],
+      "intervals": [
+        {
+          "fromYear": 1619,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "dda397d57f16903c66adce4cbd0e7bfd1720671d34df876776aae6594d692deb"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3125978",
+      "displayName": "Bali",
+      "wikidata": "Q3125978",
+      "sourceRecords": [
+        63
+      ],
+      "intervals": [
+        {
+          "fromYear": 1687,
+          "toYear": 1848
+        }
+      ],
+      "geometryHashes": [
+        "371cb3c7aa7cc65c4fbc61afbe78bb6c70a6a8392b95bb20f86d681d6333656d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3332217",
+      "displayName": "Gorkha Kingdom",
+      "wikidata": "Q3332217",
+      "sourceRecords": [
+        4
+      ],
+      "intervals": [
+        {
+          "fromYear": 1588,
+          "toYear": 1717
+        }
+      ],
+      "geometryHashes": [
+        "c26ce48af78d1251030e96d6fdebe8f327c49faf0ca9b156beeda1318e1f6779"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3446232",
+      "displayName": "Sultanate of Sukadana",
+      "wikidata": "Q3446232",
+      "sourceRecords": [
+        12
+      ],
+      "intervals": [
+        {
+          "fromYear": 1619,
+          "toYear": 1829
+        }
+      ],
+      "geometryHashes": [
+        "f679860f131c46a6727ea4e145bd8f6a3d78740a1eaf72cbdcd094f8b401c67d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3503555",
+      "displayName": "Sultanate of Palembang",
+      "wikidata": "Q3503555",
+      "sourceRecords": [
+        39
+      ],
+      "intervals": [
+        {
+          "fromYear": 1670,
+          "toYear": 1808
+        }
+      ],
+      "geometryHashes": [
+        "60ad403bc36a498f135bfa7e21fc3038716620385938d0b7f19fdc82c671f4b1"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3530610",
+      "displayName": "Thanjavur Maratha Kingdom",
+      "wikidata": "Q3530610",
+      "sourceRecords": [
+        91
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1712
+        }
+      ],
+      "geometryHashes": [
+        "840ec9f8b27a49639ab97d110d5e176278c676b4f64b14b40a123bd95927c720"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q382593",
+      "displayName": "New Netherland",
+      "wikidata": "Q382593",
+      "sourceRecords": [
+        69
+      ],
+      "intervals": [
+        {
+          "fromYear": 1691,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "4b18c4c6f87e3f300d69892c499148b952eb1495e211497ce097018b8d5b68c0"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q39",
+      "displayName": "Swiss Confederation",
+      "wikidata": "Q39",
+      "sourceRecords": [
+        75
+      ],
+      "intervals": [
+        {
+          "fromYear": 1696,
+          "toYear": 1733
+        }
+      ],
+      "geometryHashes": [
+        "ac0e76be84cc6875ac3b79ce4153e161057923e7e3262c31e82a09c9a7b89d2b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q402145",
+      "displayName": "Mataram Sultanate",
+      "wikidata": "Q402145",
+      "sourceRecords": [
+        52
+      ],
+      "intervals": [
+        {
+          "fromYear": 1683,
+          "toYear": 1705
+        }
+      ],
+      "geometryHashes": [
+        "1ef2cf11c4c94a8217a18542d02c944a816a8b34ded9f7fc66cef5c51dd4a22e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q4210248",
+      "displayName": "Kalmyk Khanate",
+      "wikidata": "Q4210248",
+      "sourceRecords": [
+        17
+      ],
+      "intervals": [
+        {
+          "fromYear": 1636,
+          "toYear": 1737
+        }
+      ],
+      "geometryHashes": [
+        "b0768072c4b33fbf79d9d5ade0b6a8800a2e31badece3f170fc5a54baef2ef93"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q424",
+      "displayName": "Cambodia",
+      "wikidata": "Q424",
+      "sourceRecords": [
+        79
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1756
+        }
+      ],
+      "geometryHashes": [
+        "36ebe5e36548b38c03ab8363ad679f749e2e6290166d6cdd718935b00f446b50"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q43292",
+      "displayName": "Sultanate of Bone",
+      "wikidata": "Q43292",
+      "sourceRecords": [
+        41
+      ],
+      "intervals": [
+        {
+          "fromYear": 1670,
+          "toYear": 1856
+        }
+      ],
+      "geometryHashes": [
+        "3b836bbe9941a5f8999c85193a49e5f99d0dde88b3fd8cebfe451a13151887af"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q465960",
+      "displayName": "Jesuit Reducciones",
+      "wikidata": "Q465960",
+      "sourceRecords": [
+        27
+      ],
+      "intervals": [
+        {
+          "fromYear": 1640,
+          "toYear": 1737
+        }
+      ],
+      "geometryHashes": [
+        "6c1f2ffda87afb62ab095f56c049d94c9c9c3c096ddf63e0ce0cb77453990766"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q46652",
+      "displayName": "Sultanate of Malacca",
+      "wikidata": "Q46652",
+      "sourceRecords": [
+        66
+      ],
+      "intervals": [
+        {
+          "fromYear": 1691,
+          "toYear": 1743
+        }
+      ],
+      "geometryHashes": [
+        "cd6f2adfb6e2a1cce2493ea2cfc8c26cf9db7986192f9b57356778f309d7dea6"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q47261",
+      "displayName": "Duchy of Bavaria",
+      "wikidata": "Q47261",
+      "sourceRecords": [
+        18
+      ],
+      "intervals": [
+        {
+          "fromYear": 1636,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "75d56682460d2eed44f02ec473f16ae9f20025af6079f221c670f0c7dd168f6a"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q491106",
+      "displayName": "Khanate of Khiva",
+      "wikidata": "Q491106",
+      "sourceRecords": [
+        5
+      ],
+      "intervals": [
+        {
+          "fromYear": 1588,
+          "toYear": 1717
+        }
+      ],
+      "geometryHashes": [
+        "4c1b57395c21fc816bd099b07f6c06b87eee8333c8845142af5bbe476d77f287"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q521263",
+      "displayName": "Tibet",
+      "wikidata": "Q521263",
+      "sourceRecords": [
+        84
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "e3ea0f8a9fce74d391786162e635eb15dcc60ac83afc506caa5e01b5f26d4666"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q5261548",
+      "displayName": "Qasimids",
+      "wikidata": "Q5261548",
+      "sourceRecords": [
+        50
+      ],
+      "intervals": [
+        {
+          "fromYear": 1683,
+          "toYear": 1733
+        }
+      ],
+      "geometryHashes": [
+        "d7f18325b4937524206bd57984c810a5250939880bccdee9581ec00bafca146e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q598570",
+      "displayName": "Sloboda Ukraine",
+      "wikidata": "Q598570",
+      "sourceRecords": [
+        36
+      ],
+      "intervals": [
+        {
+          "fromYear": 1670,
+          "toYear": 1751
+        }
+      ],
+      "geometryHashes": [
+        "fe06619f406a4deec392d8adffb2ac58ee1153b31a9a33dccd8c65ac4629e186"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q617219",
+      "displayName": "English Colonial Empire",
+      "wikidata": "Q617219",
+      "sourceRecords": [
+        100
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "d6d7cfef7af9ff41e187d6236257a1671be40e8351edacd1b47fbfa06bd3130d"
+      ],
+      "memberOf": [
+        "(Kingdom of England)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q631210",
+      "displayName": "Small Horde",
+      "wikidata": "Q631210",
+      "sourceRecords": [
+        70
+      ],
+      "intervals": [
+        {
+          "fromYear": 1691,
+          "toYear": 1733
+        }
+      ],
+      "geometryHashes": [
+        "79ec04e60da9288ced423d2a38ea6596ea2487f48900647a95f8f617753dec35"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q66504140",
+      "displayName": "Habsburg Monarchy",
+      "wikidata": "Q66504140",
+      "sourceRecords": [
+        102,
+        106
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1701
+        },
+        {
+          "fromYear": 1700,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "dfdafd4e5cc56bd7a3b7e5ff19938dd9882e6742b9bd5f9417e411a08f9b04f4",
+        "dfdafd4e5cc56bd7a3b7e5ff19938dd9882e6742b9bd5f9417e411a08f9b04f4"
+      ],
+      "memberOf": [
+        "(Habsburg Monarchy)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q68518",
+      "displayName": "Haudenosaunee",
+      "wikidata": "Q68518",
+      "sourceRecords": [
+        61
+      ],
+      "intervals": [
+        {
+          "fromYear": 1687,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "4289b2d3c1e84af41560504198ea0025499af4e2b80e2f2f368dfcdbc09cc7d9"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q734867",
+      "displayName": "Sultanate of Banten",
+      "wikidata": "Q734867",
+      "sourceRecords": [
+        49
+      ],
+      "intervals": [
+        {
+          "fromYear": 1677,
+          "toYear": 1806
+        }
+      ],
+      "geometryHashes": [
+        "294b0848135c128d5f241bcdc3d286af0c1c024d62b9123f53b3c988b088f071"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q80702",
+      "displayName": "Spanish Empire",
+      "wikidata": "Q80702",
+      "sourceRecords": [
+        94,
+        107
+      ],
+      "intervals": [
+        {
+          "fromYear": 1700,
+          "toYear": 1701
+        },
+        {
+          "fromYear": 1700,
+          "toYear": 1701
+        }
+      ],
+      "geometryHashes": [
+        "452de5c7595a011b7a781fc82228ad2580f7ae0f153efa95c9b6c6e85ccb9935",
+        "9a2a31a73b5720272ce966976eea2b33b5e047057927c04a5f5f9b54f0a264c4"
+      ],
+      "memberOf": [
+        "(Spanish Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q841364",
+      "displayName": "Ayutthaya Kingdom",
+      "wikidata": "Q841364",
+      "sourceRecords": [
+        65
+      ],
+      "intervals": [
+        {
+          "fromYear": 1691,
+          "toYear": 1708
+        }
+      ],
+      "geometryHashes": [
+        "33bc77928b616fdfc75dbad4200dc8f6aa461a7da68fd996c4e69284f1b76e6d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q849623",
+      "displayName": "Oyo Empire",
+      "wikidata": "Q849623",
+      "sourceRecords": [
+        51
+      ],
+      "intervals": [
+        {
+          "fromYear": 1683,
+          "toYear": 1733
+        }
+      ],
+      "geometryHashes": [
+        "46d388a0fbb61e94edf2abfa583e2181c94257c8107f7562b82127b714d7cb81"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q853477",
+      "displayName": "Lan Xang",
+      "wikidata": "Q853477",
+      "sourceRecords": [
+        34
+      ],
+      "intervals": [
+        {
+          "fromYear": 1659,
+          "toYear": 1705
+        }
+      ],
+      "geometryHashes": [
+        "99c6cf64aa9d8c1016062c659b8caa58fc5a1e774128c21e8ef4139f28b873e9"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q887803",
+      "displayName": "Sultanate of Brunei",
+      "wikidata": "Q887803",
+      "sourceRecords": [
+        45
+      ],
+      "intervals": [
+        {
+          "fromYear": 1673,
+          "toYear": 1841
+        }
+      ],
+      "geometryHashes": [
+        "9ca0ce0e35f4d2431aad511da1461f8b92a083860ce5f37f48467409c7ea8ba3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q912382",
+      "displayName": "Danish India",
+      "wikidata": "Q912382",
+      "sourceRecords": [
+        35
+      ],
+      "intervals": [
+        {
+          "fromYear": 1659,
+          "toYear": 1733
+        }
+      ],
+      "geometryHashes": [
+        "7ed9a9f43bde7a19948f2365bd086333431c585649e8644c8c8069ffa8391663"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    }
+  ]
+}

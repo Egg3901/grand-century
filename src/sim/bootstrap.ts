@@ -599,6 +599,14 @@ function gpRankFor(seed: { tag: string; greatPowerRank?: number }): number {
 
 function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
   const seedNationIdByTag = new Map(worldSeed.nations.map((seed, id) => [seed.tag, id]));
+  const compatibilityInitialTechs = [
+    'flintlock_drill',
+    'sailing_design',
+    'chartered_trade',
+    'manufacture_system',
+    'enlightenment',
+    'market_structure',
+  ];
   return worldSeed.nations.map((seed, id) => {
     const gpRank = gpRankFor(seed);
     return {
@@ -628,7 +636,7 @@ function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
     nationalConsciousness: 1.2,
     researchPoints: 0,
     reforms: nationReforms(data),
-    techs: seed.government === 'uncivilized' ? [] : ['market_structure'],
+    techs: seed.initialTechs?.slice() ?? (seed.government === 'uncivilized' ? [] : compatibilityInitialTechs.slice()),
     currentResearch: null,
     researchProgress: 0,
     inventions: [],

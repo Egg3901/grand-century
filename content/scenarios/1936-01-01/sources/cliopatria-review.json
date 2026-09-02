@@ -1,0 +1,1054 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1936-01-01",
+  "source": {
+    "key": "cliopatria-0.2.0",
+    "commit": "ad28a691b7c07c1fca89d0e0636d324667d2a258",
+    "archiveSha256": "d01ae3a20d358cc5d54f69d9d725d390767d9c8759ac89ad6f90c58d106f3370",
+    "license": "CC BY 4.0",
+    "attribution": "Cliopatria by Seshat Global History Databank, used under CC BY 4.0.",
+    "transformations": "Filtered to the exact scenario year, normalized into source-candidate records, hashed per geometry, and compared with independently curated scenario assertions."
+  },
+  "entries": [
+    {
+      "identityKey": "Q1138904",
+      "displayName": "Kingdom of Afghanistan",
+      "wikidata": "Q1138904",
+      "sourceRecords": [
+        26
+      ],
+      "intervals": [
+        {
+          "fromYear": 1927,
+          "toYear": 1939
+        }
+      ],
+      "geometryHashes": [
+        "b89d7cec2208a8e0d9e0fd40a3665c4a6b9fc0373c69e7cb94d5a8b1a1c40c08"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q139708",
+      "displayName": "French Mandate for Syria and Lebanon",
+      "wikidata": "Q139708",
+      "sourceRecords": [
+        59
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1938
+        }
+      ],
+      "geometryHashes": [
+        "5aed69d7cc3236002db331e43e015d0aef41b77fd06f7ea7654474ee8e2de1b4"
+      ],
+      "memberOf": [
+        "(French Third Republic)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q148",
+      "displayName": "Republic of China",
+      "wikidata": "Q148",
+      "sourceRecords": [
+        67
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "cbc8463f8a59cb82df2f484c00e10a6f2a265a5a8426163d0f399afb016bc9cc"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q149805",
+      "displayName": "Kingdom of Iraq",
+      "wikidata": "Q149805",
+      "sourceRecords": [
+        52
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1941
+        }
+      ],
+      "geometryHashes": [
+        "d2dba32d61929871a81bc321a43678595ba9b07ca845800127e9f21acbff4e35"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1656775",
+      "displayName": "Kingdom of Lithuania",
+      "wikidata": "Q1656775",
+      "sourceRecords": [
+        85
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1938
+        }
+      ],
+      "geometryHashes": [
+        "afd8d8e30e008710c714af8544c51570898a66d64dde974987806c0815006304"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q172579",
+      "displayName": "Kingdom of Italy",
+      "wikidata": "Q172579",
+      "sourceRecords": [
+        69
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "31f800581843f4ee84b7102c467c14e8e38eda98762b6684f261464096d363b3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q17427",
+      "displayName": "Communist Party of China",
+      "wikidata": "Q17427",
+      "sourceRecords": [
+        53
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "4b22628b1ac57b2f6e83d0c2c949ed41cbbd9cbba03ddf728437b302505bd481"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q178038",
+      "displayName": "Second Spanish Republic",
+      "wikidata": "Q178038",
+      "sourceRecords": [
+        41
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "993729ba2a14fd855c88c18119f04684755c9206bd82c99334c486d868bf20d1"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q179848",
+      "displayName": "British Africa",
+      "wikidata": "Q179848",
+      "sourceRecords": [
+        55
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1939
+        }
+      ],
+      "geometryHashes": [
+        "a1d6dbd91c1221a013ec5f9a5432421869575cb3e71fc4ff0308bb9368f5f108"
+      ],
+      "memberOf": [
+        "(British Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q185682",
+      "displayName": "French Indochina",
+      "wikidata": "Q185682",
+      "sourceRecords": [
+        36
+      ],
+      "intervals": [
+        {
+          "fromYear": 1932,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "f73da4487a653cf035a2cd4fe89451115cc1c3957a483a15b348b583318d2f38"
+      ],
+      "memberOf": [
+        "(French Third Republic)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q188712",
+      "displayName": "Empire of Japan",
+      "wikidata": "Q188712",
+      "sourceRecords": [
+        83
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "2392d99ce06942244ff65319d07c6374d00c1405eb427851a275b11174e8b97a"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q19951607",
+      "displayName": "French Africa",
+      "wikidata": "Q19951607",
+      "sourceRecords": [
+        63
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1939
+        }
+      ],
+      "geometryHashes": [
+        "debc03f66fb9a992af1387aa25314d1bdc2158db48bea2d40d3714e9039a06ca"
+      ],
+      "memberOf": [
+        "(French Third Republic)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1998401",
+      "displayName": "North Yemen",
+      "wikidata": "Q1998401",
+      "sourceRecords": [
+        84
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1986
+        }
+      ],
+      "geometryHashes": [
+        "63739a9bfc77399e75b5aebd030fabcb85ea8ddb9e069dfa3d9599afa300d104"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q207991",
+      "displayName": "Pahlavi Dynasty",
+      "wikidata": "Q207991",
+      "sourceRecords": [
+        73
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1941
+        }
+      ],
+      "geometryHashes": [
+        "189e22dd2b9d56879269af3a7276e9f1aa8d4cba4744cbce9e49b7e802d6cf99"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q212056",
+      "displayName": "Mongolian People's Republic",
+      "wikidata": "Q212056",
+      "sourceRecords": [
+        35
+      ],
+      "intervals": [
+        {
+          "fromYear": 1932,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "2b24d667b2f6607ba8349c269267c0c74eefa59d02324319c8b67902b4e3c651"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q222",
+      "displayName": "Albania",
+      "wikidata": "Q222",
+      "sourceRecords": [
+        50
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1938
+        }
+      ],
+      "geometryHashes": [
+        "84c821bc63dc7a16f93d6029cf9597adc7a349bb2908664ba0b71aa371c7ec92"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q223",
+      "displayName": "Greenland",
+      "wikidata": "Q223",
+      "sourceRecords": [
+        40
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1939
+        }
+      ],
+      "geometryHashes": [
+        "77e4679863e51818a665a573a8b2152ac158a0902f0069b442b39e647e24a9b1"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q23666",
+      "displayName": "Kingdom of Great Britain",
+      "wikidata": "Q23666",
+      "sourceRecords": [
+        74
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1939
+        }
+      ],
+      "geometryHashes": [
+        "42cd97bac4c436098c53887f548d18246af79bf6969e71f0f69be81f6dce436c"
+      ],
+      "memberOf": [
+        "(British Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q25227",
+      "displayName": "Netherlands Antilles",
+      "wikidata": "Q25227",
+      "sourceRecords": [
+        2
+      ],
+      "intervals": [
+        {
+          "fromYear": 1877,
+          "toYear": 2023
+        }
+      ],
+      "geometryHashes": [
+        "230dde77fd2a46ca6eef3a0cc15d0b52c38f29bdb717e8e77596301c66aa7488"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q258",
+      "displayName": "South Africa",
+      "wikidata": "Q258",
+      "sourceRecords": [
+        31
+      ],
+      "intervals": [
+        {
+          "fromYear": 1932,
+          "toYear": 1972
+        }
+      ],
+      "geometryHashes": [
+        "31811f8a921670f97a2d16dd10a5977fba794c50a10a598c850fc3890ad2ffa6"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2719360",
+      "displayName": "Luxembourg",
+      "wikidata": "Q2719360",
+      "sourceRecords": [
+        72
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1939
+        }
+      ],
+      "geometryHashes": [
+        "cbcd8c0e4bb60ef8a570a8c718ef431741e2b04c8cf4e3134b2fcbf327f3b4f7"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2742116",
+      "displayName": "Spanish Nationalists",
+      "wikidata": "Q2742116",
+      "sourceRecords": [
+        58
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "0e54cfb39ab596959fd92afc6e5e50aed3aa33b7b35589551051411f8a9ac7f3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q28",
+      "displayName": "Hungarian Republic",
+      "wikidata": "Q28",
+      "sourceRecords": [
+        19
+      ],
+      "intervals": [
+        {
+          "fromYear": 1920,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "1a9fd308a9b51b936490b85cf978a676dca63b600bb56f74b32cbb820d0a5d79"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q33946",
+      "displayName": "Czechoslovakia",
+      "wikidata": "Q33946",
+      "sourceRecords": [
+        78
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "2d53fb2305774370b54fce82e2671ba252dc43cf25346d95e92446312d47da43"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q521263",
+      "displayName": "Tibet",
+      "wikidata": "Q521263",
+      "sourceRecords": [
+        33
+      ],
+      "intervals": [
+        {
+          "fromYear": 1932,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "efa1cf9187d4e7cd132e5cb83d1656eed31932ee714e6c637f13d22a2bcf36ce"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q528546",
+      "displayName": "First Hellenic Republic",
+      "wikidata": "Q528546",
+      "sourceRecords": [
+        81
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1939
+        }
+      ],
+      "geometryHashes": [
+        "2be4dc1bf860944d2072332f924aa5ed8de114fd5d428b4137646dbb60d7a0bb"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q55",
+      "displayName": "Netherlands",
+      "wikidata": "Q55",
+      "sourceRecords": [
+        47,
+        60
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1939
+        },
+        {
+          "fromYear": 1936,
+          "toYear": 1940
+        }
+      ],
+      "geometryHashes": [
+        "dd6ddf59742ad715528d326c65f8a1bc41cdc1076d27550e2e991406da678df2",
+        "ce207307d2ba4a6cab37b9fdd41381dceb8f55854db95d6ae00746c28c481405"
+      ],
+      "memberOf": [
+        "(Netherlands)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q62651",
+      "displayName": "Denmark-Norway",
+      "wikidata": "Q62651",
+      "sourceRecords": [
+        87
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1939
+        }
+      ],
+      "geometryHashes": [
+        "934b9389a88b354b52597263c834099440856cb1e651c0b2cd27657b1d528bea"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q717",
+      "displayName": "Venezuela",
+      "wikidata": "Q717",
+      "sourceRecords": [
+        8
+      ],
+      "intervals": [
+        {
+          "fromYear": 1900,
+          "toYear": 1986
+        }
+      ],
+      "geometryHashes": [
+        "2d1d550aefc272e9e0136c975adf61cec6e242418e4a4fa1d9ae9466fc737d56"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q7318",
+      "displayName": "Nazi Germany",
+      "wikidata": "Q7318",
+      "sourceRecords": [
+        71
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "b385913fe8efce06b693abed7af7dac8e937fb67e3ec80197a615638ed4d1da3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q786",
+      "displayName": "Dominican Republic",
+      "wikidata": "Q786",
+      "sourceRecords": [
+        24
+      ],
+      "intervals": [
+        {
+          "fromYear": 1924,
+          "toYear": 2023
+        }
+      ],
+      "geometryHashes": [
+        "8d0f940cbab838c3a0845e8eff4002d5838982d25ae7a492ced0f69b7a071744"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q800",
+      "displayName": "Republic of Costa Rica",
+      "wikidata": "Q800",
+      "sourceRecords": [
+        11
+      ],
+      "intervals": [
+        {
+          "fromYear": 1905,
+          "toYear": 1999
+        }
+      ],
+      "geometryHashes": [
+        "4dc8aea019da1a857212081973e977723193df9a0916d8bd4c197207e8d95f75"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q811",
+      "displayName": "Republic of Nicaragua",
+      "wikidata": "Q811",
+      "sourceRecords": [
+        7
+      ],
+      "intervals": [
+        {
+          "fromYear": 1898,
+          "toYear": 2023
+        }
+      ],
+      "geometryHashes": [
+        "ea115676eac4096e80b9f64a73449ea6bb50afa1498b07d3cd5e5acbfa0d695d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q815731",
+      "displayName": "Principality of Bulgaria",
+      "wikidata": "Q815731",
+      "sourceRecords": [
+        23
+      ],
+      "intervals": [
+        {
+          "fromYear": 1924,
+          "toYear": 1940
+        }
+      ],
+      "geometryHashes": [
+        "13c77ba90b8a7304d45aa2ceabb985248a52d8a1766e8c5cda5443149e1995da"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q824489",
+      "displayName": "Estado Novo",
+      "wikidata": "Q824489",
+      "sourceRecords": [
+        57
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "34275b96c08eef2e3e47d824308e3b773e1ba929dd5f14eff8c53c211fba1883"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q83286",
+      "displayName": "Yugoslavia",
+      "wikidata": "Q83286",
+      "sourceRecords": [
+        75
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1940
+        }
+      ],
+      "geometryHashes": [
+        "cecd9b150315c11ebc19b419da64be9e70c394fc19728f245d0cfd067a9d7519"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q8680",
+      "displayName": "British Colonial Empire",
+      "wikidata": "Q8680",
+      "sourceRecords": [
+        37,
+        45
+      ],
+      "intervals": [
+        {
+          "fromYear": 1932,
+          "toYear": 1941
+        },
+        {
+          "fromYear": 1936,
+          "toYear": 1937
+        }
+      ],
+      "geometryHashes": [
+        "145749d2f179c305bcec19705d5524f0b48a6afce807b9b69140af664d5f5cef",
+        "3cbdcf28fa03fa593560e0692a92355a39a2be654cdedbfd66e2505006102863"
+      ],
+      "memberOf": [
+        "(British Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q869",
+      "displayName": "Kingdom of Thailand",
+      "wikidata": "Q869",
+      "sourceRecords": [
+        34
+      ],
+      "intervals": [
+        {
+          "fromYear": 1932,
+          "toYear": 1955
+        }
+      ],
+      "geometryHashes": [
+        "a2644a92fd6b6de7257bf4e3f6151f071585a5ebf0980a14ac628ecc464e279d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q926295",
+      "displayName": "Italian Africa",
+      "wikidata": "Q926295",
+      "sourceRecords": [
+        88
+      ],
+      "intervals": [
+        {
+          "fromYear": 1936,
+          "toYear": 1939
+        }
+      ],
+      "geometryHashes": [
+        "8f0dba5f71ff0e925830901d0522553ec45d900470e931d2cc89a18d10020ec4"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    }
+  ]
+}

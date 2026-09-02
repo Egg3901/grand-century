@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "key": "cliopatria-0.2.0",
+  "title": "Cliopatria historical polity boundaries",
+  "publisher": "Seshat Global History Databank",
+  "repository": "https://github.com/Seshat-Global-History-Databank/cliopatria",
+  "commit": "ad28a691b7c07c1fca89d0e0636d324667d2a258",
+  "archiveUrl": "https://raw.githubusercontent.com/Seshat-Global-History-Databank/cliopatria/ad28a691b7c07c1fca89d0e0636d324667d2a258/cliopatria.geojson.zip",
+  "archiveSha256": "d01ae3a20d358cc5d54f69d9d725d390767d9c8759ac89ad6f90c58d106f3370",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Cliopatria by Seshat Global History Databank, used under CC BY 4.0.",
+  "transformations": "Filtered to the exact scenario year, normalized into source-candidate records, hashed per geometry, and compared with independently curated scenario assertions."
+}

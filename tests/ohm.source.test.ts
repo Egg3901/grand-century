@@ -3,6 +3,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
+  auditOhmGeometry,
   compileCuratedRelations,
   curatedRelationsQuery,
   discoverActiveAdminBoundaries,
@@ -87,6 +88,39 @@ describe('OHM multipolygon assembly', () => {
     relation.members.splice(2, 1);
     expect(() => relationToGeoJsonFeature(relation)).toThrow(/unclosed boundary chains/i);
   });
+
+  it('audits every requested relation without hiding individual geometry failures', () => {
+    const valid = sampleRelation();
+    valid.id = 1;
+    const invalid = sampleRelation();
+    invalid.id = 99;
+    invalid.members.splice(2, 1);
+    const results = auditOhmGeometry(
+      { elements: [valid, invalid] },
+      { asOf: '1830-01-01', relationIds: [valid.id, invalid.id, 404] },
+    );
+    expect(results).toEqual([
+      expect.objectContaining({ relationId: valid.id, status: 'valid', geometryType: 'Polygon' }),
+      expect.objectContaining({ relationId: invalid.id, status: 'invalid_geometry' }),
+      expect.objectContaining({ relationId: 404, status: 'missing' }),
+    ]);
+  });
+
+  it('expands nested boundary relations when recursive Overpass data is present', () => {
+    const child = sampleRelation();
+    child.id = 2;
+    const parent = {
+      ...sampleRelation(),
+      id: 1,
+      members: [{ type: 'relation', ref: 2, role: 'outer' }],
+    };
+    const results = auditOhmGeometry(
+      { elements: [parent, child] },
+      { asOf: '1830-01-01', relationIds: [parent.id] },
+    );
+    expect(results[0]).toMatchObject({ relationId: parent.id, status: 'valid' });
+    expect(curatedRelationsQuery([parent.id])).toContain('.roots >>;');
+  });
 });
 
 describe('OHM cached adapter', () => {
@@ -125,6 +159,7 @@ describe('OHM cached adapter', () => {
       relationId: 2660798,
       identityKey: 'Q186320',
       licenseStatus: 'allowed',
+      evidenceTags: expect.objectContaining({}),
     })]);
 
     const result = compileCuratedRelations(

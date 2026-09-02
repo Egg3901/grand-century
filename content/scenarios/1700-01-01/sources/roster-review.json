@@ -1,0 +1,6945 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1700-01-01",
+  "source": "OpenHistoricalMap admin_level=2 discovery",
+  "entries": [
+    {
+      "identityKey": "Baba Mahal",
+      "displayName": "Baba Mahal",
+      "wikidata": null,
+      "relationIds": [
+        2847613
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2847613,
+          "startDate": "1700",
+          "endDate": "1792"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2847613,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2847613,
+          "tags": {
+            "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "East Jersey Colony",
+      "displayName": "East Jersey Colony",
+      "wikidata": null,
+      "relationIds": [
+        2861382
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861382,
+          "startDate": "1689-04-18",
+          "endDate": "1702-04-15"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861382,
+          "license": "CC0-1.0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861382,
+          "tags": {
+            "place": "state",
+            "border_type": "colony",
+            "source": "https://publications.newberry.org/ahcbp/downloads/united_states.html",
+            "wikipedia": "en:East Jersey"
+          }
+        }
+      ],
+      "reviewLane": "constituent_check",
+      "reviewLaneReason": "OHM place type indicates a subnational or constituent unit.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Grand Duchy of Tuscany",
+      "displayName": "Grand Duchy of Tuscany",
+      "wikidata": null,
+      "relationIds": [
+        2832268
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2832268,
+          "startDate": "1648-10-24",
+          "endDate": "1772"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2832268,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2832268,
+          "tags": {
+            "place": "country",
+            "border_type": "grand_duchy",
+            "wikipedia": "en:Grand Duchy of Tuscany"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Magyar Királyság",
+      "displayName": "Magyar Királyság",
+      "wikidata": null,
+      "relationIds": [
+        2829139
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2829139,
+          "startDate": "1699-01-26",
+          "endDate": "1732-12-31"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2829139,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2829139,
+          "tags": {
+            "place": "country",
+            "border_type": "kingdom",
+            "source": "https://en.wikipedia.org/wiki/Kingdom_of_Hungary",
+            "wikipedia": "en:Kingdom of Hungary (1526–1867)"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "none exists",
+      "displayName": "Thovhela",
+      "wikidata": "none exists",
+      "relationIds": [
+        2914616
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2914616,
+          "startDate": "1700",
+          "endDate": "1750"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2914616,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2914616,
+          "tags": {
+            "place": "country"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "ohm:relation:2890079",
+      "displayName": "ohm:relation:2890079",
+      "wikidata": null,
+      "relationIds": [
+        2890079
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2890079,
+          "startDate": "1612",
+          "endDate": "1872-09-13"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2890079,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2890079,
+          "tags": {
+            "wikipedia": "en:Ryukyu Kingdom"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1044394",
+      "displayName": "Province of Carolina",
+      "wikidata": "Q1044394",
+      "relationIds": [
+        2847713
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2847713,
+          "startDate": "1663",
+          "endDate": "1712-01-24"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2847713,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2847713,
+          "tags": {
+            "place": "province",
+            "border_type": "province",
+            "colony_of": "British Empire",
+            "wikipedia": "en:Province of Carolina"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "dependent_polity",
+      "polityKey": "CAROLINA",
+      "notes": "Classified as an English colonial administration in the 1700 vertical slice, not as a sovereign country slot.",
+      "reviewedBy": "Grand Century source review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1052040",
+      "displayName": "Kajoor",
+      "wikidata": "Q1052040",
+      "relationIds": [
+        2879284
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2879284,
+          "startDate": "1549",
+          "endDate": "1750"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2879284,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2879284,
+          "tags": {
+            "border_type": "kingdom"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1070529",
+      "displayName": "Colony of Virginia",
+      "wikidata": "Q1070529",
+      "relationIds": [
+        2847760
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2847760,
+          "startDate": "1681-03-04",
+          "endDate": "1763-02-10"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2847760,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2847760,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "wikipedia": "en:Colony of Virginia"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1071439",
+      "displayName": "Fanjakan'Imerina",
+      "wikidata": "Q1071439",
+      "relationIds": [
+        2801043
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2801043,
+          "startDate": "1540",
+          "endDate": "1750"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2801043,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2801043,
+          "tags": {
+            "place": "country"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q10825475",
+      "displayName": "順城鎮",
+      "wikidata": "Q10825475",
+      "relationIds": [
+        2745639
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2745639,
+          "startDate": "1697",
+          "endDate": "1831"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2745639,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2745639,
+          "tags": {
+            "wikipedia": "en:Principality of Thuận Thành"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q10921634",
+      "displayName": "ᠬᠣᠱᠤᠳ ᠤᠯᠤᠰ",
+      "wikidata": "Q10921634",
+      "relationIds": [
+        2890041
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2890041,
+          "startDate": "1642",
+          "endDate": "1717"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2890041,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2890041,
+          "tags": {
+            "border_type": "khanate",
+            "wikipedia": "en:Khoshut Khanate"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q116288296",
+      "displayName": "Colonia Trinidad",
+      "wikidata": "Q116288296",
+      "relationIds": [
+        2834831
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2834831,
+          "startDate": "1592",
+          "endDate": "1797"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2834831,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2834831,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "colony_of": "Spanish Empire",
+            "wikipedia": "en:History of Trinidad and Tobago"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q11876909",
+      "displayName": "Estado do Brasil",
+      "wikidata": "Q11876909",
+      "relationIds": [
+        2848717
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2848717,
+          "startDate": "1621-06-13",
+          "endDate": "1709"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2848717,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2848717,
+          "tags": {
+            "place": "colony",
+            "border_type": "state",
+            "wikipedia": "en:State of Brazil"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1192936",
+      "displayName": "Ubwami bw'Urundi",
+      "wikidata": "Q1192936",
+      "relationIds": [
+        2863640
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2863640,
+          "startDate": "1680",
+          "endDate": "1890-07-01"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2863640,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2863640,
+          "tags": {
+            "wikipedia": "en:Kingdom of Burundi"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1235720",
+      "displayName": "Respublica Lucensis",
+      "wikidata": "Q1235720",
+      "relationIds": [
+        2860166
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2860166,
+          "startDate": "1648-10-24",
+          "endDate": "1805"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2860166,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2860166,
+          "tags": {
+            "place": "country",
+            "source": "https://en.wikipedia.org/wiki/Republic_of_Lucca",
+            "wikipedia": "it:Republic of Lucca"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q124881664",
+      "displayName": "Niani",
+      "wikidata": "Q124881664",
+      "relationIds": [
+        2879807
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2879807,
+          "startDate": "1520",
+          "endDate": "1888"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2879807,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2879807,
+          "tags": {
+            "border_type": "kingdom"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q12548",
+      "displayName": "Sacrum Imperium Romanum",
+      "wikidata": "Q12548",
+      "relationIds": [
+        2831111
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831111,
+          "startDate": "1697-09-20",
+          "endDate": "1713-04-02"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831111,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831111,
+          "tags": {
+            "place": "country",
+            "border_type": "empire",
+            "country": "empire",
+            "wikipedia": "de:Heiliges Römisches Reich"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q12560",
+      "displayName": "دولتْ علیّه عثمانیّه",
+      "wikidata": "Q12560",
+      "relationIds": [
+        2692555
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2692555,
+          "startDate": "1699-01-26",
+          "endDate": "1718-07-21"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2692555,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2692555,
+          "tags": {
+            "place": "country",
+            "border_type": "empire",
+            "country": "empire",
+            "wikipedia": "en:Ottoman Empire"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q131429368",
+      "displayName": "السلطنة الشريفة",
+      "wikidata": "Q131429368",
+      "relationIds": [
+        2861416
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861416,
+          "startDate": "1666",
+          "endDate": "1907-08-07"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861416,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861416,
+          "tags": {
+            "source": "https://commons.wikimedia.org/wiki/File:North_Africa_or_Barbary_I,_Morocco_-_DPLA_-_1eba6eef43201f8cab6901ba48cceca3.jpg"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1368792",
+      "displayName": "Kolonie Essequebo",
+      "wikidata": "Q1368792",
+      "relationIds": [
+        2848073
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2848073,
+          "startDate": "1630",
+          "endDate": "1781-02-27"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2848073,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2848073,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "wikipedia": "en:Essequibo (colony)"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q139948",
+      "displayName": "Khanate of Kalat",
+      "wikidata": "Q139948",
+      "relationIds": [
+        2922445
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2922445,
+          "startDate": "1666",
+          "endDate": "1876"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2922445,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2922445,
+          "tags": {
+            "border_type": "khanate"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1433867",
+      "displayName": "قزاق خاندیغی",
+      "wikidata": "Q1433867",
+      "relationIds": [
+        2849532
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2849532,
+          "startDate": "1520",
+          "endDate": "1847"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2849532,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2849532,
+          "tags": {
+            "border_type": "khanate",
+            "wikipedia": "en:Kazakh Khanate"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1471373",
+      "displayName": "Saluum",
+      "wikidata": "Q1471373",
+      "relationIds": [
+        2879270
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2879270,
+          "startDate": "1520",
+          "endDate": "1867"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2879270,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2879270,
+          "tags": {
+            "border_type": "kingdom",
+            "wikipedia": "en:Saloum"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q14957246",
+      "displayName": "Hunza Kingdom",
+      "wikidata": "Q14957246",
+      "relationIds": [
+        2926489
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2926489,
+          "startDate": "1200",
+          "endDate": "1760"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2926489,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2926489,
+          "tags": {
+            "border_type": "kingdom"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q15238409",
+      "displayName": "Colonie de Sainte-Lucie",
+      "wikidata": "Q15238409",
+      "relationIds": [
+        2834811
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2834811,
+          "startDate": "1674",
+          "endDate": "1762"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2834811,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2834811,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "colony_of": "French Empire",
+            "dependency_of": "Martinique",
+            "wikipedia": "en:History of Saint Lucia"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1537074",
+      "displayName": "Gondwana Kingdom",
+      "wikidata": "Q1537074",
+      "relationIds": [
+        2847880
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2847880,
+          "startDate": "0807",
+          "endDate": "1751"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2847880,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2847880,
+          "tags": {
+            "source": "https://upload.wikimedia.org/wikipedia/commons/0/06/Joppen_map-India_in_1525_published_1907_by_Longmans.jpg",
+            "wikipedia": "en:Gondwana (India)"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q157367",
+      "displayName": "Brandenburg-Preußen",
+      "wikidata": "Q157367",
+      "relationIds": [
+        2808326
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2808326,
+          "startDate": "1697",
+          "endDate": "1701-01-18"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2808326,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2808326,
+          "tags": {
+            "place": "personal_union",
+            "border_type": "union"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1615455",
+      "displayName": "Ducatus Mirandolae",
+      "wikidata": "Q1615455",
+      "relationIds": [
+        2848904
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2848904,
+          "startDate": "1648-10-24",
+          "endDate": "1711"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2848904,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2848904,
+          "tags": {
+            "border_type": "duchy",
+            "wikipedia": "en:Duchy of Mirandola"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1617382",
+      "displayName": "New Hampshire Colony",
+      "wikidata": "Q1617382",
+      "relationIds": [
+        2861371
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861371,
+          "startDate": "1689-04-18",
+          "endDate": "1776-07-04"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861371,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861371,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "wikipedia": "en:Province of New Hampshire"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q165040",
+      "displayName": "Ducato di Parma e Piacenza",
+      "wikidata": "Q165040",
+      "relationIds": [
+        2750993
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2750993,
+          "startDate": "1648-10-24",
+          "endDate": "1748-10-18"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2750993,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2750993,
+          "tags": {
+            "place": "country",
+            "border_type": "duchy",
+            "source": "https://commons.wikimedia.org/wiki/File:Europe_about_1560.jpg",
+            "wikipedia": "en:Duchy of Parma and Piacenza"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1660566",
+      "displayName": "كسلطانن بنجر",
+      "wikidata": "Q1660566",
+      "relationIds": [
+        2871333
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2871333,
+          "startDate": "1633",
+          "endDate": "1801"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2871333,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2871333,
+          "tags": {
+            "source": "https://en.wikipedia.org/wiki/Sultanate_of_Banjar",
+            "wikipedia": "en:Sultanate of Banjar"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q16850784",
+      "displayName": "Wolof",
+      "wikidata": "Q16850784",
+      "relationIds": [
+        2879271
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2879271,
+          "startDate": "1549",
+          "endDate": "1890"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2879271,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2879271,
+          "tags": {
+            "border_type": "kingdom",
+            "wikipedia": "en:Kingdom of Jolof"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q170072",
+      "displayName": "Republiek der Zeven Verenigde Nederlanden",
+      "wikidata": "Q170072",
+      "relationIds": [
+        2942107
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2942107,
+          "startDate": "1648-10-24",
+          "endDate": "1713-04-02"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2942107,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2942107,
+          "tags": {
+            "place": "country",
+            "border_type": "republic",
+            "wikipedia": "en:Dutch Republic"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q17012",
+      "displayName": "Colonie de la Guadeloupe",
+      "wikidata": "Q17012",
+      "relationIds": [
+        2861185
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861185,
+          "startDate": "1674",
+          "endDate": "1744"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861185,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861185,
+          "tags": {
+            "border_type": "colony"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q170174",
+      "displayName": "Status Ecclesiasticus",
+      "wikidata": "Q170174",
+      "relationIds": [
+        2809353
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2809353,
+          "startDate": "1545",
+          "endDate": "1797-02-18"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2809353,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2809353,
+          "tags": {
+            "place": "country",
+            "border_type": "theocracy",
+            "country": "theocracy",
+            "wikipedia": "en:Papal States"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q170603",
+      "displayName": "Reino de Mexico",
+      "wikidata": "Q170603",
+      "relationIds": [
+        2842078,
+        2845880
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2842078,
+          "startDate": "1602",
+          "endDate": "1821-09-27"
+        },
+        {
+          "relationId": 2845880,
+          "startDate": "1697-03-13",
+          "endDate": "1704"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2842078,
+          "license": "CC0",
+          "status": "allowed"
+        },
+        {
+          "relationId": 2845880,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2842078,
+          "tags": {
+            "place": "kingdom",
+            "border_type": "kingdom",
+            "wikipedia": "en:New Spain"
+          }
+        },
+        {
+          "relationId": 2845880,
+          "tags": {
+            "border_type": "viceroyalty",
+            "wikipedia": "en:New Spain"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q170604",
+      "displayName": "Nouvelle-France",
+      "wikidata": "Q170604",
+      "relationIds": [
+        2861315
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861315,
+          "startDate": "1682",
+          "endDate": "1713-04-11"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861315,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861315,
+          "tags": {
+            "place": "country"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q17070",
+      "displayName": "Isle Bourbon",
+      "wikidata": "Q17070",
+      "relationIds": [
+        2865904
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2865904,
+          "startDate": "1642",
+          "endDate": "1735"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2865904,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2865904,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q172107",
+      "displayName": "Rzeczpospolita Obojga Narodów",
+      "wikidata": "Q172107",
+      "relationIds": [
+        2692682
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2692682,
+          "startDate": "1667-02-09",
+          "endDate": "1773-09-18"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2692682,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2692682,
+          "tags": {
+            "place": "country"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q174306",
+      "displayName": "Serenìscima Repùbrica de Zêna",
+      "wikidata": "Q174306",
+      "relationIds": [
+        2852275
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2852275,
+          "startDate": "1648",
+          "endDate": "1742"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2852275,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2852275,
+          "tags": {
+            "border_type": "republic",
+            "wikipedia": "en:Republic of Genoa"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1796223",
+      "displayName": "Kingdom of Lunda",
+      "wikidata": "Q1796223",
+      "relationIds": [
+        2914609
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2914609,
+          "startDate": "1625",
+          "endDate": "1719"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2914609,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2914609,
+          "tags": {
+            "place": "country",
+            "wikipedia": "en:Lunda Empire"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1796551",
+      "displayName": "British Leeward Islands",
+      "wikidata": "Q1796551",
+      "relationIds": [
+        2832974
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2832974,
+          "startDate": "1672",
+          "endDate": "1782"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2832974,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2832974,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "colony_of": "British Empire",
+            "dependency_of": "British Empire",
+            "wikipedia": "en:British Leeward Islands"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q179876",
+      "displayName": "Kingdom of England",
+      "wikidata": "Q179876",
+      "relationIds": [
+        2802012
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2802012,
+          "startDate": "1660-04",
+          "endDate": "1707-04-30"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2802012,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2802012,
+          "tags": {
+            "border_type": "kingdom",
+            "wikipedia": "en:Kingdom of England"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q18154959",
+      "displayName": "Manche Chʼol",
+      "wikidata": "Q18154959",
+      "relationIds": [
+        2840572
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2840572,
+          "startDate": "0900",
+          "endDate": "1704"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2840572,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2840572,
+          "tags": {
+            "wikipedia": "en:Manche Chʼol"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1827039",
+      "displayName": "唐冲",
+      "wikidata": "Q1827039",
+      "relationIds": [
+        2748554
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2748554,
+          "startDate": "1697",
+          "endDate": "1756"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2748554,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2748554,
+          "tags": {
+            "wikipedia": "vi:Đàng Trong"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q186096",
+      "displayName": "Русское царство",
+      "wikidata": "Q186096",
+      "relationIds": [
+        2851289
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2851289,
+          "startDate": "1699",
+          "endDate": "1721-09-10"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2851289,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2851289,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q187549",
+      "displayName": "Ordo Hospitalis",
+      "wikidata": "Q187549",
+      "relationIds": [
+        2861788
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861788,
+          "startDate": "1665",
+          "endDate": "1798-06-11"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861788,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861788,
+          "tags": {
+            "wikipedia": "en:Knights Hospitaller"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1885093",
+      "displayName": "Sultanate of Qishn and Socotra",
+      "wikidata": "Q1885093",
+      "relationIds": [
+        2920979
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2920979,
+          "startDate": "1511",
+          "endDate": "1886"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2920979,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2920979,
+          "tags": {
+            "border_type": "sultanate",
+            "source": "https://en.wikipedia.org/wiki/Mahra_Sultanate"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q188586",
+      "displayName": "Regnum Siciliae",
+      "wikidata": "Q188586",
+      "relationIds": [
+        2750111
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2750111,
+          "startDate": "1516",
+          "endDate": "1713"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2750111,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2750111,
+          "tags": {
+            "place": "country",
+            "border_type": "kingdom",
+            "country": "kingdom",
+            "source": "https://commons.wikimedia.org/wiki/File:Map_of_Italy_in_the_early_14th_century.png",
+            "wikipedia": "en:Kingdom of Sicily"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q192184",
+      "displayName": "Saint Helena Colony",
+      "wikidata": "Q192184",
+      "relationIds": [
+        2848196
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2848196,
+          "startDate": "1657",
+          "endDate": "1834-04-22"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2848196,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2848196,
+          "tags": {
+            "place": "colony",
+            "wikipedia": "en:Saint Helena, Ascension and Tristan da Cunha"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q1923401",
+      "displayName": "ᠵᠡᠭᠦᠨᠭᠠᠷ ᠬᠠᠭᠠᠨᠠᠲᠣ ᠣᠯᠣᠰ",
+      "wikidata": "Q1923401",
+      "relationIds": [
+        2890040
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2890040,
+          "startDate": "1634",
+          "endDate": "1717"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2890040,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2890040,
+          "tags": {
+            "border_type": "khanate"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q19892830",
+      "displayName": "Kingdom of Coorg",
+      "wikidata": "Q19892830",
+      "relationIds": [
+        2922247
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2922247,
+          "startDate": "1690",
+          "endDate": "1780"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2922247,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2922247,
+          "tags": {
+            "border_type": "kingdom",
+            "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg",
+            "wikipedia": "en:Kingdom of Coorg"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2001966",
+      "displayName": "Company Raj",
+      "wikidata": "Q2001966",
+      "relationIds": [
+        2848237
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2848237,
+          "startDate": "1639-08-20",
+          "endDate": "1758"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2848237,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2848237,
+          "tags": {
+            "place": "colony",
+            "wikipedia": "en:Company rule in India"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2007",
+      "displayName": "North-West Territories",
+      "wikidata": "Q2007",
+      "relationIds": [
+        2831207
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831207,
+          "startDate": "1670",
+          "endDate": "1870-07-15"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831207,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831207,
+          "tags": {
+            "place": "territory",
+            "border_type": "territory",
+            "colony_of": "British Empire",
+            "wikipedia": "en:North-Western Territory"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2039931",
+      "displayName": "Capitanía General de Cuba",
+      "wikidata": "Q2039931",
+      "relationIds": [
+        2841677
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2841677,
+          "startDate": "1607",
+          "endDate": "1762"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2841677,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2841677,
+          "tags": {
+            "border_type": "captaincy_general",
+            "wikipedia": "en:Captaincy General of Cuba"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2044695",
+      "displayName": "Portuguese East Indies",
+      "wikidata": "Q2044695",
+      "relationIds": [
+        2864417
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2864417,
+          "startDate": "1653",
+          "endDate": "1702"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2864417,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2864417,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q205662",
+      "displayName": "江戸幕府",
+      "wikidata": "Q205662",
+      "relationIds": [
+        2889893
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2889893,
+          "startDate": "1600-10-21",
+          "endDate": "1862-01"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2889893,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2889893,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q206279",
+      "displayName": "Waalo",
+      "wikidata": "Q206279",
+      "relationIds": [
+        2879269
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2879269,
+          "startDate": "1549",
+          "endDate": "1855"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2879269,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2879269,
+          "tags": {
+            "border_type": "kingdom",
+            "wikipedia": "en:Kingdom of Waalo"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q207353",
+      "displayName": "Colonie d'Acadie",
+      "wikidata": "Q207353",
+      "relationIds": [
+        2830928
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2830928,
+          "startDate": "1604",
+          "endDate": "1713-04-11"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2830928,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2830928,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "colony_of": "French Empire",
+            "wikipedia": "en:Acadia"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2077243",
+      "displayName": "Capitanía General de Guatemala",
+      "wikidata": "Q2077243",
+      "relationIds": [
+        2859425
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2859425,
+          "startDate": "1568",
+          "endDate": "1782-03-16"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2859425,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2859425,
+          "tags": {
+            "border_type": "kingdom",
+            "wikipedia": "en:Captaincy General of Guatemala"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2077264",
+      "displayName": "Nuevo Reino de Granada",
+      "wikidata": "Q2077264",
+      "relationIds": [
+        2848985
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2848985,
+          "startDate": "1538-10-12",
+          "endDate": "1717-05-27"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2848985,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2848985,
+          "tags": {
+            "border_type": "kingdom",
+            "wikipedia": "en:New Kingdom of Granada"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2079909",
+      "displayName": "Province of Massachusetts Bay",
+      "wikidata": "Q2079909",
+      "relationIds": [
+        2847815
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2847815,
+          "startDate": "1697",
+          "endDate": "1727"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2847815,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2847815,
+          "tags": {
+            "place": "colony",
+            "border_type": "province",
+            "wikipedia": "en:Province of Massachusetts Bay"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q208169",
+      "displayName": "Republica de Ragusa",
+      "wikidata": "Q208169",
+      "relationIds": [
+        2830352
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2830352,
+          "startDate": "1699-01-25",
+          "endDate": "1808-01-30"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2830352,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2830352,
+          "tags": {
+            "place": "country",
+            "wikipedia": "en:Republic of Ragusa"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q211435",
+      "displayName": "Virreinato del Perú",
+      "wikidata": "Q211435",
+      "relationIds": [
+        2861450
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861450,
+          "startDate": "1650",
+          "endDate": "1709"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861450,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861450,
+          "tags": {
+            "place": "country",
+            "border_type": "viceroyalty"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q215443",
+      "displayName": "Konungariket Sverige",
+      "wikidata": "Q215443",
+      "relationIds": [
+        2851858
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2851858,
+          "startDate": "1679-07-28",
+          "endDate": "1719-11-08"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2851858,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2851858,
+          "tags": {
+            "place": "country",
+            "border_type": "kingdom",
+            "wikipedia": "en:Swedish Empire"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q215530",
+      "displayName": "Ríoghacht Éireann",
+      "wikidata": "Q215530",
+      "relationIds": [
+        2697729
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2697729,
+          "startDate": "1660-04-04",
+          "endDate": "1800-12-31"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2697729,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2697729,
+          "tags": {
+            "border_type": "kingdom",
+            "wikipedia": "en:Kingdom of Ireland"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2257830",
+      "displayName": "𐒈𐒚𐒐𐒆𐒖𐒒𐒖𐒆𐒆𐒖 𐒑𐒖𐒃𐒜𐒇𐒂𐒜𐒒",
+      "wikidata": "Q2257830",
+      "relationIds": [
+        2923110
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2923110,
+          "startDate": "1420",
+          "endDate": "1894-05-05"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2923110,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2923110,
+          "tags": {
+            "border_type": "sultanate",
+            "wikipedia": "en:Majeerteen Sultanate"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q22684779",
+      "displayName": "الْإِمْبَرَاطُورِيَّة الْعُمَانِيَّة",
+      "wikidata": "Q22684779",
+      "relationIds": [
+        2920986
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2920986,
+          "startDate": "1696",
+          "endDate": "1854"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2920986,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2920986,
+          "tags": {
+            "source": "https://en.wikipedia.org/wiki/Muscat_and_Oman",
+            "wikipedia": "en:Omani Empire"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q228",
+      "displayName": "Andorra",
+      "wikidata": "Q228",
+      "relationIds": [
+        2739874
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2739874,
+          "startDate": "1278",
+          "endDate": null
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2739874,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2739874,
+          "tags": {
+            "border_type": "principality",
+            "wikipedia": "en:Andorra"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q230791",
+      "displayName": "Kinrick o Scotland",
+      "wikidata": "Q230791",
+      "relationIds": [
+        2802009
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2802009,
+          "startDate": "1660-04",
+          "endDate": "1707-04-30"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2802009,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2802009,
+          "tags": {
+            "place": "country",
+            "border_type": "kingdom",
+            "country": "kingdom",
+            "wikipedia": "en:Kingdom of Scotland"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2335224",
+      "displayName": "Colony of Rhode Island and Providence Plantations",
+      "wikidata": "Q2335224",
+      "relationIds": [
+        2861379
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861379,
+          "startDate": "1689-04-18",
+          "endDate": "1776-07-04"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861379,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861379,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "wikipedia": "en:Colony of Rhode Island and Providence Plantations"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q23366230",
+      "displayName": "République de Genève",
+      "wikidata": "Q23366230",
+      "relationIds": [
+        2831188
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831188,
+          "startDate": "1648-10-24",
+          "endDate": "1798-04-25"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831188,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831188,
+          "tags": {
+            "place": "country",
+            "wikipedia": "fr:République de Genève"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q23635",
+      "displayName": "Colony of Bermuda",
+      "wikidata": "Q23635",
+      "relationIds": [
+        2831964
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831964,
+          "startDate": "1684",
+          "endDate": "1983-01-01"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831964,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831964,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "wikipedia": "en:History of Bermuda"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q238",
+      "displayName": "San Marino",
+      "wikidata": "Q238",
+      "relationIds": [
+        2853644
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2853644,
+          "startDate": "1700",
+          "endDate": "1739-10-17"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2853644,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2853644,
+          "tags": {
+            "place": "country",
+            "wikipedia": "en:San Marino"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2437292",
+      "displayName": "Nueva Galicia",
+      "wikidata": "Q2437292",
+      "relationIds": [
+        2841591
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2841591,
+          "startDate": "1531",
+          "endDate": "1821-09-27"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2841591,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2841591,
+          "tags": {
+            "border_type": "kingdom",
+            "wikipedia": "en:Nueva Galicia"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q244",
+      "displayName": "Colony of Barbados",
+      "wikidata": "Q244",
+      "relationIds": [
+        2832946
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2832946,
+          "startDate": "1625-05-14",
+          "endDate": "1833"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2832946,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2832946,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "colony_of": "British Empire",
+            "dependency_of": "British Empire",
+            "wikipedia": "en:History of Barbados"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2452027",
+      "displayName": "Province of Maryland",
+      "wikidata": "Q2452027",
+      "relationIds": [
+        2847779,
+        2919890
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2847779,
+          "startDate": "1632-06-20",
+          "endDate": "1776-07-04"
+        },
+        {
+          "relationId": 2919890,
+          "startDate": "1654",
+          "endDate": "1776-07-04"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2847779,
+          "license": "CC0",
+          "status": "allowed"
+        },
+        {
+          "relationId": 2919890,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2847779,
+          "tags": {
+            "place": "province",
+            "wikipedia": "en:Province of Maryland"
+          }
+        },
+        {
+          "relationId": 2919890,
+          "tags": {
+            "border_type": "province",
+            "wikipedia": "en:Province of Maryland"
+          }
+        }
+      ],
+      "reviewLane": "constituent_check",
+      "reviewLaneReason": "OHM place type indicates a subnational or constituent unit.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2475732",
+      "displayName": "Colony of Pennsylvania",
+      "wikidata": "Q2475732",
+      "relationIds": [
+        2847778
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2847778,
+          "startDate": "1681-03-04",
+          "endDate": "1763-02-10"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2847778,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2847778,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "wikipedia": "en:Province of Pennsylvania"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q248572",
+      "displayName": "Kasultanan nu Magindanaw",
+      "wikidata": "Q248572",
+      "relationIds": [
+        2860765
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2860765,
+          "startDate": "1616",
+          "endDate": "1703"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2860765,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2860765,
+          "tags": {
+            "wikipedia": "en:Sultanate of Maguindanao"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q25230",
+      "displayName": "Guernsey",
+      "wikidata": "Q25230",
+      "relationIds": [
+        2828270
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2828270,
+          "startDate": "1290",
+          "endDate": "1987-05-14"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2828270,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2828270,
+          "tags": {
+            "place": "country",
+            "border_type": "bailiwick",
+            "source": "https://data.humdata.org/dataset/global-lsib-polygons-detailed?",
+            "wikipedia": "en:Bailiwick of Guernsey"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q252580",
+      "displayName": "Ducatus Mutinae et Regii",
+      "wikidata": "Q252580",
+      "relationIds": [
+        2852273
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2852273,
+          "startDate": "1648-10-24",
+          "endDate": "1796-05-07"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2852273,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2852273,
+          "tags": {
+            "border_type": "duchy",
+            "wikipedia": "en:Duchy of Modena and Reggio"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2526023",
+      "displayName": "Colony of Jamaica",
+      "wikidata": "Q2526023",
+      "relationIds": [
+        2831982
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831982,
+          "startDate": "1655-05-10",
+          "endDate": "1707"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831982,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831982,
+          "tags": {
+            "place": "settlement",
+            "border_type": "colony",
+            "colony_of": "British Empire",
+            "wikipedia": "en:Colony of Jamaica"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2556639",
+      "displayName": "Capitania General de Yucatán",
+      "wikidata": "Q2556639",
+      "relationIds": [
+        2841927
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2841927,
+          "startDate": "1617",
+          "endDate": "1783"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2841927,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2841927,
+          "tags": {
+            "border_type": "captaincy_general",
+            "wikipedia": "en:Captaincy General of Yucatán"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2569593",
+      "displayName": "Colonie d'Canada",
+      "wikidata": "Q2569593",
+      "relationIds": [
+        2861309
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861309,
+          "startDate": "1673",
+          "endDate": "1713-04-11"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861309,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861309,
+          "tags": {
+            "place": "country",
+            "border_type": "colony"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2594899",
+      "displayName": "Wuuli Mansa Banko",
+      "wikidata": "Q2594899",
+      "relationIds": [
+        2879810
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2879810,
+          "startDate": "1520",
+          "endDate": "1888"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2879810,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2879810,
+          "tags": {
+            "border_type": "kingdom"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q266923",
+      "displayName": "Mysore Kingdom",
+      "wikidata": "Q266923",
+      "relationIds": [
+        2922246
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2922246,
+          "startDate": "1690",
+          "endDate": "1780"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2922246,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2922246,
+          "tags": {
+            "place": "kingdom",
+            "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg",
+            "wikipedia": "en:Kingdom of Mysore"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q26774",
+      "displayName": "Shoshone",
+      "wikidata": "Q26774",
+      "relationIds": [
+        2953509
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2953509,
+          "startDate": "1700",
+          "endDate": "1877-04-16"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2953509,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2953509,
+          "tags": {
+            "wikipedia": "en:Shoshone"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2721139",
+      "displayName": "Capitanía General de Filipinas",
+      "wikidata": "Q2721139",
+      "relationIds": [
+        2851084
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2851084,
+          "startDate": "1667",
+          "endDate": "1705"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2851084,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2851084,
+          "tags": {
+            "border_type": "captaincy_general",
+            "wikipedia": "en:Captaincy General of the Philippines"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q28179",
+      "displayName": "朝鮮 조선",
+      "wikidata": "Q28179",
+      "relationIds": [
+        2694486
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2694486,
+          "startDate": "1449",
+          "endDate": "1897-10-12"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2694486,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2694486,
+          "tags": {
+            "wikipedia": "en:Joseon"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q29",
+      "displayName": "España",
+      "wikidata": "Q29",
+      "relationIds": [
+        2803886
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2803886,
+          "startDate": "1659-11-07",
+          "endDate": "1700-11-01"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2803886,
+          "license": "CC0-1.0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2803886,
+          "tags": {
+            "wikipedia": "es:España"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2919465",
+      "displayName": "Capitania General de Santo Domingo",
+      "wikidata": "Q2919465",
+      "relationIds": [
+        2841734
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2841734,
+          "startDate": "1640",
+          "endDate": "1795-07-22"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2841734,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2841734,
+          "tags": {
+            "border_type": "captaincy_general",
+            "wikipedia": "en:Captaincy General of Santo Domingo"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q2984260",
+      "displayName": "Newfoundland Colony",
+      "wikidata": "Q2984260",
+      "relationIds": [
+        2830963
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2830963,
+          "startDate": "1637",
+          "endDate": "1763-02-10"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2830963,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2830963,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "wikipedia": "en:Newfoundland Colony"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3045696",
+      "displayName": "دولة الجزائر",
+      "wikidata": "Q3045696",
+      "relationIds": [
+        2861415
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861415,
+          "startDate": "1516",
+          "endDate": "1830-07-05"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861415,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861415,
+          "tags": {
+            "wikipedia": "en:Regency of Algiers"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3137802",
+      "displayName": "Principauté de Neuchâtel",
+      "wikidata": "Q3137802",
+      "relationIds": [
+        2748495
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2748495,
+          "startDate": "1648-10-24",
+          "endDate": "1707-06-16"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2748495,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2748495,
+          "tags": {
+            "wikipedia": "fr:Principauté de Neuchâtel"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3199818",
+      "displayName": "Filipinas espanoles",
+      "wikidata": "Q3199818",
+      "relationIds": [
+        2860737
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2860737,
+          "startDate": "1570",
+          "endDate": "1705"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2860737,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2860737,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q323904",
+      "displayName": "Goa Portuguesa",
+      "wikidata": "Q323904",
+      "relationIds": [
+        2860979,
+        2922067
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2860979,
+          "startDate": "1517",
+          "endDate": "1763"
+        },
+        {
+          "relationId": 2922067,
+          "startDate": "1539",
+          "endDate": "1783-06-10"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2860979,
+          "license": "CC0",
+          "status": "allowed"
+        },
+        {
+          "relationId": 2922067,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2860979,
+          "tags": {
+            "wikipedia": "en:Portuguese India"
+          }
+        },
+        {
+          "relationId": 2922067,
+          "tags": {
+            "border_type": "colony"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3277580",
+      "displayName": "Salṭanat-i-Karnātak / ஆற்காடு நவாப் / نواب کرناٹک",
+      "wikidata": "Q3277580",
+      "relationIds": [
+        2847608
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2847608,
+          "startDate": "1690",
+          "endDate": "1710"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2847608,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2847608,
+          "tags": {
+            "place": "kingdom",
+            "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg",
+            "wikipedia": "en:Carnatic Sultanate"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q33296",
+      "displayName": "Mughal Empire",
+      "wikidata": "Q33296",
+      "relationIds": [
+        2922303,
+        2922444
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2922303,
+          "startDate": "1700",
+          "endDate": "1739-05-16"
+        },
+        {
+          "relationId": 2922444,
+          "startDate": "1666",
+          "endDate": "1700"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2922303,
+          "license": "CC0",
+          "status": "allowed"
+        },
+        {
+          "relationId": 2922444,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2922303,
+          "tags": {
+            "place": "country"
+          }
+        },
+        {
+          "relationId": 2922444,
+          "tags": {
+            "place": "country"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3355522",
+      "displayName": "Ordo Fratrum Hospitalis Sancti Ioannis Hierosolymitani",
+      "wikidata": "Q3355522",
+      "relationIds": [
+        2801186
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2801186,
+          "startDate": "1530",
+          "endDate": "1753"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2801186,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2801186,
+          "tags": {
+            "place": "country",
+            "wikipedia": "en:Hospitaller Malta"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3408341",
+      "displayName": "Provincia de Caracas",
+      "wikidata": "Q3408341",
+      "relationIds": [
+        2860507
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2860507,
+          "startDate": "1634-08",
+          "endDate": "1777-09-08"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2860507,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2860507,
+          "tags": {
+            "place": "province",
+            "border_type": "province",
+            "wikipedia": "en:Venezuela Province"
+          }
+        }
+      ],
+      "reviewLane": "constituent_check",
+      "reviewLaneReason": "OHM place type indicates a subnational or constituent unit.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3456410",
+      "displayName": "Stadtrepublik Mülhausen",
+      "wikidata": "Q3456410",
+      "relationIds": [
+        2831155
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831155,
+          "startDate": "1648-10-24",
+          "endDate": "1798-01-28"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831155,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831155,
+          "tags": {
+            "place": "country",
+            "wikipedia": "fr:République de Mulhouse"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3456432",
+      "displayName": "Republik der Sieben Zenden",
+      "wikidata": "Q3456432",
+      "relationIds": [
+        2832184
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2832184,
+          "startDate": "1648-10-24",
+          "endDate": "1798-05-01"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2832184,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2832184,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3482103",
+      "displayName": "مملكة الشلك",
+      "wikidata": "Q3482103",
+      "relationIds": [
+        2856878
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2856878,
+          "startDate": "1490",
+          "endDate": "1861"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2856878,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2856878,
+          "tags": {
+            "wikipedia": "en:Shilluk Kingdom"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3688464",
+      "displayName": "Comitatus Novellariae et Bagnolo",
+      "wikidata": "Q3688464",
+      "relationIds": [
+        2852300
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2852300,
+          "startDate": "1648-10-24",
+          "endDate": "1737"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2852300,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2852300,
+          "tags": {
+            "wikipedia": "en:County of Novellara and Bagnolo"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q369587",
+      "displayName": "Kingdom of Kakongo",
+      "wikidata": "Q369587",
+      "relationIds": [
+        2914604
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2914604,
+          "startDate": "1250",
+          "endDate": "1885"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2914604,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2914604,
+          "tags": {
+            "place": "country",
+            "wikipedia": "en:Kakongo"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q37211",
+      "displayName": "Sindh Sultanate",
+      "wikidata": "Q37211",
+      "relationIds": [
+        2847907
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2847907,
+          "startDate": "-0500",
+          "endDate": "1843"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2847907,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2847907,
+          "tags": {
+            "wikipedia": "en:Sindh"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3769",
+      "displayName": "Colonie de la Guyane",
+      "wikidata": "Q3769",
+      "relationIds": [
+        2861194
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861194,
+          "startDate": "1643",
+          "endDate": "1946-03-19"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861194,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861194,
+          "tags": {
+            "place": "state",
+            "border_type": "colony"
+          }
+        }
+      ],
+      "reviewLane": "constituent_check",
+      "reviewLaneReason": "OHM place type indicates a subnational or constituent unit.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3823442",
+      "displayName": "Nuevo Reino de León",
+      "wikidata": "Q3823442",
+      "relationIds": [
+        2841320
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2841320,
+          "startDate": "1682",
+          "endDate": "1776"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2841320,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2841320,
+          "tags": {
+            "border_type": "kingdom",
+            "wikipedia": "en:New Kingdom of León"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3929733",
+      "displayName": "Rajputana",
+      "wikidata": "Q3929733",
+      "relationIds": [
+        2847600
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2847600,
+          "startDate": "1526",
+          "endDate": "1832"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2847600,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2847600,
+          "tags": {
+            "place": "federation",
+            "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg",
+            "wikipedia": "en:Rajputana"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q3933247",
+      "displayName": "Republic of Noli",
+      "wikidata": "Q3933247",
+      "relationIds": [
+        2852274
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2852274,
+          "startDate": "1648",
+          "endDate": "1797-12-02"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2852274,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2852274,
+          "tags": {
+            "source": "https://commons.wikimedia.org/wiki/File:Repubblica_di_Noli.jpg",
+            "wikipedia": "en:Republic of Noli"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q4118614",
+      "displayName": "كسلطانن تدوري",
+      "wikidata": "Q4118614",
+      "relationIds": [
+        2948784,
+        2948785
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2948784,
+          "startDate": "1700",
+          "endDate": "1768"
+        },
+        {
+          "relationId": 2948785,
+          "startDate": "1250",
+          "endDate": "1700"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2948784,
+          "license": "CC0",
+          "status": "allowed"
+        },
+        {
+          "relationId": 2948785,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2948784,
+          "tags": {
+            "border_type": "sultanate"
+          }
+        },
+        {
+          "relationId": 2948785,
+          "tags": {
+            "border_type": "sultanate"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q422065",
+      "displayName": "Kasultanan sin Sūg",
+      "wikidata": "Q422065",
+      "relationIds": [
+        2860770
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2860770,
+          "startDate": "1457",
+          "endDate": "1703"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2860770,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2860770,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q435583",
+      "displayName": "Eidgenossenschaft",
+      "wikidata": "Q435583",
+      "relationIds": [
+        2831181
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831181,
+          "startDate": "1648-10-24",
+          "endDate": "1798-03-04"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831181,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831181,
+          "tags": {
+            "wikipedia": "en:Old Swiss Confederacy"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q45670",
+      "displayName": "Reino de Portugal",
+      "wikidata": "Q45670",
+      "relationIds": [
+        2878364
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2878364,
+          "startDate": "1415",
+          "endDate": "1801-06-06"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2878364,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2878364,
+          "tags": {
+            "place": "country",
+            "border_type": "kingdom",
+            "wikipedia": "en:Kingdom of Portugal"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q468814",
+      "displayName": "Danhɔmɛ",
+      "wikidata": "Q468814",
+      "relationIds": [
+        2914815
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2914815,
+          "startDate": "1600",
+          "endDate": "1894"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2914815,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2914815,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q4948",
+      "displayName": "Republica de Venezia",
+      "wikidata": "Q4948",
+      "relationIds": [
+        2923446
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2923446,
+          "startDate": "1699-01-26",
+          "endDate": "1718-07-21"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2923446,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2923446,
+          "tags": {
+            "place": "country",
+            "border_type": "republic",
+            "wikipedia": "en:Republic of Venice"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q4969463",
+      "displayName": "British Arctic Territories",
+      "wikidata": "Q4969463",
+      "relationIds": [
+        2831205
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831205,
+          "startDate": "1576",
+          "endDate": "1880-09-01"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831205,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831205,
+          "tags": {
+            "place": "territory",
+            "border_type": "territory",
+            "colony_of": "British Empire",
+            "wikipedia": "en:British Arctic Territories"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q4969562",
+      "displayName": "British Bencoolen",
+      "wikidata": "Q4969562",
+      "relationIds": [
+        2848468
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2848468,
+          "startDate": "1685",
+          "endDate": "1824-03-17"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2848468,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2848468,
+          "tags": {
+            "place": "territory",
+            "wikipedia": "en:British Bencoolen"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q502009",
+      "displayName": "Estado do Maranhão",
+      "wikidata": "Q502009",
+      "relationIds": [
+        2848722
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2848722,
+          "startDate": "1654-01-27",
+          "endDate": "1709"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2848722,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2848722,
+          "tags": {
+            "place": "colony",
+            "border_type": "state",
+            "wikipedia": "en:State of Maranhão (colonial)"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q5159852",
+      "displayName": "Pat a Pangampong sa Ranao",
+      "wikidata": "Q5159852",
+      "relationIds": [
+        2860735
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2860735,
+          "startDate": "1616",
+          "endDate": "1903-07-01"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2860735,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2860735,
+          "tags": {
+            "wikipedia": "en:Confederate States of Lanao"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q5245668",
+      "displayName": "Nederlands-Mauritius",
+      "wikidata": "Q5245668",
+      "relationIds": [
+        2831877
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831877,
+          "startDate": "1638",
+          "endDate": "1710-05-30"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831877,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831877,
+          "tags": {
+            "place": "colony",
+            "colony_of": "Dutch Empire",
+            "wikipedia": "en:Dutch Mauritius"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q537503",
+      "displayName": "Principato di Piombino",
+      "wikidata": "Q537503",
+      "relationIds": [
+        2860167
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2860167,
+          "startDate": "1648-10-24",
+          "endDate": "1803"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2860167,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2860167,
+          "tags": {
+            "wikipedia": "en:Principality of Piombino"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q541745",
+      "displayName": "Capitanía General de Puerto Rico",
+      "wikidata": "Q541745",
+      "relationIds": [
+        2841681
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2841681,
+          "startDate": "1580",
+          "endDate": "1854"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2841681,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2841681,
+          "tags": {
+            "place": "captaincy general",
+            "border_type": "captaincy_general",
+            "wikipedia": "en:Captaincy General of Puerto Rico"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q5502051",
+      "displayName": "Senegal",
+      "wikidata": "Q5502051",
+      "relationIds": [
+        2887739
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2887739,
+          "startDate": "1693-06",
+          "endDate": "1758-04-30"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2887739,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2887739,
+          "tags": {
+            "border_type": "colony",
+            "wikipedia": "en:French Senegal"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q55290",
+      "displayName": "Catawba",
+      "wikidata": "Q55290",
+      "relationIds": [
+        2888181
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2888181,
+          "startDate": "-3999",
+          "endDate": "1763"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2888181,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2888181,
+          "tags": {
+            "wikipedia": "en:Catawba people"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q56064",
+      "displayName": "Colônia do Sacramento",
+      "wikidata": "Q56064",
+      "relationIds": [
+        2860675
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2860675,
+          "startDate": "1680-08-07",
+          "endDate": "1705-03-14"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2860675,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2860675,
+          "tags": {
+            "border_type": "colony"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q577668",
+      "displayName": "خانات بخارا",
+      "wikidata": "Q577668",
+      "relationIds": [
+        2851362
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2851362,
+          "startDate": "1501",
+          "endDate": "1709"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2851362,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2851362,
+          "tags": {
+            "border_type": "khanate",
+            "wikipedia": "en:Khanate of Bukhara"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q5785",
+      "displayName": "Cayman Islands",
+      "wikidata": "Q5785",
+      "relationIds": [
+        2831970
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831970,
+          "startDate": "1670-07-08",
+          "endDate": "1990-01-01"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831970,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831970,
+          "tags": {
+            "border_type": "territory",
+            "wikipedia": "en:Cayman Islands"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q622783",
+      "displayName": "Países Bajos Españoles",
+      "wikidata": "Q622783",
+      "relationIds": [
+        2848630
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2848630,
+          "startDate": "1581-07-26",
+          "endDate": "1714-03-07"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2848630,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2848630,
+          "tags": {
+            "place": "country",
+            "wikipedia": "en:Spanish Netherlands"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q62651",
+      "displayName": "Danmark-Norge",
+      "wikidata": "Q62651",
+      "relationIds": [
+        2859885
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2859885,
+          "startDate": "1660-05-27",
+          "endDate": "1714-08"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2859885,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2859885,
+          "tags": {
+            "place": "country",
+            "wikipedia": "en:Denmark–Norway"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q642481",
+      "displayName": "Sainte-Croix française",
+      "wikidata": "Q642481",
+      "relationIds": [
+        2860956
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2860956,
+          "startDate": "1665",
+          "endDate": "1733-06-15"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2860956,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2860956,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q646374",
+      "displayName": "Inde française",
+      "wikidata": "Q646374",
+      "relationIds": [
+        2922309
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2922309,
+          "startDate": "1697-09-20",
+          "endDate": "1731-07-30"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2922309,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2922309,
+          "tags": {
+            "border_type": "colony",
+            "wikipedia": "en:French India"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q672685",
+      "displayName": "Freistaat der Drei Bünde",
+      "wikidata": "Q672685",
+      "relationIds": [
+        2831180
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831180,
+          "startDate": "1648-10-24",
+          "endDate": "1797-10-10"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831180,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831180,
+          "tags": {
+            "place": "country",
+            "wikipedia": "en:Three Leagues"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q675322",
+      "displayName": "Kolonie Berbice",
+      "wikidata": "Q675322",
+      "relationIds": [
+        2848058
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2848058,
+          "startDate": "1627",
+          "endDate": "1781-02-27"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2848058,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2848058,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "wikipedia": "en:Berbice"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q688859",
+      "displayName": "Duché Souverain de Bouillon",
+      "wikidata": "Q688859",
+      "relationIds": [
+        2748541
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2748541,
+          "startDate": "1679-02-05",
+          "endDate": "1769-05-16"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2748541,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2748541,
+          "tags": {
+            "border_type": "duchy"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q695919",
+      "displayName": "Herzogtum Schleswig-Holstein-Gottorp",
+      "wikidata": "Q695919",
+      "relationIds": [
+        2839727
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2839727,
+          "startDate": "1658-03-08",
+          "endDate": "1773-06-01"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2839727,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2839727,
+          "tags": {
+            "place": "country",
+            "border_type": "duchy",
+            "country": "duchy",
+            "wikipedia": "en:Duke of Holstein-Gottorp"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q706596",
+      "displayName": "Ducatus Guastalla",
+      "wikidata": "Q706596",
+      "relationIds": [
+        2826404
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2826404,
+          "startDate": "1621",
+          "endDate": "1748"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2826404,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2826404,
+          "tags": {
+            "border_type": "duchy",
+            "wikipedia": "it:Ducato di Guastalla"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q70972",
+      "displayName": "Royaume de France",
+      "wikidata": "Q70972",
+      "relationIds": [
+        2955283
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2955283,
+          "startDate": "1697-10-30",
+          "endDate": "1714-09-07"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2955283,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2955283,
+          "tags": {
+            "border_type": "kingdom"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q7232692",
+      "displayName": "Portuguese São Tomé and Príncipe",
+      "wikidata": "Q7232692",
+      "relationIds": [
+        2885981
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2885981,
+          "startDate": "1648",
+          "endDate": "1951"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2885981,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2885981,
+          "tags": {
+            "border_type": "colony"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q738395",
+      "displayName": "Rupert's Land",
+      "wikidata": "Q738395",
+      "relationIds": [
+        2831229
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2831229,
+          "startDate": "1670",
+          "endDate": "1763-02-10"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2831229,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2831229,
+          "tags": {
+            "place": "territory",
+            "colony_of": "British Empire",
+            "wikipedia": "en:Rupert's Land"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q751725",
+      "displayName": "Islas de la Bahia",
+      "wikidata": "Q751725",
+      "relationIds": [
+        2835325
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2835325,
+          "startDate": "1650",
+          "endDate": "1742"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2835325,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2835325,
+          "tags": {
+            "place": "colony",
+            "colony_of": "Spanish Empire",
+            "wikipedia": "en:Bay Islands Department"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q757",
+      "displayName": "St Vincent and the Grenadines Territory",
+      "wikidata": "Q757",
+      "relationIds": [
+        2834824
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2834824,
+          "startDate": "1627",
+          "endDate": "1717"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2834824,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2834824,
+          "tags": {
+            "place": "territory",
+            "border_type": "territory",
+            "colony_of": "British Empire",
+            "wikipedia": "en:History of Saint Vincent and the Grenadines"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q763808",
+      "displayName": "Gobernación de Chile",
+      "wikidata": "Q763808",
+      "relationIds": [
+        2848834
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2848834,
+          "startDate": "1541-06-11",
+          "endDate": "1768"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2848834,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2848834,
+          "tags": {
+            "border_type": "captaincy_general",
+            "wikipedia": "en:Captaincy General of Chile"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q7646305",
+      "displayName": "Suriname",
+      "wikidata": "Q7646305",
+      "relationIds": [
+        2806842
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2806842,
+          "startDate": "1667-03-06",
+          "endDate": "1848-10-14"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2806842,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2806842,
+          "tags": {
+            "border_type": "colony",
+            "colony": "yes",
+            "wikipedia": "nl:Suriname (kolonie)"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q766501",
+      "displayName": "Ducatus Mantuæ",
+      "wikidata": "Q766501",
+      "relationIds": [
+        2751406
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2751406,
+          "startDate": "1648-10-24",
+          "endDate": "1708"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2751406,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2751406,
+          "tags": {
+            "border_type": "duchy",
+            "wikipedia": "en:Duchy of Mantua"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q769",
+      "displayName": "Colonie de la Grenade",
+      "wikidata": "Q769",
+      "relationIds": [
+        2834759
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2834759,
+          "startDate": "1649-03-17",
+          "endDate": "1762-03-04"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2834759,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2834759,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "colony_of": "French Empire"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM supplies an explicit dependency, colony, or protectorate tag.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q769668",
+      "displayName": "Colony of New York",
+      "wikidata": "Q769668",
+      "relationIds": [
+        2861380
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861380,
+          "startDate": "1689-04-18",
+          "endDate": "1763-02-10"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861380,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861380,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "wikipedia": "en:Province of New York"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q770833",
+      "displayName": "Danish Gold Coast",
+      "wikidata": "Q770833",
+      "relationIds": [
+        2828430
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2828430,
+          "startDate": "1663-04-20",
+          "endDate": "1850-03-30"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2828430,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2828430,
+          "tags": {
+            "place": "colony",
+            "wikipedia": "en:Danish Gold Coast"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q778",
+      "displayName": "Bahamas",
+      "wikidata": "Q778",
+      "relationIds": [
+        2832954
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2832954,
+          "startDate": "1492-10-12",
+          "endDate": "1706"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2832954,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2832954,
+          "tags": {
+            "place": "claim",
+            "border_type": "territory",
+            "colony_of": "Spanish Empire",
+            "dependency_of": "Spanish Empire",
+            "wikipedia": "en:History of the Bahamas"
+          }
+        }
+      ],
+      "reviewLane": "claim_check",
+      "reviewLaneReason": "OHM marks the relation as disputed or as a claim.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q784",
+      "displayName": "Dominique",
+      "wikidata": "Q784",
+      "relationIds": [
+        2834748,
+        2861191
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2834748,
+          "startDate": "1632",
+          "endDate": "1727"
+        },
+        {
+          "relationId": 2861191,
+          "startDate": "1690",
+          "endDate": "1727"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2834748,
+          "license": "CC0",
+          "status": "allowed"
+        },
+        {
+          "relationId": 2861191,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2834748,
+          "tags": {
+            "place": "claim",
+            "colony_of": "French Empire",
+            "dependency_of": "French Empire",
+            "wikipedia": "en:Dominica"
+          }
+        },
+        {
+          "relationId": 2861191,
+          "tags": {
+            "wikipedia": "en:Dominica"
+          }
+        }
+      ],
+      "reviewLane": "claim_check",
+      "reviewLaneReason": "OHM marks the relation as disputed or as a claim.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q785",
+      "displayName": "Jersey",
+      "wikidata": "Q785",
+      "relationIds": [
+        2828299
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2828299,
+          "startDate": "1290",
+          "endDate": "1987-05-14"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2828299,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2828299,
+          "tags": {
+            "place": "country",
+            "border_type": "bailiwick",
+            "source": "https://data.humdata.org/dataset/global-lsib-polygons-detailed",
+            "wikipedia": "en:Jersey"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q807068",
+      "displayName": "Baol",
+      "wikidata": "Q807068",
+      "relationIds": [
+        2879280
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2879280,
+          "startDate": "1549",
+          "endDate": "1750"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2879280,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2879280,
+          "tags": {
+            "border_type": "vassal"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q829655",
+      "displayName": "Dansk Vestindien",
+      "wikidata": "Q829655",
+      "relationIds": [
+        2861917
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861917,
+          "startDate": "1672",
+          "endDate": "1717"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861917,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861917,
+          "tags": {
+            "wikipedia": "en:Danish West Indies"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q83618",
+      "displayName": "मराठा साम्राज्य",
+      "wikidata": "Q83618",
+      "relationIds": [
+        2847581
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2847581,
+          "startDate": "1674-06-06",
+          "endDate": "1743"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2847581,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2847581,
+          "tags": {
+            "place": "country",
+            "country": "empire",
+            "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg",
+            "wikipedia": "en:Maratha Empire"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q854468",
+      "displayName": "Kingdom of Mutapa",
+      "wikidata": "Q854468",
+      "relationIds": [
+        2914587
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2914587,
+          "startDate": "1450",
+          "endDate": "1760"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2914587,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2914587,
+          "tags": {
+            "place": "country",
+            "wikipedia": "en:Mutapa Empire"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q860407",
+      "displayName": "Kahlur Kingdom",
+      "wikidata": "Q860407",
+      "relationIds": [
+        2923778
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2923778,
+          "startDate": "0697",
+          "endDate": "1815"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2923778,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2923778,
+          "tags": {
+            "border_type": "kingdom"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q861551",
+      "displayName": "Saint-Domingue",
+      "wikidata": "Q861551",
+      "relationIds": [
+        2841731
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2841731,
+          "startDate": "1697",
+          "endDate": "1795-07-22"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2841731,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2841731,
+          "tags": {
+            "place": "colony",
+            "wikipedia": "en:Saint-Domingue"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q862467",
+      "displayName": "Siin",
+      "wikidata": "Q862467",
+      "relationIds": [
+        2879275
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2879275,
+          "startDate": "1520",
+          "endDate": "1960-06-20"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2879275,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2879275,
+          "tags": {
+            "border_type": "kingdom",
+            "wikipedia": "en:Kingdom of Sine"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q8733",
+      "displayName": "大淸 ᡩᠠᡳ᠌ᠴᡳᠩ ᡤᡠᡵᡠᠨ",
+      "wikidata": "Q8733",
+      "relationIds": [
+        2889978
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2889978,
+          "startDate": "1691",
+          "endDate": "1720"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2889978,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2889978,
+          "tags": {
+            "wikipedia": "zh:清朝"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q889030",
+      "displayName": "Kangleipak Kingdom",
+      "wikidata": "Q889030",
+      "relationIds": [
+        2923683
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2923683,
+          "startDate": "1110",
+          "endDate": "1724"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2923683,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2923683,
+          "tags": {
+            "border_type": "kingdom"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q889884",
+      "displayName": "Ubwami bw'u Rwanda",
+      "wikidata": "Q889884",
+      "relationIds": [
+        2863642
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2863642,
+          "startDate": "1650",
+          "endDate": "1890-07-01"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2863642,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2863642,
+          "tags": {
+            "wikipedia": "en:Kingdom of Rwanda"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q892272",
+      "displayName": "Boundou",
+      "wikidata": "Q892272",
+      "relationIds": [
+        2879806
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2879806,
+          "startDate": "1690",
+          "endDate": "1885"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2879806,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2879806,
+          "tags": {
+            "border_type": "kingdom",
+            "wikipedia": "en:Bundu"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q917",
+      "displayName": "འབྲུག་རྒྱལ་ཁབ།",
+      "wikidata": "Q917",
+      "relationIds": [
+        2906077
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2906077,
+          "startDate": "1616",
+          "endDate": "1784"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2906077,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2906077,
+          "tags": {
+            "wikipedia": "en:Bhutan"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q933592",
+      "displayName": "Ducato di Massa e Principato di Carrara",
+      "wikidata": "Q933592",
+      "relationIds": [
+        2696936
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2696936,
+          "startDate": "1648",
+          "endDate": "1796-05-10"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2696936,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2696936,
+          "tags": {
+            "place": "country",
+            "border_type": "duchy",
+            "wikipedia": "en:Duchy of Massa and Carrara"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q951500",
+      "displayName": "Colony of Connecticut",
+      "wikidata": "Q951500",
+      "relationIds": [
+        2861377
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861377,
+          "startDate": "1689-04-18",
+          "endDate": "1776-07-04"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861377,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861377,
+          "tags": {
+            "place": "colony",
+            "border_type": "colony",
+            "wikipedia": "en:Connecticut Colony"
+          }
+        }
+      ],
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "OHM place type indicates a dependent or jointly administered territory.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q953432",
+      "displayName": "Couto Misto",
+      "wikidata": "Q953432",
+      "relationIds": [
+        2835764
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2835764,
+          "startDate": "1000",
+          "endDate": "1868"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2835764,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2835764,
+          "tags": {
+            "wikipedia": "en:Couto Misto"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q967246",
+      "displayName": "Kingdom of Ngoyo",
+      "wikidata": "Q967246",
+      "relationIds": [
+        2914603
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2914603,
+          "startDate": "1250",
+          "endDate": "1885"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2914603,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2914603,
+          "tags": {
+            "place": "country",
+            "wikipedia": "en:Ngoyo"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q9676",
+      "displayName": "Isle of Man",
+      "wikidata": "Q9676",
+      "relationIds": [
+        2693293
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2693293,
+          "startDate": "1333-08-09",
+          "endDate": "1987-05-15"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2693293,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2693293,
+          "tags": {
+            "place": "state",
+            "wikipedia": "en:Isle of Man"
+          }
+        }
+      ],
+      "reviewLane": "constituent_check",
+      "reviewLaneReason": "OHM place type indicates a subnational or constituent unit.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Q986822",
+      "displayName": "Rozvi",
+      "wikidata": "Q986822",
+      "relationIds": [
+        2914608
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2914608,
+          "startDate": "1681",
+          "endDate": "1822"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2914608,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2914608,
+          "tags": {
+            "place": "country"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Republica de' Cošpäja",
+      "displayName": "Republica de' Cošpäja",
+      "wikidata": null,
+      "relationIds": [
+        2750737
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2750737,
+          "startDate": "1440",
+          "endDate": "1826-05-25"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2750737,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2750737,
+          "tags": {
+            "place": "country",
+            "wikipedia": "en:Republic of Cospaia"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Sarawak",
+      "displayName": "Sarawak",
+      "wikidata": null,
+      "relationIds": [
+        2827168
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2827168,
+          "startDate": "1600",
+          "endDate": "1853"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2827168,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2827168,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Sultanate of Maore",
+      "displayName": "Sultanate of Maore",
+      "wikidata": null,
+      "relationIds": [
+        2865810
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2865810,
+          "startDate": "1503",
+          "endDate": "1832"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2865810,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2865810,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "Sultanate of Ndzuwani",
+      "displayName": "Sultanate of Ndzuwani",
+      "wikidata": null,
+      "relationIds": [
+        2865813
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2865813,
+          "startDate": "1490",
+          "endDate": "1830"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2865813,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2865813,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "West Jersey Colony",
+      "displayName": "West Jersey Colony",
+      "wikidata": null,
+      "relationIds": [
+        2861384
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2861384,
+          "startDate": "1689-04-18",
+          "endDate": "1702-04-15"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2861384,
+          "license": "CC0-1.0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2861384,
+          "tags": {
+            "place": "county",
+            "border_type": "colony",
+            "source": "https://publications.newberry.org/nl_ahcbp/downloads/united_states.html"
+          }
+        }
+      ],
+      "reviewLane": "constituent_check",
+      "reviewLaneReason": "OHM place type indicates a subnational or constituent unit.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "خیوه خانلیگی",
+      "displayName": "خیوه خانلیگی",
+      "wikidata": null,
+      "relationIds": [
+        2851349
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2851349,
+          "startDate": "1511",
+          "endDate": "1873-08-12"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2851349,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2851349,
+          "tags": {
+            "border_type": "khanate",
+            "wikipedia": "en:Khanate of Khiva"
+          }
+        }
+      ],
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "OHM place or border type indicates a country-level polity.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "ދިވެހިރާއްޖެ",
+      "displayName": "ދިވެހިރާއްޖެ",
+      "wikidata": null,
+      "relationIds": [
+        2874736
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2874736,
+          "startDate": "1153",
+          "endDate": "1887"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2874736,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2874736,
+          "tags": {
+            "wikipedia": "en:Sultanate of the Maldive Islands"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "อาณาจักรอยุธยา",
+      "displayName": "อาณาจักรอยุธยา",
+      "wikidata": null,
+      "relationIds": [
+        2830070
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2830070,
+          "startDate": "1664",
+          "endDate": "1739"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2830070,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2830070,
+          "tags": {
+            "wikipedia": "en:Ayutthaya Kingdom"
+          }
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "南蟠 Nam Bàn",
+      "displayName": "南蟠 Nam Bàn",
+      "wikidata": null,
+      "relationIds": [
+        2745594
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2745594,
+          "startDate": "1471",
+          "endDate": "1712"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2745594,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2745594,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "identityKey": "大越 - 主鄭",
+      "displayName": "大越 - 主鄭",
+      "wikidata": null,
+      "relationIds": [
+        2748463
+      ],
+      "temporalRanges": [
+        {
+          "relationId": 2748463,
+          "startDate": "1699",
+          "endDate": "1774-10"
+        }
+      ],
+      "licenses": [
+        {
+          "relationId": 2748463,
+          "license": "CC0",
+          "status": "allowed"
+        }
+      ],
+      "evidenceTags": [
+        {
+          "relationId": 2748463,
+          "tags": {}
+        }
+      ],
+      "reviewLane": "manual",
+      "reviewLaneReason": "OHM tags do not establish a safe political classification.",
+      "disposition": "unreviewed",
+      "polityKey": null,
+      "notes": null,
+      "reviewedBy": null,
+      "reviewedAt": null
+    }
+  ]
+}
