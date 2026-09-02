@@ -9,6 +9,7 @@ import {
   loadScenarioRosterFiles,
 } from '../content/sources/roster/compiler.mjs';
 import { validateGeometryResolutions } from '../content/sources/geometry/compiler.mjs';
+import { compileRelationships } from '../content/sources/relationships/compiler.mjs';
 
 const root = process.cwd();
 const scenariosRoot = path.join(root, 'content', 'scenarios');
@@ -211,6 +212,7 @@ async function validateCompiledSeed(id, manifest) {
     requireValue(diagnostics.overlaps.length === 0, `${id} playable seed still has unresolved border overlaps`);
     requireValue(diagnostics.nearestAssignments.length === 0, `${id} playable seed still has inferred nearest-border assignments`);
     requireValue(expectedTerritorialMissing.length === 0, `${id} playable seed omits territorial roster polities`);
+    requireValue(diagnostics.unrepresentedOverlordLinks.length === 0, `${id} playable seed omits relationship participants`);
   }
   return {
     id,
@@ -240,6 +242,7 @@ async function validateRoster(id, manifest) {
   const scenarioDir = path.join(scenariosRoot, id);
   const roster = await readJson(path.join(scenarioDir, 'polities.json'));
   const relationships = await readJson(path.join(scenarioDir, 'relationships.json'));
+  const relationshipPolicy = await readJson(path.join(scenarioDir, 'sources', 'relationship-policy.json'));
   requireValue(roster.schemaVersion === 1, `${id} has an unsupported polity schema`);
   requireValue(roster.asOf === id, `${id} polity date does not match the scenario`);
   requireValue(['vertical_slice', 'global'].includes(roster.coverage), `${id} has an invalid polity coverage`);
@@ -266,6 +269,11 @@ async function validateRoster(id, manifest) {
 
   requireValue(relationships.schemaVersion === 1, `${id} has an unsupported relationship schema`);
   requireValue(relationships.asOf === id, `${id} relationship date does not match the scenario`);
+  const expectedRelationships = compileRelationships({ manifest, roster, policy: relationshipPolicy });
+  requireValue(
+    JSON.stringify(relationships) === JSON.stringify(expectedRelationships),
+    `${id} relationships are stale; regenerate them`,
+  );
   for (const relationship of relationships.relationships ?? []) {
     requireValue(keySet.has(relationship.from), `${id} relationship has unknown source ${relationship.from}`);
     requireValue(keySet.has(relationship.to), `${id} relationship has unknown target ${relationship.to}`);

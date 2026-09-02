@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1700-01-01",
+  "reviewedBy": "Codex historical relationship review",
+  "reviewedAt": "2026-09-02",
+  "rules": [
+    {
+      "match": {
+        "prefixes": ["BRITISH_", "COLONY_OF_"],
+        "keys": ["CAROLINA", "CAYMAN_ISLANDS", "COMPANY_RAJ", "EAST_JERSEY_COLONY", "NEW_HAMPSHIRE_COLONY", "NEWFOUNDLAND_COLONY", "NORTH_WEST_TERRITORIES", "PROVINCE_OF_MASSACHUSETTS_BAY", "RUPERT_S_LAND", "SAINT_HELENA_COLONY", "ST_VINCENT_AND_THE_GRENADINES_TERRITORY", "WEST_JERSEY_COLONY"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay."
+    },
+    {
+      "match": {
+        "prefixes": ["COLONIE_", "FRENCH_"],
+        "keys": ["INDE_FRANCAISE", "ISLE_BOURBON", "SAINT_DOMINGUE", "SENEGAL"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay."
+    },
+    {
+      "match": {
+        "prefixes": ["CAPITANIA_GENERAL_DE_"],
+        "keys": ["COLONIA_TRINIDAD", "GOBERNACION_DE_CHILE", "ISLAS_DE_LA_BAHIA", "JESUIT_REDUCCIONES"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay."
+    },
+    {
+      "match": {
+        "prefixes": ["ESTADO_DO_", "PORTUGUESE_"],
+        "keys": ["COLONIA_DO_SACRAMENTO", "GOA_PORTUGUESA"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "REINO_DE_PORTUGAL",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay."
+    },
+    {
+      "match": {
+        "prefixes": ["DUTCH_", "KOLONIE_"],
+        "keys": ["NEDERLANDS_MAURITIUS", "SURINAME"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay."
+    },
+    {
+      "match": {
+        "prefixes": ["DANISH_"],
+        "keys": ["DANSK_VESTINDIEN"]
+      },
+      "action": "overlord",
+      "runtimeOverlord": "DANMARK_NORGE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish dependency represented under Denmark-Norway for gameplay."
+    }
+  ],
+  "decisions": [
+    {
+      "key": "BAOL",
+      "action": "no_runtime_overlord",
+      "basis": "conflicting_source_classification",
+      "notes": "OHM marks Baol as a vassal, while historical summaries describe independence after 1549 and intermittent personal union with Cayor. It remains a dependent gameplay type without an invented fixed overlord pending a finer sovereignty model."
+    },
+    {
+      "key": "COMTAT_VENAISSIN",
+      "action": "overlord",
+      "runtimeOverlord": "STATUS_ECCLESIASTICUS",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Papal possession represented under the Papal States."
+    },
+    {
+      "key": "CRIMEAN_KHANATE",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Ottoman tributary represented under the Ottoman polity."
+    },
+    {
+      "key": "KALMYK_KHANATE",
+      "action": "overlord",
+      "runtimeOverlord": "TSARDOM_OF_RUSSIA",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Kalmyk dependency represented under the Tsardom of Russia."
+    },
+    {
+      "key": "NAM_BAN",
+      "action": "overlord",
+      "runtimeOverlord": "NGUYEN_LORDS",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Southern Vietnamese dependent principality represented under the Nguyen Lords."
+    },
+    {
+      "key": "POLITY_Q10825475",
+      "action": "overlord",
+      "runtimeOverlord": "NGUYEN_LORDS",
+      "basis": "reviewed_historical_dependency",
+      "notes": "The Thuan Thanh administration is represented under the Nguyen Lords."
+    },
+    {
+      "key": "PRINCIPALITY_OF_ABKHAZIA",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Western Georgian tributary relationship represented under the Ottoman polity."
+    },
+    {
+      "key": "PRINCIPALITY_OF_GURIA",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Western Georgian tributary relationship represented under the Ottoman polity."
+    },
+    {
+      "key": "PRINCIPALITY_OF_MINGRELIA",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Western Georgian tributary relationship represented under the Ottoman polity."
+    },
+    {
+      "key": "PRINCIPALITY_OF_MOLDAVIA",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Ottoman tributary principality represented under the Ottoman polity."
+    },
+    {
+      "key": "PRINCIPALITY_OF_WALLACHIA",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Ottoman tributary principality represented under the Ottoman polity."
+    }
+  ]
+}

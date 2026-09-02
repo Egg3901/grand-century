@@ -199,6 +199,7 @@ export function compileScenarioSeed({ baseSeed, roster, relationships, compiledB
   });
 
   const relationshipByDependent = new Map((relationships.relationships ?? []).map((entry) => [entry.to, entry.from]));
+  const unrepresentedOverlordLinks = [];
   const nations = [...nationIdByKey.entries()]
     .sort((left, right) => left[1] - right[1])
     .map(([key]) => {
@@ -216,6 +217,10 @@ export function compileScenarioSeed({ baseSeed, roster, relationships, compiledB
         };
       }
       const polity = polityByKey.get(key);
+      const overlord = relationshipByDependent.get(polity.key);
+      if (overlord && !nationIdByKey.has(overlord)) {
+        unrepresentedOverlordLinks.push({ polityKey: polity.key, overlordKey: overlord });
+      }
       return {
         tag: polity.key,
         name: polity.displayName,
@@ -226,7 +231,7 @@ export function compileScenarioSeed({ baseSeed, roster, relationships, compiledB
         religion: baseNation?.religion,
         coreStateIds,
         polityStatus: polity.status,
-        overlordTag: relationshipByDependent.get(polity.key),
+        overlordTag: overlord && nationIdByKey.has(overlord) ? overlord : undefined,
         eraSummary: polity.notes,
         initialTechYear: polity.status === 'decentralized'
           ? manifest.startDate.year - 30
@@ -267,6 +272,7 @@ export function compileScenarioSeed({ baseSeed, roster, relationships, compiledB
         .filter((polity) => polity.status !== 'constituent')
         .map((polity) => polity.key)
         .filter((key) => !nationIdByKey.has(key)),
+      unrepresentedOverlordLinks,
       splitStates: [...splitCounts.values()].filter((count) => count > 1).length,
     },
   };

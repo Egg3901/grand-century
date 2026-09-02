@@ -8,6 +8,7 @@
     "scenario:roster": "node scripts/scenario-roster.mjs",
     "scenario:cliopatria": "node scripts/cliopatria-source.mjs",
     "scenario:geometry": "node scripts/scenario-geometry.mjs",
+    "scenario:relationships": "node scripts/scenario-relationships.mjs",
     "scenario:seed": "node scripts/scenario-seed.mjs",
     "scenario:ohm": "node scripts/ohm-source.mjs",
     "map:history": "node scripts/apply-historical-world.mjs",
