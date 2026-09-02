@@ -26,13 +26,41 @@ export type ArmyId = number;
 export type FleetId = number;
 export type WarId = number;
 
-/** Days since the game epoch (1820-01-01). The sim's canonical clock. */
+/** Stable identifier of a curated campaign scenario, normally its ISO start date. */
+export type ScenarioId = string;
+
+/** Days since the selected Scenario's exact start date. The sim's canonical clock. */
 export type GameDay = number;
 
 export interface GameDate {
   year: number;
   month: number; // 1-12
   day: number;   // 1-based day of month
+}
+
+export type ScenarioStatus = 'playable' | 'preview' | 'development';
+
+export interface ScenarioManifest {
+  readonly schemaVersion: number;
+  readonly id: ScenarioId;
+  readonly title: string;
+  readonly startDate: Readonly<GameDate>;
+  readonly status: ScenarioStatus;
+  readonly summary: string;
+  readonly seedProvenance?: {
+    readonly kind: 'curated' | 'inherited_development';
+    readonly sourceScenarioId?: ScenarioId;
+    readonly sourceAsOf?: string;
+    readonly limitations?: string;
+  };
+  readonly visualPolicy: {
+    readonly naziImagery: 'prohibited';
+    readonly germanyPresentation?: {
+      readonly displayName: 'Germany';
+      readonly flagAssetTag: 'GER';
+      readonly treatment: 'neutral_tricolor';
+    };
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -372,7 +400,9 @@ export interface FormableStatus {
 
 /** Everything static the game is built from. Loaded once, never mutated. */
 export interface GameData {
-  startDate: GameDate;   // 1820-01-01
+  /** Scenario whose date-specific content is loaded. */
+  scenarioId: ScenarioId;
+  startDate: GameDate;
   goods: GoodDef[];
   recipes: Recipe[];
   popNeeds: Record<PopType, PopNeedsDef>;
@@ -551,7 +581,7 @@ export interface Nation {
   electionWinnerShare?: number;
   capital: ProvinceId;
   coreStateIds?: StateId[];
-  /** 1820 constitutional position; optional so older saves self-heal. */
+  /** 1830 constitutional position; optional so older saves self-heal. */
   polityStatus?: PolityStatus;
   /** Epoch overlord relationship, separate from the mutable GP sphere system. */
   overlordNation?: NationId;
@@ -640,8 +670,10 @@ export interface Leader {
   trait: string;
 }
 
+export type RegimentType = 'infantry' | 'cavalry' | 'artillery' | 'guard' | 'armor' | 'aircraft';
+
 export interface Regiment {
-  type: 'infantry' | 'cavalry' | 'artillery' | 'guard';
+  type: RegimentType;
   strength: number;      // manpower 0-1000
   organization: number;  // 0-100, depleted before strength
   sourcePop: PopId;      // soldier pop that supplies it
@@ -685,8 +717,10 @@ export interface Army {
   supplied?: boolean;
 }
 
+export type ShipType = 'transport' | 'frigate' | 'manofwar' | 'ironclad' | 'destroyer' | 'submarine' | 'carrier';
+
 export interface Ship {
-  type: 'transport' | 'frigate' | 'manofwar' | 'ironclad';
+  type: ShipType;
   strength: number;
   organization: number;
 }
@@ -1045,6 +1079,10 @@ export type CampaignMapMode =
 
 export interface World {
   day: GameDay;
+  /** Optional only so version-1 saves can self-heal during migration. */
+  scenarioId?: ScenarioId;
+  /** Scenario epoch. Optional only so version-1 saves can self-heal. */
+  startDate?: GameDate;
   seed: number;
   rngState: number;
   speed: number;         // 0 = paused, 1..5
@@ -1148,6 +1186,10 @@ export interface NationSummary {
   mobilizationCapacity: number;
   /** Standing peacetime regiment cap (from soldier pops / reforms). */
   standingRegimentCapacity?: number;
+  /** Technology and reform gated land formations this nation may raise. */
+  availableRegimentTypes?: RegimentType[];
+  /** Technology gated ships this nation may construct. */
+  availableShipTypes?: ShipType[];
   /** Available colonial points after claim commitments. */
   colonialPoints?: number;
   /** Breakdown of colonial capacity sources. */
@@ -1342,6 +1384,8 @@ export interface ColonialClaimableState {
 export interface WorldSnapshot {
   day: GameDay;
   date: GameDate;
+  scenarioId?: ScenarioId;
+  startDate?: GameDate;
   speed: number;
   playerNation: NationId;
   /** Campaign start seed (for shareable permalinks). */
@@ -1467,6 +1511,8 @@ export interface SaveSlotInfo {
   updatedAt: number;
   day: GameDay;
   playerNation: NationId;
+  scenarioId?: ScenarioId;
+  startDate?: GameDate;
 }
 
 // ---------------------------------------------------------------------------
@@ -1512,7 +1558,7 @@ export type Command =
   // --- 0.8.0 Age of Nationalism ---
   | { t: 'setCulturePolicy'; policy: CulturePolicy }
   | { t: 'setCultureAccepted'; culture: number; accepted: boolean }
-  | { t: 'newGame'; seed: number; playerNation: NationId; mapMode?: CampaignMapMode }
+  | { t: 'newGame'; seed: number; playerNation: NationId; mapMode?: CampaignMapMode; scenarioId?: ScenarioId }
   | { t: 'save'; slot: string }
   | { t: 'load'; slot: string }
   | { t: 'listSaves' };
@@ -1522,7 +1568,7 @@ export type Command =
 // ---------------------------------------------------------------------------
 
 export type ToWorker =
-  | { t: 'init'; seed: number; mapMode?: CampaignMapMode }
+  | { t: 'init'; seed: number; mapMode?: CampaignMapMode; scenarioId?: ScenarioId }
   | { t: 'command'; cmd: Command }
   | { t: 'requestProvince'; id: ProvinceId }   // pull detailed province view
   | { t: 'requestNation'; id: NationId };

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "1815-06-18",
+  "title": "The Congress Settlement",
+  "startDate": {
+    "year": 1815,
+    "month": 6,
+    "day": 18
+  },
+  "status": "development",
+  "summary": "An exact-date development seed for the post-Napoleonic settlement and the opening of the long nineteenth century.",
+  "visualPolicy": {
+    "naziImagery": "prohibited"
+  }
+}

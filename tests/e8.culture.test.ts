@@ -145,11 +145,13 @@ describe('E8 culture — non-accepted pressure & assimilation', () => {
 
   it('assimilates isolated minorities toward the primary culture, conserving people', () => {
     const world = createWorld(GAME_DATA, 777);
-    const pru = nationByTag(world, 'PRU');
-    const polishIdx = cultureIdx('polish');
-    // Polish communities inside Prussia remain a non-accepted minority.
-    const startMinority = nationCultureSize(world, pru.id, polishIdx);
-    const startTotal = nationPopTotal(world, pru.id);
+    const rus = nationByTag(world, 'RUS');
+    // Ingrian Finns around St Petersburg: a minority genuinely surrounded by
+    // Russians. (This used to measure Kaliningrad's Germans, but Königsberg is
+    // Prussian in 1830 — that was an artifact of the modern admin-1 map.)
+    const finnishIdx = cultureIdx('finnish');
+    const startMinority = nationCultureSize(world, rus.id, finnishIdx);
+    const startTotal = nationPopTotal(world, rus.id);
     expect(startMinority).toBeGreaterThan(0);
     // Keep pops calm so no movement forms and sizes only change via assimilation.
     for (const pop of world.pops) {
@@ -157,13 +159,19 @@ describe('E8 culture — non-accepted pressure & assimilation', () => {
       pop.militancy = 0.5;
       pop.needsMet = 0.8;
     }
+    const germanIdx = cultureIdx('north_german');
+    const startGermans = nationCultureSize(world, rus.id, germanIdx);
     runMonths(world, 24);
-    const endMinority = nationCultureSize(world, pru.id, polishIdx);
-    const endTotal = nationPopTotal(world, pru.id);
+    const endMinority = nationCultureSize(world, rus.id, finnishIdx);
+    const endTotal = nationPopTotal(world, rus.id);
     expect(endMinority).toBeLessThan(startMinority);
     expect(endTotal).toBe(startTotal); // assimilation moves people, never creates or destroys them
-    const primaryEnd = nationCultureSize(world, pru.id, pru.primaryCulture);
+    const primaryEnd = nationCultureSize(world, rus.id, rus.primaryCulture);
     expect(primaryEnd).toBeGreaterThan(0);
+    // The other half of the same rule: the Baltic German nobility sits inside a
+    // Baltic majority, not a Russian one, so surroundFactor keeps it intact.
+    // If this ever starts melting, assimilation has stopped reading geography.
+    expect(nationCultureSize(world, rus.id, germanIdx)).toBe(startGermans);
   });
 
   it('melts minorities faster under exclusionary policy than pluralist', () => {

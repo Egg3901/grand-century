@@ -1,7 +1,7 @@
 {
   "generatedBy": "tests/pacing.century.test.ts",
   "regenerate": "PACING=1 PACING_WRITE_BASELINE=1 npm run probe:pacing",
-  "generatedAt": "2026-08-01T16:45:15.793Z",
+  "generatedAt": "2026-08-28T03:20:25.908Z",
   "seeds": [
     1836,
     4711
@@ -15,280 +15,282 @@
     {
       "seed": 1836,
       "formedYears": {
-        "GER": 1848
+        "GER": 1869
       },
-      "finalYear": 1920,
+      "finalYear": 1930,
       "decades": [
         {
-          "startYear": 1820,
-          "warsStarted": 82,
+          "startYear": 1830,
+          "warsStarted": 121,
           "battles": 24,
-          "priceIndexEnd": 1.413274616907634,
-          "techsUnlockedTotal": 432,
-          "techDelta": 432,
+          "priceIndexEnd": 1.281738500472477,
+          "techsUnlockedTotal": 1395,
+          "techDelta": 1395,
           "formed": [],
           "gpChurn": 8,
-          "aliveNations": 39,
-          "nationsWithContent": 38
-        },
-        {
-          "startYear": 1830,
-          "warsStarted": 37,
-          "battles": 24,
-          "priceIndexEnd": 1.4418586978784407,
-          "techsUnlockedTotal": 720,
-          "techDelta": 288,
-          "formed": [],
-          "gpChurn": 2,
-          "aliveNations": 35,
-          "nationsWithContent": 35
+          "aliveNations": 78,
+          "nationsWithContent": 84
         },
         {
           "startYear": 1840,
-          "warsStarted": 37,
+          "warsStarted": 58,
           "battles": 24,
-          "priceIndexEnd": 1.4586482024299217,
-          "techsUnlockedTotal": 1056,
-          "techDelta": 336,
-          "formed": [
-            "GER"
-          ],
+          "priceIndexEnd": 1.4691995319546864,
+          "techsUnlockedTotal": 2046,
+          "techDelta": 651,
+          "formed": [],
           "gpChurn": 2,
-          "aliveNations": 33,
-          "nationsWithContent": 36
+          "aliveNations": 71,
+          "nationsWithContent": 72
         },
         {
           "startYear": 1850,
-          "warsStarted": 28,
+          "warsStarted": 63,
           "battles": 24,
-          "priceIndexEnd": 1.1995188193223318,
-          "techsUnlockedTotal": 1296,
-          "techDelta": 240,
+          "priceIndexEnd": 1.2944245084445525,
+          "techsUnlockedTotal": 2511,
+          "techDelta": 465,
+          "formed": [],
+          "gpChurn": 2,
+          "aliveNations": 66,
+          "nationsWithContent": 71
+        },
+        {
+          "startYear": 1860,
+          "warsStarted": 53,
+          "battles": 24,
+          "priceIndexEnd": 1.2470485713254018,
+          "techsUnlockedTotal": 3101,
+          "techDelta": 590,
           "formed": [
             "GER"
           ],
           "gpChurn": 0,
-          "aliveNations": 31,
-          "nationsWithContent": 33
-        },
-        {
-          "startYear": 1860,
-          "warsStarted": 36,
-          "battles": 24,
-          "priceIndexEnd": 1.0539039671254278,
-          "techsUnlockedTotal": 1584,
-          "techDelta": 288,
-          "formed": [
-            "GER"
-          ],
-          "gpChurn": 4,
-          "aliveNations": 31,
-          "nationsWithContent": 32
+          "aliveNations": 63,
+          "nationsWithContent": 69
         },
         {
           "startYear": 1870,
-          "warsStarted": 30,
+          "warsStarted": 67,
           "battles": 24,
-          "priceIndexEnd": 0.8021449380324907,
-          "techsUnlockedTotal": 1920,
-          "techDelta": 336,
+          "priceIndexEnd": 0.9737251099041325,
+          "techsUnlockedTotal": 3792,
+          "techDelta": 691,
           "formed": [
             "GER"
           ],
           "gpChurn": 2,
-          "aliveNations": 30,
-          "nationsWithContent": 31
+          "aliveNations": 63,
+          "nationsWithContent": 66
         },
         {
           "startYear": 1880,
-          "warsStarted": 24,
+          "warsStarted": 57,
           "battles": 24,
-          "priceIndexEnd": 0.8023143614339497,
-          "techsUnlockedTotal": 2160,
-          "techDelta": 240,
+          "priceIndexEnd": 1.2389777944838838,
+          "techsUnlockedTotal": 4263,
+          "techDelta": 471,
           "formed": [
             "GER"
           ],
           "gpChurn": 0,
-          "aliveNations": 30,
-          "nationsWithContent": 30
+          "aliveNations": 61,
+          "nationsWithContent": 67
         },
         {
           "startYear": 1890,
-          "warsStarted": 28,
+          "warsStarted": 71,
           "battles": 24,
-          "priceIndexEnd": 0.61656807568999,
-          "techsUnlockedTotal": 2400,
-          "techDelta": 240,
+          "priceIndexEnd": 1.2782159165550229,
+          "techsUnlockedTotal": 4833,
+          "techDelta": 570,
           "formed": [
             "GER"
           ],
           "gpChurn": 0,
-          "aliveNations": 30,
-          "nationsWithContent": 31
+          "aliveNations": 61,
+          "nationsWithContent": 65
         },
         {
           "startYear": 1900,
-          "warsStarted": 20,
+          "warsStarted": 57,
           "battles": 24,
-          "priceIndexEnd": 0.6353620569972448,
-          "techsUnlockedTotal": 2636,
-          "techDelta": 236,
+          "priceIndexEnd": 1.5188276086804198,
+          "techsUnlockedTotal": 5362,
+          "techDelta": 529,
           "formed": [
             "GER"
           ],
           "gpChurn": 0,
-          "aliveNations": 30,
-          "nationsWithContent": 30
+          "aliveNations": 59,
+          "nationsWithContent": 65
         },
         {
           "startYear": 1910,
-          "warsStarted": 33,
+          "warsStarted": 52,
           "battles": 24,
-          "priceIndexEnd": 0.653366513050374,
-          "techsUnlockedTotal": 2869,
-          "techDelta": 233,
+          "priceIndexEnd": 1.6567211622787874,
+          "techsUnlockedTotal": 5833,
+          "techDelta": 471,
           "formed": [
             "GER"
           ],
-          "gpChurn": 0,
-          "aliveNations": 30,
-          "nationsWithContent": 29
+          "gpChurn": 2,
+          "aliveNations": 58,
+          "nationsWithContent": 63
+        },
+        {
+          "startYear": 1920,
+          "warsStarted": 43,
+          "battles": 24,
+          "priceIndexEnd": 1.7979731563883194,
+          "techsUnlockedTotal": 5875,
+          "techDelta": 42,
+          "formed": [
+            "GER"
+          ],
+          "gpChurn": 2,
+          "aliveNations": 58,
+          "nationsWithContent": 63
         }
       ],
-      "aliveNations": 30,
-      "centuryContentNations": 42,
-      "totalGpChurnAfter1820s": 10
+      "aliveNations": 58,
+      "centuryContentNations": 91,
+      "totalGpChurnAfter1830s": 10
     },
     {
       "seed": 4711,
-      "formedYears": {},
-      "finalYear": 1920,
+      "formedYears": {
+        "ITA": 1927
+      },
+      "finalYear": 1930,
       "decades": [
         {
-          "startYear": 1820,
-          "warsStarted": 84,
+          "startYear": 1830,
+          "warsStarted": 120,
           "battles": 24,
-          "priceIndexEnd": 1.399586354956558,
-          "techsUnlockedTotal": 432,
-          "techDelta": 432,
+          "priceIndexEnd": 1.2799879501989404,
+          "techsUnlockedTotal": 1395,
+          "techDelta": 1395,
           "formed": [],
           "gpChurn": 8,
-          "aliveNations": 39,
-          "nationsWithContent": 39
-        },
-        {
-          "startYear": 1830,
-          "warsStarted": 48,
-          "battles": 24,
-          "priceIndexEnd": 1.4413834344005045,
-          "techsUnlockedTotal": 720,
-          "techDelta": 288,
-          "formed": [],
-          "gpChurn": 0,
-          "aliveNations": 37,
-          "nationsWithContent": 34
+          "aliveNations": 76,
+          "nationsWithContent": 79
         },
         {
           "startYear": 1840,
-          "warsStarted": 38,
+          "warsStarted": 66,
           "battles": 24,
-          "priceIndexEnd": 1.4595294954316793,
-          "techsUnlockedTotal": 1056,
-          "techDelta": 336,
+          "priceIndexEnd": 1.4736363090591449,
+          "techsUnlockedTotal": 2046,
+          "techDelta": 651,
           "formed": [],
-          "gpChurn": 2,
-          "aliveNations": 36,
-          "nationsWithContent": 35
+          "gpChurn": 0,
+          "aliveNations": 72,
+          "nationsWithContent": 74
         },
         {
           "startYear": 1850,
-          "warsStarted": 42,
+          "warsStarted": 63,
           "battles": 24,
-          "priceIndexEnd": 1.2012249250671272,
-          "techsUnlockedTotal": 1296,
-          "techDelta": 240,
+          "priceIndexEnd": 1.2509496792490746,
+          "techsUnlockedTotal": 2511,
+          "techDelta": 465,
           "formed": [],
           "gpChurn": 0,
-          "aliveNations": 33,
-          "nationsWithContent": 34
+          "aliveNations": 70,
+          "nationsWithContent": 72
         },
         {
           "startYear": 1860,
-          "warsStarted": 36,
+          "warsStarted": 68,
           "battles": 24,
-          "priceIndexEnd": 1.057608945955171,
-          "techsUnlockedTotal": 1584,
-          "techDelta": 288,
+          "priceIndexEnd": 1.27225238517013,
+          "techsUnlockedTotal": 3069,
+          "techDelta": 558,
           "formed": [],
-          "gpChurn": 0,
-          "aliveNations": 33,
-          "nationsWithContent": 29
+          "gpChurn": 2,
+          "aliveNations": 65,
+          "nationsWithContent": 68
         },
         {
           "startYear": 1870,
-          "warsStarted": 31,
+          "warsStarted": 63,
           "battles": 24,
-          "priceIndexEnd": 0.7967791011277038,
-          "techsUnlockedTotal": 1920,
-          "techDelta": 336,
+          "priceIndexEnd": 1.2654473447752597,
+          "techsUnlockedTotal": 3790,
+          "techDelta": 721,
           "formed": [],
-          "gpChurn": 0,
-          "aliveNations": 33,
-          "nationsWithContent": 31
+          "gpChurn": 2,
+          "aliveNations": 65,
+          "nationsWithContent": 69
         },
         {
           "startYear": 1880,
-          "warsStarted": 41,
+          "warsStarted": 78,
           "battles": 24,
-          "priceIndexEnd": 0.8123907742141719,
-          "techsUnlockedTotal": 2160,
-          "techDelta": 240,
+          "priceIndexEnd": 1.38857294805898,
+          "techsUnlockedTotal": 4302,
+          "techDelta": 512,
           "formed": [],
-          "gpChurn": 0,
-          "aliveNations": 31,
-          "nationsWithContent": 32
+          "gpChurn": 2,
+          "aliveNations": 64,
+          "nationsWithContent": 70
         },
         {
           "startYear": 1890,
-          "warsStarted": 29,
+          "warsStarted": 84,
           "battles": 24,
-          "priceIndexEnd": 0.6383812370705068,
-          "techsUnlockedTotal": 2400,
-          "techDelta": 240,
+          "priceIndexEnd": 1.506520297768224,
+          "techsUnlockedTotal": 4875,
+          "techDelta": 573,
           "formed": [],
           "gpChurn": 0,
-          "aliveNations": 31,
-          "nationsWithContent": 31
+          "aliveNations": 63,
+          "nationsWithContent": 70
         },
         {
           "startYear": 1900,
-          "warsStarted": 43,
+          "warsStarted": 69,
           "battles": 24,
-          "priceIndexEnd": 0.6264802732542113,
-          "techsUnlockedTotal": 2634,
-          "techDelta": 234,
+          "priceIndexEnd": 1.4812865806325481,
+          "techsUnlockedTotal": 5350,
+          "techDelta": 475,
           "formed": [],
           "gpChurn": 0,
-          "aliveNations": 31,
-          "nationsWithContent": 32
+          "aliveNations": 59,
+          "nationsWithContent": 67
         },
         {
           "startYear": 1910,
-          "warsStarted": 37,
+          "warsStarted": 58,
           "battles": 24,
-          "priceIndexEnd": 0.6169060218886452,
-          "techsUnlockedTotal": 2922,
-          "techDelta": 288,
+          "priceIndexEnd": 1.552981973115218,
+          "techsUnlockedTotal": 5881,
+          "techDelta": 531,
           "formed": [],
           "gpChurn": 0,
-          "aliveNations": 32,
-          "nationsWithContent": 31
+          "aliveNations": 55,
+          "nationsWithContent": 64
+        },
+        {
+          "startYear": 1920,
+          "warsStarted": 42,
+          "battles": 24,
+          "priceIndexEnd": 1.6120055311898824,
+          "techsUnlockedTotal": 5933,
+          "techDelta": 52,
+          "formed": [
+            "ITA"
+          ],
+          "gpChurn": 2,
+          "aliveNations": 53,
+          "nationsWithContent": 66
         }
       ],
-      "aliveNations": 32,
-      "centuryContentNations": 41,
-      "totalGpChurnAfter1820s": 2
+      "aliveNations": 53,
+      "centuryContentNations": 90,
+      "totalGpChurnAfter1830s": 8
     }
   ]
 }

@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import { WORLD_SEED } from '../../data/generated';
 import type { Army, Fleet, Ship } from '../../shared/types';
 import { useStore } from '../../store';
 import { useShallow } from 'zustand/react/shallow';
 import { TraceTooltip } from '../components/TraceTooltip';
 import { warSidesLabel } from '../warNaming';
+import { useScenarioWorldSeed } from '../useScenarioWorldSeed';
 import { PeaceConference } from './PeaceConference';
+import { REGIMENT_TYPES, SHIP_TYPES, regimentSpec, shipSpec } from '../../sim/militaryCatalog';
 
 function avgRegimentStrength(army: Army): number {
   if (army.regiments.length === 0) return 0;
@@ -18,18 +19,16 @@ function avgRegimentOrg(army: Army): number {
 }
 
 function shipSummary(fleet: Fleet): string {
-  const counts: Record<Ship['type'], number> = { transport: 0, frigate: 0, manofwar: 0, ironclad: 0 };
+  const counts = Object.fromEntries(SHIP_TYPES.map((type) => [type, 0])) as Record<Ship['type'], number>;
   for (const ship of fleet.ships) counts[ship.type] += 1;
-  return `T ${counts.transport} | F ${counts.frigate} | M ${counts.manofwar} | I ${counts.ironclad}`;
+  return SHIP_TYPES
+    .filter((type) => counts[type] > 0)
+    .map((type) => `${shipSpec(type).shortLabel} ${counts[type]}`)
+    .join(' | ');
 }
 
 function regimentCountByType(armies: Army[]): Record<Army['regiments'][number]['type'], number> {
-  const counts: Record<Army['regiments'][number]['type'], number> = {
-    infantry: 0,
-    cavalry: 0,
-    artillery: 0,
-    guard: 0,
-  };
+  const counts = Object.fromEntries(REGIMENT_TYPES.map((type) => [type, 0])) as Record<Army['regiments'][number]['type'], number>;
   for (const army of armies) {
     for (const regiment of army.regiments) counts[regiment.type] += 1;
   }
@@ -37,10 +36,14 @@ function regimentCountByType(armies: Army[]): Record<Army['regiments'][number]['
 }
 
 function formatRegimentCount(counts: Record<Army['regiments'][number]['type'], number>): string {
-  return `Inf ${counts.infantry} | Cav ${counts.cavalry} | Art ${counts.artillery} | Gd ${counts.guard}`;
+  return REGIMENT_TYPES
+    .filter((type) => counts[type] > 0)
+    .map((type) => `${regimentSpec(type).shortLabel} ${counts[type]}`)
+    .join(' | ');
 }
 
 export function MilitaryPanel() {
+  const worldSeed = useScenarioWorldSeed();
   const snapshot = useStore(useShallow((state) => state.snapshot));
   const selectedProvince = useStore((state) => state.selectedProvince);
   const selectedArmy = useStore((state) => state.selectedArmy);
@@ -49,23 +52,21 @@ export function MilitaryPanel() {
   const setSelectedFleet = useStore((state) => state.setSelectedFleet);
   const sendCommand = useStore((state) => state.sendCommand);
   const provinceNameById = useMemo(() => (
-    new Map<number, string>(WORLD_SEED.provinces.map((province) => [province.id, province.name]))
-  ), []);
+    new Map<number, string>(worldSeed.provinces.map((province) => [province.id, province.name]))
+  ), [worldSeed]);
   const stateNameById = useMemo(() => (
-    new Map<number, string>(WORLD_SEED.states.map((state) => [state.id, state.name]))
-  ), []);
+    new Map<number, string>(worldSeed.states.map((state) => [state.id, state.name]))
+  ), [worldSeed]);
 
   const [recruitProvince, setRecruitProvince] = useState<number>(-1);
   const [fleetProvince, setFleetProvince] = useState<number>(-1);
   const [fleetType, setFleetType] = useState<Ship['type']>('transport');
   const [fleetCount, setFleetCount] = useState(1);
   const [selectedWar, setSelectedWar] = useState<number>(-1);
-  const [recruitPlan, setRecruitPlan] = useState<Record<Army['regiments'][number]['type'], number>>({
+  const [recruitPlan, setRecruitPlan] = useState<Record<Army['regiments'][number]['type'], number>>(() => ({
+    ...Object.fromEntries(REGIMENT_TYPES.map((type) => [type, 0])),
     infantry: 4,
-    cavalry: 0,
-    artillery: 0,
-    guard: 0,
-  });
+  }) as Record<Army['regiments'][number]['type'], number>);
 
   const derived = useMemo(() => {
     if (!snapshot) return null;
@@ -78,13 +79,13 @@ export function MilitaryPanel() {
       .filter((province) => province.owner === player)
       .map((province) => province.id)
       .sort((a, b) => a - b);
-    const coastalProvinces = ownedProvinces.filter((provinceId) => WORLD_SEED.provinces[provinceId]?.coastal);
+    const coastalProvinces = ownedProvinces.filter((provinceId) => worldSeed.provinces[provinceId]?.coastal);
     const wars = snapshot.wars
       .filter((war) => war.attackers.includes(player) || war.defenders.includes(player))
       .sort((a, b) => a.id - b.id);
     const playerSummary = snapshot.nations.find((nation) => nation.id === player) ?? null;
     return { armies, fleets, allArmies, allFleets, ownedProvinces, coastalProvinces, wars, playerSummary };
-  }, [snapshot]);
+  }, [snapshot, worldSeed]);
 
   useEffect(() => {
     if (!derived) return;
@@ -123,6 +124,9 @@ export function MilitaryPanel() {
   const totalFieldRegiments = derived.armies.reduce((sum, army) => sum + army.regiments.length, 0);
   const reserveCapacity = derived.playerSummary?.mobilizationCapacity ?? 0;
   const standingCap = derived.playerSummary?.standingRegimentCapacity ?? 0;
+  const availableRegiments = new Set(derived.playerSummary?.availableRegimentTypes ?? ['infantry']);
+  const availableShips = new Set(derived.playerSummary?.availableShipTypes ?? ['transport', 'frigate', 'manofwar']);
+  const planContainsLockedType = REGIMENT_TYPES.some((type) => recruitPlan[type] > 0 && !availableRegiments.has(type));
   const mobilizeRaise = Math.max(0, reserveCapacity - Math.max(0, totalFieldRegiments - standingCap));
   const mobilizeCost = mobilizeRaise * 14;
   const warCombat = selectedWarObj ? (() => {
@@ -168,55 +172,28 @@ export function MilitaryPanel() {
             ))}
           </select>
         </label>
-        <label>
-          Infantry
-          <input
-            type="number"
-            min={0}
-            max={16}
-            className="gc-input"
-            value={recruitPlan.infantry}
-            onChange={(event) => setRecruitPlan((prev) => ({ ...prev, infantry: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
-          />
-        </label>
-        <label>
-          Cavalry
-          <input
-            type="number"
-            min={0}
-            max={16}
-            className="gc-input"
-            value={recruitPlan.cavalry}
-            onChange={(event) => setRecruitPlan((prev) => ({ ...prev, cavalry: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
-          />
-        </label>
-        <label>
-          Artillery
-          <input
-            type="number"
-            min={0}
-            max={16}
-            className="gc-input"
-            value={recruitPlan.artillery}
-            onChange={(event) => setRecruitPlan((prev) => ({ ...prev, artillery: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
-          />
-        </label>
-        <label>
-          Guard
-          <input
-            type="number"
-            min={0}
-            max={16}
-            className="gc-input"
-            value={recruitPlan.guard}
-            onChange={(event) => setRecruitPlan((prev) => ({ ...prev, guard: Math.max(0, Math.min(16, Number(event.target.value) || 0)) }))}
-          />
-        </label>
+        {REGIMENT_TYPES.map((type) => (
+          <label key={type} title={availableRegiments.has(type) ? '' : 'Requires additional reforms or technology'}>
+            {regimentSpec(type).label}
+            <input
+              type="number"
+              min={0}
+              max={16}
+              className="gc-input"
+              value={recruitPlan[type]}
+              disabled={!availableRegiments.has(type)}
+              onChange={(event) => setRecruitPlan((prev) => ({
+                ...prev,
+                [type]: Math.max(0, Math.min(16, Number(event.target.value) || 0)),
+              }))}
+            />
+          </label>
+        ))}
         <div className="mil-actions">
           <button
             type="button"
             className="btn btn--primary"
-            disabled={recruitProvince < 0}
+            disabled={recruitProvince < 0 || planContainsLockedType}
             onClick={() => sendCommand({ t: 'recruitArmyWithComposition', province: recruitProvince, composition: recruitPlan })}
           >
             Recruit Composition
@@ -231,7 +208,7 @@ export function MilitaryPanel() {
       <p className="panel-subtle">
         Field regiments: {totalFieldRegiments} / standing cap {standingCap} | Reserve mobilization capacity: {reserveCapacity}
         {mobilizeRaise > 0 ? ` | Mobilize would raise ~${mobilizeRaise} regiments for £${mobilizeCost}` : ' | No mobilize headroom'}
-        {' '}| Composition rules: cavalry requires conscription I, artillery requires conscription I + professionalism I, guard requires conscription II + professionalism II.
+        {' '}| Advanced formations unlock through military reforms and research.
       </p>
 
       <div className="mil-grid">
@@ -246,10 +223,9 @@ export function MilitaryPanel() {
         <label>
           Ship
           <select className="gc-select" value={fleetType} onChange={(event) => setFleetType(event.target.value as Ship['type'])}>
-            <option value="transport">Transport</option>
-            <option value="frigate">Frigate</option>
-            <option value="manofwar">Man-o-war</option>
-            <option value="ironclad">Ironclad</option>
+            {SHIP_TYPES.map((type) => (
+              <option key={type} value={type} disabled={!availableShips.has(type)}>{shipSpec(type).label}</option>
+            ))}
           </select>
         </label>
         <label>
@@ -264,7 +240,7 @@ export function MilitaryPanel() {
           />
         </label>
         <div className="mil-actions">
-          <button type="button" className="btn btn--primary" disabled={fleetProvince < 0} onClick={() => sendCommand({ t: 'buildFleet', province: fleetProvince, shipType: fleetType, count: fleetCount })}>
+          <button type="button" className="btn btn--primary" disabled={fleetProvince < 0 || !availableShips.has(fleetType)} onClick={() => sendCommand({ t: 'buildFleet', province: fleetProvince, shipType: fleetType, count: fleetCount })}>
             Build Fleet
           </button>
         </div>

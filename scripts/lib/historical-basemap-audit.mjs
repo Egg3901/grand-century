@@ -68,7 +68,7 @@ function asTags(value) {
 }
 
 export function auditHistoricalBasemap({ world, reference, config }) {
-  if (config.asOf !== '1820-01-01') throw new Error(`Unexpected audit date ${config.asOf}`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(config.asOf)) throw new Error(`Invalid audit date ${config.asOf}`);
   const indexedFeatures = reference.features
     .filter((feature) => feature.geometry?.type === 'Polygon' || feature.geometry?.type === 'MultiPolygon')
     .map((feature) => ({ feature, bounds: geometryBounds(feature.geometry) }));

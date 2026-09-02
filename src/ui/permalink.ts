@@ -4,11 +4,13 @@
  */
 
 import { parseCampaignMapMode } from '../shared/campaignMap';
+import type { ScenarioId } from '../shared/types';
 
 export interface GameStartParams {
   seed: number;
   nationTag: string;
   mode?: string;
+  scenarioId?: ScenarioId;
 }
 
 const DEFAULT_SEED = 1820;
@@ -38,7 +40,8 @@ export function parseStartHash(hash: string = typeof window !== 'undefined' ? wi
   if (!nationTag) return null;
   const modeRaw = params.get('mode')?.trim() || undefined;
   const mode = modeRaw ? parseCampaignMapMode(modeRaw) : undefined;
-  return { seed, nationTag, mode };
+  const scenarioId = params.get('scenario')?.trim() || undefined;
+  return { seed, nationTag, mode, scenarioId };
 }
 
 /** Build a path-absolute share URL for the current origin + BASE_URL + hash start. */
@@ -49,6 +52,7 @@ export function buildShareUrl(params: GameStartParams, baseUrl: string = import.
   query.set('seed', String(params.seed));
   query.set('nation', params.nationTag.toUpperCase());
   if (params.mode) query.set('mode', parseCampaignMapMode(params.mode));
+  if (params.scenarioId) query.set('scenario', params.scenarioId);
   return `${origin}${base}#/new?${query.toString()}`;
 }
 

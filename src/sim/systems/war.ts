@@ -20,10 +20,12 @@ import type {
 } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
-import { GAME_DATA } from '../../data/gameData';
+import { gameDataForScenario } from '../../data/gameData';
 import { getOrCreateRelation, setTruce } from './diplomacy';
 import { createNationParties, defaultRulingParty, defaultUpperHouse, updateMilitaryDerivedForNation } from '../politics';
+import { yearAtDay } from '../calendar';
 import { techModifiersFor } from './research';
+import { REGIMENT_TYPES, regimentSpec, shipSpec } from '../militaryCatalog';
 
 const MAX_REGIMENT_STRENGTH = 1000;
 const MAX_SHIP_STRENGTH = 100;
@@ -61,19 +63,6 @@ function combatWidthScale(totalRegiments: number): number {
   const effective = LAND_COMBAT_WIDTH_CAP + Math.sqrt(excess) * LAND_COMBAT_WIDTH_EXCESS_FACTOR;
   return effective / totalRegiments;
 }
-
-const REGIMENT_ROLE: Record<Army['regiments'][number]['type'], {
-  offense: number;
-  defense: number;
-  siege: number;
-  mobility: number;
-  pursuit: number;
-}> = {
-  infantry: { offense: 1, defense: 1.05, siege: 1, mobility: 1, pursuit: 0.9 },
-  cavalry: { offense: 0.92, defense: 0.82, siege: 0.5, mobility: 1.24, pursuit: 1.45 },
-  artillery: { offense: 1.42, defense: 0.64, siege: 1.9, mobility: 0.76, pursuit: 0.72 },
-  guard: { offense: 1.25, defense: 1.26, siege: 1.12, mobility: 0.95, pursuit: 1.02 },
-};
 
 interface ColonialClaim {
   stateId: StateId;
@@ -200,13 +189,7 @@ export function importWarRuntime(world: World, snapshot: WarRuntimeSnapshot | nu
 
 function shipPower(ship: Ship): number {
   const str = clamp(ship.strength / MAX_SHIP_STRENGTH, 0, 1.6);
-  switch (ship.type) {
-    case 'transport': return 0.5 * str;
-    case 'frigate': return 1.1 * str;
-    case 'manofwar': return 1.55 * str;
-    case 'ironclad': return 2.2 * str;
-    default: return 1 * str;
-  }
+  return shipSpec(ship.type).combatPower * str;
 }
 
 function fleetCombatPower(fleet: Fleet): number {
@@ -214,7 +197,7 @@ function fleetCombatPower(fleet: Fleet): number {
 }
 
 function fleetTransportCapacity(fleet: Fleet): number {
-  return fleet.ships.reduce((sum, ship) => sum + (ship.type === 'transport' ? 2 : 0), 0);
+  return fleet.ships.reduce((sum, ship) => sum + shipSpec(ship.type).transportCapacity, 0);
 }
 
 function nationArmyTech(world: World, nationId: NationId): number {
@@ -356,10 +339,12 @@ function movementDaysForArmy(world: World, army: Army, target: Province): number
   const cavalrySpeed = composition.cavalryShare * 0.32;
   const artilleryDrag = composition.artilleryShare * 0.34;
   const guardDrill = composition.guardShare * 0.08;
-  const compositionFactor = clamp(1 - cavalrySpeed + artilleryDrag - guardDrill, 0.72, 1.4);
+  const mechanizedSpeed = composition.armorShare * 0.18;
+  const airCoordination = composition.aircraftShare * 0.08;
+  const compositionFactor = clamp(1 - cavalrySpeed + artilleryDrag - guardDrill - mechanizedSpeed - airCoordination, 0.65, 1.4);
   // 0.7.0: railroad / logistics tech shortens army marches.
   const nation = world.nations[army.owner];
-  const moveBonus = nation ? Math.max(0, techModifiersFor(nation, GAME_DATA).armyMovement ?? 0) : 0;
+  const moveBonus = nation ? Math.max(0, techModifiersFor(nation, gameDataForScenario(world.scenarioId)).armyMovement ?? 0) : 0;
   const techFactor = clamp(1 - Math.min(0.35, moveBonus), 0.65, 1);
   return clamp(BASE_ARMY_MOVE_DAYS * terrainPenalty * compositionFactor * techFactor + fortPenalty + leaderMove, 2, 15);
 }
@@ -381,7 +366,7 @@ export function isSupplied(world: World, nationId: NationId, provinceId: Provinc
   const nation = world.nations[nationId];
   if (!nation) return false;
   // 0.7.0: railroad / logistics tech extends friendly-control supply reach.
-  const supplyBonus = Math.max(0, techModifiersFor(nation, GAME_DATA).supplyRange ?? 0);
+  const supplyBonus = Math.max(0, techModifiersFor(nation, gameDataForScenario(world.scenarioId)).supplyRange ?? 0);
   const range = 2 + Math.floor(nation.armyOrganization) + Math.floor(supplyBonus);
   const visited = new Set<ProvinceId>([provinceId]);
   const queue: Array<{ id: ProvinceId; depth: number }> = [{ id: provinceId, depth: 0 }];
@@ -494,13 +479,10 @@ function sideTypePower(armies: Army[]): {
   cavalryShare: number;
   artilleryShare: number;
   guardShare: number;
+  armorShare: number;
+  aircraftShare: number;
 } {
-  const weights: Record<Army['regiments'][number]['type'], number> = {
-    infantry: 0,
-    cavalry: 0,
-    artillery: 0,
-    guard: 0,
-  };
+  const weights = Object.fromEntries(REGIMENT_TYPES.map((type) => [type, 0])) as Record<Army['regiments'][number]['type'], number>;
   let offense = 0;
   let defense = 0;
   let siege = 0;
@@ -509,7 +491,7 @@ function sideTypePower(armies: Army[]): {
   for (const army of armies) {
     for (const regiment of army.regiments) {
       const weight = clamp(regiment.strength / MAX_REGIMENT_STRENGTH, 0, 1.3) * clamp(regiment.organization / 100 + 0.2, 0.2, 1.2);
-      const role = REGIMENT_ROLE[regiment.type];
+      const role = regimentSpec(regiment.type).combat;
       weights[regiment.type] += weight;
       offense += role.offense * weight;
       defense += role.defense * weight;
@@ -518,14 +500,17 @@ function sideTypePower(armies: Army[]): {
       pursuit += role.pursuit * weight;
     }
   }
-  const total = Math.max(0.001, weights.infantry + weights.cavalry + weights.artillery + weights.guard);
+  const total = Math.max(0.001, REGIMENT_TYPES.reduce((sum, type) => sum + weights[type], 0));
   const infantryShare = weights.infantry / total;
   const cavalryShare = weights.cavalry / total;
   const artilleryShare = weights.artillery / total;
   const guardShare = weights.guard / total;
+  const armorShare = weights.armor / total;
+  const aircraftShare = weights.aircraft / total;
   let adjustedOffense = offense;
   let adjustedDefense = defense;
-  if (artilleryShare > 0.45 && infantryShare < 0.25) {
+  const frontlineShare = infantryShare + guardShare + armorShare;
+  if (artilleryShare > 0.45 && frontlineShare < 0.25) {
     // Artillery-heavy forces without an infantry line collapse quickly in field battles.
     adjustedOffense *= 0.82;
     adjustedDefense *= 0.72;
@@ -545,6 +530,8 @@ function sideTypePower(armies: Army[]): {
     cavalryShare,
     artilleryShare,
     guardShare,
+    armorShare,
+    aircraftShare,
   };
 }
 
@@ -630,8 +617,12 @@ function resolveLandBattle(
   const defenderWidthScale = combatWidthScale(defenderUnits);
   const attackerFirepower = attackerTypes.offense * attackerWidthScale * (1 + attackerSpec.artillery * attackerTypes.artilleryShare * 0.03);
   const defenderFirepower = defenderTypes.offense * defenderWidthScale * (1 + defenderSpec.artillery * defenderTypes.artilleryShare * 0.03);
-  let attackerOffense = (attackerFirepower * attackerFlank + attackerRoll + leaderAtk.attack * 1.6 + attackerTech * 0.95) * clamp(attackerOrg + 0.35, 0.2, 1.45);
-  let defenderOffense = (defenderFirepower * defenderFlank + defenderRoll + leaderDef.attack * 1.45 + defenderTech * 0.9) * clamp(defenderOrg + 0.35, 0.2, 1.45);
+  const attackerModern = 1 + attackerTypes.armorShare * 0.22 + attackerTypes.aircraftShare * 0.14
+    + Math.max(0, attackerTypes.aircraftShare - defenderTypes.aircraftShare) * 0.18;
+  const defenderModern = 1 + defenderTypes.armorShare * 0.22 + defenderTypes.aircraftShare * 0.14
+    + Math.max(0, defenderTypes.aircraftShare - attackerTypes.aircraftShare) * 0.18;
+  let attackerOffense = (attackerFirepower * attackerFlank + attackerRoll + leaderAtk.attack * 1.6 + attackerTech * 0.95) * clamp(attackerOrg + 0.35, 0.2, 1.45) * attackerModern;
+  let defenderOffense = (defenderFirepower * defenderFlank + defenderRoll + leaderDef.attack * 1.45 + defenderTech * 0.9) * clamp(defenderOrg + 0.35, 0.2, 1.45) * defenderModern;
   let attackerDefense = 1 + leaderAtk.defense * 0.08 + attackerTypes.defense / Math.max(2, attackerUnits) * 0.3 + attackerSpec.guard * attackerTypes.guardShare * 0.02;
   let defenderDefense = 1 + leaderDef.defense * 0.08 + terrainDef + (province?.fortLevel ?? 0) * 0.05 + defenderTypes.defense / Math.max(2, defenderUnits) * 0.34 + defenderSpec.guard * defenderTypes.guardShare * 0.02;
 
@@ -1189,7 +1180,8 @@ function updateSieges(world: World, byProvince: Map<ProvinceId, Army[]>): void {
       const leaderBonus = army.leader?.trait === 'siegecraft' ? 1.25 : 1;
       const typePower = sideTypePower([army]);
       const artilleryBoost = 1 + Math.min(0.95, typePower.artilleryShare * 1.4);
-      const infantryPenalty = typePower.infantryShare < 0.2 ? 0.82 : 1;
+      const frontlineShare = typePower.infantryShare + typePower.guardShare + typePower.armorShare;
+      const infantryPenalty = frontlineShare < 0.2 ? 0.82 : 1;
       const daily = (0.028 / (1 + province.fortLevel * 0.75)) * leaderBonus * artilleryBoost * infantryPenalty;
       province.occupationProgress = clamp(province.occupationProgress + daily, 0, 1);
       if (province.occupationProgress >= 0.999) {
@@ -1701,7 +1693,7 @@ function createIndependentRebelNation(world: World, data: GameData, rebellion: R
     parties: createNationParties(),
     upperHouse: defaultUpperHouse(template?.government ?? 'presidential_dictatorship'),
     electionIntervalYears: 4,
-    lastElectionYear: 1820,
+    lastElectionYear: yearAtDay(world.day, world.startDate ?? data.startDate),
     nextElectionYear: Number.MAX_SAFE_INTEGER,
     electionLastResult: 'Revolutionary council',
     capital,

@@ -1,0 +1,2064 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1936-01-01",
+  "source": "OpenHistoricalMap",
+  "relationCount": 206,
+  "counts": {
+    "invalid_geometry": 4,
+    "valid": 202
+  },
+  "entries": [
+    {
+      "relationId": 2690839,
+      "name": "Colonia Eritrea",
+      "wikidata": "Q1232988",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 7,
+      "coordinates": 17693,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2690856,
+      "name": "Colony and Protectorate of Nigeria",
+      "wikidata": "Q5148517",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 2044,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2690860,
+      "name": "Congo belge",
+      "wikidata": "Q213510",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 9820,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2690861,
+      "name": "África Ocidental Portuguesa",
+      "wikidata": "Q2826232",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 13927,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2690947,
+      "name": "Protectorat français de Tunisie",
+      "wikidata": "Q2017684",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 5,
+      "coordinates": 2415,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2690948,
+      "name": "Algérie française",
+      "wikidata": "Q218272",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 2504,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2690949,
+      "name": "Protectorat français au Maroc",
+      "wikidata": "Q907234",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1957,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2690950,
+      "name": "Zanzibar Protectorate",
+      "wikidata": "Q3574782",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 639,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2691478,
+      "name": "Freie Stadt Danzig",
+      "wikidata": "Q216173",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 710,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2691741,
+      "name": "Colony of Basutoland",
+      "wikidata": "Q2340665",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 15574,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2691743,
+      "name": "Northern Rhodesia",
+      "wikidata": "Q953903",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 31466,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2691745,
+      "name": "Bechuanaland Protectorate",
+      "wikidata": "Q747314",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 27446,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2691746,
+      "name": "Swaziland Protectorate",
+      "wikidata": "Q1050",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1342,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2692205,
+      "name": "Polska",
+      "wikidata": "Q207272",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 4,
+      "coordinates": 59590,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2692218,
+      "name": "Lietuva",
+      "wikidata": "Q8272919",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 13234,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2692233,
+      "name": "Československá republika",
+      "wikidata": "Q140359",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 82791,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2692855,
+      "name": "Gibraltar",
+      "wikidata": "Q1410",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 657,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2692906,
+      "name": "México",
+      "wikidata": "Q96",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 26,
+      "coordinates": 29633,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2693259,
+      "name": "Regatul României",
+      "wikidata": "Q203493",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 4,
+      "coordinates": 23052,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2693292,
+      "name": "United Kingdom",
+      "wikidata": "Q145",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 15,
+      "coordinates": 34857,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2693293,
+      "name": "Isle of Man",
+      "wikidata": "Q9676",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 218,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2693418,
+      "name": "Monaco",
+      "wikidata": "Q235",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 48,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2694159,
+      "name": "British Togoland",
+      "wikidata": "Q797527",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 209,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2694422,
+      "name": "Граница СССР-Финляндия",
+      "wikidata": null,
+      "status": "invalid_geometry",
+      "error": "[ohm] relation 2694422 has 1 unclosed boundary chains",
+      "license": "CC0"
+    },
+    {
+      "relationId": 2694424,
+      "name": "Граница СССР-Финляндия",
+      "wikidata": null,
+      "status": "invalid_geometry",
+      "error": "[ohm] relation 2694424 has 1 unclosed boundary chains",
+      "license": "CC0"
+    },
+    {
+      "relationId": 2694430,
+      "name": "Граница СССР-Финляндия",
+      "wikidata": null,
+      "status": "invalid_geometry",
+      "error": "[ohm] relation 2694430 has 1 unclosed boundary chains",
+      "license": "CC0"
+    },
+    {
+      "relationId": 2694462,
+      "name": "葡屬澳門 Portuguese Macau",
+      "wikidata": "Q3916279",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 90,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2694471,
+      "name": "中國",
+      "wikidata": "Q865",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 42,
+      "coordinates": 127773,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2694575,
+      "name": "英屬香港 British Hong Kong",
+      "wikidata": "Q1054923",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1175,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2694638,
+      "name": "Deutsches Reich",
+      "wikidata": "Q1206012",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 10,
+      "coordinates": 62981,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2694890,
+      "name": "ایران",
+      "wikidata": "Q794",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 8,
+      "coordinates": 103081,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2695633,
+      "name": "Magyar Királyság",
+      "wikidata": "Q600018",
+      "status": "invalid_geometry",
+      "error": "[ohm] relation 2695633 has 1 unclosed boundary chains",
+      "license": "CC0"
+    },
+    {
+      "relationId": 2696299,
+      "name": "République française",
+      "wikidata": "Q70802",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 7,
+      "coordinates": 109067,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2696817,
+      "name": "Suomi",
+      "wikidata": "Q33",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 4,
+      "coordinates": 23802,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2697727,
+      "name": "Saorstát Éireann / Irish Free State",
+      "wikidata": "Q31747",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 24980,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2698263,
+      "name": "Colónia de Moçambique",
+      "wikidata": "Q889394",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 26646,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2704702,
+      "name": "Latvija",
+      "wikidata": "Q211",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 14989,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2739874,
+      "name": "Andorra",
+      "wikidata": "Q228",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 2101,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2745674,
+      "name": "Union Indochinoise",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 21,
+      "coordinates": 27783,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2746467,
+      "name": "Liechtenstein",
+      "wikidata": "Q347",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 2332,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2747831,
+      "name": "Kraljevina Jugoslavija / Краљевина Југославија",
+      "wikidata": "Q191077",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 56824,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2748545,
+      "name": "Lëtzebuerg",
+      "wikidata": "Q32",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 13887,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2751259,
+      "name": "Status Civitatis Vaticanae",
+      "wikidata": "Q237",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 71,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2798802,
+      "name": "Schweiz",
+      "wikidata": "Q39",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 14676,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2800293,
+      "name": "Belgique",
+      "wikidata": "Q31",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 23,
+      "coordinates": 38486,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2800554,
+      "name": "Mbretnija Shqiptare",
+      "wikidata": "Q1048340",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 11675,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2801012,
+      "name": "Türkiye",
+      "wikidata": "Q43",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 24057,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2801185,
+      "name": "Colony of Malta",
+      "wikidata": "Q6744657",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 205,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2801206,
+      "name": "Tanganyika Territory",
+      "wikidata": "Q158725",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 6,
+      "coordinates": 33748,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2801340,
+      "name": "Ελλάδα",
+      "wikidata": "Q209065",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 44,
+      "coordinates": 17176,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2801347,
+      "name": "Chile",
+      "wikidata": "Q298",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 19,
+      "coordinates": 20290,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2801349,
+      "name": "British Cyprus",
+      "wikidata": "Q15240466",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 773,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2801387,
+      "name": "Eesti",
+      "wikidata": "Q191",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 3374,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2801981,
+      "name": "Konungsríkið Ísland",
+      "wikidata": "Q62567",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 3491,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2802055,
+      "name": "Uruguay",
+      "wikidata": "Q77",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 9116,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2803134,
+      "name": "Nyasaland",
+      "wikidata": "Q1649306",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 43440,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2803189,
+      "name": "Libia",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1997,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2803203,
+      "name": "Anglo-Egyptian Sudan",
+      "wikidata": "Q541455",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 13,
+      "coordinates": 46656,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2803204,
+      "name": "المملكة المصرية",
+      "wikidata": "Q124943",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 4,
+      "coordinates": 3051,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2803437,
+      "name": "Obock et Protectorats de la Côte des Somalis et des pays Dankils",
+      "wikidata": "Q3518791",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 2279,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2803502,
+      "name": "Gambia Colony and Protectorate",
+      "wikidata": "Q3557236",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 339,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2803504,
+      "name": "Guiné Portuguesa",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 1566,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2805384,
+      "name": "Territorio de Ifni",
+      "wikidata": "Q763141",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 128,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2806844,
+      "name": "British Guiana",
+      "wikidata": "Q918126",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 6128,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2807009,
+      "name": "Portugal",
+      "wikidata": "Q45",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 21406,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2807603,
+      "name": "British Honduras Colony",
+      "wikidata": "Q1643555",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 5,
+      "coordinates": 2011,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2807664,
+      "name": "Guatemala",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 5452,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2808152,
+      "name": "El Salvador",
+      "wikidata": "Q792",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 4823,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2808161,
+      "name": "Honduras",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 9,
+      "coordinates": 18577,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2808163,
+      "name": "Costa Rica",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 1668,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2822863,
+      "name": "د افغانستان شاهي دولت",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 9696,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2828270,
+      "name": "Guernsey",
+      "wikidata": "Q25230",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 287,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2828299,
+      "name": "Jersey",
+      "wikidata": "Q785",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 286,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2828423,
+      "name": "Northern Territories",
+      "wikidata": "Q1998749",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 152,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2828425,
+      "name": "Gold Coast Colony",
+      "wikidata": "Q503623",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1115,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2828747,
+      "name": "French Cameroon",
+      "wikidata": "Q1028848",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 2132,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2828750,
+      "name": "British Cameroons",
+      "wikidata": "Q1028835",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 840,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2828769,
+      "name": "Liberia",
+      "wikidata": "Q1014",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1832,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2828774,
+      "name": "Sierra Leone Protectorate",
+      "wikidata": "Q30059027",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1566,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2828810,
+      "name": "བོད",
+      "wikidata": "Q2444884",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 22338,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2830878,
+      "name": "Commission Government of Newfoundland",
+      "wikidata": "Q38610",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 8,
+      "coordinates": 8155,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831062,
+      "name": "Canada",
+      "wikidata": "Q16",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 95,
+      "coordinates": 108651,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831077,
+      "name": "Dominion of Newfoundland",
+      "wikidata": "Q38610",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 8,
+      "coordinates": 8155,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831167,
+      "name": "Gilbert and Ellice Islands Colony",
+      "wikidata": "Q1050859",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 31,
+      "coordinates": 4332,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831242,
+      "name": "British Solomon Islands Protectorate",
+      "wikidata": "Q13410267",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 33,
+      "coordinates": 7859,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831312,
+      "name": "Saint-Pierre et Miquelon",
+      "wikidata": "Q34617",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 198,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831358,
+      "name": "République Libanaise",
+      "wikidata": "Q130842",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 3836,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831411,
+      "name": "Protectorate of Kenya",
+      "wikidata": "Q2538511",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 923,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831414,
+      "name": "British Kenya",
+      "wikidata": "Q2538511",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 15364,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831426,
+      "name": "Protectorate of Uganda",
+      "wikidata": "Q1097943",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 10936,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831467,
+      "name": "Southern Rhodesia",
+      "wikidata": "Q750583",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 12832,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831731,
+      "name": "Union of South Africa",
+      "wikidata": "Q193619",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 51781,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831866,
+      "name": "Colony of Seychelles",
+      "wikidata": "Q1042",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 29,
+      "coordinates": 2152,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831873,
+      "name": "British Mauritius",
+      "wikidata": "Q12053604",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 14,
+      "coordinates": 1193,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831964,
+      "name": "Colony of Bermuda",
+      "wikidata": "Q23635",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 151,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2831970,
+      "name": "Cayman Islands",
+      "wikidata": "Q5785",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 388,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2832944,
+      "name": "Colony of Barbados",
+      "wikidata": "Q244",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 146,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2832972,
+      "name": "British Leeward Islands",
+      "wikidata": "Q1796551",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 9,
+      "coordinates": 1352,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2834750,
+      "name": "British Windward Islands",
+      "wikidata": "Q2660774",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 920,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2834829,
+      "name": "Trinidad and Tobago Colony",
+      "wikidata": "Q116282722",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 721,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2834850,
+      "name": "Colony of Jamaica",
+      "wikidata": "Q2526023",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 5,
+      "coordinates": 1851,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2834851,
+      "name": "Colony of the Bahamas",
+      "wikidata": "Q778",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 33,
+      "coordinates": 17191,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2839466,
+      "name": "المملكة العراقية الهاشمية",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 39556,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2839750,
+      "name": "Cabinda",
+      "wikidata": "Q168787",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 231,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2839928,
+      "name": "Colonie du Oubangui-Chari-Tchad",
+      "wikidata": "Q1421888",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 4091,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2839934,
+      "name": "Colonie du Gabon",
+      "wikidata": "Q39072717",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1538,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2839975,
+      "name": "Colonie du Moyen-Congo",
+      "wikidata": "Q107783136",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 963,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2839997,
+      "name": "Afrique équatoriale française",
+      "wikidata": "Q271894",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 14062,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2841711,
+      "name": "República Dominicana",
+      "wikidata": "Q51547013",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 2012,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2841717,
+      "name": "Haiti",
+      "wikidata": "Q790",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 2094,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2842571,
+      "name": "Estados Unidos de Venezuela",
+      "wikidata": "Q5848651",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 11,
+      "coordinates": 38452,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2846160,
+      "name": "Dominion of New Zealand",
+      "wikidata": "Q2594990",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 48,
+      "coordinates": 16145,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2846170,
+      "name": "Territory of Western Samoa",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1007,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2846172,
+      "name": "Pitcairn Islands",
+      "wikidata": "Q35672",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 4,
+      "coordinates": 315,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2846175,
+      "name": "New Hebrides / Nouvelles-Hébrides",
+      "wikidata": "Q752431",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 18,
+      "coordinates": 6989,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2846179,
+      "name": "Nauru",
+      "wikidata": "Q697",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 79,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2846200,
+      "name": "Protectorate of Tonga",
+      "wikidata": "Q23022146",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 20,
+      "coordinates": 2631,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2846213,
+      "name": "Colony of Fiji",
+      "wikidata": "Q5148320",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 55,
+      "coordinates": 8011,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2846236,
+      "name": "British Western Pacific Territories",
+      "wikidata": "Q1545934",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 159,
+      "coordinates": 29912,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2846264,
+      "name": "Cook Islands",
+      "wikidata": "Q26988",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 15,
+      "coordinates": 2094,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848182,
+      "name": "Maldives Protectorate",
+      "wikidata": "Q1074669",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 23,
+      "coordinates": 4059,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848194,
+      "name": "Saint Helena Crown Colony",
+      "wikidata": "Q192184",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 213,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848197,
+      "name": "Australia",
+      "wikidata": "Q408",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 228,
+      "coordinates": 84889,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848277,
+      "name": "Colony of the Straits Settlement",
+      "wikidata": "Q376178",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 7,
+      "coordinates": 1264,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848286,
+      "name": "British North Borneo",
+      "wikidata": "Q1147441",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 13,
+      "coordinates": 4876,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848297,
+      "name": "Protectorate of Brunei",
+      "wikidata": "Q921",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1102,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848299,
+      "name": "Protectorate of Sarawak",
+      "wikidata": "Q1658411",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 11428,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848313,
+      "name": "British Ceylon",
+      "wikidata": "Q918153",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 2381,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848316,
+      "name": "Palestine Mandate",
+      "wikidata": "Q193714",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 8219,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848317,
+      "name": "إمارة شرق الأردن",
+      "wikidata": "Q1121819",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 5109,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848318,
+      "name": "Protectorate of Bahrain",
+      "wikidata": "Q398",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 367,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848319,
+      "name": "Protectorate of Qatar",
+      "wikidata": "Q846",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 4,
+      "coordinates": 671,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848320,
+      "name": "Trucial States",
+      "wikidata": "Q1852345",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 20,
+      "coordinates": 2745,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848364,
+      "name": "Protectorate of Kuwait",
+      "wikidata": "Q817",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 595,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848366,
+      "name": "Tangier International Zone",
+      "wikidata": "Q3497642",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 37,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848458,
+      "name": "Federated Malay States",
+      "wikidata": "Q1400154",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 5689,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848476,
+      "name": "Johore Protectorate",
+      "wikidata": "Q183032",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 1327,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848477,
+      "name": "Kelantan Protectorate",
+      "wikidata": "Q185944",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 2364,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848478,
+      "name": "Trengganu Protectorate",
+      "wikidata": "Q189701",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 2040,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848479,
+      "name": "Kedah Protectorate",
+      "wikidata": "Q188947",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 1955,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848480,
+      "name": "Perlis Protectorate",
+      "wikidata": "Q213467",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 591,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848483,
+      "name": "British Raj",
+      "wikidata": "Q129286",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 17,
+      "coordinates": 112748,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848485,
+      "name": "Aden Protectorate",
+      "wikidata": "Q1865132",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 8,
+      "coordinates": 2770,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848686,
+      "name": "Bolivia",
+      "wikidata": "Q750",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 15618,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848857,
+      "name": "Ecuador",
+      "wikidata": "Q736",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 15,
+      "coordinates": 17216,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848865,
+      "name": "Perú",
+      "wikidata": "Q419",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 27576,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848878,
+      "name": "Царство България",
+      "wikidata": "Q147909",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 20179,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2848975,
+      "name": "Colombia",
+      "wikidata": "Q739",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 9,
+      "coordinates": 23066,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2849759,
+      "name": "Tьʙа Arat Respuʙlik",
+      "wikidata": "Q816709",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 17155,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2851104,
+      "name": "Italia",
+      "wikidata": "Q48742118",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 23,
+      "coordinates": 41505,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2851157,
+      "name": "Soviet Union",
+      "wikidata": "Q15180",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 67,
+      "coordinates": 177289,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2851798,
+      "name": "Norge",
+      "wikidata": "Q20",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 26,
+      "coordinates": 44849,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2853735,
+      "name": "San Marino",
+      "wikidata": "Q238",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 904,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2855612,
+      "name": "Tanganyika Territory",
+      "wikidata": "Q158725",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 6,
+      "coordinates": 33748,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2858751,
+      "name": "Österreich",
+      "wikidata": "Q40",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 48076,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2860389,
+      "name": "Territorios Españoles del Golfo de Guinea",
+      "wikidata": "Q1232509",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 4,
+      "coordinates": 879,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2860422,
+      "name": "Protectorado español en Marruecos",
+      "wikidata": "Q457242",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 1948,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2860428,
+      "name": "Saguía el Hamra",
+      "wikidata": "Q740930",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 367,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2860429,
+      "name": "Colonia del Rio de Oro",
+      "wikidata": "Q929147",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1062,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2860484,
+      "name": "España",
+      "wikidata": "Q29",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 20,
+      "coordinates": 83651,
+      "license": "CC0-1.0"
+    },
+    {
+      "relationId": 2860947,
+      "name": "Argentina",
+      "wikidata": "Q414",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 8,
+      "coordinates": 25505,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2861172,
+      "name": "Colonie de la Guadeloupe",
+      "wikidata": "Q17012",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 4,
+      "coordinates": 991,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2861194,
+      "name": "Colonie de la Guyane",
+      "wikidata": "Q3769",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 6520,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2861549,
+      "name": "Cuba",
+      "wikidata": "Q241",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 11,
+      "coordinates": 6473,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2863122,
+      "name": "Paraguay",
+      "wikidata": "Q733",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 15017,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2863620,
+      "name": "Ruanda-Urundi",
+      "wikidata": "Q590743",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 212,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2863987,
+      "name": "État des Alaouites",
+      "wikidata": "Q130802",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 1641,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2863990,
+      "name": "République syrienne",
+      "wikidata": "Q26234937",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 5980,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2864005,
+      "name": "Djebel Druze",
+      "wikidata": "Q146740",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 243,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2864414,
+      "name": "Timor Português",
+      "wikidata": "Q142965",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 1421,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2864434,
+      "name": "Nederlands-Indië",
+      "wikidata": "Q188161",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 238,
+      "coordinates": 93937,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2865840,
+      "name": "Colonie de Madagascar et dépendances",
+      "wikidata": "Q5501842",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 35,
+      "coordinates": 10686,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2865901,
+      "name": "La Réunion",
+      "wikidata": "Q17070",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 307,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2869937,
+      "name": "Danmark",
+      "wikidata": "Q35",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 31,
+      "coordinates": 26569,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2870046,
+      "name": "Sverige",
+      "wikidata": "Q34",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 5413,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2871201,
+      "name": "Nicaragua",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 7,
+      "coordinates": 14860,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2873306,
+      "name": "Panamá",
+      "wikidata": "Q804",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 9,
+      "coordinates": 30058,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2874803,
+      "name": "United States",
+      "wikidata": "Q30",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 178,
+      "coordinates": 124126,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2876346,
+      "name": "Établissements français de l'Océani",
+      "wikidata": "Q30971",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 101,
+      "coordinates": 14376,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2876367,
+      "name": "Nouvelle-Calédonie",
+      "wikidata": "Q33788",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 31,
+      "coordinates": 6125,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2876371,
+      "name": "Kolonie d'Wallis-et-Futuna",
+      "wikidata": "Q35555",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 2,
+      "coordinates": 426,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2879275,
+      "name": "Siin",
+      "wikidata": "Q862467",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 114,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2883430,
+      "name": "Koninkrijk der Nederlanden",
+      "wikidata": "Q29999",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 16,
+      "coordinates": 17272,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2885965,
+      "name": "滿洲國",
+      "wikidata": "Q30623",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 22149,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2885981,
+      "name": "Portuguese São Tomé and Príncipe",
+      "wikidata": "Q7232692",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 718,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2889834,
+      "name": "Commonwealth of the Philippines",
+      "wikidata": "Q146328",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 83,
+      "coordinates": 25749,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2889894,
+      "name": "大日本帝国",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 225,
+      "coordinates": 63158,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2889933,
+      "name": "廣州灣 Kouang-Tchéou-Wan",
+      "wikidata": "Q1506615",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 191,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2893390,
+      "name": "नेपाल",
+      "wikidata": "Q837",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 18188,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2901216,
+      "name": "British Leased Liugong Island",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 25,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2901231,
+      "name": "British concession in Tianjin",
+      "wikidata": "Q10940330",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 41,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2905001,
+      "name": "Brasil",
+      "wikidata": "Q155",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 9,
+      "coordinates": 109452,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2905965,
+      "name": "المملكة العربية السعودية",
+      "wikidata": "Q851",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 24,
+      "coordinates": 5260,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2905974,
+      "name": "Sultanate of Muscat and Oman",
+      "wikidata": "Q157734",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 4,
+      "coordinates": 1152,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2906073,
+      "name": "འབྲུག་རྒྱལ་ཁབ།",
+      "wikidata": "Q917",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 7562,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2917199,
+      "name": "Colonie du Tchad",
+      "wikidata": "Q657",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 8969,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2917850,
+      "name": "Afrique-Occidentale française",
+      "wikidata": "Q210682",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 3,
+      "coordinates": 6302,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2920371,
+      "name": "Isole italiane dell'Egeo",
+      "wikidata": "Q555185",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 16,
+      "coordinates": 2314,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2921515,
+      "name": "سلطنة لحج",
+      "wikidata": "Q404774",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 500,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2922053,
+      "name": "Goa Portuguesa",
+      "wikidata": "Q323904",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 2110,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2922074,
+      "name": "India Portugues",
+      "wikidata": "Q323904",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 4,
+      "coordinates": 2722,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2922413,
+      "name": "Kingdom of Travancore",
+      "wikidata": "Q150058",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 52,
+      "coordinates": 8758,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2923088,
+      "name": "Ashanti Colony",
+      "wikidata": "Q96372444",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 275,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2923091,
+      "name": "መንግሥተ ኢትዮጵያ",
+      "wikidata": "Q207521",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 37016,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2923092,
+      "name": "Somalia italiana",
+      "wikidata": "Q319984",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 4676,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2926848,
+      "name": "British Somaliland",
+      "wikidata": "Q662653",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 2407,
+      "license": "CC0"
+    }
+  ]
+}

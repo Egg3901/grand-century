@@ -11,7 +11,8 @@
  *
  * Run: node scripts/build-flags.mjs
  */
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const OUT = path.resolve(import.meta.dirname, '../public/flags');
@@ -323,10 +324,59 @@ Object.assign(FLAGS, {
   KOK: field(CR) + `<rect x="0" y="16" width="60" height="8" fill="${G}"/>` + star5(30, 20, 4, Y),
 });
 
+// ---- Fallback flags for the Vic2 region cut -----------------------------
+// Cutting provinces to Vic2's state regions brought in dozens of minor polities
+// (Chinese and Indian substates, Malay sultanates, Arabian emirates) that have
+// no hand-drawn design here. Rather than leave them flagless, derive a plain
+// but era-appropriate banner from the nation's own map colour, so the
+// "every playable polity ships a local flag" invariant holds.
+function fallbackFlag(color) {
+  const [r, g, b] = color;
+  const hex = (v) => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0');
+  const base = `#${hex(r)}${hex(g)}${hex(b)}`;
+  const shade = `#${hex(r * 0.62)}${hex(g * 0.62)}${hex(b * 0.62)}`;
+  // Horizontal bicolour with a parchment band: reads cleanly at flag size and
+  // stays inside the muted atlas palette because the hue comes from the map.
+  return field(base) + rect(0, 16, WIDTH, 8, W) + rect(0, 30, WIDTH, 10, shade);
+}
+
+const root = path.resolve(import.meta.dirname, '..');
+const seedPaths = [path.join(root, 'src/data/generated/worldSeed.json')];
+const scenarioSeedRoot = path.join(root, 'src/data/scenarios');
+if (existsSync(scenarioSeedRoot)) {
+  for (const scenarioId of readdirSync(scenarioSeedRoot)) {
+    const seedPath = path.join(scenarioSeedRoot, scenarioId, 'worldSeed.json');
+    if (existsSync(seedPath)) seedPaths.push(seedPath);
+  }
+}
+const seeds = seedPaths.map((seedPath) => JSON.parse(readFileSync(seedPath, 'utf8')));
+let generated = 0;
+for (const seed of seeds) {
+  for (const nation of seed.nations) {
+    if (FLAGS[nation.tag]) continue;
+    FLAGS[nation.tag] = fallbackFlag(nation.color ?? [107, 98, 82]);
+    generated += 1;
+  }
+}
+const scenarioContentRoot = path.join(root, 'content/scenarios');
+for (const scenarioId of readdirSync(scenarioContentRoot)) {
+  const rosterPath = path.join(scenarioContentRoot, scenarioId, 'polities.json');
+  if (!existsSync(rosterPath)) continue;
+  const roster = JSON.parse(readFileSync(rosterPath, 'utf8'));
+  for (const polity of roster.polities ?? []) {
+    if (FLAGS[polity.flagAssetTag]) continue;
+    const bytes = createHash('sha256').update(polity.key).digest();
+    FLAGS[polity.flagAssetTag] = fallbackFlag([
+      64 + (bytes[0] % 144), 64 + (bytes[1] % 144), 64 + (bytes[2] % 144),
+    ]);
+    generated += 1;
+  }
+}
+
 let count = 0;
 for (const [tag, body] of Object.entries(FLAGS)) {
   if (!body) continue;
   writeFileSync(path.join(OUT, `${tag}.svg`), svg(body));
   count++;
 }
-console.log(`wrote ${count} flags to ${OUT}`);
+console.log(`wrote ${count} flags to ${OUT} (${generated} generated from map colour)`);

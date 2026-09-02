@@ -5,7 +5,7 @@
  * Lobby / presence / chat / snapshot-diff messages live here.
  */
 
-import type { FromWorker, ToWorker } from '../shared/types';
+import type { FromWorker, ScenarioId, ToWorker } from '../shared/types';
 import type { PlayerView, SharedSnapshot, SharedSnapshotDiff } from './snapshotCodec';
 
 export type SessionMode = 'competitive' | 'coop';
@@ -31,6 +31,7 @@ export interface LobbyStateMessage {
   sessionId: string;
   name: string;
   seed: number;
+  scenarioId: ScenarioId;
   mode: SessionMode;
   maxPlayers: number;
   phase: SessionPhase;
@@ -47,6 +48,7 @@ export interface SessionListEntry {
   id: string;
   name: string;
   seed: number;
+  scenarioId: ScenarioId;
   mode: SessionMode;
   maxPlayers: number;
   playerCount: number;
@@ -86,6 +88,7 @@ export interface CreateSessionMessage {
   t: 'createSession';
   name: string;
   seed: number;
+  scenarioId?: ScenarioId;
   mode: SessionMode;
   maxPlayers: number;
   playerName?: string;

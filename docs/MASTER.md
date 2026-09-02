@@ -14,7 +14,7 @@ This is greenfield — there is no existing codebase. This document is the **mas
 | Decision | Choice | Consequence |
 |---|---|---|
 | **Scope** | Broad-but-shallow full loop | Economy, population, politics, diplomacy, and war are all present but initially simplified; the *whole* loop is playable end-to-end from an early milestone. |
-| **Setting** | Historical 1820 Earth | Opens on the post-Napoleonic settlement and independence era. Requires a province map plus a source-backed historical content pipeline (Section 6). |
+| **Setting** | Historical 1830 Earth | Opens on the post-Napoleonic settlement and independence era. Requires a province map plus a source-backed historical content pipeline (Section 6). |
 | **Pillar** | **War & expansion** | War is the star: it gets the most mechanical depth; every other system is designed to *feed* war (economy funds it, pops man it, politics gates it, diplomacy sets it up). |
 | **Stack** | "Most performant & beautiful" → my call | TS + Vite + React UI + WebGL map + Web-Worker sim (Section 4). |
 
@@ -22,7 +22,7 @@ This is greenfield — there is no existing codebase. This document is the **mas
 
 ## 2. Design vision & pillars
 
-**One-line pitch:** *Take a nation in 1820 and reshape the long nineteenth century through industry, reform, diplomacy, and conquest, with a world market and population that live and react on their own.*
+**One-line pitch:** *Take a nation in 1830 and reshape the long nineteenth century through industry, reform, diplomacy, and conquest, with a world market and population that live and react on their own.*
 
 **Design pillars (ranked, war-first):**
 1. **War & expansion is the payoff.** Mobilizing pops into armies, fronts that push and break, war goals, occupation, peace deals, the great-power pecking order, and the colonial land-grab. This is where the player spends the climaxes of a game.
@@ -108,7 +108,7 @@ The sim is **real-time-with-pause**: five speeds plus pause. Base unit is a **da
 - **Build:** Vite (fast HMR, worker & WASM support out of the box).
 - **UI:** React 18 + TypeScript. Panels/ledgers are the bulk of the screen; React's ecosystem is the most Cursor/Kimi-friendly and the UI is *not* the perf bottleneck (the worker is).
 - **Map (the "beautiful" part):** **WebGL, GPU-accelerated.** Province fills recolor by owner/mapmode without CPU redraw. Two viable renderers — pick in M1 spike:
-  - **MapLibre GL JS** — real 1820 geography from GeoJSON/vector tiles, paper-map styling, pan/zoom for free. Best "beautiful historical map" out of the box.
+  - **MapLibre GL JS** — real 1830 geography from GeoJSON/vector tiles, paper-map styling, pan/zoom for free. Best "beautiful historical map" out of the box.
   - **deck.gl (+ optional MapLibre base)** — better for data overlays (mapmodes: political/economic/pop/military) and huge feature counts.
   - *Decision:* prototype MapLibre first; add deck.gl overlay layer for mapmodes if fills alone aren't enough.
 - **State:** Zustand (tiny, fast, no boilerplate) for UI + snapshot; the sim owns its own plain-object world model inside the worker.
@@ -149,13 +149,13 @@ The sim is **real-time-with-pause**: five speeds plus pause. Base unit is a **da
 
 ---
 
-## 6. Content pipeline (1820 Earth data)
+## 6. Content pipeline (1830 Earth data)
 
 Historical Earth is the biggest *content* risk. Treat data as a **build step**, not hand-typed constants.
 
 **Sources → baked artifacts:**
 1. **Province geometry:** start from open historical and Natural Earth-derived geometry. Simplify to ~800–1500 provinces (Section 7). Bake to compact binary plus a province-id ↔ polygon index.
-2. **Nations (1820):** a JSON table of starting polities, capitals, constitutional relationships, government type, primary/accepted cultures, starting techs/reforms, and GP status.
+2. **Nations (1830):** a JSON table of starting polities, capitals, constitutional relationships, government type, primary/accepted cultures, starting techs/reforms, and GP status.
 3. **Province seed:** owner, terrain, RGO good+level, starting fort/naval-base, starting pop stacks (type/size/culture/religion) — *plausible*, generated from a small ruleset + a few historical anchors, not exhaustively hand-authored.
 4. **Goods & recipes:** the ~30-good list + factory recipes + pop need baskets.
 5. **Tech/reform trees:** compact JSON.
@@ -180,7 +180,7 @@ This doc is the source of truth; each work session is a **scoped slice** of it.
 
 **Division of labor:**
 - **Cursor (interactive, main-model quality):** architecture, the tick loop, combat/market math, anything where a wrong abstraction is expensive. Work milestone-by-milestone (Section 9); paste the relevant section as context.
-- **Batch generation agents:** high-volume, well-specified, verifiable work such as generating 1820 data tables, boilerplate panels from a component spec, test scaffolding, and repetitive system stubs. Human-readable source packets and validation gates remain authoritative.
+- **Batch generation agents:** high-volume, well-specified, verifiable work such as generating 1830 data tables, boilerplate panels from a component spec, test scaffolding, and repetitive system stubs. Human-readable source packets and validation gates remain authoritative.
 
 **Per-session ritual:**
 1. Name the milestone + acceptance criteria from Section 9.
@@ -199,7 +199,7 @@ Each milestone is **independently playable/verifiable** — the "broad-but-shall
 | # | Milestone | Deliverable | Acceptance |
 |---|---|---|---|
 | **M0** | Scaffold | Vite + TS + React + worker + Zustand skeleton; empty MapLibre map renders; tick loop posts snapshots; save/load stub. | App boots; clock advances; map pans at 60fps. |
-| **M1** | Map & provinces | 1820 province GeoJSON baked and painted; click a province → info panel; **mapmodes** (political first). | ~1000 provinces selectable and recolor instantly. |
+| **M1** | Map & provinces | 1830 province GeoJSON baked and painted; click a province → info panel; **mapmodes** (political first). | ~1000 provinces selectable and recolor instantly. |
 | **M2** | Pops & economy | Pops, RGOs, factories, world market, weekly production/consumption, monthly budget & pop growth. | Prices move with supply/demand; a nation can go bankrupt; pops grow. |
 | **M3** | Politics | Reform tree, ruling party/upper house, taxes/tariffs sliders, militancy → unrest, elections. | Player can enact a legal reform; unmet needs raise militancy. |
 | **M4** | Diplomacy | Relations, alliances, CB/war goals, infamy, GP ranking, spheres. | Player can form an alliance and fabricate/declare a valid war. |
@@ -238,7 +238,7 @@ Each milestone is **independently playable/verifiable** — the "broad-but-shall
 
 1. **Map renderer:** MapLibre-only vs MapLibre+deck.gl overlay — decide via a 1-day M1 spike.
 2. **Art direction:** archival nineteenth-century atlas vs cleaner modern flat — pick a reference before M1 styling.
-3. **Time span & end date:** 1820 → 1920 as the authored century, or open-ended after 1920?
+3. **Time span & end date:** 1830 → 1930 as the authored century, or open-ended after 1920?
 4. **Save size / autosave cadence** acceptable to you (IndexedDB quota is generous but not infinite).
 5. **Hosting** target (static host is enough; only matters for the SharedArrayBuffer header question).
 

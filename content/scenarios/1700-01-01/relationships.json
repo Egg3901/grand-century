@@ -1,0 +1,1872 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1700-01-01",
+  "relationships": [
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "BRITISH_ARCTIC_TERRITORIES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831205
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "BRITISH_BENCOOLEN",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848468
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "BRITISH_LEEWARD_ISLANDS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832974
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPANISH_MONARCHY",
+      "to": "CAPITANIA_GENERAL_DE_CUBA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841677
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPANISH_MONARCHY",
+      "to": "CAPITANIA_GENERAL_DE_FILIPINAS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851084
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPANISH_MONARCHY",
+      "to": "CAPITANIA_GENERAL_DE_PUERTO_RICO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841681
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPANISH_MONARCHY",
+      "to": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841734
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPANISH_MONARCHY",
+      "to": "CAPITANIA_GENERAL_DE_YUCATAN",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841927
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "CAROLINA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847713
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "CAYMAN_ISLANDS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831970
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REINO_DE_PORTUGAL",
+      "to": "COLONIA_DO_SACRAMENTO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860675
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPANISH_MONARCHY",
+      "to": "COLONIA_TRINIDAD",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834831
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ROYAUME_DE_FRANCE",
+      "to": "COLONIE_D_ACADIE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830928
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ROYAUME_DE_FRANCE",
+      "to": "COLONIE_D_CANADA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861309
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ROYAUME_DE_FRANCE",
+      "to": "COLONIE_DE_LA_GRENADE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834759
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ROYAUME_DE_FRANCE",
+      "to": "COLONIE_DE_LA_GUADELOUPE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861185
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ROYAUME_DE_FRANCE",
+      "to": "COLONIE_DE_LA_GUYANE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861194
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ROYAUME_DE_FRANCE",
+      "to": "COLONIE_DE_SAINTE_LUCIE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834811
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_BARBADOS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832946
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_BERMUDA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831964
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_CONNECTICUT",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861377
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_JAMAICA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831982
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_NEW_YORK",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861380
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_PENNSYLVANIA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847778
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_RHODE_ISLAND_AND_PROVIDENCE_PLANTATIONS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861379
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_VIRGINIA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847760
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COMPANY_RAJ",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848237
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "STATUS_ECCLESIASTICUS",
+      "to": "COMTAT_VENAISSIN",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Papal possession represented under the Papal States.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 47
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "POLITY_Q12560",
+      "to": "CRIMEAN_KHANATE",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Ottoman tributary represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 62
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DANMARK_NORGE",
+      "to": "DANISH_GOLD_COAST",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish dependency represented under Denmark-Norway for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828430
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DANMARK_NORGE",
+      "to": "DANISH_INDIA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish dependency represented under Denmark-Norway for gameplay.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 35
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DANMARK_NORGE",
+      "to": "DANSK_VESTINDIEN",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish dependency represented under Denmark-Norway for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861917
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "to": "DUTCH_CAPE_COAST",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 111
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "to": "DUTCH_CEYLON",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 59
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "EAST_JERSEY_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861382
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REINO_DE_PORTUGAL",
+      "to": "ESTADO_DO_BRASIL",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848717
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REINO_DE_PORTUGAL",
+      "to": "ESTADO_DO_MARANHAO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848722
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ROYAUME_DE_FRANCE",
+      "to": "FRENCH_SAINT_CROIX",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860956
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REINO_DE_PORTUGAL",
+      "to": "GOA_PORTUGUESA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860979
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922067
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPANISH_MONARCHY",
+      "to": "GOBERNACION_DE_CHILE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848834
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ROYAUME_DE_FRANCE",
+      "to": "INDE_FRANCAISE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922309
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPANISH_MONARCHY",
+      "to": "ISLAS_DE_LA_BAHIA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2835325
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ROYAUME_DE_FRANCE",
+      "to": "ISLE_BOURBON",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865904
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SPANISH_MONARCHY",
+      "to": "JESUIT_REDUCCIONES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 27
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "TSARDOM_OF_RUSSIA",
+      "to": "KALMYK_KHANATE",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Kalmyk dependency represented under the Tsardom of Russia.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 17
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "to": "KOLONIE_BERBICE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848058
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "to": "KOLONIE_ESSEQUEBO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848073
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "NGUYEN_LORDS",
+      "to": "NAM_BAN",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Southern Vietnamese dependent principality represented under the Nguyen Lords.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745594
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "to": "NEDERLANDS_MAURITIUS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831877
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "NEW_HAMPSHIRE_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861371
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "NEWFOUNDLAND_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830963
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "NORTH_WEST_TERRITORIES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831207
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "NGUYEN_LORDS",
+      "to": "POLITY_Q10825475",
+      "basis": "reviewed_historical_dependency",
+      "notes": "The Thuan Thanh administration is represented under the Nguyen Lords.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745639
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REINO_DE_PORTUGAL",
+      "to": "PORTUGUESE_EAST_INDIES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2864417
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REINO_DE_PORTUGAL",
+      "to": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2885981
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "POLITY_Q12560",
+      "to": "PRINCIPALITY_OF_ABKHAZIA",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Western Georgian tributary relationship represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 90
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "POLITY_Q12560",
+      "to": "PRINCIPALITY_OF_GURIA",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Western Georgian tributary relationship represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 9
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "POLITY_Q12560",
+      "to": "PRINCIPALITY_OF_MINGRELIA",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Western Georgian tributary relationship represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 87
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "POLITY_Q12560",
+      "to": "PRINCIPALITY_OF_MOLDAVIA",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Ottoman tributary principality represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 73
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "POLITY_Q12560",
+      "to": "PRINCIPALITY_OF_WALLACHIA",
+      "basis": "reviewed_historical_dependency",
+      "notes": "Ottoman tributary principality represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 76
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "PROVINCE_OF_MASSACHUSETTS_BAY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847815
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "RUPERT_S_LAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831229
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ROYAUME_DE_FRANCE",
+      "to": "SAINT_DOMINGUE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841731
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "SAINT_HELENA_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848196
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ROYAUME_DE_FRANCE",
+      "to": "SENEGAL",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2887739
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "ST_VINCENT_AND_THE_GRENADINES_TERRITORY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834824
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "to": "SURINAME",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806842
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "WEST_JERSEY_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861384
+        }
+      ]
+    }
+  ],
+  "resolutions": [
+    {
+      "polityKey": "BAOL",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "conflicting_source_classification",
+      "notes": "OHM marks Baol as a vassal, while historical summaries describe independence after 1549 and intermittent personal union with Cayor. It remains a dependent gameplay type without an invented fixed overlord pending a finer sovereignty model.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879280
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_ARCTIC_TERRITORIES",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831205
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_BENCOOLEN",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848468
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_LEEWARD_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832974
+        }
+      ]
+    },
+    {
+      "polityKey": "CAPITANIA_GENERAL_DE_CUBA",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841677
+        }
+      ]
+    },
+    {
+      "polityKey": "CAPITANIA_GENERAL_DE_FILIPINAS",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851084
+        }
+      ]
+    },
+    {
+      "polityKey": "CAPITANIA_GENERAL_DE_PUERTO_RICO",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841681
+        }
+      ]
+    },
+    {
+      "polityKey": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841734
+        }
+      ]
+    },
+    {
+      "polityKey": "CAPITANIA_GENERAL_DE_YUCATAN",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841927
+        }
+      ]
+    },
+    {
+      "polityKey": "CAROLINA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847713
+        }
+      ]
+    },
+    {
+      "polityKey": "CAYMAN_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831970
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIA_DO_SACRAMENTO",
+      "action": "overlord",
+      "runtimeOverlord": "REINO_DE_PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860675
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIA_TRINIDAD",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834831
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_D_ACADIE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830928
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_D_CANADA",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861309
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DE_LA_GRENADE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834759
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DE_LA_GUADELOUPE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861185
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DE_LA_GUYANE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861194
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DE_SAINTE_LUCIE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834811
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_BARBADOS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832946
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_BERMUDA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831964
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_CONNECTICUT",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861377
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_JAMAICA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831982
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_NEW_YORK",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861380
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_PENNSYLVANIA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847778
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_RHODE_ISLAND_AND_PROVIDENCE_PLANTATIONS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861379
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_VIRGINIA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847760
+        }
+      ]
+    },
+    {
+      "polityKey": "COMPANY_RAJ",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848237
+        }
+      ]
+    },
+    {
+      "polityKey": "COMTAT_VENAISSIN",
+      "action": "overlord",
+      "runtimeOverlord": "STATUS_ECCLESIASTICUS",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "Papal possession represented under the Papal States.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 47
+        }
+      ]
+    },
+    {
+      "polityKey": "CRIMEAN_KHANATE",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "Ottoman tributary represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 62
+        }
+      ]
+    },
+    {
+      "polityKey": "DANISH_GOLD_COAST",
+      "action": "overlord",
+      "runtimeOverlord": "DANMARK_NORGE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish dependency represented under Denmark-Norway for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828430
+        }
+      ]
+    },
+    {
+      "polityKey": "DANISH_INDIA",
+      "action": "overlord",
+      "runtimeOverlord": "DANMARK_NORGE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish dependency represented under Denmark-Norway for gameplay.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 35
+        }
+      ]
+    },
+    {
+      "polityKey": "DANSK_VESTINDIEN",
+      "action": "overlord",
+      "runtimeOverlord": "DANMARK_NORGE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish dependency represented under Denmark-Norway for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861917
+        }
+      ]
+    },
+    {
+      "polityKey": "DUTCH_CAPE_COAST",
+      "action": "overlord",
+      "runtimeOverlord": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 111
+        }
+      ]
+    },
+    {
+      "polityKey": "DUTCH_CEYLON",
+      "action": "overlord",
+      "runtimeOverlord": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 59
+        }
+      ]
+    },
+    {
+      "polityKey": "EAST_JERSEY_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861382
+        }
+      ]
+    },
+    {
+      "polityKey": "ESTADO_DO_BRASIL",
+      "action": "overlord",
+      "runtimeOverlord": "REINO_DE_PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848717
+        }
+      ]
+    },
+    {
+      "polityKey": "ESTADO_DO_MARANHAO",
+      "action": "overlord",
+      "runtimeOverlord": "REINO_DE_PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848722
+        }
+      ]
+    },
+    {
+      "polityKey": "FRENCH_SAINT_CROIX",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860956
+        }
+      ]
+    },
+    {
+      "polityKey": "GOA_PORTUGUESA",
+      "action": "overlord",
+      "runtimeOverlord": "REINO_DE_PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860979
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922067
+        }
+      ]
+    },
+    {
+      "polityKey": "GOBERNACION_DE_CHILE",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848834
+        }
+      ]
+    },
+    {
+      "polityKey": "INDE_FRANCAISE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922309
+        }
+      ]
+    },
+    {
+      "polityKey": "ISLAS_DE_LA_BAHIA",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2835325
+        }
+      ]
+    },
+    {
+      "polityKey": "ISLE_BOURBON",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865904
+        }
+      ]
+    },
+    {
+      "polityKey": "JESUIT_REDUCCIONES",
+      "action": "overlord",
+      "runtimeOverlord": "SPANISH_MONARCHY",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Spanish imperial administration represented under the Spanish Monarchy for gameplay.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 27
+        }
+      ]
+    },
+    {
+      "polityKey": "KALMYK_KHANATE",
+      "action": "overlord",
+      "runtimeOverlord": "TSARDOM_OF_RUSSIA",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "Kalmyk dependency represented under the Tsardom of Russia.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 17
+        }
+      ]
+    },
+    {
+      "polityKey": "KOLONIE_BERBICE",
+      "action": "overlord",
+      "runtimeOverlord": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848058
+        }
+      ]
+    },
+    {
+      "polityKey": "KOLONIE_ESSEQUEBO",
+      "action": "overlord",
+      "runtimeOverlord": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848073
+        }
+      ]
+    },
+    {
+      "polityKey": "NAM_BAN",
+      "action": "overlord",
+      "runtimeOverlord": "NGUYEN_LORDS",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "Southern Vietnamese dependent principality represented under the Nguyen Lords.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745594
+        }
+      ]
+    },
+    {
+      "polityKey": "NEDERLANDS_MAURITIUS",
+      "action": "overlord",
+      "runtimeOverlord": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831877
+        }
+      ]
+    },
+    {
+      "polityKey": "NEW_HAMPSHIRE_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861371
+        }
+      ]
+    },
+    {
+      "polityKey": "NEWFOUNDLAND_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830963
+        }
+      ]
+    },
+    {
+      "polityKey": "NORTH_WEST_TERRITORIES",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831207
+        }
+      ]
+    },
+    {
+      "polityKey": "POLITY_Q10825475",
+      "action": "overlord",
+      "runtimeOverlord": "NGUYEN_LORDS",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "The Thuan Thanh administration is represented under the Nguyen Lords.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745639
+        }
+      ]
+    },
+    {
+      "polityKey": "PORTUGUESE_EAST_INDIES",
+      "action": "overlord",
+      "runtimeOverlord": "REINO_DE_PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2864417
+        }
+      ]
+    },
+    {
+      "polityKey": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "action": "overlord",
+      "runtimeOverlord": "REINO_DE_PORTUGAL",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese imperial administration represented under the Kingdom of Portugal for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2885981
+        }
+      ]
+    },
+    {
+      "polityKey": "PRINCIPALITY_OF_ABKHAZIA",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "Western Georgian tributary relationship represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 90
+        }
+      ]
+    },
+    {
+      "polityKey": "PRINCIPALITY_OF_GURIA",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "Western Georgian tributary relationship represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 9
+        }
+      ]
+    },
+    {
+      "polityKey": "PRINCIPALITY_OF_MINGRELIA",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "Western Georgian tributary relationship represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 87
+        }
+      ]
+    },
+    {
+      "polityKey": "PRINCIPALITY_OF_MOLDAVIA",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "Ottoman tributary principality represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 73
+        }
+      ]
+    },
+    {
+      "polityKey": "PRINCIPALITY_OF_WALLACHIA",
+      "action": "overlord",
+      "runtimeOverlord": "POLITY_Q12560",
+      "participants": [],
+      "basis": "reviewed_historical_dependency",
+      "notes": "Ottoman tributary principality represented under the Ottoman polity.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 76
+        }
+      ]
+    },
+    {
+      "polityKey": "PROVINCE_OF_MASSACHUSETTS_BAY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847815
+        }
+      ]
+    },
+    {
+      "polityKey": "RUPERT_S_LAND",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831229
+        }
+      ]
+    },
+    {
+      "polityKey": "SAINT_DOMINGUE",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841731
+        }
+      ]
+    },
+    {
+      "polityKey": "SAINT_HELENA_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848196
+        }
+      ]
+    },
+    {
+      "polityKey": "SENEGAL",
+      "action": "overlord",
+      "runtimeOverlord": "ROYAUME_DE_FRANCE",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French dependency represented under the Kingdom of France for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2887739
+        }
+      ]
+    },
+    {
+      "polityKey": "ST_VINCENT_AND_THE_GRENADINES_TERRITORY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834824
+        }
+      ]
+    },
+    {
+      "polityKey": "SURINAME",
+      "action": "overlord",
+      "runtimeOverlord": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Dutch or Dutch-company dependency represented under the Dutch Republic for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806842
+        }
+      ]
+    },
+    {
+      "polityKey": "WEST_JERSEY_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "English or English-company dependency represented under the Kingdom of England for gameplay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861384
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "dependentPolities": 69,
+    "runtimeOverlords": 68,
+    "jointAdministrations": 0,
+    "noRuntimeOverlord": 1
+  }
+}

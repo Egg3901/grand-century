@@ -23,32 +23,21 @@ import { runResearchMonthly } from './systems/research';
 import { runCrisisMonthly } from './systems/crisis';
 import { runCultureMonthly } from './systems/culture';
 import { buildSnapshot } from './snapshot';
+import { dateAtDay, DEFAULT_START_DATE, firstOfMonth, yearAtDay } from './calendar';
 
-const EPOCH_YEAR = 1820;
-const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-export function dayToDate(day: GameDay): GameDate {
-  // ignore leap years for a shallow model; consistent & deterministic.
-  // Perf (#30): this runs several times per sim-day and the old year loop
-  // iterated once per elapsed year — O(century) by the late game.
-  const year = EPOCH_YEAR + Math.floor(day / 365);
-  let remaining = day - (year - EPOCH_YEAR) * 365;
-  let month = 0;
-  while (remaining >= DAYS_IN_MONTH[month]) {
-    remaining -= DAYS_IN_MONTH[month];
-    month++;
-  }
-  return { year, month: month + 1, day: remaining + 1 };
+export function dayToDate(day: GameDay, startDate: GameDate = DEFAULT_START_DATE): GameDate {
+  return dateAtDay(day, startDate);
 }
 
-export function isFirstOfMonth(day: GameDay): boolean {
-  return dayToDate(day).day === 1;
+export function isFirstOfMonth(day: GameDay, startDate: GameDate = DEFAULT_START_DATE): boolean {
+  return firstOfMonth(day, startDate);
 }
 
 export function advanceDay(world: World, data: GameData): void {
   world.day += 1;
   const rng = new Rng(world.rngState);
-  const date = dayToDate(world.day);
+  const startDate = world.startDate ?? data.startDate;
+  const date = dayToDate(world.day, startDate);
 
   // --- daily ---
   runMarketDaily(world, data, rng);
@@ -81,13 +70,13 @@ export function advanceDay(world: World, data: GameData): void {
   }
 
   // --- yearly (U5): one chronicle line per elapsed year --------------------
-  if (world.day % 365 === 0) recordChronicle(world);
+  if (world.day % 365 === 0) recordChronicle(world, startDate);
 
   world.rngState = rng.state;
 }
 
 /** U5: append this year's line of the player's story. Cheap — runs yearly. */
-function recordChronicle(world: World): void {
+function recordChronicle(world: World, startDate: GameDate): void {
   const nation = world.nations[world.playerNation];
   if (!nation) return;
   world.chronicle = world.chronicle ?? [];
@@ -107,7 +96,7 @@ function recordChronicle(world: World): void {
     for (const popId of province.popIds) population += world.pops[popId]?.size ?? 0;
   }
   world.chronicle.push({
-    year: 1820 + Math.floor(world.day / 365),
+    year: yearAtDay(world.day, startDate),
     tag: nation.tag,
     name: nation.name,
     provinces,

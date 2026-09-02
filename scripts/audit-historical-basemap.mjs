@@ -11,7 +11,7 @@ const option = (name, fallback) => {
   return index === -1 ? fallback : args[index + 1];
 };
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'));
-const configPath = path.join(root, 'content/history/1820/reference-basemaps.json');
+const configPath = path.join(root, 'content/history/1830/reference-basemaps.json');
 const worldPath = path.join(root, 'src/data/generated/worldSeed.json');
 const outputPath = path.resolve(root, option('--output', 'artifacts/historical-map-audit.json'));
 const config = await readJson(configPath);

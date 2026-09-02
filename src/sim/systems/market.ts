@@ -1,7 +1,7 @@
 import type { GameData, GoodId, NationId, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
-import { GAME_DATA } from '../../data/gameData';
+import { gameDataForScenario } from '../../data/gameData';
 import { techModifiersFor } from './research';
 
 const MIN_PRICE = BALANCE.economy.minPrice;
@@ -73,7 +73,7 @@ function tradeCacheFor(world: World): TradeCache {
   if (cache.day !== world.day) {
     cache.day = world.day;
     for (const nation of world.nations) {
-      const tradeEfficiency = 1 + Math.max(0, techModifiersFor(nation, GAME_DATA).tradeEfficiency ?? 0);
+      const tradeEfficiency = 1 + Math.max(0, techModifiersFor(nation, gameDataForScenario(world.scenarioId)).tradeEfficiency ?? 0);
       const rawMargin = importMultiplier(nation.tariffRate) - 1;
       cache.buyMargin[nation.id] = rawMargin > 0 ? rawMargin * tradeEfficiency : rawMargin;
       const cutFraction = Math.max(0, 1 - exportMultiplier(nation.tariffRate));

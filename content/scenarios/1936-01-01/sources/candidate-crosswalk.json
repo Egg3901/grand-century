@@ -1,0 +1,2174 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1936-01-01",
+  "sourceOrder": [
+    "OpenHistoricalMap",
+    "Cliopatria"
+  ],
+  "counts": {
+    "ohmIdentities": 200,
+    "cliopatriaRows": 90,
+    "cliopatriaIdentities": 87,
+    "matches": 48,
+    "ohmOnly": 152,
+    "cliopatriaOnly": 39
+  },
+  "matches": [
+    {
+      "matchMethod": "normalized_name",
+      "identityKey": "Guatemala",
+      "ohmRelationIds": [
+        2807664
+      ],
+      "cliopatriaRecords": [
+        20
+      ],
+      "cliopatriaName": "Guatemala",
+      "wikidata": "Q774"
+    },
+    {
+      "matchMethod": "normalized_name",
+      "identityKey": "Honduras",
+      "ohmRelationIds": [
+        2808161
+      ],
+      "cliopatriaRecords": [
+        6
+      ],
+      "cliopatriaName": "Honduras",
+      "wikidata": "Q783"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q1014",
+      "ohmRelationIds": [
+        2828769
+      ],
+      "cliopatriaRecords": [
+        5
+      ],
+      "cliopatriaName": "Republic of Liberia",
+      "wikidata": "Q1014"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q124943",
+      "ohmRelationIds": [
+        2803204
+      ],
+      "cliopatriaRecords": [
+        68
+      ],
+      "cliopatriaName": "Kingdom of Egypt",
+      "wikidata": "Q124943"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q129286",
+      "ohmRelationIds": [
+        2848483
+      ],
+      "cliopatriaRecords": [
+        30
+      ],
+      "cliopatriaName": "British Raj",
+      "wikidata": "Q129286"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q15180",
+      "ohmRelationIds": [
+        2851157
+      ],
+      "cliopatriaRecords": [
+        38
+      ],
+      "cliopatriaName": "Union of Soviet Socialist Republics",
+      "wikidata": "Q15180"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q155",
+      "ohmRelationIds": [
+        2905001
+      ],
+      "cliopatriaRecords": [
+        64
+      ],
+      "cliopatriaName": "Unitary State of Brazil",
+      "wikidata": "Q155"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q157734",
+      "ohmRelationIds": [
+        2905974
+      ],
+      "cliopatriaRecords": [
+        62
+      ],
+      "cliopatriaName": "Sultanate of Muscat and Oman",
+      "wikidata": "Q157734"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q16",
+      "ohmRelationIds": [
+        2831062
+      ],
+      "cliopatriaRecords": [
+        32
+      ],
+      "cliopatriaName": "Canada",
+      "wikidata": "Q16"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q188161",
+      "ohmRelationIds": [
+        2864434
+      ],
+      "cliopatriaRecords": [
+        15
+      ],
+      "cliopatriaName": "Dutch East Indies",
+      "wikidata": "Q188161"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q191",
+      "ohmRelationIds": [
+        2801387
+      ],
+      "cliopatriaRecords": [
+        56
+      ],
+      "cliopatriaName": "Estonia",
+      "wikidata": "Q191"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q20",
+      "ohmRelationIds": [
+        2851798
+      ],
+      "cliopatriaRecords": [
+        70
+      ],
+      "cliopatriaName": "Kingdom of Norway",
+      "wikidata": "Q20"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q203493",
+      "ohmRelationIds": [
+        2693259
+      ],
+      "cliopatriaRecords": [
+        89
+      ],
+      "cliopatriaName": "Kingdom of Romania",
+      "wikidata": "Q203493"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q207272",
+      "ohmRelationIds": [
+        2692205
+      ],
+      "cliopatriaRecords": [
+        43
+      ],
+      "cliopatriaName": "Second Polish Republic",
+      "wikidata": "Q207272"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q211",
+      "ohmRelationIds": [
+        2704702
+      ],
+      "cliopatriaRecords": [
+        82
+      ],
+      "cliopatriaName": "Republic of Latvia",
+      "wikidata": "Q211"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q213510",
+      "ohmRelationIds": [
+        2690860
+      ],
+      "cliopatriaRecords": [
+        21
+      ],
+      "cliopatriaName": "Belgian Congo",
+      "wikidata": "Q213510"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q216173",
+      "ohmRelationIds": [
+        2691478
+      ],
+      "cliopatriaRecords": [
+        61
+      ],
+      "cliopatriaName": "Free City of Danzig",
+      "wikidata": "Q216173"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q228",
+      "ohmRelationIds": [
+        2739874
+      ],
+      "cliopatriaRecords": [
+        79
+      ],
+      "cliopatriaName": "Principality of Andorra",
+      "wikidata": "Q228"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q235",
+      "ohmRelationIds": [
+        2693418
+      ],
+      "cliopatriaRecords": [
+        39
+      ],
+      "cliopatriaName": "Kingdom of Monaco",
+      "wikidata": "Q235"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q241",
+      "ohmRelationIds": [
+        2861549
+      ],
+      "cliopatriaRecords": [
+        25
+      ],
+      "cliopatriaName": "Republic of Cuba",
+      "wikidata": "Q241"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q298",
+      "ohmRelationIds": [
+        2801347
+      ],
+      "cliopatriaRecords": [
+        29
+      ],
+      "cliopatriaName": "Republic of Chile",
+      "wikidata": "Q298"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q30",
+      "ohmRelationIds": [
+        2874803
+      ],
+      "cliopatriaRecords": [
+        49
+      ],
+      "cliopatriaName": "United States of America",
+      "wikidata": "Q30"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q31",
+      "ohmRelationIds": [
+        2800293
+      ],
+      "cliopatriaRecords": [
+        76
+      ],
+      "cliopatriaName": "Kingdom of Belgium",
+      "wikidata": "Q31"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q31747",
+      "ohmRelationIds": [
+        2697727
+      ],
+      "cliopatriaRecords": [
+        77
+      ],
+      "cliopatriaName": "Irish Free State",
+      "wikidata": "Q31747"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q33",
+      "ohmRelationIds": [
+        2696817
+      ],
+      "cliopatriaRecords": [
+        18
+      ],
+      "cliopatriaName": "Republic of Finland",
+      "wikidata": "Q33"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q34",
+      "ohmRelationIds": [
+        2870046
+      ],
+      "cliopatriaRecords": [
+        44
+      ],
+      "cliopatriaName": "Kingdom of Sweden",
+      "wikidata": "Q34"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q3497642",
+      "ohmRelationIds": [
+        2848366
+      ],
+      "cliopatriaRecords": [
+        13
+      ],
+      "cliopatriaName": "Tangier International Zone",
+      "wikidata": "Q3497642"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q39",
+      "ohmRelationIds": [
+        2798802
+      ],
+      "cliopatriaRecords": [
+        17
+      ],
+      "cliopatriaName": "Swiss Confederation",
+      "wikidata": "Q39"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q40",
+      "ohmRelationIds": [
+        2858751
+      ],
+      "cliopatriaRecords": [
+        51
+      ],
+      "cliopatriaName": "Republic of Austria",
+      "wikidata": "Q40"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q408",
+      "ohmRelationIds": [
+        2848197
+      ],
+      "cliopatriaRecords": [
+        9
+      ],
+      "cliopatriaName": "Commonwealth of Australia",
+      "wikidata": "Q408"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q414",
+      "ohmRelationIds": [
+        2860947
+      ],
+      "cliopatriaRecords": [
+        48
+      ],
+      "cliopatriaName": "Argentine Republic",
+      "wikidata": "Q414"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q419",
+      "ohmRelationIds": [
+        2848865
+      ],
+      "cliopatriaRecords": [
+        28
+      ],
+      "cliopatriaName": "Republic of Peru",
+      "wikidata": "Q419"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q43",
+      "ohmRelationIds": [
+        2801012
+      ],
+      "cliopatriaRecords": [
+        54
+      ],
+      "cliopatriaName": "Republic of Turkey",
+      "wikidata": "Q43"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q62567",
+      "ohmRelationIds": [
+        2801981
+      ],
+      "cliopatriaRecords": [
+        16
+      ],
+      "cliopatriaName": "Kingdom of Iceland",
+      "wikidata": "Q62567"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q70802",
+      "ohmRelationIds": [
+        2696299
+      ],
+      "cliopatriaRecords": [
+        46,
+        66
+      ],
+      "cliopatriaName": "(French Third Republic)",
+      "wikidata": "Q70802"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q733",
+      "ohmRelationIds": [
+        2863122
+      ],
+      "cliopatriaRecords": [
+        65
+      ],
+      "cliopatriaName": "Paraguay",
+      "wikidata": "Q733"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q736",
+      "ohmRelationIds": [
+        2848857
+      ],
+      "cliopatriaRecords": [
+        10
+      ],
+      "cliopatriaName": "Republic of Ecuador",
+      "wikidata": "Q736"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q739",
+      "ohmRelationIds": [
+        2848975
+      ],
+      "cliopatriaRecords": [
+        27
+      ],
+      "cliopatriaName": "Republic of Colombia",
+      "wikidata": "Q739"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q750",
+      "ohmRelationIds": [
+        2848686
+      ],
+      "cliopatriaRecords": [
+        80
+      ],
+      "cliopatriaName": "Bolivia",
+      "wikidata": "Q750"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q752431",
+      "ohmRelationIds": [
+        2846175
+      ],
+      "cliopatriaRecords": [
+        3
+      ],
+      "cliopatriaName": "New Hebrides",
+      "wikidata": "Q752431"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q77",
+      "ohmRelationIds": [
+        2802055
+      ],
+      "cliopatriaRecords": [
+        1
+      ],
+      "cliopatriaName": "Oriental Republic of Uruguay",
+      "wikidata": "Q77"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q790",
+      "ohmRelationIds": [
+        2841717
+      ],
+      "cliopatriaRecords": [
+        86
+      ],
+      "cliopatriaName": "Republic of Haiti",
+      "wikidata": "Q790"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q792",
+      "ohmRelationIds": [
+        2808152
+      ],
+      "cliopatriaRecords": [
+        0
+      ],
+      "cliopatriaName": "Republic of El Salvador",
+      "wikidata": "Q792"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q804",
+      "ohmRelationIds": [
+        2873306
+      ],
+      "cliopatriaRecords": [
+        12
+      ],
+      "cliopatriaName": "Republic of Panama",
+      "wikidata": "Q804"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q837",
+      "ohmRelationIds": [
+        2893390
+      ],
+      "cliopatriaRecords": [
+        4
+      ],
+      "cliopatriaName": "Nepal",
+      "wikidata": "Q837"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q851",
+      "ohmRelationIds": [
+        2905965
+      ],
+      "cliopatriaRecords": [
+        42
+      ],
+      "cliopatriaName": "Kingdom of Saudi Arabia",
+      "wikidata": "Q851"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q917",
+      "ohmRelationIds": [
+        2906073
+      ],
+      "cliopatriaRecords": [
+        14
+      ],
+      "cliopatriaName": "Kingdom of Bhutan",
+      "wikidata": "Q917"
+    },
+    {
+      "matchMethod": "normalized_name",
+      "identityKey": "Q96",
+      "ohmRelationIds": [
+        2692906
+      ],
+      "cliopatriaRecords": [
+        22
+      ],
+      "cliopatriaName": "Mexico",
+      "wikidata": "Q5062192"
+    }
+  ],
+  "ohmOnly": [
+    {
+      "identityKey": "British Leased Liugong Island",
+      "name": "British Leased Liugong Island",
+      "wikidata": null,
+      "relationIds": [
+        2901216
+      ]
+    },
+    {
+      "identityKey": "Costa Rica",
+      "name": "Costa Rica",
+      "wikidata": null,
+      "relationIds": [
+        2808163
+      ]
+    },
+    {
+      "identityKey": "Guiné Portuguesa",
+      "name": "Guiné Portuguesa",
+      "wikidata": null,
+      "relationIds": [
+        2803504
+      ]
+    },
+    {
+      "identityKey": "Libia",
+      "name": "Libia",
+      "wikidata": null,
+      "relationIds": [
+        2803189
+      ]
+    },
+    {
+      "identityKey": "Nicaragua",
+      "name": "Nicaragua",
+      "wikidata": null,
+      "relationIds": [
+        2871201
+      ]
+    },
+    {
+      "identityKey": "Q1028835",
+      "name": "British Cameroons",
+      "wikidata": "Q1028835",
+      "relationIds": [
+        2828750
+      ]
+    },
+    {
+      "identityKey": "Q1028848",
+      "name": "French Cameroon",
+      "wikidata": "Q1028848",
+      "relationIds": [
+        2828747
+      ]
+    },
+    {
+      "identityKey": "Q1042",
+      "name": "Colony of Seychelles",
+      "wikidata": "Q1042",
+      "relationIds": [
+        2831866
+      ]
+    },
+    {
+      "identityKey": "Q1048340",
+      "name": "Mbretnija Shqiptare",
+      "wikidata": "Q1048340",
+      "relationIds": [
+        2800554
+      ]
+    },
+    {
+      "identityKey": "Q1050",
+      "name": "Swaziland Protectorate",
+      "wikidata": "Q1050",
+      "relationIds": [
+        2691746
+      ]
+    },
+    {
+      "identityKey": "Q1050859",
+      "name": "Gilbert and Ellice Islands Colony",
+      "wikidata": "Q1050859",
+      "relationIds": [
+        2831167
+      ]
+    },
+    {
+      "identityKey": "Q1054923",
+      "name": "英屬香港 British Hong Kong",
+      "wikidata": "Q1054923",
+      "relationIds": [
+        2694575
+      ]
+    },
+    {
+      "identityKey": "Q1074669",
+      "name": "Maldives Protectorate",
+      "wikidata": "Q1074669",
+      "relationIds": [
+        2848182
+      ]
+    },
+    {
+      "identityKey": "Q107783136",
+      "name": "Colonie du Moyen-Congo",
+      "wikidata": "Q107783136",
+      "relationIds": [
+        2839975
+      ]
+    },
+    {
+      "identityKey": "Q10940330",
+      "name": "British concession in Tianjin",
+      "wikidata": "Q10940330",
+      "relationIds": [
+        2901231
+      ]
+    },
+    {
+      "identityKey": "Q1097943",
+      "name": "Protectorate of Uganda",
+      "wikidata": "Q1097943",
+      "relationIds": [
+        2831426
+      ]
+    },
+    {
+      "identityKey": "Q1121819",
+      "name": "إمارة شرق الأردن",
+      "wikidata": "Q1121819",
+      "relationIds": [
+        2848317
+      ]
+    },
+    {
+      "identityKey": "Q1147441",
+      "name": "British North Borneo",
+      "wikidata": "Q1147441",
+      "relationIds": [
+        2848286
+      ]
+    },
+    {
+      "identityKey": "Q116282722",
+      "name": "Trinidad and Tobago Colony",
+      "wikidata": "Q116282722",
+      "relationIds": [
+        2834829
+      ]
+    },
+    {
+      "identityKey": "Q12053604",
+      "name": "British Mauritius",
+      "wikidata": "Q12053604",
+      "relationIds": [
+        2831873
+      ]
+    },
+    {
+      "identityKey": "Q1206012",
+      "name": "Deutsches Reich",
+      "wikidata": "Q1206012",
+      "relationIds": [
+        2694638
+      ]
+    },
+    {
+      "identityKey": "Q1232509",
+      "name": "Territorios Españoles del Golfo de Guinea",
+      "wikidata": "Q1232509",
+      "relationIds": [
+        2860389
+      ]
+    },
+    {
+      "identityKey": "Q1232988",
+      "name": "Colonia Eritrea",
+      "wikidata": "Q1232988",
+      "relationIds": [
+        2690839
+      ]
+    },
+    {
+      "identityKey": "Q130802",
+      "name": "État des Alaouites",
+      "wikidata": "Q130802",
+      "relationIds": [
+        2863987
+      ]
+    },
+    {
+      "identityKey": "Q130842",
+      "name": "République Libanaise",
+      "wikidata": "Q130842",
+      "relationIds": [
+        2831358
+      ]
+    },
+    {
+      "identityKey": "Q13410267",
+      "name": "British Solomon Islands Protectorate",
+      "wikidata": "Q13410267",
+      "relationIds": [
+        2831242
+      ]
+    },
+    {
+      "identityKey": "Q1400154",
+      "name": "Federated Malay States",
+      "wikidata": "Q1400154",
+      "relationIds": [
+        2848458
+      ]
+    },
+    {
+      "identityKey": "Q140359",
+      "name": "Československá republika",
+      "wikidata": "Q140359",
+      "relationIds": [
+        2692233
+      ]
+    },
+    {
+      "identityKey": "Q1410",
+      "name": "Gibraltar",
+      "wikidata": "Q1410",
+      "relationIds": [
+        2692855
+      ]
+    },
+    {
+      "identityKey": "Q1421888",
+      "name": "Colonie du Oubangui-Chari-Tchad",
+      "wikidata": "Q1421888",
+      "relationIds": [
+        2839928
+      ]
+    },
+    {
+      "identityKey": "Q142965",
+      "name": "Timor Português",
+      "wikidata": "Q142965",
+      "relationIds": [
+        2864414
+      ]
+    },
+    {
+      "identityKey": "Q145",
+      "name": "United Kingdom",
+      "wikidata": "Q145",
+      "relationIds": [
+        2693292
+      ]
+    },
+    {
+      "identityKey": "Q146328",
+      "name": "Commonwealth of the Philippines",
+      "wikidata": "Q146328",
+      "relationIds": [
+        2889834
+      ]
+    },
+    {
+      "identityKey": "Q146740",
+      "name": "Djebel Druze",
+      "wikidata": "Q146740",
+      "relationIds": [
+        2864005
+      ]
+    },
+    {
+      "identityKey": "Q147909",
+      "name": "Царство България",
+      "wikidata": "Q147909",
+      "relationIds": [
+        2848878
+      ]
+    },
+    {
+      "identityKey": "Q150058",
+      "name": "Kingdom of Travancore",
+      "wikidata": "Q150058",
+      "relationIds": [
+        2922413
+      ]
+    },
+    {
+      "identityKey": "Q1506615",
+      "name": "廣州灣 Kouang-Tchéou-Wan",
+      "wikidata": "Q1506615",
+      "relationIds": [
+        2889933
+      ]
+    },
+    {
+      "identityKey": "Q15240466",
+      "name": "British Cyprus",
+      "wikidata": "Q15240466",
+      "relationIds": [
+        2801349
+      ]
+    },
+    {
+      "identityKey": "Q1545934",
+      "name": "British Western Pacific Territories",
+      "wikidata": "Q1545934",
+      "relationIds": [
+        2846236
+      ]
+    },
+    {
+      "identityKey": "Q158725",
+      "name": "Tanganyika Territory",
+      "wikidata": "Q158725",
+      "relationIds": [
+        2801206,
+        2855612
+      ]
+    },
+    {
+      "identityKey": "Q1643555",
+      "name": "British Honduras Colony",
+      "wikidata": "Q1643555",
+      "relationIds": [
+        2807603
+      ]
+    },
+    {
+      "identityKey": "Q1649306",
+      "name": "Nyasaland",
+      "wikidata": "Q1649306",
+      "relationIds": [
+        2803134
+      ]
+    },
+    {
+      "identityKey": "Q1658411",
+      "name": "Protectorate of Sarawak",
+      "wikidata": "Q1658411",
+      "relationIds": [
+        2848299
+      ]
+    },
+    {
+      "identityKey": "Q168787",
+      "name": "Cabinda",
+      "wikidata": "Q168787",
+      "relationIds": [
+        2839750
+      ]
+    },
+    {
+      "identityKey": "Q17012",
+      "name": "Colonie de la Guadeloupe",
+      "wikidata": "Q17012",
+      "relationIds": [
+        2861172
+      ]
+    },
+    {
+      "identityKey": "Q17070",
+      "name": "La Réunion",
+      "wikidata": "Q17070",
+      "relationIds": [
+        2865901
+      ]
+    },
+    {
+      "identityKey": "Q1796551",
+      "name": "British Leeward Islands",
+      "wikidata": "Q1796551",
+      "relationIds": [
+        2832972
+      ]
+    },
+    {
+      "identityKey": "Q183032",
+      "name": "Johore Protectorate",
+      "wikidata": "Q183032",
+      "relationIds": [
+        2848476
+      ]
+    },
+    {
+      "identityKey": "Q1852345",
+      "name": "Trucial States",
+      "wikidata": "Q1852345",
+      "relationIds": [
+        2848320
+      ]
+    },
+    {
+      "identityKey": "Q185944",
+      "name": "Kelantan Protectorate",
+      "wikidata": "Q185944",
+      "relationIds": [
+        2848477
+      ]
+    },
+    {
+      "identityKey": "Q1865132",
+      "name": "Aden Protectorate",
+      "wikidata": "Q1865132",
+      "relationIds": [
+        2848485
+      ]
+    },
+    {
+      "identityKey": "Q188947",
+      "name": "Kedah Protectorate",
+      "wikidata": "Q188947",
+      "relationIds": [
+        2848479
+      ]
+    },
+    {
+      "identityKey": "Q189701",
+      "name": "Trengganu Protectorate",
+      "wikidata": "Q189701",
+      "relationIds": [
+        2848478
+      ]
+    },
+    {
+      "identityKey": "Q191077",
+      "name": "Kraljevina Jugoslavija / Краљевина Југославија",
+      "wikidata": "Q191077",
+      "relationIds": [
+        2747831
+      ]
+    },
+    {
+      "identityKey": "Q192184",
+      "name": "Saint Helena Crown Colony",
+      "wikidata": "Q192184",
+      "relationIds": [
+        2848194
+      ]
+    },
+    {
+      "identityKey": "Q193619",
+      "name": "Union of South Africa",
+      "wikidata": "Q193619",
+      "relationIds": [
+        2831731
+      ]
+    },
+    {
+      "identityKey": "Q193714",
+      "name": "Palestine Mandate",
+      "wikidata": "Q193714",
+      "relationIds": [
+        2848316
+      ]
+    },
+    {
+      "identityKey": "Q1998749",
+      "name": "Northern Territories",
+      "wikidata": "Q1998749",
+      "relationIds": [
+        2828423
+      ]
+    },
+    {
+      "identityKey": "Q2017684",
+      "name": "Protectorat français de Tunisie",
+      "wikidata": "Q2017684",
+      "relationIds": [
+        2690947
+      ]
+    },
+    {
+      "identityKey": "Q207521",
+      "name": "መንግሥተ ኢትዮጵያ",
+      "wikidata": "Q207521",
+      "relationIds": [
+        2923091
+      ]
+    },
+    {
+      "identityKey": "Q209065",
+      "name": "Ελλάδα",
+      "wikidata": "Q209065",
+      "relationIds": [
+        2801340
+      ]
+    },
+    {
+      "identityKey": "Q210682",
+      "name": "Afrique-Occidentale française",
+      "wikidata": "Q210682",
+      "relationIds": [
+        2917850
+      ]
+    },
+    {
+      "identityKey": "Q213467",
+      "name": "Perlis Protectorate",
+      "wikidata": "Q213467",
+      "relationIds": [
+        2848480
+      ]
+    },
+    {
+      "identityKey": "Q218272",
+      "name": "Algérie française",
+      "wikidata": "Q218272",
+      "relationIds": [
+        2690948
+      ]
+    },
+    {
+      "identityKey": "Q23022146",
+      "name": "Protectorate of Tonga",
+      "wikidata": "Q23022146",
+      "relationIds": [
+        2846200
+      ]
+    },
+    {
+      "identityKey": "Q2340665",
+      "name": "Colony of Basutoland",
+      "wikidata": "Q2340665",
+      "relationIds": [
+        2691741
+      ]
+    },
+    {
+      "identityKey": "Q23635",
+      "name": "Colony of Bermuda",
+      "wikidata": "Q23635",
+      "relationIds": [
+        2831964
+      ]
+    },
+    {
+      "identityKey": "Q237",
+      "name": "Status Civitatis Vaticanae",
+      "wikidata": "Q237",
+      "relationIds": [
+        2751259
+      ]
+    },
+    {
+      "identityKey": "Q238",
+      "name": "San Marino",
+      "wikidata": "Q238",
+      "relationIds": [
+        2853735
+      ]
+    },
+    {
+      "identityKey": "Q244",
+      "name": "Colony of Barbados",
+      "wikidata": "Q244",
+      "relationIds": [
+        2832944
+      ]
+    },
+    {
+      "identityKey": "Q2444884",
+      "name": "བོད",
+      "wikidata": "Q2444884",
+      "relationIds": [
+        2828810
+      ]
+    },
+    {
+      "identityKey": "Q25230",
+      "name": "Guernsey",
+      "wikidata": "Q25230",
+      "relationIds": [
+        2828270
+      ]
+    },
+    {
+      "identityKey": "Q2526023",
+      "name": "Colony of Jamaica",
+      "wikidata": "Q2526023",
+      "relationIds": [
+        2834850
+      ]
+    },
+    {
+      "identityKey": "Q2538511",
+      "name": "Protectorate of Kenya",
+      "wikidata": "Q2538511",
+      "relationIds": [
+        2831411,
+        2831414
+      ]
+    },
+    {
+      "identityKey": "Q2594990",
+      "name": "Dominion of New Zealand",
+      "wikidata": "Q2594990",
+      "relationIds": [
+        2846160
+      ]
+    },
+    {
+      "identityKey": "Q26234937",
+      "name": "République syrienne",
+      "wikidata": "Q26234937",
+      "relationIds": [
+        2863990
+      ]
+    },
+    {
+      "identityKey": "Q2660774",
+      "name": "British Windward Islands",
+      "wikidata": "Q2660774",
+      "relationIds": [
+        2834750
+      ]
+    },
+    {
+      "identityKey": "Q26988",
+      "name": "Cook Islands",
+      "wikidata": "Q26988",
+      "relationIds": [
+        2846264
+      ]
+    },
+    {
+      "identityKey": "Q271894",
+      "name": "Afrique équatoriale française",
+      "wikidata": "Q271894",
+      "relationIds": [
+        2839997
+      ]
+    },
+    {
+      "identityKey": "Q2826232",
+      "name": "África Ocidental Portuguesa",
+      "wikidata": "Q2826232",
+      "relationIds": [
+        2690861
+      ]
+    },
+    {
+      "identityKey": "Q29",
+      "name": "España",
+      "wikidata": "Q29",
+      "relationIds": [
+        2860484
+      ]
+    },
+    {
+      "identityKey": "Q29999",
+      "name": "Koninkrijk der Nederlanden",
+      "wikidata": "Q29999",
+      "relationIds": [
+        2883430
+      ]
+    },
+    {
+      "identityKey": "Q30059027",
+      "name": "Sierra Leone Protectorate",
+      "wikidata": "Q30059027",
+      "relationIds": [
+        2828774
+      ]
+    },
+    {
+      "identityKey": "Q30623",
+      "name": "滿洲國",
+      "wikidata": "Q30623",
+      "relationIds": [
+        2885965
+      ]
+    },
+    {
+      "identityKey": "Q30971",
+      "name": "Établissements français de l'Océani",
+      "wikidata": "Q30971",
+      "relationIds": [
+        2876346
+      ]
+    },
+    {
+      "identityKey": "Q319984",
+      "name": "Somalia italiana",
+      "wikidata": "Q319984",
+      "relationIds": [
+        2923092
+      ]
+    },
+    {
+      "identityKey": "Q32",
+      "name": "Lëtzebuerg",
+      "wikidata": "Q32",
+      "relationIds": [
+        2748545
+      ]
+    },
+    {
+      "identityKey": "Q323904",
+      "name": "Goa Portuguesa",
+      "wikidata": "Q323904",
+      "relationIds": [
+        2922053,
+        2922074
+      ]
+    },
+    {
+      "identityKey": "Q33788",
+      "name": "Nouvelle-Calédonie",
+      "wikidata": "Q33788",
+      "relationIds": [
+        2876367
+      ]
+    },
+    {
+      "identityKey": "Q34617",
+      "name": "Saint-Pierre et Miquelon",
+      "wikidata": "Q34617",
+      "relationIds": [
+        2831312
+      ]
+    },
+    {
+      "identityKey": "Q347",
+      "name": "Liechtenstein",
+      "wikidata": "Q347",
+      "relationIds": [
+        2746467
+      ]
+    },
+    {
+      "identityKey": "Q35",
+      "name": "Danmark",
+      "wikidata": "Q35",
+      "relationIds": [
+        2869937
+      ]
+    },
+    {
+      "identityKey": "Q3518791",
+      "name": "Obock et Protectorats de la Côte des Somalis et des pays Dankils",
+      "wikidata": "Q3518791",
+      "relationIds": [
+        2803437
+      ]
+    },
+    {
+      "identityKey": "Q35555",
+      "name": "Kolonie d'Wallis-et-Futuna",
+      "wikidata": "Q35555",
+      "relationIds": [
+        2876371
+      ]
+    },
+    {
+      "identityKey": "Q3557236",
+      "name": "Gambia Colony and Protectorate",
+      "wikidata": "Q3557236",
+      "relationIds": [
+        2803502
+      ]
+    },
+    {
+      "identityKey": "Q35672",
+      "name": "Pitcairn Islands",
+      "wikidata": "Q35672",
+      "relationIds": [
+        2846172
+      ]
+    },
+    {
+      "identityKey": "Q3574782",
+      "name": "Zanzibar Protectorate",
+      "wikidata": "Q3574782",
+      "relationIds": [
+        2690950
+      ]
+    },
+    {
+      "identityKey": "Q376178",
+      "name": "Colony of the Straits Settlement",
+      "wikidata": "Q376178",
+      "relationIds": [
+        2848277
+      ]
+    },
+    {
+      "identityKey": "Q3769",
+      "name": "Colonie de la Guyane",
+      "wikidata": "Q3769",
+      "relationIds": [
+        2861194
+      ]
+    },
+    {
+      "identityKey": "Q38610",
+      "name": "Commission Government of Newfoundland",
+      "wikidata": "Q38610",
+      "relationIds": [
+        2830878,
+        2831077
+      ]
+    },
+    {
+      "identityKey": "Q39072717",
+      "name": "Colonie du Gabon",
+      "wikidata": "Q39072717",
+      "relationIds": [
+        2839934
+      ]
+    },
+    {
+      "identityKey": "Q3916279",
+      "name": "葡屬澳門 Portuguese Macau",
+      "wikidata": "Q3916279",
+      "relationIds": [
+        2694462
+      ]
+    },
+    {
+      "identityKey": "Q398",
+      "name": "Protectorate of Bahrain",
+      "wikidata": "Q398",
+      "relationIds": [
+        2848318
+      ]
+    },
+    {
+      "identityKey": "Q404774",
+      "name": "سلطنة لحج",
+      "wikidata": "Q404774",
+      "relationIds": [
+        2921515
+      ]
+    },
+    {
+      "identityKey": "Q45",
+      "name": "Portugal",
+      "wikidata": "Q45",
+      "relationIds": [
+        2807009
+      ]
+    },
+    {
+      "identityKey": "Q457242",
+      "name": "Protectorado español en Marruecos",
+      "wikidata": "Q457242",
+      "relationIds": [
+        2860422
+      ]
+    },
+    {
+      "identityKey": "Q48742118",
+      "name": "Italia",
+      "wikidata": "Q48742118",
+      "relationIds": [
+        2851104
+      ]
+    },
+    {
+      "identityKey": "Q503623",
+      "name": "Gold Coast Colony",
+      "wikidata": "Q503623",
+      "relationIds": [
+        2828425
+      ]
+    },
+    {
+      "identityKey": "Q5148320",
+      "name": "Colony of Fiji",
+      "wikidata": "Q5148320",
+      "relationIds": [
+        2846213
+      ]
+    },
+    {
+      "identityKey": "Q5148517",
+      "name": "Colony and Protectorate of Nigeria",
+      "wikidata": "Q5148517",
+      "relationIds": [
+        2690856
+      ]
+    },
+    {
+      "identityKey": "Q51547013",
+      "name": "República Dominicana",
+      "wikidata": "Q51547013",
+      "relationIds": [
+        2841711
+      ]
+    },
+    {
+      "identityKey": "Q541455",
+      "name": "Anglo-Egyptian Sudan",
+      "wikidata": "Q541455",
+      "relationIds": [
+        2803203
+      ]
+    },
+    {
+      "identityKey": "Q5501842",
+      "name": "Colonie de Madagascar et dépendances",
+      "wikidata": "Q5501842",
+      "relationIds": [
+        2865840
+      ]
+    },
+    {
+      "identityKey": "Q555185",
+      "name": "Isole italiane dell'Egeo",
+      "wikidata": "Q555185",
+      "relationIds": [
+        2920371
+      ]
+    },
+    {
+      "identityKey": "Q5785",
+      "name": "Cayman Islands",
+      "wikidata": "Q5785",
+      "relationIds": [
+        2831970
+      ]
+    },
+    {
+      "identityKey": "Q5848651",
+      "name": "Estados Unidos de Venezuela",
+      "wikidata": "Q5848651",
+      "relationIds": [
+        2842571
+      ]
+    },
+    {
+      "identityKey": "Q590743",
+      "name": "Ruanda-Urundi",
+      "wikidata": "Q590743",
+      "relationIds": [
+        2863620
+      ]
+    },
+    {
+      "identityKey": "Q600018",
+      "name": "Magyar Királyság",
+      "wikidata": "Q600018",
+      "relationIds": [
+        2695633
+      ]
+    },
+    {
+      "identityKey": "Q657",
+      "name": "Colonie du Tchad",
+      "wikidata": "Q657",
+      "relationIds": [
+        2917199
+      ]
+    },
+    {
+      "identityKey": "Q662653",
+      "name": "British Somaliland",
+      "wikidata": "Q662653",
+      "relationIds": [
+        2926848
+      ]
+    },
+    {
+      "identityKey": "Q6744657",
+      "name": "Colony of Malta",
+      "wikidata": "Q6744657",
+      "relationIds": [
+        2801185
+      ]
+    },
+    {
+      "identityKey": "Q697",
+      "name": "Nauru",
+      "wikidata": "Q697",
+      "relationIds": [
+        2846179
+      ]
+    },
+    {
+      "identityKey": "Q7232692",
+      "name": "Portuguese São Tomé and Príncipe",
+      "wikidata": "Q7232692",
+      "relationIds": [
+        2885981
+      ]
+    },
+    {
+      "identityKey": "Q740930",
+      "name": "Saguía el Hamra",
+      "wikidata": "Q740930",
+      "relationIds": [
+        2860428
+      ]
+    },
+    {
+      "identityKey": "Q747314",
+      "name": "Bechuanaland Protectorate",
+      "wikidata": "Q747314",
+      "relationIds": [
+        2691745
+      ]
+    },
+    {
+      "identityKey": "Q750583",
+      "name": "Southern Rhodesia",
+      "wikidata": "Q750583",
+      "relationIds": [
+        2831467
+      ]
+    },
+    {
+      "identityKey": "Q763141",
+      "name": "Territorio de Ifni",
+      "wikidata": "Q763141",
+      "relationIds": [
+        2805384
+      ]
+    },
+    {
+      "identityKey": "Q778",
+      "name": "Colony of the Bahamas",
+      "wikidata": "Q778",
+      "relationIds": [
+        2834851
+      ]
+    },
+    {
+      "identityKey": "Q785",
+      "name": "Jersey",
+      "wikidata": "Q785",
+      "relationIds": [
+        2828299
+      ]
+    },
+    {
+      "identityKey": "Q794",
+      "name": "ایران",
+      "wikidata": "Q794",
+      "relationIds": [
+        2694890
+      ]
+    },
+    {
+      "identityKey": "Q797527",
+      "name": "British Togoland",
+      "wikidata": "Q797527",
+      "relationIds": [
+        2694159
+      ]
+    },
+    {
+      "identityKey": "Q816709",
+      "name": "Tьʙа Arat Respuʙlik",
+      "wikidata": "Q816709",
+      "relationIds": [
+        2849759
+      ]
+    },
+    {
+      "identityKey": "Q817",
+      "name": "Protectorate of Kuwait",
+      "wikidata": "Q817",
+      "relationIds": [
+        2848364
+      ]
+    },
+    {
+      "identityKey": "Q8272919",
+      "name": "Lietuva",
+      "wikidata": "Q8272919",
+      "relationIds": [
+        2692218
+      ]
+    },
+    {
+      "identityKey": "Q846",
+      "name": "Protectorate of Qatar",
+      "wikidata": "Q846",
+      "relationIds": [
+        2848319
+      ]
+    },
+    {
+      "identityKey": "Q862467",
+      "name": "Siin",
+      "wikidata": "Q862467",
+      "relationIds": [
+        2879275
+      ]
+    },
+    {
+      "identityKey": "Q865",
+      "name": "中國",
+      "wikidata": "Q865",
+      "relationIds": [
+        2694471
+      ]
+    },
+    {
+      "identityKey": "Q889394",
+      "name": "Colónia de Moçambique",
+      "wikidata": "Q889394",
+      "relationIds": [
+        2698263
+      ]
+    },
+    {
+      "identityKey": "Q907234",
+      "name": "Protectorat français au Maroc",
+      "wikidata": "Q907234",
+      "relationIds": [
+        2690949
+      ]
+    },
+    {
+      "identityKey": "Q918126",
+      "name": "British Guiana",
+      "wikidata": "Q918126",
+      "relationIds": [
+        2806844
+      ]
+    },
+    {
+      "identityKey": "Q918153",
+      "name": "British Ceylon",
+      "wikidata": "Q918153",
+      "relationIds": [
+        2848313
+      ]
+    },
+    {
+      "identityKey": "Q921",
+      "name": "Protectorate of Brunei",
+      "wikidata": "Q921",
+      "relationIds": [
+        2848297
+      ]
+    },
+    {
+      "identityKey": "Q929147",
+      "name": "Colonia del Rio de Oro",
+      "wikidata": "Q929147",
+      "relationIds": [
+        2860429
+      ]
+    },
+    {
+      "identityKey": "Q953903",
+      "name": "Northern Rhodesia",
+      "wikidata": "Q953903",
+      "relationIds": [
+        2691743
+      ]
+    },
+    {
+      "identityKey": "Q96372444",
+      "name": "Ashanti Colony",
+      "wikidata": "Q96372444",
+      "relationIds": [
+        2923088
+      ]
+    },
+    {
+      "identityKey": "Q9676",
+      "name": "Isle of Man",
+      "wikidata": "Q9676",
+      "relationIds": [
+        2693293
+      ]
+    },
+    {
+      "identityKey": "Territory of Western Samoa",
+      "name": "Territory of Western Samoa",
+      "wikidata": null,
+      "relationIds": [
+        2846170
+      ]
+    },
+    {
+      "identityKey": "Union Indochinoise",
+      "name": "Union Indochinoise",
+      "wikidata": null,
+      "relationIds": [
+        2745674
+      ]
+    },
+    {
+      "identityKey": "Граница СССР-Финляндия",
+      "name": "Граница СССР-Финляндия",
+      "wikidata": null,
+      "relationIds": [
+        2694422,
+        2694424,
+        2694430
+      ]
+    },
+    {
+      "identityKey": "المملكة العراقية الهاشمية",
+      "name": "المملكة العراقية الهاشمية",
+      "wikidata": null,
+      "relationIds": [
+        2839466
+      ]
+    },
+    {
+      "identityKey": "د افغانستان شاهي دولت",
+      "name": "د افغانستان شاهي دولت",
+      "wikidata": null,
+      "relationIds": [
+        2822863
+      ]
+    },
+    {
+      "identityKey": "大日本帝国",
+      "name": "大日本帝国",
+      "wikidata": null,
+      "relationIds": [
+        2889894
+      ]
+    }
+  ],
+  "cliopatriaOnly": [
+    {
+      "identityKey": "Q1138904",
+      "name": "Kingdom of Afghanistan",
+      "wikidata": "Q1138904",
+      "sourceRecords": [
+        26
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q139708",
+      "name": "French Mandate for Syria and Lebanon",
+      "wikidata": "Q139708",
+      "sourceRecords": [
+        59
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q148",
+      "name": "Republic of China",
+      "wikidata": "Q148",
+      "sourceRecords": [
+        67
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q149805",
+      "name": "Kingdom of Iraq",
+      "wikidata": "Q149805",
+      "sourceRecords": [
+        52
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1656775",
+      "name": "Kingdom of Lithuania",
+      "wikidata": "Q1656775",
+      "sourceRecords": [
+        85
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q172579",
+      "name": "Kingdom of Italy",
+      "wikidata": "Q172579",
+      "sourceRecords": [
+        69
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q17427",
+      "name": "Communist Party of China",
+      "wikidata": "Q17427",
+      "sourceRecords": [
+        53
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q178038",
+      "name": "Second Spanish Republic",
+      "wikidata": "Q178038",
+      "sourceRecords": [
+        41
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q179848",
+      "name": "British Africa",
+      "wikidata": "Q179848",
+      "sourceRecords": [
+        55
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q185682",
+      "name": "French Indochina",
+      "wikidata": "Q185682",
+      "sourceRecords": [
+        36
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q188712",
+      "name": "Empire of Japan",
+      "wikidata": "Q188712",
+      "sourceRecords": [
+        83
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q19951607",
+      "name": "French Africa",
+      "wikidata": "Q19951607",
+      "sourceRecords": [
+        63
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1998401",
+      "name": "North Yemen",
+      "wikidata": "Q1998401",
+      "sourceRecords": [
+        84
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q207991",
+      "name": "Pahlavi Dynasty",
+      "wikidata": "Q207991",
+      "sourceRecords": [
+        73
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q212056",
+      "name": "Mongolian People's Republic",
+      "wikidata": "Q212056",
+      "sourceRecords": [
+        35
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q222",
+      "name": "Albania",
+      "wikidata": "Q222",
+      "sourceRecords": [
+        50
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q223",
+      "name": "Greenland",
+      "wikidata": "Q223",
+      "sourceRecords": [
+        40
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q23666",
+      "name": "Kingdom of Great Britain",
+      "wikidata": "Q23666",
+      "sourceRecords": [
+        74
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q25227",
+      "name": "Netherlands Antilles",
+      "wikidata": "Q25227",
+      "sourceRecords": [
+        2
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q258",
+      "name": "South Africa",
+      "wikidata": "Q258",
+      "sourceRecords": [
+        31
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q2719360",
+      "name": "Luxembourg",
+      "wikidata": "Q2719360",
+      "sourceRecords": [
+        72
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q2742116",
+      "name": "Spanish Nationalists",
+      "wikidata": "Q2742116",
+      "sourceRecords": [
+        58
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q28",
+      "name": "Hungarian Republic",
+      "wikidata": "Q28",
+      "sourceRecords": [
+        19
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q33946",
+      "name": "Czechoslovakia",
+      "wikidata": "Q33946",
+      "sourceRecords": [
+        78
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q521263",
+      "name": "Tibet",
+      "wikidata": "Q521263",
+      "sourceRecords": [
+        33
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q528546",
+      "name": "First Hellenic Republic",
+      "wikidata": "Q528546",
+      "sourceRecords": [
+        81
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q55",
+      "name": "Netherlands",
+      "wikidata": "Q55",
+      "sourceRecords": [
+        47,
+        60
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q62651",
+      "name": "Denmark-Norway",
+      "wikidata": "Q62651",
+      "sourceRecords": [
+        87
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q717",
+      "name": "Venezuela",
+      "wikidata": "Q717",
+      "sourceRecords": [
+        8
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q7318",
+      "name": "Nazi Germany",
+      "wikidata": "Q7318",
+      "sourceRecords": [
+        71
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q786",
+      "name": "Dominican Republic",
+      "wikidata": "Q786",
+      "sourceRecords": [
+        24
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q800",
+      "name": "Republic of Costa Rica",
+      "wikidata": "Q800",
+      "sourceRecords": [
+        11
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q811",
+      "name": "Republic of Nicaragua",
+      "wikidata": "Q811",
+      "sourceRecords": [
+        7
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q815731",
+      "name": "Principality of Bulgaria",
+      "wikidata": "Q815731",
+      "sourceRecords": [
+        23
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q824489",
+      "name": "Estado Novo",
+      "wikidata": "Q824489",
+      "sourceRecords": [
+        57
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q83286",
+      "name": "Yugoslavia",
+      "wikidata": "Q83286",
+      "sourceRecords": [
+        75
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q8680",
+      "name": "British Colonial Empire",
+      "wikidata": "Q8680",
+      "sourceRecords": [
+        37,
+        45
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q869",
+      "name": "Kingdom of Thailand",
+      "wikidata": "Q869",
+      "sourceRecords": [
+        34
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q926295",
+      "name": "Italian Africa",
+      "wikidata": "Q926295",
+      "sourceRecords": [
+        88
+      ],
+      "reason": "no_ohm_match"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
-import type { FormableDefinition, GameData, GoodDef, PopNeedsDef, PopType, Recipe } from '../shared/types';
-import { PROVINCE_COUNT, WORLD_SEED } from './generated';
+import type { FormableDefinition, GameData, GoodDef, PopNeedsDef, PopType, Recipe, ScenarioId } from '../shared/types';
+import { DEFAULT_SCENARIO, PROVINCE_COUNT, WORLD_SEED, loadScenario, type WorldSeedData } from './generated';
 import { INVENTIONS, TECHS } from './techs';
 
 const GOODS: GoodDef[] = [
@@ -80,10 +80,10 @@ const RECIPES: Recipe[] = [
     inputs: [input('cattle', 0.8), input('grain', 0.7)],
     output: output('canned_food', 1.0),
   },
-  // --- Pre-industrial crafts (E1): available from 1820 — a vintner estate or
+  // --- Pre-industrial crafts (E1): available from 1830 — a vintner estate or
   // --- lumber mill is not 1850s technology. Only true industrial-revolution
   // --- chains (machine parts, artillery, cement, fertilizer, ammunition)
-  // Stay tech-gated: roughly 11 civilian recipes at the 1820 start.
+  // Stay tech-gated: roughly 11 civilian recipes at the 1830 start.
   {
     key: 'factory_fishing_wharf',
     name: 'Fishing Wharf',
@@ -268,7 +268,7 @@ const FORMABLES: FormableDefinition[] = (WORLD_SEED.formables ?? []).map((formab
 // without Vienna (kleindeutsch), Austria can compete for grossdeutsch.
 // ---------------------------------------------------------------------------
 // Moonshot world: state ids are DERIVED from the seed, never hardcoded — the
-// 1820 overhaul renumbered every province, and any literal id list would rot
+// 1830 overhaul renumbered every province, and any literal id list would rot
 // again on the next world rebuild.
 const STATE_IDS_BY_TAG: Map<string, number[]> = (() => {
   const map = new Map<string, number[]>();
@@ -279,25 +279,55 @@ const STATE_IDS_BY_TAG: Map<string, number[]> = (() => {
   }
   return map;
 })();
-const statesOf = (tags: string[]): number[] => tags.flatMap((tag) => STATE_IDS_BY_TAG.get(tag) ?? []);
-const statesNamed = (tag: string, names: string[]): number[] => WORLD_SEED.provinces
-  .filter((p) => p.ownerTag === tag && names.includes(p.stateName ?? p.name))
-  .map((p) => p.stateId);
+/**
+ * State ids for a set of tags, deduped.
+ *
+ * Deduping is load-bearing, not tidiness. States now hold several provinces
+ * each, so a per-province flatMap repeats a state id once per province in it:
+ * Pommern appeared five times in the German core list. `evaluateNationFormable`
+ * dedupes before computing a share, but `seedCoreShare` divided by the raw
+ * length, so the two ran on different denominators and every formable's alarm
+ * threshold sat above the share it was compared against.
+ */
+const statesOf = (tags: string[]): number[] => [
+  ...new Set(tags.flatMap((tag) => STATE_IDS_BY_TAG.get(tag) ?? [])),
+].sort((a, b) => a - b);
+/**
+ * State names come from the Vic2 region cut, so a rebuild can rename or absorb
+ * one out from under this content. Unresolved lookups are recorded rather than
+ * thrown — the browser should not hard-fail on a content typo — and asserted in
+ * the content lint test so CI catches the rot instead of shipping empty cores.
+ */
+export const UNRESOLVED_STATE_NAMES: { tag: string; name: string }[] = [];
 
+const statesNamed = (tag: string, names: string[]): number[] => {
+  for (const name of names) {
+    const found = WORLD_SEED.provinces.some((p) => p.ownerTag === tag && (p.stateName ?? p.name) === name);
+    if (!found) UNRESOLVED_STATE_NAMES.push({ tag, name });
+  }
+  return [...new Set(WORLD_SEED.provinces
+    .filter((p) => p.ownerTag === tag && names.includes(p.stateName ?? p.name))
+    .map((p) => p.stateId))].sort((a, b) => a - b);
+};
+
+// States are cut along nationality, so Austria's Confederation lands are now
+// separable from Hungary, Galicia and Illyria, which were never in it. This was
+// previously approximated by the single mixed state that held all of them.
 const GERMAN_CONFEDERATION_STATES = [
-  ...statesOf(['PRU', 'BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES']),
-  ...statesNamed('AUS', ['Lower Austria', 'Upper Austria', 'Bohemia']),
+  ...statesOf(['PRU', 'BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES', 'HOL']),
+  ...statesNamed('AUS', ['Österreich', 'Bohemia']),
 ];
 const NORTH_GERMAN_STATES = statesOf(['PRU', 'SAX', 'HAN', 'HES']);
 
 for (const formable of FORMABLES) {
-  // No 1821 Germany: unification waits for the Springtime of Nations. The
+  // No 1831 Germany: unification waits for the Springtime of Nations. The
   // gate shows in the Formables panel as an explicit era requirement.
   if (formable.key === 'GERMANY' || formable.key === 'ITALY') formable.yearAtLeast = 1848;
   if (formable.key === 'ITALY') {
-    // U2: the Risorgimento runs through Austrian Lombardy-Venetia. Derived by
-    // name — the old literal 274 rotted with the world renumbering.
-    for (const lombardy of statesNamed('LVN', ['Lombardy-Venetia'])) {
+    // U2: the Risorgimento runs through Austrian Lombardy-Venetia. In the Vic2
+    // cut those are Austrian provinces rather than an LVN tag, gathered into the
+    // Venetia state. Derived by name — literal ids rot on every world rebuild.
+    for (const lombardy of statesNamed('AUS', ['Venetia'])) {
       if (!formable.coreStateIds.includes(lombardy)) formable.coreStateIds.push(lombardy);
     }
     formable.coreStateIds.sort((a, b) => a - b);
@@ -336,17 +366,21 @@ FORMABLES.push({
 
 // Gran Colombia: Bolivar's union of New Granada + Venezuela, which historically
 // dissolved in 1830 — framed here as a reunification the player/AI can pursue
-// from a few years into the campaign, not an 1820 given.
-const GRAN_COLOMBIA_STATES = [...statesOf(['CLM', 'VEN', 'ECU']), ...statesNamed('ESP', ['Panama'])];
+// from a few years into the campaign, not an 1830 given.
+// At the 1830 start Gran Colombia is still one country, so every member state
+// is already Colombian; VEN and ECU do not exist as tags until the 1831 split.
+const GRAN_COLOMBIA_STATES = statesOf(['CLM']);
 FORMABLES.push({
   key: 'GRAN_COLOMBIA',
   resultTag: 'GCO',
   resultName: 'Gran Colombia',
   resultColor: [176, 158, 64],
   resultPrimaryCulture: 'latin_american',
-  candidateTags: ['CLM', 'VEN'],
+  // At the 1830 start Venezuela has not split off yet, so Colombia is the only
+  // candidate; the formable is a re-unification after the 1831 breakup.
+  candidateTags: ['CLM'],
   coreStateIds: GRAN_COLOMBIA_STATES.slice(),
-  yearAtLeast: 1825,
+  yearAtLeast: 1835,
   requiredCoreShare: 0.7,
   requireIndependent: true,
   requireGreatPower: false,
@@ -368,7 +402,11 @@ FORMABLES.push({
 // (0.857) and "both fully" (1.0) — requiredCoreShare: 1 is the only value
 // that closes the loophole, matching NORTH_GERMAN_CONFEDERATION's own
 // precedent for a similarly lopsided two-member union.
-const SCANDINAVIAN_UNION_STATES = [...statesOf(['SWE']), ...statesNamed('DEN', ['Jutland', 'Zealand', 'Schleswig-Holstein'])];
+const SCANDINAVIAN_UNION_STATES = [
+  ...statesOf(['SWE']),
+  ...statesNamed('DEN', ['Jylland']),
+  ...statesNamed('HOL', ['Schleswig-Holstein']),
+];
 FORMABLES.push({
   key: 'SCANDINAVIAN_UNION',
   resultTag: 'SCA',
@@ -398,8 +436,8 @@ FORMABLES.push({
 // Post-overhaul: Brazil and Spanish America are independent, so the union is
 // Iberia proper — Spain's five European states plus metropolitan Portugal.
 const IBERIAN_UNION_STATES = [
-  ...statesNamed('ESP', ['Andalusia', 'Castile', 'Catalonia', 'Galicia', 'Valencia']),
-  ...statesNamed('POR', ['Portugal']),
+  ...statesNamed('ESP', ['Castilla la Nueva']),
+  ...statesNamed('POR', ['Estremadura']),
 ];
 FORMABLES.push({
   key: 'IBERIAN_UNION',
@@ -417,7 +455,8 @@ FORMABLES.push({
 });
 
 export const GAME_DATA: GameData = {
-  startDate: { year: 1820, month: 1, day: 1 },
+  scenarioId: DEFAULT_SCENARIO.manifest.id,
+  startDate: DEFAULT_SCENARIO.manifest.startDate,
   goods: GOODS,
   recipes: RECIPES,
   popNeeds: POP_NEEDS,
@@ -459,6 +498,13 @@ export const GAME_DATA: GameData = {
     { key: 'african', name: 'African', color: [158, 146, 122], religion: 'sunni' },
     // --- 1.6.0 historical-map additions (append-only) ---
     { key: 'polynesian', name: 'Polynesian', color: [132, 176, 170], religion: 'traditional' },
+    // The Vic2 cut leaves the interior of North America and the Arctic outside
+    // any state, and the vocabulary had nothing for the people living there, so
+    // those provinces were seeded with the settler culture that later absorbed
+    // them. One bucket, at the same coarseness as 'african' or 'south_asian'.
+    // Siberia's peoples fold into 'central_asian', which already carries the
+    // Mongol, Tibetan and Kazakh steppe.
+    { key: 'indigenous_american', name: 'Indigenous American', color: [196, 138, 106], religion: 'traditional' },
   ],
   religions: [
     { key: 'protestant', name: 'Protestant' },
@@ -600,3 +646,42 @@ export const GAME_DATA: GameData = {
   nationCores: NATION_CORES,
   formables: FORMABLES,
 };
+
+const SCENARIO_GAME_DATA = new Map<ScenarioId, GameData>([[GAME_DATA.scenarioId, GAME_DATA]]);
+
+function seedFormables(seed: WorldSeedData): FormableDefinition[] {
+  return (seed.formables ?? []).map((formable) => ({
+    key: formable.key,
+    resultTag: formable.resultTag,
+    resultName: formable.resultName,
+    resultColor: formable.resultColor,
+    resultPrimaryCulture: FORMABLE_CULTURE_OVERRIDE[formable.key] ?? formable.resultPrimaryCulture,
+    candidateTags: formable.candidateTags.slice(),
+    coreStateIds: formable.coreStateIds.slice().sort((a, b) => a - b),
+    requiredCoreShare: formable.requiredCoreShare,
+    requireIndependent: formable.requireIndependent,
+    requireGreatPower: formable.requireGreatPower,
+    prestigeReward: formable.prestigeReward,
+  }));
+}
+
+/** Compile universal rules together with one scenario's static roster and map. */
+export function gameDataForScenario(scenarioId: ScenarioId = DEFAULT_SCENARIO.manifest.id): GameData {
+  const cached = SCENARIO_GAME_DATA.get(scenarioId);
+  if (cached) return cached;
+
+  const scenario = loadScenario(scenarioId);
+  const seed = scenario.worldSeed;
+  const compiled: GameData = {
+    ...GAME_DATA,
+    scenarioId,
+    startDate: scenario.manifest.startDate,
+    provinceCount: seed.provinces.length,
+    nationCores: Object.fromEntries(
+      seed.nations.map((nation) => [nation.tag, (nation.coreStateIds ?? []).slice().sort((a, b) => a - b)]),
+    ),
+    formables: seedFormables(seed),
+  };
+  SCENARIO_GAME_DATA.set(scenarioId, compiled);
+  return compiled;
+}

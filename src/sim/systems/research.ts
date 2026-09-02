@@ -32,12 +32,7 @@ import type {
 import type { Rng } from '../rng';
 import { partyByKey } from '../politics';
 import { getInfamyLimit } from './diplomacy';
-
-/** Same no-leap-year clock as world.ts / events.ts (kept local: no cycle). */
-const EPOCH_YEAR = 1820;
-function currentYear(day: number): number {
-  return EPOCH_YEAR + Math.floor(day / 365);
-}
+import { yearAtDay } from '../calendar';
 
 export const RESEARCH_POINT_CAP = 10_000;
 /** Banked-points multiple of the cheapest available tech that triggers auto-pick. */
@@ -324,7 +319,7 @@ function tickNationResearch(world: World, data: GameData, nation: Nation, year: 
 }
 
 export function runResearchMonthly(world: World, data: GameData, rng: Rng): void {
-  const year = currentYear(world.day);
+  const year = yearAtDay(world.day, world.startDate ?? data.startDate);
   for (const nation of world.nations) {
     tickNationResearch(world, data, nation, year, rng);
   }
@@ -351,7 +346,7 @@ export function setNationResearch(world: World, data: GameData, nationId: Nation
   }
   const tech = data.techs.find((candidate) => candidate.key === techKey);
   if (!tech) return { ok: false, reason: `Unknown technology '${techKey}'.` };
-  const year = currentYear(world.day);
+  const year = yearAtDay(world.day, world.startDate ?? data.startDate);
   const availability = techAvailability(nation, data, tech, year);
   if (!availability.available) return { ok: false, reason: availability.reason };
   if (nation.currentResearch !== tech.key) {
@@ -410,7 +405,7 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
       inventionStatuses: [],
     };
   }
-  const year = currentYear(world.day);
+  const year = yearAtDay(world.day, world.startDate ?? data.startDate);
   const techSet = new Set(nation.techs);
   const techNameByKey = new Map(data.techs.map((tech) => [tech.key, tech.name]));
   const recipeNameByKey = new Map(data.recipes.map((recipe) => [recipe.key, recipe.name]));
@@ -435,7 +430,7 @@ export function buildPlayerTechView(world: World, data: GameData, nationId: Nati
       name: tech.name,
       category: tech.category,
       cost: tech.cost,
-      year: tech.year ?? EPOCH_YEAR,
+      year: tech.year ?? data.startDate.year,
       prereq: tech.prereq ?? null,
       prereqName: tech.prereq ? (techNameByKey.get(tech.prereq) ?? tech.prereq) : null,
       researched,

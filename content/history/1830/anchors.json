@@ -1,0 +1,107 @@
+{
+  "asOf": "1830-01-01",
+  "note": "Facts about the 1830 map that must not drift. These are checked against the generated world seed, so a Vic2 re-extraction or a change to the province cut fails loudly instead of quietly shipping the wrong century. Province anchors are keyed by name: ids renumber on every re-cut and an id-keyed anchor only ever reports that.",
+  "anchors": [
+    {
+      "id": "algiers-still-ottoman",
+      "kind": "province",
+      "provinceName": "Algiers",
+      "ownerTag": "ALG"
+    },
+    {
+      "id": "texas-still-mexican",
+      "kind": "province",
+      "provinceName": "Texas",
+      "ownerTag": "MEX"
+    },
+    {
+      "id": "flanders-still-dutch",
+      "kind": "province",
+      "provinceName": "Vlaanderen",
+      "ownerTag": "NLD"
+    },
+    {
+      "id": "syria-still-ottoman",
+      "kind": "province",
+      "provinceName": "Syria",
+      "ownerTag": "OTT"
+    },
+    {
+      "id": "congress-poland-exists",
+      "kind": "province",
+      "provinceName": "Mazowieckie",
+      "ownerTag": "POL"
+    },
+    {
+      "id": "gran-colombia-intact",
+      "kind": "province",
+      "provinceName": "Ecuador",
+      "ownerTag": "CLM"
+    },
+    {
+      "id": "alaska-is-russian",
+      "kind": "province",
+      "provinceName": "Alaska",
+      "ownerTag": "RUS"
+    },
+    {
+      "id": "egypt-holds-the-nile",
+      "kind": "province",
+      "provinceName": "Lower Egypt",
+      "ownerTag": "EGY"
+    },
+    {
+      "id": "greece-is-independent",
+      "kind": "province",
+      "provinceName": "Peloponnese",
+      "ownerTag": "GRE"
+    },
+    {
+      "id": "serbia-is-autonomous",
+      "kind": "province",
+      "provinceName": "Northern Serbia",
+      "ownerTag": "SER"
+    },
+    {
+      "id": "poland-is-russian-constituent",
+      "kind": "relationship",
+      "tag": "POL",
+      "polityStatus": "constituent",
+      "overlordTag": "RUS"
+    },
+    {
+      "id": "egypt-is-ottoman-vassal",
+      "kind": "relationship",
+      "tag": "EGY",
+      "polityStatus": "vassal",
+      "overlordTag": "OTT"
+    },
+    {
+      "id": "serbia-is-ottoman-vassal",
+      "kind": "relationship",
+      "tag": "SER",
+      "polityStatus": "vassal",
+      "overlordTag": "OTT"
+    },
+    {
+      "id": "algiers-is-ottoman-vassal",
+      "kind": "relationship",
+      "tag": "ALG",
+      "polityStatus": "vassal",
+      "overlordTag": "OTT"
+    },
+    {
+      "id": "greece-is-sovereign",
+      "kind": "relationship",
+      "tag": "GRE",
+      "polityStatus": "sovereign"
+    },
+    {
+      "id": "tibet-is-qing-tributary",
+      "kind": "relationship",
+      "tag": "TIB",
+      "polityStatus": "tributary",
+      "overlordTag": "QNG"
+    }
+  ]
+}

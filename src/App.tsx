@@ -6,6 +6,7 @@ import { PermalinkBootstrap } from './ui/PermalinkBootstrap';
 import { parseLobbyHash } from './net/mpJoin';
 import { useStore } from './store';
 import { useHasSnapshot } from './ui/useSnapshotFields';
+import { DEFAULT_SCENARIO_ID } from './data/generated';
 
 const LazyGrandMap = lazy(async () => {
   const module = await import('./map/GrandMap');
@@ -19,6 +20,7 @@ const LazyGameHud = lazy(() => import('./ui/GameHud'));
 function App() {
   const hasSnapshot = useHasSnapshot();
   const data = useStore((state) => state.data);
+  const scenarioId = useStore((state) => state.snapshot?.scenarioId ?? DEFAULT_SCENARIO_ID);
   const showMainMenu = useStore((state) => state.showMainMenu);
   const showLobby = useStore((state) => state.showLobby);
   const lobbyInvite = useMemo(() => parseLobbyHash(), []);
@@ -26,7 +28,7 @@ function App() {
   return (
     <div className="app-shell">
       <Suspense fallback={<div className="map-loading" />}>
-        <LazyGrandMap />
+        <LazyGrandMap key={scenarioId} />
       </Suspense>
       <div className={`hud-layer${showMainMenu ? ' hud-layer--backstage' : ''}`}>
         <Suspense fallback={null}>

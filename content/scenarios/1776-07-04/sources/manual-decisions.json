@@ -1,0 +1,2283 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1776-07-04",
+  "reviewer": "Codex multi-anchor temporal review",
+  "reviewedAt": "2026-09-02",
+  "decisions": [
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1028",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "ALAOUITE_MOROCCO",
+      "displayName": "Alaouite Morocco",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ALAOUITE_MOROCCO"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1034173",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1050326",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1061057",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_ACEH",
+      "displayName": "Sultanate of Aceh",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_ACEH"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1062422",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1069959",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KINGDOM_OF_IMERETI",
+      "displayName": "Kingdom of Imereti",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_IMERETI"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q10791211",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KINGDOM_OF_MRAUK_U",
+      "displayName": "Kingdom of Mrauk U",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_MRAUK_U"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q10957559",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PRINCIPALITY_OF_MOLDAVIA",
+      "displayName": "Principality of Moldavia",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PRINCIPALITY_OF_MOLDAVIA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1122980",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COMTAT_VENAISSIN",
+      "displayName": "Comtat Venaissin",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COMTAT_VENAISSIN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1132786",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "WADAI_EMPIRE",
+      "displayName": "Wadai Empire",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "WADAI_EMPIRE"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1139762",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "BORNU_EMPIRE",
+      "displayName": "Bornu Empire",
+      "polityStatus": "decentralized",
+      "flagAssetTag": "BORNU_EMPIRE"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1150344",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_JOHOR",
+      "displayName": "Sultanate of Johor",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_JOHOR"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1317579",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_KEDAH",
+      "displayName": "Sultanate of Kedah",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_KEDAH"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1317991",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q146871",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1474791",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_DARFUR",
+      "displayName": "Sultanate of Darfur",
+      "polityStatus": "decentralized",
+      "flagAssetTag": "SULTANATE_OF_DARFUR"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1475713",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "FUNJ_SULTANATE",
+      "displayName": "Funj Sultanate",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "FUNJ_SULTANATE"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1514510",
+      "disposition": "exclude",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q154667",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q156038",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q156199",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1679856",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_JAMBI",
+      "displayName": "Sultanate of Jambi",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_JAMBI"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q170604",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q171393",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PRINCIPALITY_OF_WALLACHIA",
+      "displayName": "Principality of Wallachia",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PRINCIPALITY_OF_WALLACHIA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1760473",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PRINCIPALITY_OF_ABKHAZIA",
+      "displayName": "Principality of Abkhazia",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PRINCIPALITY_OF_ABKHAZIA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1794655",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KUTAI_KINGDOM",
+      "displayName": "Kutai Kingdom",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KUTAI_KINGDOM"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1796223",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1841483",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DUTCH_CEYLON",
+      "displayName": "Dutch Ceylon",
+      "polityStatus": "vassal",
+      "flagAssetTag": "DUTCH_CEYLON"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q185944",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q190165",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q1929987",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q19746028",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_MEMPAWAH",
+      "displayName": "Sultanate of Mempawah",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_MEMPAWAH"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q200464",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q201705",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q207521",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "ETHIOPIAN_EMPIRE",
+      "displayName": "Ethiopian Empire",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ETHIOPIAN_EMPIRE"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2122499",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q213893",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q215443",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2195101",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PRINCIPALITY_OF_GURIA",
+      "displayName": "Principality of Guria",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PRINCIPALITY_OF_GURIA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q221283",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DUTCH_CAPE_COAST",
+      "displayName": "Dutch Cape Coast",
+      "polityStatus": "vassal",
+      "flagAssetTag": "DUTCH_CAPE_COAST"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q223",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "GREENLAND",
+      "displayName": "Greenland",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GREENLAND"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q235",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PRINCIPALITY_OF_MONACO",
+      "displayName": "Principality of Monaco",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "PRINCIPALITY_OF_MONACO"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2577303",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2614237",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2649311",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_PERAK",
+      "displayName": "Sultanate of Perak",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_PERAK"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2817348",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_BIMA",
+      "displayName": "Sultanate of Bima",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_BIMA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2907860",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PRINCIPALITY_OF_MINGRELIA",
+      "displayName": "Principality of Mingrelia",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PRINCIPALITY_OF_MINGRELIA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2919545",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q3048747",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q3109927",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_SAMBAS",
+      "displayName": "Sultanate of Sambas",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_SAMBAS"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q3125978",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "BALI",
+      "displayName": "Bali",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "BALI"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q3332217",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "GORKHA_KINGDOM",
+      "displayName": "Gorkha Kingdom",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "GORKHA_KINGDOM"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q3446232",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_SUKADANA",
+      "displayName": "Sultanate of Sukadana",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_SUKADANA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q347",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q3503555",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_PALEMBANG",
+      "displayName": "Sultanate of Palembang",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_PALEMBANG"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q3530610",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "THANJAVUR_MARATHA_KINGDOM",
+      "displayName": "Thanjavur Maratha Kingdom",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "THANJAVUR_MARATHA_KINGDOM"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q382593",
+      "disposition": "exclude",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q39",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SWISS_CONFEDERACY",
+      "displayName": "Swiss Confederacy",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SWISS_CONFEDERACY"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q398",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q403369",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q406684",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q424",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "CAMBODIA",
+      "displayName": "Cambodia",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "CAMBODIA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q43292",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_BONE",
+      "displayName": "Sultanate of Bone",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_BONE"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q46652",
+      "disposition": "exclude",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q467627",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q47261",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "ELECTORATE_OF_BAVARIA",
+      "displayName": "Electorate of Bavaria",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ELECTORATE_OF_BAVARIA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q48779892",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q4899891",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q491106",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "mapTo": "KHANATE_OF_KHIVA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q52028",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q521263",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "TIBET",
+      "displayName": "Tibet",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "TIBET"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q5261548",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "QASIMID_YEMEN",
+      "displayName": "Qasimid Yemen",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "QASIMID_YEMEN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q5769444",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q577668",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q617219",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q66504140",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "HABSBURG_MONARCHY",
+      "displayName": "Habsburg Monarchy",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "HABSBURG_MONARCHY"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q68518",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "HAUDENOSAUNEE",
+      "displayName": "Haudenosaunee",
+      "polityStatus": "decentralized",
+      "flagAssetTag": "HAUDENOSAUNEE"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q706018",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q722071",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q734867",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_BANTEN",
+      "displayName": "Sultanate of Banten",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_BANTEN"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q762084",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q7636765",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q80702",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q817",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q837",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q842",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q849623",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "OYO_EMPIRE",
+      "displayName": "Oyo Empire",
+      "polityStatus": "decentralized",
+      "flagAssetTag": "OYO_EMPIRE"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q8680",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q887803",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_BRUNEI",
+      "displayName": "Sultanate of Brunei",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_BRUNEI"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q912382",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DANISH_INDIA",
+      "displayName": "Danish India",
+      "polityStatus": "vassal",
+      "flagAssetTag": "DANISH_INDIA"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q9326",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q97629053",
+      "disposition": "exclude",
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Baba Mahal",
+      "disposition": "constituent",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "BABA_MAHAL",
+      "displayName": "Baba Mahal",
+      "polityStatus": "constituent",
+      "flagAssetTag": "BABA_MAHAL"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "ohm:relation:2890079",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "RYUKYU_KINGDOM",
+      "displayName": "Ryukyu Kingdom",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "RYUKYU_KINGDOM"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Provincias Internas",
+      "disposition": "constituent",
+      "notes": "The Internal Provinces were an administrative division of New Spain, not a sovereign polity."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1052040",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KAJOOR",
+      "displayName": "Kajoor",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KAJOOR"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1062415",
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_CHAMPASAK",
+      "displayName": "Kingdom of Champasak",
+      "notes": "Exact-date Southeast Asian kingdom retained as a territorial polity."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1070529",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_VIRGINIA",
+      "displayName": "Colony of Virginia",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_VIRGINIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1071439",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "FANJAKAN_IMERINA",
+      "displayName": "Fanjakan'Imerina",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "FANJAKAN_IMERINA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q10825475",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "displayName": "順城鎮",
+      "polityStatus": "vassal"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1115291",
+      "disposition": "polity",
+      "polityKey": "THONBURI_KINGDOM",
+      "displayName": "Thonburi Kingdom",
+      "notes": "The Thonburi kingdom was the governing Siamese polity on the scenario date."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q116288296",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIA_TRINIDAD",
+      "displayName": "Colonia Trinidad",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIA_TRINIDAD"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q11876909",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "ESTADO_DO_BRASIL",
+      "displayName": "Estado do Brasil",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ESTADO_DO_BRASIL"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1192936",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "UBWAMI_BW_URUNDI",
+      "displayName": "Ubwami bw'Urundi",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "UBWAMI_BW_URUNDI"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1235720",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "RESPUBLICA_LUCENSIS",
+      "displayName": "Respublica Lucensis",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "RESPUBLICA_LUCENSIS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1240096",
+      "disposition": "dependent_polity",
+      "polityKey": "PRINCELY_STATE_OF_HYDERABAD",
+      "displayName": "Princely State of Hyderabad",
+      "notes": "Hyderabad is retained as a dependent princely administration rather than collapsed into a European empire polygon."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q124881664",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "NIANI",
+      "displayName": "Niani",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "NIANI"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q12548",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q12560",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "displayName": "دولتْ علیّه عثمانیّه",
+      "polityStatus": "sovereign"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q131429368",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SHARIFIAN_SULTANATE",
+      "displayName": "Sharifian Sultanate",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SHARIFIAN_SULTANATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1368792",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KOLONIE_ESSEQUEBO",
+      "displayName": "Kolonie Essequebo",
+      "polityStatus": "vassal",
+      "flagAssetTag": "KOLONIE_ESSEQUEBO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1387",
+      "disposition": "constituent",
+      "notes": "Rhode Island is a constituent state of the newly declared United States, not a separate sovereign country slot."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q139948",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KHANATE_OF_KALAT",
+      "displayName": "Khanate of Kalat",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KHANATE_OF_KALAT"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1425202",
+      "disposition": "dependent_polity",
+      "polityKey": "WEST_FLORIDA",
+      "displayName": "West Florida",
+      "notes": "West Florida remained a British colonial administration on the scenario date."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q142965",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PORTUGUESE_TIMOR",
+      "displayName": "Portuguese Timor",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PORTUGUESE_TIMOR"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1433867",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "displayName": "قزاق خاندیغی",
+      "polityStatus": "sovereign"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1471373",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SALUUM",
+      "displayName": "Saluum",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SALUUM"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q15238409",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIE_DE_SAINTE_LUCIE",
+      "displayName": "Colonie de Sainte-Lucie",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIE_DE_SAINTE_LUCIE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1617382",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "NEW_HAMPSHIRE_COLONY",
+      "displayName": "New Hampshire Colony",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NEW_HAMPSHIRE_COLONY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q165040",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DUCATO_DI_PARMA_E_PIACENZA",
+      "displayName": "Ducato di Parma e Piacenza",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DUCATO_DI_PARMA_E_PIACENZA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1660566",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "displayName": "كسلطانن بنجر",
+      "polityStatus": "sovereign"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q16850784",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "WOLOF",
+      "displayName": "Wolof",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "WOLOF"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q170072",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "displayName": "Republiek der Zeven Verenigde Nederlanden",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q17012",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIE_DE_LA_GUADELOUPE",
+      "displayName": "Colonie de la Guadeloupe",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIE_DE_LA_GUADELOUPE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q170174",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "STATUS_ECCLESIASTICUS",
+      "displayName": "Status Ecclesiasticus",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "STATUS_ECCLESIASTICUS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q170603",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "REINO_DE_MEXICO",
+      "displayName": "Reino de Mexico",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REINO_DE_MEXICO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q17070",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "ISLE_BOURBON",
+      "displayName": "Isle Bourbon",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ISLE_BOURBON"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q172107",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "RZECZPOSPOLITA_OBOJGA_NARODOW",
+      "displayName": "Rzeczpospolita Obojga Narodów",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "RZECZPOSPOLITA_OBOJGA_NARODOW"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q174306",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SERENISCIMA_REPUBRICA_DE_ZENA",
+      "displayName": "Serenìscima Repùbrica de Zêna",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SERENISCIMA_REPUBRICA_DE_ZENA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1770351",
+      "disposition": "dependent_polity",
+      "polityKey": "EAST_FLORIDA",
+      "displayName": "East Florida",
+      "notes": "East Florida remained a British colonial administration on the scenario date."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1796551",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_LEEWARD_ISLANDS",
+      "displayName": "British Leeward Islands",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_LEEWARD_ISLANDS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1827039",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DANG_TRONG",
+      "displayName": "Đàng Trong",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DANG_TRONG"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q187549",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "HOSPITALLER_MALTA",
+      "displayName": "Hospitaller Malta",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "HOSPITALLER_MALTA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q1885093",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_QISHN_AND_SOCOTRA",
+      "displayName": "Sultanate of Qishn and Socotra",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_QISHN_AND_SOCOTRA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q188586",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "REGNUM_SICILIAE",
+      "displayName": "Regnum Siciliae",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REGNUM_SICILIAE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q192184",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SAINT_HELENA_COLONY",
+      "displayName": "Saint Helena Colony",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SAINT_HELENA_COLONY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q19892830",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KINGDOM_OF_COORG",
+      "displayName": "Kingdom of Coorg",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_COORG"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2001966",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COMPANY_RAJ",
+      "displayName": "Company Raj",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COMPANY_RAJ"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2007",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "NORTH_WEST_TERRITORIES",
+      "displayName": "North-West Territories",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NORTH_WEST_TERRITORIES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2039931",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "CAPITANIA_GENERAL_DE_CUBA",
+      "displayName": "Capitanía General de Cuba",
+      "polityStatus": "vassal",
+      "flagAssetTag": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q205662",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "TOKUGAWA_SHOGUNATE",
+      "displayName": "Tokugawa Shogunate",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "TOKUGAWA_SHOGUNATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q206279",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "WAALO",
+      "displayName": "Waalo",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "WAALO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2077243",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "CAPITANIA_GENERAL_DE_GUATEMALA",
+      "displayName": "Capitanía General de Guatemala",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2079909",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PROVINCE_OF_MASSACHUSETTS_BAY",
+      "displayName": "Province of Massachusetts Bay",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PROVINCE_OF_MASSACHUSETTS_BAY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q208169",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "REPUBLICA_DE_RAGUSA",
+      "displayName": "Republica de Ragusa",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REPUBLICA_DE_RAGUSA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q211435",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "VIRREINATO_DEL_PERU",
+      "displayName": "Virreinato del Perú",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "VIRREINATO_DEL_PERU"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q215530",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "RIOGHACHT_EIREANN",
+      "displayName": "Ríoghacht Éireann",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "RIOGHACHT_EIREANN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2257830",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "displayName": "𐒈𐒚𐒐𐒆𐒖𐒒𐒖𐒆𐒆𐒖 𐒑𐒖𐒃𐒜𐒇𐒂𐒜𐒒",
+      "polityStatus": "sovereign"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q22684779",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "OMANI_EMPIRE",
+      "displayName": "Omani Empire",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "OMANI_EMPIRE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q228",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "ANDORRA",
+      "displayName": "Andorra",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ANDORRA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2335224",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_RHODE_ISLAND_AND_PROVIDENCE_PLANTATIONS",
+      "displayName": "Colony of Rhode Island and Providence Plantations",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_RHODE_ISLAND_AND_PROVIDENCE_PLANTATIONS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q23366230",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "REPUBLIQUE_DE_GENEVE",
+      "displayName": "République de Genève",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REPUBLIQUE_DE_GENEVE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q23635",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_BERMUDA",
+      "displayName": "Colony of Bermuda",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_BERMUDA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q238",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SAN_MARINO",
+      "displayName": "San Marino",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SAN_MARINO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2437292",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "NUEVA_GALICIA",
+      "displayName": "Nueva Galicia",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "NUEVA_GALICIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q244",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_BARBADOS",
+      "displayName": "Colony of Barbados",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_BARBADOS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2452027",
+      "disposition": "constituent",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PROVINCE_OF_MARYLAND",
+      "displayName": "Province of Maryland",
+      "polityStatus": "constituent",
+      "flagAssetTag": "PROVINCE_OF_MARYLAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2475732",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_PENNSYLVANIA",
+      "displayName": "Colony of Pennsylvania",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_PENNSYLVANIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q248572",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KASULTANAN_NU_MAGINDANAW",
+      "displayName": "Kasultanan nu Magindanaw",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KASULTANAN_NU_MAGINDANAW"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q25230",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "GUERNSEY",
+      "displayName": "Guernsey",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "GUERNSEY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q252580",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DUCATUS_MUTINAE_ET_REGII",
+      "displayName": "Ducatus Mutinae et Regii",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DUCATUS_MUTINAE_ET_REGII"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2526023",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_JAMAICA",
+      "displayName": "Colony of Jamaica",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_JAMAICA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2556639",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "CAPITANIA_GENERAL_DE_YUCATAN",
+      "displayName": "Capitania General de Yucatán",
+      "polityStatus": "vassal",
+      "flagAssetTag": "CAPITANIA_GENERAL_DE_YUCATAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2578028",
+      "disposition": "polity",
+      "polityKey": "SIKH_MISLS",
+      "displayName": "Sikh Misls",
+      "polityStatus": "decentralized",
+      "notes": "The Sikh confederacy is represented as a decentralized territorial polity."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2594899",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "WUULI_MANSA_BANKO",
+      "displayName": "Wuuli Mansa Banko",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "WUULI_MANSA_BANKO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q266923",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "MYSORE_KINGDOM",
+      "displayName": "Mysore Kingdom",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "MYSORE_KINGDOM"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q26774",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SHOSHONE",
+      "displayName": "Shoshone",
+      "polityStatus": "decentralized",
+      "flagAssetTag": "SHOSHONE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2721139",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "CAPITANIA_GENERAL_DE_FILIPINAS",
+      "displayName": "Capitanía General de Filipinas",
+      "polityStatus": "vassal",
+      "flagAssetTag": "CAPITANIA_GENERAL_DE_FILIPINAS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q28179",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "JOSEON",
+      "displayName": "Joseon",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "JOSEON"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q282475",
+      "disposition": "polity",
+      "polityKey": "KINGDOM_OF_KARTLI_KAKHETI",
+      "displayName": "Kingdom of Kartli-Kakheti",
+      "notes": "The united eastern Georgian kingdom is retained as a sovereign polity."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q29",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SPANISH_MONARCHY",
+      "displayName": "Spanish Monarchy",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SPANISH_MONARCHY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2919465",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
+      "displayName": "Capitania General de Santo Domingo",
+      "polityStatus": "vassal",
+      "flagAssetTag": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q2984260",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "NEWFOUNDLAND_COLONY",
+      "displayName": "Newfoundland Colony",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NEWFOUNDLAND_COLONY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3045696",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "REGENCY_OF_ALGIERS",
+      "displayName": "Regency of Algiers",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REGENCY_OF_ALGIERS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3199818",
+      "disposition": "duplicate_geometry",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q323904",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "GOA_PORTUGUESA",
+      "displayName": "Goa Portuguesa",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GOA_PORTUGUESA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3277580",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "CARNATIC_SULTANATE",
+      "displayName": "Carnatic Sultanate",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "CARNATIC_SULTANATE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q33296",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "MUGHAL_EMPIRE",
+      "displayName": "Mughal Empire",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "MUGHAL_EMPIRE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3408341",
+      "disposition": "constituent",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PROVINCIA_DE_CARACAS",
+      "displayName": "Provincia de Caracas",
+      "polityStatus": "constituent",
+      "flagAssetTag": "PROVINCIA_DE_CARACAS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3456410",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "STADTREPUBLIK_MULHAUSEN",
+      "displayName": "Stadtrepublik Mülhausen",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "STADTREPUBLIK_MULHAUSEN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3456432",
+      "disposition": "constituent",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "REPUBLIK_DER_SIEBEN_ZENDEN",
+      "displayName": "Republik der Sieben Zenden",
+      "polityStatus": "constituent",
+      "flagAssetTag": "REPUBLIK_DER_SIEBEN_ZENDEN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3482103",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "displayName": "مملكة الشلك",
+      "polityStatus": "decentralized"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q369587",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KINGDOM_OF_KAKONGO",
+      "displayName": "Kingdom of Kakongo",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_KAKONGO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q37211",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SINDH",
+      "displayName": "Sindh",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SINDH"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3769",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIE_DE_LA_GUYANE",
+      "displayName": "Colonie de la Guyane",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIE_DE_LA_GUYANE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3823442",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "NUEVO_REINO_DE_LEON",
+      "displayName": "Nuevo Reino de León",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "NUEVO_REINO_DE_LEON"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3929733",
+      "disposition": "map_fragment",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q3933247",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "REPUBLIC_OF_NOLI",
+      "displayName": "Republic of Noli",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REPUBLIC_OF_NOLI"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q404774",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_LAHEJ",
+      "displayName": "Sultanate of Lahej",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SULTANATE_OF_LAHEJ"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q4118614",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_TIDORE",
+      "displayName": "Sultanate of Tidore",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_TIDORE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q422065",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_SULU",
+      "displayName": "Sultanate of Sulu",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_SULU"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q435583",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "OLD_SWISS_CONFEDERACY",
+      "displayName": "Old Swiss Confederacy",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "OLD_SWISS_CONFEDERACY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q45670",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "REINO_DE_PORTUGAL",
+      "displayName": "Reino de Portugal",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REINO_DE_PORTUGAL"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q468814",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DAHOMEY",
+      "displayName": "Dahomey",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DAHOMEY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q4948",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "REPUBLICA_DE_VENEZIA",
+      "displayName": "Republica de Venezia",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REPUBLICA_DE_VENEZIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q4969463",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_ARCTIC_TERRITORIES",
+      "displayName": "British Arctic Territories",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_ARCTIC_TERRITORIES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q4969562",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "BRITISH_BENCOOLEN",
+      "displayName": "British Bencoolen",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BRITISH_BENCOOLEN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q5159852",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PAT_A_PANGAMPONG_SA_RANAO",
+      "displayName": "Pat a Pangampong sa Ranao",
+      "polityStatus": "decentralized",
+      "flagAssetTag": "PAT_A_PANGAMPONG_SA_RANAO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q537503",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PRINCIPATO_DI_PIOMBINO",
+      "displayName": "Principato di Piombino",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "PRINCIPATO_DI_PIOMBINO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q541745",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "CAPITANIA_GENERAL_DE_PUERTO_RICO",
+      "displayName": "Capitanía General de Puerto Rico",
+      "polityStatus": "vassal",
+      "flagAssetTag": "CAPITANIA_GENERAL_DE_PUERTO_RICO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q56064",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIA_DO_SACRAMENTO",
+      "displayName": "Colônia do Sacramento",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIA_DO_SACRAMENTO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q5785",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "CAYMAN_ISLANDS",
+      "displayName": "Cayman Islands",
+      "polityStatus": "vassal",
+      "flagAssetTag": "CAYMAN_ISLANDS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q5881890",
+      "disposition": "dependent_polity",
+      "polityKey": "GOVERNORATE_OF_CHILOE",
+      "displayName": "Governorate of Chiloé",
+      "notes": "Chiloé is represented as a Spanish dependent administration."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q62651",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DANMARK_NORGE",
+      "displayName": "Danmark-Norge",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DANMARK_NORGE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q63149558",
+      "disposition": "polity",
+      "polityKey": "AFSHARID_IRAN",
+      "displayName": "Afsharid Iran",
+      "notes": "The surviving Afsharid polity in Khorasan is retained as exact-date territorial control."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q646374",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "INDE_FRANCAISE",
+      "displayName": "Inde française",
+      "polityStatus": "vassal",
+      "flagAssetTag": "INDE_FRANCAISE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q672685",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "FREISTAAT_DER_DREI_BUNDE",
+      "displayName": "Freistaat der Drei Bünde",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "FREISTAAT_DER_DREI_BUNDE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q675322",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KOLONIE_BERBICE",
+      "displayName": "Kolonie Berbice",
+      "polityStatus": "vassal",
+      "flagAssetTag": "KOLONIE_BERBICE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q688859",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DUCHE_SOUVERAIN_DE_BOUILLON",
+      "displayName": "Duché Souverain de Bouillon",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DUCHE_SOUVERAIN_DE_BOUILLON"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q70972",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "ROYAUME_DE_FRANCE",
+      "displayName": "Royaume de France",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ROYAUME_DE_FRANCE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q7232692",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "displayName": "Portuguese São Tomé and Príncipe",
+      "polityStatus": "vassal",
+      "flagAssetTag": "PORTUGUESE_SAO_TOME_AND_PRINCIPE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q738395",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "RUPERT_S_LAND",
+      "displayName": "Rupert's Land",
+      "polityStatus": "vassal",
+      "flagAssetTag": "RUPERT_S_LAND"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q751725",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "ISLAS_DE_LA_BAHIA",
+      "displayName": "Islas de la Bahia",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ISLAS_DE_LA_BAHIA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q757",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "ST_VINCENT_AND_THE_GRENADINES_TERRITORY",
+      "displayName": "St Vincent and the Grenadines Territory",
+      "polityStatus": "vassal",
+      "flagAssetTag": "ST_VINCENT_AND_THE_GRENADINES_TERRITORY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q763808",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "GOBERNACION_DE_CHILE",
+      "displayName": "Gobernación de Chile",
+      "polityStatus": "vassal",
+      "flagAssetTag": "GOBERNACION_DE_CHILE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q7646305",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SURINAME",
+      "displayName": "Suriname",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SURINAME"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q769",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONIE_DE_LA_GRENADE",
+      "displayName": "Colonie de la Grenade",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONIE_DE_LA_GRENADE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q769668",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_NEW_YORK",
+      "displayName": "Colony of New York",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_NEW_YORK"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q770833",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DANISH_GOLD_COAST",
+      "displayName": "Danish Gold Coast",
+      "polityStatus": "vassal",
+      "flagAssetTag": "DANISH_GOLD_COAST"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q778",
+      "disposition": "claim",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q784",
+      "disposition": "claim",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q785",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "JERSEY",
+      "displayName": "Jersey",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "JERSEY"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q807068",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "BAOL",
+      "displayName": "Baol",
+      "polityStatus": "vassal",
+      "flagAssetTag": "BAOL"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q829655",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DANSK_VESTINDIEN",
+      "displayName": "Dansk Vestindien",
+      "polityStatus": "vassal",
+      "flagAssetTag": "DANSK_VESTINDIEN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q83618",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "displayName": "मराठा साम्राज्य",
+      "polityStatus": "sovereign"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q860407",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KAHLUR_KINGDOM",
+      "displayName": "Kahlur Kingdom",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KAHLUR_KINGDOM"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q861551",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SAINT_DOMINGUE",
+      "displayName": "Saint-Domingue",
+      "polityStatus": "vassal",
+      "flagAssetTag": "SAINT_DOMINGUE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q861795",
+      "disposition": "polity",
+      "polityKey": "IMAMATE_OF_FUTA_TORO",
+      "displayName": "Imamate of Futa Toro",
+      "notes": "The imamate is retained as a territorial polity in the Senegal valley."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q862467",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SIIN",
+      "displayName": "Siin",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SIIN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q8733",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "QING_EMPIRE",
+      "displayName": "Qing Empire",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "QING_EMPIRE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q889030",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KANGLEIPAK_KINGDOM",
+      "displayName": "Kangleipak Kingdom",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KANGLEIPAK_KINGDOM"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q889884",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "UBWAMI_BW_U_RWANDA",
+      "displayName": "Ubwami bw'u Rwanda",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "UBWAMI_BW_U_RWANDA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q892272",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "BOUNDOU",
+      "displayName": "Boundou",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "BOUNDOU"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q917",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "BHUTAN",
+      "displayName": "Bhutan",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "BHUTAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q933592",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "DUCATO_DI_MASSA_E_PRINCIPATO_DI_CARRARA",
+      "displayName": "Ducato di Massa e Principato di Carrara",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "DUCATO_DI_MASSA_E_PRINCIPATO_DI_CARRARA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q951500",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COLONY_OF_CONNECTICUT",
+      "displayName": "Colony of Connecticut",
+      "polityStatus": "vassal",
+      "flagAssetTag": "COLONY_OF_CONNECTICUT"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q953432",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "COUTO_MISTO",
+      "displayName": "Couto Misto",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "COUTO_MISTO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q967246",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "KINGDOM_OF_NGOYO",
+      "displayName": "Kingdom of Ngoyo",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_NGOYO"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q9676",
+      "disposition": "constituent",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "ISLE_OF_MAN",
+      "displayName": "Isle of Man",
+      "polityStatus": "constituent",
+      "flagAssetTag": "ISLE_OF_MAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q986822",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "ROZVI",
+      "displayName": "Rozvi",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "ROZVI"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Republica de' Cošpäja",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "REPUBLICA_DE_COSPAJA",
+      "displayName": "Republica de' Cošpäja",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "REPUBLICA_DE_COSPAJA"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Sarawak",
+      "disposition": "constituent",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SARAWAK",
+      "displayName": "Sarawak",
+      "polityStatus": "constituent",
+      "flagAssetTag": "SARAWAK"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Sultanate of Maore",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_MAORE",
+      "displayName": "Sultanate of Maore",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_MAORE"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Sultanate of Ndzuwani",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_NDZUWANI",
+      "displayName": "Sultanate of Ndzuwani",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_NDZUWANI"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "خیوه خانلیگی",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "displayName": "خیوه خانلیگی",
+      "polityStatus": "sovereign"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "ދިވެހިރާއްޖެ",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "SULTANATE_OF_THE_MALDIVES",
+      "displayName": "Sultanate of the Maldives",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_THE_MALDIVES"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "南蟠 Nam Bàn",
+      "disposition": "dependent_polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "NAM_BAN",
+      "displayName": "南蟠 Nam Bàn",
+      "polityStatus": "vassal",
+      "flagAssetTag": "NAM_BAN"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "大越 - 主鄭",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "polityKey": "TRINH_LORDS",
+      "displayName": "Trinh Lords",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "TRINH_LORDS"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "大越 - 西山",
+      "disposition": "polity",
+      "polityKey": "TAY_SON",
+      "displayName": "Tây Sơn",
+      "notes": "The Tây Sơn-controlled Vietnamese territory is retained as a de facto polity on the scenario date."
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q207162",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "mapTo": "ROYAUME_DE_FRANCE"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q2267508",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "mapTo": "TRINH_LORDS"
+    },
+    {
+      "source": "cliopatria",
+      "identityKey": "Q28405",
+      "disposition": "polity",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1776-07-04. Exact-date geometry is audited separately.",
+      "mapTo": "JOSEON"
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q696241",
+      "disposition": "polity",
+      "polityKey": "KHANATE_OF_KOKAND",
+      "displayName": "Khanate of Kokand",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "KHANATE_OF_KOKAND",
+      "notes": "The OHM identity is the Khanate of Kokand and receives a stable semantic key for cross-date compilation."
+    },
+    {
+      "source": "ohm",
+      "identityKey": "Q800236",
+      "disposition": "polity",
+      "polityKey": "BAHAWALPUR_STATE",
+      "displayName": "Bahawalpur State",
+      "polityStatus": "sovereign",
+      "flagAssetTag": "BAHAWALPUR_STATE",
+      "notes": "The OHM identity is Bahawalpur State and receives a stable semantic key for cross-date compilation."
+    }
+  ]
+}

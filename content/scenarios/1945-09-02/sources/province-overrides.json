@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1945-09-02",
+  "reviewedBy": "Codex province projection review",
+  "reviewedAt": "2026-09-02",
+  "note": "These assignments repair inherited province centroids that are displaced outside their named region or combine island groups too coarsely for direct point-in-polygon ownership. They are gameplay projections, not new historical boundary evidence.",
+  "overrides": [
+    {
+      "provinceId": 11,
+      "polityKey": "CHILE",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Araucania inherits a polar centroid and is projected to Chile."
+    },
+    {
+      "provinceId": 12,
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Cape Colony inherits a polar centroid and is projected to the Union of South Africa."
+    },
+    {
+      "provinceId": 15,
+      "polityKey": "BRITISH_MAURITIUS",
+      "basis": "coarse_island_group_projection",
+      "notes": "The inherited Indian Ocean grouping lacks a usable island centroid and is projected to British Mauritius."
+    },
+    {
+      "provinceId": 16,
+      "polityKey": "ARGENTINA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Patagonia Meridional inherits a polar centroid and is projected to Argentina."
+    },
+    {
+      "provinceId": 17,
+      "polityKey": "UNITED_KINGDOM",
+      "basis": "coarse_island_group_projection",
+      "notes": "The South Atlantic island grouping has no single reviewed dependency polygon at this resolution and is projected to the United Kingdom."
+    },
+    {
+      "provinceId": 22,
+      "polityKey": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "basis": "coarse_island_group_projection",
+      "notes": "Western Polynesia combines several islands and inherits a polar centroid; it is projected to the British Western Pacific Territories."
+    },
+    {
+      "provinceId": 201,
+      "polityKey": "UNITED_KINGDOM",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "The Scottish Highlands centroid is displaced into the North Atlantic and is projected to the United Kingdom."
+    },
+    {
+      "provinceId": 202,
+      "polityKey": "DANMARK",
+      "basis": "coarse_island_group_projection",
+      "notes": "The inherited Iceland and Greenland province has one centroid in Greenland; it is projected to Denmark because Iceland is separately represented and independent on the scenario date."
+    },
+    {
+      "provinceId": 319,
+      "polityKey": "COLONY_OF_FIJI",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Fiji has a displaced inherited centroid and is projected to the Colony of Fiji."
+    },
+    {
+      "provinceId": 333,
+      "polityKey": "NORWAY",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Nordnorge has an offshore high-latitude centroid and is projected to Norway."
+    },
+    {
+      "provinceId": 363,
+      "polityKey": "PORTUGAL",
+      "basis": "coarse_island_group_projection",
+      "notes": "Macaronesia combines multiple archipelagos and is projected to Portugal for the coarse province mesh."
+    }
+  ]
+}

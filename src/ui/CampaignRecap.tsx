@@ -27,7 +27,7 @@ function formatCount(value: number): string {
  * screenshot. Continue-playing stays available; history does not stop.
  */
 export function CampaignRecap() {
-  const snapshot = useSnapshotFields(['chronicle', 'campaignOver', 'chronicleWarsFought'] as const);
+  const snapshot = useSnapshotFields(['startDate', 'chronicle', 'campaignOver', 'chronicleWarsFought'] as const);
   const [dismissed, setDismissed] = useState(false);
   const setShowMainMenu = useStore((state) => state.setShowMainMenu);
 
@@ -49,6 +49,7 @@ export function CampaignRecap() {
 
   if (!over || dismissed || !snapshot || !derived) return null;
   const { first, last, peakPrestige, bestRank, identities } = derived;
+  const startYear = snapshot.startDate?.year ?? first.year;
 
   return (
     <div className="recap-overlay" data-testid="campaign-recap">
@@ -62,8 +63,8 @@ export function CampaignRecap() {
         </div>
         <p className="recap-subtitle">
           {over === 'century'
-            ? `1820–${last.year}. One hundred years on the board.`
-            : `1820–${last.year}. The map closed over ${last.name}.`}
+            ? `${startYear} to ${last.year}. One hundred years on the board.`
+            : `${startYear} to ${last.year}. The map closed over ${last.name}.`}
           {identities.length > 1 ? ` Began the age as ${identities[0]}.` : ''}
         </p>
 
@@ -71,7 +72,7 @@ export function CampaignRecap() {
           <div className="recap-stat">
             <b>{last.provinces}</b>
             <span>provinces{first.provinces !== last.provinces
-              ? ` (${last.provinces >= first.provinces ? '+' : ''}${last.provinces - first.provinces} since 1820)` : ''}</span>
+              ? ` (${last.provinces >= first.provinces ? '+' : ''}${last.provinces - first.provinces} since ${startYear})` : ''}</span>
           </div>
           <div className="recap-stat">
             <b>{formatCount(last.population)}</b>
@@ -100,7 +101,7 @@ export function CampaignRecap() {
             <svg viewBox="0 0 220 44" preserveAspectRatio="none" aria-hidden="true">
               <path d={sparkline(chronicle.map((entry) => entry.prestige))} />
             </svg>
-            <figcaption>Prestige, {first.year}–{last.year}</figcaption>
+            <figcaption>Prestige, {first.year} to {last.year}</figcaption>
           </figure>
           <figure>
             <svg viewBox="0 0 220 44" preserveAspectRatio="none" aria-hidden="true">

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "1776-07-04",
+  "title": "The Atlantic Revolutions",
+  "startDate": {
+    "year": 1776,
+    "month": 7,
+    "day": 4
+  },
+  "status": "development",
+  "summary": "An exact-date development seed for revolution, imperial competition, and early industrial change.",
+  "visualPolicy": {
+    "naziImagery": "prohibited"
+  }
+}

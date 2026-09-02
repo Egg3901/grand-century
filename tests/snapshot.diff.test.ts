@@ -121,7 +121,10 @@ describe('snapshot applier', () => {
     const rebuilt = reconstruct(all.messages);
     expect(rebuilt).not.toBeNull();
     expect(rebuilt!.day).toBeGreaterThan(0);
-    expect(rebuilt!.speed).toBe(5);
+    // Compare against the session's own clock, not a literal 5: an event firing
+    // for the player auto-pauses the world, so hardcoding the speed here made
+    // this test an assertion about content rather than about the diff applier.
+    expect(rebuilt!.speed).toBe(session2.world!.speed);
   });
 });
 

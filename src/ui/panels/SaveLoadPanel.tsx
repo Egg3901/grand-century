@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useStore } from '../../store';
 import { useSnapshotFields } from '../useSnapshotFields';
+import { dateAtDay } from '../../sim/calendar';
+import type { GameDate } from '../../shared/types';
 
-function dayToDate(day: number): string {
-  const year = 1820 + Math.floor(day / 365);
-  const dayOfYear = day % 365;
-  return `${year} (day ${dayOfYear + 1})`;
+function formatSaveDate(day: number, startDate?: GameDate): string {
+  const date = dateAtDay(day, startDate);
+  return `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
 }
 
 export function SaveLoadPanel() {
@@ -66,7 +67,7 @@ export function SaveLoadPanel() {
             <div>
               <strong>{slot.slot}</strong>
               <span>
-                {dayToDate(slot.day)} · {new Date(slot.updatedAt).toLocaleString()} · {playerNameById.get(slot.playerNation) ?? `Nation ${slot.playerNation}`}
+                {formatSaveDate(slot.day, slot.startDate)} · {new Date(slot.updatedAt).toLocaleString()} · {playerNameById.get(slot.playerNation) ?? `Nation ${slot.playerNation}`}
               </span>
             </div>
             <div className="mil-actions">

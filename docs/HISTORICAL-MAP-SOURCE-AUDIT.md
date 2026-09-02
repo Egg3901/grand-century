@@ -1,6 +1,13 @@
 # Historical Map Source Audit
 
-## Recommendation
+> **Superseded on the start date.** This audit argued for 1820 and the game
+> shipped with it for a time, but the map was later re-cut from Victoria II's
+> state regions and the canonical start moved to **1830-01-01**. The sourcing
+> research below still stands and is why several 1830 rollbacks exist (Algiers,
+> Belgium, Texas, Gran Colombia, Ottoman Syria, Congress Poland). For how the
+> map is actually built today, see `docs/VIC2-PIPELINE.md`.
+
+## Recommendation (as written for 1820)
 
 Grand Century should lock **1820-01-01** as its canonical start date.
 
@@ -22,7 +29,7 @@ The exact day matters. All initial entities, relationships, wars, and borders mu
 
 | Source | Coverage | Use | Rights and constraints |
 |---|---|---|---|
-| [Historical Basemaps](https://github.com/aourednik/historical-basemaps) | Global country and cultural-region polygons, including an 1815 snapshot | **Local comparison layer** for finding roster omissions and ownership seams near the 1820 start. Run `npm run map:reference:audit`; the generated report stays under ignored `artifacts/`. | GPL-3.0, explicitly work in progress, and authored for world/continent scale. Do not vendor its GeoJSON or ship derived geometry in Grand Century. Every correction still needs independent 1820 evidence. |
+| [Historical Basemaps](https://github.com/aourednik/historical-basemaps) | Global country and cultural-region polygons, including an 1815 snapshot | **Local comparison layer** for finding roster omissions and ownership seams. Run `npm run map:reference:audit`; the generated report stays under ignored `artifacts/`. | GPL-3.0, explicitly work in progress, and authored for world/continent scale. Do not vendor its GeoJSON or ship derived geometry in Grand Century. Every correction still needs independent evidence for the scenario date. |
 | [GeoPolHist](https://medialab.github.io/GeoPolHist/) and its [status-over-time CSV](https://github.com/medialab/geopolhist/blob/master/data/GeoPolHist_entities_status_over_time.csv) | Global entity, dependency, claim, occupation, and recognition status from 1816 | **Machine-readable roster and relationship validation. It has no boundary geometry.** | ODbL. Shipping a derived database needs attribution and an ODbL/share-alike review. Individual classifications are sometimes coarse and need regional sources. |
 | [Atlas of Historical County Boundaries](https://publications.newberry.org/ahcb/downloads/states.html) | United States states and territories, 1783-2000 | **Machine-usable shapefiles and KMZ** for dated US internal boundaries | Newberry permits lawful commercial and non-commercial reuse. The [Library of Congress record](https://www.loc.gov/item/2018487899/) marks the dataset CC0. It does not establish international or Indigenous frontiers. |
 | [1829 Carte Generale de L'Afrique](https://geo.nyu.edu/catalog/stanford-bm864yd2626/metadata) | Africa | **Machine-usable georeferenced raster**, suitable as a tracing and comparison layer | Public domain and no restrictions. It is a period cartographic view, not reliable political polygon data. |
@@ -177,7 +184,7 @@ Recommended build order:
 5. Preserve the source and confidence record beside every authored feature so later corrections are local and auditable.
 6. Add map assertions for the minimum validation rules above, including prohibited anachronisms such as unified Germany/Italy, independent 1820 Uruguay, US Alaska, direct-British all-India, and uniform Dutch Indonesia.
 
-The Historical Basemaps comparison is deliberately outside the runtime build. Its source URL is pinned in `content/history/1820/reference-basemaps.json`; the audit retains names and mismatch metrics but never copies coordinates into its report. `provinceOverrides` records independently checked 1820 conclusions that take precedence over the 1815 comparison layer.
+The Historical Basemaps comparison is deliberately outside the runtime build. Its source URL is pinned in `content/history/1830/reference-basemaps.json`; the audit retains names and mismatch metrics but never copies coordinates into its report. `provinceOverrides` records independently checked 1830 conclusions that take precedence over the 1815 comparison layer.
 
 ## Bottom line
 

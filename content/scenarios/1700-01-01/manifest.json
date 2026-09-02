@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "1700-01-01",
+  "title": "The Dynastic World",
+  "startDate": {
+    "year": 1700,
+    "month": 1,
+    "day": 1
+  },
+  "status": "development",
+  "summary": "An early-engine pressure scenario for dynastic states, sailing logistics, and a pre-industrial world.",
+  "visualPolicy": {
+    "naziImagery": "prohibited"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1945-09-02",
+  "supplements": [
+    {
+      "polityKey": "FRENCH_OCCUPATION_ZONE_IN_GERMANY",
+      "relationId": 2900078,
+      "sourceAsOf": "1946-01-01",
+      "expectedName": "Französische Zone",
+      "reason": "OHM has no exact-date French-zone relation. This relation begins in 1946 and represents the same occupation administration after the first postwar postal reorganization; it is used only as an explicit territorial fallback.",
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    },
+    {
+      "polityKey": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
+      "relationId": 2695015,
+      "sourceAsOf": "1949-10-07",
+      "expectedName": "Ostdeutschland",
+      "expectedWikidata": "Q16957",
+      "reason": "OHM has no exact-date Soviet-zone relation. The first East German boundary is the immediate territorial successor to the Soviet occupation zone and is used only as an explicit territorial fallback.",
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    }
+  ]
+}

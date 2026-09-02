@@ -23,6 +23,7 @@ import {
 } from './war';
 import { formNation, getFormableStatusesForNation } from '../formables';
 import { isRecipeUnlocked } from './research';
+import { aiRegimentPlan, aiShipType, regimentSpec, shipSpec } from '../militaryCatalog';
 
 function clamp(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) return min;
@@ -640,7 +641,7 @@ function maybeBuildFactory(world: World, data: GameData, nationId: NationId): vo
       // moves, input cost is discounted to 15% by factoryInputIntensity, and
       // the same recipe therefore wins forever. Measured over 20 years the AI
       // built 329 furniture factories and never once built a lumber mill,
-      // fishing wharf, glassworks or paper mill — all tech-free from 1820 —
+      // fishing wharf, glassworks or paper mill — all tech-free from 1830 —
       // leaving 17 of 30 goods short and six at literally zero output (#40).
       //
       // Two market signals fix that without scripting the answer:
@@ -734,14 +735,18 @@ function maybeBuildMilitary(world: World, nationId: NationId): void {
         .filter((pop) => pop?.type === 'soldier' && pop.size > 220);
       if (soldierPops.length === 0) continue;
       const regiments = [];
-      for (const pop of soldierPops) {
-        if (regiments.length >= 4) break;
-        if (pop.size < 180) continue;
-        pop.size = Math.max(0, pop.size - 55);
+      const plan = aiRegimentPlan(nation, Math.min(4, soldierPops.length));
+      for (let index = 0; index < plan.length; index++) {
+        const pop = soldierPops[index];
+        const type = plan[index];
+        if (!pop || !type) continue;
+        const spec = regimentSpec(type);
+        if (pop.size < spec.manpowerDrain + 100) continue;
+        pop.size = Math.max(0, pop.size - spec.manpowerDrain);
         regiments.push({
-          type: 'infantry' as const,
-          strength: 900,
-          organization: clamp(48 * nation.armyOrganization, 24, 100),
+          type,
+          strength: spec.baseStrength * 0.9,
+          organization: clamp(48 * nation.armyOrganization + spec.organizationBonus, 24, 100),
           sourcePop: pop.id,
         });
       }
@@ -757,7 +762,7 @@ function maybeBuildMilitary(world: World, nationId: NationId): void {
           rebel: false,
           hostileTo: -1,
         });
-        nation.treasury -= regiments.length * 18;
+        nation.treasury -= regiments.reduce((sum, regiment) => sum + regimentSpec(regiment.type).cost * 0.75, 0);
         break;
       }
     }
@@ -768,8 +773,8 @@ function maybeBuildMilitary(world: World, nationId: NationId): void {
     const base = coastal[0];
     if (base !== undefined) {
       const shipsToBuild = Math.min(2, desiredFleet - currentFleet);
-      const shipType: Ship['type'] = nation.gpRank > 0 ? 'frigate' : 'transport';
-      const cost = shipType === 'transport' ? 55 : 70;
+      const shipType: Ship['type'] = aiShipType(nation, nation.gpRank > 0);
+      const cost = shipSpec(shipType).cost;
       if (shipsToBuild > 0 && nation.treasury >= shipsToBuild * cost) {
         const existing = world.fleets.find((fleet) => fleet.owner === nationId && fleet.location === base && fleet.embarkedArmy < 0);
         const ships = Array.from({ length: shipsToBuild }, () => ({ type: shipType, strength: 100, organization: 62 }));
@@ -1232,4 +1237,3 @@ export function runAiMonthly(world: World, data: GameData, rng: Rng): void {
   }
   keepValuesFinite(world);
 }
-

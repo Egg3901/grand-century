@@ -1,15 +1,7 @@
 import { useMemo } from 'react';
-import { WORLD_SEED } from '../data/generated';
 import { TERRAIN_BIOME_COLORS, TERRAIN_LEGEND_ORDER } from '../map/mapDecor';
 import { useStore } from '../store';
-
-/** Biome swatches limited to terrains that actually exist in this world. */
-const TERRAIN_SWATCHES: Array<{ label: string; color: string }> = (() => {
-  const present = new Set<string>(WORLD_SEED.provinces.map((province) => province.terrain));
-  return TERRAIN_LEGEND_ORDER
-    .filter((entry) => present.has(entry.key))
-    .map((entry) => ({ label: entry.label, color: TERRAIN_BIOME_COLORS[entry.key] ?? '#b7a486' }));
-})();
+import { useScenarioWorldSeed } from './useScenarioWorldSeed';
 
 const DIPLO_COLORS = {
   self: '#6f879f',
@@ -57,7 +49,14 @@ function economyScaleLabel(value: number): string {
 }
 
 export function MapLegend() {
+  const worldSeed = useScenarioWorldSeed();
   const mapMode = useStore((state) => state.mapMode);
+  const terrainSwatches = useMemo(() => {
+    const present = new Set<string>(worldSeed.provinces.map((province) => province.terrain));
+    return TERRAIN_LEGEND_ORDER
+      .filter((entry) => present.has(entry.key))
+      .map((entry) => ({ label: entry.label, color: TERRAIN_BIOME_COLORS[entry.key] ?? '#b7a486' }));
+  }, [worldSeed]);
   // Only the economy legend reads live province data. Subscribing to the 8Hz
   // snapshot solely in economy mode keeps the legend from re-rendering every
   // tick in every other mode; the min/max is memoised (and a loop, not a
@@ -78,7 +77,7 @@ export function MapLegend() {
   const mapModeTitle = mapMode.replaceAll('_', ' ');
 
   const swatches = mapMode === 'terrain'
-    ? TERRAIN_SWATCHES
+    ? terrainSwatches
     : mapMode === 'diplomatic'
     ? [
       { label: 'Self', color: DIPLO_COLORS.self },
@@ -170,4 +169,3 @@ export function MapLegend() {
     </aside>
   );
 }
-

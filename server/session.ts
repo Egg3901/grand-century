@@ -6,7 +6,7 @@
  * Phase 'running': createWorld once on leaderStart; tick + diffed broadcasts.
  */
 
-import type { Command, FromWorker, GameData, NationId, ToWorker, World } from '../src/shared/types';
+import type { Command, FromWorker, GameData, NationId, ScenarioId, ToWorker, World } from '../src/shared/types';
 import type {
   ChatRelayMessage,
   LobbyNationInfo,
@@ -31,8 +31,8 @@ import { detailNation, detailProvince } from '../src/sim/detail';
 import { computePlayerBudget } from '../src/sim/systems/budget';
 import { buildPlayerView, buildSharedSnapshot } from '../src/sim/snapshot';
 import { advanceDay } from '../src/sim/world';
-import { GAME_DATA } from '../src/data/gameData';
-import { WORLD_SEED } from '../src/data/generated';
+import { gameDataForScenario } from '../src/data/gameData';
+import { loadScenario } from '../src/data/generated';
 
 export type ClientSender = (msg: ServerToClient) => void;
 
@@ -90,10 +90,6 @@ const FORBIDDEN_COMMANDS = new Set<Command['t']>([
   'listSaves',
 ]);
 
-const NATION_CATALOG: LobbyNationInfo[] = WORLD_SEED.nations
-  .map((n) => ({ tag: n.tag, name: n.name }))
-  .sort((a, b) => a.name.localeCompare(b.name));
-
 function clampMaxPlayers(n: number): number {
   if (!Number.isFinite(n)) return 4;
   return Math.max(2, Math.min(8, Math.floor(n)));
@@ -122,9 +118,11 @@ export class GameSession {
   readonly id: string;
   name: string;
   readonly seed: number;
+  readonly scenarioId: ScenarioId;
   readonly mode: SessionMode;
   readonly maxPlayers: number;
   readonly data: GameData;
+  readonly nationCatalog: LobbyNationInfo[];
   phase: SessionPhase;
   world: World | null = null;
   readonly clients = new Map<string, SessionClient>();
@@ -163,13 +161,18 @@ export class GameSession {
     maxPlayers?: number;
     phase?: SessionPhase;
     data?: GameData;
+    scenarioId?: ScenarioId;
   }) {
     this.id = opts.id;
     this.seed = opts.seed;
     this.name = opts.name ?? `Session ${opts.id}`;
     this.mode = opts.mode ?? 'competitive';
     this.maxPlayers = clampMaxPlayers(opts.maxPlayers ?? 4);
-    this.data = opts.data ?? GAME_DATA;
+    this.data = opts.data ?? gameDataForScenario(opts.scenarioId);
+    this.scenarioId = this.data.scenarioId;
+    this.nationCatalog = loadScenario(this.scenarioId).worldSeed.nations
+      .map((nation) => ({ tag: nation.tag, name: nation.name }))
+      .sort((a, b) => a.name.localeCompare(b.name));
     this.phase = opts.phase ?? 'lobby';
     if (this.phase === 'running') {
       this.ensureWorld();
@@ -199,7 +202,7 @@ export class GameSession {
     const trimmed = nation.trim();
     if (!trimmed) return null;
     const tag = trimmed.toUpperCase();
-    const catalog = NATION_CATALOG.find((n) => n.tag === tag);
+    const catalog = this.nationCatalog.find((n) => n.tag === tag);
     if (catalog) {
       if (this.world) {
         const found = this.world.nations.find((n) => n.tag === tag);
@@ -305,13 +308,14 @@ export class GameSession {
       sessionId: this.id,
       name: this.name,
       seed: this.seed,
+      scenarioId: this.scenarioId,
       mode: this.mode,
       maxPlayers: this.maxPlayers,
       phase: this.phase,
       leaderId: this.leaderId ?? '',
       players,
       takenNations: this.takenNations(),
-      nations: NATION_CATALOG,
+      nations: this.nationCatalog,
       you: forClientId,
     };
   }
@@ -955,6 +959,7 @@ export class GameSession {
       id: this.id,
       name: this.name,
       seed: this.seed,
+      scenarioId: this.scenarioId,
       mode: this.mode,
       maxPlayers: this.maxPlayers,
       playerCount: this.connectedCount,
@@ -982,6 +987,7 @@ export class SessionManager {
     mode: SessionMode;
     maxPlayers: number;
     id?: string;
+    scenarioId?: ScenarioId;
   }): GameSession {
     const id = opts.id ?? randomId();
     const session = new GameSession({
@@ -990,6 +996,7 @@ export class SessionManager {
       name: opts.name.trim().slice(0, 48) || `Session ${id}`,
       mode: opts.mode === 'coop' ? 'coop' : 'competitive',
       maxPlayers: opts.maxPlayers,
+      scenarioId: opts.scenarioId,
       phase: 'lobby',
     });
     this.sessions.set(id, session);

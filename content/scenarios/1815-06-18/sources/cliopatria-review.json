@@ -1,0 +1,2478 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1815-06-18",
+  "source": {
+    "key": "cliopatria-0.2.0",
+    "commit": "ad28a691b7c07c1fca89d0e0636d324667d2a258",
+    "archiveSha256": "d01ae3a20d358cc5d54f69d9d725d390767d9c8759ac89ad6f90c58d106f3370",
+    "license": "CC BY 4.0",
+    "attribution": "Cliopatria by Seshat Global History Databank, used under CC BY 4.0.",
+    "transformations": "Filtered to the exact scenario year, normalized into source-candidate records, hashed per geometry, and compared with independently curated scenario assertions."
+  },
+  "entries": [
+    {
+      "identityKey": "Q1028",
+      "displayName": "Morocco",
+      "wikidata": "Q1028",
+      "sourceRecords": [
+        26
+      ],
+      "intervals": [
+        {
+          "fromYear": 1769,
+          "toYear": 1860
+        }
+      ],
+      "geometryHashes": [
+        "b7a27af96ba70bd24e4b1752c403adefc1393ce75e50c7e619845e05cdea6072"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "ALAOUITE_MOROCCO",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1042069",
+      "displayName": "Imamate of Yemen",
+      "wikidata": "Q1042069",
+      "sourceRecords": [
+        106
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1869
+        }
+      ],
+      "geometryHashes": [
+        "7381b2fd6ce4b54bb2645c0d5abb9efe5b615ccc1c2eb9d485a4c97ac1b8dfe8"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1050326",
+      "displayName": "Sultan of Yogyakarta",
+      "wikidata": "Q1050326",
+      "sourceRecords": [
+        19
+      ],
+      "intervals": [
+        {
+          "fromYear": 1744,
+          "toYear": 1827
+        }
+      ],
+      "geometryHashes": [
+        "e7e7421602e731da0d9db1c0438b14210387c61f14fcbd2310acf9055ff368b1"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1061057",
+      "displayName": "Sultanate of Aceh",
+      "wikidata": "Q1061057",
+      "sourceRecords": [
+        9
+      ],
+      "intervals": [
+        {
+          "fromYear": 1640,
+          "toYear": 1861
+        }
+      ],
+      "geometryHashes": [
+        "9b3343cce766d2c5f0ca4bfd94127106a69ef39d513068cf572cabb79dc5a4ba"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_ACEH",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1062422",
+      "displayName": "Konbaung Dynasty",
+      "wikidata": "Q1062422",
+      "sourceRecords": [
+        136
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "8b55d127cf52fbc10ba21d2f732c63fddf0b4a11b3a3292dcabbd25f32200050"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1077630",
+      "displayName": "Septinsular Republic",
+      "wikidata": "Q1077630",
+      "sourceRecords": [
+        131
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "437e04184673d017af0dc81bc8a673a61a1fecabd874c59a2eb4d5abbb55935a"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q109252949",
+      "displayName": "Duchy of Mecklenburg",
+      "wikidata": "Q109252949",
+      "sourceRecords": [
+        81
+      ],
+      "intervals": [
+        {
+          "fromYear": 1814,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "94924a17f155458c58c17091c783a3ea59a65c156613f294b46761283c668d45"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q10957559",
+      "displayName": "Principality of Moldavia",
+      "wikidata": "Q10957559",
+      "sourceRecords": [
+        83
+      ],
+      "intervals": [
+        {
+          "fromYear": 1814,
+          "toYear": 1827
+        }
+      ],
+      "geometryHashes": [
+        "58b286f47f7892136061639f5d97f5ed626c0fca1fc6ee8d52f4eaeab98dfea1"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "PRINCIPALITY_OF_MOLDAVIA",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1132786",
+      "displayName": "Wadai Empire",
+      "wikidata": "Q1132786",
+      "sourceRecords": [
+        7
+      ],
+      "intervals": [
+        {
+          "fromYear": 1636,
+          "toYear": 1889
+        }
+      ],
+      "geometryHashes": [
+        "b92d2ff957812767b014af5ed375344b90ae84acc6184fb6d9015cb006f082f3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "WADAI_EMPIRE",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1139762",
+      "displayName": "Bornu Empire",
+      "wikidata": "Q1139762",
+      "sourceRecords": [
+        70
+      ],
+      "intervals": [
+        {
+          "fromYear": 1811,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "4e2ba299590fef0bcc2cfad77332726ba1985baa234384d6cec1be9fd8e62ed2"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "BORNU_EMPIRE",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1150344",
+      "displayName": "Sultanate of Johor",
+      "wikidata": "Q1150344",
+      "sourceRecords": [
+        17
+      ],
+      "intervals": [
+        {
+          "fromYear": 1727,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "70187712c5f25ba9618216837aaecfb29b283e297e6de942ebe1ecc69af8466b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_JOHOR",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1158126",
+      "displayName": "House of Khalifa",
+      "wikidata": "Q1158126",
+      "sourceRecords": [
+        47
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1889
+        }
+      ],
+      "geometryHashes": [
+        "dee8525173c8871e6eb610a80647cd014535c5250267ce445b6bfe4d1cfb409c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1209676",
+      "displayName": "Mexicans",
+      "wikidata": "Q1209676",
+      "sourceRecords": [
+        88
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "7aca08cf410a013143cb76a158cd4cbd19ec61ca7993c241d654d7a6afbad144"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q127885",
+      "displayName": "Serbs",
+      "wikidata": "Q127885",
+      "sourceRecords": [
+        104
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1847
+        }
+      ],
+      "geometryHashes": [
+        "c39d970de70eb6524a49c5faf55be4417756119c465e1fcef6d006deb8a32473"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1317579",
+      "displayName": "Sultanate of Kedah",
+      "wikidata": "Q1317579",
+      "sourceRecords": [
+        41
+      ],
+      "intervals": [
+        {
+          "fromYear": 1800,
+          "toYear": 1821
+        }
+      ],
+      "geometryHashes": [
+        "5b7ab4dd3b94281dba3d320606e1db3984fddf90e902dd8c3f3f8ba50b780c1a"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_KEDAH",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1317991",
+      "displayName": "Đại Việt",
+      "wikidata": "Q1317991",
+      "sourceRecords": [
+        48
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1829
+        }
+      ],
+      "geometryHashes": [
+        "911c1a3a2738292a59a7810e3a2b494e6e623912391f124708a74bfc4eefc607"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q131964",
+      "displayName": "Austrian Empire",
+      "wikidata": "Q131964",
+      "sourceRecords": [
+        100
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "6c70c898fc3972113baf86d6ddf48f2fd183be9de9265c1721736099bc46dd1e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q146871",
+      "displayName": "Emirate of Diriyah",
+      "wikidata": "Q146871",
+      "sourceRecords": [
+        99
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "2047e101027bbfba026a8f52309ea15eff93680b27443b772dc2170cb28145ce"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1474791",
+      "displayName": "Sultanate of Darfur",
+      "wikidata": "Q1474791",
+      "sourceRecords": [
+        8
+      ],
+      "intervals": [
+        {
+          "fromYear": 1636,
+          "toYear": 1821
+        }
+      ],
+      "geometryHashes": [
+        "ba8e5bf48c0221d041cd25de363665ef14ec1666eeca5c8744c5cd3040ddfd78"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_DARFUR",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1475713",
+      "displayName": "Funj Sultanate",
+      "wikidata": "Q1475713",
+      "sourceRecords": [
+        25
+      ],
+      "intervals": [
+        {
+          "fromYear": 1769,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "365958cf639aa6e22e5da37c4b5d936a1e043e5f28d45fcf6bc488dd4048f495"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "FUNJ_SULTANATE",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q151624",
+      "displayName": "German Confederation",
+      "wikidata": "Q151624",
+      "sourceRecords": [
+        137
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "6a4b44d8131c9e74babd1890315d43ee4f00a9d123235c04df8235984c8f50a8"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q154195",
+      "displayName": "Kingdom of Bavaria",
+      "wikidata": "Q154195",
+      "sourceRecords": [
+        141
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "e072966d2167d7af7fb8f524b510fce2ff90123a51669d945e0f5065aaf5ae9e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q155570",
+      "displayName": "Grand Duchy of Saxe-Weimar-Eisenach",
+      "wikidata": "Q155570",
+      "sourceRecords": [
+        119
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "af8deb2536d88747459a75211777b79b7ce85731bd1b92a6658dab4fc80d7f5f"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q157013",
+      "displayName": "Principality of Hohenzollern-Sigmaringen",
+      "wikidata": "Q157013",
+      "sourceRecords": [
+        62
+      ],
+      "intervals": [
+        {
+          "fromYear": 1811,
+          "toYear": 1848
+        }
+      ],
+      "geometryHashes": [
+        "4aa43a8a7b4ef45c437ae1002940395f4e28c3fd722da8bf48cf008eae5602e2"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q158151",
+      "displayName": "Saxe-Altenburg",
+      "wikidata": "Q158151",
+      "sourceRecords": [
+        108
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "c9dca90279acc73078717a0f0214c75162e865f406115f91599cb2d933781432"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q16550783",
+      "displayName": "Duchy of Anhalt",
+      "wikidata": "Q16550783",
+      "sourceRecords": [
+        84
+      ],
+      "intervals": [
+        {
+          "fromYear": 1814,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "317a5e3454952295cc623805b929aa1dc01692cf58c7c8bec80fc42844af8e94"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1679856",
+      "displayName": "Sultanate of Jambi",
+      "wikidata": "Q1679856",
+      "sourceRecords": [
+        12
+      ],
+      "intervals": [
+        {
+          "fromYear": 1670,
+          "toYear": 1821
+        }
+      ],
+      "geometryHashes": [
+        "f77abba32274f74bdea6688da197826723cccb8caee0186f3cc74bc87a22e62c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_JAMBI",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q171393",
+      "displayName": "Principality of Wallachia",
+      "wikidata": "Q171393",
+      "sourceRecords": [
+        124
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1827
+        }
+      ],
+      "geometryHashes": [
+        "9b9acd905629f31d0214e0d65445da7404f450ede2050cdb605dd83edf2897f7"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "PRINCIPALITY_OF_WALLACHIA",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1760473",
+      "displayName": "Principality of Abkhazia",
+      "wikidata": "Q1760473",
+      "sourceRecords": [
+        72
+      ],
+      "intervals": [
+        {
+          "fromYear": 1812,
+          "toYear": 1827
+        }
+      ],
+      "geometryHashes": [
+        "d8246c217fe85c6bad79ad97d53ceec2283c557b3caa7e2b9c97fe39f9364d12"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "PRINCIPALITY_OF_ABKHAZIA",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1794655",
+      "displayName": "Sultanate of Kutai Kartanegara",
+      "wikidata": "Q1794655",
+      "sourceRecords": [
+        18
+      ],
+      "intervals": [
+        {
+          "fromYear": 1734,
+          "toYear": 1841
+        }
+      ],
+      "geometryHashes": [
+        "7e7f68bfdf29a14a2328c26b8a95aa8d26869bbddf6474a22cec51a6213759c2"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "KUTAI_KINGDOM",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1796223",
+      "displayName": "Kingdom of Lunda",
+      "wikidata": "Q1796223",
+      "sourceRecords": [
+        15
+      ],
+      "intervals": [
+        {
+          "fromYear": 1709,
+          "toYear": 1855
+        }
+      ],
+      "geometryHashes": [
+        "453f6ea43a7570bc9ae0a4442e2b3d30adf255183f7bcb277bbcdf0fb4476ee2"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q180393",
+      "displayName": "Kingdom of the Two Sicilies",
+      "wikidata": "Q180393",
+      "sourceRecords": [
+        125
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "5eed07ac71f3854f57532565ae97803d79e489f0a0c60088bf782183076a7204"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q185944",
+      "displayName": "Kelantan",
+      "wikidata": "Q185944",
+      "sourceRecords": [
+        22
+      ],
+      "intervals": [
+        {
+          "fromYear": 1762,
+          "toYear": 1889
+        }
+      ],
+      "geometryHashes": [
+        "aa6a8119f6b842bf6ddfc8f5d686e3d897735de9a7954915cb483ea864a96b0b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1863715",
+      "displayName": "New Granada",
+      "wikidata": "Q1863715",
+      "sourceRecords": [
+        121
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "91fd7a0c923a3ea25a75f2bf1a6d1a01111a1b9ee64adf77f2dd7dd8bf1808e6"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q189326",
+      "displayName": "Qajar Dynasty",
+      "wikidata": "Q189326",
+      "sourceRecords": [
+        71
+      ],
+      "intervals": [
+        {
+          "fromYear": 1811,
+          "toYear": 1821
+        }
+      ],
+      "geometryHashes": [
+        "cc32860d54d857efb257e6e578b7775983c09dccc53ba65abc44d4a485b646e5"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q190165",
+      "displayName": "Kingdom of Luang Phrabang",
+      "wikidata": "Q190165",
+      "sourceRecords": [
+        33
+      ],
+      "intervals": [
+        {
+          "fromYear": 1791,
+          "toYear": 1827
+        }
+      ],
+      "geometryHashes": [
+        "90542366b315597a1b60d5d466c6b7c75b2258b59485702206da3c7b365a66f4"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q1929987",
+      "displayName": "Karamanli Dynasty",
+      "wikidata": "Q1929987",
+      "sourceRecords": [
+        39
+      ],
+      "intervals": [
+        {
+          "fromYear": 1796,
+          "toYear": 1835
+        }
+      ],
+      "geometryHashes": [
+        "b8bccfb32b23e38cdc0f38a7186ea1daff25de00f994a563bb1606785585c37a"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q19746028",
+      "displayName": "Sultanate of Mempawah",
+      "wikidata": "Q19746028",
+      "sourceRecords": [
+        5
+      ],
+      "intervals": [
+        {
+          "fromYear": 1619,
+          "toYear": 1824
+        }
+      ],
+      "geometryHashes": [
+        "254b0bd0a4c6cfd7039dafdbd75aa1bfc75b48942e005bdb4a963f76714104e1"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_MEMPAWAH",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q200464",
+      "displayName": "Portuguese Colonies",
+      "wikidata": "Q200464",
+      "sourceRecords": [
+        55,
+        90,
+        97
+      ],
+      "intervals": [
+        {
+          "fromYear": 1809,
+          "toYear": 1819
+        },
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        },
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "e3d9e4bc3cc211487491b0363ba7f23e10ab6bbb341ff358d614d19a47c2992c",
+        "3b9d8091eff032ce5aa528e74ba92b7c2da194f1c1aab58599da2ec05893714d",
+        "3b3b12ce4f7c4ba4b9087e9e278430ab4d40231a8b0f174f01a031b739680765"
+      ],
+      "memberOf": [
+        "(Portuguese Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q2006756",
+      "displayName": "Empire of Haiti",
+      "wikidata": "Q2006756",
+      "sourceRecords": [
+        56
+      ],
+      "intervals": [
+        {
+          "fromYear": 1809,
+          "toYear": 1821
+        }
+      ],
+      "geometryHashes": [
+        "208bbcde1d54ca7aecc6e4552df7622b77ced33a9492fe68985a2f4dd2e777dd"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q201705",
+      "displayName": "Khmer Empire",
+      "wikidata": "Q201705",
+      "sourceRecords": [
+        46
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1858
+        }
+      ],
+      "geometryHashes": [
+        "684fe9c31b7216aa4155ecb0ffde69d9ef63cf49dc6e5f0b1bd4769993567687"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q207521",
+      "displayName": "Ethiopian Empire",
+      "wikidata": "Q207521",
+      "sourceRecords": [
+        27
+      ],
+      "intervals": [
+        {
+          "fromYear": 1769,
+          "toYear": 1889
+        }
+      ],
+      "geometryHashes": [
+        "31cb858a47b1cae4a21e571026024a765d44754ff15f99ed0ec6f544cd829adc"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "ETHIOPIAN_EMPIRE",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q2122499",
+      "displayName": "Surakarta Sunanate",
+      "wikidata": "Q2122499",
+      "sourceRecords": [
+        20
+      ],
+      "intervals": [
+        {
+          "fromYear": 1744,
+          "toYear": 1827
+        }
+      ],
+      "geometryHashes": [
+        "0aad280f370e44a4cb685779790d241487a7ce53e2a9304357908f7fd87f4ec6"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q213893",
+      "displayName": "Negeri Sembilan",
+      "wikidata": "Q213893",
+      "sourceRecords": [
+        30
+      ],
+      "intervals": [
+        {
+          "fromYear": 1775,
+          "toYear": 1872
+        }
+      ],
+      "geometryHashes": [
+        "5d893b30b62f01bc0cff1f948431d9b45d207533dd06da99f51fd5a400168d01"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q2195101",
+      "displayName": "Principality of Guria",
+      "wikidata": "Q2195101",
+      "sourceRecords": [
+        28
+      ],
+      "intervals": [
+        {
+          "fromYear": 1772,
+          "toYear": 1827
+        }
+      ],
+      "geometryHashes": [
+        "3f34e66cf8b50ea72e59efd59b45161d910a67f4afecb21aeab163f052f213dc"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "PRINCIPALITY_OF_GURIA",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q223",
+      "displayName": "Greenland",
+      "wikidata": "Q223",
+      "sourceRecords": [
+        53
+      ],
+      "intervals": [
+        {
+          "fromYear": 1805,
+          "toYear": 1829
+        }
+      ],
+      "geometryHashes": [
+        "1bf5e16a2b2e4eeb10f8838d720add23d7cd875c785b184693db9bda0dc91b1d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "GREENLAND",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q23666",
+      "displayName": "Kingdom of Great Britain",
+      "wikidata": "Q23666",
+      "sourceRecords": [
+        43
+      ],
+      "intervals": [
+        {
+          "fromYear": 1800,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "1810bf8524ebf074b871c8a96f61c7208f8b37e44b0549ca54a71581ff3d3190"
+      ],
+      "memberOf": [
+        "(British Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "polity",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q249428",
+      "displayName": "Grand Duchy of Berg",
+      "wikidata": "Q249428",
+      "sourceRecords": [
+        112
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "465c7d7edaa52d635ba70c6e44678b04abae0ca2790039445c69e1598c49cdec"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q25227",
+      "displayName": "Netherlands Antilles",
+      "wikidata": "Q25227",
+      "sourceRecords": [
+        139
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "efc5e230b7fbc9696d7a7e75c4b5c08b717b79bf434a46fd6789f09a4cf6947e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "NETHERLANDS_ANTILLES",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q2577303",
+      "displayName": "Kingdom of Sardinia",
+      "wikidata": "Q2577303",
+      "sourceRecords": [
+        107
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1847
+        }
+      ],
+      "geometryHashes": [
+        "0dafd7c87f076819022731bb2fde6557c1ac38457c3eaeaa3791a81e030a2161"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q2625228",
+      "displayName": "Federal League",
+      "wikidata": "Q2625228",
+      "sourceRecords": [
+        86
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "9a980b1a096ed77eb643399f5501bcc84141ba299c1ddde8cd01af03a6df12f6"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q2649311",
+      "displayName": "Sultanate of Perak",
+      "wikidata": "Q2649311",
+      "sourceRecords": [
+        1
+      ],
+      "intervals": [
+        {
+          "fromYear": 1609,
+          "toYear": 1821
+        }
+      ],
+      "geometryHashes": [
+        "605e19ea0bad85bd625c48c5d11a292f287a7cce3192ef912b47c4b878508dd0"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_PERAK",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q2817348",
+      "displayName": "Sultanate of Bima",
+      "wikidata": "Q2817348",
+      "sourceRecords": [
+        6
+      ],
+      "intervals": [
+        {
+          "fromYear": 1626,
+          "toYear": 1865
+        }
+      ],
+      "geometryHashes": [
+        "a4b2d07cf8d229730b71f7d47eab7091d8edc61fc59d04a3edc978c4d323848c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_BIMA",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q28405",
+      "displayName": "Joseon",
+      "wikidata": "Q28405",
+      "sourceRecords": [
+        10
+      ],
+      "intervals": [
+        {
+          "fromYear": 1640,
+          "toYear": 1859
+        }
+      ],
+      "geometryHashes": [
+        "6fb08a7388f22612e64d1a96ff981819657a6306d91d7eab9185a66ec0fdb438"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "JOSEON",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q2919545",
+      "displayName": "Principality of Svaneti",
+      "wikidata": "Q2919545",
+      "sourceRecords": [
+        64
+      ],
+      "intervals": [
+        {
+          "fromYear": 1811,
+          "toYear": 1829
+        }
+      ],
+      "geometryHashes": [
+        "749ef0e6bb46a9f4657a547006239d950d37b0c3240a73a50da7d0bd562ae407"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q3048747",
+      "displayName": "Pontianak Kadriyah Sultanate",
+      "wikidata": "Q3048747",
+      "sourceRecords": [
+        29
+      ],
+      "intervals": [
+        {
+          "fromYear": 1772,
+          "toYear": 1824
+        }
+      ],
+      "geometryHashes": [
+        "d356806050f75a0830690a67362fc3e5a4d465045068659fc883b164eeea1419"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q3057606",
+      "displayName": "Muhammad Ali dynasty",
+      "wikidata": "Q3057606",
+      "sourceRecords": [
+        66
+      ],
+      "intervals": [
+        {
+          "fromYear": 1811,
+          "toYear": 1821
+        }
+      ],
+      "geometryHashes": [
+        "28288283995c6b09ea388674471baabab0d4e308e817d6d1acd3671d5fe27ce9"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q3109927",
+      "displayName": "Sultanate of Sambas",
+      "wikidata": "Q3109927",
+      "sourceRecords": [
+        4
+      ],
+      "intervals": [
+        {
+          "fromYear": 1619,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "dda397d57f16903c66adce4cbd0e7bfd1720671d34df876776aae6594d692deb"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_SAMBAS",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q3125978",
+      "displayName": "Bali",
+      "wikidata": "Q3125978",
+      "sourceRecords": [
+        14
+      ],
+      "intervals": [
+        {
+          "fromYear": 1687,
+          "toYear": 1848
+        }
+      ],
+      "geometryHashes": [
+        "371cb3c7aa7cc65c4fbc61afbe78bb6c70a6a8392b95bb20f86d681d6333656d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "BALI",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q33296",
+      "displayName": "Mughal Empire",
+      "wikidata": "Q33296",
+      "sourceRecords": [
+        61
+      ],
+      "intervals": [
+        {
+          "fromYear": 1811,
+          "toYear": 1856
+        }
+      ],
+      "geometryHashes": [
+        "de3d3e02a18a2700f1c658e9bde2fde5d043a7ac0e49da4c321708b9f990ed6b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q3446232",
+      "displayName": "Sultanate of Sukadana",
+      "wikidata": "Q3446232",
+      "sourceRecords": [
+        3
+      ],
+      "intervals": [
+        {
+          "fromYear": 1619,
+          "toYear": 1829
+        }
+      ],
+      "geometryHashes": [
+        "f679860f131c46a6727ea4e145bd8f6a3d78740a1eaf72cbdcd094f8b401c67d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_SUKADANA",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q3503555",
+      "displayName": "Sultanate of Palembang",
+      "wikidata": "Q3503555",
+      "sourceRecords": [
+        57
+      ],
+      "intervals": [
+        {
+          "fromYear": 1809,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "866c4bc97622b3abedb8ffe78cc04c06f2c2001822f35a0458b2dcb09e20a617"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_PALEMBANG",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q35827",
+      "displayName": "Río de la Plata",
+      "wikidata": "Q35827",
+      "sourceRecords": [
+        101
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "0e3854f34ce2ccc9438aea7aefd200af25bb8a7c61dcc3cad36ee4118198a639"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q403369",
+      "displayName": "Kingdom of Champasak",
+      "wikidata": "Q403369",
+      "sourceRecords": [
+        37
+      ],
+      "intervals": [
+        {
+          "fromYear": 1796,
+          "toYear": 1827
+        }
+      ],
+      "geometryHashes": [
+        "fdb61612c63baf8befe11f579a701f5edced178a7fc8c157a30094f5aaa969f7"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q43292",
+      "displayName": "Sultanate of Bone",
+      "wikidata": "Q43292",
+      "sourceRecords": [
+        11
+      ],
+      "intervals": [
+        {
+          "fromYear": 1670,
+          "toYear": 1856
+        }
+      ],
+      "geometryHashes": [
+        "3b836bbe9941a5f8999c85193a49e5f99d0dde88b3fd8cebfe451a13151887af"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_BONE",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q4334533",
+      "displayName": "Omani Slave Coast",
+      "wikidata": "Q4334533",
+      "sourceRecords": [
+        74
+      ],
+      "intervals": [
+        {
+          "fromYear": 1814,
+          "toYear": 1823
+        }
+      ],
+      "geometryHashes": [
+        "c28658dc3d05044536fdda8adc69d342a04940ae3fe36dbdf182c7b71049615b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q46652",
+      "displayName": "Sultanate of Malacca",
+      "wikidata": "Q46652",
+      "sourceRecords": [
+        50
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1860
+        }
+      ],
+      "geometryHashes": [
+        "21317c416405f623680fcce9382cd01234d2e0a11d694330eed491a58a1b6a13"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q467627",
+      "displayName": "Durrani Empire",
+      "wikidata": "Q467627",
+      "sourceRecords": [
+        69
+      ],
+      "intervals": [
+        {
+          "fromYear": 1811,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "85f371a51e8d4e3598eef44e0f09509686eda9b91324f2fe936f46548f7f06aa"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q474779",
+      "displayName": "Free City of Bremen",
+      "wikidata": "Q474779",
+      "sourceRecords": [
+        78
+      ],
+      "intervals": [
+        {
+          "fromYear": 1814,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "963c33715e913821fe7cfbb6c6eeaf077b64aca0741a6a313dc5913d28d2de39"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q4807130",
+      "displayName": "Napoleonic Batavia Republic",
+      "wikidata": "Q4807130",
+      "sourceRecords": [
+        51
+      ],
+      "intervals": [
+        {
+          "fromYear": 1805,
+          "toYear": 1867
+        }
+      ],
+      "geometryHashes": [
+        "644d7db44a26a5fede6cf44f94fa73b639d0bbd6a1a444330fac8f95c1a0673e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q4899891",
+      "displayName": "Beylik of Tunis",
+      "wikidata": "Q4899891",
+      "sourceRecords": [
+        36
+      ],
+      "intervals": [
+        {
+          "fromYear": 1796,
+          "toYear": 1829
+        }
+      ],
+      "geometryHashes": [
+        "d954b2347971c205d0bcde63260c01d1b49b0819643808114a0b002748eec262"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q491106",
+      "displayName": "Khanate of Khiva",
+      "wikidata": "Q491106",
+      "sourceRecords": [
+        42
+      ],
+      "intervals": [
+        {
+          "fromYear": 1800,
+          "toYear": 1821
+        }
+      ],
+      "geometryHashes": [
+        "7e303a467512cbc16ec2553659ab74c62809f4733245e68b8ad09b4d2f62b3d4"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "KHANATE_OF_KHIVA",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q52028",
+      "displayName": "Chiangmai",
+      "wikidata": "Q52028",
+      "sourceRecords": [
+        32
+      ],
+      "intervals": [
+        {
+          "fromYear": 1783,
+          "toYear": 1852
+        }
+      ],
+      "geometryHashes": [
+        "f2bbc4b92d87fb38d6019ee128b09b597c00ae9c06b9251a2bc5f87d0027714e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q55",
+      "displayName": "Netherlands",
+      "wikidata": "Q55",
+      "sourceRecords": [
+        89,
+        103
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        },
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "085c05e048a58db2a85c413ecfc630a67a467a398ca1c1a8eef790379e1ef2ef",
+        "9d3f8c75c720e7c41116398f680a50deff18fd5414d3e122dc515a465d80d61a"
+      ],
+      "memberOf": [
+        "(Netherlands)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "polity",
+      "polityKey": "KONINKRIJK_DER_NEDERLANDEN",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q5769444",
+      "displayName": "Sultanate of Terengganu",
+      "wikidata": "Q5769444",
+      "sourceRecords": [
+        16
+      ],
+      "intervals": [
+        {
+          "fromYear": 1727,
+          "toYear": 1899
+        }
+      ],
+      "geometryHashes": [
+        "13c55d3b014c0314a417120d167963f0af9ef07bede72f6c877c332d3de9417f"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q600524",
+      "displayName": "Sokoto Caliphate",
+      "wikidata": "Q600524",
+      "sourceRecords": [
+        54
+      ],
+      "intervals": [
+        {
+          "fromYear": 1809,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "013c96a56cd1eaf97bfa68273308bf425b55730172e18043e73afe6d3744bdd2"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q62589",
+      "displayName": "United Kingdoms of Sweden and Norway",
+      "wikidata": "Q62589",
+      "sourceRecords": [
+        133
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "9f959983100f2112cc9dd901c0532e421205c4a98409f2adba56abb409553fc6"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q62651",
+      "displayName": "Denmark-Norway",
+      "wikidata": "Q62651",
+      "sourceRecords": [
+        129
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1847
+        }
+      ],
+      "geometryHashes": [
+        "1401e102f8c7be81968d4c532fe0c6d77fc2bf3c7b177de3924e8ebea95e1d48"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "DANMARK",
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q6500483",
+      "displayName": "Nguyễn dynasty",
+      "wikidata": "Q6500483",
+      "sourceRecords": [
+        49
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "80d4e10220a3e8a7143d693d237658e74b446b488bfe505fc523185aee89d83c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q697084",
+      "displayName": "Duchy of Oldenburg",
+      "wikidata": "Q697084",
+      "sourceRecords": [
+        80
+      ],
+      "intervals": [
+        {
+          "fromYear": 1814,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "711deba07eb5f115cd78d9ed0ecdabec3b4fb28e2188785bf7486bb77d94e83b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q722071",
+      "displayName": "Ashanti Empire",
+      "wikidata": "Q722071",
+      "sourceRecords": [
+        23
+      ],
+      "intervals": [
+        {
+          "fromYear": 1769,
+          "toYear": 1835
+        }
+      ],
+      "geometryHashes": [
+        "36776249241c91b68f0c983d0fde2dc2b548c3c1afbceab092b18b24a5082804"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q762084",
+      "displayName": "Bamana Empire",
+      "wikidata": "Q762084",
+      "sourceRecords": [
+        44
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "8a6d6b15f67ad11e211f504f0cb62f56bf1df0caf570cc32df5c267db033ebbc"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q7636765",
+      "displayName": "Sultanate of Selangor",
+      "wikidata": "Q7636765",
+      "sourceRecords": [
+        31
+      ],
+      "intervals": [
+        {
+          "fromYear": 1775,
+          "toYear": 1872
+        }
+      ],
+      "geometryHashes": [
+        "50aa79cb208283553f3897b025e3897d7e25c40f9f054bc6560c2d33ee58077b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q80702",
+      "displayName": "Spanish Empire",
+      "wikidata": "Q80702",
+      "sourceRecords": [
+        109,
+        128
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        },
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "f205e2186a34c93252041df64af6878ef8f5c56d01e93ff6ff1391a820dfd23f",
+        "d3592b782bc27f1f12bec24328712b86dc29296f7674f24f32e83f150eac7c06"
+      ],
+      "memberOf": [
+        "(Spanish Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q817",
+      "displayName": "Kuwait",
+      "wikidata": "Q817",
+      "sourceRecords": [
+        52
+      ],
+      "intervals": [
+        {
+          "fromYear": 1805,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "7812e40a51bc1b2b6c06db0fc866267cb38873cba6dff6068a9a42876f6a6200"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q83572",
+      "displayName": "Sikh Empire",
+      "wikidata": "Q83572",
+      "sourceRecords": [
+        65
+      ],
+      "intervals": [
+        {
+          "fromYear": 1811,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "11c5a0475fd1351472fd1fea435dea42b011444e5205ee1b0eaa70a508409985"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q837",
+      "displayName": "Nepal",
+      "wikidata": "Q837",
+      "sourceRecords": [
+        111
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "87419a3c37116e866f355bd5123946eae4418e16bad4aba19f659fa94e897c1c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q842",
+      "displayName": "Sultanate of Oman",
+      "wikidata": "Q842",
+      "sourceRecords": [
+        91
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "920bc07ae7622ce47426960a6e8471f4008993fbc33967642e1c63a2b103d742"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q849623",
+      "displayName": "Oyo Empire",
+      "wikidata": "Q849623",
+      "sourceRecords": [
+        24
+      ],
+      "intervals": [
+        {
+          "fromYear": 1769,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "171dc0a920fb9229c98429ed7467567f9d861b54db591fd084d21ac463e77b2b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "OYO_EMPIRE",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q8680",
+      "displayName": "(British Empire)",
+      "wikidata": "Q8680",
+      "sourceRecords": [
+        94,
+        110,
+        118
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        },
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        },
+        {
+          "fromYear": 1815,
+          "toYear": 1819
+        }
+      ],
+      "geometryHashes": [
+        "e39df91fb53ea5984f57b64bca3c24a1050db88fa0355a2577bd4538c588676f",
+        "deba9164b47ba3cc5eac53537b304957dbb07b37e57b01e1eaea05a357bf497b",
+        "758deab235e5c52a1b6c9b99d7eb2b89508c7cf6b36f2df51da0d814c406c30b"
+      ],
+      "memberOf": [
+        "(British Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1936-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q887803",
+      "displayName": "Sultanate of Brunei",
+      "wikidata": "Q887803",
+      "sourceRecords": [
+        13
+      ],
+      "intervals": [
+        {
+          "fromYear": 1673,
+          "toYear": 1841
+        }
+      ],
+      "geometryHashes": [
+        "9ca0ce0e35f4d2431aad511da1461f8b92a083860ce5f37f48467409c7ea8ba3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_BRUNEI",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q912382",
+      "displayName": "Danish India",
+      "wikidata": "Q912382",
+      "sourceRecords": [
+        45
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1848
+        }
+      ],
+      "geometryHashes": [
+        "c7574e69f01eee20cf455c81cb9839888c7ca28f80e2a69365b0aa6695e5c1d1"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "DANISH_INDIA",
+      "notes": "Classification carried forward from 1700-01-01: the same source identity remains active on 1815-06-18. Exact-date geometry is audited separately.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    },
+    {
+      "identityKey": "Q9326",
+      "displayName": "Vientiane",
+      "wikidata": "Q9326",
+      "sourceRecords": [
+        35
+      ],
+      "intervals": [
+        {
+          "fromYear": 1796,
+          "toYear": 1824
+        }
+      ],
+      "geometryHashes": [
+        "3da68ee1f89f665ccaa694d59063097040649426e2bc0712b02a4e53655f3042"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Cliopatria-only year intervals are retained as candidate evidence but are not sufficient to accept an exact-date territorial polity without independent review.",
+      "reviewedBy": "Codex multi-anchor temporal review",
+      "reviewedAt": "2026-09-02"
+    }
+  ]
+}

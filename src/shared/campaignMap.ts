@@ -1,6 +1,6 @@
 /**
  * Campaign map generation modes — distinct from HUD MapMode (political/terrain/…).
- * Historical uses the baked 1820 seed; procedural remaps ownership on the same
+ * Historical uses the selected scenario seed; procedural remaps ownership on the same
  * province graph, either with real country identities or invented ones.
  */
 
@@ -14,7 +14,7 @@ export const CAMPAIGN_MAP_MODES: { id: CampaignMapMode; label: string; blurb: st
   {
     id: 'historical',
     label: 'Historical',
-    blurb: 'The baked 1820 political map.',
+    blurb: 'The selected scenario political map.',
   },
   {
     id: 'procedural_real',

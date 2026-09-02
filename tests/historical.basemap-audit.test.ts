@@ -27,7 +27,7 @@ describe('historical basemap audit', () => {
       }],
     };
     const config = {
-      asOf: '1820-01-01',
+      asOf: '1830-01-01',
       references: [{ id: 'fixture' }],
       entityTags: { 'Old Realm': 'OLD' },
       provinceOverrides: [{
@@ -51,15 +51,16 @@ describe('historical basemap audit', () => {
 
   it('keeps every override pinned to the current province identity', () => {
     const config = JSON.parse(readFileSync(
-      new URL('../content/history/1820/reference-basemaps.json', import.meta.url),
+      new URL('../content/history/1830/reference-basemaps.json', import.meta.url),
       'utf8',
     )) as { provinceOverrides: Array<{ provinceId: number; provinceName: string }> };
     const world = JSON.parse(readFileSync(
       new URL('../src/data/generated/worldSeed.json', import.meta.url),
       'utf8',
     )) as { provinces: Array<{ id: number; name: string }> };
+    const provincesById = new Map(world.provinces.map((province) => [province.id, province]));
     for (const override of config.provinceOverrides) {
-      expect(world.provinces[override.provinceId]?.name).toBe(override.provinceName);
+      expect(provincesById.get(override.provinceId)?.name).toBe(override.provinceName);
     }
   });
 });

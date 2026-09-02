@@ -78,7 +78,7 @@ test('boot still plays from the main menu', async ({ page }) => {
   await page.dispatchEvent('[data-testid="speed-5"]', 'click');
   // This is a FUNCTIONAL check — speed 5 advances the clock — not a throughput
   // benchmark. It used to assert the year reached 1837, i.e. 17 sim-years in 20
-  // wall seconds from the 1820 start. We currently manage roughly 4 of those 17
+  // wall seconds from the 1830 start. We currently manage roughly 4 of those 17
   // on this hardware, so the assertion was a standing red that said "broken"
   // when it meant "slow". Sim throughput is tracked as a real budget in
   // tests/m6.performance.test.ts and in issue #30; do not re-encode it here.
@@ -86,5 +86,5 @@ test('boot still plays from the main menu', async ({ page }) => {
     const text = await page.getByTestId('hud-date').textContent();
     const year = Number(text?.split('-')[0] ?? 0);
     return year;
-  }, { timeout: 20_000 }).toBeGreaterThan(1820);
+  }, { timeout: 20_000 }).toBeGreaterThan(1830);
 });

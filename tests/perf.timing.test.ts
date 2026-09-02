@@ -109,7 +109,13 @@ describe('H5 perf budgets', () => {
     // Ceiling has ~3x scheduling headroom. Raised 3 -> 4 for the 67-nation
     // moonshot world: +40% nations grows AI cost per year, and under full-suite
     // worker contention the old ceiling left no margin (still ~4x solo).
-    const budgetMsPerProvinceYear = 4;
+    // Raised 4 -> 5.5 for the Vic2 1830 world. Two compounding costs: 93 nations
+    // rather than 67, and a culture system that now does real work every month.
+    // Before the minority tables were re-keyed, 67 of 96 rules were dead, almost
+    // no pop was non-accepted, and the monthly culture pass was close to a no-op.
+    // Measured 2026-08-28 on this box: 3.27-3.40 solo, 4.47 under full-suite
+    // worker contention. The old ceiling passed solo and flaked in a full run.
+    const budgetMsPerProvinceYear = 5.5;
     console.log(
       `[budget] sim throughput ${msPerProvinceYear.toFixed(3)}ms per province-year `
       + `(${(years / (elapsed / 1000)).toFixed(2)} years/sec at ${world.provinces.length} provinces), `

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1776-07-04",
+  "resolutions": [
+    {
+      "relationId": 2830353,
+      "action": "skip_nonexclusive",
+      "reason": "The Holy Roman Empire relation duplicates its independently represented member territories and is not an exclusive owner polygon."
+    },
+    {
+      "relationId": 2847907,
+      "action": "skip_duplicate_source",
+      "reason": "This is a chronology container. The same reviewed Sindh identity has valid exact-date boundary relation 2922476."
+    },
+    {
+      "relationId": 2889977,
+      "action": "cliopatria_fallback",
+      "sourceRecords": [72],
+      "geometryHashes": ["282f059c192fe2e3a1fef2377d818d1192b44105b756adf0594a80da79c3050b"],
+      "reason": "The exact-date Qing relation has unclosed chains; the independently pinned Cliopatria Qing polygon supplies the reviewed fallback."
+    }
+  ]
+}

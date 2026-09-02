@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1936-01-01",
+  "note": "Development evidence only. The source name is retained for provenance, while player-facing content must use neutral German naming and no Nazi imagery.",
+  "boundaries": [
+    {
+      "relationId": 2694638,
+      "polityKey": "GERMANY",
+      "purpose": "late_period_boundary_validation",
+      "expectedName": "Deutsches Reich",
+      "expectedWikidata": "Q1206012"
+    }
+  ]
+}

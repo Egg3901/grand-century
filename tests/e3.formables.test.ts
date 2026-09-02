@@ -20,7 +20,7 @@ function germanFormable() {
 }
 
 function jumpToYear(world: ReturnType<typeof createWorld>, year: number): void {
-  world.day = Math.max(world.day, (year - 1820) * 365 + 10);
+  world.day = Math.max(world.day, (year - 1830) * 365 + 10);
 }
 
 function setPlayerNation(world: ReturnType<typeof createWorld>, nationId: number): void {
@@ -92,7 +92,7 @@ describe('E3 formable nations', () => {
     }
     world.nations[prussiaId].gpRank = 0;
     const noGpStatus = evaluateNationFormable(world, GAME_DATA, prussiaId, formable);
-    expect(noGpStatus.ready).toBe(false); // era still gates in 1820
+    expect(noGpStatus.ready).toBe(false); // era still gates in 1830
     // Post-world-overhaul: a Prussia holding every German core is within
     // striking distance of the eighth seat, so the #34 near-GP clause admits
     // it even at gpRank 0. The strict-rank path is covered by weaker tags.
@@ -100,7 +100,7 @@ describe('E3 formable nations', () => {
 
     world.nations[prussiaId].gpRank = 1;
     const preEraStatus = evaluateNationFormable(world, GAME_DATA, prussiaId, formable);
-    expect(preEraStatus.ready).toBe(false); // era gate: no Germany in 1820
+    expect(preEraStatus.ready).toBe(false); // era gate: no Germany in 1830
     expect(preEraStatus.requirements.find((entry) => entry.key === 'era')?.met).toBe(false);
 
     jumpToYear(world, 1849);

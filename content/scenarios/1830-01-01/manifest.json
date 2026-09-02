@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "1830-01-01",
+  "title": "The Age of Revolutions",
+  "startDate": {
+    "year": 1830,
+    "month": 1,
+    "day": 1
+  },
+  "status": "playable",
+  "summary": "The current Grand Century campaign, retained as the compatibility baseline while the engine becomes scenario-neutral.",
+  "visualPolicy": {
+    "naziImagery": "prohibited"
+  }
+}

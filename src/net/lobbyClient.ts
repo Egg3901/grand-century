@@ -5,7 +5,7 @@
  * then acts as SimTransport for ToWorker / FromWorker (with snapshot diffs).
  */
 
-import type { FromWorker, ToWorker } from '../shared/types';
+import type { FromWorker, ScenarioId, ToWorker } from '../shared/types';
 import type { SimTransport } from './transport';
 import {
   isChatRelayMessage,
@@ -188,6 +188,7 @@ export class LobbyClient implements SimTransport {
     seed: number;
     mode: SessionMode;
     maxPlayers: number;
+    scenarioId?: ScenarioId;
   }): void {
     const msg: LobbyClientMessage = {
       t: 'createSession',
@@ -195,6 +196,7 @@ export class LobbyClient implements SimTransport {
       seed: opts.seed,
       mode: opts.mode,
       maxPlayers: opts.maxPlayers,
+      scenarioId: opts.scenarioId,
       playerName: this.playerName,
     };
     this.wire(msg);

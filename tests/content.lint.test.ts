@@ -7,14 +7,23 @@
  * Coverage baseline (measured 2026-07-27 — raise the floors as arcs land):
  *   nation-scoped decisions (tagIn):     2  (PRU, SAR)
  *   nation-scoped events (trigger.tags): 3  (AUS, PRU, SAR)
- *   formable candidates:                20
+ *   formable candidates:                18  (was 20; PAR and VEN have no tag in the Vic2 1830 cut)
  *   zero of all three:                  28 nations
  */
 import { describe, expect, it } from 'vitest';
 import { DECISION_DEFS } from '../src/data/decisions';
 import { EVENT_DEFS } from '../src/data/events';
-import { GAME_DATA } from '../src/data/gameData';
+import { GAME_DATA, UNRESOLVED_STATE_NAMES } from '../src/data/gameData';
 import { WORLD_SEED } from '../src/data/generated';
+import {
+  MINORITY_RULES,
+  PLACEHOLDER_NAME_RULES,
+  PLACEHOLDER_RELIGION_RULES,
+  PRIMARY_CULTURE_OVERRIDE,
+  SOUTH_ASIAN_SUNNI,
+  VIC2_CULTURE_TO_GC,
+  religionKeyFor,
+} from '../src/sim/bootstrap';
 import type { EventEffect, EventRequirement, EventTriggerDef } from '../src/shared/types';
 
 const TAG_SHAPE = /^[A-Z]{2,4}$/;
@@ -291,7 +300,7 @@ describe('H6 content lint', () => {
         `nations w/ scoped decision: ${decisionCount} / ${seedNations.length}  [${[...withNationScopedDecision].sort().join(', ')}]`,
         `nations w/ scoped event:    ${eventCount} / ${seedNations.length}  [${[...withNationScopedEvent].sort().join(', ')}]`,
         `nations w/ formable:        ${formableCount} / ${seedNations.length}  [${[...withFormable].sort().join(', ')}]`,
-        `nations w/ 1820 era flavor:   ${withEraFlavor.size} / ${seedNations.length}`,
+        `nations w/ 1830 era flavor:   ${withEraFlavor.size} / ${seedNations.length}`,
         `nations w/ zero content/flavor: ${zeroCount} / ${seedNations.length}`,
         `zero-content list: ${zeroContent.join(', ')}`,
         '============================================',
@@ -303,7 +312,119 @@ describe('H6 content lint', () => {
     // Baseline 2026-07-27: decisions 2, events 3, formables 20, zero 28.
     expect(decisionCount).toBeGreaterThanOrEqual(2);
     expect(eventCount).toBeGreaterThanOrEqual(3);
-    expect(formableCount).toBeGreaterThanOrEqual(20);
-    expect(zeroCount).toBeLessThanOrEqual(47); // 19 moonshot nations ship without scoped content yet
+    // 18, not 20: Parma is absorbed into Vic2's Emilia region and Venezuela
+    // does not exist until Gran Colombia breaks up in 1831.
+    expect(formableCount).toBeGreaterThanOrEqual(18);
+    // 1, and the 1 is UNC: the uncolonized placeholder tag, which owns the
+    // unclaimed world and should never carry flavour. Every real polity on the
+    // map has at least an 1830 era summary. Keep this tight — it was 61 when
+    // the Vic2 cut landed and nothing failed.
+    expect(zeroCount).toBeLessThanOrEqual(1);
+  });
+});
+
+describe('Vic2 state-name references', () => {
+  it('every statesNamed() lookup resolves against the generated map', () => {
+    // Province and state names come from the Vic2 region cut. When a rebuild
+    // renames or absorbs a state, the formable that referenced it silently
+    // loses its cores; this turns that into a failing test.
+    expect(UNRESOLVED_STATE_NAMES).toEqual([]);
+  });
+});
+
+describe('cultural seeding tables resolve against the generated map', () => {
+  // These tables are keyed by generated province name and by Victoria II
+  // culture key. Both change when the map is rebuilt, and both fail silently:
+  // a stale MINORITY_RULES key seeds no minority, and an unmapped Vic2 culture
+  // falls through cultureIndex's fallback to index 0 and comes out British.
+  // The 1830 re-cut broke 67 of 96 minority rules and made 36 of 93 nations
+  // British without failing a single test. That is what these guard.
+  const provinceNames = new Set(WORLD_SEED.provinces.map((province) => province.name));
+  const cultureKeys = new Set(GAME_DATA.cultures.map((culture) => culture.key));
+  const religionKeys = new Set(GAME_DATA.religions.map((religion) => religion.key));
+
+  it('every MINORITY_RULES key names a province that exists', () => {
+    const dead = Object.keys(MINORITY_RULES).filter((name) => !provinceNames.has(name));
+    expect(dead).toEqual([]);
+  });
+
+  it('every MINORITY_RULES rule names a real culture and religion', () => {
+    const badCultures: string[] = [];
+    const badReligions: string[] = [];
+    for (const [name, rules] of Object.entries(MINORITY_RULES)) {
+      for (const rule of rules) {
+        if (!cultureKeys.has(rule.culture)) badCultures.push(`${name}:${rule.culture}`);
+        if (rule.religion && !religionKeys.has(rule.religion)) badReligions.push(`${name}:${rule.religion}`);
+      }
+    }
+    expect(badCultures).toEqual([]);
+    expect(badReligions).toEqual([]);
+  });
+
+  it('every PLACEHOLDER_NAME_RULES and SOUTH_ASIAN_SUNNI key names a province that exists', () => {
+    const deadPlaceholders = Object.keys(PLACEHOLDER_NAME_RULES).filter((name) => !provinceNames.has(name));
+    const deadSunni = [...SOUTH_ASIAN_SUNNI].filter((name) => !provinceNames.has(name));
+    expect(deadPlaceholders).toEqual([]);
+    expect(deadSunni).toEqual([]);
+  });
+
+  it('every seeded religion resolves without hitting the index-0 fallback', () => {
+    // religionIndex has the same fallback-to-0 as cultureIndex, and index 0 is
+    // 'protestant'. No seed nation carried a religion at all until the Vic2
+    // table was wired through, and RELIGION_BY_TAG covered 45 of 93 tags, so
+    // the Papal States, Tuscany, Bavaria, Poland, Serbia, Tibet, Oman, the
+    // Punjab and Zululand were all Protestant and nothing failed.
+    const unresolved: string[] = [];
+    for (const nation of WORLD_SEED.nations) {
+      const key = religionKeyFor(nation.tag, nation.religion);
+      if (!religionKeys.has(key)) unresolved.push(`${nation.tag}:${nation.religion ?? 'none'}`);
+    }
+    expect(unresolved).toEqual([]);
+  });
+
+  it('every PLACEHOLDER_RELIGION_RULES key names a province and a real religion', () => {
+    const deadNames = Object.keys(PLACEHOLDER_RELIGION_RULES).filter((name) => !provinceNames.has(name));
+    const badReligions = Object.entries(PLACEHOLDER_RELIGION_RULES)
+      .filter(([, religion]) => !religionKeys.has(religion))
+      .map(([name, religion]) => `${name}:${religion}`);
+    expect(deadNames).toEqual([]);
+    expect(badReligions).toEqual([]);
+  });
+
+  it('every seeded primary culture resolves without hitting the index-0 fallback', () => {
+    const unresolved: string[] = [];
+    for (const nation of WORLD_SEED.nations) {
+      const key = PRIMARY_CULTURE_OVERRIDE[nation.tag]
+        || VIC2_CULTURE_TO_GC[nation.primaryCulture]
+        || nation.primaryCulture;
+      if (!cultureKeys.has(key)) unresolved.push(`${nation.tag}:${nation.primaryCulture}`);
+    }
+    expect(unresolved).toEqual([]);
+  });
+});
+
+describe('generated map adjacency', () => {
+  it('no province is its own neighbour', () => {
+    // topojson's neighbors() reports a merged MultiPolygon as adjacent to
+    // itself. 412 of 545 provinces carried a self-edge at the 1830 cut.
+    const selfAdjacent = WORLD_SEED.provinces
+      .filter((province) => (province.neighbors ?? []).includes(province.id))
+      .map((province) => province.name);
+    expect(selfAdjacent).toEqual([]);
+  });
+
+  it('adjacency is symmetric and nothing is stranded', () => {
+    const byId = new Map(WORLD_SEED.provinces.map((province) => [province.id, new Set(province.neighbors ?? [])]));
+    const asymmetric: string[] = [];
+    const stranded: string[] = [];
+    for (const province of WORLD_SEED.provinces) {
+      const neighbors = byId.get(province.id)!;
+      if (neighbors.size === 0) stranded.push(province.name);
+      for (const neighborId of neighbors) {
+        if (!byId.get(neighborId)?.has(province.id)) asymmetric.push(`${province.id}->${neighborId}`);
+      }
+    }
+    expect(asymmetric).toEqual([]);
+    expect(stranded).toEqual([]);
   });
 });

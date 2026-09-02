@@ -7,7 +7,7 @@ const VALID_POLITY_STATUSES = new Set([
   'decentralized',
 ]);
 
-const HISTORICAL_SOURCE = 'Grand Century checked-in 1820 historical overlay v1';
+const HISTORICAL_SOURCE = 'Grand Century checked-in 1830 historical overlay v1';
 
 function clone(value) {
   return structuredClone(value);
@@ -19,7 +19,7 @@ function requireValue(condition, message) {
 
 function validateEpoch(...documents) {
   for (const document of documents) {
-    requireValue(document.asOf === '1820-01-01', `expected 1820-01-01, got ${document.asOf ?? 'no date'}`);
+    requireValue(document.asOf === '1830-01-01', `expected 1830-01-01, got ${document.asOf ?? 'no date'}`);
   }
 }
 
@@ -27,7 +27,13 @@ function applyPolities(world, polityData, isRecompile) {
   const byTag = new Map(world.nations.map((nation) => [nation.tag, nation]));
   for (const definition of polityData.nations) {
     requireValue(/^[A-Z0-9]{3}$/.test(definition.tag), `invalid polity tag ${definition.tag}`);
-    requireValue(VALID_POLITY_STATUSES.has(definition.polityStatus), `invalid status for ${definition.tag}`);
+    // polityStatus is optional: most entries in this file exist only to carry
+    // era flavour and should not assert a relationship. A merge that omits it
+    // leaves whatever the map build produced untouched.
+    requireValue(
+      definition.polityStatus === undefined || VALID_POLITY_STATUSES.has(definition.polityStatus),
+      `invalid status for ${definition.tag}`,
+    );
     const existing = byTag.get(definition.tag);
     const { mode, ...fields } = definition;
     requireValue(mode === 'merge' || mode === 'add', `${definition.tag} must declare mode add or merge`);
@@ -120,11 +126,15 @@ function rebuildDerivedOwnership(world, nationsByTag) {
 
 export function validateHistoricalAnchors(world, anchorData) {
   const nationsByTag = new Map(world.nations.map((nation) => [nation.tag, nation]));
-  const provincesById = new Map(world.provinces.map((province) => [province.id, province]));
+  const provincesByName = new Map(world.provinces.map((province) => [province.name, province]));
   for (const anchor of anchorData.anchors) {
     if (anchor.kind === 'province') {
-      const province = provincesById.get(anchor.provinceId);
-      requireValue(province?.name === anchor.provinceName, `${anchor.id}: province identity mismatch`);
+      // Keyed by name, not id. Province ids renumber whenever the cut changes,
+      // so an id-keyed anchor fails on every rebuild for a reason that has
+      // nothing to do with the fact it is guarding. The name is the stable
+      // identity, and content.lint already asserts names resolve.
+      const province = provincesByName.get(anchor.provinceName);
+      requireValue(province, `${anchor.id}: no province named ${anchor.provinceName}`);
       requireValue(province.ownerTag === anchor.ownerTag, `${anchor.id}: expected owner ${anchor.ownerTag}, got ${province.ownerTag}`);
       if (anchor.controllerTag) requireValue(province.controllerTag === anchor.controllerTag, `${anchor.id}: expected controller ${anchor.controllerTag}`);
       continue;
@@ -142,7 +152,7 @@ export function validateHistoricalAnchors(world, anchorData) {
 
 /**
  * Deep historical-data module. Callers supply the neutral seed and three
- * declarative 1820 documents; all mutation, validation and derived fields stay
+ * declarative 1830 documents; all mutation, validation and derived fields stay
  * behind this single interface.
  */
 export function compileHistoricalWorld(baseWorld, polityData, ownershipData, anchorData) {
@@ -152,7 +162,7 @@ export function compileHistoricalWorld(baseWorld, polityData, ownershipData, anc
   applyOwnership(world, ownershipData, nationsByTag);
   rebuildDerivedOwnership(world, nationsByTag);
   validateHistoricalAnchors(world, anchorData);
-  world.generatedAt = '1820-01-01T00:00:00.000Z';
+  world.generatedAt = '1830-01-01T00:00:00.000Z';
   world.source = HISTORICAL_SOURCE;
   world.provinceCount = world.provinces.length;
   return world;

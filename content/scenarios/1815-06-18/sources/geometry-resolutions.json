@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1815-06-18",
+  "resolutions": [
+    {
+      "relationId": 2692575,
+      "action": "cliopatria_fallback",
+      "sourceRecords": [116],
+      "geometryHashes": ["d2e79c62e170b7f91adb0116185153e3664887b496df82aa68e3511433299ab9"],
+      "reason": "The exact-date Cracow relation has unclosed chains; the independently pinned Cliopatria polygon supplies the reviewed fallback."
+    },
+    {
+      "relationId": 2745247,
+      "action": "cliopatria_fallback",
+      "sourceRecords": [138],
+      "geometryHashes": ["94237129b45ed8575a4565b24e19c4a59a193a6733448a3eb7851708e3769271"],
+      "reason": "The exact-date Electoral Hesse relation has an unclosed chain; the independently pinned Cliopatria polygon supplies the reviewed fallback."
+    },
+    {
+      "relationId": 2847907,
+      "action": "skip_duplicate_source",
+      "reason": "This is a chronology container. The same reviewed Sindh identity has valid exact-date boundary relation 2922476."
+    },
+    {
+      "relationId": 2889977,
+      "action": "cliopatria_fallback",
+      "sourceRecords": [95],
+      "geometryHashes": ["7177a0dc818ab52c195057504cff8f3c211207e65eb259d7980bae4e2e62dee6"],
+      "reason": "The exact-date Qing relation has unclosed chains; the independently pinned Cliopatria Qing polygon supplies the reviewed fallback."
+    }
+  ]
+}

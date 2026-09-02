@@ -12,9 +12,10 @@ import type {
   Terrain,
   World,
   CampaignMapMode,
+  TechDef,
 } from '../shared/types';
 import { Rng } from './rng';
-import { WORLD_SEED, type WorldSeedData } from '../data/generated';
+import { loadScenario, type WorldSeedData } from '../data/generated';
 import { DEFAULT_CAMPAIGN_MAP_MODE } from '../shared/campaignMap';
 import { resolveWorldSeed } from './proceduralWorld';
 import {
@@ -39,7 +40,46 @@ const RGO_GOOD_TO_RECIPE: Record<string, string> = {
   iron: 'rgo_iron',
   cotton: 'rgo_cotton',
 };
+/**
+ * Victoria II's religions onto this game's eight. Same trap as the culture
+ * table: `religionIndex` falls back to index 0, which is `protestant`, so an
+ * unmapped key does not fail, it converts. Before this existed no seed nation
+ * carried a religion at all and RELIGION_BY_TAG covered 45 of 93 tags, which
+ * left the Papal States, Tuscany, Bavaria, Poland, Serbia, Tibet, Oman, the
+ * Punjab and Zululand all Protestant.
+ */
+export const VIC2_RELIGION_TO_GC: Record<string, string> = {
+  catholic: 'catholic',
+  protestant: 'protestant',
+  orthodox: 'orthodox',
+  // No Miaphysite bucket; Ethiopia and the Copts sit closest to orthodox.
+  coptic: 'orthodox',
+  sunni: 'sunni',
+  // No shia bucket. Persia and Oman are the notable losses here.
+  shiite: 'sunni',
+  ibadi: 'sunni',
+  hindu: 'hindu',
+  // No sikh bucket; the Punjab reads as hindu rather than as a Muslim state.
+  sikh: 'hindu',
+  jain: 'hindu',
+  mahayana: 'buddhist',
+  theravada: 'buddhist',
+  gelugpa: 'buddhist',
+  shinto: 'buddhist',
+  confucian: 'confucian',
+  animist: 'traditional',
+  shamanist: 'traditional',
+  jewish: 'traditional',
+};
+
 const RELIGION_BY_TAG: Record<string, string> = {
+  // The Qing constituents follow the Qing. Vic2 calls them mahayana, which
+  // would read oddly as a different religion from the empire administering
+  // them. Xinjiang (sunni) and Mongolia/Tibet (buddhist) are genuinely
+  // different and are left to the Vic2 mapping.
+  GXI: 'confucian',
+  YNN: 'confucian',
+  MCK: 'confucian',
   ENG: 'protestant',
   FRA: 'catholic',
   PRU: 'protestant',
@@ -92,8 +132,12 @@ const RELIGION_BY_TAG: Record<string, string> = {
  * longer 8 entries wide. Takes precedence over the (coarse) generated seed.
  * Original 8-culture assignments that were already right are not repeated here.
  */
-const PRIMARY_CULTURE_OVERRIDE: Record<string, string> = {
+export const PRIMARY_CULTURE_OVERRIDE: Record<string, string> = {
   ESP: 'iberian',
+  // Greece only became a seedable nation with the 1830 cut (London Protocol,
+  // February 1830). The build's nation library still carries the pre-Vic2
+  // 'french' placeholder for it.
+  GRE: 'greek',
   POR: 'iberian',
   SAR: 'italian',
   TSC: 'italian',
@@ -138,125 +182,150 @@ interface MinorityRule {
 }
 
 /**
- * 0.8.0 — the cultural fault lines of 1820, keyed by generated province name
+ * 0.8.0 — the cultural fault lines of 1830, keyed by generated province name
  * (names are unique in the baked seed). These are the *named* historical
  * minority regions; broad colonial sweeps are handled by geography below.
  */
-const MINORITY_RULES: Record<string, MinorityRule[]> = {
+export const MINORITY_RULES: Record<string, MinorityRule[]> = {
+  // Keys are generated province names from the Vic2 region cut. content.lint
+  // asserts every key still resolves: a rebuild that renames a region must not
+  // be allowed to silently delete a nationality.
   // --- British Isles ---
-  Ireland: [{ culture: 'irish', share: 0.85 }],
-  'Ireland (United Kingdom)': [{ culture: 'irish', share: 0.6 }],
-  // --- British North America / Africa ---
+  'Leinster-Connacht': [{ culture: 'irish', share: 0.85 }],
+  Munster: [{ culture: 'irish', share: 0.9 }],
+  // Ulster's plantation counties are the reason this is not a clean 0.85.
+  Ulster: [{ culture: 'irish', share: 0.45 }],
+  // --- British North America ---
   Quebec: [{ culture: 'french', share: 0.76 }],
   'New Brunswick': [{ culture: 'french', share: 0.32 }],
+  // --- British Africa, Caribbean and Burma ---
+  'Cape Colony': [{ culture: 'african', share: 0.62, religion: 'protestant' }],
   'Eastern Cape': [{ culture: 'african', share: 0.78, religion: 'protestant' }],
-  'Free State': [{ culture: 'african', share: 0.7, religion: 'protestant' }],
-  Gauteng: [{ culture: 'african', share: 0.74, religion: 'protestant' }],
-  'KwaZulu-Natal': [{ culture: 'african', share: 0.82, religion: 'protestant' }],
-  Limpopo: [{ culture: 'african', share: 0.86, religion: 'protestant' }],
-  Mpumalanga: [{ culture: 'african', share: 0.82, religion: 'protestant' }],
-  'North West': [{ culture: 'african', share: 0.8, religion: 'protestant' }],
   'Northern Cape': [{ culture: 'african', share: 0.72, religion: 'protestant' }],
-  'Western Cape': [{ culture: 'african', share: 0.62, religion: 'protestant' }],
-  // --- Low Countries ---
-  Belgium: [{ culture: 'french', share: 0.55 }],
+  'Sierra Leone': [{ culture: 'african', share: 0.95, religion: 'traditional' }],
+  Gambia: [{ culture: 'african', share: 0.95, religion: 'traditional' }],
+  'West Indies': [{ culture: 'african', share: 0.88, religion: 'protestant' }],
+  'Caribbean Islands': [{ culture: 'african', share: 0.88, religion: 'protestant' }],
+  'Lesser Antilles': [{ culture: 'african', share: 0.85, religion: 'protestant' }],
+  Guayana: [{ culture: 'african', share: 0.85, religion: 'protestant' }],
+  Tenasserim: [{ culture: 'indochinese', share: 0.95 }],
+  // --- Low Countries: Wallonia is French-speaking, Flanders is not ---
+  Wallonie: [{ culture: 'french', share: 0.9 }],
   // --- Habsburg lands ---
-  Hungary: [{ culture: 'hungarian', share: 0.86 }],
-  Czechia: [{ culture: 'czech', share: 0.72 }],
+  'Central Hungary': [{ culture: 'hungarian', share: 0.86 }],
+  'Alföld': [{ culture: 'hungarian', share: 0.84 }],
+  Transdanubia: [{ culture: 'hungarian', share: 0.82 }],
   Slovakia: [{ culture: 'czech', share: 0.5 }, { culture: 'hungarian', share: 0.3 }],
+  'Eastern Siebenbürgen': [{ culture: 'romanian', share: 0.5 }, { culture: 'hungarian', share: 0.32 }],
+  'Western Siebenbürgen': [{ culture: 'romanian', share: 0.55 }, { culture: 'hungarian', share: 0.28 }],
+  Bohemia: [{ culture: 'czech', share: 0.72 }],
+  Moravia: [{ culture: 'czech', share: 0.75 }],
+  Lombardia: [{ culture: 'italian', share: 0.9 }],
+  Venetia: [{ culture: 'italian', share: 0.9 }],
+  'South Tirol': [{ culture: 'italian', share: 0.5 }],
+  Istria: [{ culture: 'italian', share: 0.4 }, { culture: 'south_slavic', share: 0.4, religion: 'catholic' }],
   Croatia: [{ culture: 'south_slavic', share: 0.84, religion: 'catholic' }],
+  Slavonia: [{ culture: 'south_slavic', share: 0.82, religion: 'catholic' }],
   Slovenia: [{ culture: 'south_slavic', share: 0.72, religion: 'catholic' }],
-  'Lombardy-Venetia': [{ culture: 'italian', share: 0.88 }],
-  // --- Prussia (Posen) ---
-  Prussia: [{ culture: 'polish', share: 0.14 }],
-  // --- Russian Empire ---
-  'Greater Poland': [{ culture: 'polish', share: 0.88 }],
-  'Lesser Poland': [{ culture: 'polish', share: 0.88 }],
-  Mazovia: [{ culture: 'polish', share: 0.88 }],
-  Pomerania: [{ culture: 'polish', share: 0.7 }, { culture: 'north_german', share: 0.18 }],
-  Lithuania: [{ culture: 'baltic', share: 0.82, religion: 'catholic' }],
-  Latvia: [{ culture: 'baltic', share: 0.8 }],
-  Estonia: [{ culture: 'baltic', share: 0.8 }],
-  Lapland: [{ culture: 'finnish', share: 0.88 }],
-  Ostrobothnia: [{ culture: 'finnish', share: 0.88 }],
-  'Southern Finland': [{ culture: 'finnish', share: 0.86 }],
-  Belarus: [{ culture: 'ukrainian', share: 0.72 }],
-  Kyiv: [{ culture: 'ukrainian', share: 0.84 }],
-  Kharkiv: [{ culture: 'ukrainian', share: 0.78 }],
-  Lviv: [{ culture: 'ukrainian', share: 0.7 }, { culture: 'polish', share: 0.16 }],
-  Odessa: [{ culture: 'ukrainian', share: 0.7 }],
-  Kaliningrad: [{ culture: 'north_german', share: 0.65 }],
-  'Central Kazakhstan': [{ culture: 'central_asian', share: 0.9 }],
-  'Eastern Kazakhstan': [{ culture: 'central_asian', share: 0.9 }],
-  'Northern Kazakhstan': [{ culture: 'central_asian', share: 0.85 }],
-  'Southern Kazakhstan': [{ culture: 'central_asian', share: 0.9 }],
-  'Western Kazakhstan': [{ culture: 'central_asian', share: 0.9 }],
+  Dalmatia: [{ culture: 'south_slavic', share: 0.8, religion: 'catholic' }],
+  'East Galicia': [{ culture: 'ukrainian', share: 0.62 }, { culture: 'polish', share: 0.24 }],
+  'West Galicia': [{ culture: 'polish', share: 0.85 }],
+  // --- Prussia's Polish east ---
+  Posen: [{ culture: 'polish', share: 0.6 }],
+  'Westpreußen': [{ culture: 'polish', share: 0.33 }],
+  Schlesien: [{ culture: 'polish', share: 0.22 }],
+  'Ostpreußen': [{ culture: 'baltic', share: 0.12 }],
+  // --- Russian Empire: Baltic provinces ---
+  // The Baltic German nobility is small but owns the land and the towns; 0.1 is
+  // the floor provinceCultureSlices keeps, so do not lower it.
+  Lietuva: [{ culture: 'baltic', share: 0.82, religion: 'catholic' }],
+  Latvia: [{ culture: 'baltic', share: 0.8 }, { culture: 'north_german', share: 0.1 }],
+  Estonia: [{ culture: 'baltic', share: 0.8 }, { culture: 'north_german', share: 0.1 }],
+  // --- Russian Empire: Finnic north ---
+  Karelia: [{ culture: 'finnish', share: 0.45 }],
+  Ingria: [{ culture: 'finnish', share: 0.18 }],
+  // --- Russian Empire: the western gubernias ---
+  Minsk: [{ culture: 'ukrainian', share: 0.7 }],
+  Orsha: [{ culture: 'ukrainian', share: 0.65 }],
+  'Brêst': [{ culture: 'ukrainian', share: 0.7 }],
+  Kiev: [{ culture: 'ukrainian', share: 0.84 }],
+  Rovne: [{ culture: 'ukrainian', share: 0.75 }],
+  Cherson: [{ culture: 'ukrainian', share: 0.68 }],
+  Luhansk: [{ culture: 'ukrainian', share: 0.6 }],
+  Budjak: [{ culture: 'romanian', share: 0.42 }, { culture: 'ukrainian', share: 0.22 }],
+  Crimea: [{ culture: 'turkish', share: 0.4 }, { culture: 'ukrainian', share: 0.2 }],
+  // --- Russian Empire: steppe and Volga ---
+  Akmolinsk: [{ culture: 'central_asian', share: 0.9 }],
+  Uralsk: [{ culture: 'central_asian', share: 0.6 }],
+  Tartaria: [{ culture: 'central_asian', share: 0.7 }],
+  Kazan: [{ culture: 'central_asian', share: 0.5 }],
+  Astrakhan: [{ culture: 'central_asian', share: 0.35 }],
+  // --- Russian Empire: Caucasus ---
+  'North Caucasia': [{ culture: 'caucasian', share: 0.85, religion: 'sunni' }],
+  Ekaterinodar: [{ culture: 'caucasian', share: 0.4, religion: 'sunni' }],
   Armenia: [{ culture: 'caucasian', share: 0.88 }],
-  Azerbaijan: [{ culture: 'turkish', share: 0.6, religion: 'sunni' }, { culture: 'caucasian', share: 0.25 }],
   Georgia: [{ culture: 'caucasian', share: 0.88 }],
-  'Chechen Republic': [{ culture: 'caucasian', share: 0.85, religion: 'sunni' }],
-  'Republic of Dagestan': [{ culture: 'caucasian', share: 0.85, religion: 'sunni' }],
-  'Republic of Ingushetia': [{ culture: 'caucasian', share: 0.85, religion: 'sunni' }],
-  'Kabardino-Balkaria': [{ culture: 'caucasian', share: 0.8, religion: 'sunni' }],
-  'Republic of North Ossetia-Alania': [{ culture: 'caucasian', share: 0.8 }],
-  'Republic of Adygea': [{ culture: 'caucasian', share: 0.75, religion: 'sunni' }],
-  'Karachay-Cherkess Republic': [{ culture: 'caucasian', share: 0.75, religion: 'sunni' }],
-  'Autonomous Republic of Crimea': [{ culture: 'turkish', share: 0.4 }, { culture: 'ukrainian', share: 0.2 }],
-  Sevastopol: [{ culture: 'turkish', share: 0.3 }, { culture: 'ukrainian', share: 0.25 }],
-  'Republic of Tatarstan': [{ culture: 'central_asian', share: 0.55 }],
-  Bashkortostan: [{ culture: 'central_asian', share: 0.55 }],
-  // --- Ottoman Empire ---
-  Greece: [{ culture: 'greek', share: 0.9 }],
+  Azerbaijan: [{ culture: 'turkish', share: 0.6, religion: 'sunni' }, { culture: 'caucasian', share: 0.25 }],
+  // --- Ottoman Europe ---
+  'Thessalía': [{ culture: 'greek', share: 0.9 }],
+  'Aegean Islands': [{ culture: 'greek', share: 0.85 }],
+  Cyprus: [{ culture: 'greek', share: 0.75 }],
+  Rumelia: [{ culture: 'greek', share: 0.28 }],
+  'East Macedonia': [{ culture: 'south_slavic', share: 0.4 }, { culture: 'greek', share: 0.3 }],
+  'West Macedonia': [{ culture: 'south_slavic', share: 0.45 }, { culture: 'greek', share: 0.25 }],
+  'North Macedonia': [{ culture: 'south_slavic', share: 0.6 }],
+  'Southern Serbia': [{ culture: 'south_slavic', share: 0.85 }],
+  Bosnia: [{ culture: 'south_slavic', share: 0.88 }],
+  Montenegro: [{ culture: 'south_slavic', share: 0.9 }],
   Bulgaria: [{ culture: 'south_slavic', share: 0.78 }],
-  'Republic of Serbia': [{ culture: 'south_slavic', share: 0.88 }],
-  Romania: [{ culture: 'romanian', share: 0.88 }],
   Albania: [{ culture: 'south_slavic', share: 0.3 }, { culture: 'greek', share: 0.25 }],
   Thrace: [{ culture: 'greek', share: 0.25 }],
-  Anatolia: [{ culture: 'greek', share: 0.12 }],
-  Pontus: [{ culture: 'greek', share: 0.3 }],
-  Cilicia: [{ culture: 'caucasian', share: 0.22 }],
+  Dobrudja: [{ culture: 'romanian', share: 0.4 }],
+  // --- Ottoman Anatolia: Greeks on the coast, Armenians in the east ---
+  Aydin: [{ culture: 'greek', share: 0.2 }],
+  Hudavendigar: [{ culture: 'greek', share: 0.15 }],
+  Trabzon: [{ culture: 'greek', share: 0.3 }],
+  'Ankara and Adana': [{ culture: 'caucasian', share: 0.15 }],
+  Kars: [{ culture: 'caucasian', share: 0.35 }],
+  'Diyarbakir-Van': [{ culture: 'caucasian', share: 0.3 }],
+  // --- Ottoman Arab provinces (Syria is Ottoman again at the 1830 rollback) ---
   Baghdad: [{ culture: 'arabic', share: 0.93 }],
   Basra: [{ culture: 'arabic', share: 0.93 }],
   Mosul: [{ culture: 'arabic', share: 0.85 }],
-  Algiers: [{ culture: 'arabic', share: 0.94 }],
-  Constantine: [{ culture: 'arabic', share: 0.94 }],
-  Oran: [{ culture: 'arabic', share: 0.94 }],
-  Sahara: [{ culture: 'arabic', share: 0.94 }],
-  Tunisia: [{ culture: 'arabic', share: 0.94 }],
-  Cyrenaica: [{ culture: 'arabic', share: 0.94 }],
-  Fezzan: [{ culture: 'arabic', share: 0.94 }],
-  Tripolitania: [{ culture: 'arabic', share: 0.94 }],
+  Aleppo: [{ culture: 'arabic', share: 0.93 }],
+  Syria: [{ culture: 'arabic', share: 0.93 }],
+  Lebanon: [{ culture: 'arabic', share: 0.9 }],
+  Palestine: [{ culture: 'arabic', share: 0.92 }],
+  Transjordan: [{ culture: 'arabic', share: 0.95 }],
+  Libya: [{ culture: 'arabic', share: 0.94 }],
   // --- Egypt's Sudanese south ---
-  'South Sudan (Northeast)': [{ culture: 'african', share: 0.9 }],
-  'South Sudan (Southeast)': [{ culture: 'african', share: 0.9 }],
-  'South Sudan (West)': [{ culture: 'african', share: 0.9 }],
-  Darfur: [{ culture: 'african', share: 0.85 }],
+  Sudan: [{ culture: 'african', share: 0.8 }],
+  Dongola: [{ culture: 'african', share: 0.5 }],
   Kordofan: [{ culture: 'african', share: 0.8 }],
-  // --- Persia ---
-  'Azerbaijan (Iran)': [{ culture: 'turkish', share: 0.6 }],
-  // --- Qing frontiers ---
-  Tibet: [{ culture: 'central_asian', share: 0.9, religion: 'buddhist' }],
-  Xinjiang: [{ culture: 'central_asian', share: 0.85 }],
-  'Inner Mongolia': [{ culture: 'central_asian', share: 0.7, religion: 'buddhist' }],
-  'Eastern Mongolia': [{ culture: 'central_asian', share: 0.85, religion: 'buddhist' }],
-  'Western Mongolia': [{ culture: 'central_asian', share: 0.85, religion: 'buddhist' }],
-  Gobi: [{ culture: 'central_asian', share: 0.85, religion: 'buddhist' }],
-  Ulaanbaatar: [{ culture: 'central_asian', share: 0.85, religion: 'buddhist' }],
+  Eritrea: [{ culture: 'african', share: 0.7 }],
+  // --- Persia's Turkic northwest ---
+  Tabriz: [{ culture: 'turkish', share: 0.6 }],
   // --- Mexico's Texan settlers ---
   Texas: [{ culture: 'yankee', share: 0.35, religion: 'protestant' }],
+  // --- Spain overseas ---
+  'Luzón': [{ culture: 'malay', share: 0.9, religion: 'catholic' }],
+  Visayas: [{ culture: 'malay', share: 0.9, religion: 'catholic' }],
+  Mindanao: [{ culture: 'malay', share: 0.9 }],
+  'South Cameroon': [{ culture: 'african', share: 0.95, religion: 'traditional' }],
   // --- Portugal's African coast ---
-  'Cuando Cubango': [{ culture: 'african', share: 0.92 }],
-  Huambo: [{ culture: 'african', share: 0.92 }],
-  Luanda: [{ culture: 'african', share: 0.88 }],
-  Beira: [{ culture: 'african', share: 0.92 }],
-  Maputo: [{ culture: 'african', share: 0.9 }],
-  Nampula: [{ culture: 'african', share: 0.92 }],
+  'North Angola': [{ culture: 'african', share: 0.92, religion: 'traditional' }],
+  'South Angola': [{ culture: 'african', share: 0.92, religion: 'traditional' }],
+  Mocambique: [{ culture: 'african', share: 0.92, religion: 'traditional' }],
+  'Lourenço Marques': [{ culture: 'african', share: 0.9, religion: 'traditional' }],
+  Zambezia: [{ culture: 'african', share: 0.92, religion: 'traditional' }],
 };
 
-/** Pakistan/Bengal provinces of British India follow Islam, not Hinduism. */
-const SOUTH_ASIAN_SUNNI = new Set([
-  'Baluchistan', 'Frontier', 'Punjab (Pakistan)', 'Sindh', 'Bangladesh', 'Jammu and Kashmir',
-]);
+/**
+ * Provinces of British India that follow Islam rather than Hinduism. Punjab,
+ * Sindh and the Frontier were not British in 1830 (Sikh, Talpur and Afghan
+ * respectively), so eastern Bengal is the whole list at this start date.
+ */
+export const SOUTH_ASIAN_SUNNI = new Set(['North Bengal']);
 
 /**
  * Broad colonial-sweep classifier (owner-scoped). Returns the native culture
@@ -275,9 +344,6 @@ function colonialMinorityFor(ownerTag: string, name: string, lon: number, lat: n
   if (ownerTag === 'ESP' && lon >= -120 && lon <= -55) {
     return [{ culture: 'latin_american', share: 0.85 }];
   }
-  if (ownerTag === 'ESP' && name === 'Philippines') {
-    return [{ culture: 'malay', share: 0.9, religion: 'catholic' }];
-  }
   // Portuguese Brazil.
   if (ownerTag === 'POR' && lon >= -76 && lon <= -30) {
     return [{ culture: 'latin_american', share: 0.88 }];
@@ -288,39 +354,69 @@ function colonialMinorityFor(ownerTag: string, name: string, lon: number, lat: n
 /** Placeholder tags: pops there are natives, not subjects of a real empire. */
 const PLACEHOLDER_TAGS = new Set(['UNC', 'UNA', 'COL']);
 
-const PLACEHOLDER_NAME_RULES: Record<string, string> = {
-  Moldova: 'romanian',
-  'Bosnia and Herzegovina': 'south_slavic',
-  Kosovo: 'south_slavic',
-  Montenegro: 'south_slavic',
-  'North Macedonia': 'south_slavic',
-  Luxembourg: 'french',
-  Iceland: 'scandinavian',
-  'East Greenland': 'scandinavian',
-  'North Greenland': 'scandinavian',
-  'West Greenland': 'scandinavian',
-  Cyprus: 'greek',
-  'Northern Cyprus': 'greek',
-  'Sri Lanka': 'south_asian',
-  Kuwait: 'arabic',
-  Oman: 'arabic',
-  Qatar: 'arabic',
-  'United Arab Emirates': 'arabic',
-  Hejaz: 'arabic',
-  Nejd: 'arabic',
-  Asir: 'arabic',
-  'Eastern Arabia': 'arabic',
-  'Yemen (East)': 'arabic',
-  'Yemen (North)': 'arabic',
-  'Yemen (West)': 'arabic',
-  Kyrgyzstan: 'central_asian',
-  Tajikistan: 'central_asian',
-  'Turkmenistan (East)': 'central_asian',
-  'Turkmenistan (North)': 'central_asian',
-  'Turkmenistan (Northwest)': 'central_asian',
-  'Uzbekistan (East)': 'central_asian',
-  'Uzbekistan (Northwest)': 'central_asian',
-  'Uzbekistan (Southeast)': 'central_asian',
+/**
+ * Native culture for named placeholder provinces. The lon/lat boxes below cover
+ * the bulk of the uncolonized world; these are the provinces they get wrong.
+ */
+export const PLACEHOLDER_NAME_RULES: Record<string, string> = {
+  // Sahara and the Libyan interior sit north of the African lat box.
+  Sahara: 'african',
+  'West Sahara': 'african',
+  'Libyan Desert': 'african',
+  'Inner Mauritania': 'african',
+  // Pacific: Vic2's island coordinates are unreliable (the map is hand-drawn,
+  // not projected), so these are named rather than boxed.
+  Fiji: 'polynesian',
+  Kiribati: 'polynesian',
+  'Western Polynesia': 'polynesian',
+  'Northern New Guinea': 'polynesian',
+  'Southern New Guinea': 'polynesian',
+  'Christmas & Cocos Islands': 'malay',
+  // Siberia's peoples fold into the steppe bucket that already carries the
+  // Mongols, Tibetans and Kazakhs.
+  'Inner Chukotka': 'central_asian',
+  'North Siberia': 'central_asian',
+  Sakhalin: 'central_asian',
+  // The North American interior is not empty and is not American yet.
+  'Northwest Territories': 'indigenous_american',
+  'Yukon Territory': 'indigenous_american',
+  Colorado: 'indigenous_american',
+  Oklahoma: 'indigenous_american',
+  Oregon: 'indigenous_american',
+  Washington: 'indigenous_american',
+};
+
+/**
+ * Religion for named placeholder provinces where the culture's own default is
+ * wrong. `african` defaults to sunni, which is right across the Sahel and the
+ * Sudan and wrong everywhere south of it.
+ */
+export const PLACEHOLDER_RELIGION_RULES: Record<string, string> = {
+  Dahomey: 'traditional',
+  Togo: 'traditional',
+  'Niger Delta': 'traditional',
+  'Yoruba States': 'traditional',
+  Guinea: 'traditional',
+  'Windward Coast': 'traditional',
+  Gabon: 'traditional',
+  Congo: 'traditional',
+  'Bas-Congo': 'traditional',
+  'Congo Orientale': 'traditional',
+  Equateur: 'traditional',
+  Kasai: 'traditional',
+  Katanga: 'traditional',
+  Kazembe: 'traditional',
+  Zambia: 'traditional',
+  Zambezi: 'traditional',
+  'East Angola': 'traditional',
+  Botswana: 'traditional',
+  Hereroland: 'traditional',
+  Namaqualand: 'traditional',
+  'Rift Valley': 'traditional',
+  Uganda: 'traditional',
+  Tanganyika: 'traditional',
+  Equatoria: 'traditional',
+  'Ubangi-Shari': 'traditional',
 };
 
 /** Native culture for provinces owned by map-placeholder tags (UNC/UNA/COL). */
@@ -328,10 +424,58 @@ function placeholderCultureFor(name: string, lon: number, lat: number): string |
   const named = PLACEHOLDER_NAME_RULES[name];
   if (named) return named;
   if (lon >= -20 && lon <= 52 && lat >= -36 && lat <= 20) return 'african';
-  if (lon >= 95 && lon <= 170 && lat >= -12) return 'malay';
+  if (lon >= 95 && lon <= 170 && lat >= -12 && lat <= 25) return 'malay';
   if (lon >= -100 && lon <= -55 && lat >= -60 && lat <= 30) return 'latin_american';
   return null;
 }
+/**
+ * Victoria II ships ~200 cultures; Grand Century models 33. The Vic2 re-cut
+ * writes Paradox's own culture key into the seed for every tag it adds, so
+ * without this table `cultureIndex` silently falls back to index 0 and Serbia,
+ * Tibet, Zululand and Oman all come out British. Every Vic2 primary culture
+ * present in the 1830 seed must resolve here; content.lint asserts it.
+ */
+export const VIC2_CULTURE_TO_GC: Record<string, string> = {
+  // Arab world
+  bedouin: 'arabic',
+  maghrebi: 'arabic',
+  mashriqi: 'arabic',
+  // Turkestan, Mongolia, Tibet — one steppe/highland bucket in this model
+  uzbek: 'central_asian',
+  kirgiz: 'central_asian',
+  mongol: 'central_asian',
+  tibetan: 'central_asian',
+  // Iranic
+  baluchi: 'persian',
+  // Afrikaners are Dutch settlers, and NLD is north_german in this vocabulary
+  boer: 'north_german',
+  // Qing peoples: administered as Chinese provinces, so they stay Han here
+  // rather than seeding a spurious minority inside the empire.
+  beifaren: 'han',
+  nanfaren: 'han',
+  zhuang: 'han',
+  manchu: 'han',
+  // Balkans
+  serb: 'south_slavic',
+  // Sub-Saharan Africa and the Black Atlantic
+  zulu: 'african',
+  hausa: 'african',
+  malagasy: 'african',
+  afro_american: 'african',
+  afro_antillean: 'african',
+  // Subcontinent
+  gujarati: 'south_asian',
+  avadhi: 'south_asian',
+  kannada: 'south_asian',
+  marathi: 'south_asian',
+  oriya: 'south_asian',
+  panjabi: 'south_asian',
+  sindi: 'south_asian',
+  malayalam: 'south_asian',
+  // Latin America
+  central_american: 'latin_american',
+};
+
 const CULTURE_BY_TAG: Record<string, string> = {
   ENG: 'british',
   FRA: 'french',
@@ -439,8 +583,14 @@ function capitalId(worldSeed: WorldSeedData, id: number): number {
 }
 
 /** 0.8.0: historical override wins, then the generated seed, then the fallback. */
+export function religionKeyFor(tag: string, seedReligion?: string): string {
+  const seeded = seedReligion ? VIC2_RELIGION_TO_GC[seedReligion] ?? seedReligion : undefined;
+  return RELIGION_BY_TAG[tag] ?? seeded ?? 'protestant';
+}
+
 function primaryCultureKeyFor(tag: string, seedPrimary: string): string {
-  return PRIMARY_CULTURE_OVERRIDE[tag] || seedPrimary || CULTURE_BY_TAG[tag] || 'british';
+  const seeded = VIC2_CULTURE_TO_GC[seedPrimary] ?? seedPrimary;
+  return PRIMARY_CULTURE_OVERRIDE[tag] || seeded || CULTURE_BY_TAG[tag] || 'british';
 }
 
 function gpRankFor(seed: { tag: string; greatPowerRank?: number }): number {
@@ -448,10 +598,30 @@ function gpRankFor(seed: { tag: string; greatPowerRank?: number }): number {
   return GP_ORDER.includes(seed.tag) ? GP_ORDER.indexOf(seed.tag) + 1 : 0;
 }
 
+export function initialTechKeysForSeed(
+  seed: { initialTechs?: string[]; initialTechYear?: number },
+  techs: readonly Pick<TechDef, 'key' | 'year'>[],
+): string[] | null {
+  if (seed.initialTechs) return seed.initialTechs.slice();
+  if (seed.initialTechYear === undefined) return null;
+  return techs
+    .filter((tech) => tech.year !== undefined && tech.year <= seed.initialTechYear!)
+    .map((tech) => tech.key);
+}
+
 function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
   const seedNationIdByTag = new Map(worldSeed.nations.map((seed, id) => [seed.tag, id]));
+  const compatibilityInitialTechs = [
+    'flintlock_drill',
+    'sailing_design',
+    'chartered_trade',
+    'manufacture_system',
+    'enlightenment',
+    'market_structure',
+  ];
   return worldSeed.nations.map((seed, id) => {
     const gpRank = gpRankFor(seed);
+    const seededTechs = initialTechKeysForSeed(seed, data.techs);
     return {
     coreStateIds: Array.from(new Set((data.nationCores?.[seed.tag] ?? seed.coreStateIds ?? []).slice())).sort((a, b) => a - b),
     id,
@@ -465,8 +635,8 @@ function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
     parties: createNationParties(),
     upperHouse: defaultUpperHouse(seed.government),
     electionIntervalYears: seed.government === 'constitutional_monarchy' ? 5 : 4,
-    lastElectionYear: 1816,
-    nextElectionYear: isElectiveGovernment(seed.government) ? 1820 + (id % 4) : Number.MAX_SAFE_INTEGER,
+    lastElectionYear: data.startDate.year - 4,
+    nextElectionYear: isElectiveGovernment(seed.government) ? data.startDate.year + (id % 4) : Number.MAX_SAFE_INTEGER,
     electionLastResult: 'No election held yet.',
     capital: capitalId(worldSeed, seed.capitalProvinceId),
     polityStatus: seed.polityStatus ?? 'sovereign',
@@ -479,7 +649,7 @@ function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
     nationalConsciousness: 1.2,
     researchPoints: 0,
     reforms: nationReforms(data),
-    techs: seed.government === 'uncivilized' ? [] : ['market_structure'],
+    techs: seededTechs ?? (seed.government === 'uncivilized' ? [] : compatibilityInitialTechs.slice()),
     currentResearch: null,
     researchProgress: 0,
     inventions: [],
@@ -649,7 +819,8 @@ function provinceCultureSlices(
   if (PLACEHOLDER_TAGS.has(seed.ownerTag)) {
     const nativeKey = placeholderCultureFor(seed.name, seed.lon, seed.lat);
     const native = nativeKey ? cultureIndex(data, nativeKey, primary) : primary;
-    return [{ culture: native, religion: cultureReligion(native), weight: 1 }];
+    const override = PLACEHOLDER_RELIGION_RULES[seed.name];
+    return [{ culture: native, religion: cultureReligion(native, override), weight: 1 }];
   }
 
   const rules = MINORITY_RULES[seed.name]
@@ -699,7 +870,10 @@ function createPops(worldSeed: WorldSeedData, worldProvinces: Province[], provin
   const pops: Pop[] = [];
   const religionByNation = nations.map((nation) => religionIndex(
     data,
-    worldSeed.nations[nation.id]?.religion ?? RELIGION_BY_TAG[nation.tag] ?? 'protestant',
+    // Curated table first: RELIGION_BY_TAG encodes deliberate calls (the Qing
+    // are confucian here, where Vic2 says mahayana). Vic2's own answer fills
+    // everything it does not cover.
+    religionKeyFor(nation.tag, worldSeed.nations[nation.id]?.religion),
   ));
   const runtimeByProvince = new Map(provinceRuntime.map((item) => [item.id, item]));
   const seedByProvince = new Map(worldSeed.provinces.map((seed) => [seed.id, seed]));
@@ -814,7 +988,7 @@ export function createWorld(
   seed: number,
   mapMode: CampaignMapMode = DEFAULT_CAMPAIGN_MAP_MODE,
 ): World {
-  const worldSeed = resolveWorldSeed(WORLD_SEED, seed, mapMode);
+  const worldSeed = resolveWorldSeed(loadScenario(data.scenarioId).worldSeed, seed, mapMode);
   const rng = new Rng(seed >>> 0);
   const nations = createNations(data, worldSeed);
   const tagToNationId = Object.fromEntries(nations.map((nation) => [nation.tag, nation.id])) as Record<string, number>;
@@ -829,6 +1003,8 @@ export function createWorld(
 
   const world: World = {
     day: 0,
+    scenarioId: data.scenarioId,
+    startDate: { ...data.startDate },
     seed: seed >>> 0,
     rngState: rng.state,
     // Start paused so the player can survey the world before the clock runs.

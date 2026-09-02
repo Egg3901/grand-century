@@ -16,7 +16,11 @@ const ADMIN1_FILES = [
   'ne_50m_admin_1_states_provinces.geojson',
   'ne_110m_admin_1_states_provinces.geojson',
 ];
-const ADMIN0_FILE = 'ne_110m_admin_0_countries.geojson';
+// 10m, not 110m. At 110m the entire United Kingdom is 56 coordinates, which is
+// why Britain, Denmark and Italy rendered as blobs: admin-1 at 50m only covers
+// nine large countries, so everything else falls back to this file for its
+// coastline. 10m carries 7,113 points for the UK alone.
+const ADMIN0_FILE = 'ne_10m_admin_0_countries.geojson';
 
 const MIN_PROVINCES = 300;
 const MAX_PROVINCES = 800;
@@ -27,7 +31,7 @@ const ORGANIC_DENSE_EDGE = 0.55;
 /** Topology-preserving simplify: quantize snaps shared edges, then shared-arc simplify. */
 const TOPO_QUANTIZE = 1e5;
 /** Fraction of smallest triangles removed; lower keeps more coastline detail. */
-const TOPO_SIMPLIFY_QUANTILE = 0.10;
+const TOPO_SIMPLIFY_QUANTILE = 0.05;
 /** Densify + jitter spacing / amplitude for artificial partition chords (degrees). */
 const CUT_DENSE_EDGE = 0.15;
 /** Amplitude for post-simplify shared-arc debox (degrees). */
@@ -50,6 +54,42 @@ const SKIP_ORGANIC_SPLIT = new Set([
 ]);
 
 const GOV_DEFAULT = 'absolute_monarchy';
+
+// ---------------------------------------------------------------- Vic2 re-cut
+/**
+ * Provinces are cut to Victoria II's 549 state regions rather than to modern
+ * administrative units. content/vic2/ holds the extracted Vic2 tables and the
+ * lon/lat each region warps to; see extract-vic2-reference.mjs and
+ * build-region-points.mjs for how they are produced.
+ */
+const VIC2_DIR = path.join(ROOT, 'content', 'vic2');
+
+/**
+ * Vic2 tag -> Grand Century tag, for nations GC already has events, decisions,
+ * formables or tests keyed to its own spelling. Anything absent here keeps its
+ * Vic2 tag and is filled in from the Vic2 country table.
+ */
+const VIC2_TAG_ALIAS = {
+  CHI: 'QNG', // Qing
+  TUR: 'OTT', // Ottomans
+  SPA: 'ESP',
+  NET: 'NLD',
+  BRZ: 'BRA',
+  JAP: 'JPN',
+  DAI: 'VIE', // Dai Nam / Vietnam
+  VNZ: 'VEN',
+  URU: 'URY',
+  SIC: 'TSC', // Two Sicilies
+  ALD: 'ALG', // Aldjazair / Regency of Algiers
+};
+
+/** Grand Century tags that must survive even with no starting land. */
+const VIC2_KEEP_TAGLESS = ['TEX', 'BEL', 'COL', 'UNC', 'UNA'];
+
+function toGrandCenturyTag(vic2Tag) {
+  if (!vic2Tag) return null;
+  return VIC2_TAG_ALIAS[vic2Tag] ?? vic2Tag;
+}
 
 const NATION_LIBRARY = {
   ENG: { name: 'United Kingdom', color: [176, 94, 84], government: 'hms_government', primaryCulture: 'british' },
@@ -112,7 +152,10 @@ const NATION_LIBRARY = {
 };
 
 const MAJOR_TAGS = ['ENG', 'FRA', 'PRU', 'AUS', 'RUS', 'USA', 'QNG', 'OTT', 'ESP', 'POR', 'NLD', 'SWE', 'SAR', 'TSC'];
-/** 1820 starters — no independent Belgium (1830), Greece (1832), or Texas (1836). */
+/**
+ * 1830 starters. Greece is independent (London Protocol, February 1830); Belgium
+ * is not (the revolt is eight months away) and Texas is still Mexican.
+ */
 const REQUIRED_MINOR_TAGS = [
   'BAV', 'SAX', 'HAN', 'WUR', 'BAD', 'HES', 'PAP', 'TUS', 'MOD', 'PAR',
   'DEN', 'SWI', 'EGY', 'PER', 'AFG', 'SIA', 'KOR', 'MOR', 'MEX',
@@ -440,8 +483,10 @@ const FORMABLE_TEMPLATES = [
     resultName: 'Kingdom of Italy',
     resultColor: [64, 120, 82],
     resultPrimaryCulture: 'south_german',
-    candidateTags: ['SAR', 'TSC', 'PAP', 'MOD', 'PAR', 'TUS'],
-    ownerTags: ['SAR', 'TSC', 'PAP', 'MOD', 'PAR', 'TUS'],
+    // Parma is a minority owner inside Vic2's Emilia region and has no tag in
+    // this cut; Modena carries that corner of the peninsula instead.
+    candidateTags: ['SAR', 'TSC', 'PAP', 'MOD', 'TUS'],
+    ownerTags: ['SAR', 'TSC', 'PAP', 'MOD', 'TUS'],
     requiredCoreShare: 0.75,
     requireIndependent: true,
     requireGreatPower: true,
@@ -917,6 +962,23 @@ function deterministicUnitSort(a, b) {
   );
 }
 
+/**
+ * A MultiPolygon country is a set of separate landmasses, and treating it as one
+ * parent gives it a bbox that means nothing. Split it, largest first, and drop
+ * specks below the piece floor: they are smaller than any real province and the
+ * downstream cut discards them anyway.
+ */
+function splitIntoLandmasses(geometry) {
+  if (!geometry) return [];
+  if (geometry.type !== 'MultiPolygon') return [geometry];
+  const parts = geometry.coordinates
+    .map((poly) => ({ type: 'Polygon', coordinates: poly }))
+    .map((part) => ({ part, area: Math.abs(geometryArea(part)) }))
+    .filter((entry) => entry.area > MIN_PIECE_AREA)
+    .sort((a, b) => b.area - a.area);
+  return parts.length ? parts.map((entry) => entry.part) : [geometry];
+}
+
 function buildParentsFromGeojson(geojson, _tolerance = 0, keyPrefix = '', forceCountryName = false) {
   const features = Array.isArray(geojson.features) ? geojson.features : [];
   const parents = [];
@@ -924,7 +986,13 @@ function buildParentsFromGeojson(geojson, _tolerance = 0, keyPrefix = '', forceC
     const feature = features[i];
     const props = feature.properties || {};
     // Keep RAW geometry here — topology-preserving simplify runs once after all splits.
-    const geometry = feature.geometry;
+    // One parent per landmass, not per country. candidateSeedsForBounds ranks
+    // seeds by distance to the parent bbox and keeps 64; a country whose bbox
+    // spans the globe scores every seed at distance zero, so the cut fell back
+    // to alphabetical order. At 10m that bbox includes France's overseas
+    // territories, and metropolitan France lost its whole interior because its
+    // own regions never made the 64.
+    for (const geometry of splitIntoLandmasses(feature.geometry)) {
     const bbox = geometryBounds(geometry);
     if (!bbox) continue;
     const area = Math.max(1e-6, geometryArea(geometry));
@@ -944,7 +1012,7 @@ function buildParentsFromGeojson(geojson, _tolerance = 0, keyPrefix = '', forceC
       || `${adminName}:${stateName}:${i + 1}`,
     );
     parents.push({
-      key: `${keyPrefix}${key}`,
+      key: `${keyPrefix}${key}${parents.length ? `#${parents.length}` : ''}`,
       stateName,
       ownerTag,
       adminName,
@@ -954,6 +1022,7 @@ function buildParentsFromGeojson(geojson, _tolerance = 0, keyPrefix = '', forceC
       centroid,
       geometry,
     });
+    }
   }
   return parents.sort(deterministicParentSort);
 }
@@ -1347,7 +1416,10 @@ function ringHasSelfIntersection(ring) {
 /** Keep the largest simple loop when a ring bowties (Voronoi/clip artifact). */
 function repairSelfIntersectingRing(ring, depth = 0) {
   const closed = ensureClosedRing(ring);
-  if (depth > 12 || closed.length < 4 || !ringHasSelfIntersection(closed)) {
+  // Each pass discards one bowtie lobe, so a ring with many crossings needs
+  // many passes. The old ceiling of 12 silently returned unrepaired rings once
+  // provinces became Voronoi cuts of concave coastlines.
+  if (depth > 96 || closed.length < 4 || !ringHasSelfIntersection(closed)) {
     return closed.length >= 4 ? closed : null;
   }
   const body = closed.slice(0, -1);
@@ -1598,7 +1670,13 @@ function applySharedTopology(provinceRecords) {
     provinceRecords[i].geometry = geometry;
     provinceRecords[i].bbox = geometryBounds(geometry);
     provinceRecords[i].coastal = Boolean(coastalFlags[i]);
-    provinceRecords[i].neighbors = (neighborLists[i] || []).slice().sort((a, b) => a - b);
+    // topojson's neighbors() reports a geometry as its own neighbor when its
+    // own parts share an arc. Vic2 regions are merged from several source
+    // polygons, so this fires constantly (412 of 545 at the 1830 cut) and a
+    // self-edge silently inflates every per-neighbor loop in the sim.
+    provinceRecords[i].neighbors = (neighborLists[i] || [])
+      .filter((neighborId) => neighborId !== i)
+      .sort((a, b) => a - b);
     provinceRecords[i].segments = [];
   }
 
@@ -1773,21 +1851,50 @@ function voronoiPartitionGeometry(geometry, seeds) {
   return cells;
 }
 
+/**
+ * Interior candidate points for Voronoi seeding.
+ *
+ * Sampled per polygon part against that part's own bbox. A single bbox over a
+ * multi-part country is worthless: at 10m Natural Earth, France runs from the
+ * Caribbean to the Indian Ocean, so one grid capped at ~15x15 spread its
+ * samples across half the planet and put almost none inside metropolitan
+ * France. Eleven French regions came out with no land at all and the country
+ * rendered as a coastal ring around a hole.
+ *
+ * Parts are taken largest-first and capped, so an archipelago like Indonesia
+ * does not generate tens of thousands of candidates for the Voronoi pass.
+ */
+const MAX_SAMPLED_PARTS = 40;
+const MAX_INTERIOR_SAMPLES = 1800;
+
 function sampleInteriorPoints(geometry, salt) {
-  const bbox = geometryBounds(geometry);
-  if (!bbox) return [];
-  const width = Math.max(1e-6, bbox.maxLon - bbox.minLon);
-  const height = Math.max(1e-6, bbox.maxLat - bbox.minLat);
-  const target = clamp(Math.round((width * height) / 4), 48, 220);
-  const grid = Math.max(6, Math.ceil(Math.sqrt(target)));
+  const parts = geometry.type === 'MultiPolygon'
+    ? geometry.coordinates.map((poly) => ({ type: 'Polygon', coordinates: poly }))
+    : [geometry];
+  const ranked = parts
+    .map((part) => ({ part, area: Math.abs(geometryArea(part)) }))
+    .sort((a, b) => b.area - a.area)
+    .slice(0, MAX_SAMPLED_PARTS);
+
   const points = [];
-  for (let gy = 0; gy < grid; gy++) {
-    for (let gx = 0; gx < grid; gx++) {
-      const jitter = ((hashString(`${salt}:${gx}:${gy}`) % 1000) / 1000 - 0.5) * 0.35;
-      const lon = bbox.minLon + ((gx + 0.5 + jitter) / grid) * width;
-      const lat = bbox.minLat + ((gy + 0.5 - jitter) / grid) * height;
-      const point = [roundCoord(lon), roundCoord(lat)];
-      if (pointInGeometry(point, geometry)) points.push(point);
+  for (let p = 0; p < ranked.length && points.length < MAX_INTERIOR_SAMPLES; p++) {
+    const { part, area } = ranked[p];
+    const bbox = geometryBounds(part);
+    if (!bbox) continue;
+    const width = Math.max(1e-6, bbox.maxLon - bbox.minLon);
+    const height = Math.max(1e-6, bbox.maxLat - bbox.minLat);
+    // Size the grid by the part's own area, not its bbox product: a long thin
+    // country should not be sampled as if it filled its bounding box.
+    const target = clamp(Math.round(area / 4), 24, 220);
+    const grid = Math.max(4, Math.ceil(Math.sqrt(target)));
+    for (let gy = 0; gy < grid; gy++) {
+      for (let gx = 0; gx < grid; gx++) {
+        const jitter = ((hashString(`${salt}:${p}:${gx}:${gy}`) % 1000) / 1000 - 0.5) * 0.35;
+        const lon = bbox.minLon + ((gx + 0.5 + jitter) / grid) * width;
+        const lat = bbox.minLat + ((gy + 0.5 - jitter) / grid) * height;
+        const point = [roundCoord(lon), roundCoord(lat)];
+        if (pointInGeometry(point, part)) points.push(point);
+      }
     }
   }
   if (points.length === 0) {
@@ -1797,7 +1904,6 @@ function sampleInteriorPoints(geometry, salt) {
   points.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
   return points;
 }
-
 function farthestPointSample(candidates, count, salt) {
   if (candidates.length === 0) return [];
   if (candidates.length <= count) return candidates.slice();
@@ -2114,6 +2220,305 @@ function parentsToUnits(parents) {
   return units.sort(deterministicUnitSort);
 }
 
+/**
+ * Seeds whose Voronoi cell could plausibly touch `bbox`. Clipping every parent
+ * against all 549 seeds is quadratic and needless: a cell only ever borders
+ * nearby seeds, so take everything within a generous margin of the parent and
+ * keep a floor so small islands still see enough competitors.
+ */
+function candidateSeedsForBounds(seeds, bbox) {
+  const spanLon = bbox.maxLon - bbox.minLon;
+  const spanLat = bbox.maxLat - bbox.minLat;
+  const margin = Math.max(12, Math.max(spanLon, spanLat));
+  const distance = (seed) => {
+    const dx = Math.max(bbox.minLon - seed.lon, 0, seed.lon - bbox.maxLon);
+    const dy = Math.max(bbox.minLat - seed.lat, 0, seed.lat - bbox.maxLat);
+    return Math.hypot(dx, dy);
+  };
+  const ranked = seeds
+    .map((seed) => ({ seed, d: distance(seed) }))
+    .sort((a, b) => a.d - b.d || a.seed.key.localeCompare(b.seed.key));
+  const within = ranked.filter((entry) => entry.d <= margin);
+  const chosen = within.length >= 8 ? within : ranked.slice(0, 8);
+  return chosen.slice(0, 64).map((entry) => entry.seed);
+}
+
+/**
+ * Cuts the Natural Earth parents along Vic2's state regions: every parent is
+ * Voronoi-partitioned by the region seeds near it, and the resulting pieces are
+ * merged by region so each Vic2 region becomes exactly one province.
+ */
+function vic2UnitsFromParents(parents, seeds) {
+  const pieces = new Map();
+  const addPiece = (key, polygons, parent) => {
+    let entry = pieces.get(key);
+    if (!entry) pieces.set(key, (entry = { polygons: [], parents: new Map() }));
+    entry.polygons.push(...polygons);
+    const area = polygons.reduce((sum, poly) => sum + Math.abs(polygonAreaRing(poly[0])), 0);
+    entry.parents.set(parent.adminName, (entry.parents.get(parent.adminName) ?? 0) + area);
+  };
+
+  for (const parent of parents) {
+    if (!parent.bbox) continue;
+    const candidates = candidateSeedsForBounds(seeds, parent.bbox);
+    if (candidates.length === 1) {
+      addPiece(candidates[0].key, toPolygons(parent.geometry), parent);
+      continue;
+    }
+    const cells = voronoiPartitionGeometry(parent.geometry, candidates.map((seed) => [seed.lon, seed.lat]));
+    cells.forEach((cell, index) => {
+      if (!cell) return;
+      const polygons = toPolygons(cell);
+      if (polygons.length) addPiece(candidates[index].key, polygons, parent);
+    });
+  }
+
+  const units = [];
+  for (const seed of seeds) {
+    const entry = pieces.get(seed.key);
+    if (!entry || entry.polygons.length === 0) continue;
+    // Clipping a concave parent leaves degenerate crumbs: zero-area rings and
+    // sub-kilometre slivers that carry no territory but do carry self
+    // intersections. Drop them before repairing what is left.
+    const solid = entry.polygons.filter((polygon) => Math.abs(polygonAreaRing(polygon[0])) > MIN_PIECE_AREA);
+    if (solid.length === 0) continue;
+    const geometry = repairGeometrySelfIntersections(geometryFromPolygons(solid));
+    if (!geometry) continue;
+    const bbox = geometryBounds(geometry);
+    if (!bbox) continue;
+    const dominantParent = [...entry.parents.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? seed.name;
+    units.push({
+      parentKey: seed.stateKey,
+      stateName: seed.name,
+      stateDisplayName: seed.stateName,
+      ownerTag: seed.ownerTag,
+      adminName: dominantParent,
+      region: seed.continent,
+      countryKey: normalizeName(dominantParent),
+      partIndex: 0,
+      partitionKey: seed.key,
+      polygons: toPolygons(geometry),
+      area: Math.max(1e-9, geometryArea(geometry)),
+      centroid: weightedCentroid(toPolygons(geometry)),
+      bbox,
+      lockedOwner: true,
+      // Voronoi chords are already organic-looking and, unlike the old bbox
+      // cuts, are shared exactly between neighbouring cells. Running the debox
+      // jitter over them perturbs each side independently and tears the shared
+      // edge apart, which shows up as overlap slivers.
+      artificialCuts: false,
+    });
+  }
+  return units.sort(deterministicUnitSort);
+}
+
+/**
+ * Groups regions into states of roughly TARGET_STATE_SIZE. Vic2's own region
+ * keys are too lopsided to use directly (ENG alone carries 76 regions), so each
+ * key prefix is split geographically by k-means over lon/lat. Deterministic:
+ * farthest-point seeding, fixed iteration count, ties broken by region key.
+ */
+const TARGET_STATE_SIZE = 5;
+/**
+ * A state must be somewhere, not everywhere. Without this, Denmark's six
+ * regions cluster into one "state" spanning Jutland, Iceland, Greenland and the
+ * Gold Coast. Clusters are split until every member sits within this many
+ * degrees of its centroid.
+ */
+const MAX_STATE_RADIUS_DEG = 10;
+/**
+ * Minimum area, in square degrees, for a clipped piece to count as territory.
+ * Roughly 25 km^2 at the equator — below any real province fragment, and above
+ * the degenerate crumbs Sutherland-Hodgman leaves on concave coastlines.
+ */
+/**
+ * Nationality groups for the multinational empires.
+ *
+ * k-means over lon/lat alone has no idea where a border between peoples runs,
+ * so it happily put Österreich, Bohemia, Central Hungary, West Galicia and
+ * Slovakia in one state: Austrians, Czechs, Hungarians, Poles and Slovaks with
+ * a single owner and no majority. That is fatal to the culture system, which
+ * defines a national movement's heartland as a state where the culture is at
+ * least 35% of the population. No nationality could ever hold one, so Hungary
+ * could not revolt and the German Confederation core could not be expressed.
+ *
+ * Keyed by generated region name. Regions not listed fall back to geography,
+ * which is fine for nationally homogeneous territory. content.lint asserts
+ * every key here still names a real province.
+ */
+const NATIONALITY_GROUPS = {
+  // --- Habsburg lands: the hardest case on the map ---
+  'Österreich': 'Austria',
+  'Kärnten-Steiermark': 'Austria',
+  Tirol: 'Austria',
+  'South Tirol': 'Austria',
+  Bohemia: 'Bohemia',
+  Moravia: 'Bohemia',
+  'Central Hungary': 'Hungary',
+  Transdanubia: 'Hungary',
+  'Alföld': 'Hungary',
+  Slovakia: 'Hungary',
+  'Eastern Siebenbürgen': 'Transylvania',
+  'Western Siebenbürgen': 'Transylvania',
+  'West Galicia': 'West Galicia',
+  'East Galicia': 'East Galicia',
+  Croatia: 'Illyria',
+  Slavonia: 'Illyria',
+  Slovenia: 'Illyria',
+  Dalmatia: 'Illyria',
+  Istria: 'Illyria',
+  Lombardia: 'Lombardy-Venetia',
+  Venetia: 'Lombardy-Venetia',
+  // --- Russia's western borderlands ---
+  Estonia: 'Baltics',
+  Latvia: 'Baltics',
+  Lietuva: 'Baltics',
+  Minsk: 'Belarus',
+  Orsha: 'Belarus',
+  'Brêst': 'Belarus',
+  Kiev: 'Ukraine',
+  Rovne: 'Ukraine',
+  Cherson: 'Ukraine',
+  Luhansk: 'Ukraine',
+  Budjak: 'Ukraine',
+  Crimea: 'Crimea',
+  Karelia: 'Finnic',
+  Ingria: 'Finnic',
+  Armenia: 'Caucasus',
+  Azerbaijan: 'Caucasus',
+  Georgia: 'Caucasus',
+  'North Caucasia': 'Caucasus',
+  Ekaterinodar: 'Caucasus',
+  Akmolinsk: 'Steppe',
+  Uralsk: 'Steppe',
+  Tartaria: 'Steppe',
+  Astrakhan: 'Steppe',
+  // --- Ottoman Europe, Anatolia and the Arab provinces ---
+  'Thessalía': 'Greece',
+  'Aegean Islands': 'Greece',
+  Cyprus: 'Greece',
+  Bosnia: 'Bosnia',
+  Montenegro: 'Bosnia',
+  'Southern Serbia': 'Bosnia',
+  'North Macedonia': 'Macedonia',
+  'West Macedonia': 'Macedonia',
+  'East Macedonia': 'Macedonia',
+  Albania: 'Macedonia',
+  Bulgaria: 'Bulgaria',
+  Dobrudja: 'Bulgaria',
+  Rumelia: 'Bulgaria',
+  Thrace: 'Bulgaria',
+  Aydin: 'Anatolia',
+  Hudavendigar: 'Anatolia',
+  Kastamonu: 'Anatolia',
+  Konya: 'Anatolia',
+  'Ankara and Adana': 'Anatolia',
+  Trabzon: 'Anatolia',
+  Kars: 'Armenia',
+  'Diyarbakir-Van': 'Armenia',
+  Aleppo: 'Syria',
+  Syria: 'Syria',
+  Lebanon: 'Syria',
+  Palestine: 'Syria',
+  Transjordan: 'Syria',
+  Baghdad: 'Mesopotamia',
+  Basra: 'Mesopotamia',
+  Mosul: 'Mesopotamia',
+  // --- Prussia's Polish east ---
+  Posen: 'Prussian Poland',
+  'Westpreußen': 'Prussian Poland',
+  // --- Britain: Ireland is a nationality, not a region of Britain ---
+  'Leinster-Connacht': 'Ireland',
+  Munster: 'Ireland',
+  Ulster: 'Ireland',
+};
+
+const MIN_PIECE_AREA = 2e-3;
+
+function clusterRegionsIntoStates(regions) {
+  // Group by owner as well as region prefix: the historical compiler requires
+  // every state to have exactly one owner, so a cluster must never straddle a
+  // border.
+  const byPrefix = new Map();
+  for (const region of regions) {
+    // Nationality first, then the Vic2 key prefix. Without the nationality term
+    // k-means merges peoples that happen to be adjacent, and no minority can
+    // ever hold the 35% of a state that a movement heartland requires.
+    const grouping = NATIONALITY_GROUPS[region.name] ?? region.key.split('_')[0];
+    const prefix = `${region.ownerTag}|${grouping}`;
+    if (!byPrefix.has(prefix)) byPrefix.set(prefix, []);
+    byPrefix.get(prefix).push(region);
+  }
+
+  const assignment = new Map();
+  for (const prefix of [...byPrefix.keys()].sort()) {
+    const group = byPrefix.get(prefix).slice().sort((a, b) => a.key.localeCompare(b.key));
+    /** Deterministic k-means over lon/lat: farthest-point seeding, fixed iterations. */
+    const kmeans = (k) => {
+      const centres = [[group[0].lon, group[0].lat]];
+      while (centres.length < k) {
+        let best = null;
+        for (const region of group) {
+          const d = Math.min(...centres.map((c) => Math.hypot(c[0] - region.lon, c[1] - region.lat)));
+          if (!best || d > best.d) best = { d, region };
+        }
+        centres.push([best.region.lon, best.region.lat]);
+      }
+      let labels = group.map(() => 0);
+      for (let iteration = 0; iteration < 25; iteration += 1) {
+        labels = group.map((region) => {
+          let bestIndex = 0;
+          let bestDistance = Infinity;
+          centres.forEach((c, i) => {
+            const d = Math.hypot(c[0] - region.lon, c[1] - region.lat);
+            if (d < bestDistance - 1e-12) { bestDistance = d; bestIndex = i; }
+          });
+          return bestIndex;
+        });
+        for (let i = 0; i < centres.length; i += 1) {
+          const members = group.filter((_, idx) => labels[idx] === i);
+          if (!members.length) continue;
+          centres[i] = [
+            members.reduce((s, r) => s + r.lon, 0) / members.length,
+            members.reduce((s, r) => s + r.lat, 0) / members.length,
+          ];
+        }
+      }
+      return { labels, centres };
+    };
+
+    // Raise k until no cluster sprawls past MAX_STATE_RADIUS_DEG.
+    let k = Math.max(1, Math.round(group.length / TARGET_STATE_SIZE));
+    let result = kmeans(k);
+    while (k < group.length) {
+      const sprawls = result.centres.some((centre, i) => group.some(
+        (region, idx) => result.labels[idx] === i
+          && Math.hypot(centre[0] - region.lon, centre[1] - region.lat) > MAX_STATE_RADIUS_DEG,
+      ));
+      if (!sprawls) break;
+      k += 1;
+      result = kmeans(k);
+    }
+
+    group.forEach((region, idx) => {
+      const members = group.filter((_, i) => result.labels[i] === result.labels[idx]);
+      const centre = result.centres[result.labels[idx]];
+      // Prefer the nationality name when the group has one: "Hungary" reads
+      // better than "Central Hungary" and is what content refers to. Otherwise
+      // name the state after the region nearest its centre: representative, and
+      // never a vast empty member like Greenland. The group key is an internal
+      // "OWNER|group" string and must never reach the UI.
+      const nationality = NATIONALITY_GROUPS[region.name];
+      const name = nationality ?? members.slice().sort((a, b) => (
+        Math.hypot(centre[0] - a.lon, centre[1] - a.lat) - Math.hypot(centre[0] - b.lon, centre[1] - b.lat)
+        || a.key.localeCompare(b.key)
+      ))[0].name;
+      assignment.set(region.key, { key: `${prefix}-${result.labels[idx]}`, name });
+    });
+  }
+  return assignment;
+}
+
 function mergeTinySlivers(units) {
   const working = units.map((unit) => ({ ...unit, polygons: unit.polygons.map((poly) => poly.map((ring) => ring.map((pt) => pt.slice()))) }));
   working.sort((a, b) => a.area - b.area || deterministicUnitSort(a, b));
@@ -2425,7 +2830,7 @@ function buildProvinceRecords(units) {
       stateRecords.push({
         id: stateId,
         key: stateKey,
-        name: unit.displayName || unit.stateName,
+        name: unit.stateDisplayName || unit.displayName || unit.stateName,
         ownerTag: unit.ownerTag,
         provinceIds: [],
       });
@@ -2461,12 +2866,19 @@ function buildNations(provinces, states) {
     const current = byTag.get(tag);
     if (!current || score > current.score) byTag.set(tag, { capital: province.id, score });
   }
-  const fallbackCapital = provinces[0]?.id ?? 0;
-  for (const tag of MAJOR_TAGS) {
-    if (!byTag.has(tag)) byTag.set(tag, { capital: fallbackCapital, score: 0 });
+  // A great power with no land means the cut went wrong, so fail rather than
+  // ship a phantom. Minors are different: at Vic2 region granularity a state
+  // that never dominates a region (Parma, Lucca) genuinely has nowhere to sit,
+  // and the historical compiler rejects landless nations outright.
+  const missingMajor = MAJOR_TAGS.filter((tag) => !byTag.has(tag));
+  if (missingMajor.length) {
+    throw new Error(`Great powers own no provinces after the cut: ${missingMajor.join(', ')}`);
   }
-  for (const tag of REQUIRED_MINOR_TAGS) {
-    if (!byTag.has(tag)) byTag.set(tag, { capital: fallbackCapital, score: 0 });
+  const absorbedMinors = REQUIRED_MINOR_TAGS.filter((tag) => !byTag.has(tag));
+  if (absorbedMinors.length) {
+    console.warn(
+      `[build-map] Minors absorbed at region granularity (no dominant region): ${absorbedMinors.join(', ')}`,
+    );
   }
 
   const coresByTag = new Map();
@@ -2487,6 +2899,7 @@ function buildNations(provinces, states) {
       government: def.government || GOV_DEFAULT,
       capitalProvinceId: byTag.get(tag)?.capital ?? 0,
       primaryCulture: def.primaryCulture || 'british',
+      ...(def.religion ? { religion: def.religion } : {}),
       coreStateIds: (coresByTag.get(tag) ?? []).slice().sort((a, b) => a - b),
     });
   }
@@ -2526,8 +2939,12 @@ function compactGeojson(provinces) {
         id: province.id,
         n: province.name,
       },
-      // Quantize only the shipped map geometry — worldSeed lon/lat/neighbors stay full-precision.
-      geometry: quantizeExportGeometry(province.geometry),
+      // Quantize only the shipped map geometry — worldSeed lon/lat/neighbors stay
+      // full-precision. Snapping vertices to the export grid can merge nearby
+      // points and re-introduce self intersections that were already repaired
+      // upstream, so repair once more on the quantized result.
+      geometry: repairGeometrySelfIntersections(quantizeExportGeometry(province.geometry))
+        ?? quantizeExportGeometry(province.geometry),
     })),
   };
 }
@@ -2563,6 +2980,95 @@ async function loadAdmin0Geojson() {
   return { json: loaded.json, source: `raw:${ADMIN0_FILE}` };
 }
 
+async function loadVic2Regions() {
+  const regions = await readJsonFile(path.join(VIC2_DIR, 'vic2-region-points.json'));
+  const reference = await readJsonFile(path.join(VIC2_DIR, 'vic2-reference.json'));
+  const deltas = await readJsonFile(path.join(VIC2_DIR, 'vic2-1830-deltas.json'));
+  return { regions: applyVic2Deltas(regions.regions, deltas), countries: reference.countries };
+}
+
+/**
+ * Rolls the Vic2 1836 baseline back to 1830-01-01. Each delta is checked against
+ * the owner Vic2 actually ships, so a Vic2 patch that moves a region shows up as
+ * a loud failure here rather than as a silently wrong map.
+ */
+function applyVic2Deltas(regions, deltas) {
+  const byKey = new Map(regions.map((region) => [region.key, region]));
+  for (const delta of deltas.ownership) {
+    const region = byKey.get(delta.regionKey);
+    if (!region) throw new Error(`[1830] delta references unknown region ${delta.regionKey}`);
+    if (region.dominantOwner1836 !== delta.from) {
+      throw new Error(
+        `[1830] ${delta.regionKey} (${delta.regionName}) expected Vic2 owner ${delta.from}`
+        + ` but the install says ${region.dominantOwner1836}`,
+      );
+    }
+    region.dominantOwner1836 = delta.to;
+  }
+  console.log(`[build-map] 1830 rollback: ${deltas.ownership.length} region ownership deltas applied`);
+  return regions;
+}
+
+/** Vic2 government -> the eight Grand Century GovernmentType values. */
+const VIC2_GOVERNMENT = {
+  absolute_monarchy: 'absolute_monarchy',
+  hms_government: 'hms_government',
+  prussian_constitutionalism: 'constitutional_monarchy',
+  democracy: 'democracy',
+  presidential_dictatorship: 'presidential_dictatorship',
+  bourgeois_dictatorship: 'presidential_dictatorship',
+  proletarian_dictatorship: 'proletarian_dictatorship',
+  fascist_dictatorship: 'fascist_dictatorship',
+  theocracy: 'absolute_monarchy',
+};
+
+/**
+ * Fills NATION_LIBRARY out to every tag that actually owns land after the cut.
+ * Hand-written Grand Century entries win, so existing colours and names survive;
+ * everything else is generated from Vic2's country table.
+ */
+function registerVic2Nations(countries, seeds) {
+  const byGcTag = new Map();
+  for (const country of countries) {
+    const tag = toGrandCenturyTag(country.tag);
+    if (!byGcTag.has(tag)) byGcTag.set(tag, country);
+  }
+  const owning = new Set(seeds.map((seed) => seed.ownerTag));
+  let added = 0;
+  for (const tag of [...owning].sort()) {
+    if (NATION_LIBRARY[tag]) {
+      // The hand-written entries predate the Vic2 extraction and carry no
+      // religion, so backfill it rather than letting them fall through to the
+      // protestant default. Everything else about them is left alone.
+      const known = byGcTag.get(tag);
+      if (known?.religion && !NATION_LIBRARY[tag].religion) {
+        NATION_LIBRARY[tag].religion = known.religion;
+      }
+      continue;
+    }
+    const country = byGcTag.get(tag);
+    if (!country) {
+      NATION_LIBRARY[tag] = { ...NATION_LIBRARY.COL, name: tag };
+      added += 1;
+      continue;
+    }
+    NATION_LIBRARY[tag] = {
+      name: country.name,
+      color: country.color ?? [128, 128, 128],
+      government: VIC2_GOVERNMENT[country.government] ?? GOV_DEFAULT,
+      primaryCulture: country.primaryCulture ?? 'cosmopolitan',
+      // Vic2's key, not this game's. bootstrap maps it; carrying it raw keeps
+      // the extraction faithful and the mapping reviewable in one place.
+      religion: country.religion,
+    };
+    added += 1;
+  }
+  for (const tag of VIC2_KEEP_TAGLESS) {
+    if (!NATION_LIBRARY[tag]) NATION_LIBRARY[tag] = { ...NATION_LIBRARY.COL, name: tag };
+  }
+  console.log(`[build-map] Nation library: ${Object.keys(NATION_LIBRARY).length} tags (${added} added from Vic2)`);
+}
+
 async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   const loaded = await loadSourceGeojson();
@@ -2585,11 +3091,36 @@ async function main() {
     throw new Error('No valid parent geometries available for province generation.');
   }
 
-  const baseUnits = parentsToUnits(parents);
-  const organicResult = splitOversizedCountryUnits(baseUnits);
-  const sliverResult = mergeTinySlivers(organicResult.units);
-  assignUniqueRealNames(sliverResult.units);
-  const { provinceRecords, stateRecords, bridgedIslands, nationalBorders } = buildProvinceRecords(sliverResult.units);
+  const vic2 = await loadVic2Regions();
+  const owned = vic2.regions.map((region) => ({
+    ...region,
+    ownerTag: toGrandCenturyTag(region.dominantOwner1836) ?? 'UNC',
+  }));
+  const stateAssignment = clusterRegionsIntoStates(owned);
+  const seeds = owned.map((region) => {
+    const state = stateAssignment.get(region.key);
+    return {
+      key: region.key,
+      name: region.name,
+      lon: region.lon,
+      lat: region.lat,
+      continent: region.continent,
+      pixelArea: region.pixelArea,
+      ownerTag: region.ownerTag,
+      stateKey: state.key,
+      stateName: state.name,
+    };
+  });
+  registerVic2Nations(vic2.countries, seeds);
+
+  const units = vic2UnitsFromParents(parents, seeds);
+  console.log(`[build-map] Vic2 regions seeded: ${seeds.length}, units cut: ${units.length}`);
+  const missing = seeds.length - units.length;
+  if (missing > 0) {
+    const emptyKeys = seeds.filter((seed) => !units.some((unit) => unit.partitionKey === seed.key)).map((seed) => seed.key);
+    console.warn(`[build-map] regions with no land after the cut (${missing}): ${emptyKeys.join(', ')}`);
+  }
+  const { provinceRecords, stateRecords, bridgedIslands, nationalBorders } = buildProvinceRecords(units);
 
   if (provinceRecords.length < MIN_PROVINCES || provinceRecords.length > MAX_PROVINCES) {
     throw new Error(
@@ -2605,7 +3136,7 @@ async function main() {
 
   const worldSeed = {
     source: loaded.source,
-    generatedAt: '1820-01-01T00:00:00.000Z',
+    generatedAt: '1830-01-01T00:00:00.000Z',
     provinceCount: provinceRecords.length,
     provinces: provinceRecords.map((province) => ({
       id: province.id,
@@ -2655,10 +3186,7 @@ async function main() {
   const geoGzipBytes = gzipSync(JSON.stringify(geojson)).length;
   console.log(`[build-map] Source: ${loaded.source}`);
   console.log(`[build-map] Parents loaded: ${parents.length} (admin-1 + ${admin0Appended} admin-0)`);
-  console.log(`[build-map] Units before organic split: ${baseUnits.length}`);
-  console.log(`[build-map] Organic splits: ${organicResult.splitCountries} countries (+${organicResult.addedParts} provinces)`);
-  console.log(`[build-map] Units before sliver merge: ${organicResult.units.length}`);
-  console.log(`[build-map] Slivers merged: ${sliverResult.mergedCount}`);
+  console.log(`[build-map] States (Vic2 region clusters): ${stateRecords.length}`);
   console.log(`[build-map] Island nearest-neighbor bridges: ${bridgedIslands}`);
   console.log(`[build-map] Provinces generated: ${provinceRecords.length}`);
   console.log(`[build-map] Coastal provinces: ${coastalCount}`);
