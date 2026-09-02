@@ -756,6 +756,18 @@
     {
       "kind": "overlord",
       "from": "FRANCE",
+      "to": "FRENCH_OCCUPATION_ZONE_IN_GERMANY",
+      "basis": "reviewed_military_occupation",
+      "notes": "France administered its German occupation zone under the four-power occupation framework.",
+      "sources": [],
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRANCE",
       "to": "FRENCH_SOMALILAND",
       "basis": "reviewed_colonial_identity",
       "notes": "French colony, protectorate, mandate, or military administration represented under France for gameplay.",
@@ -1318,6 +1330,18 @@
           "kind": "ohm_relation",
           "id": 2801070
         }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SOVIET_UNION",
+      "to": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
+      "basis": "reviewed_military_occupation",
+      "notes": "The Soviet Union administered its German occupation zone under the four-power occupation framework.",
+      "sources": [],
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
       ]
     },
     {
@@ -2272,6 +2296,19 @@
       ]
     },
     {
+      "polityKey": "FRENCH_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "participants": [],
+      "basis": "reviewed_military_occupation",
+      "notes": "France administered its German occupation zone under the four-power occupation framework.",
+      "sources": [],
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    },
+    {
       "polityKey": "FRENCH_SOMALILAND",
       "action": "overlord",
       "runtimeOverlord": "FRANCE",
@@ -2885,6 +2922,19 @@
       ]
     },
     {
+      "polityKey": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "SOVIET_UNION",
+      "participants": [],
+      "basis": "reviewed_military_occupation",
+      "notes": "The Soviet Union administered its German occupation zone under the four-power occupation framework.",
+      "sources": [],
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    },
+    {
       "polityKey": "SPANISH_GUINEA",
       "action": "overlord",
       "runtimeOverlord": "SPAIN",
@@ -3034,8 +3084,8 @@
     }
   ],
   "counts": {
-    "dependentPolities": 110,
-    "runtimeOverlords": 110,
+    "dependentPolities": 112,
+    "runtimeOverlords": 112,
     "jointAdministrations": 2,
     "noRuntimeOverlord": 0
   }

@@ -128,6 +128,17 @@
       "notes": "The French military territory in Fezzan-Ghadames is represented under France."
     },
     {
+      "key": "FRENCH_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "FRANCE",
+      "basis": "reviewed_military_occupation",
+      "notes": "France administered its German occupation zone under the four-power occupation framework.",
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
+    },
+    {
       "key": "ITALIAN_ISLANDS_OF_THE_AEGEAN",
       "action": "overlord",
       "runtimeOverlord": "UNITED_KINGDOM",
@@ -162,6 +173,17 @@
       "runtimeOverlord": "SOVIET_UNION",
       "basis": "reviewed_military_occupation",
       "notes": "The Soviet Civil Administration in northern Korea is represented under the Soviet Union."
+    },
+    {
+      "key": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
+      "action": "overlord",
+      "runtimeOverlord": "SOVIET_UNION",
+      "basis": "reviewed_military_occupation",
+      "notes": "The Soviet Union administered its German occupation zone under the four-power occupation framework.",
+      "evidence": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d380",
+        "https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520"
+      ]
     },
     {
       "key": "TERRITORY_OF_WESTERN_SAMOA",

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1945-09-02",
+  "note": "Exact-date occupation boundaries are retained as source provenance. Player-facing Germany remains neutral and uses no prohibited imagery.",
+  "boundaries": [
+    {
+      "relationId": 2855433,
+      "polityKey": "AMERICAN_OCCUPATION_ZONE_IN_GERMANY",
+      "purpose": "exact_date_boundary_validation",
+      "expectedName": "American occupation zone in Germany",
+      "expectedWikidata": "Q55304"
+    },
+    {
+      "relationId": 2852444,
+      "polityKey": "BRITISH_OCCUPATION_ZONE_IN_GERMANY",
+      "purpose": "exact_date_boundary_validation",
+      "expectedName": "British occupation zone in Germany",
+      "expectedWikidata": "Q55306"
+    }
+  ]
+}

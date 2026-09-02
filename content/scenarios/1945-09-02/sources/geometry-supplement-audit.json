@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1945-09-02",
+  "source": "OpenHistoricalMap",
+  "entries": [
+    {
+      "relationId": 2900078,
+      "name": "Französische Zone",
+      "wikidata": null,
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 27990,
+      "license": "CC0",
+      "polityKey": "FRENCH_OCCUPATION_ZONE_IN_GERMANY",
+      "sourceAsOf": "1946-01-01"
+    },
+    {
+      "relationId": 2695015,
+      "name": "Ostdeutschland",
+      "wikidata": "Q16957",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 4,
+      "coordinates": 20011,
+      "license": "CC0",
+      "polityKey": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
+      "sourceAsOf": "1949-10-07"
+    }
+  ]
+}

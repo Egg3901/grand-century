@@ -27,6 +27,15 @@ async function readJson(filePath) {
   return JSON.parse(await readFile(filePath, 'utf8'));
 }
 
+async function readOptionalJson(filePath, fallback) {
+  try {
+    return await readJson(filePath);
+  } catch (error) {
+    if (error?.code === 'ENOENT') return fallback;
+    throw error;
+  }
+}
+
 function geometryHash(geometry) {
   return createHash('sha256').update(JSON.stringify(geometry)).digest('hex');
 }
@@ -147,6 +156,32 @@ export function validateGeometryResolutions({ asOf, audit, resolutions, review, 
   }
 }
 
+export function validateGeometrySupplements({ asOf, roster, supplements, audit }) {
+  requireValue(supplements.schemaVersion === 1 && supplements.asOf === asOf, 'invalid geometry supplement pack');
+  requireValue(audit.schemaVersion === 1 && audit.asOf === asOf, 'invalid geometry supplement audit');
+  const polityByKey = new Map(roster.polities.map((polity) => [polity.key, polity]));
+  const auditByRelation = new Map((audit.entries ?? []).map((entry) => [entry.relationId, entry]));
+  const relationIds = new Set();
+  for (const supplement of supplements.supplements ?? []) {
+    requireValue(!relationIds.has(supplement.relationId), `duplicate supplement relation ${supplement.relationId}`);
+    relationIds.add(supplement.relationId);
+    const polity = polityByKey.get(supplement.polityKey);
+    requireValue(Boolean(polity), `supplement relation ${supplement.relationId} has unknown polity ${supplement.polityKey}`);
+    requireValue(EXCLUSIVE_STATUSES.has(polity.status), `supplement relation ${supplement.relationId} targets nonexclusive ${supplement.polityKey}`);
+    requireValue((polity.sources ?? []).length === 0, `supplemented polity ${supplement.polityKey} also has direct geometry sources`);
+    requireValue(/^\d{4}-\d{2}-\d{2}$/.test(supplement.sourceAsOf), `supplement relation ${supplement.relationId} has invalid source date`);
+    requireValue(supplement.sourceAsOf !== asOf, `supplement relation ${supplement.relationId} is not a temporal fallback`);
+    requireValue(Boolean(supplement.expectedName), `supplement relation ${supplement.relationId} has no expected name`);
+    requireValue(Boolean(supplement.reason), `supplement relation ${supplement.relationId} has no reason`);
+    requireValue((supplement.evidence ?? []).length > 0, `supplement relation ${supplement.relationId} has no documentary evidence`);
+    const audited = auditByRelation.get(supplement.relationId);
+    requireValue(Boolean(audited), `supplement relation ${supplement.relationId} has no geometry audit`);
+    requireValue(audited.sourceAsOf === supplement.sourceAsOf, `supplement relation ${supplement.relationId} audit date changed`);
+    requireValue(audited.status === 'valid', `supplement relation ${supplement.relationId} did not pass geometry audit`);
+  }
+  requireValue(auditByRelation.size === relationIds.size, 'geometry supplement audit does not match the source pack');
+}
+
 export async function compileScenarioBorders({
   scenarioDir,
   ohmCacheDir,
@@ -159,6 +194,14 @@ export async function compileScenarioBorders({
   const audit = await readJson(path.join(scenarioDir, 'sources/ohm-geometry-audit.json'));
   const resolutions = await readJson(path.join(scenarioDir, 'sources/geometry-resolutions.json'));
   const cliopatriaDiscovery = await readJson(path.join(scenarioDir, 'sources/cliopatria-discovery.json'));
+  const supplements = await readOptionalJson(
+    path.join(scenarioDir, 'sources/geometry-supplements.json'),
+    { schemaVersion: 1, asOf: manifest.id, supplements: [] },
+  );
+  const supplementAudit = await readOptionalJson(
+    path.join(scenarioDir, 'sources/geometry-supplement-audit.json'),
+    { schemaVersion: 1, asOf: manifest.id, entries: [] },
+  );
   validateGeometryResolutions({
     asOf: manifest.id,
     audit,
@@ -166,6 +209,7 @@ export async function compileScenarioBorders({
     review,
     cliopatriaDiscovery,
   });
+  validateGeometrySupplements({ asOf: manifest.id, roster, supplements, audit: supplementAudit });
 
   const auditById = new Map(audit.entries.map((entry) => [entry.relationId, entry]));
   const resolutionById = new Map(resolutions.resolutions.map((entry) => [entry.relationId, entry]));
@@ -179,13 +223,15 @@ export async function compileScenarioBorders({
       const auditEntry = auditById.get(source.id);
       requireValue(Boolean(auditEntry), `${polity.key} OHM relation ${source.id} has no geometry audit`);
       if (auditEntry.status === 'valid') {
-        tasks.set(source.id, { polity, source, maxGapDegrees: 0 });
+        tasks.set(`direct:${source.id}`, { polity, source, relationId: source.id, sourceAsOf: manifest.id, maxGapDegrees: 0 });
         selectedOhm += 1;
         continue;
       }
       const resolution = resolutionById.get(source.id);
       if (resolution?.action === 'close_outer_chain') {
-        tasks.set(source.id, { polity, source, maxGapDegrees: resolution.maxGapDegrees });
+        tasks.set(`direct:${source.id}`, {
+          polity, source, relationId: source.id, sourceAsOf: manifest.id, maxGapDegrees: resolution.maxGapDegrees,
+        });
         selectedOhm += 1;
       } else if (resolution?.action === 'cliopatria_fallback') {
         for (const record of resolution.sourceRecords) {
@@ -199,6 +245,17 @@ export async function compileScenarioBorders({
       }
     }
   }
+  for (const supplement of supplements.supplements ?? []) {
+    const polity = roster.polities.find((entry) => entry.key === supplement.polityKey);
+    tasks.set(`supplement:${supplement.relationId}`, {
+      polity,
+      source: { kind: 'ohm_temporal_fallback', id: supplement.relationId },
+      relationId: supplement.relationId,
+      sourceAsOf: supplement.sourceAsOf,
+      maxGapDegrees: 0,
+      supplement,
+    });
+  }
 
   const features = [];
   const provenance = [];
@@ -209,11 +266,20 @@ export async function compileScenarioBorders({
     const cache = await readJson(path.join(ohmCacheDir, cacheFile));
     const document = cache.document;
     const elementIndex = indexOhmDocument(document);
-    for (const [relationId, task] of [...remainingTasks]) {
-      if (!elementIndex.has(`relation:${relationId}`)) continue;
+    for (const [taskKey, task] of [...remainingTasks]) {
+      if (!elementIndex.has(`relation:${task.relationId}`)) continue;
+      const relation = elementIndex.get(`relation:${task.relationId}`);
+      requireValue(
+        !task.supplement || relation.tags?.name === task.supplement.expectedName,
+        `supplement relation ${task.relationId} changed name`,
+      );
+      requireValue(
+        !task.supplement?.expectedWikidata || relation.tags?.wikidata === task.supplement.expectedWikidata,
+        `supplement relation ${task.relationId} changed Wikidata identity`,
+      );
       const rawFeature = compileOhmRelationGeometry(document, {
-        relationId,
-        asOf: manifest.id,
+        relationId: task.relationId,
+        asOf: task.sourceAsOf,
         closeOuterChainsMaxGapDegrees: task.maxGapDegrees,
         elementIndex,
       });
@@ -223,11 +289,18 @@ export async function compileScenarioBorders({
       provenance.push({
         polityKey: task.polity.key,
         source: 'OpenHistoricalMap',
-        relationId,
+        relationId: task.relationId,
         license: rawFeature.properties.license,
         repair: rawFeature.properties.geometryRepair,
+        ...(task.supplement ? {
+          treatment: 'reviewed_temporal_fallback',
+          scenarioAsOf: manifest.id,
+          sourceAsOf: task.sourceAsOf,
+          reason: task.supplement.reason,
+          evidence: task.supplement.evidence,
+        } : {}),
       });
-      remainingTasks.delete(relationId);
+      remainingTasks.delete(taskKey);
     }
   }
   requireValue(remainingTasks.size === 0, `OHM caches are missing ${remainingTasks.size} selected relations`);

@@ -1159,6 +1159,14 @@
       ]
     },
     {
+      "key": "FRENCH_OCCUPATION_ZONE_IN_GERMANY",
+      "displayName": "French Occupation Zone in Germany",
+      "status": "vassal",
+      "flagAssetTag": "FRENCH_OCCUPATION_ZONE_IN_GERMANY",
+      "notes": "French military administration under the four-power occupation framework. Geometry uses an explicitly reviewed near-contemporaneous OHM fallback because no exact-date zone relation was found.",
+      "sources": []
+    },
+    {
       "key": "FRENCH_SOMALILAND",
       "displayName": "French Somaliland",
       "status": "vassal",
@@ -1200,9 +1208,9 @@
     {
       "key": "GERMANY",
       "displayName": "Germany",
-      "status": "sovereign",
+      "status": "constituent",
       "flagAssetTag": "GER",
-      "notes": "Player-facing treatment is neutral. Occupation and divided administration require exact-date source review; historical source labels remain provenance only.",
+      "notes": "Neutral player-facing legal shell for occupied Germany. Territorial control is represented by four Allied occupation administrations; historical source labels remain provenance only.",
       "sources": []
     },
     {
@@ -2266,6 +2274,14 @@
           "id": 2801070
         }
       ]
+    },
+    {
+      "key": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
+      "displayName": "Soviet Occupation Zone in Germany",
+      "status": "vassal",
+      "flagAssetTag": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
+      "notes": "Soviet military administration under the four-power occupation framework. Geometry uses an explicitly reviewed immediate-successor OHM fallback because no exact-date zone relation was found.",
+      "sources": []
     },
     {
       "key": "SOVIET_UNION",

@@ -8,7 +8,7 @@ import {
   buildCandidateCrosswalk,
   loadScenarioRosterFiles,
 } from '../content/sources/roster/compiler.mjs';
-import { validateGeometryResolutions } from '../content/sources/geometry/compiler.mjs';
+import { validateGeometryResolutions, validateGeometrySupplements } from '../content/sources/geometry/compiler.mjs';
 import { compileRelationships } from '../content/sources/relationships/compiler.mjs';
 
 const root = process.cwd();
@@ -95,6 +95,16 @@ async function validateGeometryAudit(id) {
   const review = await readJson(path.join(scenarioDir, 'sources', 'roster-review.json'));
   const cliopatriaDiscovery = await readJson(path.join(scenarioDir, 'sources', 'cliopatria-discovery.json'));
   validateGeometryResolutions({ asOf: id, audit, resolutions, review, cliopatriaDiscovery });
+  const roster = await readJson(path.join(scenarioDir, 'polities.json'));
+  const supplements = await readOptionalJson(
+    path.join(scenarioDir, 'sources', 'geometry-supplements.json'),
+    { schemaVersion: 1, asOf: id, supplements: [] },
+  );
+  const supplementAudit = await readOptionalJson(
+    path.join(scenarioDir, 'sources', 'geometry-supplement-audit.json'),
+    { schemaVersion: 1, asOf: id, entries: [] },
+  );
+  validateGeometrySupplements({ asOf: id, roster, supplements, audit: supplementAudit });
   return {
     valid: audit.entries.length - invalid.length,
     total: audit.entries.length,
@@ -142,6 +152,18 @@ async function validateCompiledBorders(id) {
         );
       }
     }
+  }
+  const supplements = await readOptionalJson(
+    path.join(scenarioDir, 'sources', 'geometry-supplements.json'),
+    { supplements: [] },
+  );
+  for (const supplement of supplements.supplements ?? []) {
+    requireValue(
+      compiled.provenance.some((entry) => entry.relationId === supplement.relationId
+        && entry.treatment === 'reviewed_temporal_fallback'
+        && entry.sourceAsOf === supplement.sourceAsOf),
+      `${id} compiled borders omit temporal fallback provenance for relation ${supplement.relationId}`,
+    );
   }
 }
 

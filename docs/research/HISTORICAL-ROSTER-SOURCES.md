@@ -51,7 +51,7 @@ The project warns that significant reuse of share-alike content must honor that 
 The compiler must continue to reject unknown, non-commercial, or share-alike inputs until a deliberate rights review accepts them.[4]
 It must preserve relation, way, and node IDs, source tags, attribution tags, license tags, query text, retrieval timestamp, and raw-response hash.[4]
 
-The existing live audit in [Multi-era scenarios](../MULTI-ERA-SCENARIOS.md) found 187 active level-2 relations and 180 unique identity keys for 1700, compared with 212 active relations and 202 unique identity keys for 1936. These numbers show useful global coverage, but the OHM tagging rules prove that neither total is a sovereign-state count.[2] The audit should be rerun from a pinned Overpass response whenever either Source Pack is released.[1]
+The checked-in exact-date audits in [Multi-era scenarios](../MULTI-ERA-SCENARIOS.md) cover 180 unique OHM identity keys for 1700, 200 for 1936, and 188 for 1945. These numbers show useful global coverage, but the OHM tagging rules prove that none is a sovereign-state count.[2] The audit should be rerun from a query-fingerprinted Overpass cache whenever a Source Pack is released.[1]
 
 ### Required OHM diagnostics
 
@@ -198,9 +198,17 @@ Each source reference should include URI, institution, record or element ID, tit
 5. Store ground control separately from sovereignty and claims, particularly where a January 1936 opening date differs from later events in that year.[2][15]
 6. Import no flags, seals, uniforms, portraits, propaganda, or raster symbology from source maps.[18][19] For Germany, compile geometry and neutral text only, and retain the approved neutral tricolor treatment. The no-Nazi-imagery rule applies to authoring previews, generated artifacts, tests, documentation screenshots, and shipped assets.
 
+## 1945 occupation treatment
+
+The exact 1945 roster separates the neutral legal shell `GERMANY` from territorial control by four Allied occupation administrations. The United States Office of the Historian describes the post-surrender division into four zones, and the July 1945 agreement records the four commanders' authority and the French-zone boundary revision.[21] The German Historical Institute's map dated 1 September 1945 independently shows the smaller postwar territory, the four occupation zones, the Berlin sectors, and exceptional administrations such as Bremen.[22]
+
+OHM supplies exact 2 September 1945 relations for the American and British zones. No exact-date OHM relation was found for the French or Soviet zones through level-2 discovery, Wikidata lookup, or English, French, and German name lookup. The compiler therefore uses two explicit temporal fallbacks: the OHM French-zone relation beginning in 1946 and the first East German boundary beginning in 1949 as the immediate territorial successor to the Soviet zone. These are geometry fallbacks only. They do not establish sovereignty, and the compiled provenance records the relation ID, source date, reason, documentary evidence, and `reviewed_temporal_fallback` treatment.
+
+All four zones are dependent territorial administrations in the runtime relationship graph. `GERMANY` is a non-territorial constituent shell with the neutral `GER` tricolor. No source symbology or prohibited imagery is imported.
+
 ## Release gates
 
-A 1700 or 1936 roster is ready only when:
+A 1700, 1936, or 1945 roster is ready only when:
 
 - every playable polity has reviewed evidence for existence, classification, sovereign or parent relationship, capital, and opening-date control;[2][14][20]
 - every dependent territory points to a valid parent and every relationship has its own documentary citation;[14][16][20]
@@ -233,3 +241,5 @@ A 1700 or 1936 roster is ready only when:
 [18] https://www.loc.gov/apis - Library of Congress APIs
 [19] https://www.loc.gov/resource/g3200.ct007070 - Library of Congress 1719 world map
 [20] https://appx.archives.ncdcr.gov/findingaids/VC_Vault_Collection_of_the_Stat_.html - North Carolina State Archives Carolina Charter
+[21] https://history.state.gov/historicaldocuments/frus1945v03/d380 - Foreign Relations of the United States, German occupation zones and four-power administration
+[22] https://germanhistorydocs.org/en/occupation-and-the-emergence-of-two-states-1945-1961/ghdi:map-520 - German History in Documents and Images, Germany after the Second World War, 1 September 1945

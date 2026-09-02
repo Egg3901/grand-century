@@ -26,6 +26,7 @@ function usage() {
     '  node scripts/ohm-source.mjs name-search --date YYYY-MM-DD --name TEXT --cache FILE [--refresh] [--out FILE]',
     '  node scripts/ohm-source.mjs compile --spec FILE --cache FILE [--refresh] --out FILE',
     '  node scripts/ohm-source.mjs geometry-audit --discovery FILE --cache-dir DIR [--chunk-size N] [--refresh] --out FILE',
+    '  node scripts/ohm-source.mjs geometry-supplement-audit --spec FILE --cache-dir DIR [--refresh] --out FILE',
   ].join('\n');
 }
 
@@ -106,6 +107,27 @@ if (command === 'discover') {
     source: 'OpenHistoricalMap',
     relationCount: relationIds.length,
     counts,
+    entries,
+  });
+} else if (command === 'geometry-supplement-audit') {
+  const specPath = option(args, '--spec');
+  const cacheDir = option(args, '--cache-dir');
+  if (!specPath || !cacheDir || !outputPath) throw new Error(usage());
+  const spec = JSON.parse(await readFile(path.resolve(specPath), 'utf8'));
+  const resolvedCacheDir = path.resolve(cacheDir);
+  await mkdir(resolvedCacheDir, { recursive: true });
+  const entries = [];
+  for (const supplement of spec.supplements ?? []) {
+    const relationIds = [supplement.relationId];
+    const cachePath = path.join(resolvedCacheDir, `supplement-${supplement.relationId}.json`);
+    const document = await queryOverpassCached(curatedRelationsQuery(relationIds), { cachePath, refresh });
+    const [entry] = auditOhmGeometry(document, { asOf: supplement.sourceAsOf, relationIds });
+    entries.push({ ...entry, polityKey: supplement.polityKey, sourceAsOf: supplement.sourceAsOf });
+  }
+  await writeOhmCompileResult(path.resolve(outputPath), {
+    schemaVersion: 1,
+    asOf: spec.asOf,
+    source: 'OpenHistoricalMap',
     entries,
   });
 } else {

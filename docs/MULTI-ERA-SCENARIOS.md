@@ -20,11 +20,11 @@ These are production milestones, not promises that a year is ready because a map
 | 1830-01-01 | Playable compatibility anchor | Existing reviewed baseline |
 | 1914-07-28 | Development seed | Explicitly inherits 1936 pending an exact source pack |
 | 1936-01-01 | Selectable preview anchor | Reviewed 1936 OHM and Cliopatria source pack |
-| 1945-09-02 | Development seed | Explicitly inherits 1936 pending an exact source pack |
+| 1945-09-02 | Selectable preview anchor | Reviewed 1945 OHM and Cliopatria source pack, with two cited OHM temporal geometry fallbacks for occupied Germany |
 
-The inherited dates are honest engineering seeds. Their clock, technology horizon, population scale, persistence identity, and map lookup use the exact selected date, but their ownership and border layer still come from the named anchor. They must remain in development until their own source review is complete.
+The three inherited dates are honest engineering seeds. Their clock, technology horizon, population scale, persistence identity, and map lookup use the exact selected date, but their ownership and border layer still come from the named anchor. They must remain in development until their own source review is complete.
 
-The 1700 anchor remains hidden because 98 inherited province centroids still fall outside reviewed ownership polygons. The 1936 anchor is exposed as a clearly labeled preview: all 548 province centroids are assigned, including ten named exceptions in an explicit projection ledger. Coarse microstate and small-dependency representation still blocks playable promotion. Germany uses the neutral `GER` tricolor while historical source labels remain provenance only.
+The 1700 anchor remains hidden because 98 inherited province centroids still fall outside reviewed ownership polygons. The 1936 and 1945 anchors are exposed as clearly labeled previews: all 548 province centroids are assigned through reviewed geometry plus explicit projection ledgers. Coarse microstate and small-dependency representation still blocks playable promotion. Germany uses the neutral `GER` tricolor while the 1945 map represents territorial control through four Allied occupation administrations.
 
 ## OpenHistoricalMap's role
 
@@ -116,6 +116,13 @@ npm run scenario:ohm -- geometry-audit \
   --refresh \
   --out content/scenarios/1700-01-01/sources/ohm-geometry-audit.json
 
+# Audit cited, near-contemporaneous OHM fallbacks for missing exact-date geometry.
+npm run scenario:ohm -- geometry-supplement-audit \
+  --spec content/scenarios/1945-09-02/sources/geometry-supplements.json \
+  --cache-dir .scenario-cache/ohm/geometry-1945-recursive \
+  --refresh \
+  --out content/scenarios/1945-09-02/sources/geometry-supplement-audit.json
+
 # Rebuild the roster deterministically from its curated base and decision pack.
 npm run scenario:roster -- rebuild \
   --scenario-dir content/scenarios/1700-01-01
@@ -143,13 +150,13 @@ node scripts/build-flags.mjs
 
 Discovery output is a review queue, not a roster. Compilation verifies the exact date, expected name and Wikidata identity, element license, closed boundary rings, and hole placement. It emits GeoJSON plus a provenance ledger. The 1830 pilot currently curates Baden relation `2660798` for boundary validation.
 
-The checked-in 1700 discovery currently contains 186 active relations grouped into 180 stable identity keys. The 1936 discovery contains 206 relations grouped into 200 identities. Every identity receives an explicit review disposition before a scenario can become playable. Valid dispositions distinguish playable polities and dependencies from constituents, claims, duplicate geometry, map fragments, and exclusions. The validator blocks playable status unless coverage is global and no identity remains unreviewed.
+The checked-in 1700 discovery contains 186 active relations grouped into 180 stable identity keys. The 1936 discovery contains 206 relations grouped into 200 identities. The 1945 discovery contains 195 relations grouped into 188 identities. Every identity receives an explicit review disposition before a scenario can become playable. Valid dispositions distinguish playable polities and dependencies from constituents, claims, duplicate geometry, map fragments, and exclusions. The validator blocks playable status unless coverage is global and no identity remains unreviewed.
 
-The conservative source-acceptance pass handles explicit OHM taxonomy. Checked-in manual decision packs then classify or exclude every remaining identity, including source-label corrections and exact-date exclusions. The current result is 180 of 180 OHM plus 77 of 77 Cliopatria-only identities for 1700, and 200 of 200 plus 39 of 39 for 1936. Cliopatria remains a candidate and geometry-comparison source because its date intervals can carry anachronistic labels. Every roster polity now has a local flag asset. Unreviewed art uses a deterministic neutral banner derived from its map color and is labeled as procedural in the roster notes.
+The conservative source-acceptance pass handles explicit OHM taxonomy. Checked-in manual decision packs then classify or exclude every remaining identity, including source-label corrections and exact-date exclusions. The current result is 180 of 180 OHM plus 77 of 77 Cliopatria-only identities for 1700, 200 of 200 plus 39 of 39 for 1936, and 188 of 188 plus 30 of 30 for 1945. Cliopatria remains a candidate and geometry-comparison source because its date intervals can carry anachronistic labels. Every roster polity now has a local flag asset. Unreviewed art uses a deterministic neutral banner derived from its map color and is labeled as procedural in the roster notes.
 
-The global geometry audit recursively expands nested OHM boundary relations, then assembles and validates every discovered relation independently. At the current source snapshot, 181 of 186 relations for 1700 and 202 of 206 relations for 1936 assemble as closed licensed polygon geometry. Resolution packs account for every failure: nonexclusive fragments are skipped, the reviewed Peru and Hungary endpoint gaps are closed with recorded thresholds, and Qing uses a hash-pinned Cliopatria fallback. The compact compiled layers represent all 226 exclusive 1700 polities and all 207 exclusive 1936 polities. Individual validity does not prove global coverage; promotion still requires gap and exclusive-overlap analysis against the final province topology.
+The global geometry audit recursively expands nested OHM boundary relations, then assembles and validates every discovered relation independently. At the current source snapshot, 181 of 186 relations for 1700, 202 of 206 relations for 1936, and all 195 relations for 1945 assemble as closed licensed polygon geometry. Resolution packs account for every failure: nonexclusive fragments are skipped, the reviewed Peru and Hungary endpoint gaps are closed with recorded thresholds, and Qing uses a hash-pinned Cliopatria fallback. The 1945 French and Soviet occupation zones are explicit temporal fallbacks because exact-date OHM relations were absent; their near-contemporaneous OHM geometries, source dates, reasons, and documentary evidence are retained in compiled provenance. The compiled layers represent all 226 exclusive 1700 polities, all 207 exclusive 1936 polities, and all 187 exclusive 1945 polities. Individual validity does not prove global coverage; promotion still requires gap and exclusive-overlap analysis against the final province topology.
 
-Relationship policies resolve all 69 source-classified dependencies in 1700 and all 130 in 1936. Four 1936 cases retain explicit joint-administration records. The runtime uses one primary authority only where the current diplomacy model requires it, and the source artifact preserves the other participants and the reason for the projection.
+Relationship policies resolve all 69 source-classified dependencies in 1700, all 130 in 1936, and all 112 in 1945. The 1945 dependency graph records the four German occupation administrations under the United States, United Kingdom, France, and Soviet Union. Joint-administration records remain explicit. The runtime uses one primary authority only where the current diplomacy model requires it, and the source artifact preserves the other participants and the reason for the projection.
 
 The seed compiler overlays the stable 548 province centroids on the reviewed dated polygons, chooses the smallest exclusive polygon for recorded overlaps, permits only a 1.5 degree nearest-boundary repair, and leaves all other gaps under the `UNC` diagnostic owner. Explicit province overrides run before geometric assignment and must carry review notes, reviewer identity, review date, projected polity sources, and a matching diagnostics record. The compiler splits inherited states when dated owners differ and emits dated national borders, relationship links, technology horizons, and a diagnostics ledger. Playable promotion rejects gaps, inferred nearest assignments, unresolved overlaps, missing territorial polities, and absent relationship participants.
 
