@@ -72,6 +72,30 @@ These are not polity counts. Some identities have several simultaneous relations
 
 A representative geometry query for relation `2660798`, Baden from 1819-09-08 through 1871-05-04, returned all 255 boundary ways with geometry. This is sufficient to justify an OHM import adapter and a polygon-assembly prototype. It does not remove the need for regional gap, overlap, validity, and provenance checks.
 
+### Authoring commands
+
+The OHM adapter is offline by default. A command reads a query-fingerprinted cache and fails if the cache is missing or belongs to another query. `--refresh` is the only mode that contacts the public Overpass endpoint.
+
+```bash
+# Discover dated level-2 relations for roster research.
+npm run scenario:ohm -- discover \
+  --date 1830-01-01 \
+  --cache .scenario-cache/ohm/admin-2.json \
+  --refresh \
+  --out artifacts/scenarios/ohm-1830-candidates.json
+
+# Fetch and compile only relations curated in the Scenario Source Pack.
+npm run scenario:ohm -- compile \
+  --spec content/scenarios/1830-01-01/sources/ohm.json \
+  --cache .scenario-cache/ohm/1830-curated.json \
+  --refresh \
+  --out artifacts/scenarios/ohm-1830-compiled.json
+
+# Omit --refresh to reproduce the exact compilation without network access.
+```
+
+Discovery output is a review queue, not a roster. Compilation verifies the exact date, expected name and Wikidata identity, element license, closed boundary rings, and hole placement. It emits GeoJSON plus a provenance ledger. The 1830 pilot currently curates Baden relation `2660798` for boundary validation.
+
 ## Deep modules and seams
 
 ### Runtime scenario module

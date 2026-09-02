@@ -4,6 +4,7 @@
   "version": "1.6.1",
   "type": "module",
   "scripts": {
+    "scenario:ohm": "node scripts/ohm-source.mjs",
     "map:history": "node scripts/apply-historical-world.mjs",
     "map:history:check": "node scripts/apply-historical-world.mjs --check",
     "dev": "vite",

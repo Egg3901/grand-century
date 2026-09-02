@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1830-01-01",
+  "note": "Curated OHM relations are evidence and geometry inputs, not an automatically accepted polity roster.",
+  "boundaries": [
+    {
+      "relationId": 2660798,
+      "polityKey": "BAD",
+      "purpose": "boundary_validation",
+      "expectedName": "Baden",
+      "expectedWikidata": "Q186320"
+    }
+  ]
+}
