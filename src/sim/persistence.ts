@@ -1,6 +1,6 @@
 import { gunzipSync, gzipSync, strFromU8, strToU8 } from 'fflate';
-import { WORLD_SEED, type WorldSeedData } from '../data/generated';
-import type { World } from '../shared/types';
+import { DEFAULT_SCENARIO, DEFAULT_SCENARIO_ID, WORLD_SEED, type WorldSeedData } from '../data/generated';
+import type { GameDate, ScenarioId, World } from '../shared/types';
 import {
   exportDiplomacyRuntime,
   importDiplomacyRuntime,
@@ -27,6 +27,8 @@ export interface WorldFingerprint {
   provinceCount: number;
   /** Non-cryptographic FNV-1a hex of stable seed identity fields. */
   seedHash: string;
+  scenarioId?: ScenarioId;
+  startDate?: GameDate;
 }
 
 interface SavePayload {
@@ -108,11 +110,17 @@ function seedIdentityJson(seed: WorldSeedData): string {
  * Compute the world fingerprint for a seed (defaults to the shipped WORLD_SEED).
  * Deterministic across runs; safe to call from tests and save serialization.
  */
-export function computeWorldFingerprint(seed: WorldSeedData = WORLD_SEED): WorldFingerprint {
+export function computeWorldFingerprint(
+  seed: WorldSeedData = WORLD_SEED,
+  scenarioId?: ScenarioId,
+  startDate?: GameDate,
+): WorldFingerprint {
   return {
     schemaVersion: WORLD_CONTENT_SCHEMA_VERSION,
     provinceCount: seed.provinceCount,
     seedHash: fnv1aHex(seedIdentityJson(seed)),
+    ...(scenarioId ? { scenarioId } : {}),
+    ...(startDate ? { startDate } : {}),
   };
 }
 
@@ -120,7 +128,9 @@ function fingerprintsMatch(a: WorldFingerprint, b: WorldFingerprint): boolean {
   return (
     a.schemaVersion === b.schemaVersion &&
     a.provinceCount === b.provinceCount &&
-    a.seedHash === b.seedHash
+    a.seedHash === b.seedHash &&
+    (a.scenarioId === undefined || a.scenarioId === b.scenarioId) &&
+    (a.startDate === undefined || JSON.stringify(a.startDate) === JSON.stringify(b.startDate))
   );
 }
 
@@ -128,7 +138,11 @@ export function serializeWorld(world: World): Uint8Array {
   const payload: SavePayload = {
     version: SAVE_VERSION,
     createdAt: Date.now(),
-    worldFingerprint: computeWorldFingerprint(),
+    worldFingerprint: computeWorldFingerprint(
+      WORLD_SEED,
+      world.scenarioId ?? DEFAULT_SCENARIO_ID,
+      world.startDate ?? DEFAULT_SCENARIO.manifest.startDate,
+    ),
     world: cloneWorld(world),
     runtimes: {
       diplomacy: exportDiplomacyRuntime(world),
@@ -156,13 +170,22 @@ export function deserializeWorld(buffer: Uint8Array): { world: World; metadata: 
   // Present-and-different = different world seed / province layout: reject loudly.
   if (
     payload.worldFingerprint != null &&
-    !fingerprintsMatch(payload.worldFingerprint, computeWorldFingerprint())
+    !fingerprintsMatch(
+      payload.worldFingerprint,
+      computeWorldFingerprint(
+        WORLD_SEED,
+        payload.world.scenarioId ?? DEFAULT_SCENARIO_ID,
+        payload.world.startDate ?? DEFAULT_SCENARIO.manifest.startDate,
+      ),
+    )
   ) {
     throw new Error(
       'This save was made against a different world and cannot be loaded. Start a new campaign instead.',
     );
   }
   const world = payload.world;
+  world.scenarioId = world.scenarioId ?? DEFAULT_SCENARIO_ID;
+  world.startDate = world.startDate ?? { ...DEFAULT_SCENARIO.manifest.startDate };
   // Optional / self-healing fields (old saves fill in defaults).
   if (!Array.isArray(world.rebellions)) world.rebellions = [];
   if (!Number.isFinite(world.nextRebellionId)) world.nextRebellionId = 1;

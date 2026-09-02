@@ -28,6 +28,7 @@ import type {
   ProductionLedgerEntry,
   ProvinceSummary,
   Rebellion,
+  ScenarioId,
   StateId,
   StockpileOrder,
   War,
@@ -39,6 +40,8 @@ import type {
 export interface SharedSnapshot {
   day: number;
   date: GameDate;
+  scenarioId?: ScenarioId;
+  startDate?: GameDate;
   speed: number;
   seed?: number;
   nations: NationSummary[];
@@ -90,6 +93,8 @@ export interface PlayerView {
 export interface SharedSnapshotDiff {
   day?: number;
   date?: GameDate;
+  scenarioId?: ScenarioId;
+  startDate?: GameDate;
   speed?: number;
   seed?: number;
   /** Only changed nation rows (by id). */
@@ -112,6 +117,8 @@ export function extractShared(snap: WorldSnapshot): SharedSnapshot {
   return {
     day: snap.day,
     date: snap.date,
+    scenarioId: snap.scenarioId,
+    startDate: snap.startDate,
     speed: snap.speed,
     seed: snap.seed,
     nations: snap.nations,
@@ -227,6 +234,8 @@ export function diffShared(
   const diff: SharedSnapshotDiff = {};
   if (prev.day !== next.day) diff.day = next.day;
   if (!stableEqual(prev.date, next.date)) diff.date = next.date;
+  if (prev.scenarioId !== next.scenarioId) diff.scenarioId = next.scenarioId;
+  if (!stableEqual(prev.startDate, next.startDate)) diff.startDate = next.startDate;
   if (prev.speed !== next.speed) diff.speed = next.speed;
   if (prev.seed !== next.seed) diff.seed = next.seed;
   if (prev.infamyLimit !== next.infamyLimit) diff.infamyLimit = next.infamyLimit;
@@ -287,6 +296,8 @@ export function applySharedDiff(base: SharedSnapshot, diff: SharedSnapshotDiff):
   const next: SharedSnapshot = {
     day: diff.day ?? base.day,
     date: diff.date ?? base.date,
+    scenarioId: diff.scenarioId !== undefined ? diff.scenarioId : base.scenarioId,
+    startDate: diff.startDate ?? base.startDate,
     speed: diff.speed ?? base.speed,
     seed: diff.seed !== undefined ? diff.seed : base.seed,
     nations: base.nations.slice(),

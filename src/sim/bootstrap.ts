@@ -614,8 +614,8 @@ function createNations(data: GameData, worldSeed: WorldSeedData): Nation[] {
     parties: createNationParties(),
     upperHouse: defaultUpperHouse(seed.government),
     electionIntervalYears: seed.government === 'constitutional_monarchy' ? 5 : 4,
-    lastElectionYear: 1826,
-    nextElectionYear: isElectiveGovernment(seed.government) ? 1830 + (id % 4) : Number.MAX_SAFE_INTEGER,
+    lastElectionYear: data.startDate.year - 4,
+    nextElectionYear: isElectiveGovernment(seed.government) ? data.startDate.year + (id % 4) : Number.MAX_SAFE_INTEGER,
     electionLastResult: 'No election held yet.',
     capital: capitalId(worldSeed, seed.capitalProvinceId),
     polityStatus: seed.polityStatus ?? 'sovereign',
@@ -982,6 +982,8 @@ export function createWorld(
 
   const world: World = {
     day: 0,
+    scenarioId: data.scenarioId,
+    startDate: { ...data.startDate },
     seed: seed >>> 0,
     rngState: rng.state,
     // Start paused so the player can survey the world before the clock runs.

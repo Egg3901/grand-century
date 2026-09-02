@@ -3,7 +3,14 @@
 // collecting specs — which silently took the entire e2e suite to 0 tests
 // collected some time after 1.0.0. Vite/vitest/tsc all accept the attribute.
 import worldSeedRaw from './generated/worldSeed.json' with { type: 'json' };
-import type { GovernmentType, PolityStatus, Terrain } from '../shared/types';
+import scenario1830ManifestRaw from '../../content/scenarios/1830-01-01/manifest.json' with { type: 'json' };
+import type {
+  GovernmentType,
+  PolityStatus,
+  ScenarioId,
+  ScenarioManifest,
+  Terrain,
+} from '../shared/types';
 
 export interface SeedNation {
   tag: string;
@@ -73,6 +80,11 @@ export interface WorldSeedData {
   formables?: SeedFormable[];
 }
 
+export interface CompiledScenarioData {
+  readonly manifest: ScenarioManifest;
+  readonly worldSeed: WorldSeedData;
+}
+
 export interface CompactProvinceFeatureCollection {
   type: 'FeatureCollection';
   features: Array<{
@@ -98,6 +110,37 @@ export interface NationalBorderFeatureCollection {
   }>;
 }
 
-/** Static world seed (nations/provinces metadata). Map geometry is fetched at runtime. */
-export const WORLD_SEED = worldSeedRaw as WorldSeedData;
+const scenario1830Manifest: ScenarioManifest = Object.freeze({
+  ...scenario1830ManifestRaw,
+  startDate: Object.freeze({ ...scenario1830ManifestRaw.startDate }),
+  visualPolicy: Object.freeze({ ...scenario1830ManifestRaw.visualPolicy }),
+}) as ScenarioManifest;
+
+const SCENARIO_1830: CompiledScenarioData = Object.freeze({
+  manifest: scenario1830Manifest,
+  worldSeed: worldSeedRaw as WorldSeedData,
+});
+
+const COMPILED_SCENARIOS: ReadonlyMap<ScenarioId, CompiledScenarioData> = new Map([
+  [SCENARIO_1830.manifest.id, SCENARIO_1830],
+]);
+
+export const DEFAULT_SCENARIO_ID: ScenarioId = SCENARIO_1830.manifest.id;
+
+/** List scenario metadata without exposing mutable runtime artifacts. */
+export function listScenarios(): readonly ScenarioManifest[] {
+  return Array.from(COMPILED_SCENARIOS.values(), (scenario) => scenario.manifest);
+}
+
+/** Resolve one compiled scenario or fail before simulation bootstrap. */
+export function loadScenario(id: ScenarioId): CompiledScenarioData {
+  const scenario = COMPILED_SCENARIOS.get(id);
+  if (!scenario) throw new Error(`Unknown scenario: ${id}`);
+  return scenario;
+}
+
+export const DEFAULT_SCENARIO = loadScenario(DEFAULT_SCENARIO_ID);
+
+/** Compatibility alias while callers migrate to the scenario catalog. */
+export const WORLD_SEED = DEFAULT_SCENARIO.worldSeed;
 export const PROVINCE_COUNT = WORLD_SEED.provinces.length;

@@ -23,6 +23,7 @@ import { BALANCE } from '../balance';
 import { GAME_DATA } from '../../data/gameData';
 import { getOrCreateRelation, setTruce } from './diplomacy';
 import { createNationParties, defaultRulingParty, defaultUpperHouse, updateMilitaryDerivedForNation } from '../politics';
+import { yearAtDay } from '../calendar';
 import { techModifiersFor } from './research';
 
 const MAX_REGIMENT_STRENGTH = 1000;
@@ -1701,7 +1702,7 @@ function createIndependentRebelNation(world: World, data: GameData, rebellion: R
     parties: createNationParties(),
     upperHouse: defaultUpperHouse(template?.government ?? 'presidential_dictatorship'),
     electionIntervalYears: 4,
-    lastElectionYear: 1830,
+    lastElectionYear: yearAtDay(world.day, world.startDate ?? data.startDate),
     nextElectionYear: Number.MAX_SAFE_INTEGER,
     electionLastResult: 'Revolutionary council',
     capital,

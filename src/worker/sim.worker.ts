@@ -21,6 +21,7 @@ import { listSaveSlots, readSaveSlot, writeSaveSlot } from './saveSlots';
 import { DEFAULT_CAMPAIGN_MAP_MODE, parseCampaignMapMode } from '../shared/campaignMap';
 import { resolveWorldSeed } from '../sim/proceduralWorld';
 import { WORLD_SEED } from '../data/generated';
+import { yearAtDay } from '../sim/calendar';
 
 const ctx: DedicatedWorkerGlobalScope = self as unknown as DedicatedWorkerGlobalScope;
 
@@ -57,7 +58,7 @@ function gameDataForMapMode(mapMode: CampaignMapMode, seed: number): GameData {
 }
 
 function yearFromDay(day: number): number {
-  return 1830 + Math.floor(day / 365);
+  return yearAtDay(day, world?.startDate ?? data.startDate);
 }
 
 function startWorld(seed: number, mapMode: CampaignMapMode, playerNation?: number): void {
@@ -90,7 +91,7 @@ async function saveCurrentWorld(slot: string, action: 'save' | 'autosave') {
   saveBusy = true;
   try {
     const payload = serializeWorld(world);
-    await writeSaveSlot(slot, payload, world.day, world.playerNation);
+    await writeSaveSlot(slot, payload, world.day, world.playerNation, world.scenarioId, world.startDate);
     post({ t: 'saveStatus', action, slot, ok: true, msg: `${action} complete` });
     await publishSaveSlots();
   } catch (error) {
@@ -119,6 +120,11 @@ async function loadWorldFromSlot(slot: string) {
     world = loaded.world;
     if (!world.mapMode) world.mapMode = DEFAULT_CAMPAIGN_MAP_MODE;
     data = gameDataForMapMode(world.mapMode, world.seed);
+    data = {
+      ...data,
+      scenarioId: world.scenarioId ?? data.scenarioId,
+      startDate: world.startDate ?? data.startDate,
+    };
     lastAutosaveYear = yearFromDay(world.day);
     postSnapshotNow();
     post({ t: 'saveStatus', action: 'load', slot, ok: true, msg: 'load complete' });

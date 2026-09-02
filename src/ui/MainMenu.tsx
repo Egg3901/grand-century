@@ -4,16 +4,13 @@ import { useSnapshotFields } from './useSnapshotFields';
 import { APP_RELEASE, VERSION_LABEL } from '../buildInfo';
 import { buildShareUrl, copyShareLink, parseStartHash } from './permalink';
 import { NationFlag } from './components/NationFlag';
+import { yearAtDay } from '../sim/calendar';
 import {
   CAMPAIGN_MAP_MODES,
   DEFAULT_CAMPAIGN_MAP_MODE,
   parseCampaignMapMode,
   type CampaignMapMode,
 } from '../shared/campaignMap';
-
-function yearFromDay(day: number): number {
-  return 1830 + Math.floor(day / 365);
-}
 
 function randomSeed(): number {
   return Math.floor(Math.random() * 899999) + 100000;
@@ -189,7 +186,7 @@ export function MainMenu() {
                 <span className="menu-resume__text">
                   <span className="menu-resume__action">Continue — {latestSaveNation.name}</span>
                   <span className="menu-resume__detail">
-                    {yearFromDay(latestSave.day)} · {latestSave.slot.replace(/^autosave-/, 'autosave ')}
+                    {yearAtDay(latestSave.day, latestSave.startDate)} · {latestSave.slot.replace(/^autosave-/, 'autosave ')}
                   </span>
                 </span>
               </button>

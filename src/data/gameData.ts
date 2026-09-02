@@ -1,5 +1,5 @@
 import type { FormableDefinition, GameData, GoodDef, PopNeedsDef, PopType, Recipe } from '../shared/types';
-import { PROVINCE_COUNT, WORLD_SEED } from './generated';
+import { DEFAULT_SCENARIO, PROVINCE_COUNT, WORLD_SEED } from './generated';
 import { INVENTIONS, TECHS } from './techs';
 
 const GOODS: GoodDef[] = [
@@ -455,7 +455,8 @@ FORMABLES.push({
 });
 
 export const GAME_DATA: GameData = {
-  startDate: { year: 1830, month: 1, day: 1 },
+  scenarioId: DEFAULT_SCENARIO.manifest.id,
+  startDate: DEFAULT_SCENARIO.manifest.startDate,
   goods: GOODS,
   recipes: RECIPES,
   popNeeds: POP_NEEDS,

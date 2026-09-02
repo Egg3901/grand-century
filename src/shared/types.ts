@@ -26,13 +26,30 @@ export type ArmyId = number;
 export type FleetId = number;
 export type WarId = number;
 
-/** Days since the game epoch (1830-01-01). The sim's canonical clock. */
+/** Stable identifier of a curated campaign scenario, normally its ISO start date. */
+export type ScenarioId = string;
+
+/** Days since the selected Scenario's exact start date. The sim's canonical clock. */
 export type GameDay = number;
 
 export interface GameDate {
   year: number;
   month: number; // 1-12
   day: number;   // 1-based day of month
+}
+
+export type ScenarioStatus = 'playable' | 'preview' | 'development';
+
+export interface ScenarioManifest {
+  readonly schemaVersion: number;
+  readonly id: ScenarioId;
+  readonly title: string;
+  readonly startDate: Readonly<GameDate>;
+  readonly status: ScenarioStatus;
+  readonly summary: string;
+  readonly visualPolicy: {
+    readonly naziImagery: 'prohibited';
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -372,7 +389,9 @@ export interface FormableStatus {
 
 /** Everything static the game is built from. Loaded once, never mutated. */
 export interface GameData {
-  startDate: GameDate;   // 1830-01-01
+  /** Scenario whose date-specific content is loaded. */
+  scenarioId: ScenarioId;
+  startDate: GameDate;
   goods: GoodDef[];
   recipes: Recipe[];
   popNeeds: Record<PopType, PopNeedsDef>;
@@ -1045,6 +1064,10 @@ export type CampaignMapMode =
 
 export interface World {
   day: GameDay;
+  /** Optional only so version-1 saves can self-heal during migration. */
+  scenarioId?: ScenarioId;
+  /** Scenario epoch. Optional only so version-1 saves can self-heal. */
+  startDate?: GameDate;
   seed: number;
   rngState: number;
   speed: number;         // 0 = paused, 1..5
@@ -1342,6 +1365,8 @@ export interface ColonialClaimableState {
 export interface WorldSnapshot {
   day: GameDay;
   date: GameDate;
+  scenarioId?: ScenarioId;
+  startDate?: GameDate;
   speed: number;
   playerNation: NationId;
   /** Campaign start seed (for shareable permalinks). */
@@ -1467,6 +1492,8 @@ export interface SaveSlotInfo {
   updatedAt: number;
   day: GameDay;
   playerNation: NationId;
+  scenarioId?: ScenarioId;
+  startDate?: GameDate;
 }
 
 // ---------------------------------------------------------------------------

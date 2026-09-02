@@ -1,7 +1,7 @@
 import type { BudgetLine, GameData, NationId, NationSummary, PartyIdeology, PopType, ProductionLedgerEntry, ProvinceSummary, WarGoalType, World, WorldSnapshot } from '../shared/types';
 import type { PlayerView, SharedSnapshot } from '../net/snapshotCodec';
 import { BALANCE, tariffBandForTradePolicy } from './balance';
-import { dayToDate } from './world';
+import { dateAtDay } from './calendar';
 import { ideologyFromPop, partyByKey, reformDemandForPop, topReformDemandEntries } from './politics';
 import {
   evaluateAllianceAcceptance,
@@ -301,7 +301,9 @@ export function buildSharedSnapshot(world: World, data: GameData): SharedSnapsho
 
   return {
     day: world.day,
-    date: dayToDate(world.day),
+    date: dateAtDay(world.day, world.startDate ?? data.startDate),
+    scenarioId: world.scenarioId ?? data.scenarioId,
+    startDate: world.startDate ?? data.startDate,
     speed: world.speed,
     seed: world.seed,
     nations,

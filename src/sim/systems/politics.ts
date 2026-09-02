@@ -1,6 +1,7 @@
 import type { GameData, Pop, RebelDemand, ReformDef, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
+import { yearAtDay } from '../calendar';
 import {
   computeReformLegality,
   decayReformFatigue,
@@ -16,14 +17,8 @@ import {
   upperHouseCompositionWeights,
 } from '../politics';
 
-const EPOCH_YEAR = 1830;
-
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
-}
-
-function currentYear(day: number): number {
-  return EPOCH_YEAR + Math.floor(day / 365);
 }
 
 /** Precompute reform defs by key once per monthly tick (avoids repeated `.find`). */
@@ -79,7 +74,7 @@ function pickElectionParty(
   reformsByKey: Map<string, ReformDef>,
 ): void {
   const nation = world.nations[nationId];
-  if (!nation || !isElectiveGovernment(nation.government) || currentYear(world.day) < nation.nextElectionYear) return;
+  if (!nation || !isElectiveGovernment(nation.government) || yearAtDay(world.day, world.startDate ?? data.startDate) < nation.nextElectionYear) return;
   // Match prior early-exit: need at least one owned province (even if pops are empty).
   let ownsProvince = false;
   for (const province of world.provinces) {
@@ -143,7 +138,7 @@ function pickElectionParty(
   const winnerShare = totalVotes > 0 ? winnerVotes / totalVotes : 0;
   const ideologyTotal = Object.values(ideologyVotes).reduce((sum, value) => sum + value, 0);
   nation.rulingParty = winner;
-  nation.lastElectionYear = currentYear(world.day);
+  nation.lastElectionYear = yearAtDay(world.day, world.startDate ?? data.startDate);
   nation.nextElectionYear = nation.lastElectionYear + Math.max(3, nation.electionIntervalYears);
   nation.electionLastResult = `${partyByKey(nation, winner)?.name ?? winner} won ${(winnerShare * 100).toFixed(1)}%`;
   nation.electionWinnerShare = winnerShare;
