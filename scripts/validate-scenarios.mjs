@@ -262,8 +262,11 @@ async function validateRoster(id, manifest) {
     requireValue(Boolean(polity.key) && Boolean(polity.displayName), `${id} has an unnamed polity`);
     requireValue(validStatuses.has(polity.status), `${id} polity ${polity.key} has an invalid status`);
     requireValue(Boolean(polity.flagAssetTag), `${id} polity ${polity.key} has no flag treatment`);
-    if (manifest.status === 'playable') {
-      requireValue(polity.flagAssetTag !== 'TBD_NEUTRAL', `${id} polity ${polity.key} still has a neutral placeholder flag`);
+    requireValue(polity.flagAssetTag !== 'TBD_NEUTRAL', `${id} polity ${polity.key} still has an unresolved flag treatment`);
+    try {
+      await access(path.join(root, 'public', 'flags', `${polity.flagAssetTag}.svg`));
+    } catch {
+      throw new Error(`[scenario] ${id} polity ${polity.key} has no local flag asset for ${polity.flagAssetTag}`);
     }
   }
 

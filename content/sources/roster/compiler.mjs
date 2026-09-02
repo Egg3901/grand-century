@@ -147,8 +147,8 @@ function acceptEntries({ roster, review, sourceKind, reviewer, reviewedAt, allow
         key,
         displayName: entry.displayName,
         status: statusForDisposition[disposition],
-        flagAssetTag: 'TBD_NEUTRAL',
-        notes: 'Source-pack classification pending final gameplay identity, relationship, and flag treatment.',
+        flagAssetTag: key,
+        notes: 'Source-pack classification with a neutral procedural flag treatment pending historical art review.',
         sources: [],
       };
       roster.polities.push(polity);
@@ -175,7 +175,7 @@ function retractAutomatedClassifications(roster, review, sourceKind, sourceIdsFo
           source.kind !== sourceKind || !sourceIds.has(source.id)
         ));
         if (polity.sources.length === 0
-          && polity.notes === 'Source-pack classification pending final gameplay identity, relationship, and flag treatment.') {
+          && polity.notes === 'Source-pack classification with a neutral procedural flag treatment pending historical art review.') {
           removalCandidates.add(polity.key);
         }
       }
@@ -211,7 +211,7 @@ export function acceptSourceClassifications({ roster, ohmReview, complementRevie
     (entry) => entry.sourceRecords ?? [],
   );
   for (const polity of nextRoster.polities) {
-    if (!polity.flagAssetTag) polity.flagAssetTag = 'TBD_NEUTRAL';
+    if (!polity.flagAssetTag) polity.flagAssetTag = polity.key;
   }
   const ohmAccepted = acceptEntries({
     roster: nextRoster,
@@ -286,7 +286,7 @@ export function applyManualRosterDecisions({ roster, ohmReview, complementReview
             source.kind !== sourceKind || !sourceIds.has(source.id)
           ));
           if (priorPolity.sources.length === 0
-            && priorPolity.notes === 'Source-pack classification pending final gameplay identity, relationship, and flag treatment.') {
+            && priorPolity.notes === 'Source-pack classification with a neutral procedural flag treatment pending historical art review.') {
             nextRoster.polities = nextRoster.polities.filter((polity) => polity.key !== priorPolity.key);
             polityByKey.delete(priorPolity.key);
             polityByName.delete(normalizedName(priorPolity.displayName));
@@ -304,7 +304,7 @@ export function applyManualRosterDecisions({ roster, ohmReview, complementReview
           source.kind !== sourceKind || !sourceIds.has(source.id)
         ));
         if (priorPolity.sources.length === 0
-          && priorPolity.notes === 'Source-pack classification pending final gameplay identity, relationship, and flag treatment.') {
+          && priorPolity.notes === 'Source-pack classification with a neutral procedural flag treatment pending historical art review.') {
           nextRoster.polities = nextRoster.polities.filter((polity) => polity.key !== priorPolity.key);
           polityByKey.delete(priorPolity.key);
           polityByName.delete(normalizedName(priorPolity.displayName));
@@ -324,8 +324,8 @@ export function applyManualRosterDecisions({ roster, ohmReview, complementReview
         key,
         displayName,
         status: decision.polityStatus ?? statusForDisposition[decision.disposition],
-        flagAssetTag: decision.flagAssetTag ?? 'TBD_NEUTRAL',
-        notes: 'Manually classified source-pack identity pending final gameplay and flag treatment.',
+        flagAssetTag: decision.flagAssetTag ?? key,
+        notes: 'Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.',
         sources: [],
       };
       nextRoster.polities.push(polity);

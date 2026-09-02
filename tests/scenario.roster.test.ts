@@ -237,7 +237,7 @@ describe('scenario roster review compiler', () => {
         asOf: '1936-01-01',
         polities: [{
           key: 'ISLAND', displayName: 'Island', status: 'sovereign', flagAssetTag: 'TBD_NEUTRAL',
-          notes: 'Source-pack classification pending final gameplay identity, relationship, and flag treatment.',
+          notes: 'Source-pack classification with a neutral procedural flag treatment pending historical art review.',
           sources: [{ kind: 'ohm_relation', id: 8 }],
         }],
       },
