@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1700-01-01",
+  "relationships": [
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "CAROLINA",
+      "notes": "Carolina is represented as an English colonial administration."
+    }
+  ]
+}

@@ -6,7 +6,7 @@
  */
 
 import { DECISION_DEFS } from '../../data/decisions';
-import { WORLD_SEED } from '../../data/generated';
+import { loadScenario } from '../../data/generated';
 import { EVENT_DEFS } from '../../data/events';
 import type {
   DecisionDef,
@@ -760,16 +760,16 @@ const BOP_RIVALRY_SHARE = 0.8;
  * each nation's thresholds sit above its seed-day share.
  */
 const BOP_SEED_SHARE = new Map<string, number>();
-const seedShareKey = (formableKey: string, tag: string) => `${formableKey}|${tag}`;
+const seedShareKey = (scenarioId: string, formableKey: string, tag: string) => `${scenarioId}|${formableKey}|${tag}`;
 function seedCoreShare(data: GameData, formableKey: string, tag: string): number {
-  const key = seedShareKey(formableKey, tag);
+  const key = seedShareKey(data.scenarioId, formableKey, tag);
   const cached = BOP_SEED_SHARE.get(key);
   if (cached !== undefined) return cached;
   const formable = data.formables?.find((entry) => entry.key === formableKey);
   let share = 0;
   if (formable && formable.coreStateIds.length > 0) {
     const stateOwner = new Map<number, string>();
-    for (const p of WORLD_SEED.provinces) stateOwner.set(p.stateId, p.ownerTag);
+    for (const p of loadScenario(data.scenarioId).worldSeed.provinces) stateOwner.set(p.stateId, p.ownerTag);
     const owned = formable.coreStateIds.filter((stateId) => stateOwner.get(stateId) === tag).length;
     share = owned / formable.coreStateIds.length;
   }

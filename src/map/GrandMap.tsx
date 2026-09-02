@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './GrandMap.css';
-import { WORLD_SEED } from '../data/generated';
-import { GENERATED_GEO_URLS } from 'virtual:generated-geo';
+import { DEFAULT_SCENARIO_ID, loadScenario } from '../data/generated';
+import { SCENARIO_GEO_URLS } from 'virtual:generated-geo';
 import { useStore } from '../store';
 import { useShallow } from 'zustand/react/shallow';
 import { largestPolygon, polylabel, ringArea } from './polylabel';
@@ -189,17 +189,6 @@ function muteColor(rgb: [number, number, number]): string {
   return toHexColor(mixed);
 }
 
-/** Province ids per engraved terrain pattern (static world data). */
-const MOUNTAIN_PROVINCE_IDS = WORLD_SEED.provinces
-  .filter((province) => province.terrain === 'mountains')
-  .map((province) => province.id);
-const DESERT_PROVINCE_IDS = WORLD_SEED.provinces
-  .filter((province) => province.terrain === 'desert')
-  .map((province) => province.id);
-const FOREST_PROVINCE_IDS = WORLD_SEED.provinces
-  .filter((province) => province.terrain === 'forest' || province.terrain === 'jungle')
-  .map((province) => province.id);
-
 function clamp01(value: number): number {
   if (!Number.isFinite(value)) return 0;
   return Math.max(0, Math.min(1, value));
@@ -376,6 +365,20 @@ function insideViewport(box: ScreenBox, width: number, height: number, padding: 
 
 export function GrandMap() {
   const snapshot = useStore(useShallow((state) => state.snapshot));
+  const scenarioId = snapshot?.scenarioId ?? DEFAULT_SCENARIO_ID;
+  const scenario = loadScenario(scenarioId);
+  const scenarioSeed = scenario.worldSeed;
+  const geometryUrls = SCENARIO_GEO_URLS[scenarioId];
+  if (!geometryUrls) throw new Error(`No generated geometry registered for scenario ${scenarioId}`);
+  const mountainProvinceIds = useMemo(() => scenarioSeed.provinces
+    .filter((province) => province.terrain === 'mountains')
+    .map((province) => province.id), [scenarioSeed]);
+  const desertProvinceIds = useMemo(() => scenarioSeed.provinces
+    .filter((province) => province.terrain === 'desert')
+    .map((province) => province.id), [scenarioSeed]);
+  const forestProvinceIds = useMemo(() => scenarioSeed.provinces
+    .filter((province) => province.terrain === 'forest' || province.terrain === 'jungle')
+    .map((province) => province.id), [scenarioSeed]);
   const data = useStore((state) => state.data);
   const mapMode = useStore((state) => state.mapMode);
   const selectProvince = useStore((state) => state.selectProvince);
@@ -426,25 +429,25 @@ export function GrandMap() {
   }, [snapshot]);
 
   const provinceNameById = useMemo(() => (
-    new globalThis.Map<number, string>(WORLD_SEED.provinces.map((province) => [province.id, province.name]))
-  ), []);
+    new globalThis.Map<number, string>(scenarioSeed.provinces.map((province) => [province.id, province.name]))
+  ), [scenarioSeed]);
 
   const provinceCoordById = useMemo(() => (
-    new globalThis.Map<number, { lon: number; lat: number }>(WORLD_SEED.provinces.map((province) => [province.id, { lon: province.lon, lat: province.lat }]))
-  ), []);
+    new globalThis.Map<number, { lon: number; lat: number }>(scenarioSeed.provinces.map((province) => [province.id, { lon: province.lon, lat: province.lat }]))
+  ), [scenarioSeed]);
   // Labels must NOT recompute every sim tick (snapshot identity changes each
   // frame and re-running the layout makes them flash and hop between offset
   // slots). Ownership/name/capital data changes rarely, so derive it behind a
   // content signature and reuse the same Map identities until it changes.
   const labelIdentity = useMemo(() => {
-    let key = '';
+    let key = `${scenarioId}|`;
     if (snapshot) {
       for (const province of snapshot.provinces) key += `${province.owner},`;
       key += '|';
       for (const nation of snapshot.nations) key += `${nation.tag}:${nation.name}:${nation.gpRank}:${nation.capital},`;
     }
     return key;
-  }, [snapshot]);
+  }, [scenarioId, snapshot]);
   const labelDataRef = useRef<{
     key: string;
     nationNameByTag: Map<string, string>;
@@ -454,12 +457,12 @@ export function GrandMap() {
     capitalByTag: Map<string, number>;
   } | null>(null);
   if (!labelDataRef.current || labelDataRef.current.key !== labelIdentity) {
-    const nameMap = new globalThis.Map<string, string>(WORLD_SEED.nations.map((nation) => [nation.tag, nation.name]));
+    const nameMap = new globalThis.Map<string, string>(scenarioSeed.nations.map((nation) => [nation.tag, nation.name]));
     const tagMap = new globalThis.Map<number, string>();
     const ownerMap = new globalThis.Map<number, string>();
     const gpMap = new globalThis.Map<string, number>();
     const capitalMap = new globalThis.Map<string, number>(
-      WORLD_SEED.nations.map((nation) => [nation.tag, nation.capitalProvinceId]),
+      scenarioSeed.nations.map((nation) => [nation.tag, nation.capitalProvinceId]),
     );
     if (snapshot) {
       for (const nation of snapshot.nations) {
@@ -484,8 +487,8 @@ export function GrandMap() {
   }
   const { nationNameByTag, ownerTagByProvince, gpRankByTag, capitalByTag } = labelDataRef.current;
   const provinceTerrainById = useMemo(() => (
-    new globalThis.Map<number, string>(WORLD_SEED.provinces.map((province) => [province.id, province.terrain]))
-  ), []);
+    new globalThis.Map<number, string>(scenarioSeed.provinces.map((province) => [province.id, province.terrain]))
+  ), [scenarioSeed]);
   const campaignMapMode = snapshot?.mapMode ?? 'historical';
   const showMainMenu = useStore((state) => state.showMainMenu);
 
@@ -506,10 +509,10 @@ export function GrandMap() {
     // V6: capital provinces — star glyph + prominence boost so the seat of
     // government surfaces a full zoom tier before ordinary settlements.
     const capitalIds = new globalThis.Map<number, string>();
-    for (const nation of WORLD_SEED.nations) {
+    for (const nation of scenarioSeed.nations) {
       capitalIds.set(nation.capitalProvinceId, nation.tag);
     }
-    const raw = WORLD_SEED.provinces.map((province) => {
+    const raw = scenarioSeed.provinces.map((province) => {
       const geometry = provinceGeometryById.get(province.id);
       const area = Math.max(geometry?.area ?? 0, 0.01);
       const weight = Math.max(0.1, province.populationWeight);
@@ -535,7 +538,7 @@ export function GrandMap() {
         minZoom: 5.1 + (1 - normalizedProminence) * 1.35,
       };
     });
-  }, [ownerTagByProvince, provinceGeometryById]);
+  }, [ownerTagByProvince, provinceGeometryById, scenarioSeed]);
 
   const countryLabelSeeds = useMemo<CountryLabelSeed[]>(() => {
     type NationPick = {
@@ -591,7 +594,7 @@ export function GrandMap() {
       labels.push({
         tag,
         name: nationNameByTag.get(tag) ?? tag,
-        color: WORLD_SEED.nations.find((nation) => nation.tag === tag)?.color ?? [90, 67, 48],
+        color: scenarioSeed.nations.find((nation) => nation.tag === tag)?.color ?? [90, 67, 48],
         lon: anchor.lon,
         lat: anchor.lat,
         provinceCount: values.provinceCount,
@@ -629,7 +632,7 @@ export function GrandMap() {
       return a.name.localeCompare(b.name);
     });
     return withThresholds;
-  }, [capitalByTag, gpRankByTag, nationNameByTag, provinceLabelSeeds]);
+  }, [capitalByTag, gpRankByTag, nationNameByTag, provinceLabelSeeds, scenarioSeed]);
 
   const bounds = useMemo(() => (geojson ? computeBounds(geojson) : null), [geojson]);
 
@@ -740,10 +743,10 @@ export function GrandMap() {
       // Content-hashed URLs from the Vite plugin — runtime-cached by the SW,
       // not precached, so province-density growth cannot blow the precache budget.
       const [provinces, borders, riverData, lakeData] = await Promise.all([
-        fetchJson<ProvinceGeoJson>(GENERATED_GEO_URLS.provinces),
-        fetchJson<NationalBorderGeoJson>(GENERATED_GEO_URLS.nationalBorders),
-        fetchJson<object>(GENERATED_GEO_URLS.rivers),
-        fetchJson<object>(GENERATED_GEO_URLS.lakes),
+        fetchJson<ProvinceGeoJson>(geometryUrls.provinces),
+        fetchJson<NationalBorderGeoJson>(geometryUrls.nationalBorders),
+        fetchJson<object>(geometryUrls.rivers),
+        fetchJson<object>(geometryUrls.lakes),
       ]);
       if (!alive) return;
       if (provinces) setGeojson(provinces);
@@ -755,7 +758,7 @@ export function GrandMap() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [geometryUrls]);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current || !geojson || !nationalBorders) return;
@@ -1044,13 +1047,13 @@ export function GrandMap() {
 
         // ---- Terrain engraving: hachured ranges, stippled deserts ----------
         const hachureTile = createHachureTile();
-        if (hachureTile && MOUNTAIN_PROVINCE_IDS.length > 0) {
+        if (hachureTile && mountainProvinceIds.length > 0) {
           map.addImage(MAP_HACHURE_IMAGE, hachureTile, { pixelRatio: 2 });
           map.addLayer({
             id: MAP_HACHURE_LAYER,
             type: 'fill',
             source: MAP_SOURCE_ID,
-            filter: ['in', ['id'], ['literal', MOUNTAIN_PROVINCE_IDS]],
+            filter: ['in', ['id'], ['literal', mountainProvinceIds]],
             paint: {
               'fill-pattern': MAP_HACHURE_IMAGE,
               'fill-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.22, 3, 0.32, 6, 0.38],
@@ -1058,13 +1061,13 @@ export function GrandMap() {
           });
         }
         const stippleTile = createStippleTile();
-        if (stippleTile && DESERT_PROVINCE_IDS.length > 0) {
+        if (stippleTile && desertProvinceIds.length > 0) {
           map.addImage(MAP_STIPPLE_IMAGE, stippleTile, { pixelRatio: 2 });
           map.addLayer({
             id: MAP_STIPPLE_LAYER,
             type: 'fill',
             source: MAP_SOURCE_ID,
-            filter: ['in', ['id'], ['literal', DESERT_PROVINCE_IDS]],
+            filter: ['in', ['id'], ['literal', desertProvinceIds]],
             paint: {
               'fill-pattern': MAP_STIPPLE_IMAGE,
               'fill-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.18, 3, 0.26, 6, 0.3],
@@ -1072,13 +1075,13 @@ export function GrandMap() {
           });
         }
         const foliageTile = createFoliageTile();
-        if (foliageTile && FOREST_PROVINCE_IDS.length > 0) {
+        if (foliageTile && forestProvinceIds.length > 0) {
           map.addImage(MAP_FOLIAGE_IMAGE, foliageTile, { pixelRatio: 2 });
           map.addLayer({
             id: MAP_FOLIAGE_LAYER,
             type: 'fill',
             source: MAP_SOURCE_ID,
-            filter: ['in', ['id'], ['literal', FOREST_PROVINCE_IDS]],
+            filter: ['in', ['id'], ['literal', forestProvinceIds]],
             paint: {
               'fill-pattern': MAP_FOLIAGE_IMAGE,
               'fill-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.14, 3, 0.2, 6, 0.24],
@@ -1089,13 +1092,13 @@ export function GrandMap() {
         // ---- Relief (0.5.2): hillshade impression over mountain provinces --
         // 1) Engraved mountain-profile marks with SE-flank shade hachures.
         const reliefTile = createReliefTile();
-        if (reliefTile && MOUNTAIN_PROVINCE_IDS.length > 0) {
+        if (reliefTile && mountainProvinceIds.length > 0) {
           map.addImage(MAP_RELIEF_IMAGE, reliefTile, { pixelRatio: 2 });
           map.addLayer({
             id: MAP_RELIEF_LAYER,
             type: 'fill',
             source: MAP_SOURCE_ID,
-            filter: ['in', ['id'], ['literal', MOUNTAIN_PROVINCE_IDS]],
+            filter: ['in', ['id'], ['literal', mountainProvinceIds]],
             paint: {
               'fill-pattern': MAP_RELIEF_IMAGE,
               'fill-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.3, 3, 0.44, 6, 0.52],
@@ -1104,12 +1107,12 @@ export function GrandMap() {
         }
         // 2) Massif emboss: viewport-anchored light/shadow rims so ranges read
         // as raised plate-work (NW light, SE shadow). Pure GPU translate.
-        if (MOUNTAIN_PROVINCE_IDS.length > 0) {
+        if (mountainProvinceIds.length > 0) {
           map.addLayer({
             id: MAP_RELIEF_SHADE_LAYER,
             type: 'line',
             source: MAP_SOURCE_ID,
-            filter: ['in', ['id'], ['literal', MOUNTAIN_PROVINCE_IDS]],
+            filter: ['in', ['id'], ['literal', mountainProvinceIds]],
             layout: { 'line-join': 'round', 'line-cap': 'round' },
             paint: {
               'line-color': '#241809',
@@ -1124,7 +1127,7 @@ export function GrandMap() {
             id: MAP_RELIEF_LIGHT_LAYER,
             type: 'line',
             source: MAP_SOURCE_ID,
-            filter: ['in', ['id'], ['literal', MOUNTAIN_PROVINCE_IDS]],
+            filter: ['in', ['id'], ['literal', mountainProvinceIds]],
             layout: { 'line-join': 'round', 'line-cap': 'round' },
             paint: {
               'line-color': '#fff3d4',
@@ -1418,7 +1421,19 @@ export function GrandMap() {
       if (import.meta.env.DEV) delete (globalThis as { __grandCenturyMap?: MapLibreMap }).__grandCenturyMap;
       setMapReady(false);
     };
-  }, [bounds, geojson, nationalBorders, rivers, lakes, provinceNameById, selectProvince, sendCommand]);
+  }, [
+    bounds,
+    desertProvinceIds,
+    forestProvinceIds,
+    geojson,
+    lakes,
+    mountainProvinceIds,
+    nationalBorders,
+    provinceNameById,
+    rivers,
+    selectProvince,
+    sendCommand,
+  ]);
 
   // Historical national-border polylines don't match reshuffled ownership.
   useEffect(() => {
@@ -2205,7 +2220,7 @@ export function GrandMap() {
 
     for (const [provinceId, fleets] of fleetsByProvince.entries()) {
       const province = provinceById.get(provinceId);
-      if (!province || !WORLD_SEED.provinces[provinceId]?.coastal) continue;
+      if (!province || !scenarioSeed.provinces[provinceId]?.coastal) continue;
       const owner = province.owner;
       const ownerFleetPower = fleets
         .filter((fleet) => fleet.owner === owner)
@@ -2315,6 +2330,7 @@ export function GrandMap() {
     selectedFleet,
     setSelectedArmy,
     setSelectedFleet,
+    scenarioSeed,
     snapshot,
   ]);
 

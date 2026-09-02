@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "1936-01-01",
+  "title": "The Gathering Storm",
+  "startDate": {
+    "year": 1936,
+    "month": 1,
+    "day": 1
+  },
+  "status": "development",
+  "summary": "A late-engine pressure scenario for mechanization, air power, sanctions, and ideological blocs.",
+  "visualPolicy": {
+    "naziImagery": "prohibited",
+    "germanyPresentation": {
+      "displayName": "Germany",
+      "flagAssetTag": "GER",
+      "treatment": "neutral_tricolor"
+    }
+  }
+}

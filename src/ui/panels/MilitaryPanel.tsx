@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { WORLD_SEED } from '../../data/generated';
 import type { Army, Fleet, Ship } from '../../shared/types';
 import { useStore } from '../../store';
 import { useShallow } from 'zustand/react/shallow';
 import { TraceTooltip } from '../components/TraceTooltip';
 import { warSidesLabel } from '../warNaming';
+import { useScenarioWorldSeed } from '../useScenarioWorldSeed';
 import { PeaceConference } from './PeaceConference';
 
 function avgRegimentStrength(army: Army): number {
@@ -41,6 +41,7 @@ function formatRegimentCount(counts: Record<Army['regiments'][number]['type'], n
 }
 
 export function MilitaryPanel() {
+  const worldSeed = useScenarioWorldSeed();
   const snapshot = useStore(useShallow((state) => state.snapshot));
   const selectedProvince = useStore((state) => state.selectedProvince);
   const selectedArmy = useStore((state) => state.selectedArmy);
@@ -49,11 +50,11 @@ export function MilitaryPanel() {
   const setSelectedFleet = useStore((state) => state.setSelectedFleet);
   const sendCommand = useStore((state) => state.sendCommand);
   const provinceNameById = useMemo(() => (
-    new Map<number, string>(WORLD_SEED.provinces.map((province) => [province.id, province.name]))
-  ), []);
+    new Map<number, string>(worldSeed.provinces.map((province) => [province.id, province.name]))
+  ), [worldSeed]);
   const stateNameById = useMemo(() => (
-    new Map<number, string>(WORLD_SEED.states.map((state) => [state.id, state.name]))
-  ), []);
+    new Map<number, string>(worldSeed.states.map((state) => [state.id, state.name]))
+  ), [worldSeed]);
 
   const [recruitProvince, setRecruitProvince] = useState<number>(-1);
   const [fleetProvince, setFleetProvince] = useState<number>(-1);
@@ -78,13 +79,13 @@ export function MilitaryPanel() {
       .filter((province) => province.owner === player)
       .map((province) => province.id)
       .sort((a, b) => a - b);
-    const coastalProvinces = ownedProvinces.filter((provinceId) => WORLD_SEED.provinces[provinceId]?.coastal);
+    const coastalProvinces = ownedProvinces.filter((provinceId) => worldSeed.provinces[provinceId]?.coastal);
     const wars = snapshot.wars
       .filter((war) => war.attackers.includes(player) || war.defenders.includes(player))
       .sort((a, b) => a.id - b.id);
     const playerSummary = snapshot.nations.find((nation) => nation.id === player) ?? null;
     return { armies, fleets, allArmies, allFleets, ownedProvinces, coastalProvinces, wars, playerSummary };
-  }, [snapshot]);
+  }, [snapshot, worldSeed]);
 
   useEffect(() => {
     if (!derived) return;

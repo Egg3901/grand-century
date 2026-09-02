@@ -20,7 +20,7 @@ import type {
 } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
-import { GAME_DATA } from '../../data/gameData';
+import { gameDataForScenario } from '../../data/gameData';
 import { getOrCreateRelation, setTruce } from './diplomacy';
 import { createNationParties, defaultRulingParty, defaultUpperHouse, updateMilitaryDerivedForNation } from '../politics';
 import { yearAtDay } from '../calendar';
@@ -360,7 +360,7 @@ function movementDaysForArmy(world: World, army: Army, target: Province): number
   const compositionFactor = clamp(1 - cavalrySpeed + artilleryDrag - guardDrill, 0.72, 1.4);
   // 0.7.0: railroad / logistics tech shortens army marches.
   const nation = world.nations[army.owner];
-  const moveBonus = nation ? Math.max(0, techModifiersFor(nation, GAME_DATA).armyMovement ?? 0) : 0;
+  const moveBonus = nation ? Math.max(0, techModifiersFor(nation, gameDataForScenario(world.scenarioId)).armyMovement ?? 0) : 0;
   const techFactor = clamp(1 - Math.min(0.35, moveBonus), 0.65, 1);
   return clamp(BASE_ARMY_MOVE_DAYS * terrainPenalty * compositionFactor * techFactor + fortPenalty + leaderMove, 2, 15);
 }
@@ -382,7 +382,7 @@ export function isSupplied(world: World, nationId: NationId, provinceId: Provinc
   const nation = world.nations[nationId];
   if (!nation) return false;
   // 0.7.0: railroad / logistics tech extends friendly-control supply reach.
-  const supplyBonus = Math.max(0, techModifiersFor(nation, GAME_DATA).supplyRange ?? 0);
+  const supplyBonus = Math.max(0, techModifiersFor(nation, gameDataForScenario(world.scenarioId)).supplyRange ?? 0);
   const range = 2 + Math.floor(nation.armyOrganization) + Math.floor(supplyBonus);
   const visited = new Set<ProvinceId>([provinceId]);
   const queue: Array<{ id: ProvinceId; depth: number }> = [{ id: provinceId, depth: 0 }];

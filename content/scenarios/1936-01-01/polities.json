@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1936-01-01",
+  "coverage": "vertical_slice",
+  "polities": [
+    {
+      "key": "GERMANY",
+      "displayName": "Germany",
+      "status": "sovereign",
+      "flagAssetTag": "GER",
+      "notes": "Player-facing treatment is neutral. The historical OHM name remains provenance only.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694638
+        }
+      ]
+    }
+  ]
+}

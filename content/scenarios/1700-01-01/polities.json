@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1700-01-01",
+  "coverage": "vertical_slice",
+  "polities": [
+    {
+      "key": "ENG",
+      "displayName": "Kingdom of England",
+      "status": "sovereign",
+      "flagAssetTag": "ENG",
+      "notes": "England and Scotland remain separate crowns at this date."
+    },
+    {
+      "key": "CAROLINA",
+      "displayName": "Province of Carolina",
+      "status": "colonial_administration",
+      "flagAssetTag": "ENG",
+      "notes": "Curated as a dependent polity, not a sovereign country slot.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847713
+        }
+      ]
+    }
+  ]
+}

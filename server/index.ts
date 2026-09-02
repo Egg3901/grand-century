@@ -25,6 +25,7 @@ import {
 } from '../src/net/sessionProtocol.ts';
 import { decodeWire, encodeWire } from '../src/net/snapshotCodec.ts';
 import { SessionManager } from './session.ts';
+import { DEFAULT_SCENARIO_ID, listScenarios } from '../src/data/generated.ts';
 
 const PORT = Number(process.env.PORT ?? 3412);
 // Default to loopback so the box stays behind Caddy; Railway sets HOST=0.0.0.0 for public ingress.
@@ -111,6 +112,12 @@ function leaveCurrent(state: SocketState, hard = false): void {
 }
 
 function handleCreateSession(ws: WebSocket, state: SocketState, msg: CreateSessionMessage): void {
+  const scenarioId = msg.scenarioId ?? DEFAULT_SCENARIO_ID;
+  const scenario = listScenarios().find((candidate) => candidate.id === scenarioId);
+  if (!scenario || scenario.status !== 'playable') {
+    send(ws, { t: 'log', level: 'error', msg: `scenario ${scenarioId} is not playable` });
+    return;
+  }
   leaveCurrent(state, true);
   const mode: SessionMode = msg.mode === 'coop' ? 'coop' : 'competitive';
   const seed = Number.isFinite(msg.seed) ? Math.max(1, Math.floor(msg.seed)) : 1820;
@@ -119,6 +126,7 @@ function handleCreateSession(ws: WebSocket, state: SocketState, msg: CreateSessi
     seed,
     mode,
     maxPlayers: msg.maxPlayers,
+    scenarioId,
   });
   const result = session.joinLobby(state.clientId, msg.playerName, bindSend(ws, session.id));
   if (!result.ok) {

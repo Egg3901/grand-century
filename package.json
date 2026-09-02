@@ -4,11 +4,12 @@
   "version": "1.6.1",
   "type": "module",
   "scripts": {
+    "scenario:validate": "node scripts/validate-scenarios.mjs",
     "scenario:ohm": "node scripts/ohm-source.mjs",
     "map:history": "node scripts/apply-historical-world.mjs",
     "map:history:check": "node scripts/apply-historical-world.mjs --check",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npm run scenario:validate && tsc -b && vite build",
     "test": "vitest run --project unit",
     "test:balance": "vitest run --project balance",
     "test:all": "vitest run",

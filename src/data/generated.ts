@@ -3,7 +3,9 @@
 // collecting specs — which silently took the entire e2e suite to 0 tests
 // collected some time after 1.0.0. Vite/vitest/tsc all accept the attribute.
 import worldSeedRaw from './generated/worldSeed.json' with { type: 'json' };
+import scenario1700ManifestRaw from '../../content/scenarios/1700-01-01/manifest.json' with { type: 'json' };
 import scenario1830ManifestRaw from '../../content/scenarios/1830-01-01/manifest.json' with { type: 'json' };
+import scenario1936ManifestRaw from '../../content/scenarios/1936-01-01/manifest.json' with { type: 'json' };
 import type {
   GovernmentType,
   PolityStatus,
@@ -110,11 +112,23 @@ export interface NationalBorderFeatureCollection {
   }>;
 }
 
-const scenario1830Manifest: ScenarioManifest = Object.freeze({
-  ...scenario1830ManifestRaw,
-  startDate: Object.freeze({ ...scenario1830ManifestRaw.startDate }),
-  visualPolicy: Object.freeze({ ...scenario1830ManifestRaw.visualPolicy }),
-}) as ScenarioManifest;
+function freezeScenarioManifest(raw: ScenarioManifest): ScenarioManifest {
+  return Object.freeze({
+    ...raw,
+    startDate: Object.freeze({ ...raw.startDate }),
+    visualPolicy: Object.freeze({ ...raw.visualPolicy }),
+  }) as ScenarioManifest;
+}
+
+const scenario1700Manifest = freezeScenarioManifest(scenario1700ManifestRaw as ScenarioManifest);
+const scenario1830Manifest = freezeScenarioManifest(scenario1830ManifestRaw as ScenarioManifest);
+const scenario1936Manifest = freezeScenarioManifest(scenario1936ManifestRaw as ScenarioManifest);
+
+const SCENARIO_MANIFESTS: readonly ScenarioManifest[] = Object.freeze([
+  scenario1700Manifest,
+  scenario1830Manifest,
+  scenario1936Manifest,
+]);
 
 const SCENARIO_1830: CompiledScenarioData = Object.freeze({
   manifest: scenario1830Manifest,
@@ -129,7 +143,7 @@ export const DEFAULT_SCENARIO_ID: ScenarioId = SCENARIO_1830.manifest.id;
 
 /** List scenario metadata without exposing mutable runtime artifacts. */
 export function listScenarios(): readonly ScenarioManifest[] {
-  return Array.from(COMPILED_SCENARIOS.values(), (scenario) => scenario.manifest);
+  return SCENARIO_MANIFESTS;
 }
 
 /** Resolve one compiled scenario or fail before simulation bootstrap. */

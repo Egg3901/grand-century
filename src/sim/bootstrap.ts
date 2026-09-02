@@ -14,7 +14,7 @@ import type {
   CampaignMapMode,
 } from '../shared/types';
 import { Rng } from './rng';
-import { WORLD_SEED, type WorldSeedData } from '../data/generated';
+import { loadScenario, type WorldSeedData } from '../data/generated';
 import { DEFAULT_CAMPAIGN_MAP_MODE } from '../shared/campaignMap';
 import { resolveWorldSeed } from './proceduralWorld';
 import {
@@ -967,7 +967,7 @@ export function createWorld(
   seed: number,
   mapMode: CampaignMapMode = DEFAULT_CAMPAIGN_MAP_MODE,
 ): World {
-  const worldSeed = resolveWorldSeed(WORLD_SEED, seed, mapMode);
+  const worldSeed = resolveWorldSeed(loadScenario(data.scenarioId).worldSeed, seed, mapMode);
   const rng = new Rng(seed >>> 0);
   const nations = createNations(data, worldSeed);
   const tagToNationId = Object.fromEntries(nations.map((nation) => [nation.tag, nation.id])) as Record<string, number>;

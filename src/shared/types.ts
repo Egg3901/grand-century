@@ -49,6 +49,11 @@ export interface ScenarioManifest {
   readonly summary: string;
   readonly visualPolicy: {
     readonly naziImagery: 'prohibited';
+    readonly germanyPresentation?: {
+      readonly displayName: 'Germany';
+      readonly flagAssetTag: 'GER';
+      readonly treatment: 'neutral_tricolor';
+    };
   };
 }
 
@@ -1539,7 +1544,7 @@ export type Command =
   // --- 0.8.0 Age of Nationalism ---
   | { t: 'setCulturePolicy'; policy: CulturePolicy }
   | { t: 'setCultureAccepted'; culture: number; accepted: boolean }
-  | { t: 'newGame'; seed: number; playerNation: NationId; mapMode?: CampaignMapMode }
+  | { t: 'newGame'; seed: number; playerNation: NationId; mapMode?: CampaignMapMode; scenarioId?: ScenarioId }
   | { t: 'save'; slot: string }
   | { t: 'load'; slot: string }
   | { t: 'listSaves' };
@@ -1549,7 +1554,7 @@ export type Command =
 // ---------------------------------------------------------------------------
 
 export type ToWorker =
-  | { t: 'init'; seed: number; mapMode?: CampaignMapMode }
+  | { t: 'init'; seed: number; mapMode?: CampaignMapMode; scenarioId?: ScenarioId }
   | { t: 'command'; cmd: Command }
   | { t: 'requestProvince'; id: ProvinceId }   // pull detailed province view
   | { t: 'requestNation'; id: NationId };

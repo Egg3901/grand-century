@@ -5,6 +5,7 @@ import { APP_RELEASE, VERSION_LABEL } from '../buildInfo';
 import { buildShareUrl, copyShareLink, parseStartHash } from './permalink';
 import { NationFlag } from './components/NationFlag';
 import { yearAtDay } from '../sim/calendar';
+import { DEFAULT_SCENARIO_ID, listScenarios } from '../data/generated';
 import {
   CAMPAIGN_MAP_MODES,
   DEFAULT_CAMPAIGN_MAP_MODE,
@@ -22,7 +23,7 @@ function parseSeed(raw: string): number {
 }
 
 export function MainMenu() {
-  const snapshot = useSnapshotFields(['nations', 'seed', 'mapMode', 'provinces', 'playerNation'] as const);
+  const snapshot = useSnapshotFields(['scenarioId', 'nations', 'seed', 'mapMode', 'provinces', 'playerNation'] as const);
   const sendCommand = useStore((state) => state.sendCommand);
   const setShowMainMenu = useStore((state) => state.setShowMainMenu);
   const setShowLobby = useStore((state) => state.setShowLobby);
@@ -31,6 +32,8 @@ export function MainMenu() {
   const hashStart = useMemo(() => parseStartHash(), []);
   const [seedInput, setSeedInput] = useState(() => String(hashStart?.seed ?? snapshot?.seed ?? 1820));
   const [mapMode, setMapMode] = useState<CampaignMapMode>(() => parseCampaignMapMode(hashStart?.mode ?? snapshot?.mapMode));
+  const playableScenarios = useMemo(() => listScenarios().filter((scenario) => scenario.status === 'playable'), []);
+  const [scenarioId, setScenarioId] = useState(() => hashStart?.scenarioId ?? snapshot?.scenarioId ?? DEFAULT_SCENARIO_ID);
   const [shareStatus, setShareStatus] = useState<string | null>(null);
   const [nationFilter, setNationFilter] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -106,8 +109,8 @@ export function MainMenu() {
 
   const mapModeBlurb = CAMPAIGN_MAP_MODES.find((entry) => entry.id === mapMode)?.blurb ?? '';
 
-  const previewWorld = (nextMode: CampaignMapMode, nextSeed: number, playerNation = selectedNation) => {
-    sendCommand({ t: 'newGame', seed: nextSeed, playerNation, mapMode: nextMode });
+  const previewWorld = (nextMode: CampaignMapMode, nextSeed: number, playerNation = selectedNation, nextScenarioId = scenarioId) => {
+    sendCommand({ t: 'newGame', seed: nextSeed, playerNation, mapMode: nextMode, scenarioId: nextScenarioId });
   };
 
   const startGame = () => {
@@ -117,10 +120,11 @@ export function MainMenu() {
       return;
     }
     const seed = parsedSeed();
-    sendCommand({ t: 'newGame', seed, playerNation: selectedNation, mapMode });
+    sendCommand({ t: 'newGame', seed, playerNation: selectedNation, mapMode, scenarioId });
     const tag = nations.find((nation) => nation.id === selectedNation)?.tag ?? selectedTag;
     const modeQuery = mapMode === DEFAULT_CAMPAIGN_MAP_MODE ? '' : `&mode=${encodeURIComponent(mapMode)}`;
-    window.location.hash = `#/new?seed=${seed}&nation=${encodeURIComponent(tag)}${modeQuery}`;
+    const scenarioQuery = scenarioId === DEFAULT_SCENARIO_ID ? '' : `&scenario=${encodeURIComponent(scenarioId)}`;
+    window.location.hash = `#/new?seed=${seed}&nation=${encodeURIComponent(tag)}${modeQuery}${scenarioQuery}`;
     setShowMainMenu(false);
   };
 
@@ -136,6 +140,7 @@ export function MainMenu() {
       seed,
       nationTag: selectedTag,
       mode: mapMode === DEFAULT_CAMPAIGN_MAP_MODE ? undefined : mapMode,
+      scenarioId: scenarioId === DEFAULT_SCENARIO_ID ? undefined : scenarioId,
     };
     const ok = await copyShareLink(params);
     setShareStatus(ok ? 'Link copied.' : buildShareUrl(params));
@@ -166,7 +171,7 @@ export function MainMenu() {
         <header className="menu-title">
           <h1 className="menu-title__name">Grand Century</h1>
           <p className="menu-title__rule" aria-hidden="true" />
-          <p className="menu-title__tag">An atlas of the long nineteenth century · 1830–1930</p>
+          <p className="menu-title__tag">A historical grand-strategy engine · 1700 to 1945</p>
         </header>
 
         {multiplayer ? (
@@ -240,6 +245,25 @@ export function MainMenu() {
               </button>
               {showAdvanced ? (
                 <div className="menu-advanced__body">
+                  {playableScenarios.length > 1 ? (
+                    <label>
+                      Scenario
+                      <select
+                        className="gc-select"
+                        data-testid="menu-scenario-select"
+                        value={scenarioId}
+                        onChange={(event) => {
+                          const nextScenarioId = event.target.value;
+                          setScenarioId(nextScenarioId);
+                          previewWorld(mapMode, parsedSeed(), selectedNation, nextScenarioId);
+                        }}
+                      >
+                        {playableScenarios.map((scenario) => (
+                          <option key={scenario.id} value={scenario.id}>{scenario.title}</option>
+                        ))}
+                      </select>
+                    </label>
+                  ) : null}
                   <label>
                     Map
                     <select

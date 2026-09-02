@@ -14,13 +14,13 @@ import type { FromWorker, ToWorker, World, GameData, Command, CampaignMapMode } 
 import { advanceDay, snapshot } from '../sim/world';
 import { createWorld } from '../sim/bootstrap';
 import { applyCommand } from '../sim/commands';
-import { GAME_DATA } from '../data/gameData';
+import { GAME_DATA, gameDataForScenario } from '../data/gameData';
 import { detailProvince, detailNation } from '../sim/detail';
 import { deserializeWorld, serializeWorld } from '../sim/persistence';
 import { listSaveSlots, readSaveSlot, writeSaveSlot } from './saveSlots';
 import { DEFAULT_CAMPAIGN_MAP_MODE, parseCampaignMapMode } from '../shared/campaignMap';
 import { resolveWorldSeed } from '../sim/proceduralWorld';
-import { WORLD_SEED } from '../data/generated';
+import { DEFAULT_SCENARIO_ID, loadScenario } from '../data/generated';
 import { yearAtDay } from '../sim/calendar';
 
 const ctx: DedicatedWorkerGlobalScope = self as unknown as DedicatedWorkerGlobalScope;
@@ -45,11 +45,12 @@ function post(m: FromWorker) {
   ctx.postMessage(m);
 }
 
-function gameDataForMapMode(mapMode: CampaignMapMode, seed: number): GameData {
-  if (mapMode === 'historical') return GAME_DATA;
-  const worldSeed = resolveWorldSeed(WORLD_SEED, seed, mapMode);
+function gameDataForMapMode(scenarioId: string, mapMode: CampaignMapMode, seed: number): GameData {
+  const scenarioData = gameDataForScenario(scenarioId);
+  if (mapMode === 'historical') return scenarioData;
+  const worldSeed = resolveWorldSeed(loadScenario(scenarioId).worldSeed, seed, mapMode);
   return {
-    ...GAME_DATA,
+    ...scenarioData,
     formables: [],
     nationCores: Object.fromEntries(
       worldSeed.nations.map((nation) => [nation.tag, (nation.coreStateIds ?? []).slice()]),
@@ -61,8 +62,8 @@ function yearFromDay(day: number): number {
   return yearAtDay(day, world?.startDate ?? data.startDate);
 }
 
-function startWorld(seed: number, mapMode: CampaignMapMode, playerNation?: number): void {
-  data = gameDataForMapMode(mapMode, seed);
+function startWorld(scenarioId: string, seed: number, mapMode: CampaignMapMode, playerNation?: number): void {
+  data = gameDataForMapMode(scenarioId, mapMode, seed);
   world = createWorld(data, seed, mapMode);
   if (playerNation !== undefined && world.nations[playerNation]) {
     world.playerNation = playerNation;
@@ -119,13 +120,9 @@ async function loadWorldFromSlot(slot: string) {
     const loaded = deserializeWorld(payload);
     world = loaded.world;
     if (!world.mapMode) world.mapMode = DEFAULT_CAMPAIGN_MAP_MODE;
-    data = gameDataForMapMode(world.mapMode, world.seed);
-    data = {
-      ...data,
-      scenarioId: world.scenarioId ?? data.scenarioId,
-      startDate: world.startDate ?? data.startDate,
-    };
+    data = gameDataForMapMode(world.scenarioId ?? DEFAULT_SCENARIO_ID, world.mapMode, world.seed);
     lastAutosaveYear = yearFromDay(world.day);
+    post({ t: 'ready', data });
     postSnapshotNow();
     post({ t: 'saveStatus', action: 'load', slot, ok: true, msg: 'load complete' });
     await publishSaveSlots();
@@ -188,7 +185,7 @@ ctx.onmessage = (e: MessageEvent<ToWorker>) => {
   switch (msg.t) {
     case 'init': {
       const mapMode = parseCampaignMapMode(msg.mapMode);
-      startWorld(msg.seed, mapMode);
+      startWorld(msg.scenarioId ?? DEFAULT_SCENARIO_ID, msg.seed, mapMode);
       post({ t: 'ready', data });
       postSnapshotNow();
       void publishSaveSlots();
@@ -210,7 +207,8 @@ function handleCommand(cmd: Command) {
   if (!world) return;
   if (cmd.t === 'newGame') {
     const mapMode = parseCampaignMapMode(cmd.mapMode);
-    startWorld(cmd.seed, mapMode, cmd.playerNation);
+    startWorld(cmd.scenarioId ?? world.scenarioId ?? DEFAULT_SCENARIO_ID, cmd.seed, mapMode, cmd.playerNation);
+    post({ t: 'ready', data });
     postSnapshotNow();
     return;
   }

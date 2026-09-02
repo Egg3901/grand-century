@@ -51,6 +51,7 @@ const GENERATED_GEO_BUDGETS_BYTES = {
 type GeneratedGeoKey = keyof typeof GENERATED_GEO_BUDGETS_BYTES;
 
 type GeneratedGeoAsset = {
+  scenarioId: string;
   key: GeneratedGeoKey;
   sourceName: string;
   absPath: string;
@@ -64,27 +65,39 @@ function contentHash(buf: Buffer): string {
 }
 
 function loadGeneratedGeoAssets(): GeneratedGeoAsset[] {
-  const dir = path.resolve(__dirname, 'src/data/generated');
+  const scenarioSources = [
+    { scenarioId: '1830-01-01', dir: path.resolve(__dirname, 'src/data/generated') },
+  ];
+  const scenariosDir = path.resolve(__dirname, 'src/data/scenarios');
+  if (fs.existsSync(scenariosDir)) {
+    for (const entry of fs.readdirSync(scenariosDir, { withFileTypes: true })) {
+      if (!entry.isDirectory() || entry.name === '1830-01-01') continue;
+      scenarioSources.push({ scenarioId: entry.name, dir: path.join(scenariosDir, entry.name) });
+    }
+  }
   const specs: { key: GeneratedGeoKey; sourceName: string }[] = [
     { key: 'provinces', sourceName: 'provinces.geo.json' },
     { key: 'nationalBorders', sourceName: 'nationalBorders.geo.json' },
     { key: 'rivers', sourceName: 'rivers.geo.json' },
     { key: 'lakes', sourceName: 'lakes.geo.json' },
   ];
-  return specs.map(({ key, sourceName }) => {
-    const absPath = path.join(dir, sourceName);
-    const buf = fs.readFileSync(absPath);
-    const hash = contentHash(buf);
-    const stem = sourceName.replace(/\.geo\.json$/, '');
-    return {
-      key,
-      sourceName,
-      absPath,
-      bytes: buf.byteLength,
-      hash,
-      fileName: `generated/${stem}-${hash}.geo.json`,
-    };
-  });
+  return scenarioSources.flatMap(({ scenarioId, dir }) => (
+    specs.map(({ key, sourceName }) => {
+      const absPath = path.join(dir, sourceName);
+      const buf = fs.readFileSync(absPath);
+      const hash = contentHash(buf);
+      const stem = sourceName.replace(/\.geo\.json$/, '');
+      return {
+        scenarioId,
+        key,
+        sourceName,
+        absPath,
+        bytes: buf.byteLength,
+        hash,
+        fileName: `generated/${scenarioId}/${stem}-${hash}.geo.json`,
+      };
+    })
+  ));
 }
 
 function assertGeneratedGeoBudgets(assets: GeneratedGeoAsset[]): void {
@@ -107,10 +120,15 @@ function generatedDataPublicPlugin(): Plugin {
   assertGeneratedGeoBudgets(assets);
 
   const urlsModule = () => {
-    const entries = assets
-      .map((asset) => `  ${asset.key}: ${JSON.stringify(asset.fileName)},`)
-      .join('\n');
-    return `export const GENERATED_GEO_URLS = {\n${entries}\n};\n`;
+    const scenarioIds = Array.from(new Set(assets.map((asset) => asset.scenarioId)));
+    const entries = scenarioIds.map((scenarioId) => {
+      const fields = assets
+        .filter((asset) => asset.scenarioId === scenarioId)
+        .map((asset) => `    ${asset.key}: ${JSON.stringify(asset.fileName)},`)
+        .join('\n');
+      return `  ${JSON.stringify(scenarioId)}: {\n${fields}\n  },`;
+    }).join('\n');
+    return `export const SCENARIO_GEO_URLS = {\n${entries}\n};\n`;
   };
 
   return {
@@ -162,7 +180,7 @@ export default defineConfig({
       manifest: {
         name: 'Grand Century',
         short_name: 'Grand Century',
-        description: 'Reshape the long nineteenth century from 1830, fully client-side.',
+        description: 'A historical grand-strategy engine for curated scenarios from 1700 to 1945.',
         theme_color: '#e8dcc0',
         background_color: '#e8dcc0',
         display: 'standalone',
@@ -198,12 +216,12 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 2 * 1024 * 1024,
         runtimeCaching: [
           {
-            urlPattern: ({ url }) => /\/generated\/[^/]+\.geo\.json$/.test(url.pathname),
+            urlPattern: ({ url }) => /\/generated\/[^/]+\/[^/]+\.geo\.json$/.test(url.pathname),
             handler: 'CacheFirst',
             options: {
               cacheName: 'gc-generated-geo',
               expiration: {
-                maxEntries: 16,
+                maxEntries: 64,
                 maxAgeSeconds: 60 * 60 * 24 * 365,
               },
               cacheableResponse: {

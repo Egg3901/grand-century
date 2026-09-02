@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
-import { WORLD_SEED } from '../../data/generated';
 import { useStore } from '../../store';
 import { useShallow } from 'zustand/react/shallow';
 import { TraceTooltip } from '../components/TraceTooltip';
+import { useScenarioWorldSeed } from '../useScenarioWorldSeed';
 
 const CLAIM_COST = 32;
 
 export function ColonizationPanel() {
+  const worldSeed = useScenarioWorldSeed();
   const snapshot = useStore(useShallow((state) => state.snapshot));
   const sendCommand = useStore((state) => state.sendCommand);
 
@@ -20,7 +21,7 @@ export function ColonizationPanel() {
     );
     const claimByState = new Map((snapshot.colonialClaims ?? []).map((claim) => [claim.stateId, claim]));
 
-    const claimable = WORLD_SEED.states
+    const claimable = worldSeed.states
       .map((state) => {
         const reach = claimableById.get(state.id);
         if (!reach) return null;
@@ -47,7 +48,7 @@ export function ColonizationPanel() {
         return a.name.localeCompare(b.name);
       });
 
-    const colonies = WORLD_SEED.states
+    const colonies = worldSeed.states
       .filter((state) => state.provinceIds.some((provinceId) => ownerByProvince.get(provinceId) === snapshot.playerNation))
       .map((state) => ({
         id: state.id,
@@ -59,7 +60,7 @@ export function ColonizationPanel() {
 
     const activeClaims = (snapshot.colonialClaims ?? [])
       .map((claim) => {
-        const stateName = WORLD_SEED.states.find((state) => state.id === claim.stateId)?.name ?? `State ${claim.stateId}`;
+        const stateName = worldSeed.states.find((state) => state.id === claim.stateId)?.name ?? `State ${claim.stateId}`;
         const playerEntry = claim.claimants.find((c) => c.nation === snapshot.playerNation);
         const rival = claim.claimants
           .filter((c) => c.nation !== snapshot.playerNation)
@@ -74,7 +75,7 @@ export function ColonizationPanel() {
       .sort((a, b) => a.stateName.localeCompare(b.stateName));
 
     return { claimable, colonies, activeClaims, player, nationById };
-  }, [snapshot]);
+  }, [snapshot, worldSeed]);
 
   if (!snapshot || !derived) {
     return (

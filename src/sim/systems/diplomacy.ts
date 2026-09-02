@@ -11,7 +11,7 @@ import type {
 } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
-import { GAME_DATA } from '../../data/gameData';
+import { gameDataForScenario } from '../../data/gameData';
 
 const TRUCE_DURATION_DAYS = 365 * 5;
 const ALLIANCE_DURATION_DAYS = 365 * 10;
@@ -848,7 +848,7 @@ function unificationClaim(world: World, holder: NationId, target: NationId, stat
   const nation = world.nations[holder];
   const state = world.states[stateId];
   if (!nation || !state || state.owner !== target) return null;
-  const isUnificationCore = (GAME_DATA.formables ?? []).some((formable) => (
+  const isUnificationCore = (gameDataForScenario(world.scenarioId).formables ?? []).some((formable) => (
     formable.candidateTags.includes(nation.tag)
     && formable.resultTag !== nation.tag
     && formable.coreStateIds.includes(stateId)
@@ -874,7 +874,7 @@ function unificationClaimsForNation(world: World, holder: NationId): CasusBelli[
   if (!nation) return [];
   const claims: CasusBelli[] = [];
   const seen = new Set<number>();
-  for (const formable of GAME_DATA.formables ?? []) {
+  for (const formable of gameDataForScenario(world.scenarioId).formables ?? []) {
     if (!formable.candidateTags.includes(nation.tag) || formable.resultTag === nation.tag) continue;
     for (const stateId of formable.coreStateIds) {
       if (seen.has(stateId)) continue;

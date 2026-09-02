@@ -28,6 +28,8 @@ These are production milestones, not promises that a year is ready because a map
 
 Build 1830 through the new pipeline first. Then add one early scenario and one late scenario before filling the ladder. That forces the engine seam to handle the full period instead of merely renaming the existing nineteenth-century assumptions.
 
+The catalog now contains development Source Packs for 1700-01-01 and 1936-01-01. They are deliberately absent from playable menus. Each has a live-tested OHM geometry probe, a classified roster slice, relationship data, exact-date provenance, and the same prohibited-imagery policy as the playable baseline. The 1700 slice classifies Carolina as an English colonial administration. The 1936 slice presents Germany with the neutral `GER` tricolor while retaining the OHM source name only in provenance.
+
 ## OpenHistoricalMap's role
 
 OpenHistoricalMap is a strong Historical Source and a poor sole database of record.
@@ -92,6 +94,9 @@ npm run scenario:ohm -- compile \
   --out artifacts/scenarios/ohm-1830-compiled.json
 
 # Omit --refresh to reproduce the exact compilation without network access.
+
+# Validate catalog dates, source references, roster links, and visual policy.
+npm run scenario:validate
 ```
 
 Discovery output is a review queue, not a roster. Compilation verifies the exact date, expected name and Wikidata identity, element license, closed boundary rings, and hole placement. It emits GeoJSON plus a provenance ledger. The 1830 pilot currently curates Baden relation `2660798` for boundary validation.

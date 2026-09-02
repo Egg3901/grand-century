@@ -1,5 +1,5 @@
-import type { FormableDefinition, GameData, GoodDef, PopNeedsDef, PopType, Recipe } from '../shared/types';
-import { DEFAULT_SCENARIO, PROVINCE_COUNT, WORLD_SEED } from './generated';
+import type { FormableDefinition, GameData, GoodDef, PopNeedsDef, PopType, Recipe, ScenarioId } from '../shared/types';
+import { DEFAULT_SCENARIO, PROVINCE_COUNT, WORLD_SEED, loadScenario, type WorldSeedData } from './generated';
 import { INVENTIONS, TECHS } from './techs';
 
 const GOODS: GoodDef[] = [
@@ -646,3 +646,42 @@ export const GAME_DATA: GameData = {
   nationCores: NATION_CORES,
   formables: FORMABLES,
 };
+
+const SCENARIO_GAME_DATA = new Map<ScenarioId, GameData>([[GAME_DATA.scenarioId, GAME_DATA]]);
+
+function seedFormables(seed: WorldSeedData): FormableDefinition[] {
+  return (seed.formables ?? []).map((formable) => ({
+    key: formable.key,
+    resultTag: formable.resultTag,
+    resultName: formable.resultName,
+    resultColor: formable.resultColor,
+    resultPrimaryCulture: FORMABLE_CULTURE_OVERRIDE[formable.key] ?? formable.resultPrimaryCulture,
+    candidateTags: formable.candidateTags.slice(),
+    coreStateIds: formable.coreStateIds.slice().sort((a, b) => a - b),
+    requiredCoreShare: formable.requiredCoreShare,
+    requireIndependent: formable.requireIndependent,
+    requireGreatPower: formable.requireGreatPower,
+    prestigeReward: formable.prestigeReward,
+  }));
+}
+
+/** Compile universal rules together with one scenario's static roster and map. */
+export function gameDataForScenario(scenarioId: ScenarioId = DEFAULT_SCENARIO.manifest.id): GameData {
+  const cached = SCENARIO_GAME_DATA.get(scenarioId);
+  if (cached) return cached;
+
+  const scenario = loadScenario(scenarioId);
+  const seed = scenario.worldSeed;
+  const compiled: GameData = {
+    ...GAME_DATA,
+    scenarioId,
+    startDate: scenario.manifest.startDate,
+    provinceCount: seed.provinces.length,
+    nationCores: Object.fromEntries(
+      seed.nations.map((nation) => [nation.tag, (nation.coreStateIds ?? []).slice().sort((a, b) => a - b)]),
+    ),
+    formables: seedFormables(seed),
+  };
+  SCENARIO_GAME_DATA.set(scenarioId, compiled);
+  return compiled;
+}

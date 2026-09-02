@@ -1,5 +1,5 @@
 import { gunzipSync, gzipSync, strFromU8, strToU8 } from 'fflate';
-import { DEFAULT_SCENARIO, DEFAULT_SCENARIO_ID, WORLD_SEED, type WorldSeedData } from '../data/generated';
+import { DEFAULT_SCENARIO, DEFAULT_SCENARIO_ID, loadScenario, type WorldSeedData } from '../data/generated';
 import type { GameDate, ScenarioId, World } from '../shared/types';
 import {
   exportDiplomacyRuntime,
@@ -111,7 +111,7 @@ function seedIdentityJson(seed: WorldSeedData): string {
  * Deterministic across runs; safe to call from tests and save serialization.
  */
 export function computeWorldFingerprint(
-  seed: WorldSeedData = WORLD_SEED,
+  seed: WorldSeedData = DEFAULT_SCENARIO.worldSeed,
   scenarioId?: ScenarioId,
   startDate?: GameDate,
 ): WorldFingerprint {
@@ -135,12 +135,13 @@ function fingerprintsMatch(a: WorldFingerprint, b: WorldFingerprint): boolean {
 }
 
 export function serializeWorld(world: World): Uint8Array {
+  const scenarioId = world.scenarioId ?? DEFAULT_SCENARIO_ID;
   const payload: SavePayload = {
     version: SAVE_VERSION,
     createdAt: Date.now(),
     worldFingerprint: computeWorldFingerprint(
-      WORLD_SEED,
-      world.scenarioId ?? DEFAULT_SCENARIO_ID,
+      loadScenario(scenarioId).worldSeed,
+      scenarioId,
       world.startDate ?? DEFAULT_SCENARIO.manifest.startDate,
     ),
     world: cloneWorld(world),
@@ -173,7 +174,7 @@ export function deserializeWorld(buffer: Uint8Array): { world: World; metadata: 
     !fingerprintsMatch(
       payload.worldFingerprint,
       computeWorldFingerprint(
-        WORLD_SEED,
+        loadScenario(payload.world.scenarioId ?? DEFAULT_SCENARIO_ID).worldSeed,
         payload.world.scenarioId ?? DEFAULT_SCENARIO_ID,
         payload.world.startDate ?? DEFAULT_SCENARIO.manifest.startDate,
       ),

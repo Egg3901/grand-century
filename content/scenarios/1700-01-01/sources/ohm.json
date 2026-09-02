@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1700-01-01",
+  "note": "Development evidence only. This relation validates early-period temporal filtering and geometry; it is not an automatically accepted polity roster.",
+  "boundaries": [
+    {
+      "relationId": 2847713,
+      "polityKey": "CAROLINA",
+      "purpose": "early_period_boundary_validation",
+      "expectedName": "Province of Carolina",
+      "expectedWikidata": "Q1044394"
+    }
+  ]
+}
