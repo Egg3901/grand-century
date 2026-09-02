@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { simplifyGeometry } from '../geometry/compiler.mjs';
 
 function requireValue(condition, message) {
   if (!condition) throw new Error(`[seed] ${message}`);
@@ -108,7 +109,7 @@ function governmentFor(polity, year) {
 }
 
 function borderLinesForFeature(feature, nationId) {
-  const lines = polygonsOf(feature.geometry).flatMap((polygon) => polygon);
+  const lines = polygonsOf(simplifyGeometry(feature.geometry, 0.05)).flatMap((polygon) => polygon);
   return {
     type: 'Feature',
     properties: { id: nationId },
@@ -259,6 +260,7 @@ export function compileScenarioSeed({ baseSeed, roster, relationships, compiledB
     diagnostics: {
       schemaVersion: 1,
       asOf: manifest.id,
+      nationalBorderGridDegrees: 0.05,
       provinceCount: provinces.length,
       assignedProvinces: provinces.length - gapProvinceIds.length,
       gapProvinceIds,

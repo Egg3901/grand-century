@@ -3,6 +3,8 @@
 // collecting specs — which silently took the entire e2e suite to 0 tests
 // collected some time after 1.0.0. Vite/vitest/tsc all accept the attribute.
 import worldSeedRaw from './generated/worldSeed.json' with { type: 'json' };
+import worldSeed1700Raw from './scenarios/1700-01-01/worldSeed.json' with { type: 'json' };
+import worldSeed1936Raw from './scenarios/1936-01-01/worldSeed.json' with { type: 'json' };
 import scenario1700ManifestRaw from '../../content/scenarios/1700-01-01/manifest.json' with { type: 'json' };
 import scenario1830ManifestRaw from '../../content/scenarios/1830-01-01/manifest.json' with { type: 'json' };
 import scenario1936ManifestRaw from '../../content/scenarios/1936-01-01/manifest.json' with { type: 'json' };
@@ -139,8 +141,20 @@ const SCENARIO_1830: CompiledScenarioData = Object.freeze({
   worldSeed: worldSeedRaw as WorldSeedData,
 });
 
+const SCENARIO_1700: CompiledScenarioData = Object.freeze({
+  manifest: scenario1700Manifest,
+  worldSeed: worldSeed1700Raw as unknown as WorldSeedData,
+});
+
+const SCENARIO_1936: CompiledScenarioData = Object.freeze({
+  manifest: scenario1936Manifest,
+  worldSeed: worldSeed1936Raw as unknown as WorldSeedData,
+});
+
 const COMPILED_SCENARIOS: ReadonlyMap<ScenarioId, CompiledScenarioData> = new Map([
+  [SCENARIO_1700.manifest.id, SCENARIO_1700],
   [SCENARIO_1830.manifest.id, SCENARIO_1830],
+  [SCENARIO_1936.manifest.id, SCENARIO_1936],
 ]);
 
 export const DEFAULT_SCENARIO_ID: ScenarioId = SCENARIO_1830.manifest.id;

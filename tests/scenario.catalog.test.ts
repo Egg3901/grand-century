@@ -23,8 +23,10 @@ describe('scenario catalog', () => {
     expect(DEFAULT_SCENARIO.worldSeed).toBe(WORLD_SEED);
   });
 
-  it('fails fast for an unknown scenario', () => {
-    expect(() => loadScenario('1700-01-01')).toThrow('Unknown scenario: 1700-01-01');
+  it('registers compiled development scenarios without advertising them as playable', () => {
+    expect(loadScenario('1700-01-01').worldSeed.provinceCount).toBe(WORLD_SEED.provinceCount);
+    expect(loadScenario('1936-01-01').manifest.status).toBe('development');
+    expect(() => loadScenario('1776-07-04')).toThrow('Unknown scenario: 1776-07-04');
   });
 
   it('records scenario identity and epoch in every new world', () => {
@@ -33,13 +35,16 @@ describe('scenario catalog', () => {
     expect(world.startDate).toEqual(DEFAULT_SCENARIO.manifest.startDate);
   });
 
-  it('rejects an unregistered epoch instead of combining it with the wrong map', () => {
+  it('boots a registered historical epoch with its matching seed', () => {
     const data1700 = {
       ...GAME_DATA,
       scenarioId: '1700-01-01',
       startDate: { year: 1700, month: 1, day: 1 },
     };
-    expect(() => createWorld(data1700, 1820)).toThrow('Unknown scenario: 1700-01-01');
+    const world = createWorld(data1700, 1820);
+    expect(world.scenarioId).toBe('1700-01-01');
+    expect(world.startDate).toEqual({ year: 1700, month: 1, day: 1 });
+    expect(world.provinces).toHaveLength(loadScenario('1700-01-01').worldSeed.provinceCount);
   });
 
   it('supports exact non-January scenario dates', () => {

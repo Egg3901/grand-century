@@ -65,8 +65,9 @@ function contentHash(buf: Buffer): string {
 }
 
 function loadGeneratedGeoAssets(): GeneratedGeoAsset[] {
+  const fallbackDir = path.resolve(__dirname, 'src/data/generated');
   const scenarioSources = [
-    { scenarioId: '1830-01-01', dir: path.resolve(__dirname, 'src/data/generated') },
+    { scenarioId: '1830-01-01', dir: fallbackDir },
   ];
   const scenariosDir = path.resolve(__dirname, 'src/data/scenarios');
   if (fs.existsSync(scenariosDir)) {
@@ -83,7 +84,8 @@ function loadGeneratedGeoAssets(): GeneratedGeoAsset[] {
   ];
   return scenarioSources.flatMap(({ scenarioId, dir }) => (
     specs.map(({ key, sourceName }) => {
-      const absPath = path.join(dir, sourceName);
+      const scenarioPath = path.join(dir, sourceName);
+      const absPath = fs.existsSync(scenarioPath) ? scenarioPath : path.join(fallbackDir, sourceName);
       const buf = fs.readFileSync(absPath);
       const hash = contentHash(buf);
       const stem = sourceName.replace(/\.geo\.json$/, '');
