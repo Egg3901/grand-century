@@ -8,27 +8,23 @@ Each selectable date is a complete Scenario. It must seed political geography, t
 
 The 1933-1945 period may be represented in mechanics and neutral historical text, but shipped visual assets must contain no Nazi imagery. Do not ship swastikas, Nazi Party or SS insignia, propaganda, uniforms, or portraits. Use a neutral German identifier and a non-Nazi flag treatment approved with the scenario art pass.
 
-## Recommended first scenario ladder
+## Registered scenario ladder
 
 These are production milestones, not promises that a year is ready because a map exists:
 
-| Scenario | Why it earns a slot | Main engine pressure |
+| Scenario | Runtime state | Map provenance |
 |---|---|---|
-| 1700 | War of the Spanish Succession opening world | Dynastic unions, pre-industrial states, sailing logistics |
-| 1756 | Seven Years' War | Global war, colonial theaters, limited communications |
-| 1789 | French Revolution opening | Revolution, legitimacy, mass politics transition |
-| 1815 | Congress settlement | Postwar order, restoration, claims and conferences |
-| 1830 | Current baseline | Existing content and compatibility anchor |
-| 1861 | National wars and US Civil War | Secession, mobilization, industrial war |
-| 1900 | Imperial high point | Mature industry, colonial administration, naval competition |
-| 1914 | First World War opening | Alliances, mobilization, total-war economy |
-| 1919 | Postwar settlement | Mandates, new states, demobilization, revolutions |
-| 1936 | Rearmament and ideological blocs | Air power, mechanization, sanctions, faction diplomacy |
-| 1945 | End-of-war settlement | Occupation, reconstruction, decolonization pressure |
+| 1700-01-01 | Development anchor | Reviewed 1700 OHM and Cliopatria source pack |
+| 1776-07-04 | Development seed | Explicitly inherits 1700 pending an exact source pack |
+| 1815-06-18 | Development seed | Explicitly inherits 1830 pending an exact source pack |
+| 1830-01-01 | Playable compatibility anchor | Existing reviewed baseline |
+| 1914-07-28 | Development seed | Explicitly inherits 1936 pending an exact source pack |
+| 1936-01-01 | Selectable preview anchor | Reviewed 1936 OHM and Cliopatria source pack |
+| 1945-09-02 | Development seed | Explicitly inherits 1936 pending an exact source pack |
 
-Build 1830 through the new pipeline first. Then add one early scenario and one late scenario before filling the ladder. That forces the engine seam to handle the full period instead of merely renaming the existing nineteenth-century assumptions.
+The inherited dates are honest engineering seeds. Their clock, technology horizon, population scale, persistence identity, and map lookup use the exact selected date, but their ownership and border layer still come from the named anchor. They must remain in development until their own source review is complete.
 
-The catalog now contains development Source Packs for 1700-01-01 and 1936-01-01. They are deliberately absent from playable menus. Each has a live-tested OHM geometry probe, a classified roster slice, relationship data, exact-date provenance, and the same prohibited-imagery policy as the playable baseline. The 1700 slice classifies Carolina as an English colonial administration. The 1936 slice presents Germany with the neutral `GER` tricolor while retaining the OHM source name only in provenance.
+The 1700 anchor remains hidden because 98 inherited province centroids still fall outside reviewed ownership polygons. The 1936 anchor is exposed as a clearly labeled preview: 538 of 548 province centroids are assigned, but ten coverage gaps and coarse microstate representation remain. Germany uses the neutral `GER` tricolor while historical source labels remain provenance only.
 
 ## OpenHistoricalMap's role
 
@@ -130,15 +126,32 @@ npm run scenario:geometry -- compile \
   --ohm-cache-dir .scenario-cache/ohm/geometry-1700-recursive \
   --cliopatria-cache .scenario-cache/cliopatria/cliopatria-0.2.0.zip \
   --out content/scenarios/1700-01-01/compiled/world-borders.geo.json
+
+# Compile every reviewed colonial, vassal, tributary, and joint relationship.
+npm run scenario:relationships -- compile \
+  --scenario-dir content/scenarios/1700-01-01
+
+# Project the dated border layer onto the stable province mesh.
+npm run scenario:seed -- compile \
+  --scenario-dir content/scenarios/1700-01-01 \
+  --base-seed src/data/generated/worldSeed.json \
+  --out-dir src/data/scenarios/1700-01-01
+
+# Regenerate local historical and neutral procedural flag assets.
+node scripts/build-flags.mjs
 ```
 
 Discovery output is a review queue, not a roster. Compilation verifies the exact date, expected name and Wikidata identity, element license, closed boundary rings, and hole placement. It emits GeoJSON plus a provenance ledger. The 1830 pilot currently curates Baden relation `2660798` for boundary validation.
 
 The checked-in 1700 discovery currently contains 186 active relations grouped into 180 stable identity keys. The 1936 discovery contains 206 relations grouped into 200 identities. Every identity receives an explicit review disposition before a scenario can become playable. Valid dispositions distinguish playable polities and dependencies from constituents, claims, duplicate geometry, map fragments, and exclusions. The validator blocks playable status unless coverage is global and no identity remains unreviewed.
 
-The conservative source-acceptance pass handles explicit OHM taxonomy. Checked-in manual decision packs then classify or exclude every remaining identity, including source-label corrections and exact-date exclusions. The current result is 180 of 180 OHM plus 77 of 77 Cliopatria-only identities for 1700, and 200 of 200 plus 39 of 39 for 1936. Cliopatria remains a candidate and geometry-comparison source because its date intervals can carry anachronistic labels. Newly accepted development entries use `TBD_NEUTRAL` as an explicit flag placeholder; playable validation rejects every unresolved placeholder.
+The conservative source-acceptance pass handles explicit OHM taxonomy. Checked-in manual decision packs then classify or exclude every remaining identity, including source-label corrections and exact-date exclusions. The current result is 180 of 180 OHM plus 77 of 77 Cliopatria-only identities for 1700, and 200 of 200 plus 39 of 39 for 1936. Cliopatria remains a candidate and geometry-comparison source because its date intervals can carry anachronistic labels. Every roster polity now has a local flag asset. Unreviewed art uses a deterministic neutral banner derived from its map color and is labeled as procedural in the roster notes.
 
 The global geometry audit recursively expands nested OHM boundary relations, then assembles and validates every discovered relation independently. At the current source snapshot, 181 of 186 relations for 1700 and 202 of 206 relations for 1936 assemble as closed licensed polygon geometry. Resolution packs account for every failure: nonexclusive fragments are skipped, the reviewed Peru and Hungary endpoint gaps are closed with recorded thresholds, and Qing uses a hash-pinned Cliopatria fallback. The compact compiled layers represent all 226 exclusive 1700 polities and all 207 exclusive 1936 polities. Individual validity does not prove global coverage; promotion still requires gap and exclusive-overlap analysis against the final province topology.
+
+Relationship policies resolve all 69 source-classified dependencies in 1700 and all 130 in 1936. Four 1936 cases retain explicit joint-administration records. The runtime uses one primary authority only where the current diplomacy model requires it, and the source artifact preserves the other participants and the reason for the projection.
+
+The seed compiler overlays the stable 548 province centroids on the reviewed dated polygons, chooses the smallest exclusive polygon for recorded overlaps, permits only a 1.5 degree nearest-boundary repair, and leaves all other gaps under the `UNC` diagnostic owner. It splits inherited states when dated owners differ and emits dated national borders, relationship links, technology horizons, and a diagnostics ledger. Playable promotion rejects gaps, inferred nearest assignments, unresolved overlaps, missing territorial polities, and absent relationship participants.
 
 The complementary global candidate layer is the pinned Cliopatria 0.2.0 archive at commit `ad28a691b7c07c1fca89d0e0636d324667d2a258`, verified by SHA-256 before parsing. Its CC BY 4.0 source manifest records attribution and transformations. Crosswalking stable Wikidata IDs first, then unique normalized names, finds 77 Cliopatria-only identities for 1700 and 39 for 1936. Those candidates have a separate review queue and block playable promotion until classified. See [Historical roster and boundary sources](research/HISTORICAL-ROSTER-SOURCES.md) for the primary-source and licensing audit.
 
@@ -202,28 +215,25 @@ content/scenarios/
     sources.json
     visual-policy.json
 src/data/scenarios/
-  1830-01-01/
-    world-seed.json
-    provinces.geo.json
-    national-borders.geo.json
-    provenance.json
+  1700-01-01/
+    worldSeed.json
+    nationalBorders.geo.json
+    seed-diagnostics.json
 ```
 
 Source Packs use stable semantic IDs. Compiled numeric province, state, and polity IDs are local to one Scenario. Saves therefore include the Scenario ID and fingerprint; no code may assume province `42` means the same place in 1700 and 1945.
 
-## Required engine migration
+## Completed engine migration
 
-The current code bakes 1830 into the clock, research, politics, events, formables, UI copy, multiplayer defaults, save fingerprints, tests, and generated-asset URLs. The migration order is:
+The runtime now resolves scenario identity and date through one catalog. The completed migration includes:
 
-1. Add `ScenarioManifest`, `ScenarioId`, and `CompiledScenario`; register current 1830 as the default.
-2. Store `scenarioId` and `startDate` in `World`, snapshots, multiplayer initialization, permalinks, and saves.
-3. Replace local `EPOCH_YEAR = 1830` helpers with one calendar module driven by the Scenario start date.
-4. Make world seed and map geometry resolve through the ScenarioCatalog.
-5. Move initial technology, reform, economy, population, diplomatic, and war state out of bootstrap heuristics and into Source Packs.
-6. Make content availability absolute-year driven and add explicit scenario inclusion/exclusion where chronology alone is insufficient.
-7. Compile the current 1830 content through the new path and require byte- or behavior-equivalence where intended.
-8. Add 1700 and 1936 vertical slices, then repair assumptions exposed at both ends.
-9. Fill the remaining scenario ladder only after those vertical slices pass long-run simulation and content audits.
+1. `ScenarioManifest`, `ScenarioId`, and `CompiledScenario`, with 1830 as the compatibility default.
+2. Scenario identity and exact start date in worlds, snapshots, workers, multiplayer, permalinks, and saves.
+3. One scenario-driven calendar instead of an 1830 epoch constant.
+4. Scenario-aware world seed and generated map URL resolution.
+5. Absolute-year research and military progression from 1700 through 1945.
+6. Dated initial technology horizons and late-era land, air, and naval capabilities.
+7. Reviewed early and late source anchors plus explicitly inherited development dates.
 
 ## Scenario acceptance gates
 

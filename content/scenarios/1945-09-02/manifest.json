@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "1945-09-02",
+  "title": "A World Remade",
+  "startDate": { "year": 1945, "month": 9, "day": 2 },
+  "status": "development",
+  "summary": "A development seed for demobilization, reconstruction, decolonization pressure, and the emerging postwar order.",
+  "seedProvenance": {
+    "kind": "inherited_development",
+    "sourceScenarioId": "1936-01-01",
+    "sourceAsOf": "1936-01-01",
+    "limitations": "Ownership and borders inherit the reviewed 1936 anchor until an exact 1945 OHM source pack is reviewed. Technology and the simulation clock use the exact start date."
+  },
+  "visualPolicy": {
+    "naziImagery": "prohibited",
+    "germanyPresentation": {
+      "displayName": "Germany",
+      "flagAssetTag": "GER",
+      "treatment": "neutral_tricolor"
+    }
+  }
+}

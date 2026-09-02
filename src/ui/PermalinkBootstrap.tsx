@@ -24,7 +24,9 @@ export function PermalinkBootstrap() {
   useEffect(() => {
     if (applied.current || !snapshot || !start) return;
     const mapMode = parseCampaignMapMode(start.mode ?? DEFAULT_CAMPAIGN_MAP_MODE);
-    const scenarioId = listScenarios().some((scenario) => scenario.id === start.scenarioId && scenario.status === 'playable')
+    const scenarioId = listScenarios().some((scenario) => (
+      scenario.id === start.scenarioId && (scenario.status === 'playable' || scenario.status === 'preview')
+    ))
       ? start.scenarioId as string
       : DEFAULT_SCENARIO_ID;
     const mapMismatch = (snapshot.mapMode ?? DEFAULT_CAMPAIGN_MAP_MODE) !== mapMode

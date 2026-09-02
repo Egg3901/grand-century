@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "1776-07-04",
+  "title": "The Atlantic Revolutions",
+  "startDate": { "year": 1776, "month": 7, "day": 4 },
+  "status": "development",
+  "summary": "A development seed for revolution, imperial competition, and early industrial change.",
+  "seedProvenance": {
+    "kind": "inherited_development",
+    "sourceScenarioId": "1700-01-01",
+    "sourceAsOf": "1700-01-01",
+    "limitations": "Ownership and borders inherit the reviewed 1700 anchor until an exact 1776 OHM source pack is reviewed. Technology and the simulation clock use the exact start date."
+  },
+  "visualPolicy": { "naziImagery": "prohibited" }
+}

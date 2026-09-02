@@ -34,6 +34,11 @@ function validateManifest(manifest, id) {
   ].join('-');
   requireValue(expectedId === id, `${id} start date does not match its id`);
   requireValue(manifest.visualPolicy?.naziImagery === 'prohibited', `${id} must prohibit Nazi imagery`);
+  if (manifest.seedProvenance?.kind === 'inherited_development') {
+    requireValue(manifest.status === 'development', `${id} inherited seed must remain in development`);
+    requireValue(Boolean(manifest.seedProvenance.sourceScenarioId), `${id} inherited seed has no source scenario`);
+    requireValue(Boolean(manifest.seedProvenance.limitations), `${id} inherited seed must disclose its limitations`);
+  }
   if (manifest.startDate.year >= 1933) {
     requireValue(
       manifest.visualPolicy?.germanyPresentation?.displayName === 'Germany'
@@ -330,6 +335,18 @@ const seedAudits = [];
 for (const id of catalog.scenarios) {
   const manifest = await readJson(path.join(scenariosRoot, id, 'manifest.json'));
   validateManifest(manifest, id);
+  if (manifest.seedProvenance?.kind === 'inherited_development') {
+    const sourceId = manifest.seedProvenance.sourceScenarioId;
+    requireValue(catalog.scenarios.includes(sourceId), `${id} inherits an unknown source scenario ${sourceId}`);
+    requireValue(sourceId !== id, `${id} inherits from itself`);
+    requireValue(manifest.seedProvenance.sourceAsOf === sourceId, `${id} source date does not match its source scenario`);
+    const sourceManifest = await readJson(path.join(scenariosRoot, sourceId, 'manifest.json'));
+    requireValue(
+      sourceManifest.seedProvenance?.kind !== 'inherited_development',
+      `${id} must inherit directly from a reviewed anchor`,
+    );
+    continue;
+  }
   await validateOhmSpec(id);
   if (id !== '1830-01-01') {
     await validateRoster(id, manifest);

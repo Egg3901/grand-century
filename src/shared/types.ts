@@ -47,6 +47,12 @@ export interface ScenarioManifest {
   readonly startDate: Readonly<GameDate>;
   readonly status: ScenarioStatus;
   readonly summary: string;
+  readonly seedProvenance?: {
+    readonly kind: 'curated' | 'inherited_development';
+    readonly sourceScenarioId?: ScenarioId;
+    readonly sourceAsOf?: string;
+    readonly limitations?: string;
+  };
   readonly visualPolicy: {
     readonly naziImagery: 'prohibited';
     readonly germanyPresentation?: {

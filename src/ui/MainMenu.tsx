@@ -32,8 +32,15 @@ export function MainMenu() {
   const hashStart = useMemo(() => parseStartHash(), []);
   const [seedInput, setSeedInput] = useState(() => String(hashStart?.seed ?? snapshot?.seed ?? 1820));
   const [mapMode, setMapMode] = useState<CampaignMapMode>(() => parseCampaignMapMode(hashStart?.mode ?? snapshot?.mapMode));
-  const playableScenarios = useMemo(() => listScenarios().filter((scenario) => scenario.status === 'playable'), []);
-  const [scenarioId, setScenarioId] = useState(() => hashStart?.scenarioId ?? snapshot?.scenarioId ?? DEFAULT_SCENARIO_ID);
+  const selectableScenarios = useMemo(
+    () => listScenarios().filter((scenario) => scenario.status === 'playable' || scenario.status === 'preview'),
+    [],
+  );
+  const [scenarioId, setScenarioId] = useState(() => {
+    const requested = hashStart?.scenarioId ?? snapshot?.scenarioId ?? DEFAULT_SCENARIO_ID;
+    return selectableScenarios.some((scenario) => scenario.id === requested) ? requested : DEFAULT_SCENARIO_ID;
+  });
+  const selectedScenario = selectableScenarios.find((scenario) => scenario.id === scenarioId);
   const [shareStatus, setShareStatus] = useState<string | null>(null);
   const [nationFilter, setNationFilter] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -245,7 +252,7 @@ export function MainMenu() {
               </button>
               {showAdvanced ? (
                 <div className="menu-advanced__body">
-                  {playableScenarios.length > 1 ? (
+                  {selectableScenarios.length > 1 ? (
                     <label>
                       Scenario
                       <select
@@ -258,11 +265,16 @@ export function MainMenu() {
                           previewWorld(mapMode, parsedSeed(), selectedNation, nextScenarioId);
                         }}
                       >
-                        {playableScenarios.map((scenario) => (
-                          <option key={scenario.id} value={scenario.id}>{scenario.title}</option>
+                        {selectableScenarios.map((scenario) => (
+                          <option key={scenario.id} value={scenario.id}>
+                            {scenario.title}{scenario.status === 'preview' ? ' (Preview)' : ''}
+                          </option>
                         ))}
                       </select>
                     </label>
+                  ) : null}
+                  {selectedScenario?.status === 'preview' ? (
+                    <p className="menu-note">Preview scenario: {selectedScenario.summary}</p>
                   ) : null}
                   <label>
                     Map

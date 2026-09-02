@@ -368,7 +368,8 @@ export function GrandMap() {
   const scenarioId = snapshot?.scenarioId ?? DEFAULT_SCENARIO_ID;
   const scenario = loadScenario(scenarioId);
   const scenarioSeed = scenario.worldSeed;
-  const geometryUrls = SCENARIO_GEO_URLS[scenarioId];
+  const geometryScenarioId = scenario.manifest.seedProvenance?.sourceScenarioId ?? scenarioId;
+  const geometryUrls = SCENARIO_GEO_URLS[geometryScenarioId];
   if (!geometryUrls) throw new Error(`No generated geometry registered for scenario ${scenarioId}`);
   const mountainProvinceIds = useMemo(() => scenarioSeed.provinces
     .filter((province) => province.terrain === 'mountains')
