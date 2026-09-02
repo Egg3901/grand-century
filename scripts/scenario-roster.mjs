@@ -10,6 +10,8 @@ import {
   rebuildScenarioRoster,
   buildCandidateCrosswalk,
   buildCarryForwardDecisionPack,
+  mergeManualDecisionPacks,
+  buildUniformUnreviewedDecisionPack,
   loadScenarioRosterFiles,
   scaffoldRosterReview,
   scaffoldComplementReview,
@@ -21,22 +23,45 @@ function option(args, name) {
   return index >= 0 ? args[index + 1] : undefined;
 }
 
+function options(args, name) {
+  return args.flatMap((value, index) => value === name ? [args[index + 1]] : []).filter(Boolean);
+}
+
 function usage() {
   return [
     'Usage:',
-    '  node scripts/scenario-roster.mjs scaffold --discovery FILE --out FILE',
+    '  node scripts/scenario-roster.mjs scaffold --discovery FILE --out FILE [--fresh]',
     '  node scripts/scenario-roster.mjs audit --scenario-dir DIR',
     '  node scripts/scenario-roster.mjs crosswalk --ohm FILE --cliopatria FILE --out FILE',
-    '  node scripts/scenario-roster.mjs scaffold-complement --cliopatria FILE --crosswalk FILE --out FILE',
+    '  node scripts/scenario-roster.mjs scaffold-complement --cliopatria FILE --crosswalk FILE --out FILE [--fresh]',
     '  node scripts/scenario-roster.mjs accept-source --scenario-dir DIR --reviewer NAME [--date YYYY-MM-DD]',
     '  node scripts/scenario-roster.mjs apply-decisions --scenario-dir DIR --decisions FILE',
     '  node scripts/scenario-roster.mjs rebuild --scenario-dir DIR',
     '  node scripts/scenario-roster.mjs carry-forward --scenario-dir DIR --from-scenario-dir DIR --out FILE',
+    '  node scripts/scenario-roster.mjs merge-decisions --pack FILE --pack FILE --out FILE',
+    '  node scripts/scenario-roster.mjs bulk-decide-unreviewed --scenario-dir DIR --source ohm|cliopatria --disposition VALUE --notes TEXT --out FILE',
   ].join('\n');
 }
 
 async function readJson(filePath) {
   return JSON.parse(await readFile(filePath, 'utf8'));
+}
+
+async function loadCarryForwardFiles(scenarioDir) {
+  return {
+    roster: await readJson(path.join(scenarioDir, 'polities.json')),
+    review: await readJson(path.join(scenarioDir, 'sources/roster-review.json')),
+    complementReview: await readJson(path.join(scenarioDir, 'sources/cliopatria-review.json')),
+  };
+}
+
+async function loadRosterCompilerFiles(scenarioDir) {
+  return {
+    ...await loadCarryForwardFiles(scenarioDir),
+    discovery: await readJson(path.join(scenarioDir, 'sources/ohm-discovery.json')),
+    cliopatriaDiscovery: await readJson(path.join(scenarioDir, 'sources/cliopatria-discovery.json')),
+    crosswalk: await readJson(path.join(scenarioDir, 'sources/candidate-crosswalk.json')),
+  };
 }
 
 const args = process.argv.slice(2);
@@ -49,10 +74,12 @@ if (command === 'scaffold') {
   const resolvedOutput = path.resolve(outputPath);
   const discovery = await readJson(path.resolve(discoveryPath));
   let existing = null;
-  try {
-    existing = await readJson(resolvedOutput);
-  } catch {
-    existing = null;
+  if (!args.includes('--fresh')) {
+    try {
+      existing = await readJson(resolvedOutput);
+    } catch {
+      existing = null;
+    }
   }
   const review = scaffoldRosterReview(discovery, existing);
   await writeRosterReview(resolvedOutput, review);
@@ -92,10 +119,12 @@ if (command === 'scaffold') {
   if (!cliopatriaPath || !crosswalkPath || !outputPath) throw new Error(usage());
   const resolvedOutput = path.resolve(outputPath);
   let existing = null;
-  try {
-    existing = await readJson(resolvedOutput);
-  } catch {
-    existing = null;
+  if (!args.includes('--fresh')) {
+    try {
+      existing = await readJson(resolvedOutput);
+    } catch {
+      existing = null;
+    }
   }
   const result = scaffoldComplementReview(
     await readJson(path.resolve(cliopatriaPath)),
@@ -110,7 +139,7 @@ if (command === 'scaffold') {
   const reviewedAt = option(args, '--date') ?? new Date().toISOString().slice(0, 10);
   if (!scenarioDir || !reviewer) throw new Error(usage());
   const resolvedDir = path.resolve(scenarioDir);
-  const files = await loadScenarioRosterFiles(resolvedDir);
+  const files = await loadRosterCompilerFiles(resolvedDir);
   const result = acceptSourceClassifications({
     roster: files.roster,
     ohmReview: files.review,
@@ -129,7 +158,7 @@ if (command === 'scaffold') {
   const decisionsPath = option(args, '--decisions');
   if (!scenarioDir || !decisionsPath) throw new Error(usage());
   const resolvedDir = path.resolve(scenarioDir);
-  const files = await loadScenarioRosterFiles(resolvedDir);
+  const files = await loadRosterCompilerFiles(resolvedDir);
   const result = applyManualRosterDecisions({
     roster: files.roster,
     ohmReview: files.review,
@@ -144,7 +173,7 @@ if (command === 'scaffold') {
   const scenarioDir = option(args, '--scenario-dir');
   if (!scenarioDir) throw new Error(usage());
   const resolvedDir = path.resolve(scenarioDir);
-  const files = await loadScenarioRosterFiles(resolvedDir);
+  const files = await loadRosterCompilerFiles(resolvedDir);
   const decisionPack = await readJson(path.join(resolvedDir, 'sources/manual-decisions.json'));
   const result = rebuildScenarioRoster({
     baseRoster: await readJson(path.join(resolvedDir, 'sources/roster-base.json')),
@@ -165,8 +194,11 @@ if (command === 'scaffold') {
   const fromScenarioDir = option(args, '--from-scenario-dir');
   const outputPath = option(args, '--out');
   if (!scenarioDir || !fromScenarioDir || !outputPath) throw new Error(usage());
-  const current = await loadScenarioRosterFiles(path.resolve(scenarioDir));
-  const previous = await loadScenarioRosterFiles(path.resolve(fromScenarioDir));
+  const current = await loadCarryForwardFiles(path.resolve(scenarioDir));
+  if (!args.includes('--use-current-roster')) {
+    current.roster = await readJson(path.resolve(scenarioDir, 'sources/roster-base.json'));
+  }
+  const previous = await loadCarryForwardFiles(path.resolve(fromScenarioDir));
   const result = buildCarryForwardDecisionPack({
     previousRoster: previous.roster,
     previousOhmReview: previous.review,
@@ -179,6 +211,36 @@ if (command === 'scaffold') {
   });
   await writeRosterReview(path.resolve(outputPath), result);
   process.stdout.write(`Carried forward ${result.decisions.length} classifications from ${result.carriedFrom}.\n`);
+} else if (command === 'merge-decisions') {
+  const packPaths = options(args, '--pack');
+  const outputPath = option(args, '--out');
+  if (packPaths.length < 2 || !outputPath) throw new Error(usage());
+  const result = mergeManualDecisionPacks(
+    await Promise.all(packPaths.map((packPath) => readJson(path.resolve(packPath)))),
+    { reviewer: 'Codex multi-anchor temporal review', reviewedAt: new Date().toISOString().slice(0, 10) },
+  );
+  await writeRosterReview(path.resolve(outputPath), result);
+  process.stdout.write(`Merged ${result.decisions.length} unique manual classifications.\n`);
+} else if (command === 'bulk-decide-unreviewed') {
+  const scenarioDir = option(args, '--scenario-dir');
+  const source = option(args, '--source');
+  const disposition = option(args, '--disposition');
+  const notes = option(args, '--notes');
+  const outputPath = option(args, '--out');
+  if (!scenarioDir || !source || !disposition || !notes || !outputPath) throw new Error(usage());
+  const reviewFile = source === 'ohm' ? 'sources/roster-review.json' : 'sources/cliopatria-review.json';
+  const review = await readJson(path.resolve(scenarioDir, reviewFile));
+  const result = buildUniformUnreviewedDecisionPack({
+    asOf: review.asOf,
+    review,
+    source,
+    disposition,
+    notes,
+    reviewer: 'Codex conservative source review',
+    reviewedAt: new Date().toISOString().slice(0, 10),
+  });
+  await writeRosterReview(path.resolve(outputPath), result);
+  process.stdout.write(`Classified ${result.decisions.length} unreviewed ${source} identities as ${disposition}.\n`);
 } else {
   throw new Error(usage());
 }

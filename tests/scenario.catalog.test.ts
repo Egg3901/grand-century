@@ -18,9 +18,9 @@ describe('scenario catalog', () => {
       ['1776-07-04', 'development'],
       ['1815-06-18', 'development'],
       ['1830-01-01', 'playable'],
-      ['1914-07-28', 'development'],
+      ['1914-07-28', 'preview'],
       ['1936-01-01', 'preview'],
-      ['1945-09-02', 'development'],
+      ['1945-09-02', 'preview'],
     ]);
     expect(listScenarios().every((scenario) => scenario.visualPolicy.naziImagery === 'prohibited')).toBe(true);
     expect(DEFAULT_SCENARIO.manifest.startDate).toEqual({ year: 1830, month: 1, day: 1 });
@@ -57,14 +57,11 @@ describe('scenario catalog', () => {
     expect(dateAtDay(157, startDate)).toEqual({ year: 1915, month: 1, day: 1 });
   });
 
-  it('boots the 1945 development seed with an exact clock and shifted technology horizon', () => {
+  it('boots the exact 1945 preview seed with its own clock and technology horizon', () => {
     const scenario = loadScenario('1945-09-02');
-    const source = loadScenario('1936-01-01');
-    expect(scenario.manifest.seedProvenance).toMatchObject({
-      kind: 'inherited_development', sourceScenarioId: '1936-01-01',
-    });
-    expect(scenario.worldSeed.nations[0].initialTechYear)
-      .toBe((source.worldSeed.nations[0].initialTechYear ?? 1936) + 9);
+    expect(scenario.manifest.seedProvenance).toBeUndefined();
+    expect(scenario.worldSeed.provinceCount).toBe(548);
+    expect(scenario.worldSeed.nations.some((nation) => nation.initialTechYear === 1945)).toBe(true);
     const world = createWorld({
       ...GAME_DATA,
       scenarioId: '1945-09-02',

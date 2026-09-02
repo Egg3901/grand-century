@@ -4,6 +4,8 @@ import {
   auditComplementReview,
   acceptSourceClassifications,
   buildCarryForwardDecisionPack,
+  mergeManualDecisionPacks,
+  buildUniformUnreviewedDecisionPack,
   applyManualRosterDecisions,
   buildCandidateCrosswalk,
   scaffoldRosterReview,
@@ -232,6 +234,23 @@ describe('scenario roster review compiler', () => {
     expect(result.roster.polities.map((polity) => polity.key)).not.toContain('GAMMA_POLITY');
   });
 
+  it('uses an English Wikipedia title for a non-Latin polity key', () => {
+    const result = acceptSourceClassifications({
+      roster: { asOf: '1914-07-28', polities: [] },
+      ohmReview: {
+        entries: [{
+          identityKey: 'Q386496', displayName: 'Краљевина Црна Горa', wikidata: 'Q386496', relationIds: [1],
+          evidenceTags: [{ relationId: 1, tags: { 'wikipedia:en': 'Kingdom of Montenegro' } }],
+          reviewLane: 'sovereignty_check', disposition: 'unreviewed', polityKey: null,
+        }],
+      },
+      complementReview: { entries: [] },
+      reviewer: 'Codex source policy',
+      reviewedAt: '2026-09-02',
+    });
+    expect(result.roster.polities[0]).toMatchObject({ key: 'KINGDOM_OF_MONTENEGRO' });
+  });
+
   it('applies explicit manual decisions and can correct an automated status', () => {
     const result = applyManualRosterDecisions({
       roster: {
@@ -338,5 +357,60 @@ describe('scenario roster review compiler', () => {
     expect(applied.roster.polities[0]).toMatchObject({
       key: 'ISLAND_STATE', displayName: 'Island State', status: 'vassal',
     });
+  });
+
+  it('does not carry collision-prone generated polity keys across dates', () => {
+    const pack = buildCarryForwardDecisionPack({
+      previousRoster: {
+        asOf: '1700-01-01',
+        polities: [{
+          key: 'POLITY_POLITY', displayName: 'Historical polity', status: 'sovereign',
+          flagAssetTag: 'POLITY_POLITY', sources: [],
+        }],
+      },
+      previousOhmReview: {
+        entries: [{ identityKey: 'Q-HISTORICAL', disposition: 'polity', polityKey: 'POLITY_POLITY' }],
+      },
+      previousComplementReview: { entries: [] },
+      currentRoster: { asOf: '1815-06-18', polities: [] },
+      currentOhmReview: {
+        entries: [{ identityKey: 'Q-HISTORICAL', displayName: 'Historical polity', disposition: 'unreviewed' }],
+      },
+      currentComplementReview: { entries: [] },
+      reviewer: 'historian',
+      reviewedAt: '2026-09-02',
+    });
+    expect(pack.decisions[0]).toMatchObject({ identityKey: 'Q-HISTORICAL', displayName: 'Historical polity' });
+    expect(pack.decisions[0]).not.toHaveProperty('polityKey');
+  });
+
+  it('merges compatible temporal decision packs and rejects conflicts', () => {
+    const base = {
+      schemaVersion: 1, asOf: '1815-06-18', reviewer: 'a', reviewedAt: '2026-09-02',
+      decisions: [{ source: 'ohm', identityKey: 'Q1', disposition: 'polity', notes: 'Stable.' }],
+    };
+    const second = {
+      ...base,
+      decisions: [{ source: 'cliopatria', identityKey: 'Q2', disposition: 'exclude', notes: 'Absent.' }],
+    };
+    expect(mergeManualDecisionPacks([base, second], { reviewer: 'historian', reviewedAt: '2026-09-02' }).decisions)
+      .toHaveLength(2);
+    expect(() => mergeManualDecisionPacks([
+      base,
+      { ...base, decisions: [{ ...base.decisions[0], disposition: 'excluded' }] },
+    ], { reviewer: 'historian', reviewedAt: '2026-09-02' })).toThrow(/conflict/i);
+  });
+
+  it('builds an explicit conservative disposition pack for remaining candidates', () => {
+    const pack = buildUniformUnreviewedDecisionPack({
+      asOf: '1776-07-04',
+      review: { entries: [{ identityKey: 'Q1', disposition: 'unreviewed' }, { identityKey: 'Q2', disposition: 'polity' }] },
+      source: 'cliopatria',
+      disposition: 'exclude',
+      notes: 'Independent exact-date review is absent.',
+      reviewer: 'historian',
+      reviewedAt: '2026-09-02',
+    });
+    expect(pack.decisions).toEqual([expect.objectContaining({ identityKey: 'Q1', disposition: 'exclude' })]);
   });
 });

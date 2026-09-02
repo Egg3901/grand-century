@@ -1,0 +1,2545 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1776-07-04",
+  "sourceOrder": [
+    "OpenHistoricalMap",
+    "Cliopatria"
+  ],
+  "counts": {
+    "ohmIdentities": 190,
+    "cliopatriaRows": 137,
+    "cliopatriaIdentities": 128,
+    "matches": 33,
+    "ohmOnly": 157,
+    "cliopatriaOnly": 95
+  },
+  "matches": [
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q1115291",
+      "ohmRelationIds": [
+        2830518
+      ],
+      "cliopatriaRecords": [
+        92
+      ],
+      "cliopatriaName": "Thonburi Kingdom",
+      "wikidata": "Q1115291"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q1240096",
+      "ohmRelationIds": [
+        2923308
+      ],
+      "cliopatriaRecords": [
+        132
+      ],
+      "cliopatriaName": "Hyderabad State",
+      "wikidata": "Q1240096"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q12548",
+      "ohmRelationIds": [
+        2830353
+      ],
+      "cliopatriaRecords": [
+        98,
+        108
+      ],
+      "cliopatriaName": "(Holy Roman Empire)",
+      "wikidata": "Q12548"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q12560",
+      "ohmRelationIds": [
+        2746686
+      ],
+      "cliopatriaRecords": [
+        136
+      ],
+      "cliopatriaName": "Ottoman Empire",
+      "wikidata": "Q12560"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q1433867",
+      "ohmRelationIds": [
+        2849532
+      ],
+      "cliopatriaRecords": [
+        88
+      ],
+      "cliopatriaName": "Kazakh Khanate",
+      "wikidata": "Q1433867"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q160440",
+      "ohmRelationIds": [
+        2849498
+      ],
+      "cliopatriaRecords": [
+        123
+      ],
+      "cliopatriaName": "Crimean Khanate",
+      "wikidata": "Q160440"
+    },
+    {
+      "matchMethod": "normalized_name",
+      "identityKey": "Q161885",
+      "ohmRelationIds": [
+        2698449
+      ],
+      "cliopatriaRecords": [
+        63
+      ],
+      "cliopatriaName": "Kingdom of Great Britain",
+      "wikidata": "Q23666"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q1660566",
+      "ohmRelationIds": [
+        2871333
+      ],
+      "cliopatriaRecords": [
+        0
+      ],
+      "cliopatriaName": "Sultanate of Banjar",
+      "wikidata": "Q1660566"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q170072",
+      "ohmRelationIds": [
+        2942108
+      ],
+      "cliopatriaRecords": [
+        99,
+        102
+      ],
+      "cliopatriaName": "Dutch Republic",
+      "wikidata": "Q170072"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q170174",
+      "ohmRelationIds": [
+        2809353
+      ],
+      "cliopatriaRecords": [
+        43
+      ],
+      "cliopatriaName": "Papal States",
+      "wikidata": "Q170174"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q172107",
+      "ohmRelationIds": [
+        2692511
+      ],
+      "cliopatriaRecords": [
+        104
+      ],
+      "cliopatriaName": "Polish-Lithuanian Commonwealth",
+      "wikidata": "Q172107"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q174306",
+      "ohmRelationIds": [
+        2851381
+      ],
+      "cliopatriaRecords": [
+        45
+      ],
+      "cliopatriaName": "Republic of Genoa",
+      "wikidata": "Q174306"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q205662",
+      "ohmRelationIds": [
+        2889893
+      ],
+      "cliopatriaRecords": [
+        1
+      ],
+      "cliopatriaName": "Tokugawa Shogunate",
+      "wikidata": "Q205662"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q208169",
+      "ohmRelationIds": [
+        2830352
+      ],
+      "cliopatriaRecords": [
+        86
+      ],
+      "cliopatriaName": "Republic of Ragusa",
+      "wikidata": "Q208169"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q248572",
+      "ohmRelationIds": [
+        2860763
+      ],
+      "cliopatriaRecords": [
+        3
+      ],
+      "cliopatriaName": "Sultanate of Maguindanao",
+      "wikidata": "Q248572"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q2578028",
+      "ohmRelationIds": [
+        2847615
+      ],
+      "cliopatriaRecords": [
+        84
+      ],
+      "cliopatriaName": "Sikh Confederacy",
+      "wikidata": "Q2578028"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q266923",
+      "ohmRelationIds": [
+        2922246
+      ],
+      "cliopatriaRecords": [
+        26
+      ],
+      "cliopatriaName": "Kingdom of Mysore",
+      "wikidata": "Q266923"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q27306",
+      "ohmRelationIds": [
+        2748497
+      ],
+      "cliopatriaRecords": [
+        96
+      ],
+      "cliopatriaName": "Kingdom of Prussia",
+      "wikidata": "Q27306"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q29",
+      "ohmRelationIds": [
+        2860668
+      ],
+      "cliopatriaRecords": [
+        44
+      ],
+      "cliopatriaName": "Kingdom of Spain",
+      "wikidata": "Q29"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q30",
+      "ohmRelationIds": [
+        2918624
+      ],
+      "cliopatriaRecords": [
+        128
+      ],
+      "cliopatriaName": "United States of America",
+      "wikidata": "Q30"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q3045696",
+      "ohmRelationIds": [
+        2861415
+      ],
+      "cliopatriaRecords": [
+        24
+      ],
+      "cliopatriaName": "Regency of Algiers",
+      "wikidata": "Q3045696"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q3277580",
+      "ohmRelationIds": [
+        2922298
+      ],
+      "cliopatriaRecords": [
+        37
+      ],
+      "cliopatriaName": "Carnatic Sultanate",
+      "wikidata": "Q3277580"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q33296",
+      "ohmRelationIds": [
+        2922471
+      ],
+      "cliopatriaRecords": [
+        82
+      ],
+      "cliopatriaName": "Mughal Empire",
+      "wikidata": "Q33296"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q34266",
+      "ohmRelationIds": [
+        2851945
+      ],
+      "cliopatriaRecords": [
+        130
+      ],
+      "cliopatriaName": "Russian Empire",
+      "wikidata": "Q34266"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q422065",
+      "ohmRelationIds": [
+        2860769
+      ],
+      "cliopatriaRecords": [
+        47
+      ],
+      "cliopatriaName": "Sultanate of Sulu",
+      "wikidata": "Q422065"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q45670",
+      "ohmRelationIds": [
+        2878364
+      ],
+      "cliopatriaRecords": [
+        25
+      ],
+      "cliopatriaName": "Kingdom of Portugal",
+      "wikidata": "Q45670"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q4948",
+      "ohmRelationIds": [
+        2799670
+      ],
+      "cliopatriaRecords": [
+        85
+      ],
+      "cliopatriaName": "Republic of Venice",
+      "wikidata": "Q4948"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q62651",
+      "ohmRelationIds": [
+        2696595
+      ],
+      "cliopatriaRecords": [
+        100
+      ],
+      "cliopatriaName": "Denmark-Norway",
+      "wikidata": "Q62651"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q646374",
+      "ohmRelationIds": [
+        2922307
+      ],
+      "cliopatriaRecords": [
+        38
+      ],
+      "cliopatriaName": "French India",
+      "wikidata": "Q646374"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q696241",
+      "ohmRelationIds": [
+        2851355
+      ],
+      "cliopatriaRecords": [
+        27
+      ],
+      "cliopatriaName": "Khanate of Kokand",
+      "wikidata": "Q696241"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q83618",
+      "ohmRelationIds": [
+        2922052
+      ],
+      "cliopatriaRecords": [
+        125
+      ],
+      "cliopatriaName": "Maratha Empire",
+      "wikidata": "Q83618"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q8733",
+      "ohmRelationIds": [
+        2889977
+      ],
+      "cliopatriaRecords": [
+        72
+      ],
+      "cliopatriaName": "Qing Dynasty",
+      "wikidata": "Q8733"
+    },
+    {
+      "matchMethod": "wikidata",
+      "identityKey": "Q917",
+      "ohmRelationIds": [
+        2906077
+      ],
+      "cliopatriaRecords": [
+        19
+      ],
+      "cliopatriaName": "Kingdom of Bhutan",
+      "wikidata": "Q917"
+    }
+  ],
+  "ohmOnly": [
+    {
+      "identityKey": "Baba Mahal",
+      "name": "Baba Mahal",
+      "wikidata": null,
+      "relationIds": [
+        2847613
+      ]
+    },
+    {
+      "identityKey": "Capitania-Geral de Moçambique, Sofala e Rios de Sena",
+      "name": "Capitania-Geral de Moçambique, Sofala e Rios de Sena",
+      "wikidata": null,
+      "relationIds": [
+        2698260
+      ]
+    },
+    {
+      "identityKey": "Mosquito Kingdom",
+      "name": "Mosquito Kingdom",
+      "wikidata": null,
+      "relationIds": [
+        2808080
+      ]
+    },
+    {
+      "identityKey": "ohm:relation:2890079",
+      "name": "ohm:relation:2890079",
+      "wikidata": null,
+      "relationIds": [
+        2890079
+      ]
+    },
+    {
+      "identityKey": "Provincias Internas",
+      "name": "Provincias Internas",
+      "wikidata": null,
+      "relationIds": [
+        2841326
+      ]
+    },
+    {
+      "identityKey": "Q1052040",
+      "name": "Kajoor",
+      "wikidata": "Q1052040",
+      "relationIds": [
+        2879282
+      ]
+    },
+    {
+      "identityKey": "Q1062415",
+      "name": "ອານາຈັກຈຳປາສັກ",
+      "wikidata": "Q1062415",
+      "relationIds": [
+        2834882
+      ]
+    },
+    {
+      "identityKey": "Q1070529",
+      "name": "Colony of Virginia",
+      "wikidata": "Q1070529",
+      "relationIds": [
+        2919251
+      ]
+    },
+    {
+      "identityKey": "Q1071439",
+      "name": "Fanjakan'Imerina",
+      "wikidata": "Q1071439",
+      "relationIds": [
+        2865803
+      ]
+    },
+    {
+      "identityKey": "Q10825475",
+      "name": "順城鎮",
+      "wikidata": "Q10825475",
+      "relationIds": [
+        2745639
+      ]
+    },
+    {
+      "identityKey": "Q116288296",
+      "name": "Colonia Trinidad",
+      "wikidata": "Q116288296",
+      "relationIds": [
+        2834831
+      ]
+    },
+    {
+      "identityKey": "Q1185346",
+      "name": "Kolonie Demerara",
+      "wikidata": "Q1185346",
+      "relationIds": [
+        2848066
+      ]
+    },
+    {
+      "identityKey": "Q11876909",
+      "name": "Estado do Brasil",
+      "wikidata": "Q11876909",
+      "relationIds": [
+        2848715
+      ]
+    },
+    {
+      "identityKey": "Q1192936",
+      "name": "Ubwami bw'Urundi",
+      "wikidata": "Q1192936",
+      "relationIds": [
+        2863640
+      ]
+    },
+    {
+      "identityKey": "Q12060804",
+      "name": "Île de France",
+      "wikidata": "Q12060804",
+      "relationIds": [
+        2831876
+      ]
+    },
+    {
+      "identityKey": "Q1235720",
+      "name": "Respublica Lucensis",
+      "wikidata": "Q1235720",
+      "relationIds": [
+        2860166
+      ]
+    },
+    {
+      "identityKey": "Q124881664",
+      "name": "Niani",
+      "wikidata": "Q124881664",
+      "relationIds": [
+        2879807
+      ]
+    },
+    {
+      "identityKey": "Q131429368",
+      "name": "السلطنة الشريفة",
+      "wikidata": "Q131429368",
+      "relationIds": [
+        2861416
+      ]
+    },
+    {
+      "identityKey": "Q1368792",
+      "name": "Kolonie Essequebo",
+      "wikidata": "Q1368792",
+      "relationIds": [
+        2848073
+      ]
+    },
+    {
+      "identityKey": "Q1387",
+      "name": "Rhode Island",
+      "wikidata": "Q1387",
+      "relationIds": [
+        2828571
+      ]
+    },
+    {
+      "identityKey": "Q139948",
+      "name": "Khanate of Kalat",
+      "wikidata": "Q139948",
+      "relationIds": [
+        2922445
+      ]
+    },
+    {
+      "identityKey": "Q1408",
+      "name": "New Jersey Colony",
+      "wikidata": "Q1408",
+      "relationIds": [
+        2795396
+      ]
+    },
+    {
+      "identityKey": "Q1410",
+      "name": "Gibraltar",
+      "wikidata": "Q1410",
+      "relationIds": [
+        2692855
+      ]
+    },
+    {
+      "identityKey": "Q1425202",
+      "name": "West Florida",
+      "wikidata": "Q1425202",
+      "relationIds": [
+        2918612
+      ]
+    },
+    {
+      "identityKey": "Q142965",
+      "name": "Timor Português",
+      "wikidata": "Q142965",
+      "relationIds": [
+        2864416
+      ]
+    },
+    {
+      "identityKey": "Q1471373",
+      "name": "Saluum",
+      "wikidata": "Q1471373",
+      "relationIds": [
+        2879270
+      ]
+    },
+    {
+      "identityKey": "Q15238409",
+      "name": "Colonie de Sainte-Lucie",
+      "wikidata": "Q15238409",
+      "relationIds": [
+        2834809
+      ]
+    },
+    {
+      "identityKey": "Q153529",
+      "name": "Ducatus Mediolani",
+      "wikidata": "Q153529",
+      "relationIds": [
+        2830845
+      ]
+    },
+    {
+      "identityKey": "Q154849",
+      "name": "Grand Duchy of Tuscany",
+      "wikidata": "Q154849",
+      "relationIds": [
+        2832269
+      ]
+    },
+    {
+      "identityKey": "Q1591062",
+      "name": "سلطنة الحواشب",
+      "wikidata": "Q1591062",
+      "relationIds": [
+        2921509
+      ]
+    },
+    {
+      "identityKey": "Q1617382",
+      "name": "New Hampshire Colony",
+      "wikidata": "Q1617382",
+      "relationIds": [
+        2861371
+      ]
+    },
+    {
+      "identityKey": "Q165040",
+      "name": "Ducato di Parma e Piacenza",
+      "wikidata": "Q165040",
+      "relationIds": [
+        2800011
+      ]
+    },
+    {
+      "identityKey": "Q165154",
+      "name": "Regno di Sardegna",
+      "wikidata": "Q165154",
+      "relationIds": [
+        2750075
+      ]
+    },
+    {
+      "identityKey": "Q16850784",
+      "name": "Wolof",
+      "wikidata": "Q16850784",
+      "relationIds": [
+        2879271
+      ]
+    },
+    {
+      "identityKey": "Q17012",
+      "name": "Colonie de la Guadeloupe",
+      "wikidata": "Q17012",
+      "relationIds": [
+        2861183
+      ]
+    },
+    {
+      "identityKey": "Q170603",
+      "name": "Reino de Mexico",
+      "wikidata": "Q170603",
+      "relationIds": [
+        2842078,
+        2845871
+      ]
+    },
+    {
+      "identityKey": "Q17070",
+      "name": "Isle Bourbon",
+      "wikidata": "Q17070",
+      "relationIds": [
+        2865900
+      ]
+    },
+    {
+      "identityKey": "Q173065",
+      "name": "Regnum Neapolitanum",
+      "wikidata": "Q173065",
+      "relationIds": [
+        2750050
+      ]
+    },
+    {
+      "identityKey": "Q1770351",
+      "name": "East Florida",
+      "wikidata": "Q1770351",
+      "relationIds": [
+        2744898
+      ]
+    },
+    {
+      "identityKey": "Q1796551",
+      "name": "British Leeward Islands",
+      "wikidata": "Q1796551",
+      "relationIds": [
+        2832974
+      ]
+    },
+    {
+      "identityKey": "Q1806491",
+      "name": "Transylvania Colony",
+      "wikidata": "Q1806491",
+      "relationIds": [
+        2832024
+      ]
+    },
+    {
+      "identityKey": "Q1827039",
+      "name": "唐冲",
+      "wikidata": "Q1827039",
+      "relationIds": [
+        2748573
+      ]
+    },
+    {
+      "identityKey": "Q185111",
+      "name": "Colony of Tobago",
+      "wikidata": "Q185111",
+      "relationIds": [
+        2834835
+      ]
+    },
+    {
+      "identityKey": "Q187549",
+      "name": "Ordo Hospitalis",
+      "wikidata": "Q187549",
+      "relationIds": [
+        2861788
+      ]
+    },
+    {
+      "identityKey": "Q1885093",
+      "name": "Sultanate of Qishn and Socotra",
+      "wikidata": "Q1885093",
+      "relationIds": [
+        2920979
+      ]
+    },
+    {
+      "identityKey": "Q188586",
+      "name": "Regno di Sicilia",
+      "wikidata": "Q188586",
+      "relationIds": [
+        2750114
+      ]
+    },
+    {
+      "identityKey": "Q192184",
+      "name": "Saint Helena Colony",
+      "wikidata": "Q192184",
+      "relationIds": [
+        2848196
+      ]
+    },
+    {
+      "identityKey": "Q1978",
+      "name": "St. John's Island Colony",
+      "wikidata": "Q1978",
+      "relationIds": [
+        2830905
+      ]
+    },
+    {
+      "identityKey": "Q19892830",
+      "name": "Kingdom of Coorg",
+      "wikidata": "Q19892830",
+      "relationIds": [
+        2922247
+      ]
+    },
+    {
+      "identityKey": "Q2001966",
+      "name": "Company Raj",
+      "wikidata": "Q2001966",
+      "relationIds": [
+        2848233
+      ]
+    },
+    {
+      "identityKey": "Q2007",
+      "name": "North-West Territories",
+      "wikidata": "Q2007",
+      "relationIds": [
+        2831207
+      ]
+    },
+    {
+      "identityKey": "Q2039931",
+      "name": "Capitanía General de Cuba",
+      "wikidata": "Q2039931",
+      "relationIds": [
+        2841674
+      ]
+    },
+    {
+      "identityKey": "Q206279",
+      "name": "Waalo",
+      "wikidata": "Q206279",
+      "relationIds": [
+        2879269
+      ]
+    },
+    {
+      "identityKey": "Q2077243",
+      "name": "Capitanía General de Guatemala",
+      "wikidata": "Q2077243",
+      "relationIds": [
+        2859425
+      ]
+    },
+    {
+      "identityKey": "Q2079909",
+      "name": "Province of Massachusetts Bay",
+      "wikidata": "Q2079909",
+      "relationIds": [
+        2861369
+      ]
+    },
+    {
+      "identityKey": "Q211435",
+      "name": "Virreinato del Perú",
+      "wikidata": "Q211435",
+      "relationIds": [
+        2850567
+      ]
+    },
+    {
+      "identityKey": "Q215530",
+      "name": "Ríoghacht Éireann",
+      "wikidata": "Q215530",
+      "relationIds": [
+        2697729
+      ]
+    },
+    {
+      "identityKey": "Q2257830",
+      "name": "𐒈𐒚𐒐𐒆𐒖𐒒𐒖𐒆𐒆𐒖 𐒑𐒖𐒃𐒜𐒇𐒂𐒜𐒒",
+      "wikidata": "Q2257830",
+      "relationIds": [
+        2923110
+      ]
+    },
+    {
+      "identityKey": "Q22684779",
+      "name": "الْإِمْبَرَاطُورِيَّة الْعُمَانِيَّة",
+      "wikidata": "Q22684779",
+      "relationIds": [
+        2920986
+      ]
+    },
+    {
+      "identityKey": "Q228",
+      "name": "Andorra",
+      "wikidata": "Q228",
+      "relationIds": [
+        2739874
+      ]
+    },
+    {
+      "identityKey": "Q2334526",
+      "name": "Colony of North Carolina",
+      "wikidata": "Q2334526",
+      "relationIds": [
+        2919249
+      ]
+    },
+    {
+      "identityKey": "Q2335224",
+      "name": "Colony of Rhode Island and Providence Plantations",
+      "wikidata": "Q2335224",
+      "relationIds": [
+        2861379
+      ]
+    },
+    {
+      "identityKey": "Q23366230",
+      "name": "République de Genève",
+      "wikidata": "Q23366230",
+      "relationIds": [
+        2831188
+      ]
+    },
+    {
+      "identityKey": "Q23635",
+      "name": "Colony of Bermuda",
+      "wikidata": "Q23635",
+      "relationIds": [
+        2831964
+      ]
+    },
+    {
+      "identityKey": "Q238",
+      "name": "San Marino",
+      "wikidata": "Q238",
+      "relationIds": [
+        2853735
+      ]
+    },
+    {
+      "identityKey": "Q2437292",
+      "name": "Nueva Galicia",
+      "wikidata": "Q2437292",
+      "relationIds": [
+        2841591
+      ]
+    },
+    {
+      "identityKey": "Q244",
+      "name": "Colony of Barbados",
+      "wikidata": "Q244",
+      "relationIds": [
+        2832946
+      ]
+    },
+    {
+      "identityKey": "Q2452027",
+      "name": "Province of Maryland",
+      "wikidata": "Q2452027",
+      "relationIds": [
+        2847779,
+        2919890
+      ]
+    },
+    {
+      "identityKey": "Q2475732",
+      "name": "Colony of Pennsylvania",
+      "wikidata": "Q2475732",
+      "relationIds": [
+        2861342
+      ]
+    },
+    {
+      "identityKey": "Q248705",
+      "name": "Awadh",
+      "wikidata": "Q248705",
+      "relationIds": [
+        2847598
+      ]
+    },
+    {
+      "identityKey": "Q2513167",
+      "name": "Colony of South Carolina",
+      "wikidata": "Q2513167",
+      "relationIds": [
+        2918615,
+        2919895
+      ]
+    },
+    {
+      "identityKey": "Q251668",
+      "name": "Province of Quebec",
+      "wikidata": "Q251668",
+      "relationIds": [
+        2830937
+      ]
+    },
+    {
+      "identityKey": "Q25230",
+      "name": "Guernsey",
+      "wikidata": "Q25230",
+      "relationIds": [
+        2828270
+      ]
+    },
+    {
+      "identityKey": "Q252580",
+      "name": "Ducatus Mutinae et Regii",
+      "wikidata": "Q252580",
+      "relationIds": [
+        2852273
+      ]
+    },
+    {
+      "identityKey": "Q2526023",
+      "name": "Colony of Jamaica",
+      "wikidata": "Q2526023",
+      "relationIds": [
+        2831981
+      ]
+    },
+    {
+      "identityKey": "Q2556639",
+      "name": "Capitania General de Yucatán",
+      "wikidata": "Q2556639",
+      "relationIds": [
+        2841927
+      ]
+    },
+    {
+      "identityKey": "Q2594899",
+      "name": "Wuuli Mansa Banko",
+      "wikidata": "Q2594899",
+      "relationIds": [
+        2879810
+      ]
+    },
+    {
+      "identityKey": "Q26774",
+      "name": "Shoshone",
+      "wikidata": "Q26774",
+      "relationIds": [
+        2953509
+      ]
+    },
+    {
+      "identityKey": "Q2721139",
+      "name": "Capitanía General de Filipinas",
+      "wikidata": "Q2721139",
+      "relationIds": [
+        2860776
+      ]
+    },
+    {
+      "identityKey": "Q28179",
+      "name": "朝鮮 조선",
+      "wikidata": "Q28179",
+      "relationIds": [
+        2694486
+      ]
+    },
+    {
+      "identityKey": "Q282475",
+      "name": "ქართლ-კახეთის სამეფო",
+      "wikidata": "Q282475",
+      "relationIds": [
+        2851961
+      ]
+    },
+    {
+      "identityKey": "Q2910242",
+      "name": "Nuevo Santander",
+      "wikidata": "Q2910242",
+      "relationIds": [
+        2841305
+      ]
+    },
+    {
+      "identityKey": "Q2919465",
+      "name": "Capitania General de Santo Domingo",
+      "wikidata": "Q2919465",
+      "relationIds": [
+        2841734
+      ]
+    },
+    {
+      "identityKey": "Q2984260",
+      "name": "Newfoundland Colony",
+      "wikidata": "Q2984260",
+      "relationIds": [
+        2861327
+      ]
+    },
+    {
+      "identityKey": "Q3199818",
+      "name": "Filipinas españolas",
+      "wikidata": "Q3199818",
+      "relationIds": [
+        2860736
+      ]
+    },
+    {
+      "identityKey": "Q323904",
+      "name": "Goa Portuguesa",
+      "wikidata": "Q323904",
+      "relationIds": [
+        2922053,
+        2922067
+      ]
+    },
+    {
+      "identityKey": "Q3339389",
+      "name": "Estado do Grão-Pará e Rio Negro",
+      "wikidata": "Q3339389",
+      "relationIds": [
+        2848719
+      ]
+    },
+    {
+      "identityKey": "Q34",
+      "name": "Sverige",
+      "wikidata": "Q34",
+      "relationIds": [
+        2851880
+      ]
+    },
+    {
+      "identityKey": "Q3408341",
+      "name": "Provincia de Caracas",
+      "wikidata": "Q3408341",
+      "relationIds": [
+        2860507
+      ]
+    },
+    {
+      "identityKey": "Q3456410",
+      "name": "Stadtrepublik Mülhausen",
+      "wikidata": "Q3456410",
+      "relationIds": [
+        2831155
+      ]
+    },
+    {
+      "identityKey": "Q3456432",
+      "name": "Republik der Sieben Zenden",
+      "wikidata": "Q3456432",
+      "relationIds": [
+        2832184
+      ]
+    },
+    {
+      "identityKey": "Q3482103",
+      "name": "مملكة الشلك",
+      "wikidata": "Q3482103",
+      "relationIds": [
+        2856878
+      ]
+    },
+    {
+      "identityKey": "Q369587",
+      "name": "Kingdom of Kakongo",
+      "wikidata": "Q369587",
+      "relationIds": [
+        2914604
+      ]
+    },
+    {
+      "identityKey": "Q37211",
+      "name": "Sindh Sultanate",
+      "wikidata": "Q37211",
+      "relationIds": [
+        2847907,
+        2922476
+      ]
+    },
+    {
+      "identityKey": "Q3769",
+      "name": "Colonie de la Guyane",
+      "wikidata": "Q3769",
+      "relationIds": [
+        2861194
+      ]
+    },
+    {
+      "identityKey": "Q3823442",
+      "name": "Nuevo Reino de León",
+      "wikidata": "Q3823442",
+      "relationIds": [
+        2841320
+      ]
+    },
+    {
+      "identityKey": "Q3929733",
+      "name": "Rajputana",
+      "wikidata": "Q3929733",
+      "relationIds": [
+        2847600
+      ]
+    },
+    {
+      "identityKey": "Q3933247",
+      "name": "Republic of Noli",
+      "wikidata": "Q3933247",
+      "relationIds": [
+        2852274
+      ]
+    },
+    {
+      "identityKey": "Q404774",
+      "name": "سلطنة لحج",
+      "wikidata": "Q404774",
+      "relationIds": [
+        2921516
+      ]
+    },
+    {
+      "identityKey": "Q4118614",
+      "name": "كسلطانن تدوري",
+      "wikidata": "Q4118614",
+      "relationIds": [
+        2948783
+      ]
+    },
+    {
+      "identityKey": "Q435583",
+      "name": "Eidgenossenschaft",
+      "wikidata": "Q435583",
+      "relationIds": [
+        2831181
+      ]
+    },
+    {
+      "identityKey": "Q468814",
+      "name": "Danhɔmɛ",
+      "wikidata": "Q468814",
+      "relationIds": [
+        2914815
+      ]
+    },
+    {
+      "identityKey": "Q4969463",
+      "name": "British Arctic Territories",
+      "wikidata": "Q4969463",
+      "relationIds": [
+        2831205
+      ]
+    },
+    {
+      "identityKey": "Q4969562",
+      "name": "British Bencoolen",
+      "wikidata": "Q4969562",
+      "relationIds": [
+        2848468
+      ]
+    },
+    {
+      "identityKey": "Q5159852",
+      "name": "Pat a Pangampong sa Ranao",
+      "wikidata": "Q5159852",
+      "relationIds": [
+        2860735
+      ]
+    },
+    {
+      "identityKey": "Q537503",
+      "name": "Principato di Piombino",
+      "wikidata": "Q537503",
+      "relationIds": [
+        2860167
+      ]
+    },
+    {
+      "identityKey": "Q541745",
+      "name": "Capitanía General de Puerto Rico",
+      "wikidata": "Q541745",
+      "relationIds": [
+        2841681
+      ]
+    },
+    {
+      "identityKey": "Q56064",
+      "name": "Colônia do Sacramento",
+      "wikidata": "Q56064",
+      "relationIds": [
+        2860671
+      ]
+    },
+    {
+      "identityKey": "Q5785",
+      "name": "Cayman Islands",
+      "wikidata": "Q5785",
+      "relationIds": [
+        2831970
+      ]
+    },
+    {
+      "identityKey": "Q5881890",
+      "name": "Gobernación de Chiloé",
+      "wikidata": "Q5881890",
+      "relationIds": [
+        2848832
+      ]
+    },
+    {
+      "identityKey": "Q63149558",
+      "name": "ایران افشاری",
+      "wikidata": "Q63149558",
+      "relationIds": [
+        2923086
+      ]
+    },
+    {
+      "identityKey": "Q648279",
+      "name": "Nʉmʉnʉʉ Sookobitʉ",
+      "wikidata": "Q648279",
+      "relationIds": [
+        2692912
+      ]
+    },
+    {
+      "identityKey": "Q672685",
+      "name": "Freistaat der Drei Bünde",
+      "wikidata": "Q672685",
+      "relationIds": [
+        2831180
+      ]
+    },
+    {
+      "identityKey": "Q675322",
+      "name": "Kolonie Berbice",
+      "wikidata": "Q675322",
+      "relationIds": [
+        2848058
+      ]
+    },
+    {
+      "identityKey": "Q688859",
+      "name": "Duché Souverain de Bouillon",
+      "wikidata": "Q688859",
+      "relationIds": [
+        2815494
+      ]
+    },
+    {
+      "identityKey": "Q70972",
+      "name": "Royaume de France",
+      "wikidata": "Q70972",
+      "relationIds": [
+        2810436
+      ]
+    },
+    {
+      "identityKey": "Q7232692",
+      "name": "Portuguese São Tomé and Príncipe",
+      "wikidata": "Q7232692",
+      "relationIds": [
+        2885981
+      ]
+    },
+    {
+      "identityKey": "Q738395",
+      "name": "Rupert's Land",
+      "wikidata": "Q738395",
+      "relationIds": [
+        2861322
+      ]
+    },
+    {
+      "identityKey": "Q751725",
+      "name": "British Bay Islands",
+      "wikidata": "Q751725",
+      "relationIds": [
+        2807618
+      ]
+    },
+    {
+      "identityKey": "Q757",
+      "name": "Colony of St Vincent and the Grenadines",
+      "wikidata": "Q757",
+      "relationIds": [
+        2834822
+      ]
+    },
+    {
+      "identityKey": "Q763808",
+      "name": "Gobernación de Chile",
+      "wikidata": "Q763808",
+      "relationIds": [
+        2848836
+      ]
+    },
+    {
+      "identityKey": "Q7646305",
+      "name": "Suriname",
+      "wikidata": "Q7646305",
+      "relationIds": [
+        2806842
+      ]
+    },
+    {
+      "identityKey": "Q769",
+      "name": "Colony of Grenada",
+      "wikidata": "Q769",
+      "relationIds": [
+        2834758
+      ]
+    },
+    {
+      "identityKey": "Q769668",
+      "name": "Colony of New York",
+      "wikidata": "Q769668",
+      "relationIds": [
+        2847811
+      ]
+    },
+    {
+      "identityKey": "Q770833",
+      "name": "Danish Gold Coast",
+      "wikidata": "Q770833",
+      "relationIds": [
+        2828430
+      ]
+    },
+    {
+      "identityKey": "Q778",
+      "name": "Colony of the Bahamas",
+      "wikidata": "Q778",
+      "relationIds": [
+        2834852
+      ]
+    },
+    {
+      "identityKey": "Q784",
+      "name": "Colony of Dominica",
+      "wikidata": "Q784",
+      "relationIds": [
+        2834746
+      ]
+    },
+    {
+      "identityKey": "Q785",
+      "name": "Jersey",
+      "wikidata": "Q785",
+      "relationIds": [
+        2828299
+      ]
+    },
+    {
+      "identityKey": "Q785035",
+      "name": "Colony of Georgia",
+      "wikidata": "Q785035",
+      "relationIds": [
+        2918620,
+        2919897
+      ]
+    },
+    {
+      "identityKey": "Q800236",
+      "name": "ریاست بہاولپور",
+      "wikidata": "Q800236",
+      "relationIds": [
+        2857300,
+        2923782
+      ]
+    },
+    {
+      "identityKey": "Q807068",
+      "name": "Baol",
+      "wikidata": "Q807068",
+      "relationIds": [
+        2879278
+      ]
+    },
+    {
+      "identityKey": "Q829655",
+      "name": "Dansk Vestindien",
+      "wikidata": "Q829655",
+      "relationIds": [
+        2696415
+      ]
+    },
+    {
+      "identityKey": "Q860407",
+      "name": "Kahlur Kingdom",
+      "wikidata": "Q860407",
+      "relationIds": [
+        2923778
+      ]
+    },
+    {
+      "identityKey": "Q861551",
+      "name": "Saint-Domingue",
+      "wikidata": "Q861551",
+      "relationIds": [
+        2841731
+      ]
+    },
+    {
+      "identityKey": "Q861795",
+      "name": "إمامة فوتة تورو",
+      "wikidata": "Q861795",
+      "relationIds": [
+        2869648
+      ]
+    },
+    {
+      "identityKey": "Q862467",
+      "name": "Siin",
+      "wikidata": "Q862467",
+      "relationIds": [
+        2879275
+      ]
+    },
+    {
+      "identityKey": "Q889030",
+      "name": "Manipur Kingdom",
+      "wikidata": "Q889030",
+      "relationIds": [
+        2923682
+      ]
+    },
+    {
+      "identityKey": "Q889884",
+      "name": "Ubwami bw'u Rwanda",
+      "wikidata": "Q889884",
+      "relationIds": [
+        2863642
+      ]
+    },
+    {
+      "identityKey": "Q892272",
+      "name": "Boundou",
+      "wikidata": "Q892272",
+      "relationIds": [
+        2879806
+      ]
+    },
+    {
+      "identityKey": "Q8965",
+      "name": "Virreinato de la Nueva Granada",
+      "wikidata": "Q8965",
+      "relationIds": [
+        2848984
+      ]
+    },
+    {
+      "identityKey": "Q933592",
+      "name": "Ducato di Massa e Principato di Carrara",
+      "wikidata": "Q933592",
+      "relationIds": [
+        2696936
+      ]
+    },
+    {
+      "identityKey": "Q951500",
+      "name": "Colony of Connecticut",
+      "wikidata": "Q951500",
+      "relationIds": [
+        2861377
+      ]
+    },
+    {
+      "identityKey": "Q953432",
+      "name": "Couto Misto",
+      "wikidata": "Q953432",
+      "relationIds": [
+        2835764
+      ]
+    },
+    {
+      "identityKey": "Q967246",
+      "name": "Kingdom of Ngoyo",
+      "wikidata": "Q967246",
+      "relationIds": [
+        2914603
+      ]
+    },
+    {
+      "identityKey": "Q9676",
+      "name": "Isle of Man",
+      "wikidata": "Q9676",
+      "relationIds": [
+        2693293
+      ]
+    },
+    {
+      "identityKey": "Q986822",
+      "name": "Rozvi",
+      "wikidata": "Q986822",
+      "relationIds": [
+        2914608
+      ]
+    },
+    {
+      "identityKey": "Q98931415",
+      "name": "Colony of Nova Scotia",
+      "wikidata": "Q98931415",
+      "relationIds": [
+        2830924
+      ]
+    },
+    {
+      "identityKey": "Republica de' Cošpäja",
+      "name": "Republica de' Cošpäja",
+      "wikidata": null,
+      "relationIds": [
+        2750737
+      ]
+    },
+    {
+      "identityKey": "Sarawak",
+      "name": "Sarawak",
+      "wikidata": null,
+      "relationIds": [
+        2827168
+      ]
+    },
+    {
+      "identityKey": "Senegambia Colony",
+      "name": "Senegambia Colony",
+      "wikidata": null,
+      "relationIds": [
+        2887742
+      ]
+    },
+    {
+      "identityKey": "Sultanate of Maore",
+      "name": "Sultanate of Maore",
+      "wikidata": null,
+      "relationIds": [
+        2865810
+      ]
+    },
+    {
+      "identityKey": "Sultanate of Ndzuwani",
+      "name": "Sultanate of Ndzuwani",
+      "wikidata": null,
+      "relationIds": [
+        2865813
+      ]
+    },
+    {
+      "identityKey": "خیوه خانلیگی",
+      "name": "خیوه خانلیگی",
+      "wikidata": null,
+      "relationIds": [
+        2851349
+      ]
+    },
+    {
+      "identityKey": "ދިވެހިރާއްޖެ",
+      "name": "ދިވެހިރާއްޖެ",
+      "wikidata": null,
+      "relationIds": [
+        2874736
+      ]
+    },
+    {
+      "identityKey": "南蟠 Nam Bàn",
+      "name": "南蟠 Nam Bàn",
+      "wikidata": null,
+      "relationIds": [
+        2830728
+      ]
+    },
+    {
+      "identityKey": "大越 - 主鄭",
+      "name": "大越 - 主鄭",
+      "wikidata": null,
+      "relationIds": [
+        2748604
+      ]
+    },
+    {
+      "identityKey": "大越 - 西山",
+      "name": "大越 - 西山",
+      "wikidata": null,
+      "relationIds": [
+        2748571
+      ]
+    }
+  ],
+  "cliopatriaOnly": [
+    {
+      "identityKey": "Q1028",
+      "name": "Morocco",
+      "wikidata": "Q1028",
+      "sourceRecords": [
+        77
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1034173",
+      "name": "Tây Sơn dynasty",
+      "wikidata": "Q1034173",
+      "sourceRecords": [
+        135
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1050326",
+      "name": "Sultan of Yogyakarta",
+      "wikidata": "Q1050326",
+      "sourceRecords": [
+        40
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1061057",
+      "name": "Sultanate of Aceh",
+      "wikidata": "Q1061057",
+      "sourceRecords": [
+        11
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1062422",
+      "name": "Konbaung Dynasty",
+      "wikidata": "Q1062422",
+      "sourceRecords": [
+        106
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1069959",
+      "name": "Kingdom of Imereti",
+      "wikidata": "Q1069959",
+      "sourceRecords": [
+        117
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q10791211",
+      "name": "Kingdom of Mrauk U",
+      "wikidata": "Q10791211",
+      "sourceRecords": [
+        60
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q10957559",
+      "name": "Principality of Moldavia",
+      "wikidata": "Q10957559",
+      "sourceRecords": [
+        90
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1122980",
+      "name": "Comtat Venaissin",
+      "wikidata": "Q1122980",
+      "sourceRecords": [
+        23
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1132786",
+      "name": "Wadai Empire",
+      "wikidata": "Q1132786",
+      "sourceRecords": [
+        8
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1139762",
+      "name": "Bornu Empire",
+      "wikidata": "Q1139762",
+      "sourceRecords": [
+        9
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1150344",
+      "name": "Sultanate of Johor",
+      "wikidata": "Q1150344",
+      "sourceRecords": [
+        32
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1317579",
+      "name": "Sultanate of Kedah",
+      "wikidata": "Q1317579",
+      "sourceRecords": [
+        22
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1317991",
+      "name": "Đại Việt",
+      "wikidata": "Q1317991",
+      "sourceRecords": [
+        20
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q146871",
+      "name": "Emirate of Diriyah",
+      "wikidata": "Q146871",
+      "sourceRecords": [
+        116
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1474791",
+      "name": "Sultanate of Darfur",
+      "wikidata": "Q1474791",
+      "sourceRecords": [
+        10
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1475713",
+      "name": "Funj Sultanate",
+      "wikidata": "Q1475713",
+      "sourceRecords": [
+        74
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1514510",
+      "name": "County of Urgell",
+      "wikidata": "Q1514510",
+      "sourceRecords": [
+        34
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q154667",
+      "name": "Kingdom of Georgia",
+      "wikidata": "Q154667",
+      "sourceRecords": [
+        120
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q156038",
+      "name": "Duchy of Courland",
+      "wikidata": "Q156038",
+      "sourceRecords": [
+        80
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q156199",
+      "name": "Electorate of Saxony",
+      "wikidata": "Q156199",
+      "sourceRecords": [
+        67
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1679856",
+      "name": "Sultanate of Jambi",
+      "wikidata": "Q1679856",
+      "sourceRecords": [
+        16
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q170604",
+      "name": "New France",
+      "wikidata": "Q170604",
+      "sourceRecords": [
+        65
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q171393",
+      "name": "Principality of Wallachia",
+      "wikidata": "Q171393",
+      "sourceRecords": [
+        97
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1760473",
+      "name": "Principality of Abkhazia",
+      "wikidata": "Q1760473",
+      "sourceRecords": [
+        119
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1794655",
+      "name": "Sultanate of Kutai Kartanegara",
+      "wikidata": "Q1794655",
+      "sourceRecords": [
+        35
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1796223",
+      "name": "Kingdom of Lunda",
+      "wikidata": "Q1796223",
+      "sourceRecords": [
+        28
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1841483",
+      "name": "Dutch Ceylon",
+      "wikidata": "Q1841483",
+      "sourceRecords": [
+        75
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q185944",
+      "name": "Kelantan",
+      "wikidata": "Q185944",
+      "sourceRecords": [
+        58
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q190165",
+      "name": "Kingdom of Luang Phrabang",
+      "wikidata": "Q190165",
+      "sourceRecords": [
+        103
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q1929987",
+      "name": "Karamanli Dynasty",
+      "wikidata": "Q1929987",
+      "sourceRecords": [
+        59
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q19746028",
+      "name": "Sultanate of Mempawah",
+      "wikidata": "Q19746028",
+      "sourceRecords": [
+        6
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q200464",
+      "name": "Portuguese Colonies",
+      "wikidata": "Q200464",
+      "sourceRecords": [
+        53,
+        110,
+        114
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q201705",
+      "name": "Khmer Empire",
+      "wikidata": "Q201705",
+      "sourceRecords": [
+        57
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q207162",
+      "name": "Kingdom of France",
+      "wikidata": "Q207162",
+      "sourceRecords": [
+        71,
+        76
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q207521",
+      "name": "Ethiopian Empire",
+      "wikidata": "Q207521",
+      "sourceRecords": [
+        78
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q2122499",
+      "name": "Surakarta Sunanate",
+      "wikidata": "Q2122499",
+      "sourceRecords": [
+        41
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q213893",
+      "name": "Negeri Sembilan",
+      "wikidata": "Q213893",
+      "sourceRecords": [
+        107
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q215443",
+      "name": "Swedish Empire",
+      "wikidata": "Q215443",
+      "sourceRecords": [
+        64
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q2195101",
+      "name": "Principality of Guria",
+      "wikidata": "Q2195101",
+      "sourceRecords": [
+        83
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q221283",
+      "name": "Dutch Cape Coast",
+      "wikidata": "Q221283",
+      "sourceRecords": [
+        73
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q223",
+      "name": "Greenland",
+      "wikidata": "Q223",
+      "sourceRecords": [
+        113
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q2267508",
+      "name": "Trịnh lords",
+      "wikidata": "Q2267508",
+      "sourceRecords": [
+        118
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q235",
+      "name": "Principality of Monaco",
+      "wikidata": "Q235",
+      "sourceRecords": [
+        13
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q2577303",
+      "name": "Kingdom of Sardinia",
+      "wikidata": "Q2577303",
+      "sourceRecords": [
+        42
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q2614237",
+      "name": "Nawab of Awadh",
+      "wikidata": "Q2614237",
+      "sourceRecords": [
+        121
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q2649311",
+      "name": "Sultanate of Perak",
+      "wikidata": "Q2649311",
+      "sourceRecords": [
+        2
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q2817348",
+      "name": "Sultanate of Bima",
+      "wikidata": "Q2817348",
+      "sourceRecords": [
+        7
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q28405",
+      "name": "Joseon",
+      "wikidata": "Q28405",
+      "sourceRecords": [
+        12
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q2907860",
+      "name": "Principality of Mingrelia",
+      "wikidata": "Q2907860",
+      "sourceRecords": [
+        112
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q2919545",
+      "name": "Principality of Svaneti",
+      "wikidata": "Q2919545",
+      "sourceRecords": [
+        91
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q3048747",
+      "name": "Pontianak Kadriyah Sultanate",
+      "wikidata": "Q3048747",
+      "sourceRecords": [
+        87
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q3109927",
+      "name": "Sultanate of Sambas",
+      "wikidata": "Q3109927",
+      "sourceRecords": [
+        5
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q3125978",
+      "name": "Bali",
+      "wikidata": "Q3125978",
+      "sourceRecords": [
+        21
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q3332217",
+      "name": "Gorkha Kingdom",
+      "wikidata": "Q3332217",
+      "sourceRecords": [
+        95
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q3446232",
+      "name": "Sultanate of Sukadana",
+      "wikidata": "Q3446232",
+      "sourceRecords": [
+        4
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q347",
+      "name": "Principality of Liechtenstein",
+      "wikidata": "Q347",
+      "sourceRecords": [
+        30
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q3503555",
+      "name": "Sultanate of Palembang",
+      "wikidata": "Q3503555",
+      "sourceRecords": [
+        14
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q3530610",
+      "name": "Thanjavur Maratha Kingdom",
+      "wikidata": "Q3530610",
+      "sourceRecords": [
+        36
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q382593",
+      "name": "New Netherland",
+      "wikidata": "Q382593",
+      "sourceRecords": [
+        29
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q39",
+      "name": "Swiss Confederation",
+      "wikidata": "Q39",
+      "sourceRecords": [
+        46
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q398",
+      "name": "Bahrain",
+      "wikidata": "Q398",
+      "sourceRecords": [
+        54
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q403369",
+      "name": "Kingdom of Champasak",
+      "wikidata": "Q403369",
+      "sourceRecords": [
+        105
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q406684",
+      "name": "Khanates of the Caucasus",
+      "wikidata": "Q406684",
+      "sourceRecords": [
+        66
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q424",
+      "name": "Cambodia",
+      "wikidata": "Q424",
+      "sourceRecords": [
+        51
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q43292",
+      "name": "Sultanate of Bone",
+      "wikidata": "Q43292",
+      "sourceRecords": [
+        15
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q46652",
+      "name": "Sultanate of Malacca",
+      "wikidata": "Q46652",
+      "sourceRecords": [
+        39
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q467627",
+      "name": "Durrani Empire",
+      "wikidata": "Q467627",
+      "sourceRecords": [
+        81
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q47261",
+      "name": "Duchy of Bavaria",
+      "wikidata": "Q47261",
+      "sourceRecords": [
+        49
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q48779892",
+      "name": "Kingdom of Naples (Napoleonic)",
+      "wikidata": "Q48779892",
+      "sourceRecords": [
+        62
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q4899891",
+      "name": "Beylik of Tunis",
+      "wikidata": "Q4899891",
+      "sourceRecords": [
+        61
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q491106",
+      "name": "Khanate of Khiva",
+      "wikidata": "Q491106",
+      "sourceRecords": [
+        48
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q52028",
+      "name": "Chiangmai",
+      "wikidata": "Q52028",
+      "sourceRecords": [
+        115
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q521263",
+      "name": "Tibet",
+      "wikidata": "Q521263",
+      "sourceRecords": [
+        109
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q5261548",
+      "name": "Qasimids",
+      "wikidata": "Q5261548",
+      "sourceRecords": [
+        33
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q5769444",
+      "name": "Sultanate of Terengganu",
+      "wikidata": "Q5769444",
+      "sourceRecords": [
+        31
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q577668",
+      "name": "Khanate of Bukhara",
+      "wikidata": "Q577668",
+      "sourceRecords": [
+        55
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q617219",
+      "name": "English Colonial Empire",
+      "wikidata": "Q617219",
+      "sourceRecords": [
+        68
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q66504140",
+      "name": "Habsburg Monarchy",
+      "wikidata": "Q66504140",
+      "sourceRecords": [
+        94,
+        101
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q68518",
+      "name": "Haudenosaunee",
+      "wikidata": "Q68518",
+      "sourceRecords": [
+        133
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q706018",
+      "name": "Electorate of Hanover",
+      "wikidata": "Q706018",
+      "sourceRecords": [
+        111
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q722071",
+      "name": "Ashanti Empire",
+      "wikidata": "Q722071",
+      "sourceRecords": [
+        69
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q734867",
+      "name": "Sultanate of Banten",
+      "wikidata": "Q734867",
+      "sourceRecords": [
+        18
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q762084",
+      "name": "Bamana Empire",
+      "wikidata": "Q762084",
+      "sourceRecords": [
+        79
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q7636765",
+      "name": "Sultanate of Selangor",
+      "wikidata": "Q7636765",
+      "sourceRecords": [
+        122
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q80702",
+      "name": "Spanish Empire",
+      "wikidata": "Q80702",
+      "sourceRecords": [
+        127,
+        131
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q817",
+      "name": "Kuwait",
+      "wikidata": "Q817",
+      "sourceRecords": [
+        52
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q837",
+      "name": "Nepal",
+      "wikidata": "Q837",
+      "sourceRecords": [
+        124
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q842",
+      "name": "Sultanate of Oman",
+      "wikidata": "Q842",
+      "sourceRecords": [
+        50
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q849623",
+      "name": "Oyo Empire",
+      "wikidata": "Q849623",
+      "sourceRecords": [
+        70
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q8680",
+      "name": "British Empire",
+      "wikidata": "Q8680",
+      "sourceRecords": [
+        93,
+        126,
+        129
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q887803",
+      "name": "Sultanate of Brunei",
+      "wikidata": "Q887803",
+      "sourceRecords": [
+        17
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q912382",
+      "name": "Danish India",
+      "wikidata": "Q912382",
+      "sourceRecords": [
+        56
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q9326",
+      "name": "Vientiane",
+      "wikidata": "Q9326",
+      "sourceRecords": [
+        89
+      ],
+      "reason": "no_ohm_match"
+    },
+    {
+      "identityKey": "Q97629053",
+      "name": "Zand Dynasty",
+      "wikidata": "Q97629053",
+      "sourceRecords": [
+        134
+      ],
+      "reason": "no_ohm_match"
+    }
+  ]
+}

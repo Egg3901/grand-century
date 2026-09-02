@@ -89,8 +89,24 @@ function normalizedPolityKey(value) {
   return key || 'POLITY';
 }
 
+function wikipediaPolityKey(entry) {
+  for (const evidence of entry.evidenceTags ?? []) {
+    const tags = evidence.tags ?? {};
+    const explicitEnglishTitle = tags['wikipedia:en'];
+    const [language, ...titleParts] = String(tags.wikipedia ?? '').split(':');
+    const title = explicitEnglishTitle ?? (language === 'en' ? titleParts.join(':') : null);
+    if (!title) continue;
+    const key = normalizedPolityKey(String(title).replaceAll('_', ' '));
+    if (key !== 'POLITY') return key;
+  }
+  return null;
+}
+
 function uniquePolityKey(entry, reserved) {
-  const base = normalizedPolityKey(entry.displayName ?? entry.identityKey);
+  const displayKey = normalizedPolityKey(entry.displayName ?? entry.identityKey);
+  const base = displayKey === 'POLITY' || displayKey.length < 3
+    ? wikipediaPolityKey(entry) ?? normalizedPolityKey(entry.wikidata ?? entry.identityKey)
+    : displayKey;
   if (!reserved.has(base)) return base;
   const identitySuffix = normalizedPolityKey(entry.wikidata ?? entry.identityKey);
   const withIdentity = `${base}_${identitySuffix}`;
@@ -407,7 +423,10 @@ export function buildCarryForwardDecisionPack({
       if (polityDispositions.has(prior.disposition)) {
         const previousPolity = previousPolityByKey.get(prior.polityKey);
         requireValue(Boolean(previousPolity), `carry-forward identity ${entry.identityKey} has no previous polity`);
-        if (existingOrScheduled.has(previousPolity.key)) {
+        if (/^POLITY(?:_|$)/.test(previousPolity.key)) {
+          decision.displayName = previousPolity.displayName;
+          decision.polityStatus = previousPolity.status;
+        } else if (existingOrScheduled.has(previousPolity.key)) {
           decision.mapTo = previousPolity.key;
         } else {
           decision.polityKey = previousPolity.key;
@@ -427,6 +446,49 @@ export function buildCarryForwardDecisionPack({
     reviewedAt,
     carriedFrom: previousRoster.asOf,
     decisions,
+  };
+}
+
+export function mergeManualDecisionPacks(packs, { reviewer, reviewedAt }) {
+  requireValue(Array.isArray(packs) && packs.length > 0, 'no manual decision packs to merge');
+  requireValue(Boolean(reviewer), 'merged decisions need a reviewer');
+  requireValue(/^\d{4}-\d{2}-\d{2}$/.test(reviewedAt), 'merged decisions need an ISO review date');
+  const asOf = packs[0].asOf;
+  const decisions = new Map();
+  for (const pack of packs) {
+    requireValue(pack.schemaVersion === 1 && pack.asOf === asOf, 'manual decision packs have incompatible dates');
+    for (const decision of pack.decisions ?? []) {
+      const key = `${decision.source}:${decision.identityKey}`;
+      const existing = decisions.get(key);
+      requireValue(!existing || JSON.stringify(existing) === JSON.stringify(decision), `manual decision packs conflict on ${key}`);
+      decisions.set(key, decision);
+    }
+  }
+  return {
+    schemaVersion: 1,
+    asOf,
+    reviewer,
+    reviewedAt,
+    decisions: [...decisions.values()].sort((left, right) => (
+      Number(Boolean(left.mapTo)) - Number(Boolean(right.mapTo))
+      || left.source.localeCompare(right.source)
+      || String(left.identityKey).localeCompare(String(right.identityKey), 'en')
+    )),
+  };
+}
+
+export function buildUniformUnreviewedDecisionPack({ asOf, review, source, disposition, notes, reviewer, reviewedAt }) {
+  requireValue(['ohm', 'cliopatria'].includes(source), `invalid uniform decision source ${source}`);
+  requireValue(REVIEW_DISPOSITIONS.has(disposition) && disposition !== 'unreviewed', 'invalid uniform disposition');
+  requireValue(Boolean(notes), 'uniform decisions need review notes');
+  return {
+    schemaVersion: 1,
+    asOf,
+    reviewer,
+    reviewedAt,
+    decisions: review.entries
+      .filter((entry) => entry.disposition === 'unreviewed')
+      .map((entry) => ({ source, identityKey: entry.identityKey, disposition, notes })),
   };
 }
 

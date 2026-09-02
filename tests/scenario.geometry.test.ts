@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { simplifyGeometry, validateGeometrySupplements } from '../content/sources/geometry/compiler.mjs';
+import {
+  simplifyGeometry,
+  validateGeometryResolutions,
+  validateGeometrySupplements,
+} from '../content/sources/geometry/compiler.mjs';
 
 describe('scenario border compiler', () => {
   it('quantizes shared-grid rings while preserving closure and small polygons', () => {
@@ -45,5 +49,25 @@ describe('scenario border compiler', () => {
       asOf: '1945-09-02', roster, supplements,
       audit: { schemaVersion: 1, asOf: '1945-09-02', entries: [] },
     })).toThrow(/no geometry audit/i);
+  });
+
+  it('skips a broken duplicate only when the same reviewed identity has valid geometry', () => {
+    const input = {
+      asOf: '1815-06-18',
+      audit: { entries: [{ relationId: 1, status: 'invalid_geometry' }, { relationId: 2, status: 'valid' }] },
+      resolutions: {
+        schemaVersion: 1,
+        asOf: '1815-06-18',
+        resolutions: [{ relationId: 1, action: 'skip_duplicate_source', reason: 'Chronology duplicate.' }],
+      },
+      review: { entries: [{ relationIds: [1, 2], disposition: 'polity' }] },
+      cliopatriaDiscovery: { candidates: [] },
+    };
+    expect(() => validateGeometryResolutions(input)).not.toThrow();
+    expect(() => validateGeometryResolutions({
+      ...input,
+      audit: { entries: [{ relationId: 1, status: 'invalid_geometry' }] },
+      review: { entries: [{ relationIds: [1], disposition: 'polity' }] },
+    })).toThrow(/no valid same-identity source/i);
   });
 });

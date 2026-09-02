@@ -91,6 +91,46 @@ export function compileRelationships({ manifest, roster, policy }) {
   };
 }
 
+export function buildCarryForwardRelationshipPolicy({ asOf, roster, previousRelationships, reviewedBy, reviewedAt }) {
+  const polityKeys = new Set(roster.polities.map((polity) => polity.key));
+  const previousResolutionMaps = previousRelationships.map((document) => (
+    new Map((document.resolutions ?? []).map((resolution) => [resolution.polityKey, resolution]))
+  ));
+  const dependents = roster.polities.filter((polity) => DEPENDENT_STATUSES.has(polity.status));
+  const decisions = dependents.map((polity) => {
+    const carried = previousResolutionMaps
+      .map((resolutions) => resolutions.get(polity.key))
+      .find((resolution) => resolution
+        && (!resolution.runtimeOverlord || polityKeys.has(resolution.runtimeOverlord))
+        && (resolution.participants ?? []).every((participant) => polityKeys.has(participant)));
+    if (!carried) {
+      return {
+        key: polity.key,
+        action: 'no_runtime_overlord',
+        basis: 'unresolved_exact_date_relationship',
+        notes: `No same-key relationship with represented participants carried into ${asOf}; the compiler does not invent an overlord.`,
+      };
+    }
+    return {
+      key: polity.key,
+      action: carried.action,
+      ...(carried.runtimeOverlord ? { runtimeOverlord: carried.runtimeOverlord } : {}),
+      ...(carried.participants?.length ? { participants: carried.participants } : {}),
+      basis: `temporal_carry_forward:${carried.basis}`,
+      notes: `${carried.notes} Relationship classification carried to ${asOf} for the same semantic polity key.`,
+      ...(carried.evidence?.length ? { evidence: carried.evidence } : {}),
+    };
+  });
+  return {
+    schemaVersion: 1,
+    asOf,
+    reviewedBy,
+    reviewedAt,
+    rules: [],
+    decisions: decisions.sort((left, right) => left.key.localeCompare(right.key, 'en')),
+  };
+}
+
 export async function writeRelationships(outputPath, result) {
   await mkdir(path.dirname(outputPath), { recursive: true });
   await writeFile(outputPath, `${JSON.stringify(result, null, 2)}\n`, 'utf8');

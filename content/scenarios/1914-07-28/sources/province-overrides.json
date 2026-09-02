@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1914-07-28",
+  "reviewedBy": "Codex province projection review",
+  "reviewedAt": "2026-09-02",
+  "note": "These assignments repair inherited 1830 province centroids that fall outside exact-date polygons or combine island and colonial regions too coarsely for direct point-in-polygon ownership. They are gameplay projections, not new boundary evidence.",
+  "overrides": [
+    {
+      "provinceId": 8,
+      "polityKey": "PORTUGAL",
+      "basis": "coarse_colonial_projection",
+      "notes": "East Angola is projected to Portugal because the exact-date roster lacks a separate Portuguese Angola polygon."
+    },
+    {
+      "provinceId": 9,
+      "polityKey": "PORTUGAL",
+      "basis": "coarse_colonial_projection",
+      "notes": "North Angola is projected to Portugal because the exact-date roster lacks a separate Portuguese Angola polygon."
+    },
+    {
+      "provinceId": 10,
+      "polityKey": "PORTUGAL",
+      "basis": "coarse_colonial_projection",
+      "notes": "South Angola is projected to Portugal because the exact-date roster lacks a separate Portuguese Angola polygon."
+    },
+    {
+      "provinceId": 11,
+      "polityKey": "CHILE",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Araucania inherits a polar centroid and is projected to Chile."
+    },
+    {
+      "provinceId": 12,
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Cape Colony inherits a polar centroid and is projected to the Union of South Africa."
+    },
+    {
+      "provinceId": 13,
+      "polityKey": "COLONY_OF_THE_STRAITS_SETTLEMENT",
+      "basis": "coarse_island_group_projection",
+      "notes": "The combined Christmas and Cocos Islands province is projected to the Straits Settlements administration."
+    },
+    {
+      "provinceId": 14,
+      "polityKey": "UNION_OF_SOUTH_AFRICA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Eastern Cape inherits a polar centroid and is projected to the Union of South Africa."
+    },
+    {
+      "provinceId": 15,
+      "polityKey": "BRITISH_MAURITIUS",
+      "basis": "coarse_island_group_projection",
+      "notes": "The inherited Indian Ocean grouping lacks a usable island centroid and is projected to British Mauritius."
+    },
+    {
+      "provinceId": 16,
+      "polityKey": "ARGENTINA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Patagonia Meridional inherits a polar centroid and is projected to Argentina."
+    },
+    {
+      "provinceId": 17,
+      "polityKey": "UNITED_KINGDOM",
+      "basis": "coarse_island_group_projection",
+      "notes": "The South Atlantic island grouping is projected to the United Kingdom at this mesh resolution."
+    },
+    {
+      "provinceId": 18,
+      "polityKey": "DOMINION_OF_NEW_ZEALAND",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "New Zealand's South Island inherits a polar centroid and is projected to the Dominion of New Zealand."
+    },
+    {
+      "provinceId": 19,
+      "polityKey": "COLONIE_DE_MADAGASCAR_ET_DEPENDANCES",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "South Madagascar inherits a polar centroid and is projected to French Madagascar."
+    },
+    {
+      "provinceId": 20,
+      "polityKey": "AUSTRALIA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Victoria inherits a polar centroid and is projected to the Commonwealth of Australia."
+    },
+    {
+      "provinceId": 21,
+      "polityKey": "AUSTRALIA",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Western Australia inherits a polar centroid and is projected to the Commonwealth of Australia."
+    },
+    {
+      "provinceId": 22,
+      "polityKey": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
+      "basis": "coarse_island_group_projection",
+      "notes": "Western Polynesia combines several islands and is projected to the British Western Pacific Territories."
+    },
+    {
+      "provinceId": 143,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "basis": "coarse_suzerainty_projection",
+      "notes": "The Egyptian Desert is projected to the Ottoman Empire because the exact-date source pack lacks a separate Khedivate polygon."
+    },
+    {
+      "provinceId": 144,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "basis": "coarse_suzerainty_projection",
+      "notes": "Lower Egypt is projected to the Ottoman Empire because the exact-date source pack lacks a separate Khedivate polygon."
+    },
+    {
+      "provinceId": 146,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "basis": "coarse_suzerainty_projection",
+      "notes": "Middle Egypt is projected to the Ottoman Empire because the exact-date source pack lacks a separate Khedivate polygon."
+    },
+    {
+      "provinceId": 148,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "basis": "coarse_suzerainty_projection",
+      "notes": "Upper Egypt is projected to the Ottoman Empire because the exact-date source pack lacks a separate Khedivate polygon."
+    },
+    {
+      "provinceId": 154,
+      "polityKey": "DEUTSCH_NEUGUINEA",
+      "basis": "coarse_island_group_projection",
+      "notes": "Micronesia is projected to German New Guinea at the inherited province resolution."
+    },
+    {
+      "provinceId": 201,
+      "polityKey": "UNITED_KINGDOM",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "The Scottish Highlands centroid is displaced into the North Atlantic and is projected to the United Kingdom."
+    },
+    {
+      "provinceId": 319,
+      "polityKey": "COLONY_OF_FIJI",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Fiji has a displaced inherited centroid and is projected to the Colony of Fiji."
+    },
+    {
+      "provinceId": 333,
+      "polityKey": "NORWAY",
+      "basis": "misplaced_inherited_centroid",
+      "notes": "Nordnorge has an offshore high-latitude centroid and is projected to Norway."
+    },
+    {
+      "provinceId": 336,
+      "polityKey": "MUSCAT_AND_OMAN",
+      "basis": "coarse_state_projection",
+      "notes": "Oman is projected to Muscat and Oman where the inherited centroid misses the reviewed polygon."
+    },
+    {
+      "provinceId": 363,
+      "polityKey": "PORTUGAL",
+      "basis": "coarse_island_group_projection",
+      "notes": "Macaronesia combines multiple archipelagos and is projected to Portugal at this mesh resolution."
+    },
+    {
+      "provinceId": 419,
+      "polityKey": "EMIRATE_OF_NEJD",
+      "basis": "coarse_state_projection",
+      "notes": "Nejd is projected to the explicitly reviewed Emirate of Nejd where the inherited centroid misses the source polygon."
+    }
+  ]
+}

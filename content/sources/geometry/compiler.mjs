@@ -141,6 +141,12 @@ export function validateGeometryResolutions({ asOf, audit, resolutions, review, 
     requireValue(Boolean(reviewEntry), `relation ${resolution.relationId} resolution has no roster review`);
     if (resolution.action === 'skip_nonexclusive') {
       requireValue(!['polity', 'dependent_polity'].includes(reviewEntry.disposition), `exclusive relation ${resolution.relationId} cannot be skipped`);
+    } else if (resolution.action === 'skip_duplicate_source') {
+      requireValue(
+        reviewEntry.relationIds.some((relationId) => relationId !== resolution.relationId
+          && audit.entries.some((entry) => entry.relationId === relationId && entry.status === 'valid')),
+        `relation ${resolution.relationId} has no valid same-identity source to replace it`,
+      );
     } else if (resolution.action === 'close_outer_chain') {
       requireValue(Number(resolution.maxGapDegrees) > 0, `relation ${resolution.relationId} needs a positive repair gap`);
     } else if (resolution.action === 'cliopatria_fallback') {

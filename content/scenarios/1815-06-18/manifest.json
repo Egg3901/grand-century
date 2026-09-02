@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "id": "1815-06-18",
   "title": "The Congress Settlement",
-  "startDate": { "year": 1815, "month": 6, "day": 18 },
-  "status": "development",
-  "summary": "A development seed for the post-Napoleonic settlement and the opening of the long nineteenth century.",
-  "seedProvenance": {
-    "kind": "inherited_development",
-    "sourceScenarioId": "1830-01-01",
-    "sourceAsOf": "1830-01-01",
-    "limitations": "Ownership and borders inherit the stable 1830 baseline until an exact 1815 OHM source pack is reviewed. Technology and the simulation clock use the exact start date."
+  "startDate": {
+    "year": 1815,
+    "month": 6,
+    "day": 18
   },
-  "visualPolicy": { "naziImagery": "prohibited" }
+  "status": "development",
+  "summary": "An exact-date development seed for the post-Napoleonic settlement and the opening of the long nineteenth century.",
+  "visualPolicy": {
+    "naziImagery": "prohibited"
+  }
 }

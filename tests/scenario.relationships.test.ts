@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { compileRelationships } from '../content/sources/relationships/compiler.mjs';
+import { buildCarryForwardRelationshipPolicy, compileRelationships } from '../content/sources/relationships/compiler.mjs';
 
 describe('scenario relationship compiler', () => {
   const manifest = { id: '1936-01-01' };
@@ -48,5 +48,24 @@ describe('scenario relationship compiler', () => {
       roster,
       policy: { asOf: '1936-01-01', rules: [], decisions: [] },
     })).toThrow(/uncovered dependent polities/i);
+  });
+
+  it('carries same-key relationships only when every participant is represented', () => {
+    const policy = buildCarryForwardRelationshipPolicy({
+      asOf: '1914-07-28',
+      roster,
+      previousRelationships: [{ resolutions: [
+        { polityKey: 'COLONY_A', action: 'overlord', runtimeOverlord: 'EMPIRE', basis: 'prior', notes: 'Prior.' },
+        { polityKey: 'COLONY_B', action: 'overlord', runtimeOverlord: 'ABSENT', basis: 'prior', notes: 'Prior.' },
+      ] }],
+      reviewedBy: 'historian',
+      reviewedAt: '2026-09-02',
+    });
+    expect(policy.decisions).toContainEqual(expect.objectContaining({
+      key: 'COLONY_A', action: 'overlord', runtimeOverlord: 'EMPIRE', basis: 'temporal_carry_forward:prior',
+    }));
+    expect(policy.decisions).toContainEqual(expect.objectContaining({
+      key: 'COLONY_B', action: 'no_runtime_overlord', basis: 'unresolved_exact_date_relationship',
+    }));
   });
 });

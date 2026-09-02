@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1914-07-28",
+  "resolutions": [
+    {
+      "relationId": 2692361,
+      "action": "cliopatria_fallback",
+      "sourceRecords": [48],
+      "geometryHashes": ["85647dc541881f04f85a2aa11f8cfb9081bfc76273bd29ba336c11701609dc6f"],
+      "reason": "The exact-date Austria-Hungary relation has unclosed chains; the independently pinned Cliopatria polygon supplies the reviewed fallback."
+    }
+  ]
+}
