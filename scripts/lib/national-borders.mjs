@@ -48,7 +48,7 @@ export function buildNationalBorders(provincesGeo, world) {
 
   const segments = [];
   for (const hits of edges.values()) {
-    if (hits.length === 1 || new Set(hits.map((hit) => hit.ownerTag)).size > 1) {
+    if (new Set(hits.map((hit) => hit.ownerTag)).size > 1) {
       segments.push(hits[0].line);
     }
   }

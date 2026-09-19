@@ -94,20 +94,6 @@
       "eraSummary": "Xinjiang is held by Qing garrisons and an uneasy peace with the Khojas."
     },
     {
-      "tag": "GXI",
-      "mode": "merge",
-      "polityStatus": "constituent",
-      "overlordTag": "QNG",
-      "eraSummary": "A southern Chinese province governed from Peking."
-    },
-    {
-      "tag": "YNN",
-      "mode": "merge",
-      "polityStatus": "constituent",
-      "overlordTag": "QNG",
-      "eraSummary": "Yunnan's frontier prefectures sit at the edge of Qing authority."
-    },
-    {
       "tag": "ENG",
       "mode": "merge",
       "eraSummary": "The workshop of the world and the first industrial society. Catholic emancipation passed last year, the Reform crisis is a year away, and the Company governs India in the Crown's name."
@@ -286,16 +272,6 @@
       "tag": "KOK",
       "mode": "merge",
       "eraSummary": "Kokand controls the Ferghana valley and the trade over the passes into Kashgar."
-    },
-    {
-      "tag": "MCK",
-      "mode": "merge",
-      "eraSummary": "Manchuria is the Qing dynasty's homeland, closed to Han settlement by law and settled by Han in practice."
-    },
-    {
-      "tag": "XBI",
-      "mode": "merge",
-      "eraSummary": "The northwestern Qing frontier, governed lightly and garrisoned thinly."
     },
     {
       "tag": "MYS",
