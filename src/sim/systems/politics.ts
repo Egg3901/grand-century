@@ -6,6 +6,7 @@ import {
   computeReformLegality,
   decayReformFatigue,
   ideologyFromPop,
+  incumbentPerformanceScore,
   isElectiveGovernment,
   normalizeUpperHouse,
   partyByKey,
@@ -110,6 +111,10 @@ function pickElectionParty(
     let bestScore = -Infinity;
     for (const party of nation.parties) {
       let score = party.ideology === ideology ? 1 : 0.58;
+      // Voters reward or punish the government separately from ideology.
+      // Severe hardship can now cost an incumbent its natural base instead of
+      // subtracting the same inconsequential amount from every party.
+      if (party.key === nation.rulingParty) score += incumbentPerformanceScore(pop);
       if (demand) {
         const reform = reformsByKey.get(demand);
         if (reform) {
@@ -119,7 +124,6 @@ function pickElectionParty(
         }
       }
       score += pop.consciousness * 0.01;
-      score -= (1 - pop.needsMet) * 0.06;
       score += rng.next() * 0.05;
       if (score > bestScore) {
         bestScore = score;

@@ -72,6 +72,28 @@ export function isElectiveGovernment(government: GovernmentType): boolean {
 }
 
 /**
+ * Economic confidence retained by an elective government, from 0.82 to 1.
+ * Elections alone are not enough: restricting both the franchise and the
+ * press creates corruption, strikes, capital flight, and administrative drag.
+ * Either institution can soften the loss, while full political reform clears
+ * it entirely. Non-elective governments use their existing economic model.
+ */
+export function democraticEconomicConfidence(nation: Nation): number {
+  if (!isElectiveGovernment(nation.government)) return 1;
+  const franchise = clamp((nation.reforms.voting_franchise ?? 0) / 3, 0, 1);
+  const press = clamp((nation.reforms.press_rights ?? 0) / 3, 0, 1);
+  const institutionalFailure = 1 - (franchise * 0.6 + press * 0.4);
+  return 1 - institutionalFailure * 0.18;
+}
+
+/** Per-voter ruling-party modifier. Hardship can overwhelm party affinity. */
+export function incumbentPerformanceScore(pop: Pop): number {
+  const needs = clamp(pop.needsMet, 0, 1);
+  const militancy = clamp(pop.militancy, 0, 10);
+  return (needs - 0.68) * 0.72 - militancy * 0.025;
+}
+
+/**
  * Upper-house composition reform → election blend / monthly drift weights.
  * Level 0 appointed keeps the chamber sticky with authoritarian bias;
  * level 3 proportional tracks ideology votes and pop ideology faster.

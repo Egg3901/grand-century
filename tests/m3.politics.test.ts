@@ -3,8 +3,12 @@ import { GAME_DATA } from '../src/data/gameData';
 import { applyCommand } from '../src/sim/commands';
 import { createWorld } from '../src/sim/bootstrap';
 import { advanceDay } from '../src/sim/world';
+import { Rng } from '../src/sim/rng';
+import { runPoliticsMonthly } from '../src/sim/systems/politics';
 import {
   computeReformLegality,
+  democraticEconomicConfidence,
+  incumbentPerformanceScore,
   REFORM_FATIGUE_DECAY_PER_MONTH,
   REFORM_FATIGUE_MAX_COST_MULTIPLIER_EXTRA,
   REFORM_FATIGUE_MAX_SUPPORT_PENALTY,
@@ -16,6 +20,64 @@ function noopPost() {
 }
 
 describe('M3 politics and unrest', () => {
+  it('makes severe hardship a decisive electoral liability for the ruling party', () => {
+    const world = createWorld(GAME_DATA, 1900);
+    const nation = world.nations[world.playerNation];
+    const pop = world.pops.find((candidate) => world.provinces[candidate.provinceId]?.owner === nation.id);
+    expect(pop).toBeTruthy();
+    if (!pop) return;
+
+    pop.needsMet = 0.95;
+    pop.militancy = 1;
+    expect(incumbentPerformanceScore(pop)).toBeGreaterThan(0.15);
+
+    pop.needsMet = 0.1;
+    pop.militancy = 8;
+    expect(incumbentPerformanceScore(pop)).toBeLessThan(-0.6);
+  });
+
+  it('votes a failing ruling party out even when voters share its ideology', () => {
+    const world = createWorld(GAME_DATA, 1905);
+    const nation = world.nations[world.playerNation];
+    nation.government = 'democracy';
+    nation.rulingParty = 'liberal_coalition';
+    nation.nextElectionYear = 1830;
+    nation.reforms.voting_franchise = 3;
+    for (const province of world.provinces) {
+      if (province.owner !== nation.id) continue;
+      for (const popId of province.popIds) {
+        const pop = world.pops[popId];
+        if (!pop) continue;
+        pop.ideology = 2; // liberal
+        pop.needsMet = 0.1;
+        pop.militancy = 8;
+      }
+    }
+
+    runPoliticsMonthly(world, GAME_DATA, new Rng(world.rngState));
+
+    expect(nation.rulingParty).not.toBe('liberal_coalition');
+    expect(nation.electionLastResult).not.toContain('Liberal Coalition');
+  });
+
+  it('penalizes production in elective governments that hollow out democracy', () => {
+    const world = createWorld(GAME_DATA, 1901);
+    const nation = world.nations[world.playerNation];
+    nation.government = 'democracy';
+    nation.reforms.voting_franchise = 0;
+    nation.reforms.press_rights = 0;
+    expect(democraticEconomicConfidence(nation)).toBeCloseTo(0.82);
+
+    nation.reforms.voting_franchise = 3;
+    nation.reforms.press_rights = 3;
+    expect(democraticEconomicConfidence(nation)).toBe(1);
+
+    nation.government = 'absolute_monarchy';
+    nation.reforms.voting_franchise = 0;
+    nation.reforms.press_rights = 0;
+    expect(democraticEconomicConfidence(nation)).toBe(1);
+  });
+
   it('rejects illegal reforms and applies legal reforms', () => {
     const world = createWorld(GAME_DATA, 1901);
     const nation = world.nations[world.playerNation];

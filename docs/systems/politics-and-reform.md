@@ -17,10 +17,21 @@ elective government, elections pick a ruling party out of that pop base. In a
 non-elective one they do not — but the upper house still exists, still has a
 composition, and still drifts over time.
 
+The ruling party owns the material result. Pops whose needs are met reward the
+incumbent; hardship and militancy impose a direct incumbent penalty strong
+enough to overcome ordinary party loyalty. Elections therefore remove failing
+governments instead of merely restating the electorate's ideology.
+
 **Franchise** determines whose opinion counts. Each pop type supports the
 franchise differently at each level, so widening the franchise changes which pops
 translate into political weight. This is the lever that changes who the upper
 house represents, and it is itself a reform.
+
+Elective government also creates an institutional promise. If it restricts both
+the franchise and the press, national RGO and factory throughput falls by up to
+18%, representing strikes, corruption, capital flight, and administrative drag.
+Political reform restores that confidence continuously; full franchise and a
+free press remove the penalty.
 
 ## Passing a reform
 

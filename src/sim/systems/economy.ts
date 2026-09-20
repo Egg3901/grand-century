@@ -1,6 +1,7 @@
 import type { Factory, GameData, Pop, Recipe, State, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
+import { democraticEconomicConfidence } from '../politics';
 import { buyFromMarket, computeSaleRevenue, priceSaleRevenue, registerSupply } from './market';
 import { techModifiersFor } from './research';
 
@@ -144,7 +145,8 @@ function runRgoProduction(world: World, recipes: Record<string, Recipe>, rgoTech
 
     const laborUnits = employed / 1000;
     // 0.6.0: industry-tech multiplier (practical steam engine, sawmills, ...).
-    const techBoost = rgoTechBoost[province.owner] ?? 1;
+    const techBoost = (rgoTechBoost[province.owner] ?? 1)
+      * democraticEconomicConfidence(world.nations[province.owner]);
     const throughput = recipe.output.amount * laborUnits * (1 + province.rgo.level * 0.1) * BALANCE.economy.rgoOutputBoost * techBoost;
     const outputAmount = registerSupply(world, recipe.output.good, throughput);
     if (outputAmount <= 0) continue;
@@ -351,7 +353,8 @@ function processFactory(
   // 0.6.0: industry/commerce-tech multiplier (mechanical production, machine
   // tooling, electrification, inventions...). Scales output per worker; input
   // demand scales with it too, so tech-lead industry pulls more raw goods.
-  let unitTarget = (employed / 1000) * (1 + factory.level * 0.16) * factoryTechBoost;
+  let unitTarget = (employed / 1000) * (1 + factory.level * 0.16) * factoryTechBoost
+    * democraticEconomicConfidence(owner);
   let inputCost = 0;
   let inputFill = 1;
   for (const input of recipe.inputs) {
