@@ -4,35 +4,20 @@ import { useSnapshotFields } from './useSnapshotFields';
 import { copyShareLink } from './permalink';
 import { instantPressProps } from './instantPress';
 import { NationFlag } from './components/NationFlag';
+import { PANEL_GROUPS } from './navigation';
 import './Hud.css';
 
 const SPEEDS = [0, 1, 2, 3, 4, 5] as const;
-const PANELS: { id: PanelId; label: string }[] = [
-  { id: 'budget', label: 'Budget' },
-  { id: 'production', label: 'Production' },
-  { id: 'population', label: 'Population' },
-  { id: 'cultures', label: 'Cultures' },
-  { id: 'market', label: 'Market' },
-  { id: 'politics', label: 'Politics' },
-  { id: 'diplomacy', label: 'Diplomacy' },
-  { id: 'great_powers', label: 'Great Powers' },
-  { id: 'formables', label: 'Formables' },
-  { id: 'decisions', label: 'Decisions' },
-  { id: 'technology', label: 'Technology' },
-  { id: 'military', label: 'Military' },
-  { id: 'colonization', label: 'Colonization' },
-  { id: 'save_load', label: 'Save / Load' },
-];
 const MAP_MODES: { id: MapMode; label: string }[] = [
   { id: 'political', label: 'Political' },
   { id: 'terrain', label: 'Terrain' },
-  { id: 'ruling_ideology', label: 'Ruling Ideology' },
+  { id: 'ruling_ideology', label: 'Ideology' },
   { id: 'unrest', label: 'Unrest' },
   { id: 'population', label: 'Population' },
   { id: 'culture', label: 'Culture' },
   { id: 'economy', label: 'Economy' },
   { id: 'military', label: 'Military' },
-  { id: 'diplomatic', label: 'Diplomatic' },
+  { id: 'diplomatic', label: 'Diplomacy' },
   { id: 'cores', label: 'Cores' },
 ];
 const MAX_SPEED = SPEEDS[SPEEDS.length - 1];
@@ -47,6 +32,7 @@ function formatMoney(value: number): string {
 }
 
 function panelCoachId(id: PanelId): string | undefined {
+  if (id === 'cabinet') return 'panel-cabinet';
   if (id === 'budget') return 'panel-budget';
   if (id === 'production') return 'panel-production';
   if (id === 'politics') return 'panel-politics';
@@ -109,8 +95,13 @@ export function Hud() {
     };
   }, [snapshot?.playerTech]);
 
-  const panels = useMemo(
-    () => (multiplayer ? PANELS.filter((p) => p.id !== 'save_load') : PANELS),
+  const panelGroups = useMemo(
+    () => PANEL_GROUPS
+      .map((group) => ({
+        ...group,
+        panels: multiplayer ? group.panels.filter((panel) => panel.id !== 'save_load') : group.panels,
+      }))
+      .filter((group) => group.panels.length > 0),
     [multiplayer],
   );
   const canControlSpeed = !multiplayer || mpIsLeader;
@@ -151,11 +142,6 @@ export function Hud() {
         <div className="hud-top__section">
           <span className="atlas-heading">Date</span>
           <strong data-testid="hud-date">{formattedDate}</strong>
-          {currentSpeed === 0 ? (
-            <span className="hud-paused-badge" data-testid="hud-paused" role="status" aria-live="polite">
-              Paused
-            </span>
-          ) : null}
         </div>
         <div className="hud-top__section hud-top__speeds" data-coach-id="speed-controls-desktop">
           {SPEEDS.map((speed) => (
@@ -227,21 +213,30 @@ export function Hud() {
       </header>
 
       <nav className="hud-rail atlas-panel" aria-label="Panels" data-coach-id="panel-rail-desktop">
-        {panels.map((panel) => (
-          <button
-            key={panel.id}
-            type="button"
-            data-testid={`panel-${panel.id}`}
-            data-coach-id={panelCoachId(panel.id)}
-            className={openPanel === panel.id ? 'is-active' : ''}
-            {...instantPressProps(() => togglePanel(panel.id as Exclude<PanelId, null>))}
-          >
-            {panel.label}
-          </button>
+        <div className="hud-rail__title"><strong>Government</strong><span>Ministries and ledgers</span></div>
+        {panelGroups.map((group) => (
+          <section key={group.id} className="hud-rail__group">
+            <h2>{group.label}</h2>
+            <div>
+              {group.panels.map((panel) => (
+                <button
+                  key={panel.id}
+                  type="button"
+                  data-testid={`panel-${panel.id}`}
+                  data-coach-id={panelCoachId(panel.id)}
+                  className={openPanel === panel.id ? 'is-active' : ''}
+                  {...instantPressProps(() => togglePanel(panel.id))}
+                >
+                  {panel.label}
+                </button>
+              ))}
+            </div>
+          </section>
         ))}
       </nav>
 
       <nav className="hud-mapmodes atlas-panel" aria-label="Map mode" data-coach-id="mapmodes-desktop">
+        <span className="hud-mapmodes__label">Map lens</span>
         {MAP_MODES.map((mode) => (
           <button
             key={mode.id}
@@ -276,17 +271,24 @@ export function Hud() {
 
       {mobilePanelsOpen ? (
         <nav className="hud-mobile-panel-drawer atlas-panel" aria-label="Panel drawer" data-coach-id="panel-rail-mobile" data-testid="mobile-panel-drawer">
-          {panels.map((panel) => (
-            <button
-              key={panel.id}
-              type="button"
-              data-testid={`mobile-panel-${panel.id}`}
-              data-coach-id={panelCoachId(panel.id)}
-              className={openPanel === panel.id ? 'is-active' : ''}
-              {...instantPressProps(() => togglePanel(panel.id as Exclude<PanelId, null>))}
-            >
-              {panel.label}
-            </button>
+          {panelGroups.map((group) => (
+            <section key={group.id} className="hud-mobile-panel-group">
+              <h2>{group.shortLabel}</h2>
+              <div>
+                {group.panels.map((panel) => (
+                  <button
+                    key={panel.id}
+                    type="button"
+                    data-testid={`mobile-panel-${panel.id}`}
+                    data-coach-id={panelCoachId(panel.id)}
+                    className={openPanel === panel.id ? 'is-active' : ''}
+                    {...instantPressProps(() => togglePanel(panel.id))}
+                  >
+                    {panel.label}
+                  </button>
+                ))}
+              </div>
+            </section>
           ))}
         </nav>
       ) : null}
@@ -312,12 +314,24 @@ export function Hud() {
       <nav className="hud-mobile-bottom atlas-panel" aria-label="Mobile primary navigation">
         <button
           type="button"
+          className={openPanel === 'cabinet' ? 'is-active' : ''}
+          data-testid="mobile-brief"
+          {...instantPressProps(() => {
+            openPanelId(openPanel === 'cabinet' ? null : 'cabinet');
+            setMobilePanelsOpen(false);
+            setMobileMapModesOpen(false);
+          })}
+        >
+          Brief
+        </button>
+        <button
+          type="button"
           className={mobilePanelsOpen ? 'is-active' : ''}
           data-testid="mobile-panels-toggle"
           data-coach-id="panels-mobile-toggle"
           {...instantPressProps(toggleMobilePanels)}
         >
-          Panels
+          Actions
         </button>
         <button
           type="button"

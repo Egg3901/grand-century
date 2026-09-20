@@ -16,6 +16,7 @@ async function startFreshGame(page: Page) {
 
 async function tap(page: Page, locator: ReturnType<Page['getByTestId']>) {
   await locator.waitFor({ state: 'visible', timeout: 10_000 });
+  await locator.scrollIntoViewIfNeeded();
   const box = await locator.boundingBox();
   if (!box) throw new Error('No bounding box for tap target');
   await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);

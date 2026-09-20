@@ -28,6 +28,7 @@ export function MainMenu() {
   const snapshot = useSnapshotFields(['nations', 'seed', 'mapMode', 'provinces', 'playerNation'] as const);
   const sendCommand = useStore((state) => state.sendCommand);
   const setShowMainMenu = useStore((state) => state.setShowMainMenu);
+  const openPanelId = useStore((state) => state.openPanelId);
   const setShowLobby = useStore((state) => state.setShowLobby);
   const multiplayer = useStore((state) => state.multiplayer);
   const saveSlots = useStore((state) => state.saveSlots);
@@ -125,6 +126,7 @@ export function MainMenu() {
     const modeQuery = mapMode === DEFAULT_CAMPAIGN_MAP_MODE ? '' : `&mode=${encodeURIComponent(mapMode)}`;
     window.location.hash = `#/new?seed=${seed}&nation=${encodeURIComponent(tag)}${modeQuery}`;
     setShowMainMenu(false);
+    openPanelId('cabinet');
   };
 
   const resumeLatest = () => {

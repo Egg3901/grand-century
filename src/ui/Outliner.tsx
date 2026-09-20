@@ -3,9 +3,10 @@ import { useStore } from '../store';
 import { useSnapshotFields } from './useSnapshotFields';
 import { batchAlerts, OUTLINER_VISIBLE_CAP } from './alertBatching';
 import { instantPressProps } from './instantPress';
+import { AGENDA_FIELDS, deriveNationalAgenda } from './strategy/agenda';
 
 export function Outliner() {
-  const snapshot = useSnapshotFields(['nations', 'playerNation', 'armies', 'fleets', 'wars'] as const);
+  const snapshot = useSnapshotFields([...AGENDA_FIELDS, 'fleets'] as const);
   const alerts = useStore((state) => state.alerts);
   const dismissAlert = useStore((state) => state.dismissAlert);
   const openPanelId = useStore((state) => state.openPanelId);
@@ -14,7 +15,7 @@ export function Outliner() {
   const playerName = useMemo(() => {
     if (!snapshot) return null;
     return snapshot.nations.find((n) => n.id === snapshot.playerNation)?.name ?? null;
-  }, [snapshot?.nations, snapshot?.playerNation]);
+  }, [snapshot]);
 
   const playerItems = useMemo(() => {
     if (!snapshot) return { armies: 0, fleets: 0, wars: 0 };
@@ -23,17 +24,31 @@ export function Outliner() {
       fleets: snapshot.fleets.filter((fleet) => fleet.owner === snapshot.playerNation).length,
       wars: snapshot.wars.filter((war) => war.attackers.includes(snapshot.playerNation) || war.defenders.includes(snapshot.playerNation)).length,
     };
-  }, [snapshot?.armies, snapshot?.fleets, snapshot?.playerNation, snapshot?.wars]);
+  }, [snapshot]);
 
   const batches = useMemo(
     () => batchAlerts(alerts, playerName).slice().reverse().slice(0, OUTLINER_VISIBLE_CAP),
     [alerts, playerName],
   );
+  const agenda = useMemo(() => snapshot ? deriveNationalAgenda(snapshot) : null, [snapshot]);
+  const topPriority = agenda?.priorities[0] ?? null;
 
   return (
     <aside className="outliner atlas-panel">
       <h3 className="atlas-heading">Outliner</h3>
       <p>Armies {playerItems.armies} | Fleets {playerItems.fleets} | Wars {playerItems.wars}</p>
+      {topPriority ? (
+        <button
+          type="button"
+          className={`outliner-priority is-${topPriority.tone}`}
+          data-testid="outliner-priority"
+          {...instantPressProps(() => openPanelId(topPriority.destination))}
+        >
+          <span>Cabinet priority</span>
+          <strong>{topPriority.title}</strong>
+          <small>{topPriority.action}</small>
+        </button>
+      ) : null}
       <ul className="outliner-alerts" data-testid="outliner-alerts">
         {batches.map((batch) => (
           <li key={batch.id} className={batch.prominent ? 'is-prominent' : 'is-quiet'} data-count={batch.count}>

@@ -414,8 +414,8 @@
 
 .neatline__cartouche {
   position: absolute;
-  left: 26px;
-  bottom: 26px;
+  left: 20rem;
+  bottom: 5rem;
   display: flex;
   align-items: center;
   gap: 0.6rem;

@@ -1,7 +1,7 @@
 # Grand Century
 
 A single-player, browser-based grand strategy game in the spirit of Victoria 2. Take a
-nation in 1836 and carry it through a century of industry, reform, and conquest, on a
+nation in 1820 and carry it through a century of industry, reform, and conquest, on a
 world whose population and markets move whether you are watching or not.
 
 Play at [lakesidegames.net/games/grand-century](https://lakesidegames.net/games/grand-century/).

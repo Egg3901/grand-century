@@ -260,7 +260,7 @@ test('UI-B panel content polish screenshots', async () => {
     document.querySelectorAll('canvas').forEach((el) => el.remove());
   });
 
-  await desktop.getByRole('button', { name: 'Panels' }).click();
+  await desktop.getByRole('button', { name: 'Actions' }).click();
   await desktop.locator('.hud-mobile-panel-drawer').getByTestId('mobile-panel-production').click();
   await expect(desktop.locator('.panel-host')).toHaveCount(1, { timeout: 10_000 });
   const closeHeight = await desktop.evaluate(() => {
@@ -279,7 +279,7 @@ test('UI-B panel content polish screenshots', async () => {
   });
   await expect(desktop.locator('.panel-host')).toHaveCount(0);
 
-  await desktop.getByRole('button', { name: 'Panels' }).click();
+  await desktop.getByRole('button', { name: 'Actions' }).click();
   await desktop.locator('.hud-mobile-panel-drawer').getByTestId('mobile-panel-diplomacy').click();
   await expect(desktop.locator('.panel-host')).toHaveCount(1, { timeout: 10_000 });
   await shotSelector(desktop, '.panel-host', 'artifacts/ui-b/mobile-panel-diplomacy.png');

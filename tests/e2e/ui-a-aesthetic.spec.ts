@@ -80,9 +80,9 @@ test('UI-A premium shell + labels screenshots', async () => {
   await dismissTutorial(mobile);
   await expect(mobile.locator('.hud-mobile-top')).toBeVisible();
   await expect(mobile.locator('.hud-mobile-bottom')).toBeVisible();
-  await mobile.getByRole('button', { name: 'Panels' }).click();
+  await mobile.getByRole('button', { name: 'Actions' }).click();
   await expect(mobile.locator('.hud-mobile-panel-drawer')).toBeVisible();
-  await mobile.locator('.hud-mobile-panel-drawer').getByTestId('panel-budget').click();
+  await mobile.locator('.hud-mobile-panel-drawer').getByTestId('mobile-panel-budget').click();
   await expect(mobile.locator('.panel-host')).toBeVisible();
   await expect(mobile.locator('.panel-host__close')).toBeVisible();
   await mobile.screenshot({ path: 'artifacts/ui-a/mobile-panel.png', fullPage: true });

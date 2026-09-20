@@ -1674,10 +1674,12 @@ export function GrandMap() {
       measureEl.style.textTransform = province ? 'none' : 'uppercase';
       measureEl.style.fontVariant = province ? 'normal' : 'small-caps';
       measureEl.textContent = text;
-      // Province labels carry a settlement dot + flex gap (0.34em + 0.28em);
-      // pad the measured box so the collision grid matches what renders.
+      // Rendered labels include a glyph that text measurement cannot see.
+      // Pad provinces for the settlement dot and countries for flag + flex gap
+      // so the collision grid matches the actual marker width.
       const dotPad = province ? size * 0.62 + 2 : 0;
-      const width = Math.max(8, measureEl.offsetWidth + dotPad);
+      const flagPad = province ? 0 : size * 1.25;
+      const width = Math.max(8, measureEl.offsetWidth + dotPad + flagPad);
       const height = Math.max(8, measureEl.offsetHeight);
       measureEl.textContent = '';
       return { width, height };

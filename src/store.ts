@@ -32,7 +32,7 @@ export type MapMode =
   | 'cores'
   | 'culture';
 export type PanelId =
-  | null | 'budget' | 'population' | 'cultures' | 'market' | 'politics' | 'diplomacy'
+  | null | 'cabinet' | 'budget' | 'population' | 'cultures' | 'market' | 'politics' | 'diplomacy'
   | 'great_powers' | 'military' | 'production' | 'technology' | 'province' | 'colonization' | 'save_load' | 'formables' | 'decisions';
 
 interface UIState {

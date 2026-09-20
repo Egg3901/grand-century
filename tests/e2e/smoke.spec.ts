@@ -38,6 +38,7 @@ test('boot, play one year, open panels, declare war', async ({ page }) => {
   // in waits (red since V7). Panels + declare-war work the same paused.
   await page.dispatchEvent('[data-testid="speed-0"]', 'click');
   const panelIds = [
+    'cabinet',
     'budget',
     'production',
     'population',
@@ -61,4 +62,3 @@ test('boot, play one year, open panels, declare war', async ({ page }) => {
 
   expect(consoleErrors).toEqual([]);
 });
-

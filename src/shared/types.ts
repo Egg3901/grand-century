@@ -26,7 +26,7 @@ export type ArmyId = number;
 export type FleetId = number;
 export type WarId = number;
 
-/** Days since the game epoch (1836-01-01). The sim's canonical clock. */
+/** Days since the game epoch (1820-01-01). The sim's canonical clock. */
 export type GameDay = number;
 
 export interface GameDate {
@@ -372,7 +372,7 @@ export interface FormableStatus {
 
 /** Everything static the game is built from. Loaded once, never mutated. */
 export interface GameData {
-  startDate: GameDate;   // 1836-01-01
+  startDate: GameDate;   // Campaign epoch, currently 1820-01-01.
   goods: GoodDef[];
   recipes: Recipe[];
   popNeeds: Record<PopType, PopNeedsDef>;

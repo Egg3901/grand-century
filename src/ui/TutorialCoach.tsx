@@ -91,11 +91,13 @@ export function TutorialCoach() {
 
   const tutorialSteps = useMemo<TutorialStep[]>(() => [
     {
-      title: 'Your nation and the map',
-      body: `You lead ${playerNation?.name ?? 'your nation'}. The map is your command table: click provinces to inspect and direct operations.`,
-      hint: 'Pan and zoom to orient yourself.',
-      complete: true,
-      selectors: ['[data-coach-id="hud-nation"]', '[data-coach-id="world-map"]', '.hud-mobile-top__nation'],
+      title: 'Begin with the cabinet brief',
+      body: `You lead ${playerNation?.name ?? 'your nation'}. Cabinet turns the ledgers into priorities, national conditions, and a campaign arc.`,
+      hint: 'Open Cabinet whenever you are unsure what matters next.',
+      complete: openPanel === 'cabinet',
+      selectors: openPanel === 'cabinet'
+        ? ['[data-testid="cabinet-panel"]']
+        : ['[data-coach-id="panel-cabinet"]', '[data-coach-id="panels-mobile-toggle"]'],
     },
     {
       title: 'Mapmodes explain the world',

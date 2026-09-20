@@ -3,9 +3,11 @@ import { useStore, type PanelId } from '../../store';
 import { useShallow } from 'zustand/react/shallow';
 import { NationFlag } from '../components/NationFlag';
 import { resolvePanelChromeNation } from './panelChromeNation';
+import { panelGroupFor } from '../navigation';
 import './panels.css';
 
 const loadProvincePanel = () => import('./ProvincePanel').then((m) => ({ default: m.ProvincePanel }));
+const loadCabinetPanel = () => import('./CabinetPanel').then((m) => ({ default: m.CabinetPanel }));
 const loadBudgetPanel = () => import('./BudgetPanel').then((m) => ({ default: m.BudgetPanel }));
 const loadPopulationPanel = () => import('./PopulationPanel').then((m) => ({ default: m.PopulationPanel }));
 const loadCulturePanel = () => import('./CulturePanel').then((m) => ({ default: m.CulturePanel }));
@@ -23,6 +25,7 @@ const loadTechnologyPanel = () => import('./TechnologyPanel').then((m) => ({ def
 const loadSaveLoadPanel = () => import('./SaveLoadPanel').then((m) => ({ default: m.SaveLoadPanel }));
 
 const ProvincePanel = lazy(loadProvincePanel);
+const CabinetPanel = lazy(loadCabinetPanel);
 const BudgetPanel = lazy(loadBudgetPanel);
 const PopulationPanel = lazy(loadPopulationPanel);
 const CulturePanel = lazy(loadCulturePanel);
@@ -41,7 +44,7 @@ const SaveLoadPanel = lazy(loadSaveLoadPanel);
 
 /** Warm panel chunks after the HUD mounts so opening one does not wait on the network. */
 const PANEL_WARMERS = [
-  loadProvincePanel, loadBudgetPanel, loadPopulationPanel, loadCulturePanel,
+  loadProvincePanel, loadCabinetPanel, loadBudgetPanel, loadPopulationPanel, loadCulturePanel,
   loadProductionPanel, loadMarketPanel, loadPoliticsPanel, loadDiplomacyPanel,
   loadGreatPowersPanel, loadCrisisPanel, loadMilitaryPanel, loadColonizationPanel,
   loadFormablesPanel, loadDecisionsPanel, loadTechnologyPanel, loadSaveLoadPanel,
@@ -49,6 +52,7 @@ const PANEL_WARMERS = [
 
 const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
   province: 'Province',
+  cabinet: 'Cabinet & National Agenda',
   budget: 'Budget',
   production: 'Production',
   population: 'Population',
@@ -67,7 +71,7 @@ const PANEL_TITLES: Record<Exclude<PanelId, null>, string> = {
 
 /** Panels that show a nation shield in the chrome header. */
 const NATION_SCOPED_PANELS = new Set<PanelId>([
-  'province', 'budget', 'production', 'population', 'cultures', 'market', 'politics',
+  'province', 'cabinet', 'budget', 'production', 'population', 'cultures', 'market', 'politics',
   'diplomacy', 'great_powers', 'military', 'colonization', 'technology',
   'formables', 'decisions',
 ]);
@@ -103,6 +107,7 @@ export function PanelHost() {
   const chromeNation = NATION_SCOPED_PANELS.has(openPanel)
     ? resolvePanelChromeNation(openPanel, snapshot, selectedProvince, provinceDetail)
     : null;
+  const navigationGroup = panelGroupFor(openPanel);
 
   return (
     <>
@@ -122,8 +127,24 @@ export function PanelHost() {
           </div>
           <button type="button" className="panel-host__close" onClick={() => openPanelId(null)}>Done</button>
         </header>
+        {navigationGroup ? (
+          <nav className="panel-host__tabs" aria-label={`${navigationGroup.label} sections`}>
+            {navigationGroup.panels.map((panel) => (
+              <button
+                key={panel.id}
+                type="button"
+                className={openPanel === panel.id ? 'is-active' : undefined}
+                data-testid={`panel-tab-${panel.id}`}
+                onClick={() => openPanelId(panel.id)}
+              >
+                {panel.label}
+              </button>
+            ))}
+          </nav>
+        ) : null}
         <div className="panel-host__body">
           {openPanel === 'province' ? <LazyPanel Panel={ProvincePanel} /> : null}
+          {openPanel === 'cabinet' ? <LazyPanel Panel={CabinetPanel} /> : null}
           {openPanel === 'budget' ? <LazyPanel Panel={BudgetPanel} /> : null}
           {openPanel === 'population' ? <LazyPanel Panel={PopulationPanel} /> : null}
           {openPanel === 'cultures' ? <LazyPanel Panel={CulturePanel} /> : null}
