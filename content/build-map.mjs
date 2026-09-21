@@ -81,6 +81,10 @@ const VIC2_TAG_ALIAS = {
   URU: 'URY',
   SIC: 'TSC', // Two Sicilies
   ALD: 'ALG', // Aldjazair / Regency of Algiers
+  GXI: 'QNG',
+  YNN: 'QNG',
+  XBI: 'QNG',
+  MCK: 'QNG',
 };
 
 /** Grand Century tags that must survive even with no starting land. */

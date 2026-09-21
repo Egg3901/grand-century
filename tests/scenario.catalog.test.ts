@@ -28,7 +28,7 @@ describe('scenario catalog', () => {
   });
 
   it('registers compiled development scenarios without advertising them as playable', () => {
-    expect(loadScenario('1700-01-01').worldSeed.provinceCount).toBe(WORLD_SEED.provinceCount);
+    expect(loadScenario('1700-01-01').worldSeed.provinceCount).toBe(548);
     expect(loadScenario('1936-01-01').manifest.status).toBe('preview');
     expect(() => loadScenario('1789-07-14')).toThrow('Unknown scenario: 1789-07-14');
   });

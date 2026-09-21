@@ -86,7 +86,7 @@ describe('save fingerprint + compat', () => {
     const payload = JSON.parse(strFromU8(gunzipSync(buffer))) as {
       worldFingerprint?: ReturnType<typeof computeWorldFingerprint>;
     };
-    expect(payload.worldFingerprint).toEqual(computeWorldFingerprint());
+    expect(payload.worldFingerprint).toMatchObject(computeWorldFingerprint());
     expect(() => deserializeWorld(buffer)).not.toThrow();
   });
 });

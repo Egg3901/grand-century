@@ -69,14 +69,19 @@ function main() {
 
   // seed groups: one per Vic2 region
   const groups = ref.regions
-    .map((r) => ({
-      key: r.key,
-      name: r.name,
-      owner: ownerOverride.get(r.key) ?? r.dominantOwner1836 ?? 'UNC',
-      continent: r.continent ?? '?',
-      provinceIds: (r.provinceIds ?? []).filter((p) => !seas.has(p)),
-      merged: [r.key],
-    }))
+    .map((r) => {
+      let owner = ownerOverride.get(r.key) ?? r.dominantOwner1836 ?? 'UNC';
+      if (['GXI', 'YNN', 'XBI', 'MCK'].includes(owner)) owner = 'CHI';
+      if (r.key === 'USA_106' || r.key === 'USA_129') owner = 'USA';
+      return {
+        key: r.key,
+        name: r.name,
+        owner,
+        continent: r.continent ?? '?',
+        provinceIds: (r.provinceIds ?? []).filter((p) => !seas.has(p)),
+        merged: [r.key],
+      };
+    })
     .filter((g) => g.provinceIds.length);
 
   const groupOf = new Int32Array(65536).fill(-1);

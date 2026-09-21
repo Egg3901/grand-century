@@ -70,7 +70,7 @@
   },
   "provinceOverrides": [
     {
-      "provinceId": 399,
+      "provinceId": 253,
       "provinceName": "Ostpreußen",
       "expectedOwnerTag": "PRU",
       "confidence": "high",
@@ -78,7 +78,7 @@
       "reason": "East Prussia belongs to Prussia at the scenario date."
     },
     {
-      "provinceId": 467,
+      "provinceId": 68,
       "provinceName": "Cyprus",
       "expectedOwnerTag": "OTT",
       "confidence": "high",
@@ -86,7 +86,7 @@
       "reason": "Cyprus is Ottoman territory at the scenario date."
     },
     {
-      "provinceId": 497,
+      "provinceId": 16,
       "provinceName": "Arizona",
       "expectedOwnerTag": "MEX",
       "confidence": "high",
@@ -94,7 +94,7 @@
       "reason": "The southwest remains Mexican territory at the scenario date."
     },
     {
-      "provinceId": 499,
+      "provinceId": 45,
       "provinceName": "California",
       "expectedOwnerTag": "MEX",
       "confidence": "high",
@@ -102,7 +102,7 @@
       "reason": "Alta California remains Mexican territory at the scenario date."
     },
     {
-      "provinceId": 502,
+      "provinceId": 93,
       "provinceName": "Florida",
       "expectedOwnerTag": "USA",
       "confidence": "high",
@@ -110,7 +110,7 @@
       "reason": "Florida transferred from Spain to the United States before the scenario date."
     },
     {
-      "provinceId": 519,
+      "provinceId": 215,
       "provinceName": "Nevada-Utah",
       "expectedOwnerTag": "MEX",
       "confidence": "high",
@@ -118,7 +118,7 @@
       "reason": "The region remains Mexican territory at the scenario date."
     },
     {
-      "provinceId": 521,
+      "provinceId": 218,
       "provinceName": "New Mexico",
       "expectedOwnerTag": "MEX",
       "confidence": "high",
@@ -126,7 +126,7 @@
       "reason": "New Mexico remains Mexican territory at the scenario date."
     },
     {
-      "provinceId": 530,
+      "provinceId": 327,
       "provinceName": "Texas",
       "expectedOwnerTag": "MEX",
       "confidence": "high",
@@ -134,7 +134,7 @@
       "reason": "Texas remains Mexican territory before the 1836 revolution."
     },
     {
-      "provinceId": 140,
+      "provinceId": 120,
       "provinceName": "Hispaniola",
       "expectedOwnerTag": "HAI",
       "confidence": "high",
