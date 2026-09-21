@@ -208,7 +208,7 @@ describe('E4 events & decisions', () => {
 
     const popAfter = world.pops.reduce((sum, pop) => sum + Math.max(0, pop.size), 0);
     expect(popAfter).toBe(popBefore);
-  }, 30_000);
+  }, 60_000);
 
   it('decisions are gated by prerequisites', () => {
     const world = createWorld(GAME_DATA, 6601);

@@ -81,6 +81,10 @@ const VIC2_TAG_ALIAS = {
   URU: 'URY',
   SIC: 'TSC', // Two Sicilies
   ALD: 'ALG', // Aldjazair / Regency of Algiers
+  GXI: 'QNG',
+  YNN: 'QNG',
+  XBI: 'QNG',
+  MCK: 'QNG',
 };
 
 /** Grand Century tags that must survive even with no starting land. */
@@ -3069,6 +3073,78 @@ function registerVic2Nations(countries, seeds) {
   console.log(`[build-map] Nation library: ${Object.keys(NATION_LIBRARY).length} tags (${added} added from Vic2)`);
 }
 
+/**
+ * Provinces cut from Victoria II's own province raster, when the traced artifact
+ * is present. Replaces the Voronoi partition: those cells approximated where a
+ * Vic2 province was, these ARE the Vic2 provinces, merged at the pixel level to
+ * whatever granularity the grouping table asks for.
+ *
+ * Rings arrive as raw pixel staircases so that a border shared by two provinces
+ * is the same vertex sequence on both sides. Do not simplify them here — the
+ * topology pass downstream simplifies shared arcs once, which is the only way
+ * both sides of a border move together instead of cracking apart.
+ */
+async function loadTracedUnits() {
+  const tracedPath = path.join(RAW_DIR, 'tgc', 'traced-geometry.json');
+  const groupingPath = path.join(RAW_DIR, 'tgc', 'grouping.json');
+  let traced;
+  let grouping;
+  try {
+    traced = JSON.parse(await readFile(tracedPath, 'utf8'));
+    grouping = JSON.parse(await readFile(groupingPath, 'utf8'));
+  } catch {
+    return null;
+  }
+  const groupByKey = new Map(grouping.groups.map((g) => [g.key, g]));
+  const owned = [];
+  const geometryByKey = new Map();
+  for (const feature of traced.features) {
+    const group = groupByKey.get(feature.key);
+    if (!group) continue;
+    const geometry = feature.rings.length === 1
+      ? { type: 'Polygon', coordinates: [feature.rings[0]] }
+      : { type: 'MultiPolygon', coordinates: feature.rings.map((ring) => [ring]) };
+    const centroid = geometryCentroid(geometry);
+    geometryByKey.set(feature.key, geometry);
+    owned.push({
+      key: feature.key,
+      name: feature.name,
+      lon: centroid[0],
+      lat: centroid[1],
+      continent: group.continent,
+      pixelArea: feature.pixelArea,
+      ownerTag: toGrandCenturyTag(group.owner) ?? 'UNC',
+    });
+  }
+  const stateAssignment = clusterRegionsIntoStates(owned);
+  const seeds = owned.map((region) => {
+    const state = stateAssignment.get(region.key);
+    return { ...region, stateKey: state.key, stateName: state.name };
+  });
+  const units = seeds.map((seed) => {
+    const geometry = geometryByKey.get(seed.key);
+    const polygons = toPolygons(geometry);
+    return {
+      parentKey: seed.stateKey,
+      stateName: seed.name,
+      stateDisplayName: seed.stateName,
+      ownerTag: seed.ownerTag,
+      adminName: seed.name,
+      region: seed.continent,
+      countryKey: normalizeName(seed.name),
+      partIndex: 0,
+      partitionKey: seed.key,
+      polygons,
+      area: Math.max(1e-9, geometryArea(geometry)),
+      centroid: weightedCentroid(polygons),
+      bbox: geometryBounds(geometry),
+      lockedOwner: true,
+      artificialCuts: false,
+    };
+  }).filter((unit) => unit.bbox && unit.polygons.length);
+  return { units, seeds };
+}
+
 async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   const loaded = await loadSourceGeojson();
@@ -3092,6 +3168,10 @@ async function main() {
   }
 
   const vic2 = await loadVic2Regions();
+  const traced = await loadTracedUnits();
+  if (traced) {
+    console.log(`[build-map] traced Vic2 geometry: ${traced.units.length} provinces from the province raster`);
+  }
   const owned = vic2.regions.map((region) => ({
     ...region,
     ownerTag: toGrandCenturyTag(region.dominantOwner1836) ?? 'UNC',
@@ -3111,13 +3191,14 @@ async function main() {
       stateName: state.name,
     };
   });
-  registerVic2Nations(vic2.countries, seeds);
+  registerVic2Nations(vic2.countries, traced ? traced.seeds : seeds);
 
-  const units = vic2UnitsFromParents(parents, seeds);
-  console.log(`[build-map] Vic2 regions seeded: ${seeds.length}, units cut: ${units.length}`);
-  const missing = seeds.length - units.length;
+  const units = traced ? traced.units : vic2UnitsFromParents(parents, seeds);
+  const cutSeeds = traced ? traced.seeds : seeds;
+  console.log(`[build-map] Vic2 regions seeded: ${cutSeeds.length}, units cut: ${units.length}`);
+  const missing = cutSeeds.length - units.length;
   if (missing > 0) {
-    const emptyKeys = seeds.filter((seed) => !units.some((unit) => unit.partitionKey === seed.key)).map((seed) => seed.key);
+    const emptyKeys = cutSeeds.filter((seed) => !units.some((unit) => unit.partitionKey === seed.key)).map((seed) => seed.key);
     console.warn(`[build-map] regions with no land after the cut (${missing}): ${emptyKeys.join(', ')}`);
   }
   const { provinceRecords, stateRecords, bridgedIslands, nationalBorders } = buildProvinceRecords(units);

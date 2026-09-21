@@ -221,3 +221,13 @@ writeFileSync(OUT, JSON.stringify({
   regions,
 }, null, 1));
 console.log(`\nwrote ${path.relative(process.cwd(), OUT)} (${regions.length} regions)`);
+
+const tgcDir = path.join(ROOT, 'content/raw/tgc');
+writeFileSync(path.join(tgcDir, 'tgc-warp-anchors.json'), JSON.stringify({
+  anchors: anchors.map((a) => [a.x, a.y, a.lon, a.lat]),
+  globalFit: {
+    lon: [points.fit.lon.m, 0, points.fit.lon.b],
+    lat: [0, points.fit.lat.m, points.fit.lat.b],
+  },
+}, null, 1));
+console.log(`wrote ${path.join(tgcDir, 'tgc-warp-anchors.json')} (${anchors.length} anchors)`);

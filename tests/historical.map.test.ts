@@ -77,10 +77,11 @@ describe('checked-in 1830 historical map', () => {
   });
 
   it('keeps the province and state cut inside its intended shape', () => {
-    // 549 Vic2 regions, less a handful of islands with no land at Natural
-    // Earth 50m. Wide bounds: this is a smoke test, not a pinned snapshot.
-    expect(WORLD_SEED.provinces.length).toBeGreaterThanOrEqual(520);
-    expect(WORLD_SEED.provinces.length).toBeLessThanOrEqual(549);
+    // Provinces are Vic2 regions lumped by content/vic2/build-grouping.mjs, so
+    // the count is a deliberate target rather than whatever the cut produced.
+    // Wide bounds: this is a smoke test, not a pinned snapshot.
+    expect(WORLD_SEED.provinces.length).toBeGreaterThanOrEqual(250);
+    expect(WORLD_SEED.provinces.length).toBeLessThanOrEqual(560);
     expect(WORLD_SEED.states.length).toBeGreaterThan(120);
 
     const byId = new Map(WORLD_SEED.provinces.map((province) => [province.id, province]));
