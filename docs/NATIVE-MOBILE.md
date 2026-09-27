@@ -1,6 +1,12 @@
 # Grand Century native mobile migration
 
-Status: proposed implementation path. Product scope awaits owner decisions on offline single player and first release depth.
+Status: implementation started. Owner decisions: fully offline single player and web feature parity for the first playable mobile release.
+
+## Current implementation slice
+
+`apps/mobile` is an Expo development-build app with React Native screens, MapLibre Native, a bundled 1830 political atlas, and a separate Hermes simulation worker. The worker currently handles new games, the real tick, commands, snapshots, and detail requests. The UI currently exposes nation selection, province selection, and play/pause. This is an integration slice, not a playable parity build. The native save adapter, map updates from snapshots, remaining screens, other scenarios, and multiplayer are still required.
+
+Run `npm run mobile:atlas` after changing generated map data. `npm run mobile:start` syncs the atlas and starts Metro. The MapLibre and worker native modules require a development build, so Expo Go cannot run this app. `npm run mobile:export:android` checks the JavaScript bundle; `npm run mobile:assemble:android` builds the generated Android project after `expo prebuild --platform android` and local Android SDK setup.
 
 ## Goal
 
@@ -40,8 +46,8 @@ For multiplayer, implement a mobile socket transport against the existing sessio
 1. Build a native app that starts on both platforms, loads bundled world data, selects a nation, and opens a political map.
 2. Run the real 1830 simulation off the UI thread. Show date, speed, treasury, selected province, and one command that changes state. Measure frame time, memory, and time to first playable interaction on midrange devices.
 3. Save, force-terminate, relaunch, and resume the same world. Verify the content fingerprint and the game state after restoration.
-4. Add the mobile game loop: budget, politics, diplomacy, military, war, events, research, and explainable numbers as touch-first screens. Prioritize the command paths needed to play a full campaign before porting every web panel.
-5. Add multiplayer, chat, invitations, accessibility, tablet layouts, device QA, store assets, and release packaging according to the agreed first-release scope.
+4. Port every current web game system and command path to touch-first screens: budget, population, cultures, market, politics, diplomacy, great powers, military, production, technology, province detail, colonization, saves, formables, decisions, events, and campaign recap.
+5. Add all web map modes, multiplayer, chat, invitations, tutorial, accessibility, tablet layouts, device QA, store assets, and release packaging before declaring feature parity.
 
 ## Acceptance gates
 
@@ -49,11 +55,9 @@ For multiplayer, implement a mobile socket transport against the existing sessio
 - Identical simulation result for a recorded seed and command log across web and mobile.
 - Map pan, zoom, selection, and sheet interactions stay responsive while the world advances.
 - Saving survives app termination and upgrade; incompatible world data is rejected with a clear recovery path.
-- A complete single-player campaign can be played using touch controls at the agreed release scope.
+- A complete single-player campaign and the current multiplayer flow can be played using touch controls with every web feature reachable.
 - iOS and Android are tested on physical devices before release. This Linux host can build and test Android; iOS compilation and signing need macOS or a cloud macOS build runner.
 
-## Decisions needed
+## Remaining product decision
 
-1. Must single player work fully offline, including simulation and saves? Recommended: yes.
-2. Should the first store release cover the complete current web feature set, or a smaller complete game loop with later additions? Recommended: the smaller complete loop.
-3. Is the existing browser game maintained in parallel during migration? Recommended: yes until native parity is verified.
+Maintain the browser game during migration until native parity is verified. This is the working assumption because the current site is live.

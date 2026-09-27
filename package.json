@@ -4,6 +4,11 @@
   "version": "1.7.0",
   "type": "module",
   "scripts": {
+    "mobile:atlas": "node scripts/sync-mobile-atlas.mjs",
+    "mobile:start": "npm run mobile:atlas && npm --prefix apps/mobile start",
+    "mobile:typecheck": "npm --prefix apps/mobile run typecheck",
+    "mobile:export:android": "npm run mobile:atlas && npm --prefix apps/mobile run export:android",
+    "mobile:assemble:android": "./apps/mobile/android/gradlew -p apps/mobile/android assembleDebug --no-daemon",
     "scenario:validate": "node scripts/validate-scenarios.mjs",
     "scenario:roster": "node scripts/scenario-roster.mjs",
     "scenario:cliopatria": "node scripts/cliopatria-source.mjs",
