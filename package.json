@@ -9,6 +9,7 @@
     "mobile:typecheck": "npm --prefix apps/mobile run typecheck",
     "mobile:export:android": "npm run mobile:atlas && npm --prefix apps/mobile run export:android",
     "mobile:assemble:android": "./apps/mobile/android/gradlew -p apps/mobile/android assembleDebug --no-daemon",
+    "mobile:assemble:android:probe": "./apps/mobile/android/gradlew -p apps/mobile/android assembleDebug --no-daemon --max-workers=4 -Dorg.gradle.parallel=false -Dorg.gradle.jvmargs=-Xmx1024m -PreactNativeArchitectures=arm64-v8a",
     "scenario:validate": "node scripts/validate-scenarios.mjs",
     "scenario:roster": "node scripts/scenario-roster.mjs",
     "scenario:cliopatria": "node scripts/cliopatria-source.mjs",
