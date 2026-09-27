@@ -53,7 +53,7 @@ For multiplayer, implement a mobile socket transport against the existing sessio
 
 ## Acceptance gates
 
-- No WebView or browser-hosted game content in the mobile binary.
+- No game screen is rendered in a WebView, and no hosted game content is required for offline play.
 - Identical simulation result for a recorded seed and command log across web and mobile.
 - Map pan, zoom, selection, and sheet interactions stay responsive while the world advances.
 - Saving survives app termination and upgrade; incompatible world data is rejected with a clear recovery path.
