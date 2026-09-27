@@ -2,6 +2,8 @@
 
 Status: implementation started. Owner decisions: fully offline single player and web feature parity for the first playable mobile release.
 
+The explicit release checklist is in [NATIVE-PARITY.md](./NATIVE-PARITY.md).
+
 ## Current implementation slice
 
 `apps/mobile` is an Expo development-build app with React Native screens, MapLibre Native, a bundled 1830 political atlas, and a separate Hermes simulation worker. The worker currently handles new games, the real tick, commands, snapshots, and detail requests. The UI currently exposes nation selection, province selection, and play/pause. This is an integration slice, not a playable parity build. The native save adapter, map updates from snapshots, remaining screens, other scenarios, and multiplayer are still required.
