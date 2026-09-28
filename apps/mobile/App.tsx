@@ -9,10 +9,10 @@ import type { WorldSnapshot } from '../../src/shared/types';
 
 type Nation = (typeof worldSeed.nations)[number];
 type Province = (typeof worldSeed.provinces)[number];
-const paper = '#f4f0e6';
-const ink = '#1d3038';
-const wax = '#c99b54';
-const navy = '#142a35';
+const paper = '#eeeae0';
+const ink = '#17262d';
+const wax = '#bd954e';
+const navy = '#18272d';
 const mapStyle = {
   version: 8 as const,
   sources: {},
@@ -28,16 +28,13 @@ function NationPicker({ onSelect }: { onSelect: (nation: Nation) => void }) {
     <View style={styles.page}>
       <View style={styles.hero}>
         <Text style={styles.brand}>GRAND CENTURY</Text>
-        <Text style={styles.heroTitle}>The world is yours to shape.</Text>
-        <Text style={styles.heroBody}>Lead a nation through an age of industry, diplomacy, and revolution.</Text>
-        <Text style={styles.heroFoot}>1830 CAMPAIGN  ·  SINGLE PLAYER</Text>
+        <Text style={styles.heroFoot}>NEW CAMPAIGN  /  1830  /  SINGLE PLAYER</Text>
       </View>
       <View style={styles.pickerContent}>
-      <Text style={styles.eyebrow}>BEGIN A CAMPAIGN</Text>
-      <Text style={styles.title}>Choose a nation</Text>
+      <Text style={styles.title}>Select nation</Text>
       <TextInput accessibilityLabel="Search nations" placeholder="Search nations"
         placeholderTextColor="#817e76" value={query} onChangeText={setQuery} style={styles.search} />
-      <Text style={styles.resultCount}>{nations.length} NATIONS</Text>
+      <View style={styles.listHeading}><Text style={styles.resultCount}>NATION</Text><Text style={styles.resultCount}>{nations.length} AVAILABLE</Text></View>
       <FlatList data={nations} keyExtractor={(nation) => nation.tag} keyboardShouldPersistTaps="handled"
         ListEmptyComponent={<Text style={styles.emptyText}>No nations match that search.</Text>}
         renderItem={({ item }) => (
@@ -45,7 +42,7 @@ function NationPicker({ onSelect }: { onSelect: (nation: Nation) => void }) {
             onPress={() => onSelect(item)} style={({ pressed }) => [styles.nationRow, pressed && styles.pressed]}>
             <View style={[styles.swatch, { backgroundColor: colorOf(item) }]} />
             <View style={styles.nationText}><Text style={styles.nationName}>{item.name}</Text><Text style={styles.nationTag}>{item.tag}</Text></View>
-            <Text style={styles.rowArrow}>›</Text>
+            <Text style={styles.rowArrow}>→</Text>
           </Pressable>
         )} />
       </View>
@@ -110,7 +107,7 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
         <Pressable accessibilityRole="button" accessibilityLabel="Choose another nation" onPress={onBack} style={styles.backButton}>
           <Text style={styles.backText}>‹</Text>
         </Pressable>
-        <View style={styles.topTitleBlock}><Text style={styles.topEyebrow}>GRAND CENTURY / 1830</Text><Text style={styles.topTitle} numberOfLines={1}>{nation.name}</Text></View>
+        <View style={styles.topTitleBlock}><Text style={styles.topTitle} numberOfLines={1}>{nation.name}</Text><Text style={styles.topEyebrow}>POLITICAL MAP  /  1830</Text></View>
       </View>
       <View style={styles.summaryBar}>
         <View style={styles.summaryItem}><Text style={styles.summaryLabel}>TREASURY</Text><Text style={styles.summaryValue}>{player ? `£${Math.round(player.treasury).toLocaleString()}` : '...'}</Text></View>
@@ -119,12 +116,12 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
       </View>
       <View style={styles.bottomDock}>
       {province && <View style={styles.provinceSheet}>
-        <View style={styles.sheetHeader}><View><Text style={styles.eyebrow}>PROVINCE / {province.terrain.toUpperCase()}</Text><Text style={styles.sheetTitle}>{province.name}</Text></View>
+        <View style={styles.sheetHeader}><View><Text style={styles.eyebrow}>PROVINCE  /  {province.terrain.toUpperCase()}</Text><Text style={styles.sheetTitle}>{province.name}</Text></View>
           <Pressable accessibilityRole="button" accessibilityLabel="Close province detail" onPress={() => setProvince(null)}><Text style={styles.closeText}>×</Text></Pressable></View>
         <View style={styles.provinceFacts}><View><Text style={styles.factLabel}>OWNER</Text><Text style={styles.factValue}>{owner?.name ?? province.ownerTag}</Text></View><View><Text style={styles.factLabel}>POPULATION</Text><Text style={styles.factValue}>{selected?.population.toLocaleString() ?? '...'}</Text></View></View>
       </View>}
       <View style={styles.clockBar}>
-        <View><Text style={styles.clockLabel}>CAMPAIGN DATE</Text><Text style={styles.clockText}>{snapshot ? `${snapshot.date.day} / ${snapshot.date.month} / ${snapshot.date.year}` : 'Loading...'}</Text></View>
+        <View><Text style={styles.clockLabel}>DATE  /  SPEED {snapshot?.speed ?? 0}</Text><Text style={styles.clockText}>{snapshot ? `${snapshot.date.day} / ${snapshot.date.month} / ${snapshot.date.year}` : 'Loading...'}</Text></View>
         <View style={styles.speedControls}>
         <Pressable accessibilityRole="button" accessibilityLabel="Decrease game speed" disabled={!snapshot || snapshot.speed === 0}
           onPress={() => transport?.send({ t: 'command', cmd: { t: 'setSpeed', speed: Math.max(0, (snapshot?.speed ?? 0) - 1) } })} style={styles.speedStep}><Text style={styles.speedStepText}>−</Text></Pressable>
@@ -154,50 +151,49 @@ export default function App() {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: paper },
   page: { flex: 1 },
-  hero: { backgroundColor: navy, paddingTop: 72, paddingHorizontal: 24, paddingBottom: 26 },
-  brand: { color: wax, fontSize: 12, fontWeight: '900', letterSpacing: 3 },
-  heroTitle: { color: '#fffdf7', fontSize: 38, fontWeight: '800', lineHeight: 43, marginTop: 26, letterSpacing: -1 },
-  heroBody: { color: '#c2d0d2', fontSize: 15, lineHeight: 23, marginTop: 12 },
-  heroFoot: { color: '#a9bec2', fontSize: 10, fontWeight: '800', letterSpacing: 1.4, borderTopColor: '#49606a', borderTopWidth: 1, paddingTop: 15, marginTop: 24 },
-  pickerContent: { flex: 1, paddingHorizontal: 20, paddingTop: 24 },
-  eyebrow: { color: '#9c713a', fontSize: 10, fontWeight: '900', letterSpacing: 1.6 },
-  title: { color: ink, fontSize: 26, fontWeight: '800', marginTop: 5, marginBottom: 18 },
-  search: { backgroundColor: '#fffdf7', borderColor: '#ddd8cb', borderWidth: 1, borderRadius: 12, color: ink, fontSize: 16, paddingHorizontal: 16, paddingVertical: 13 },
-  resultCount: { color: '#66747a', fontSize: 10, fontWeight: '800', letterSpacing: 1.4, marginTop: 20, marginBottom: 7 },
-  nationRow: { minHeight: 66, flexDirection: 'row', alignItems: 'center', borderBottomColor: '#ddd8cb', borderBottomWidth: 1, gap: 14 },
+  hero: { backgroundColor: navy, paddingTop: 52, paddingHorizontal: 16, paddingBottom: 12, borderBottomColor: wax, borderBottomWidth: 2 },
+  brand: { color: '#f1eadc', fontSize: 16, fontWeight: '800', letterSpacing: 2 },
+  heroFoot: { color: '#afbbb9', fontSize: 9, fontWeight: '700', letterSpacing: 1, marginTop: 5 },
+  pickerContent: { flex: 1, paddingHorizontal: 12, paddingTop: 15 },
+  eyebrow: { color: '#836332', fontSize: 9, fontWeight: '800', letterSpacing: 1 },
+  title: { color: ink, fontSize: 19, fontWeight: '800', marginBottom: 11 },
+  search: { backgroundColor: '#f8f6ef', borderColor: '#aba99e', borderWidth: 1, borderRadius: 0, color: ink, fontSize: 14, paddingHorizontal: 10, paddingVertical: 8 },
+  listHeading: { flexDirection: 'row', justifyContent: 'space-between', borderBottomColor: '#99998e', borderBottomWidth: 1, marginTop: 16, paddingBottom: 5 },
+  resultCount: { color: '#526268', fontSize: 9, fontWeight: '800', letterSpacing: 1 },
+  nationRow: { minHeight: 48, flexDirection: 'row', alignItems: 'center', borderBottomColor: '#c8c8bd', borderBottomWidth: 1, gap: 10 },
   pressed: { opacity: 0.55 },
-  swatch: { width: 34, height: 34, borderRadius: 9, borderColor: '#53616a', borderWidth: 1 },
+  swatch: { width: 8, height: 30, borderRadius: 0 },
   nationText: { flex: 1 },
-  nationName: { color: ink, fontSize: 17, fontWeight: '700' },
-  nationTag: { color: '#66747a', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginTop: 2 },
-  rowArrow: { color: '#66747a', fontSize: 29 },
+  nationName: { color: ink, fontSize: 14, fontWeight: '700' },
+  nationTag: { color: '#526268', fontSize: 10, fontWeight: '700', letterSpacing: 0.5 },
+  rowArrow: { color: '#526268', fontSize: 16 },
   emptyText: { color: '#66747a', paddingVertical: 24 },
   mapPage: { flex: 1, backgroundColor: '#a5bec5' },
   map: { flex: 1 },
-  topBar: { position: 'absolute', top: 52, left: 14, right: 14, flexDirection: 'row', alignItems: 'center', backgroundColor: navy, borderRadius: 14, padding: 8, gap: 10 },
-  backButton: { backgroundColor: '#25404d', borderRadius: 9, width: 43, height: 43, alignItems: 'center', justifyContent: 'center' },
-  backText: { color: '#fffdf7', fontSize: 31, lineHeight: 34 },
-  topTitleBlock: { flex: 1, paddingRight: 8 },
-  topEyebrow: { color: wax, fontSize: 9, fontWeight: '900', letterSpacing: 1.1 },
-  topTitle: { color: '#fffdf7', fontSize: 19, fontWeight: '800', marginTop: 2 },
-  summaryBar: { position: 'absolute', top: 122, left: 14, right: 14, flexDirection: 'row', backgroundColor: '#fffdf7', borderRadius: 12, paddingVertical: 13, paddingHorizontal: 5 },
-  summaryItem: { flex: 1, alignItems: 'center', borderRightColor: '#ddd8cb' },
-  summaryLabel: { color: '#66747a', fontSize: 9, fontWeight: '800', letterSpacing: 1 },
-  summaryValue: { color: ink, fontSize: 15, fontWeight: '800', marginTop: 4 },
-  bottomDock: { position: 'absolute', bottom: 22, left: 14, right: 14, gap: 10 },
-  provinceSheet: { backgroundColor: '#fffdf7', borderRadius: 15, padding: 18 },
+  topBar: { position: 'absolute', top: 0, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', backgroundColor: navy, paddingTop: 44, height: 94, borderBottomColor: wax, borderBottomWidth: 2 },
+  backButton: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center', borderRightColor: '#4b5a5d', borderRightWidth: 1 },
+  backText: { color: '#f1eadc', fontSize: 28, lineHeight: 31 },
+  topTitleBlock: { flex: 1, paddingLeft: 11 },
+  topEyebrow: { color: '#a9b6b3', fontSize: 9, fontWeight: '700', letterSpacing: 0.9, marginTop: 2 },
+  topTitle: { color: '#f1eadc', fontSize: 17, fontWeight: '800' },
+  summaryBar: { position: 'absolute', top: 94, left: 0, right: 0, flexDirection: 'row', backgroundColor: '#f4f1e8', borderBottomColor: '#878e8b', borderBottomWidth: 1, paddingVertical: 8 },
+  summaryItem: { flex: 1, alignItems: 'center', borderRightColor: '#b4b8af', borderRightWidth: 1 },
+  summaryLabel: { color: '#526268', fontSize: 8, fontWeight: '800', letterSpacing: 0.5 },
+  summaryValue: { color: ink, fontSize: 13, fontWeight: '800', marginTop: 2 },
+  bottomDock: { position: 'absolute', bottom: 0, left: 0, right: 0 },
+  provinceSheet: { backgroundColor: '#f4f1e8', borderTopColor: '#777d75', borderTopWidth: 1, paddingHorizontal: 13, paddingVertical: 10 },
   sheetHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
-  sheetTitle: { color: ink, fontSize: 24, fontWeight: '800', marginTop: 4 },
-  closeText: { color: '#66747a', fontSize: 27, lineHeight: 30 },
-  provinceFacts: { flexDirection: 'row', gap: 26, borderTopColor: '#ddd8cb', borderTopWidth: 1, marginTop: 16, paddingTop: 12 },
-  factLabel: { color: '#66747a', fontSize: 10, fontWeight: '800', letterSpacing: 1 },
-  factValue: { color: ink, fontSize: 14, fontWeight: '700', marginTop: 4 },
-  clockBar: { backgroundColor: navy, borderRadius: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 17, paddingRight: 9, paddingVertical: 10 },
-  clockLabel: { color: wax, fontSize: 9, fontWeight: '900', letterSpacing: 1 },
-  clockText: { color: '#fffdf7', fontSize: 16, fontWeight: '800', marginTop: 4 },
-  speedControls: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  speedStep: { width: 28, height: 39, alignItems: 'center', justifyContent: 'center' },
-  speedStepText: { color: '#fffdf7', fontSize: 22 },
-  speedButton: { width: 40, height: 39, borderRadius: 9, backgroundColor: wax, alignItems: 'center', justifyContent: 'center' },
-  speedText: { color: navy, fontSize: 17, fontWeight: '900' },
+  sheetTitle: { color: ink, fontSize: 17, fontWeight: '800', marginTop: 2 },
+  closeText: { color: '#526268', fontSize: 22, lineHeight: 24 },
+  provinceFacts: { flexDirection: 'row', gap: 24, borderTopColor: '#c8c8bd', borderTopWidth: 1, marginTop: 8, paddingTop: 7 },
+  factLabel: { color: '#526268', fontSize: 9, fontWeight: '800', letterSpacing: 0.5 },
+  factValue: { color: ink, fontSize: 12, fontWeight: '700', marginTop: 2 },
+  clockBar: { backgroundColor: navy, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 13, paddingRight: 5, height: 54 },
+  clockLabel: { color: '#a9b6b3', fontSize: 8, fontWeight: '800', letterSpacing: 0.5 },
+  clockText: { color: '#f1eadc', fontSize: 14, fontWeight: '800', marginTop: 2 },
+  speedControls: { flexDirection: 'row', alignItems: 'center' },
+  speedStep: { width: 31, height: 43, alignItems: 'center', justifyContent: 'center' },
+  speedStepText: { color: '#f1eadc', fontSize: 19 },
+  speedButton: { width: 35, height: 32, backgroundColor: wax, alignItems: 'center', justifyContent: 'center' },
+  speedText: { color: navy, fontSize: 15, fontWeight: '900' },
 });
