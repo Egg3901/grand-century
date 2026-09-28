@@ -5,7 +5,7 @@
     "scheme": "grandcentury",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/grand-century-icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "plugins": [
@@ -22,21 +22,20 @@
       "bundleIdentifier": "net.lakesidegames.grandcentury",
       "supportsTablet": true,
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSLocationWhenInUseUsageDescription": "Grand Century uses a map library that supports device location. The game does not request or use your location; you can play without granting access."
       }
     },
     "android": {
       "package": "net.lakesidegames.grandcentury",
       "adaptiveIcon": {
-        "backgroundColor": "#142a35",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "backgroundColor": "#192d32",
+        "foregroundImage": "./assets/grand-century-icon.png"
       },
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/grand-century-icon.png"
     }
   }
 }

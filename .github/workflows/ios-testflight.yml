@@ -88,6 +88,8 @@ jobs:
           path = Path(os.environ['RUNNER_TEMP']) / 'App.xcarchive/Products/Applications/GrandCentury.app/Info.plist'
           actual = plistlib.loads(path.read_bytes())['CFBundleVersion']
           expected = str(1000 + int(os.environ['GITHUB_RUN_NUMBER']))
+          if not plistlib.loads(path.read_bytes()).get('NSLocationWhenInUseUsageDescription'):
+              raise SystemExit('Archive is missing the location SDK purpose string')
           if actual != expected:
               raise SystemExit('Archive build number does not match this release run')
           PYTHON
