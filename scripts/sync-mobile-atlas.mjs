@@ -10,6 +10,36 @@ const [world, geometry] = await Promise.all([
 ]);
 const nations = new Map(world.nations.map((nation) => [nation.tag, nation]));
 const provinces = new Map(world.provinces.map((province) => [province.id, province]));
+const adjacency = new Map(world.nations.map((nation) => [nation.tag, new Set()]));
+for (const province of world.provinces) {
+  for (const neighborId of province.neighbors) {
+    const neighbor = provinces.get(neighborId);
+    if (neighbor && neighbor.ownerTag !== province.ownerTag) {
+      adjacency.get(province.ownerTag).add(neighbor.ownerTag);
+    }
+  }
+}
+
+const palette = [
+  [166, 76, 64], [67, 101, 145], [190, 154, 69], [83, 133, 96],
+  [123, 91, 143], [170, 112, 69], [71, 132, 139], [169, 95, 117],
+  [111, 120, 67], [134, 100, 75], [92, 91, 151], [180, 137, 115],
+];
+const distance = (left, right) => Math.hypot(...left.map((channel, index) => channel - right[index]));
+const mapColors = new Map();
+for (const nation of [...world.nations].sort((left, right) =>
+  adjacency.get(right.tag).size - adjacency.get(left.tag).size || left.tag.localeCompare(right.tag))) {
+  const used = [...adjacency.get(nation.tag)].map((tag) => mapColors.get(tag)).filter(Boolean);
+  const options = [nation.color, ...palette];
+  const best = options.map((color) => ({ color,
+    contrast: used.length ? Math.min(...used.map((other) => distance(color, other))) : 255,
+    fidelity: distance(color, nation.color),
+  })).sort((left, right) =>
+    (right.contrast >= 85 ? 1 : 0) - (left.contrast >= 85 ? 1 : 0)
+    || (left.contrast >= 85 && right.contrast >= 85
+      ? left.fidelity - right.fidelity : right.contrast - left.contrast))[0];
+  mapColors.set(nation.tag, best.color);
+}
 const segments = new Map();
 
 function recordRing(ring, ownerTag) {
@@ -29,7 +59,7 @@ for (const feature of geometry.features) {
   if (!province) throw new Error(`Unknown province ${feature.properties.id}`);
   const nation = nations.get(province.ownerTag);
   if (!nation) throw new Error(`Unknown nation ${province.ownerTag}`);
-  const color = `#${nation.color.map((part) => part.toString(16).padStart(2, '0')).join('')}`;
+  const color = `#${mapColors.get(province.ownerTag).map((part) => part.toString(16).padStart(2, '0')).join('')}`;
   feature.properties = {
     id: province.id,
     name: province.name,

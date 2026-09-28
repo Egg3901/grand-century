@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Camera, GeoJSONSource, ImageSource, Images, Layer, Map, Marker } from '@maplibre/maplibre-react-native';
+import { Camera, GeoJSONSource, ImageSource, Images, Layer, Map, Marker, type MapRef } from '@maplibre/maplibre-react-native';
 import { AppState, FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import atlas from './assets/game/atlas.json';
 import borders from './assets/game/borders.json';
@@ -21,6 +21,23 @@ const mapStyle = {
   sources: {},
   layers: [{ id: 'sea', type: 'background' as const, paint: { 'background-color': '#a7b8b9' } }],
 };
+const mapAnchors: Record<string, { center: [number, number]; zoom: number }> = {
+  ENG: { center: [-1.5, 53], zoom: 3.7 }, FRA: { center: [2.5, 47], zoom: 3.7 },
+  PRU: { center: [16, 52], zoom: 3.8 }, AUS: { center: [17, 48], zoom: 3.6 },
+  RUS: { center: [37, 55], zoom: 2.7 }, USA: { center: [-84, 39], zoom: 3.1 },
+  SPA: { center: [-4, 40], zoom: 3.6 }, OTT: { center: [29, 41], zoom: 3.1 },
+};
+const mapColorByTag = new globalThis.Map(atlas.features.map((feature) =>
+  [feature.properties.ownerTag, feature.properties.color]));
+
+function labelIsInside(bounds: [number, number, number, number] | null, lon: number, lat: number): boolean {
+  if (!bounds) return false;
+  const [west, south, east, north] = bounds;
+  const width = east - west;
+  const height = north - south;
+  return lon > west + width * 0.18 && lon < east - width * 0.18
+    && lat > south + height * 0.25 && lat < north - height * 0.29;
+}
 
 function compact(value: number): string {
   const magnitude = Math.abs(value);
@@ -79,12 +96,15 @@ function colorOf(nation: Nation) {
 }
 
 function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
+  const mapRef = useRef<MapRef>(null);
   const [province, setProvince] = useState<Province | null>(null);
   const [snapshot, setSnapshot] = useState<WorldSnapshot | null>(null);
   const [transport, setTransport] = useState<NativeSimTransport | null>(null);
   const [mapMode, setMapMode] = useState<'political' | 'terrain'>('political');
+  const [visibleBounds, setVisibleBounds] = useState<[number, number, number, number] | null>(null);
+  const [actionMessage, setActionMessage] = useState('');
   const capital = worldSeed.provinces.find((item) => item.id === nation.capitalProvinceId);
-  const center: [number, number] = capital ? [capital.lon, capital.lat] : [0, 20];
+  const focus = mapAnchors[nation.tag] ?? { center: capital ? [capital.lon, capital.lat] as [number, number] : [0, 20] as [number, number], zoom: 3.3 };
   const player = snapshot?.nations[snapshot.playerNation];
   const selected = province && snapshot?.provinces[province.id];
   const owner = selected && snapshot?.nations[selected.owner];
@@ -97,7 +117,10 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
     const sim = new NativeSimTransport();
     sim.onMessage((message) => {
       if (message.t === 'snapshot') setSnapshot(message.snapshot);
-      if (message.t === 'log' && message.level === 'error') console.error(message.msg);
+      if (message.t === 'log') {
+        if (message.level === 'error') console.error(message.msg);
+        setActionMessage(message.msg);
+      }
     });
     setTransport(sim);
     sim.send({ t: 'init', seed: 1830 });
@@ -116,8 +139,10 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
 
   return (
     <View style={styles.mapPage}>
-      <Map mapStyle={mapStyle} style={styles.map} touchRotate={false} touchPitch={false}>
-        <Camera initialViewState={{ center, zoom: capital ? 3 : 1 }} />
+      <Map ref={mapRef} mapStyle={mapStyle} style={styles.map} touchRotate={false} touchPitch={false}
+        onDidFinishLoadingMap={() => { void mapRef.current?.getBounds().then(setVisibleBounds).catch(() => undefined); }}
+        onRegionDidChange={(event) => setVisibleBounds(event.nativeEvent.bounds)}>
+        <Camera initialViewState={{ center: focus.center, zoom: focus.zoom }} />
         <Images images={{
           mountains: require('./assets/map/mountains.png'), forest: require('./assets/map/forest.png'),
           desert: require('./assets/map/desert.png'), farmland: require('./assets/map/farmland.png'),
@@ -133,6 +158,7 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
           onPress={(event) => {
             const id = Number(event.nativeEvent.features?.[0]?.properties?.id);
             setProvince(worldSeed.provinces.find((item) => item.id === id) ?? null);
+            setActionMessage('');
           }}>
           <Layer id="political-fill" type="fill"
             paint={{ 'fill-color': ['get', 'color'], 'fill-opacity': mapMode === 'political' ? 0.77 : 0.18 }} />
@@ -163,10 +189,11 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
         </GeoJSONSource>
         {powerLabels.map((item) => {
           const location = worldSeed.provinces[item.capital];
-          if (!location) return null;
-          return <Marker key={item.id} id={`power-${item.id}`} lngLat={[location.lon, location.lat]}>
-            <View style={styles.mapLabel} pointerEvents="none">
-              <Text style={styles.mapLabelText} numberOfLines={1}>{item.name.toUpperCase()}</Text>
+          const anchor = mapAnchors[item.tag]?.center ?? (location ? [location.lon, location.lat] : null);
+          if (!anchor || !labelIsInside(visibleBounds, anchor[0], anchor[1])) return null;
+          return <Marker key={item.id} id={`power-${item.id}`} lngLat={anchor as [number, number]}>
+            <View style={[styles.mapLabel, { borderLeftColor: mapColorByTag.get(item.tag) ?? '#5e6860' }]} pointerEvents="none">
+              <Text style={styles.mapLabelText}>{item.name.toUpperCase()}</Text>
             </View>
           </Marker>;
         })}
@@ -175,19 +202,17 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
         <Pressable accessibilityRole="button" accessibilityLabel="Choose another nation" onPress={onBack} style={styles.backButton}>
           <Text style={styles.backText}>‹</Text>
         </Pressable>
-        <View style={styles.topTitleBlock}><Text style={styles.topTitle} numberOfLines={1}>{nation.name}</Text><Text style={styles.topEyebrow}>POLITICAL MAP  /  1830</Text></View>
+        <View style={styles.topTitleBlock}><Text style={styles.topEyebrow}>PLAYING AS</Text><Text style={styles.topTitle} numberOfLines={1}>{nation.name}</Text><Text style={styles.topStatus}>{player?.atWar ? 'At war' : 'At peace'}  ·  Unrest {player?.unrest.toFixed(2) ?? '...'}</Text></View>
       </View>
       <View style={styles.summaryBar}>
         <View style={styles.summaryItem}><Text style={styles.summaryLabel}>TREASURY</Text><Text style={styles.summaryValue}>{player ? `£${Math.round(player.treasury).toLocaleString()}` : '...'}</Text></View>
         <View style={styles.summaryItem}><Text style={styles.summaryLabel}>POPULATION</Text><Text style={styles.summaryValue}>{playerPopulation == null ? '...' : compact(playerPopulation)}</Text></View>
-        <View style={styles.summaryItem}><Text style={styles.summaryLabel}>GP RANK</Text><Text style={styles.summaryValue}>{player?.gpRank ? `#${player.gpRank}` : 'n/a'}</Text></View>
+        <View style={styles.summaryItem}><Text style={styles.summaryLabel}>GREAT POWER RANK</Text><Text style={styles.summaryValue}>{player?.gpRank ? `Rank ${player.gpRank}` : 'Unranked'}</Text></View>
       </View>
       <View style={styles.secondaryBar}>
-        <View style={styles.secondaryItem}><Ionicons name="construct-outline" size={12} color="#526268" /><Text style={styles.secondaryLabel}> {player?.industryScore ?? '...'}</Text></View>
-        <View style={styles.secondaryItem}><Ionicons name="shield-outline" size={12} color="#526268" /><Text style={styles.secondaryLabel}> {player?.militaryScore ?? '...'}</Text></View>
-        <View style={styles.secondaryItem}><Text style={styles.secondaryLabel}>PREST <Text style={styles.secondaryValue}>{player ? Math.round(player.prestige) : '...'}</Text></Text></View>
-        <View style={styles.secondaryItem}><Text style={styles.secondaryLabel}>UNREST <Text style={styles.secondaryValue}>{player ? player.unrest.toFixed(2) : '...'}</Text></Text></View>
-        <View style={styles.secondaryItem}><Text style={[styles.secondaryLabel, player?.atWar && styles.warLabel]}>{player?.atWar ? 'AT WAR' : 'PEACE'}</Text></View>
+        <View style={styles.secondaryItem}><Ionicons name="construct-outline" size={14} color="#42565a" /><Text style={styles.secondaryLabel}> INDUSTRY</Text><Text style={styles.secondaryValue}>{player?.industryScore ?? '...'}</Text></View>
+        <View style={styles.secondaryItem}><Ionicons name="shield-outline" size={14} color="#42565a" /><Text style={styles.secondaryLabel}> MILITARY</Text><Text style={styles.secondaryValue}>{player?.militaryScore ?? '...'}</Text></View>
+        <View style={styles.secondaryItem}><Ionicons name="star-outline" size={14} color="#42565a" /><Text style={styles.secondaryLabel}> PRESTIGE</Text><Text style={styles.secondaryValue}>{player ? Math.round(player.prestige) : '...'}</Text></View>
       </View>
       <View style={styles.mapModeBar}>
         <Pressable accessibilityRole="button" accessibilityLabel="Political map" accessibilityState={{ selected: mapMode === 'political' }}
@@ -206,6 +231,11 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
         <View style={styles.sheetHeader}><View><Text style={styles.eyebrow}>PROVINCE  /  {province.terrain.toUpperCase()}</Text><Text style={styles.sheetTitle}>{province.name}</Text></View>
           <Pressable accessibilityRole="button" accessibilityLabel="Close province detail" onPress={() => setProvince(null)}><Text style={styles.closeText}>×</Text></Pressable></View>
         <View style={styles.provinceFacts}><View><Text style={styles.factLabel}>OWNER</Text><Text style={styles.factValue}>{owner?.name ?? province.ownerTag}</Text></View><View><Text style={styles.factLabel}>POPULATION</Text><Text style={styles.factValue}>{selected?.population.toLocaleString() ?? '...'}</Text></View><View><Text style={styles.factLabel}>UNREST</Text><Text style={styles.factValue}>{selected ? selected.unrestRisk.toFixed(2) : '...'}</Text></View></View>
+        {selected?.owner === snapshot?.playerNation && <Pressable accessibilityRole="button" accessibilityLabel={`Recruit regiment in ${province.name}`}
+          onPress={() => { setActionMessage(''); transport?.send({ t: 'command', cmd: { t: 'recruitArmy', province: province.id } }); }} style={styles.provinceAction}>
+          <Ionicons name="add-circle-outline" size={15} color="#f1eadc" /><Text style={styles.provinceActionText}>Recruit regiment</Text>
+        </Pressable>}
+        {!!actionMessage && <Text style={styles.actionMessage}>{actionMessage}</Text>}
       </View>}
       <View style={styles.clockBar}>
         <View><Text style={styles.clockLabel}>DATE  /  SPEED {snapshot?.speed ?? 0}</Text><Text style={styles.clockText}>{snapshot ? `${snapshot.date.day} / ${snapshot.date.month} / ${snapshot.date.year}` : 'Loading...'}</Text></View>
@@ -257,24 +287,24 @@ const styles = StyleSheet.create({
   emptyText: { color: '#66747a', paddingVertical: 24 },
   mapPage: { flex: 1, backgroundColor: '#a5bec5' },
   map: { flex: 1 },
-  topBar: { position: 'absolute', top: 0, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', backgroundColor: navy, paddingTop: 44, height: 94, borderBottomColor: wax, borderBottomWidth: 2 },
-  backButton: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center', borderRightColor: '#4b5a5d', borderRightWidth: 1 },
+  topBar: { position: 'absolute', top: 0, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', backgroundColor: navy, paddingTop: 40, height: 106, borderBottomColor: wax, borderBottomWidth: 2 },
+  backButton: { width: 48, height: 64, alignItems: 'center', justifyContent: 'center', borderRightColor: '#4b5a5d', borderRightWidth: 1 },
   backText: { color: '#f1eadc', fontSize: 28, lineHeight: 31 },
   topTitleBlock: { flex: 1, paddingLeft: 11 },
-  topEyebrow: { color: '#a9b6b3', fontSize: 9, fontWeight: '700', letterSpacing: 0.9, marginTop: 2 },
-  topTitle: { color: '#f1eadc', fontSize: 17, fontWeight: '800' },
-  summaryBar: { position: 'absolute', top: 94, left: 0, right: 0, flexDirection: 'row', backgroundColor: '#f4f1e8', borderBottomColor: '#878e8b', borderBottomWidth: 1, paddingVertical: 6 },
+  topEyebrow: { color: '#c9aa71', fontSize: 9, fontWeight: '800', letterSpacing: 0.9 },
+  topTitle: { color: '#f1eadc', fontSize: 17, fontWeight: '800', marginTop: 1 },
+  topStatus: { color: '#c4d0cc', fontSize: 10, fontWeight: '700', marginTop: 1 },
+  summaryBar: { position: 'absolute', top: 106, left: 0, right: 0, flexDirection: 'row', backgroundColor: '#f4f1e8', borderBottomColor: '#878e8b', borderBottomWidth: 1, paddingVertical: 6 },
   summaryItem: { flex: 1, alignItems: 'center', borderRightColor: '#b4b8af', borderRightWidth: 1 },
-  summaryLabel: { color: '#526268', fontSize: 8, fontWeight: '800', letterSpacing: 0.5 },
+  summaryLabel: { color: '#42565a', fontSize: 9, fontWeight: '800', letterSpacing: 0.3 },
   summaryValue: { color: ink, fontSize: 13, fontWeight: '800', marginTop: 2 },
-  secondaryBar: { position: 'absolute', top: 143, left: 0, right: 0, flexDirection: 'row', backgroundColor: '#dfdfd2', borderBottomColor: '#878e8b', borderBottomWidth: 1, height: 28, alignItems: 'center' },
+  secondaryBar: { position: 'absolute', top: 155, left: 0, right: 0, flexDirection: 'row', backgroundColor: '#dfdfd2', borderBottomColor: '#878e8b', borderBottomWidth: 1, height: 38, alignItems: 'center' },
   secondaryItem: { flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRightColor: '#b4b8af', borderRightWidth: 1 },
-  secondaryLabel: { color: '#526268', fontSize: 9, fontWeight: '800' },
-  secondaryValue: { color: ink, fontWeight: '800' },
-  warLabel: { color: '#9a3930' },
-  mapLabel: { backgroundColor: 'rgba(244,241,232,0.86)', borderColor: '#5e6860', borderWidth: 1, paddingHorizontal: 4, paddingVertical: 2, maxWidth: 116 },
+  secondaryLabel: { color: '#42565a', fontSize: 9, fontWeight: '800' },
+  secondaryValue: { color: ink, fontSize: 12, fontWeight: '800', marginLeft: 4 },
+  mapLabel: { backgroundColor: 'rgba(244,241,232,0.93)', borderColor: '#5e6860', borderWidth: 1, borderLeftWidth: 4, paddingHorizontal: 4, paddingVertical: 2 },
   mapLabelText: { color: '#253c3b', fontSize: 8, fontWeight: '900', letterSpacing: 0.8 },
-  mapModeBar: { position: 'absolute', top: 179, right: 7, flexDirection: 'row', borderColor: '#87918b', borderWidth: 1, backgroundColor: '#f4f1e8' },
+  mapModeBar: { position: 'absolute', bottom: 201, right: 7, flexDirection: 'row', borderColor: '#87918b', borderWidth: 1, backgroundColor: '#f4f1e8' },
   mapModeButton: { minHeight: 30, flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8 },
   mapModeSelected: { backgroundColor: navy },
   mapModeText: { color: ink, fontSize: 10, fontWeight: '800' },
@@ -287,6 +317,9 @@ const styles = StyleSheet.create({
   provinceFacts: { flexDirection: 'row', gap: 24, borderTopColor: '#c8c8bd', borderTopWidth: 1, marginTop: 8, paddingTop: 7 },
   factLabel: { color: '#526268', fontSize: 9, fontWeight: '800', letterSpacing: 0.5 },
   factValue: { color: ink, fontSize: 12, fontWeight: '700', marginTop: 2 },
+  provinceAction: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, backgroundColor: navy, minHeight: 38, marginTop: 9 },
+  provinceActionText: { color: '#f1eadc', fontSize: 12, fontWeight: '800' },
+  actionMessage: { color: '#42565a', fontSize: 11, marginTop: 6 },
   clockBar: { backgroundColor: navy, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 13, paddingRight: 5, height: 54 },
   clockLabel: { color: '#a9b6b3', fontSize: 8, fontWeight: '800', letterSpacing: 0.5 },
   clockText: { color: '#f1eadc', fontSize: 14, fontWeight: '800', marginTop: 2 },
