@@ -50,6 +50,16 @@ jobs:
       - run: npm ci --prefix apps/mobile
       - run: npm run mobile:typecheck
       - run: npm run mobile:atlas
+      - name: Stamp Expo build number
+        run: |
+          python3 - <<'PYTHON'
+          import json, os
+          from pathlib import Path
+          path = Path('apps/mobile/app.json')
+          config = json.loads(path.read_text())
+          config['expo']['ios']['buildNumber'] = str(1000 + int(os.environ['GITHUB_RUN_NUMBER']))
+          path.write_text(json.dumps(config, indent=2) + '\n')
+          PYTHON
       - name: Generate native iOS project
         working-directory: apps/mobile
         run: npx expo prebuild --platform ios --no-install
@@ -72,6 +82,15 @@ jobs:
           xcodebuild -workspace ios/GrandCentury.xcworkspace -scheme GrandCentury -configuration Release             -destination 'generic/platform=iOS'             -archivePath "$RUNNER_TEMP/App.xcarchive"             CURRENT_PROJECT_VERSION="$((1000 + GITHUB_RUN_NUMBER))" archive
       - name: Export internal TestFlight IPA
         run: |
+          python3 - <<'PYTHON'
+          import os, plistlib
+          from pathlib import Path
+          path = Path(os.environ['RUNNER_TEMP']) / 'App.xcarchive/Products/Applications/GrandCentury.app/Info.plist'
+          actual = plistlib.loads(path.read_bytes())['CFBundleVersion']
+          expected = str(1000 + int(os.environ['GITHUB_RUN_NUMBER']))
+          if actual != expected:
+              raise SystemExit('Archive build number does not match this release run')
+          PYTHON
           xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive"             -exportPath "$RUNNER_TEMP/ipa"             -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist"
       - name: Upload to App Store Connect
         env:

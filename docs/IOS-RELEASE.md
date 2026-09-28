@@ -21,5 +21,8 @@ The signing helper validates profile identity, expiry, distribution type,
 and the imported private key before configuring the app target.
 
 Build numbers are 1000 plus the release workflow run number. Keep this
-sequence when changing workflows. Only manual default-branch runs can sign;
+sequence when changing workflows. Expo's `ios.buildNumber` is stamped before
+prebuild, and the archive's `CFBundleVersion` is verified before export.
+The initial 1.0.0 preview shipped as build 1 before this stamping was added.
+Only manual default-branch runs can sign;
 PR builds compile without credentials. Concurrent uploads are serialized.
