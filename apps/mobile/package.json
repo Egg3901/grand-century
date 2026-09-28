@@ -4,6 +4,7 @@
   "main": "index.ts",
   "dependencies": {
     "@ammarahmed/react-native-workers": "^1.0.0-alpha.4",
+    "@expo/vector-icons": "^15.0.2",
     "@maplibre/maplibre-react-native": "^11.4.0",
     "expo": "~57.0.25",
     "expo-status-bar": "~57.0.1",
