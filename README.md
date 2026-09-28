@@ -27,6 +27,16 @@ coarser cadences to stay cheap in a browser tab.
 
 ## Running it
 
+The web game and native mobile app are maintained together on `master`.
+The web app lives at the repository root; `apps/mobile` contains the React
+Native app and imports the shared simulation and data from `src`.
+See [native setup](docs/NATIVE-MOBILE.md) and the
+[remaining parity gates](docs/NATIVE-PARITY.md). The native app is an early
+integration preview, not a complete mobile release.
+
+GitHub Actions runs web/mobile checks and an unsigned iOS simulator compile.
+Signing and TestFlight distribution are separate from these compile checks.
+
 Requires Node 20+.
 
 ```bash

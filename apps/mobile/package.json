@@ -1,0 +1,30 @@
+{
+  "name": "mobile",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "dependencies": {
+    "@ammarahmed/react-native-workers": "^1.0.0-alpha.4",
+    "@expo/vector-icons": "^15.0.2",
+    "@maplibre/maplibre-react-native": "^11.4.0",
+    "expo": "~57.0.25",
+    "expo-status-bar": "~57.0.1",
+    "react": "19.2.3",
+    "react-native": "0.86.3"
+  },
+  "devDependencies": {
+    "@react-native-community/cli-config": "20.2.0",
+    "@types/react": "~19.2.2",
+    "babel-preset-expo": "^57.0.13",
+    "typescript": "~6.0.3"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "export:android": "expo export --platform android",
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web",
+    "bundle:workers:ios": "rn-workers-bundle --platform ios --dev false --out dist/worker-check --project-root ."
+  },
+  "private": true
+}
