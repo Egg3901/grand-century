@@ -12,6 +12,7 @@
     "react-native": "0.86.3"
   },
   "devDependencies": {
+    "@react-native-community/cli-config": "20.2.0",
     "@types/react": "~19.2.2",
     "babel-preset-expo": "^57.0.13",
     "typescript": "~6.0.3"
@@ -22,7 +23,8 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "bundle:workers:ios": "rn-workers-bundle --platform ios --dev false --out dist/worker-check --project-root ."
   },
   "private": true
 }

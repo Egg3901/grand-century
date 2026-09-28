@@ -20,7 +20,10 @@
     ],
     "ios": {
       "bundleIdentifier": "net.lakesidegames.grandcentury",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "net.lakesidegames.grandcentury",
