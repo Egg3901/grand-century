@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Camera, GeoJSONSource, ImageSource, Images, Layer, Map, Marker, type MapRef } from '@maplibre/maplibre-react-native';
-import { AppState, FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Camera, GeoJSONSource, ImageSource, Images, Layer, Map, type MapRef } from '@maplibre/maplibre-react-native';
+import { AppState, FlatList, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import atlas from './assets/game/atlas.json';
 import borders from './assets/game/borders.json';
 import waves from './assets/game/waves.json';
 import worldSeed from './assets/game/worldSeed.json';
 import { NativeSimTransport } from './game/NativeSimTransport';
+import { labelFitsViewport } from './game/mapLabelPlacement';
 import type { WorldSnapshot } from '../../src/shared/types';
 
 type Nation = (typeof worldSeed.nations)[number];
@@ -27,17 +28,16 @@ const mapAnchors: Record<string, { center: [number, number]; zoom: number }> = {
   RUS: { center: [37, 55], zoom: 2.7 }, USA: { center: [-84, 39], zoom: 3.1 },
   SPA: { center: [-4, 40], zoom: 3.6 }, OTT: { center: [29, 41], zoom: 3.1 },
 };
-const mapColorByTag = new globalThis.Map(atlas.features.map((feature) =>
-  [feature.properties.ownerTag, feature.properties.color]));
-
-function labelIsInside(bounds: [number, number, number, number] | null, lon: number, lat: number): boolean {
-  if (!bounds) return false;
-  const [west, south, east, north] = bounds;
-  const width = east - west;
-  const height = north - south;
-  return lon > west + width * 0.18 && lon < east - width * 0.18
-    && lat > south + height * 0.25 && lat < north - height * 0.29;
-}
+const labelImages = {
+  'nation-ENG': require('./assets/map/labels/ENG.png'),
+  'nation-FRA': require('./assets/map/labels/FRA.png'),
+  'nation-PRU': require('./assets/map/labels/PRU.png'),
+  'nation-AUS': require('./assets/map/labels/AUS.png'),
+  'nation-RUS': require('./assets/map/labels/RUS.png'),
+  'nation-USA': require('./assets/map/labels/USA.png'),
+  'nation-SPA': require('./assets/map/labels/SPA.png'),
+  'nation-OTT': require('./assets/map/labels/OTT.png'),
+};
 
 function compact(value: number): string {
   const magnitude = Math.abs(value);
@@ -97,12 +97,14 @@ function colorOf(nation: Nation) {
 
 function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
   const mapRef = useRef<MapRef>(null);
+  const projectionRun = useRef(0);
   const [province, setProvince] = useState<Province | null>(null);
   const [snapshot, setSnapshot] = useState<WorldSnapshot | null>(null);
   const [transport, setTransport] = useState<NativeSimTransport | null>(null);
   const [mapMode, setMapMode] = useState<'political' | 'terrain'>('political');
-  const [visibleBounds, setVisibleBounds] = useState<[number, number, number, number] | null>(null);
   const [actionMessage, setActionMessage] = useState('');
+  const [mapSize, setMapSize] = useState({ width: 0, height: 0 });
+  const [visibleLabelTags, setVisibleLabelTags] = useState<string[]>([]);
   const capital = worldSeed.provinces.find((item) => item.id === nation.capitalProvinceId);
   const focus = mapAnchors[nation.tag] ?? { center: capital ? [capital.lon, capital.lat] as [number, number] : [0, 20] as [number, number], zoom: 3.3 };
   const player = snapshot?.nations[snapshot.playerNation];
@@ -110,7 +112,33 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
   const owner = selected && snapshot?.nations[selected.owner];
   const playerPopulation = snapshot?.provinces.reduce((total, item) =>
     total + (item.owner === snapshot.playerNation ? item.population : 0), 0);
-  const powerLabels = snapshot?.nations.filter((item) => item.gpRank > 0 && item.gpRank <= 8) ?? [];
+  const candidateTags = (snapshot?.nations ?? []).filter((item) =>
+    item.gpRank > 0 && item.gpRank <= 8 && item.tag in mapAnchors).map((item) => item.tag).sort().join(',');
+  const powerLabels = { type: 'FeatureCollection' as const, features: visibleLabelTags
+    .map((tag) => ({ type: 'Feature' as const, properties: { icon: `nation-${tag}` },
+      geometry: { type: 'Point' as const, coordinates: mapAnchors[tag].center } })) };
+
+  async function placeLabels() {
+    if (!mapRef.current || !mapSize.width || !mapSize.height) return;
+    const run = ++projectionRun.current;
+    const tags = candidateTags ? candidateTags.split(',') : [];
+    const positions = await Promise.all(tags.map(async (tag) => {
+      try { return { tag, point: await mapRef.current!.project(mapAnchors[tag].center) }; }
+      catch { return null; }
+    }));
+    if (run !== projectionRun.current) return;
+    const bottomReserved = province ? 215 : 72;
+    setVisibleLabelTags(positions.filter((position): position is { tag: string; point: [number, number] } => {
+      if (!position) return false;
+      const image = Image.resolveAssetSource(labelImages[`nation-${position.tag}` as keyof typeof labelImages]);
+      return labelFitsViewport({ point: position.point, imageWidth: image.width,
+        imageHeight: image.height, iconScale: 0.5, mapWidth: mapSize.width,
+        mapHeight: mapSize.height, topInset: 205,
+        bottomInset: bottomReserved, sideInset: 12 });
+    }).map((position) => position.tag));
+  }
+
+  useEffect(() => { void placeLabels(); }, [candidateTags, mapSize.width, mapSize.height, province?.id]);
 
 
   useEffect(() => {
@@ -140,13 +168,16 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
   return (
     <View style={styles.mapPage}>
       <Map ref={mapRef} mapStyle={mapStyle} style={styles.map} touchRotate={false} touchPitch={false}
-        onDidFinishLoadingMap={() => { void mapRef.current?.getBounds().then(setVisibleBounds).catch(() => undefined); }}
-        onRegionDidChange={(event) => setVisibleBounds(event.nativeEvent.bounds)}>
+        onLayout={(event) => setMapSize(event.nativeEvent.layout)}
+        onDidFinishLoadingMap={() => { void placeLabels(); }}
+        onRegionWillChange={() => { projectionRun.current += 1; setVisibleLabelTags([]); }}
+        onRegionDidChange={() => { void placeLabels(); }}>
         <Camera initialViewState={{ center: focus.center, zoom: focus.zoom }} />
         <Images images={{
           mountains: require('./assets/map/mountains.png'), forest: require('./assets/map/forest.png'),
           desert: require('./assets/map/desert.png'), farmland: require('./assets/map/farmland.png'),
           arctic: require('./assets/map/arctic.png'), plain: require('./assets/map/plain.png'),
+          ...labelImages,
         }} />
         <ImageSource id="offline-relief" url={require('./assets/map/gray-earth-relief.png')}
           coordinates={[[-180, 85], [180, 85], [180, -85], [-180, -85]]}>
@@ -187,16 +218,12 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
           <Layer id="country-border" type="line" filter={['==', ['get', 'kind'], 'country']}
             paint={{ 'line-color': '#344a49', 'line-width': 1.1 }} />
         </GeoJSONSource>
-        {powerLabels.map((item) => {
-          const location = worldSeed.provinces[item.capital];
-          const anchor = mapAnchors[item.tag]?.center ?? (location ? [location.lon, location.lat] : null);
-          if (!anchor || !labelIsInside(visibleBounds, anchor[0], anchor[1])) return null;
-          return <Marker key={item.id} id={`power-${item.id}`} lngLat={anchor as [number, number]}>
-            <View style={[styles.mapLabel, { borderLeftColor: mapColorByTag.get(item.tag) ?? '#5e6860' }]} pointerEvents="none">
-              <Text style={styles.mapLabelText}>{item.name.toUpperCase()}</Text>
-            </View>
-          </Marker>;
-        })}
+        <GeoJSONSource id="power-labels" data={powerLabels as GeoJSON.FeatureCollection}>
+          <Layer id="power-label-symbols" type="symbol"
+            layout={{ 'icon-image': ['get', 'icon'], 'icon-size': 0.5,
+              'symbol-avoid-edges': true, 'icon-allow-overlap': false,
+              'icon-ignore-placement': false, 'icon-anchor': 'center' }} />
+        </GeoJSONSource>
       </Map>
       <View style={styles.topBar}>
         <Pressable accessibilityRole="button" accessibilityLabel="Choose another nation" onPress={onBack} style={styles.backButton}>
@@ -302,8 +329,6 @@ const styles = StyleSheet.create({
   secondaryItem: { flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRightColor: '#b4b8af', borderRightWidth: 1 },
   secondaryLabel: { color: '#42565a', fontSize: 9, fontWeight: '800' },
   secondaryValue: { color: ink, fontSize: 12, fontWeight: '800', marginLeft: 4 },
-  mapLabel: { backgroundColor: 'rgba(244,241,232,0.93)', borderColor: '#5e6860', borderWidth: 1, borderLeftWidth: 4, paddingHorizontal: 4, paddingVertical: 2 },
-  mapLabelText: { color: '#253c3b', fontSize: 8, fontWeight: '900', letterSpacing: 0.8 },
   mapModeBar: { position: 'absolute', bottom: 201, right: 7, flexDirection: 'row', borderColor: '#87918b', borderWidth: 1, backgroundColor: '#f4f1e8' },
   mapModeButton: { minHeight: 30, flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8 },
   mapModeSelected: { backgroundColor: navy },
