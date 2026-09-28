@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Camera, GeoJSONSource, Images, Layer, Map, Marker } from '@maplibre/maplibre-react-native';
+import { Camera, GeoJSONSource, ImageSource, Images, Layer, Map, Marker } from '@maplibre/maplibre-react-native';
 import { AppState, FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import atlas from './assets/game/atlas.json';
 import borders from './assets/game/borders.json';
@@ -123,6 +123,11 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
           desert: require('./assets/map/desert.png'), farmland: require('./assets/map/farmland.png'),
           arctic: require('./assets/map/arctic.png'), plain: require('./assets/map/plain.png'),
         }} />
+        <ImageSource id="offline-relief" url={require('./assets/map/gray-earth-relief.png')}
+          coordinates={[[-180, 85], [180, 85], [180, -85], [-180, -85]]}>
+          <Layer id="relief-raster" type="raster"
+            paint={{ 'raster-opacity': mapMode === 'terrain' ? 0.8 : 0.55 }} />
+        </ImageSource>
         <Water />
         <GeoJSONSource id="provinces" data={atlas as GeoJSON.FeatureCollection}
           onPress={(event) => {
@@ -130,13 +135,13 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
             setProvince(worldSeed.provinces.find((item) => item.id === id) ?? null);
           }}>
           <Layer id="political-fill" type="fill"
-            paint={{ 'fill-color': ['get', 'color'], 'fill-opacity': mapMode === 'political' ? 0.94 : 0.25 }} />
+            paint={{ 'fill-color': ['get', 'color'], 'fill-opacity': mapMode === 'political' ? 0.77 : 0.18 }} />
           <Layer id="terrain-tint" type="fill"
             paint={{ 'fill-color': ['match', ['get', 'terrain'],
               'mountains', '#555b50', 'forest', '#42634d', 'jungle', '#317556',
               'desert', '#d3b679', 'farmland', '#b9a96d', 'arctic', '#d5d9cf',
               'plains', '#a8b383', '#a8b383'],
-              'fill-opacity': mapMode === 'terrain' ? 0.82 : 0.14 }} />
+              'fill-opacity': mapMode === 'terrain' ? 0.45 : 0.1 }} />
           <Layer id="terrain-pattern" type="fill"
             paint={{ 'fill-pattern': ['match', ['get', 'terrain'],
               'mountains', 'mountains', 'forest', 'forest', 'jungle', 'forest',
