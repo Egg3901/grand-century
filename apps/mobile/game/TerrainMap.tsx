@@ -131,7 +131,7 @@ function TerrainSurface(
         );
         return;
       }
-      if (labelsDirty.current && time - lastLabels.current >= 100) {
+      if (labelsDirty.current && time - lastLabels.current >= 1000 / 30) {
         labelsDirty.current = false;
         lastLabels.current = time;
         setRevision((n) => n + 1);

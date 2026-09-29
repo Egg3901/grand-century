@@ -24,7 +24,7 @@ export default function GraphicsSmoke() {
     );
   }
   function frame(gl: ExpoWebGLRenderingContext, renderer: TerrainRenderer) {
-    if (done.current === phase) return;
+    if (done.current === phase || renderer.needsFrame) return;
     // A layout event reaches JS after the parent changes height. Ignore frames
     // from the previous surface while waiting for the resized context.
     if (phase === 2 && gl.drawingBufferHeight >= highHeight.current - 100)
@@ -32,6 +32,8 @@ export default function GraphicsSmoke() {
     done.current = phase;
     try {
       const result = verifyTerrainFrame(gl);
+      if (phase > 0 && renderer.sceneryVertexCount === 0)
+        throw new Error("High scenery did not finish loading");
       let cameraUpdateMaxMs = 0;
       if (phase === 1) {
         const width = gl.drawingBufferWidth / 2,
@@ -64,6 +66,7 @@ export default function GraphicsSmoke() {
         quality: phase === 0 ? "balanced" : "high",
         ratio: PixelRatio.get(),
         cameraUpdateMaxMs,
+        sceneryVertices: renderer.sceneryVertexCount,
         ...result,
       });
       if (phase < 2) setTimeout(() => setPhase((p) => p + 1), 1500);

@@ -92,7 +92,7 @@ void main() {
   if(coverage<.999) {
     // Crossed travelling swells, with smaller capillary waves appearing on zoom.
     vec2 p=uv*12000.0;
-    p+=vec2(sin(p.y*.04+clock*.08),cos(p.x*.035-clock*.06))*3.0;
+    p+=vec2(noise(p*.08),noise(p*.065+vec2(31.0,17.0)))*10.0;
     float swell=sin(dot(p,vec2(.78,.63))+clock*1.35);
     float cross=sin(dot(p,vec2(-.56,1.12))-clock*1.8+swell*.6);
     float fine=sin(dot(p,vec2(3.3,-2.1))+clock*3.1+cross);
@@ -104,7 +104,7 @@ void main() {
     float shelf=smoothstep(.02,.95,coast);
     vec3 sea=mix(vec3(.025,.13,.24),vec3(.055,.43,.48),shelf);
     sea=mix(sea,vec3(.38,.57,.68),fresnel*.7);
-    sea+=vec3(.65,.73,.70)*glint*.48+(swell+cross*.5)*.011;
+    sea+=vec3(.65,.73,.70)*glint*.24*(.3+.7*noise(p*.27))+(swell+cross*.5)*.011;
     // Moving surf bands follow the authored coast, not a separate geographic outline.
     float breaker=pow(max(0.0,sin(coast*18.0-clock*2.4+cross*1.7)),10.0);
     float shore=smoothstep(.77,.99,coast);
@@ -409,6 +409,9 @@ export class TerrainRenderer {
     this.sceneryWork = null;
     this.sceneryBounds =
       this.quality === "high" ? { x: cx, y: cy, ex, ey, zoom: level } : null;
+  }
+  get sceneryVertexCount() {
+    return this.sceneryCount;
   }
   get needsFrame() {
     return this.sceneryBounds !== null || this.sceneryWork !== null;
