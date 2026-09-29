@@ -1,0 +1,13 @@
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { auditGeography } from './lib/geography-contract.mjs';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const args=process.argv.slice(2), option=(name,fallback)=>args.includes(name)?args[args.indexOf(name)+1]:fallback;
+const read=async name=>JSON.parse(await readFile(path.resolve(root,name),'utf8'));
+const report=auditGeography({world:await read(option('--world','src/data/generated/worldSeed.json')),geometry:await read(option('--geometry','src/data/generated/provinces.geo.json')),contract:await read('content/history/1830/geography-contract.json')});
+const output=path.resolve(root,option('--out','artifacts/geography-audit.json'));
+await mkdir(path.dirname(output),{recursive:true});await writeFile(output,JSON.stringify(report,null,2)+'\n');
+console.log(`${report.ok?'PASS':'FAIL'}: ${report.failures.length} geographic acceptance failures; report ${output}`);
+for(const failure of report.failures) console.log(JSON.stringify(failure));
+if(!report.ok && args.includes('--strict')) process.exitCode=1;
