@@ -15,6 +15,7 @@ export default function GraphicsSmoke() {
   const camera = useRef<CameraView | null>(null),
     done = useRef(-1);
   const results = useRef<object[]>([]);
+  const highHeight = useRef(0);
   function fail(reason: string) {
     setFailed(reason);
     report.write(
@@ -23,9 +24,13 @@ export default function GraphicsSmoke() {
   }
   function frame(gl: ExpoWebGLRenderingContext) {
     if (done.current === phase) return;
+    // A layout event reaches JS after the parent changes height. Ignore frames
+    // from the previous surface while waiting for the resized context.
+    if (phase === 2 && gl.drawingBufferHeight >= highHeight.current - 100) return;
     done.current = phase;
     try {
       const result = verifyTerrainFrame(gl);
+      if (phase === 1) highHeight.current = result.height;
       results.current.push({
         phase,
         quality: phase === 0 ? "balanced" : "high",
@@ -33,7 +38,7 @@ export default function GraphicsSmoke() {
         ...result,
       });
       if (phase < 2) setTimeout(() => setPhase((p) => p + 1), 1500);
-      else report.write(JSON.stringify({ ok: true, results: results.current }));
+      else setTimeout(() => report.write(JSON.stringify({ ok: true, results: results.current })), 500);
     } catch (error) {
       fail(String(error));
     }
