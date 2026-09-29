@@ -1,4 +1,3 @@
-import "./terrainOffline";
 import { terrainHeightShader } from "./terrainHeightShader";
 import { atmosphereShader } from "./atmosphereShader";
 import {
@@ -610,7 +609,8 @@ export class TerrainRenderer {
       );
       this.heightTimer = setTimeout(() => {
         this.heightTimer = null;
-        void loadHeightRegion(plan, this.data, controller.signal)
+        void import("./terrainOffline")
+          .then(() => loadHeightRegion(plan, this.data, controller.signal))
           .then(async (region) => {
             if (
               !this.disposed &&
@@ -826,6 +826,7 @@ export class TerrainRenderer {
   provinceAtPoint(x: number, y: number): number | null {
     const [lon, lat] = this.unproject(x, y);
     if (lon < -180 || lon > 180 || Math.abs(lat) > 85) return null;
+    if (physicalCoast().at(lon, lat) === null) return null;
     return provinceGeometry().at(lon, lat);
   }
   render(

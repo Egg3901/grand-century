@@ -327,6 +327,7 @@ test("close-zoom frontiers follow ownership even when nations have identical col
 test("fine terrain, day/night cycle and weather draw real pixels and persist controls", async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 430, height: 932 });
   await page.addInitScript(() => {
     localStorage.setItem("grand-century.tutorial.v0_2_0.seen", "1");
     localStorage.setItem("grand-century-graphics-v1", "high");

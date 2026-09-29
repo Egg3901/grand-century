@@ -1,3 +1,4 @@
+import { zlibSync } from "fflate";
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import {
@@ -60,6 +61,28 @@ describe("real elevation detail", () => {
     expect(tile.sourceZoom).toBe(8);
     expect(detailSpacingMeters(tile.sourceZoom, 46)).toBeLessThan(500);
     expect(Math.max(...tile.heights)).toBeGreaterThan(2000);
+  });
+  it("smoothly samples a bundled parent without overstating source detail", async () => {
+    const heights = new Uint16Array(256 * 256);
+    for (let y = 0; y < 256; y++)
+      for (let x = 0; x < 256; x++) heights[y * 256 + x] = x * 4;
+    const packed = Buffer.from(
+      zlibSync(new Uint8Array(heights.buffer)),
+    ).toString("base64");
+    installOfflineTerrain({ "7/50/50": packed });
+    try {
+      const tile = await loadTerrainTile(
+        8,
+        101,
+        101,
+        new AbortController().signal,
+      );
+      expect(tile.sourceZoom).toBe(7);
+      expect(tile.heights[10 * 256 + 10]).toBe(531);
+      expect(tile.heights[10 * 256 + 11]).toBe(533);
+    } finally {
+      installOfflineTerrain(offline);
+    }
   });
   it("keeps base relief when offline and does not claim high resolution", async () => {
     const p = {

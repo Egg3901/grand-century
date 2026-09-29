@@ -217,11 +217,23 @@ export const loadTerrainTile: TileLoader = async (z, x, y, signal) => {
         oy = ((y % scale) * 256) / scale;
       for (let row = 0; row < 256; row++) {
         if (row % 16 === 0) await yieldThread();
-        for (let col = 0; col < 256; col++)
+        const v = clamp(oy + (row + 0.5) / scale - 0.5, 0, 255),
+          iy = Math.floor(v),
+          ny = Math.min(255, iy + 1),
+          fy = v - iy;
+        for (let col = 0; col < 256; col++) {
+          const u = clamp(ox + (col + 0.5) / scale - 0.5, 0, 255),
+            ix = Math.floor(u),
+            nx = Math.min(255, ix + 1),
+            fx = u - ix;
           heights[row * 256 + col] =
-            original[
-              Math.floor(oy + row / scale) * 256 + Math.floor(ox + col / scale)
-            ];
+            (original[iy * 256 + ix] * (1 - fx) +
+              original[iy * 256 + nx] * fx) *
+              (1 - fy) +
+            (original[ny * 256 + ix] * (1 - fx) +
+              original[ny * 256 + nx] * fx) *
+              fy;
+        }
       }
       result = { heights, sourceZoom: parent };
     }
