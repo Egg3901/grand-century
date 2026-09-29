@@ -1,0 +1,61 @@
+name: Historical geography
+on:
+  pull_request:
+    paths:
+      - 'src/data/generated/provinces.geo.json'
+      - 'src/data/generated/worldSeed.json'
+      - 'content/history/1830/geography-contract.json'
+      - 'content/history/1830/replacement/**'
+      - 'content/sources/ohm/**'
+      - 'scripts/ohm-source.mjs'
+      - 'scripts/audit-geography.mjs'
+      - 'scripts/check-terrain-fingerprint.mjs'
+      - 'src/graphics/terrain-provenance*.json'
+      - 'scripts/audit-map-topology.py'
+      - 'scripts/lib/geography-contract.mjs'
+      - 'tests/geography.contract.test.ts'
+      - '.github/workflows/geography.yml'
+permissions:
+  contents: read
+jobs:
+  geography:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run tests/geography.contract.test.ts tests/ohm.source.test.ts --maxWorkers=1
+      - run: node scripts/check-terrain-fingerprint.mjs
+      - name: Detect replacement map data
+        id: changed
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if git diff --quiet "$BASE_SHA" "$HEAD_SHA" -- src/data/generated/provinces.geo.json src/data/generated/worldSeed.json; then
+            echo 'map=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'map=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Report current geographic accuracy
+        run: node scripts/audit-geography.mjs
+      - name: Require replacement geometry to satisfy historical assertions
+        if: steps.changed.outputs.map == 'true'
+        run: node scripts/audit-geography.mjs --strict
+      - name: Install topology validator
+        if: steps.changed.outputs.map == 'true'
+        run: python -m pip install shapely==2.1.2
+      - name: Reject invalid polygons and exclusive overlaps
+        if: steps.changed.outputs.map == 'true'
+        run: python scripts/audit-map-topology.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: geography-audit
+          path: artifacts/*audit.json

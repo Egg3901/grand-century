@@ -142,6 +142,7 @@ export async function queryOverpassCached(query, options) {
   const body = new URLSearchParams({ data: query });
   const response = await fetchImpl(OHM_OVERPASS_URL, {
     method: 'POST',
+    signal: AbortSignal.timeout(240000),
     headers: {
       'content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
       'user-agent': 'GrandCenturyScenarioCompiler/1.0',
