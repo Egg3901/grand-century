@@ -391,9 +391,9 @@ export function TerrainCanvas({
           ).map(({ city, x, y }) => (
             <button
               key={city.id}
-              style={{ left: x, top: y + 8, fontSize: 12 }}
+              style={{ left: x, top: y, fontSize: 12 }}
               onClick={() => {
-                const id = r.provinceAtPoint(x, y);
+                const id = r.provinceAtPoint(...r.project(city.lon, city.lat));
                 if (id !== null) useStore.getState().selectProvince(id);
               }}
             >

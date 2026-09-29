@@ -20,7 +20,9 @@ export function cityLabels(
     (a, b) => a.importance - b.importance || a.id.localeCompare(b.id),
   )) {
     if (zoom < 4.2 && city.importance > 0) continue;
-    const [x, y] = project(city.lon, city.lat);
+    const [x, centerY] = project(city.lon, city.lat);
+    const y =
+      centerY + Math.max(8, height * 2 ** zoom * 0.000065 * 7 * 0.74 + 8);
     const labelWidth = Math.max(54, city.name.length * 7 + 18);
     if (
       x < labelWidth / 2 + 6 ||

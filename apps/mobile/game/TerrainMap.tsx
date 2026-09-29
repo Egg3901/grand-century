@@ -409,10 +409,13 @@ function TerrainSurface(
               styles.label,
               {
                 left: x - width / 2,
-                top: y + 8,
+                top: y,
                 width,
                 fontSize: 12,
                 color: "#fff4d7",
+                backgroundColor: "#102b35dc",
+                paddingVertical: 3,
+                borderRadius: 3,
               },
             ]}
           >
