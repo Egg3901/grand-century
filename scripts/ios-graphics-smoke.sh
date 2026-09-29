@@ -8,14 +8,14 @@ device=$(xcrun simctl list devices available --json | python3 -c 'import json,sy
 collect_failure() {
   local result=$?
   if [ "$result" -ne 0 ]; then
-    python3 - "$device" "$evidence" <<'PYTHON'
+    python3 - "$device" "$evidence" "${container:-}" <<'PYTHON'
 import subprocess, sys
 from pathlib import Path
 try:
-    subprocess.run(['xcrun', 'simctl', 'io', sys.argv[1], 'screenshot', str(Path(sys.argv[2]) / 'native-failure.png')], timeout=20, check=False)
-    container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', sys.argv[1], 'net.lakesidegames.grandcentury', 'data'], timeout=10, text=True).strip()
+    container = sys.argv[3] or subprocess.check_output(['xcrun', 'simctl', 'get_app_container', sys.argv[1], 'net.lakesidegames.grandcentury', 'data'], timeout=10, text=True).strip()
     progress = Path(container) / 'Documents/graphics-smoke-progress.json'
     if progress.exists(): (Path(sys.argv[2]) / 'progress.json').write_bytes(progress.read_bytes())
+    subprocess.run(['xcrun', 'simctl', 'io', sys.argv[1], 'screenshot', str(Path(sys.argv[2]) / 'native-failure.png')], timeout=20, check=False)
 except Exception as error:
     (Path(sys.argv[2]) / 'diagnostic-error.txt').write_text(str(error))
 PYTHON

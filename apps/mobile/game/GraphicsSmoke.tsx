@@ -68,6 +68,7 @@ function visibleSceneryPixels(
 function verifyAtmosphere(
   gl: ExpoWebGLRenderingContext,
   renderer: TerrainRenderer,
+  checkpoint: (stage: string) => void,
 ) {
   const width = Math.floor(gl.drawingBufferWidth / 2),
     height = Math.floor(gl.drawingBufferHeight / 2);
@@ -78,7 +79,9 @@ function verifyAtmosphere(
   };
   renderer.setAtmosphere({ lighting: "day", weather: "clear", dayOfYear: 180 });
   renderer.render(0, false, null);
+  checkpoint("atmosphere-day-read");
   const day = read();
+  checkpoint("atmosphere-day-done");
   const changed = (pixels: Uint8Array) => {
     let count = 0;
     for (let i = 0; i < pixels.length; i += 4)
@@ -97,13 +100,19 @@ function verifyAtmosphere(
     dayOfYear: 180,
   });
   renderer.render(0, false, null);
+  checkpoint("atmosphere-night-read");
   const nightPixels = changed(read());
+  checkpoint("atmosphere-night-done");
   renderer.setAtmosphere({ lighting: "day", weather: "rain", dayOfYear: 180 });
   renderer.render(0, false, null);
+  checkpoint("atmosphere-rain-read");
   const rainPixels = changed(read());
+  checkpoint("atmosphere-rain-done");
   renderer.setAtmosphere({ lighting: "day", weather: "snow", dayOfYear: 1 });
   renderer.render(0, false, null);
+  checkpoint("atmosphere-snow-read");
   const snowPixels = changed(read());
+  checkpoint("atmosphere-snow-done");
   renderer.setAtmosphere({ lighting: "day", weather: "clear", dayOfYear: 180 });
   renderer.render(0, false, null);
   if (
@@ -137,6 +146,20 @@ export default function GraphicsSmoke() {
     done = useRef(-1);
   const results = useRef<object[]>([]);
   const highHeight = useRef(0);
+  const lastCheckpoint = useRef(0);
+  function checkpoint(stage: string, renderer?: TerrainRenderer) {
+    new File(Paths.document, "graphics-smoke-progress.json").write(
+      JSON.stringify({
+        phase,
+        stage,
+        time: Date.now(),
+        results: results.current,
+        terrainDetail: renderer?.elevationDetail,
+        preparing: renderer?.isPreparingScenery,
+        needsFrame: renderer?.needsFrame,
+      }),
+    );
+  }
   function fail(reason: string) {
     setFailed(reason);
     report.write(
@@ -144,6 +167,10 @@ export default function GraphicsSmoke() {
     );
   }
   function frame(gl: ExpoWebGLRenderingContext, renderer: TerrainRenderer) {
+    if (Date.now() - lastCheckpoint.current > 1000 && done.current !== phase) {
+      lastCheckpoint.current = Date.now();
+      checkpoint("waiting-for-detail", renderer);
+    }
     if (
       done.current === phase ||
       renderer.needsFrame ||
@@ -158,7 +185,9 @@ export default function GraphicsSmoke() {
       return;
     done.current = phase;
     try {
+      checkpoint("frame-read", renderer);
       const result = verifyTerrainFrame(gl);
+      checkpoint("frame-verified", renderer);
       if (phase > 0 && renderer.sceneryVertexCount === 0)
         throw new Error("High scenery did not finish loading");
       if (renderer.detailResolution !== 1024)
@@ -170,8 +199,10 @@ export default function GraphicsSmoke() {
       )
         throw new Error("Detailed elevation was not loaded");
       const atmospherePixels =
-        phase === 1 ? verifyAtmosphere(gl, renderer) : null;
+        phase === 1 ? verifyAtmosphere(gl, renderer, checkpoint) : null;
+      checkpoint("scenery-read", renderer);
       const sceneryPixels = phase > 0 ? visibleSceneryPixels(gl, renderer) : 0;
+      checkpoint("scenery-verified", renderer);
       let cameraUpdateMaxMs = 0;
       if (phase === 1) {
         const width = gl.drawingBufferWidth / 2,
