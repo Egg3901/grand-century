@@ -86,7 +86,7 @@ test("a slow initialization cannot time out between allocation and its first ani
       delay?: number,
       ...args: any[]
     ) => {
-      if (delay === 12000) {
+      if (delay === 15000) {
         (window as any).startupWatchdog = callback;
         return 1;
       }
