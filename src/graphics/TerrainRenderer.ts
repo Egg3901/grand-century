@@ -14,6 +14,8 @@ import {
 } from "./terrainData";
 
 const vertex = `
+precision highp float;
+precision highp sampler2D;
 attribute vec3 position;
 attribute vec3 normal;
 attribute vec3 color;
@@ -43,10 +45,12 @@ void main() {
   vec3 world=position;
   if(scenery<.5) {
     world.xy=meshCenter+position.xy*meshExtent;
-    float t=3.14159265*(1.0-2.0*world.y);
-    float cosLatitude=2.0/(exp(t)+exp(-t));
-    world.z=heightAt(world.xy)*12.0/(40075016.686*max(.12,cosLatitude));
   }
+  // Ground every mesh through the same sampler and precision. CPU elevation
+  // estimates must not put buildings below a differently sampled GPU surface.
+  float t=3.14159265*(1.0-2.0*world.y);
+  float cosLatitude=2.0/(exp(t)+exp(-t));
+  world.z+=heightAt(world.xy)*12.0/(40075016.686*max(.12,cosLatitude));
   float north = center.y - world.y;
   gl_Position = vec4((world.x-center.x)/extent.x,
     (north*tilt.x+world.z*tilt.y)/extent.y,
@@ -55,6 +59,7 @@ void main() {
 }`;
 const fragment = `
 precision highp float;
+precision highp sampler2D;
 uniform sampler2D surface;
 uniform sampler2D provinces;
 uniform sampler2D palette;
@@ -544,7 +549,12 @@ export class TerrainRenderer {
     if (lon < -180 || lon > 180 || Math.abs(lat) > 85) return null;
     return provinceAt(this.data, lon, lat);
   }
-  render(time: number, political: boolean, selected: number | null) {
+  render(
+    time: number,
+    political: boolean,
+    selected: number | null,
+    scenery = true,
+  ) {
     if (this.disposed) return;
     if (this.sceneryFailure) throw this.sceneryFailure;
     const gl = this.gl;
@@ -603,7 +613,7 @@ export class TerrainRenderer {
       ),
     );
     gl.drawElements(gl.TRIANGLES, this.count, gl.UNSIGNED_SHORT, 0);
-    if (this.sceneryCount) {
+    if (this.sceneryCount && scenery) {
       gl.uniform1f(this.uniforms.scenery, 1);
       gl.bindBuffer(gl.ARRAY_BUFFER, this.sceneryBuffer);
       for (const [name, offset] of [

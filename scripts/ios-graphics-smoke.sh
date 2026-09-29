@@ -23,7 +23,9 @@ PYTHON
 }
 trap collect_failure EXIT
 echo "Booting simulator"
-xcrun simctl boot "$device"
+if ! xcrun simctl list devices booted --json | python3 -c 'import json,sys; ds=json.load(sys.stdin)["devices"]; sys.exit(0 if any(d["udid"] == sys.argv[1] for devices in ds.values() for d in devices) else 1)' "$device"; then
+  xcrun simctl boot "$device"
+fi
 xcrun simctl bootstatus "$device" -b
 echo "Installing native graphics check"
 xcrun simctl install "$device" "$app"

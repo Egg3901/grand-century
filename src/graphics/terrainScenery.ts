@@ -50,7 +50,8 @@ export function* iterateScenery(
     }
   };
   const tree = (x: number, y: number, size: number, shade: number) => {
-    const z = terrainHeight(data, x, y),
+    // Mesh z is height above ground; the shared vertex shader adds elevation.
+    const z = 0,
       tip: Point = [x, y, z + size * 3.4];
     const leaf: Color = [0.2 + shade, 0.35 + shade, 0.14 + shade * 0.6];
     for (let tier = 0; tier < 2; tier++) {
@@ -94,7 +95,7 @@ export function* iterateScenery(
         continue;
       yield;
       const unit = 0.000065;
-      const z = terrainHeight(data, x, y) + unit * 0.05;
+      const z = unit * 0.05;
       cityModel(
         (a, b, c, color) => {
           const place = (p: Point): Point => [

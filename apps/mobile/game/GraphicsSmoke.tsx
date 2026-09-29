@@ -7,13 +7,73 @@ import TerrainMap from "./TerrainMap";
 import type { TerrainRenderer } from "../../../src/graphics/TerrainRenderer";
 import { NationFlag } from "./NationFlag";
 import { verifyTerrainFrame } from "./terrainFrame";
-import type { View as CameraView } from "../../../src/graphics/terrainData";
+import {
+  elevation,
+  mercator,
+  type View as CameraView,
+} from "../../../src/graphics/terrainData";
+
+function visibleSceneryPixels(
+  gl: ExpoWebGLRenderingContext,
+  renderer: TerrainRenderer,
+) {
+  const width = Math.floor(gl.drawingBufferWidth / 2);
+  const height = Math.floor(gl.drawingBufferHeight / 2);
+  const x = Math.floor(width / 2),
+    y = Math.floor(height / 2);
+  const read = () => {
+    const pixels = new Uint8Array(width * height * 4);
+    gl.readPixels(x, y, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+    return pixels;
+  };
+  renderer.render(0, false, null, false);
+  const terrain = read();
+  renderer.render(0, false, null);
+  const count = (pixels: Uint8Array) => {
+    let changed = 0;
+    for (let i = 0; i < pixels.length; i += 4)
+      if (
+        Math.abs(pixels[i] - terrain[i]) +
+          Math.abs(pixels[i + 1] - terrain[i + 1]) +
+          Math.abs(pixels[i + 2] - terrain[i + 2]) >
+        24
+      )
+        changed++;
+    return changed;
+  };
+  const visible = count(read());
+  if (visible < 100) {
+    // On failure distinguish hidden geometry from a missing native draw.
+    const draw = gl.drawArrays;
+    let withoutDepth = 0;
+    try {
+      gl.drawArrays = (...args) => {
+        gl.disable(gl.DEPTH_TEST);
+        draw.apply(gl, args);
+        gl.enable(gl.DEPTH_TEST);
+      };
+      renderer.render(0, false, null);
+      withoutDepth = count(read());
+    } finally {
+      gl.drawArrays = draw;
+      renderer.render(0, false, null);
+    }
+    throw new Error(
+      `Invisible city geometry: ${visible} changed pixels, ${withoutDepth} without depth, CPU elevation ${elevation(renderer.data, ...mercator(-0.118668, 51.501941))}`,
+    );
+  }
+  return visible;
+}
 
 const report = new File(Paths.document, "graphics-smoke.json");
 export default function GraphicsSmoke() {
   const [phase, setPhase] = useState(0),
     [failed, setFailed] = useState("");
-  const camera = useRef<CameraView | null>(null),
+  const camera = useRef<CameraView | null>({
+      lon: -0.118668,
+      lat: 51.501941,
+      zoom: 8,
+    }),
     done = useRef(-1);
   const results = useRef<object[]>([]);
   const highHeight = useRef(0);
@@ -39,6 +99,7 @@ export default function GraphicsSmoke() {
       const result = verifyTerrainFrame(gl);
       if (phase > 0 && renderer.sceneryVertexCount === 0)
         throw new Error("High scenery did not finish loading");
+      const sceneryPixels = phase > 0 ? visibleSceneryPixels(gl, renderer) : 0;
       let cameraUpdateMaxMs = 0;
       if (phase === 1) {
         const width = gl.drawingBufferWidth / 2,
@@ -72,6 +133,7 @@ export default function GraphicsSmoke() {
         ratio: PixelRatio.get(),
         cameraUpdateMaxMs,
         sceneryVertices: renderer.sceneryVertexCount,
+        sceneryPixels,
         ...result,
       });
       new File(Paths.document, "graphics-smoke-progress.json").write(
