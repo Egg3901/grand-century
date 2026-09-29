@@ -23,3 +23,9 @@ stretched land away from the political borders.
 against MapLibre's independent MercatorCoordinate implementation.
 
 Projection reference: https://maplibre.org/maplibre-native/docs/book/design/coordinate-system.html
+
+## Low-power relief
+
+`relief-low-power.png` is the corrected Web Mercator relief above, Lanczos-resized to 2048 x 2048. The 2D renderer uses this static 16 MiB decoded texture instead of the 64 MiB 4096-pixel version and has no water animation timer. Regenerate with Pillow's `Image.open("gray-earth-relief.png").resize((2048, 2048), Image.Resampling.LANCZOS)`.
+
+The separate 3D atlas is built by `scripts/build-terrain-atlas.py`; its data-provider attribution is bundled in `src/graphics/terrain-attribution.json` and available in the in-app Terrain data credits.
