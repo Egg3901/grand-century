@@ -170,6 +170,13 @@ export default function TerrainMap(props: Props) {
             gesture.current.distance = distance;
             gesture.current.moved = 100;
           } else if (t.length === 1) {
+            // Re-anchor when a pinch releases one finger before continuing the drag.
+            if (gesture.current.distance > 0) {
+              gesture.current.x = t[0].pageX;
+              gesture.current.y = t[0].pageY;
+              gesture.current.distance = 0;
+              return;
+            }
             const dx = t[0].pageX - gesture.current.x,
               dy = t[0].pageY - gesture.current.y;
             gesture.current.moved += Math.abs(dx) + Math.abs(dy);
