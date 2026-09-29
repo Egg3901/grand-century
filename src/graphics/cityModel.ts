@@ -70,11 +70,18 @@ export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
       if (!row || !col) continue;
       const n =
         (Math.imul(seed + row * 17 + col * 31, 1103515245) >>> 0) / 4294967296;
-      if (Math.abs(row) === extent && Math.abs(col) === extent && n > .3) continue;
-      const x = col * 1.8 + Math.sin(row * .7) * .35,
-        y = row * 1.65 + Math.cos(col) * .2,
-        h = .65 + n * 1.15;
-      quad([x-.85,y-.70,.01],[x+1,y-.70,.01],[x+1,y+.85,.01],[x-.85,y+.85,.01],[.43,.43,.32]);
+      if (Math.abs(row) === extent && Math.abs(col) === extent && n > 0.3)
+        continue;
+      const x = col * 1.8 + Math.sin(row * 0.7) * 0.35,
+        y = row * 1.65 + Math.cos(col) * 0.2,
+        h = 0.65 + n * 1.15;
+      quad(
+        [x - 0.85, y - 0.7, 0.01],
+        [x + 1, y - 0.7, 0.01],
+        [x + 1, y + 0.85, 0.01],
+        [x - 0.85, y + 0.85, 0.01],
+        [0.43, 0.43, 0.32],
+      );
       box(x, y, 0.72, 0.57, h, 0, [
         0.7 + n * 0.12,
         0.64 + n * 0.1,
@@ -90,14 +97,20 @@ export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
       );
       if (detail) {
         box(x + 0.35, y - 0.12, 0.09, 0.09, 0.45, h + 0.3, [0.47, 0.39, 0.31]);
-        quad([x-.10,y-.579,.02],[x+.10,y-.579,.02],[x+.10,y-.579,.34],[x-.10,y-.579,.34],[.22,.19,.15]);
+        quad(
+          [x - 0.1, y - 0.579, 0.02],
+          [x + 0.1, y - 0.579, 0.02],
+          [x + 0.1, y - 0.579, 0.34],
+          [x - 0.1, y - 0.579, 0.34],
+          [0.22, 0.19, 0.15],
+        );
         for (let i = -1; i <= 1; i++) {
           const wx = x + i * 0.39;
           quad(
-            [wx - 0.08, y - 0.575, h*.45],
-            [wx + 0.08, y - 0.575, h*.45],
-            [wx + 0.08, y - 0.575, h*.72],
-            [wx - 0.08, y - 0.575, h*.72],
+            [wx - 0.08, y - 0.575, h * 0.45],
+            [wx + 0.08, y - 0.575, h * 0.45],
+            [wx + 0.08, y - 0.575, h * 0.72],
+            [wx - 0.08, y - 0.575, h * 0.72],
             [0.2, 0.24, 0.25],
           );
           quad(
@@ -110,11 +123,18 @@ export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
         }
       }
     }
-  if(detail) for(let i=-3;i<=3;i++) {
-    if(!i)continue;
-    const y=i*1.65+.82;
-    quad([-8,y-.13,.025],[8,y-.13,.025],[8,y+.13,.025],[-8,y+.13,.025],[.56,.53,.44]);
-  }
+  if (detail)
+    for (let i = -3; i <= 3; i++) {
+      if (!i) continue;
+      const y = i * 1.65 + 0.82;
+      quad(
+        [-8, y - 0.13, 0.025],
+        [8, y - 0.13, 0.025],
+        [8, y + 0.13, 0.025],
+        [-8, y + 0.13, 0.025],
+        [0.56, 0.53, 0.44],
+      );
+    }
   // Central square, hall and tiered clock/bell tower create a legible silhouette.
   quad(
     [-0.9, 0.6, 0.03],
