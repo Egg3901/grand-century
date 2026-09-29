@@ -69,3 +69,21 @@ test("a blank first draw reports fallback instead of declaring the terrain ready
     "3D could not draw the map. Using the 2D map.",
   );
 });
+
+test('a slow initialization cannot time out between allocation and its first animation frame', async ({page}) => {
+  await page.addInitScript(() => {
+    const originalTimeout=window.setTimeout;
+    (window as any).terrainFrames=[];
+    window.requestAnimationFrame=(callback)=>{(window as any).terrainFrames.push(callback);return 1;};
+    window.setTimeout=((callback:TimerHandler,delay?:number,...args:any[])=>{
+      if(delay===15000){(window as any).startupWatchdog=callback;return 1;}
+      return originalTimeout(callback,delay,...args);
+    }) as typeof window.setTimeout;
+  });
+  await page.goto('/tests/native-graphics/index.html');
+  await page.waitForFunction(()=>(window as any).terrainFrames.length>0);
+  await page.evaluate(()=>(window as any).startupWatchdog());
+  expect(await page.evaluate(()=>(window as any).nativeFailure)).toBeUndefined();
+  await page.evaluate(()=>(window as any).terrainFrames.shift()(performance.now()));
+  await expect(page.getByText('Preparing offline terrain...')).toHaveCount(0);
+});

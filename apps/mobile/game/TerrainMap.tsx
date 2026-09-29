@@ -167,7 +167,9 @@ function TerrainSurface(
       } else wake();
     });
     const watchdog = setTimeout(() => {
-      if (!presented.current && active.current)
+      // Synchronous atlas/shader setup can finish after the timer is due but
+      // before the next RAF. The frame itself has a separate pixel check.
+      if (!renderer.current && active.current)
         latest.current.onFallback("3D could not start. Using the 2D map.");
     }, 15000);
     return () => {
