@@ -1,0 +1,778 @@
+{
+  "asOf": "1830-01-01",
+  "source": {
+    "url": "https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-populated-places/",
+    "license": "Public domain",
+    "usage": "Coordinates of manually selected settlements existing in 1830. Display names curated for the scenario; modern population is not shipped or used as historical population."
+  },
+  "cities": [
+    {
+      "id": "1159151577",
+      "name": "London",
+      "lon": -0.118668,
+      "lat": 51.501941,
+      "importance": 0,
+      "sourceId": 1159151577
+    },
+    {
+      "id": "1159146365",
+      "name": "Edinburgh",
+      "lon": -3.219091,
+      "lat": 55.948328,
+      "importance": 1,
+      "sourceId": 1159146365
+    },
+    {
+      "id": "1159146373",
+      "name": "Cardiff",
+      "lon": -3.167598,
+      "lat": 51.482619,
+      "importance": 1,
+      "sourceId": 1159146373
+    },
+    {
+      "id": "1159149119",
+      "name": "Manchester",
+      "lon": -2.248685,
+      "lat": 53.47532,
+      "importance": 1,
+      "sourceId": 1159149119
+    },
+    {
+      "id": "1159146371",
+      "name": "Liverpool",
+      "lon": -2.961934,
+      "lat": 53.405068,
+      "importance": 1,
+      "sourceId": 1159146371
+    },
+    {
+      "id": "1159149367",
+      "name": "Birmingham",
+      "lon": -1.921943,
+      "lat": 52.47692,
+      "importance": 1,
+      "sourceId": 1159149367
+    },
+    {
+      "id": "1159151309",
+      "name": "Dublin",
+      "lon": -6.25698,
+      "lat": 53.346731,
+      "importance": 0,
+      "sourceId": 1159151309
+    },
+    {
+      "id": "1159151613",
+      "name": "Paris",
+      "lon": 2.352992,
+      "lat": 48.858092,
+      "importance": 0,
+      "sourceId": 1159151613
+    },
+    {
+      "id": "1159150845",
+      "name": "Lyon",
+      "lon": 4.828085,
+      "lat": 45.771954,
+      "importance": 1,
+      "sourceId": 1159150845
+    },
+    {
+      "id": "1159150035",
+      "name": "Bordeaux",
+      "lon": -0.596959,
+      "lat": 44.851959,
+      "importance": 1,
+      "sourceId": 1159150035
+    },
+    {
+      "id": "1159150037",
+      "name": "Marseille",
+      "lon": 5.373064,
+      "lat": 43.291925,
+      "importance": 1,
+      "sourceId": 1159150037
+    },
+    {
+      "id": "1159151529",
+      "name": "Berlin",
+      "lon": 13.399603,
+      "lat": 52.523764,
+      "importance": 0,
+      "sourceId": 1159151529
+    },
+    {
+      "id": "1159151353",
+      "name": "Hamburg",
+      "lon": 9.998053,
+      "lat": 53.551971,
+      "importance": 1,
+      "sourceId": 1159151353
+    },
+    {
+      "id": "1159146951",
+      "name": "Bremen",
+      "lon": 8.800021,
+      "lat": 53.080002,
+      "importance": 1,
+      "sourceId": 1159146951
+    },
+    {
+      "id": "1159151351",
+      "name": "Frankfurt",
+      "lon": 8.675015,
+      "lat": 50.099977,
+      "importance": 1,
+      "sourceId": 1159151351
+    },
+    {
+      "id": "1159151357",
+      "name": "Munich",
+      "lon": 11.573048,
+      "lat": 48.131888,
+      "importance": 1,
+      "sourceId": 1159151357
+    },
+    {
+      "id": "1159149871",
+      "name": "Dresden",
+      "lon": 13.750003,
+      "lat": 51.049971,
+      "importance": 1,
+      "sourceId": 1159149871
+    },
+    {
+      "id": "1159140577",
+      "name": "Hannover",
+      "lon": 9.716657,
+      "lat": 52.36697,
+      "importance": 1,
+      "sourceId": 1159140577
+    },
+    {
+      "id": "1159146949",
+      "name": "Stuttgart",
+      "lon": 9.199996,
+      "lat": 48.77998,
+      "importance": 1,
+      "sourceId": 1159146949
+    },
+    {
+      "id": "1159130015",
+      "name": "Karlsruhe",
+      "lon": 8.399993,
+      "lat": 48.999992,
+      "importance": 1,
+      "sourceId": 1159130015
+    },
+    {
+      "id": "1159140685",
+      "name": "Leipzig",
+      "lon": 12.409981,
+      "lat": 51.335405,
+      "importance": 1,
+      "sourceId": 1159140685
+    },
+    {
+      "id": "1159130023",
+      "name": "Kassel",
+      "lon": 9.50003,
+      "lat": 51.300007,
+      "importance": 1,
+      "sourceId": 1159130023
+    },
+    {
+      "id": "1159146875",
+      "name": "Turin",
+      "lon": 7.668015,
+      "lat": 45.072333,
+      "importance": 1,
+      "sourceId": 1159146875
+    },
+    {
+      "id": "1159151315",
+      "name": "Milan",
+      "lon": 9.203063,
+      "lat": 45.471921,
+      "importance": 1,
+      "sourceId": 1159151315
+    },
+    {
+      "id": "1159150277",
+      "name": "Venice",
+      "lon": 12.334999,
+      "lat": 45.438659,
+      "importance": 1,
+      "sourceId": 1159150277
+    },
+    {
+      "id": "1159149751",
+      "name": "Florence",
+      "lon": 11.25,
+      "lat": 43.780001,
+      "importance": 1,
+      "sourceId": 1159149751
+    },
+    {
+      "id": "1159151593",
+      "name": "Rome",
+      "lon": 12.481313,
+      "lat": 41.897902,
+      "importance": 0,
+      "sourceId": 1159151593
+    },
+    {
+      "id": "1159151313",
+      "name": "Naples",
+      "lon": 14.243066,
+      "lat": 40.841971,
+      "importance": 1,
+      "sourceId": 1159151313
+    },
+    {
+      "id": "1159150805",
+      "name": "Palermo",
+      "lon": 13.348081,
+      "lat": 38.126969,
+      "importance": 1,
+      "sourceId": 1159150805
+    },
+    {
+      "id": "1159139447",
+      "name": "Parma",
+      "lon": 10.320031,
+      "lat": 44.810429,
+      "importance": 1,
+      "sourceId": 1159139447
+    },
+    {
+      "id": "1159129703",
+      "name": "Modena",
+      "lon": 10.919995,
+      "lat": 44.650025,
+      "importance": 1,
+      "sourceId": 1159129703
+    },
+    {
+      "id": "1159139461",
+      "name": "Bologna",
+      "lon": 11.340021,
+      "lat": 44.500422,
+      "importance": 1,
+      "sourceId": 1159139461
+    },
+    {
+      "id": "1159148297",
+      "name": "Genoa",
+      "lon": 8.930039,
+      "lat": 44.409988,
+      "importance": 1,
+      "sourceId": 1159148297
+    },
+    {
+      "id": "1159151563",
+      "name": "Vienna",
+      "lon": 16.364693,
+      "lat": 48.201961,
+      "importance": 0,
+      "sourceId": 1159151563
+    },
+    {
+      "id": "1159151359",
+      "name": "Prague",
+      "lon": 14.422939,
+      "lat": 50.086967,
+      "importance": 0,
+      "sourceId": 1159151359
+    },
+    {
+      "id": "1159151257",
+      "name": "Budapest",
+      "lon": 19.081375,
+      "lat": 47.501952,
+      "importance": 0,
+      "sourceId": 1159151257
+    },
+    {
+      "id": "1159139587",
+      "name": "Trieste",
+      "lon": 13.800026,
+      "lat": 45.650378,
+      "importance": 1,
+      "sourceId": 1159139587
+    },
+    {
+      "id": "1159151271",
+      "name": "Zurich",
+      "lon": 8.548064,
+      "lat": 47.381934,
+      "importance": 1,
+      "sourceId": 1159151271
+    },
+    {
+      "id": "1159151505",
+      "name": "Geneva",
+      "lon": 6.140028,
+      "lat": 46.210008,
+      "importance": 1,
+      "sourceId": 1159151505
+    },
+    {
+      "id": "1159151507",
+      "name": "Stockholm",
+      "lon": 18.0663,
+      "lat": 59.324127,
+      "importance": 0,
+      "sourceId": 1159151507
+    },
+    {
+      "id": "1159151281",
+      "name": "Christiania",
+      "lon": 10.748033,
+      "lat": 59.918636,
+      "importance": 0,
+      "sourceId": 1159151281
+    },
+    {
+      "id": "1159151503",
+      "name": "Madrid",
+      "lon": -3.685297,
+      "lat": 40.401972,
+      "importance": 0,
+      "sourceId": 1159151503
+    },
+    {
+      "id": "1159151261",
+      "name": "Barcelona",
+      "lon": 2.181424,
+      "lat": 41.385245,
+      "importance": 1,
+      "sourceId": 1159151261
+    },
+    {
+      "id": "1159151273",
+      "name": "Lisbon",
+      "lon": -9.146812,
+      "lat": 38.724669,
+      "importance": 0,
+      "sourceId": 1159151273
+    },
+    {
+      "id": "1159146429",
+      "name": "Porto",
+      "lon": -8.621947,
+      "lat": 41.151952,
+      "importance": 1,
+      "sourceId": 1159146429
+    },
+    {
+      "id": "1159151465",
+      "name": "Brussels",
+      "lon": 4.331371,
+      "lat": 50.835263,
+      "importance": 0,
+      "sourceId": 1159151465
+    },
+    {
+      "id": "1159151519",
+      "name": "Amsterdam",
+      "lon": 4.914694,
+      "lat": 52.351914,
+      "importance": 0,
+      "sourceId": 1159151519
+    },
+    {
+      "id": "1159149457",
+      "name": "The Hague",
+      "lon": 4.269961,
+      "lat": 52.080037,
+      "importance": 1,
+      "sourceId": 1159149457
+    },
+    {
+      "id": "1159151299",
+      "name": "Warsaw",
+      "lon": 21.005347,
+      "lat": 52.230872,
+      "importance": 0,
+      "sourceId": 1159151299
+    },
+    {
+      "id": "1159149709",
+      "name": "Krakow",
+      "lon": 19.958066,
+      "lat": 50.061925,
+      "importance": 1,
+      "sourceId": 1159149709
+    },
+    {
+      "id": "1159151585",
+      "name": "Moscow",
+      "lon": 37.613577,
+      "lat": 55.75411,
+      "importance": 0,
+      "sourceId": 1159151585
+    },
+    {
+      "id": "1159151291",
+      "name": "St. Petersburg",
+      "lon": 30.314074,
+      "lat": 59.94096,
+      "importance": 1,
+      "sourceId": 1159151291
+    },
+    {
+      "id": "1159151579",
+      "name": "Constantinople",
+      "lon": 28.974277,
+      "lat": 41.017602,
+      "importance": 1,
+      "sourceId": 1159151579
+    },
+    {
+      "id": "1159151545",
+      "name": "Athens",
+      "lon": 23.731375,
+      "lat": 37.985272,
+      "importance": 0,
+      "sourceId": 1159151545
+    },
+    {
+      "id": "1159151079",
+      "name": "Belgrade",
+      "lon": 20.466045,
+      "lat": 44.820591,
+      "importance": 0,
+      "sourceId": 1159151079
+    },
+    {
+      "id": "1159151263",
+      "name": "Bucharest",
+      "lon": 26.098001,
+      "lat": 44.435318,
+      "importance": 0,
+      "sourceId": 1159151263
+    },
+    {
+      "id": "1159151603",
+      "name": "Cairo",
+      "lon": 31.248022,
+      "lat": 30.051906,
+      "importance": 0,
+      "sourceId": 1159151603
+    },
+    {
+      "id": "1159151349",
+      "name": "Alexandria",
+      "lon": 29.94805,
+      "lat": 31.201965,
+      "importance": 1,
+      "sourceId": 1159151349
+    },
+    {
+      "id": "1159150537",
+      "name": "Tunis",
+      "lon": 10.179678,
+      "lat": 36.802778,
+      "importance": 0,
+      "sourceId": 1159150537
+    },
+    {
+      "id": "1159151471",
+      "name": "Algiers",
+      "lon": 3.048607,
+      "lat": 36.765011,
+      "importance": 0,
+      "sourceId": 1159151471
+    },
+    {
+      "id": "1159150675",
+      "name": "Marrakesh",
+      "lon": -8.001933,
+      "lat": 31.631939,
+      "importance": 1,
+      "sourceId": 1159150675
+    },
+    {
+      "id": "1159151065",
+      "name": "Qu\u00e9bec",
+      "lon": -71.24561,
+      "lat": 46.839969,
+      "importance": 1,
+      "sourceId": 1159151065
+    },
+    {
+      "id": "1159151457",
+      "name": "Montr\u00e9al",
+      "lon": -73.585243,
+      "lat": 45.501945,
+      "importance": 1,
+      "sourceId": 1159151457
+    },
+    {
+      "id": "1159151557",
+      "name": "York",
+      "lon": -79.389459,
+      "lat": 43.664645,
+      "importance": 1,
+      "sourceId": 1159151557
+    },
+    {
+      "id": "1159151069",
+      "name": "Halifax",
+      "lon": -63.600004,
+      "lat": 44.650025,
+      "importance": 1,
+      "sourceId": 1159151069
+    },
+    {
+      "id": "1159151239",
+      "name": "Boston",
+      "lon": -71.07196,
+      "lat": 42.331906,
+      "importance": 1,
+      "sourceId": 1159151239
+    },
+    {
+      "id": "1159151575",
+      "name": "New York",
+      "lon": -73.995718,
+      "lat": 40.721562,
+      "importance": 1,
+      "sourceId": 1159151575
+    },
+    {
+      "id": "1159151243",
+      "name": "Philadelphia",
+      "lon": -75.179841,
+      "lat": 39.945942,
+      "importance": 1,
+      "sourceId": 1159151243
+    },
+    {
+      "id": "1159149299",
+      "name": "Baltimore",
+      "lon": -76.614582,
+      "lat": 39.281516,
+      "importance": 1,
+      "sourceId": 1159149299
+    },
+    {
+      "id": "1159151573",
+      "name": "Washington, D.C.",
+      "lon": -77.011364,
+      "lat": 38.901495,
+      "importance": 0,
+      "sourceId": 1159151573
+    },
+    {
+      "id": "1159151233",
+      "name": "New Orleans",
+      "lon": -90.088368,
+      "lat": 29.968908,
+      "importance": 1,
+      "sourceId": 1159151233
+    },
+    {
+      "id": "1159151347",
+      "name": "Havana",
+      "lon": -82.366128,
+      "lat": 23.133905,
+      "importance": 0,
+      "sourceId": 1159151347
+    },
+    {
+      "id": "1159151587",
+      "name": "Mexico City",
+      "lon": -99.132934,
+      "lat": 19.444388,
+      "importance": 0,
+      "sourceId": 1159151587
+    },
+    {
+      "id": "1159151619",
+      "name": "Rio de Janeiro",
+      "lon": -43.212117,
+      "lat": -22.907308,
+      "importance": 1,
+      "sourceId": 1159151619
+    },
+    {
+      "id": "1159151559",
+      "name": "Buenos Aires",
+      "lon": -58.432513,
+      "lat": -34.610715,
+      "importance": 0,
+      "sourceId": 1159151559
+    },
+    {
+      "id": "1159151511",
+      "name": "Lima",
+      "lon": -77.052008,
+      "lat": -12.046067,
+      "importance": 0,
+      "sourceId": 1159151511
+    },
+    {
+      "id": "1159150847",
+      "name": "Quito",
+      "lon": -78.501997,
+      "lat": -0.213042,
+      "importance": 0,
+      "sourceId": 1159150847
+    },
+    {
+      "id": "1159151493",
+      "name": "Caracas",
+      "lon": -66.918983,
+      "lat": 10.502944,
+      "importance": 0,
+      "sourceId": 1159151493
+    },
+    {
+      "id": "1159151595",
+      "name": "Beijing",
+      "lon": 116.394201,
+      "lat": 39.90172,
+      "importance": 0,
+      "sourceId": 1159151595
+    },
+    {
+      "id": "1159151385",
+      "name": "Nanjing",
+      "lon": 118.778029,
+      "lat": 32.051965,
+      "importance": 1,
+      "sourceId": 1159151385
+    },
+    {
+      "id": "1159151331",
+      "name": "Canton",
+      "lon": 113.261785,
+      "lat": 23.124723,
+      "importance": 1,
+      "sourceId": 1159151331
+    },
+    {
+      "id": "1159151609",
+      "name": "Edo",
+      "lon": 139.749462,
+      "lat": 35.686963,
+      "importance": 0,
+      "sourceId": 1159151609
+    },
+    {
+      "id": "1159149967",
+      "name": "Kyoto",
+      "lon": 135.748052,
+      "lat": 35.031938,
+      "importance": 1,
+      "sourceId": 1159149967
+    },
+    {
+      "id": "1159151537",
+      "name": "Osaka",
+      "lon": 135.503754,
+      "lat": 34.691095,
+      "importance": 1,
+      "sourceId": 1159151537
+    },
+    {
+      "id": "1159151523",
+      "name": "Seoul",
+      "lon": 126.997785,
+      "lat": 37.568295,
+      "importance": 0,
+      "sourceId": 1159151523
+    },
+    {
+      "id": "1159151617",
+      "name": "Calcutta",
+      "lon": 88.369126,
+      "lat": 22.569579,
+      "importance": 1,
+      "sourceId": 1159151617
+    },
+    {
+      "id": "1159151611",
+      "name": "Bombay",
+      "lon": 72.875839,
+      "lat": 19.068408,
+      "importance": 1,
+      "sourceId": 1159151611
+    },
+    {
+      "id": "1159151431",
+      "name": "Madras",
+      "lon": 80.278053,
+      "lat": 13.091934,
+      "importance": 1,
+      "sourceId": 1159151431
+    },
+    {
+      "id": "1159151405",
+      "name": "Delhi",
+      "lon": 77.228058,
+      "lat": 28.671939,
+      "importance": 1,
+      "sourceId": 1159151405
+    },
+    {
+      "id": "1159151551",
+      "name": "Tehran",
+      "lon": 51.422398,
+      "lat": 35.673889,
+      "importance": 0,
+      "sourceId": 1159151551
+    },
+    {
+      "id": "1159151547",
+      "name": "Baghdad",
+      "lon": 44.391923,
+      "lat": 33.340594,
+      "importance": 0,
+      "sourceId": 1159151547
+    },
+    {
+      "id": "1159151269",
+      "name": "Damascus",
+      "lon": 36.29805,
+      "lat": 33.50198,
+      "importance": 0,
+      "sourceId": 1159151269
+    },
+    {
+      "id": "1159151203",
+      "name": "Jerusalem",
+      "lon": 35.206626,
+      "lat": 31.778408,
+      "importance": 0,
+      "sourceId": 1159151203
+    },
+    {
+      "id": "1159150957",
+      "name": "Beirut",
+      "lon": 35.507762,
+      "lat": 33.873921,
+      "importance": 0,
+      "sourceId": 1159150957
+    },
+    {
+      "id": "1159151437",
+      "name": "Copenhagen",
+      "lon": 12.56154,
+      "lat": 55.68051,
+      "importance": 0,
+      "sourceId": 1159151437
+    },
+    {
+      "id": "1159151601",
+      "name": "Bogot\u00e1",
+      "lon": -74.08529,
+      "lat": 4.598369,
+      "importance": 0,
+      "sourceId": 1159151601
+    }
+  ]
+}

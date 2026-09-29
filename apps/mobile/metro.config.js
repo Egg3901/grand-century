@@ -3,6 +3,7 @@ const { getDefaultConfig } = require('expo/metro-config');
 const { withWorkers } = require('@ammarahmed/react-native-workers/metro');
 
 const config = getDefaultConfig(__dirname);
+config.resolver.assetExts.push('terrain');
 config.watchFolders = [path.resolve(__dirname, '../..')];
 // Shared simulation files sit above the app and still need its Babel helpers.
 config.resolver.nodeModulesPaths = [

@@ -65,6 +65,10 @@ jobs:
       - name: Install pods
         working-directory: apps/mobile/ios
         run: pod install
+      - name: Start simulator while compiling
+        run: |
+          device=$(xcrun simctl list devices available --json | python3 -c 'import json,sys; ds=json.load(sys.stdin)["devices"]; print(next(d["udid"] for devices in ds.values() for d in devices if "iPhone" in d["name"]))')
+          xcrun simctl boot "$device"
       - name: Compile native app
         working-directory: apps/mobile
         run: >-

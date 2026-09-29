@@ -1,3 +1,5 @@
+import { cities } from "./cities";
+import { cityModel } from "./cityModel";
 import {
   geographic,
   pixelAt,
@@ -48,7 +50,8 @@ export function* iterateScenery(
     }
   };
   const tree = (x: number, y: number, size: number, shade: number) => {
-    const z = terrainHeight(data, x, y),
+    // Mesh z is height above ground; the shared vertex shader adds elevation.
+    const z = 0,
       tip: Point = [x, y, z + size * 3.4];
     const leaf: Color = [0.2 + shade, 0.35 + shade, 0.14 + shade * 0.6];
     for (let tier = 0; tier < 2; tier++) {
@@ -77,32 +80,36 @@ export function* iterateScenery(
       triangle(q, [q[0], q[1], z + size], top, [0.31, 0.23, 0.13]);
     }
   };
-  const house = (x: number, y: number, size: number, shade: number) => {
-    const z = terrainHeight(data, x, y) + size * 0.1,
-      h = size * 1.7;
-    const p: Point[] = [
-      [x - size, y - size, z],
-      [x + size, y - size, z],
-      [x + size, y + size, z],
-      [x - size, y + size, z],
-    ];
-    const top = p.map(([a, b, c]): Point => [a, b, c + h]);
-    for (let i = 0; i < 4; i++) {
-      const j = (i + 1) % 4;
-      triangle(p[i], p[j], top[i], [0.75 + shade, 0.7 + shade, 0.59 + shade]);
-      triangle(p[j], top[j], top[i], [
-        0.65 + shade,
-        0.59 + shade,
-        0.45 + shade,
-      ]);
-      triangle(
-        top[i],
-        top[j],
-        [x, y, z + h + size * 1.3],
-        [0.51 + shade, 0.3 + shade * 0.5, 0.19],
+  // Cities have authored geographic anchors, never province centroids.
+  // Emit them before foliage so a forest cannot consume their vertex budget.
+  if (bounds.zoom >= 3.8)
+    for (const city of cities) {
+      const x = (city.lon + 180) / 360;
+      const y =
+        (1 - Math.asinh(Math.tan((city.lat * Math.PI) / 180)) / Math.PI) / 2;
+      if (
+        Math.abs(x - bounds.x) > bounds.ex ||
+        Math.abs(y - bounds.y) > bounds.ey ||
+        provinceAt(data, city.lon, city.lat) === null
+      )
+        continue;
+      yield;
+      const unit = 0.000065;
+      const z = unit * 0.05;
+      cityModel(
+        (a, b, c, color) => {
+          const place = (p: Point): Point => [
+            x + p[0] * unit,
+            y + p[1] * unit,
+            z + p[2] * unit,
+          ];
+          triangle(place(a), place(b), place(c), color);
+        },
+        bounds.zoom >= 5.5,
+        Number(city.id),
       );
+      if (cursor / 9 >= SCENERY_VERTEX_BUDGET - 5000) break;
     }
-  };
   // Stable spatial sampling avoids foliage rearranging when the camera moves.
   let seed = 1830;
   const random = () => {
@@ -119,11 +126,7 @@ export function* iterateScenery(
       continue;
     seed = p.id + 1830;
     const forest = p.terrain === "forest" || p.terrain === "jungle";
-    const count = forest
-      ? 100
-      : p.terrain === "arctic"
-        ? 0
-        : Math.min(18, 5 + Math.round(p.populationWeight * 2));
+    const count = forest ? 100 : 0;
     for (let i = 0; i < count; i++) {
       if (i % 8 === 0) yield;
       const a = random() * Math.PI * 2,
@@ -144,16 +147,6 @@ export function* iterateScenery(
         data.surface[pixel + 1] > data.surface[pixel + 2] * 1.1;
       if (forest && supportsTrees)
         tree(u, v, scale * (0.6 + random() * 0.6), random() * 0.06);
-      else if (!forest)
-        house(u, v, scale * (0.7 + random() * 0.6), random() * 0.08);
-    }
-    if (forest && p.populationWeight > 0.5) {
-      for (let i = 0; i < 8; i++) {
-        const u = x + (random() - 0.5) * 0.0012,
-          v = y + (random() - 0.5) * 0.0012;
-        if (provinceAt(data, ...geographic(u, v)) === p.id)
-          house(u, v, scale * (0.8 + random() * 0.4), random() * 0.08);
-      }
     }
     if (cursor / 9 >= SCENERY_VERTEX_BUDGET - 40) break;
   }
