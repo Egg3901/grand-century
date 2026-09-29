@@ -18,19 +18,47 @@ export function physicalCoast() {
   }
   return coast;
 }
-/** RGBA: political ID in R/A, physical land coverage in G, shore proximity in B. IDs are never rewritten. */
-export function* coastalDetail(
-  detail: ProvinceDetail,
-): Generator<void, Uint8Array> {
-  const bounds: DetailBounds = detail;
-  const shore = yield* physicalCoast().raster(bounds, detail.size);
+function physicalLakes() {
   lakeGeometry ??= new ProvinceGeometry(
     lakes.features.map((f) => ({
       properties: { id: 0 },
       geometry: f.geometry,
     })),
   );
-  const water = yield* lakeGeometry.raster(bounds, detail.size);
+  return lakeGeometry;
+}
+export function isPhysicalLand(lon: number, lat: number) {
+  return (
+    physicalCoast().at(lon, lat) !== null &&
+    physicalLakes().at(lon, lat) === null
+  );
+}
+/** Conservative footprint test against the same prepared mask sampled by the GPU. */
+export function coastalLandAt(
+  detail: ProvinceDetail,
+  pixels: Uint8Array,
+  x: number,
+  y: number,
+): boolean | null {
+  const u = ((x - detail.x + detail.ex) / (2 * detail.ex)) * detail.size - 0.5;
+  const v = ((y - detail.y + detail.ey) / (2 * detail.ey)) * detail.size - 0.5;
+  const col = Math.floor(u),
+    row = Math.floor(v);
+  if (col < 0 || row < 0 || col + 1 >= detail.size || row + 1 >= detail.size)
+    return null;
+  for (let dy = 0; dy < 2; dy++)
+    for (let dx = 0; dx < 2; dx++)
+      if (pixels[((row + dy) * detail.size + col + dx) * 4 + 1] < 255)
+        return false;
+  return true;
+}
+/** RGBA: political ID in R/A, physical land coverage in G, shore proximity in B. IDs are never rewritten. */
+export function* coastalDetail(
+  detail: ProvinceDetail,
+): Generator<void, Uint8Array> {
+  const bounds: DetailBounds = detail;
+  const shore = yield* physicalCoast().raster(bounds, detail.size);
+  const water = yield* physicalLakes().raster(bounds, detail.size);
   const pixels = new Uint8Array(detail.size ** 2 * 4);
   for (let i = 0; i < detail.ids.length; i++) {
     if (i % 8192 === 0) yield;

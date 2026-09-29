@@ -13,7 +13,12 @@ import {
   detailSpacingMeters,
   type HeightRegion,
 } from "./terrainTiles";
-import { coastalDetail, physicalCoast } from "./physicalCoast";
+import {
+  coastalDetail,
+  coastalLandAt,
+  isPhysicalLand,
+  physicalCoast,
+} from "./physicalCoast";
 import materialAtlas from "./terrain-material.json";
 import { decode } from "./terrainData";
 import {
@@ -264,6 +269,7 @@ export class TerrainRenderer {
   private activeDetail: ProvinceDetail | null = null;
   private coastWork: Generator<void, Uint8Array> | null = null;
   private readyCoast: Uint8Array | null = null;
+  private activeCoast: Uint8Array | null = null;
   private pendingCoast: ProvinceDetail | null = null;
   private heightController: AbortController | null = null;
   private loadingElevation = false;
@@ -699,6 +705,13 @@ export class TerrainRenderer {
         this.data,
         this.sceneryProvinces,
         this.sceneryBounds,
+        (x, y) => {
+          const detail = this.readyDetail ?? this.activeDetail;
+          const coast = this.readyCoast ?? this.activeCoast;
+          const covered =
+            detail && coast ? coastalLandAt(detail, coast, x, y) : null;
+          return covered ?? isPhysicalLand(...geographic(x, y));
+        },
       );
       this.sceneryBounds = null;
     }
@@ -827,7 +840,7 @@ export class TerrainRenderer {
   provinceAtPoint(x: number, y: number): number | null {
     const [lon, lat] = this.unproject(x, y);
     if (lon < -180 || lon > 180 || Math.abs(lat) > 85) return null;
-    if (physicalCoast().at(lon, lat) === null) return null;
+    if (!isPhysicalLand(lon, lat)) return null;
     return provinceGeometry().at(lon, lat);
   }
   render(
@@ -874,6 +887,7 @@ export class TerrainRenderer {
         this.readyCoast,
       );
       this.activeDetail = tile;
+      this.activeCoast = this.readyCoast;
       this.readyCoast = null;
       this.readyDetail = null;
     }
@@ -996,6 +1010,7 @@ export class TerrainRenderer {
     this.heightController?.abort();
     if (this.heightTimer !== null) clearTimeout(this.heightTimer);
     this.activeHeight = null;
+    this.activeCoast = null;
     this.readyHeight = null;
     this.coastWork = null;
     this.readyCoast = null;
