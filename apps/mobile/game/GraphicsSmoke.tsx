@@ -146,6 +146,7 @@ export default function GraphicsSmoke() {
     done = useRef(-1);
   const results = useRef<object[]>([]);
   const highHeight = useRef(0);
+  const startedAt = useRef(Date.now());
   const lastCheckpoint = useRef(0);
   function checkpoint(stage: string, renderer?: TerrainRenderer) {
     new File(Paths.document, "graphics-smoke-progress.json").write(
@@ -232,6 +233,7 @@ export default function GraphicsSmoke() {
       if (phase === 1) highHeight.current = result.height;
       results.current.push({
         phase,
+        elapsedMs: Date.now() - startedAt.current,
         quality: phase === 0 ? "balanced" : "high",
         ratio: PixelRatio.get(),
         cameraUpdateMaxMs,
@@ -243,7 +245,12 @@ export default function GraphicsSmoke() {
         ...result,
       });
       new File(Paths.document, "graphics-smoke-progress.json").write(
-        JSON.stringify({ phase, results: results.current }),
+        JSON.stringify({
+          phase,
+          stage: "phase-complete",
+          time: Date.now(),
+          results: results.current,
+        }),
       );
       if (phase < 2) setTimeout(() => setPhase((p) => p + 1), 1500);
       else
