@@ -103,19 +103,25 @@ export function TerrainCanvas({
           time,
           last,
           !document.hidden,
-          motion.matches,
-          dirty.current,
+          motion.matches || r.isPreparingScenery,
+          dirty.current || r.needsFrame,
         )
       ) {
-        r.render(
-          motion.matches ? 0 : time / 1000,
-          latest.current.mode !== "terrain",
-          latest.current.selected,
-        );
+        try {
+          r.render(
+            motion.matches ? 0 : time / 1000,
+            latest.current.mode !== "terrain",
+            latest.current.selected,
+          );
+        } catch {
+          onFallback("3D graphics became unavailable. Switched to 2D.");
+          return;
+        }
         last = time;
         dirty.current = false;
       }
-      if (!motion.matches) frame = requestAnimationFrame(tick);
+      if (!motion.matches || r?.needsFrame || r?.isPreparingScenery)
+        frame = requestAnimationFrame(tick);
     };
     const resize = () => {
       const c = canvas.current,
