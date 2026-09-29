@@ -35,6 +35,10 @@ describe('native save library', () => {
     expect(await readNativeSave('manual')).toEqual(new Uint8Array([1, 2, 3]));
     expect(listNativeSaves().map((s) => s.id).sort()).toEqual(['c', 'manual', 'other']);
   });
+  it('never prunes the checkpoint just written if the device clock moves backwards', () => {
+    for (const s of [save('old-one', 'auto', undefined, 200), save('old-two', 'auto', undefined, 300), save('new', 'auto', undefined, 100)]) writeNativeSave(s, new Uint8Array([1]));
+    expect(listNativeSaves().map((s) => s.id).sort()).toEqual(['new', 'old-two']);
+  });
   it('preserves old checkpoints when publishing a new checkpoint fails', async () => {
     writeNativeSave(save('old'), new Uint8Array([9]));
     memory.fail = '.json';

@@ -55,7 +55,7 @@ export function writeNativeSave(save: NativeSave, payload: Uint8Array): void {
   }
   if (save.kind === 'auto') {
     // Retain two recovery points per campaign; never prune manual saves.
-    for (const old of listNativeSaves().filter((s) => s.kind === 'auto' && s.config.id === save.config.id).slice(2)) {
+    for (const old of listNativeSaves().filter((s) => s.kind === 'auto' && s.config.id === save.config.id && s.id !== save.id).slice(1)) {
       try { deleteNativeSave(old.id); } catch { /* A successful new checkpoint remains usable. */ }
     }
   }
