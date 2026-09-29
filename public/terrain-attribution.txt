@@ -204,3 +204,8 @@ Attribution statement:
 > © Commonwealth of Australia (Geoscience Australia) 2017.
 
 Processing: sea-clamped metre heights, game-province mask, biome color, slope shade and altitude snow tint. These are artistic derivatives, not endorsed by data providers.
+
+Land-cover color: Natural Earth I, public domain.
+https://www.naturalearthdata.com/downloads/10m-raster-data/10m-natural-earth-1/
+https://www.naturalearthdata.com/about/terms-of-use/
+Unshaded land cover is reprojected to Web Mercator, clipped to game geography, and blended with artistic biome materials. It is not a surveyed depiction of 1830 land use.

@@ -5,6 +5,7 @@ export interface PackedTerrain {
   provinceSize: number;
   height: string;
   surface: string;
+  normals: string;
   province: string;
 }
 export interface TerrainData {
@@ -12,6 +13,7 @@ export interface TerrainData {
   provinceSize: number;
   heights: Uint16Array;
   surface: Uint8Array;
+  normals: Uint8Array;
   provinces: Uint16Array;
 }
 export type View = { lon: number; lat: number; zoom: number };
@@ -58,9 +60,11 @@ function decode(s: string): Uint8Array {
 export function unpackTerrain(p: PackedTerrain): TerrainData {
   const h = decode(p.height),
     surface = decode(p.surface),
+    normals = decode(p.normals),
     ids = decode(p.province);
   if (
     h.length !== p.size ** 2 * 2 ||
+    normals.length !== p.size ** 2 * 2 ||
     ids.length !== p.provinceSize ** 2 * 2 ||
     surface.length !== p.size ** 2 * 4
   )
@@ -70,6 +74,7 @@ export function unpackTerrain(p: PackedTerrain): TerrainData {
     provinceSize: p.provinceSize,
     heights: new Uint16Array(h.buffer, h.byteOffset, h.byteLength / 2),
     surface,
+    normals,
     provinces: new Uint16Array(ids.buffer, ids.byteOffset, ids.byteLength / 2),
   };
 }
@@ -114,6 +119,8 @@ export function elevation(data: TerrainData, x: number, y: number): number {
 }
 /** A fixed triangle budget independent of atlas size and number of provinces. */
 export const MESH_SEGMENTS = 128;
+export const HIGH_MESH_SEGMENTS = 254;
+export type TerrainQuality = "balanced" | "high";
 export const TERRAIN_EXAGGERATION = 12;
 export function terrainHeight(data: TerrainData, x: number, y: number): number {
   const lat = (geographic(x, y)[1] * Math.PI) / 180;
@@ -126,6 +133,6 @@ export function normalizeView(v: View): View {
   return {
     lon: clamp(v.lon, -179, 179),
     lat: clamp(v.lat, -78, 78),
-    zoom: clamp(v.zoom, 1.2, 6),
+    zoom: clamp(v.zoom, 1.2, 7),
   };
 }

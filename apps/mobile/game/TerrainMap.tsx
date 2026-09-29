@@ -20,12 +20,14 @@ import {
   normalizeView,
   unpackTerrain,
   type View,
+  type TerrainQuality,
 } from "../../../src/graphics/terrainData";
 import type { WorldSnapshot } from "../../../src/shared/types";
 import { homelandAnchors } from "../../../src/graphics/mapAnchors";
 import worldSeed from "../assets/game/worldSeed.json";
 
 type Props = {
+  quality: TerrainQuality;
   camera: RefObject<View | null>;
   focus: { center: [number, number]; zoom: number };
   snapshot: WorldSnapshot | null;
@@ -160,13 +162,18 @@ export default function TerrainMap(props: Props) {
               t[0].pageX - t[1].pageX,
               t[0].pageY - t[1].pageY,
             );
-            if (gesture.current.distance > 0)
-              move({
-                ...view.current,
-                zoom:
-                  view.current.zoom +
+            if (
+              gesture.current.distance > 0 &&
+              distance > 0 &&
+              renderer.current
+            )
+              move(
+                renderer.current.zoomAt(
+                  (t[0].locationX + t[1].locationX) / 2,
+                  (t[0].locationY + t[1].locationY) / 2,
                   Math.log2(distance / gesture.current.distance),
-              });
+                ),
+              );
             gesture.current.distance = distance;
             gesture.current.moved = 100;
           } else if (t.length === 1) {
@@ -204,14 +211,19 @@ export default function TerrainMap(props: Props) {
   );
   async function context(gl: ExpoWebGLRenderingContext) {
     try {
-      const packed = await import("../../../src/graphics/terrain-atlas.json");
+      const packed =
+        props.quality === "high"
+          ? await import("../../../src/graphics/terrain-atlas-high.json")
+          : await import("../../../src/graphics/terrain-atlas.json");
       if (!alive.current) return;
       glRef.current = gl;
       const r = new TerrainRenderer(
         gl as unknown as WebGLRenderingContext,
         unpackTerrain(packed.default),
+        props.quality,
       );
       renderer.current = r;
+      r.setScenery(worldSeed.provinces);
       r.setView(view.current, size.current.width, size.current.height);
       const s = latest.current.snapshot;
       if (s)
@@ -240,23 +252,30 @@ export default function TerrainMap(props: Props) {
         style={{
           position: "absolute",
           width:
-            (size.current.width * renderScale(PixelRatio.get())) /
+            (size.current.width *
+              renderScale(PixelRatio.get(), props.quality)) /
             PixelRatio.get(),
           height:
-            (size.current.height * renderScale(PixelRatio.get())) /
+            (size.current.height *
+              renderScale(PixelRatio.get(), props.quality)) /
             PixelRatio.get(),
           left:
             (size.current.width -
-              (size.current.width * renderScale(PixelRatio.get())) /
+              (size.current.width *
+                renderScale(PixelRatio.get(), props.quality)) /
                 PixelRatio.get()) /
             2,
           top:
             (size.current.height -
-              (size.current.height * renderScale(PixelRatio.get())) /
+              (size.current.height *
+                renderScale(PixelRatio.get(), props.quality)) /
                 PixelRatio.get()) /
             2,
           transform: [
-            { scale: PixelRatio.get() / renderScale(PixelRatio.get()) },
+            {
+              scale:
+                PixelRatio.get() / renderScale(PixelRatio.get(), props.quality),
+            },
           ],
         }}
         msaaSamples={0}

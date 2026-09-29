@@ -211,7 +211,7 @@ export default defineConfig({
         // The sim worker is similarly runtime-cached so MapLibre can fit under
         // the 2 MiB precache budget without opaque module-import cache misses.
         globPatterns: ['**/*.{js,css,html,ico,svg,png,webp,woff2}'],
-        globIgnores: ['**/generated/**', '**/sim.worker-*.js', '**/terrain-atlas-*.js'],
+        globIgnores: ['**/generated/**', '**/sim.worker-*.js', '**/terrain-atlas*.js'],
         navigateFallback: 'index.html',
         navigateFallbackDenylist: [/^\/api/],
         // Shell chunks stay under 2 MiB; geo is asserted separately above.
@@ -219,7 +219,7 @@ export default defineConfig({
         runtimeCaching: [
           {
             // Optional 3D atlas loads only when selected; 2D pays no download cost.
-            urlPattern: ({ url }) => /\/assets\/terrain-atlas-[^/]+\.js$/.test(url.pathname),
+            urlPattern: ({ url }) => /\/assets\/terrain-atlas(?:-high)?-[^/]+\.js$/.test(url.pathname),
             handler: 'CacheFirst',
             options: { cacheName: 'gc-terrain-atlas', expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
           },

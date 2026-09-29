@@ -1,8 +1,8 @@
-export type GraphicsMode = "2d" | "3d";
+export type GraphicsMode = "2d" | "3d" | "high";
 export const GRAPHICS_KEY = "grand-century-graphics-v1";
 export function parseGraphicsMode(value: unknown): GraphicsMode {
   // Conservative default: no hardware guess and no surprise battery cost.
-  return value === "3d" ? "3d" : "2d";
+  return value === "high" ? "high" : value === "3d" ? "3d" : "2d";
 }
 export const TERRAIN_CREDIT =
-  "Elevation: Mapzen terrain tiles, NOAA, USGS and contributing agencies";
+  "Elevation: Mapzen terrain tiles, NOAA, USGS and contributing agencies; land cover: Natural Earth";
