@@ -24,10 +24,12 @@ import {
 } from "../../../src/graphics/terrainData";
 import type { WorldSnapshot } from "../../../src/shared/types";
 import { homelandAnchors } from "../../../src/graphics/mapAnchors";
+import { verifyTerrainFrame } from "./terrainFrame";
 import worldSeed from "../assets/game/worldSeed.json";
 
 type Props = {
   quality: TerrainQuality;
+  visible?: boolean;
   camera: RefObject<View | null>;
   focus: { center: [number, number]; zoom: number };
   snapshot: WorldSnapshot | null;
@@ -35,16 +37,49 @@ type Props = {
   selected: number | null;
   onSelect: (id: number | null) => void;
   onFallback: (reason: string) => void;
+  onFrame?: (gl: ExpoWebGLRenderingContext) => void;
 };
 export default function TerrainMap(props: Props) {
+  const [layout, setLayout] = useState({ width: 0, height: 0 });
+  const ratio = PixelRatio.get();
+  // ExpoGL captures drawingBufferWidth/Height once. Mount only after layout,
+  // and recreate the surface on resize instead of retaining stale dimensions.
+  return (
+    <NativeView
+      style={StyleSheet.absoluteFill}
+      onLayout={(event) => {
+        const { width, height } = event.nativeEvent.layout;
+        setLayout((previous) =>
+          previous.width === width && previous.height === height
+            ? previous
+            : { width, height },
+        );
+      }}
+    >
+      {layout.width > 0 && layout.height > 0 && (
+        <TerrainSurface
+          key={`${props.quality}:${layout.width}:${layout.height}:${ratio}`}
+          {...props}
+          layout={layout}
+        />
+      )}
+    </NativeView>
+  );
+}
+function TerrainSurface(
+  props: Props & { layout: { width: number; height: number } },
+) {
   const renderer = useRef<TerrainRenderer | null>(null),
     glRef = useRef<ExpoWebGLRenderingContext | null>(null);
   const frame = useRef(0),
     last = useRef(0),
     alive = useRef(true),
-    active = useRef(AppState.currentState === "active"),
+    active = useRef(
+      props.visible !== false && AppState.currentState === "active",
+    ),
     reduce = useRef(false),
-    dirty = useRef(true);
+    dirty = useRef(true),
+    presented = useRef(false);
   const latest = useRef(props);
   latest.current = props;
   const view = useRef<View>(
@@ -54,7 +89,7 @@ export default function TerrainMap(props: Props) {
       zoom: props.focus.zoom - 0.7,
     },
   );
-  const size = useRef({ width: 1, height: 1 }),
+  const size = useRef(props.layout),
     [ready, setReady] = useState(false),
     [revision, setRevision] = useState(0);
   const gesture = useRef({ x: 0, y: 0, distance: 0, moved: 0 });
@@ -66,12 +101,28 @@ export default function TerrainMap(props: Props) {
       r &&
       shouldRenderFrame(time, last.current, true, reduce.current, dirty.current)
     ) {
-      r.render(
-        reduce.current ? 0 : time / 1000,
-        latest.current.political,
-        latest.current.selected,
-      );
-      glRef.current?.endFrameEXP();
+      try {
+        r.render(
+          reduce.current ? 0 : time / 1000,
+          latest.current.political,
+          latest.current.selected,
+        );
+        const gl = glRef.current!;
+        if (!presented.current) {
+          verifyTerrainFrame(gl);
+          presented.current = true;
+          setReady(true);
+        }
+        latest.current.onFrame?.(gl);
+        gl.endFrameEXP();
+      } catch {
+        r.dispose();
+        renderer.current = null;
+        latest.current.onFallback(
+          "3D could not draw the map. Using the 2D map.",
+        );
+        return;
+      }
       dirty.current = false;
       last.current = time;
     }
@@ -109,14 +160,16 @@ export default function TerrainMap(props: Props) {
       },
     );
     const state = AppState.addEventListener("change", (value) => {
-      active.current = value === "active";
+      active.current = value === "active" && latest.current.visible !== false;
       if (!active.current) {
         cancelAnimationFrame(frame.current);
         frame.current = 0;
       } else wake();
     });
     const watchdog = setTimeout(() => {
-      if (!renderer.current)
+      // Synchronous atlas/shader setup can finish after the timer is due but
+      // before the next RAF. The frame itself has a separate pixel check.
+      if (!renderer.current && active.current)
         latest.current.onFallback("3D could not start. Using the 2D map.");
     }, 15000);
     return () => {
@@ -129,6 +182,15 @@ export default function TerrainMap(props: Props) {
       renderer.current = null;
     };
   }, []);
+  useEffect(() => {
+    active.current =
+      props.visible !== false && AppState.currentState === "active";
+    if (active.current) wake();
+    else {
+      cancelAnimationFrame(frame.current);
+      frame.current = 0;
+    }
+  }, [props.visible]);
   useEffect(() => {
     const r = renderer.current,
       s = props.snapshot;
@@ -230,7 +292,6 @@ export default function TerrainMap(props: Props) {
         r.setPalette(
           s.provinces.map((p) => s.nations[p.owner]?.color ?? [170, 160, 130]),
         );
-      setReady(true);
       wake();
     } catch {
       latest.current.onFallback(
@@ -241,13 +302,7 @@ export default function TerrainMap(props: Props) {
   void revision;
   const r = renderer.current;
   return (
-    <NativeView
-      style={StyleSheet.absoluteFill}
-      onLayout={(e) => {
-        size.current = e.nativeEvent.layout;
-        move(view.current);
-      }}
-    >
+    <NativeView style={StyleSheet.absoluteFill}>
       <GLView
         style={{
           position: "absolute",

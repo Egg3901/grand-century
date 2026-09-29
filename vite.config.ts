@@ -164,6 +164,8 @@ function generatedDataPublicPlugin(): Plugin {
 }
 
 export default defineConfig({
+  // Native test fixtures have their own Vite entry and platform adapters.
+  optimizeDeps: { entries: ['index.html'] },
   // Served at site root in dev; set VITE_BASE=/games/grand-century/ for the
   // Lakeside subpath deploy so asset + worker URLs resolve under the prefix.
   base: BASE,
