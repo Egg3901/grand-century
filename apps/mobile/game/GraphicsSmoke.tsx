@@ -1,5 +1,5 @@
 // Included only by the simulator CI entry point. Never selected in release builds.
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PixelRatio, Text, View } from "react-native";
 import { File, Paths } from "expo-file-system";
 import type { ExpoWebGLRenderingContext } from "expo-gl";
@@ -65,8 +65,12 @@ function visibleSceneryPixels(
   return visible;
 }
 
+import { verifyNativeCampaignStorage } from "./campaignSmoke";
+
 const report = new File(Paths.document, "graphics-smoke.json");
 export default function GraphicsSmoke() {
+  const storage = useRef<Promise<unknown> | null>(null);
+  useEffect(() => { storage.current = verifyNativeCampaignStorage(); void storage.current.catch((error) => fail(String(error))); }, []);
   const [phase, setPhase] = useState(0),
     [failed, setFailed] = useState("");
   const camera = useRef<CameraView | null>({
@@ -142,10 +146,9 @@ export default function GraphicsSmoke() {
       if (phase < 2) setTimeout(() => setPhase((p) => p + 1), 1500);
       else
         setTimeout(
-          () =>
-            report.write(
-              JSON.stringify({ ok: true, results: results.current }),
-            ),
+          () => { void storage.current?.then((campaignStorage) => report.write(
+              JSON.stringify({ ok: true, campaignStorage, results: results.current }),
+            )).catch((error) => fail(String(error))); },
           500,
         );
     } catch (error) {

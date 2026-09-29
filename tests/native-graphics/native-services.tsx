@@ -1,45 +1,31 @@
 import React from "react";
 import { View, Text } from "./platform";
-import type { FromWorker, ToWorker, World } from "../../src/shared/types";
-import { GAME_DATA } from "../../src/data/gameData";
-import { createWorld } from "../../src/sim/bootstrap";
-import { snapshot } from "../../src/sim/world";
-import { applyCommand } from "../../src/sim/commands";
-export class NativeSimTransport {
-  private world: World | null = null;
-  private handler: ((m: FromWorker) => void) | null = null;
-  onMessage(fn: (m: FromWorker) => void) {
-    this.handler = fn;
-  }
-  send(m: ToWorker) {
-    if (m.t === "init") return;
-    if (m.t !== "command") return;
-    if (m.cmd.t === "newGame") {
-      this.world = createWorld(GAME_DATA, m.cmd.seed);
-      this.world.playerNation = m.cmd.playerNation;
-      this.world.nations.forEach(
-        (n) => (n.isPlayer = n.id === m.cmd.playerNation),
-      );
-    } else if (this.world)
-      applyCommand(this.world, GAME_DATA, m.cmd, (m) => this.handler?.(m));
-    (window as any).nativeCommand = m.cmd;
-    if (this.world)
-      this.handler?.({
-        t: "snapshot",
-        snapshot: snapshot(this.world, GAME_DATA),
-      });
-  }
-  dispose() {}
+export class Worker {
+  private worker = new window.Worker(new URL('../../apps/mobile/game/sim.worker.ts', import.meta.url), { type: 'module' });
+  set onmessage(handler: (event: MessageEvent) => void) { this.worker.onmessage = handler; }
+  postMessage(message: any) { if (message.t === 'command') (window as any).nativeCommand = message.cmd; this.worker.postMessage(message); }
+  terminate() { this.worker.terminate(); }
 }
+const keyOf = (parts: any[]) => parts.map((part) => typeof part === 'string' ? part : part.uri).join('/');
 export class File {
-  exists = false;
-  constructor(..._: any[]) {}
-  textSync() {
-    return "";
-  }
-  write(_: string) {}
+  uri: string;
+  constructor(...parts: any[]) { this.uri = keyOf(parts); }
+  get name() { return this.uri.split('/').pop()!; }
+  get exists() { return localStorage.getItem(this.uri) !== null; }
+  textSync() { return localStorage.getItem(this.uri) ?? ''; }
+  async bytes() { return new Uint8Array(JSON.parse(this.textSync())); }
+  write(data: string | Uint8Array) { localStorage.setItem(this.uri, typeof data === 'string' ? data : JSON.stringify(Array.from(data))); }
+  delete() { localStorage.removeItem(this.uri); }
 }
-export const Paths = { document: "test" };
+export class Directory {
+  uri: string;
+  constructor(...parts: any[]) { this.uri = keyOf(parts); }
+  create() {}
+  list() { return Object.keys(localStorage).filter((key) => key.startsWith(this.uri + '/')).map((key) => new File(key)); }
+}
+export const Paths = { document: 'test' };
+export const WebBrowserPresentationStyle = { FULL_SCREEN: 'fullScreen' };
+export async function openBrowserAsync(url: string) { (window as any).accountURL = url; return { type: 'cancel' }; }
 export const StatusBar = () => null;
 export default function Ionicons({ name }: any) {
   return (

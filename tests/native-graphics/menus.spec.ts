@@ -9,8 +9,10 @@ for (const width of [390, 430])
     await page
       .getByRole("button", { name: "New campaign", exact: true })
       .click();
+    await page.getByRole("button", { name: "Choose nation", exact: true }).click();
     await page.getByRole("textbox", { name: "Search nations" }).fill("Algeria");
-    await page.getByRole("button", { name: "Start as Algeria" }).click();
+    await page.getByRole("button", { name: "Select Algeria" }).click();
+    await page.getByRole("button", { name: "Begin campaign as Algeria" }).click();
     await expect(page.getByTestId("player-country-flag")).toBeVisible();
     await expect
       .poll(() =>

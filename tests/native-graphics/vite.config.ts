@@ -31,9 +31,10 @@ export default defineConfig({
           new URL("./terrain-assets.ts", import.meta.url),
         ),
       },
-      { find: /.*\/NativeSimTransport$/, replacement: services },
+      { find: "@ammarahmed/react-native-workers", replacement: services },
       ...[
         "expo-file-system",
+        "expo-web-browser",
         "expo-device",
         "expo-status-bar",
         "@expo/vector-icons/Ionicons",
