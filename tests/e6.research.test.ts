@@ -363,6 +363,7 @@ describe('E6 effects & stability', () => {
     expect(view.statuses.every((status) => status.etaMonths === null || status.etaMonths === undefined || status.etaMonths >= 0)).toBe(true);
   }, 120_000);
 
+  // This full 25-year run takes about 140 seconds on shared build hosts.
   it('year gates hold: nobody owns a post-1870 tech in 1855', () => {
     const world = createWorld(GAME_DATA, 77);
     advanceDays(world, 365 * 25); // 1830 -> 1855
@@ -373,7 +374,7 @@ describe('E6 effects & stability', () => {
         expect((def?.year ?? 1830)).toBeLessThanOrEqual(1855);
       }
     }
-  }, 120_000);
+  }, 180_000);
 
   it('availableTechsFor exposes only researchable frontier techs', () => {
     const world = createWorld(GAME_DATA, 88);

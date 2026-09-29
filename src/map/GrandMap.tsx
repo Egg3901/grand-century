@@ -1,4 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { RefObject } from 'react';
+import { useSnapshotFields } from '../ui/useSnapshotFields';
+import type { View } from '../graphics/terrainData';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './GrandMap.css';
 import { DEFAULT_SCENARIO_ID, loadScenario } from '../data/generated';
@@ -363,7 +366,7 @@ function insideViewport(box: ScreenBox, width: number, height: number, padding: 
   return box.right >= -padding && box.left <= width + padding && box.bottom >= -padding && box.top <= height + padding;
 }
 
-export function GrandMap() {
+function AtlasMap2D({ camera }: { camera: RefObject<View|null> }) {
   const snapshot = useStore(useShallow((state) => state.snapshot));
   const scenarioId = snapshot?.scenarioId ?? DEFAULT_SCENARIO_ID;
   const scenario = loadScenario(scenarioId);
@@ -772,6 +775,7 @@ export function GrandMap() {
       const maplibregl = maplibreModule.default;
       maplibreRef.current = maplibregl;
 
+      const restoredView=camera.current;
       let map: MapLibreMap;
       try {
         map = new maplibregl.Map({
@@ -785,8 +789,8 @@ export function GrandMap() {
               paint: { 'background-color': SEA_BASE },
             }],
           },
-          center: [0, 18],
-          zoom: 1.3,
+          center: restoredView ? [restoredView.lon,restoredView.lat] : [0,18],
+          zoom: restoredView ? restoredView.zoom-Math.log2(512/Math.max(1,containerRef.current.clientHeight)) : 1.3,
           attributionControl: false,
           maxPitch: 0,
           renderWorldCopies: false,
@@ -800,6 +804,7 @@ export function GrandMap() {
       }
       createdMap = map;
       mapRef.current = map;
+      map.on('moveend',()=>{const c=map.getCenter();camera.current={lon:c.lng,lat:c.lat,zoom:map.getZoom()+Math.log2(512/Math.max(1,map.getContainer().clientHeight))};});
       if (import.meta.env.DEV) {
         const g = globalThis as { __grandCenturyMap?: MapLibreMap; __gcSetMapMode?: (mode: string) => void };
         g.__grandCenturyMap = map;
@@ -1332,7 +1337,7 @@ export function GrandMap() {
           },
         });
 
-        if (bounds) map.fitBounds(bounds, { padding: 30, duration: 550, maxZoom: 2.7 });
+        if (bounds && !camera.current) map.fitBounds(bounds, { padding: 30, duration: 550, maxZoom: 2.7 });
       });
 
     map.on('click', MAP_FILL_LAYER, (event) => {
@@ -1423,6 +1428,7 @@ export function GrandMap() {
       setMapReady(false);
     };
   }, [
+    camera,
     bounds,
     desertProvinceIds,
     forestProvinceIds,
@@ -2376,4 +2382,26 @@ export function GrandMap() {
       ) : null}
     </div>
   );
+}
+
+const TerrainCanvas = lazy(() => import('./TerrainCanvas').then(m => ({ default: m.TerrainCanvas })));
+export function GrandMap() {
+  const [graphics,setGraphics]=useState<'2d'|'3d'>(()=>{try{return localStorage.getItem('grand-century-graphics-v1')==='3d'?'3d':'2d';}catch{return '2d';}});
+  const [notice,setNotice]=useState('');
+  const camera=useRef<View|null>(null);
+  const previousCampaign=useRef('');
+  const mode=useStore(s=>s.mapMode),snapshot=useSnapshotFields(['scenarioId','playerNation','seed','mapMode'] as const);
+  const campaign=`${snapshot?.scenarioId}:${snapshot?.playerNation}:${snapshot?.seed}`;
+  if(previousCampaign.current!==campaign){previousCampaign.current=campaign;camera.current=null;}
+  const supported=(mode==='political'||mode==='terrain')&&(!snapshot?.scenarioId||snapshot.scenarioId==='1830-01-01')&&snapshot?.mapMode!=='procedural_random';
+  const choose=useCallback((value:'2d'|'3d')=>{setGraphics(value);setNotice('');try{localStorage.setItem('grand-century-graphics-v1',value);}catch{/* Session preference still works. */}},[]);
+  const fallback=useCallback((reason:string)=>{choose('2d');setNotice(reason);},[choose]);
+  return <>
+    {graphics==='3d'&&supported?<Suspense fallback={<div className="gc-terrain-loading" role="status">Loading terrain...</div>}><TerrainCanvas key={campaign} onFallback={fallback} camera={camera}/></Suspense>:<AtlasMap2D key={campaign} camera={camera}/>}
+    <div className="gc-graphics-controls" aria-label="Map graphics">
+      <button aria-pressed={graphics==='2d'} onClick={()=>choose('2d')} title="Flat map, lower graphics cost">2D · Low power</button>
+      <button aria-pressed={graphics==='3d'} onClick={()=>choose('3d')} title="Raised terrain and animated water">3D · Terrain</button>
+    </div>
+    {(notice||(graphics==='3d'&&!supported))&&<p className="gc-graphics-notice" role="status">{notice||'This map layer uses the detailed 2D atlas. Return to Political or Terrain for 3D.'}</p>}
+  </>;
 }

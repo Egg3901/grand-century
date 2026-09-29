@@ -1,11 +1,16 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Camera, GeoJSONSource, ImageSource, Images, Layer, Map, type MapRef } from '@maplibre/maplibre-react-native';
-import { AppState, FlatList, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { AppState, Modal, ScrollView, FlatList, Image, Pressable, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
 import atlas from './assets/game/atlas.json';
 import borders from './assets/game/borders.json';
-import waves from './assets/game/waves.json';
+import { File, Paths } from 'expo-file-system';
+import { GRAPHICS_KEY, parseGraphicsMode, type GraphicsMode } from '../../src/graphics/preferences';
+const TerrainMap = lazy(() => import('./game/TerrainMap'));
+import type { View as TerrainView } from '../../src/graphics/terrainData';
+import terrainAttribution from '../../src/graphics/terrain-attribution.json';
+const graphicsFile = new File(Paths.document, GRAPHICS_KEY + '.json');
 import worldSeed from './assets/game/worldSeed.json';
 import { NativeSimTransport } from './game/NativeSimTransport';
 import { labelFitsViewport } from './game/mapLabelPlacement';
@@ -20,7 +25,7 @@ const navy = '#18272d';
 const mapStyle = {
   version: 8 as const,
   sources: {},
-  layers: [{ id: 'sea', type: 'background' as const, paint: { 'background-color': '#a7b8b9' } }],
+  layers: [{ id: 'sea', type: 'background' as const, paint: { 'background-color': '#214c60' } }],
 };
 const mapAnchors: Record<string, { center: [number, number]; zoom: number }> = {
   ENG: { center: [-1.5, 53], zoom: 3.7 }, FRA: { center: [2.5, 47], zoom: 3.7 },
@@ -44,20 +49,6 @@ function compact(value: number): string {
   if (magnitude >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}m`;
   if (magnitude >= 1_000) return `${(value / 1_000).toFixed(1)}k`;
   return `${Math.round(value)}`;
-}
-
-function Water() {
-  const [phase, setPhase] = useState(0);
-  useEffect(() => {
-    const timer = setInterval(() => setPhase((value) => value + 0.2), 120);
-    return () => clearInterval(timer);
-  }, []);
-  return <GeoJSONSource id="water-waves" data={waves as GeoJSON.FeatureCollection}>
-    <Layer id="waves-near" type="line" filter={['==', ['get', 'phase'], 0]}
-      paint={{ 'line-color': '#e0eded', 'line-width': 1, 'line-opacity': 0.1 + 0.1 * Math.sin(phase) }} />
-    <Layer id="waves-far" type="line" filter={['==', ['get', 'phase'], 1]}
-      paint={{ 'line-color': '#d5e4e4', 'line-width': 0.8, 'line-opacity': 0.1 + 0.1 * Math.sin(phase + Math.PI) }} />
-  </GeoJSONSource>;
 }
 
 function NationPicker({ onSelect }: { onSelect: (nation: Nation) => void }) {
@@ -96,13 +87,20 @@ function colorOf(nation: Nation) {
 }
 
 function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
+  const screenHeight=useWindowDimensions().height;
   const mapRef = useRef<MapRef>(null);
+  const terrainCamera=useRef<TerrainView|null>(null);
   const projectionRun = useRef(0);
   const [province, setProvince] = useState<Province | null>(null);
   const [snapshot, setSnapshot] = useState<WorldSnapshot | null>(null);
   const [transport, setTransport] = useState<NativeSimTransport | null>(null);
   const [mapMode, setMapMode] = useState<'political' | 'terrain'>('political');
   const [actionMessage, setActionMessage] = useState('');
+  const [graphics,setGraphics]=useState<GraphicsMode>(()=>{try{return parseGraphicsMode(graphicsFile.exists?graphicsFile.textSync():null);}catch{return '2d';}});
+  const [graphicsNotice,setGraphicsNotice]=useState('');
+  const [showCredits,setShowCredits]=useState(false);
+  const chooseGraphics=useCallback((value:GraphicsMode)=>{setGraphics(value);setGraphicsNotice('');try{graphicsFile.write(value);}catch{/* Keep the working session preference. */}},[]);
+  const graphicsFallback=useCallback((reason:string)=>{chooseGraphics('2d');setGraphicsNotice(reason);},[chooseGraphics]);
   const [mapSize, setMapSize] = useState({ width: 0, height: 0 });
   const [visibleLabelTags, setVisibleLabelTags] = useState<string[]>([]);
   const capital = worldSeed.provinces.find((item) => item.id === nation.capitalProvinceId);
@@ -167,24 +165,24 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
 
   return (
     <View style={styles.mapPage}>
-      <Map ref={mapRef} mapStyle={mapStyle} style={styles.map} touchRotate={false} touchPitch={false}
+      {graphics==='3d'?<Suspense fallback={<Text style={{position:'absolute',top:'45%',alignSelf:'center'}}>Loading terrain...</Text>}><TerrainMap camera={terrainCamera} focus={focus} snapshot={snapshot} political={mapMode==='political'} selected={province?.id??null} onFallback={graphicsFallback} onSelect={id=>{setProvince(worldSeed.provinces.find(p=>p.id===id)??null);setActionMessage('');}}/></Suspense>:<Map ref={mapRef} mapStyle={mapStyle} style={styles.map} touchRotate={false} touchPitch={false} preferredFramesPerSecond={30}
         onLayout={(event) => setMapSize(event.nativeEvent.layout)}
         onDidFinishLoadingMap={() => { void placeLabels(); }}
         onRegionWillChange={() => { projectionRun.current += 1; setVisibleLabelTags([]); }}
-        onRegionDidChange={() => { void placeLabels(); }}>
-        <Camera initialViewState={{ center: focus.center, zoom: focus.zoom }} />
+        onRegionDidChange={event => {const v=event.nativeEvent;terrainCamera.current={lon:v.center[0],lat:v.center[1],zoom:v.zoom+Math.log2(512/Math.max(1,mapSize.height||screenHeight))};void placeLabels();}}>
+        <Camera initialViewState={terrainCamera.current?{center:[terrainCamera.current.lon,terrainCamera.current.lat],zoom:terrainCamera.current.zoom-Math.log2(512/Math.max(1,mapSize.height||screenHeight))}:{center:focus.center,zoom:focus.zoom}} />
         <Images images={{
           mountains: require('./assets/map/mountains.png'), forest: require('./assets/map/forest.png'),
           desert: require('./assets/map/desert.png'), farmland: require('./assets/map/farmland.png'),
           arctic: require('./assets/map/arctic.png'), plain: require('./assets/map/plain.png'),
           ...labelImages,
         }} />
-        <ImageSource id="offline-relief" url={require('./assets/map/gray-earth-relief.png')}
+        <ImageSource id="offline-relief" url={require('./assets/map/relief-low-power.png')}
           coordinates={[[-180, 85], [180, 85], [180, -85], [-180, -85]]}>
           <Layer id="relief-raster" type="raster"
             paint={{ 'raster-opacity': mapMode === 'terrain' ? 0.8 : 0.55 }} />
         </ImageSource>
-        <Water />
+
         <GeoJSONSource id="provinces" data={atlas as GeoJSON.FeatureCollection}
           onPress={(event) => {
             const id = Number(event.nativeEvent.features?.[0]?.properties?.id);
@@ -211,6 +209,8 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
             paint={{ 'line-color': '#fff2b0', 'line-width': 2.5 }} />
         </GeoJSONSource>
         <GeoJSONSource id="borders" data={borders as GeoJSON.FeatureCollection}>
+          <Layer id="coast-shelf" type="line" filter={['==', ['get', 'kind'], 'coast']}
+            paint={{ 'line-color': '#75acae', 'line-width': 9, 'line-opacity': 0.15, 'line-blur': 4 }} />
           <Layer id="coastline" type="line" filter={['==', ['get', 'kind'], 'coast']}
             paint={{ 'line-color': '#526967', 'line-width': 0.8, 'line-opacity': 0.75 }} />
           <Layer id="country-border-casing" type="line" filter={['==', ['get', 'kind'], 'country']}
@@ -224,7 +224,7 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
               'symbol-avoid-edges': true, 'icon-allow-overlap': false,
               'icon-ignore-placement': false, 'icon-anchor': 'center' }} />
         </GeoJSONSource>
-      </Map>
+      </Map>}
       <View style={styles.topBar}>
         <Pressable accessibilityRole="button" accessibilityLabel="Choose another nation" onPress={onBack} style={styles.backButton}>
           <Text style={styles.backText}>‹</Text>
@@ -241,6 +241,13 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
         <View style={styles.secondaryItem}><Ionicons name="shield-outline" size={14} color="#42565a" /><Text style={styles.secondaryLabel}> MILITARY</Text><Text style={styles.secondaryValue}>{player?.militaryScore ?? '...'}</Text></View>
         <View style={styles.secondaryItem}><Ionicons name="star-outline" size={14} color="#42565a" /><Text style={styles.secondaryLabel}> PRESTIGE</Text><Text style={styles.secondaryValue}>{player ? Math.round(player.prestige) : '...'}</Text></View>
       </View>
+      {graphics==='3d'&&<Pressable accessibilityRole="button" accessibilityLabel="Terrain data credits" onPress={()=>setShowCredits(true)} style={{position:'absolute',left:8,bottom:105,backgroundColor:'#18272ddd',padding:7}}><Text style={{fontSize:10,color:paper}}>Terrain data credits</Text></Pressable>}
+      <Modal visible={showCredits} animationType="slide" onRequestClose={()=>setShowCredits(false)}><View style={{flex:1,padding:24,paddingTop:60,backgroundColor:paper}}><Pressable accessibilityRole="button" onPress={()=>setShowCredits(false)} style={{minHeight:44}}><Text style={{color:ink,fontWeight:'700'}}>Close terrain credits</Text></Pressable><ScrollView><Text selectable style={{color:ink,lineHeight:20}}>{terrainAttribution.text}</Text></ScrollView></View></Modal>
+      <View style={styles.graphicsBar}>
+        <Pressable accessibilityRole="button" accessibilityLabel="2D low power graphics" accessibilityState={{selected:graphics==='2d'}} onPress={()=>chooseGraphics('2d')} style={[styles.graphicsButton,graphics==='2d'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='2d'&&styles.mapModeSelectedText]}>2D · Low power</Text></Pressable>
+        <Pressable accessibilityRole="button" accessibilityLabel="3D terrain graphics" accessibilityState={{selected:graphics==='3d'}} onPress={()=>chooseGraphics('3d')} style={[styles.graphicsButton,graphics==='3d'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='3d'&&styles.mapModeSelectedText]}>3D · Terrain</Text></Pressable>
+      </View>
+      {!!graphicsNotice&&<Text accessibilityRole="alert" style={styles.graphicsNotice}>{graphicsNotice}</Text>}
       <View style={styles.mapModeBar}>
         <Pressable accessibilityRole="button" accessibilityLabel="Political map" accessibilityState={{ selected: mapMode === 'political' }}
           onPress={() => setMapMode('political')} style={[styles.mapModeButton, mapMode === 'political' && styles.mapModeSelected]}>
@@ -329,6 +336,9 @@ const styles = StyleSheet.create({
   secondaryItem: { flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRightColor: '#b4b8af', borderRightWidth: 1 },
   secondaryLabel: { color: '#42565a', fontSize: 9, fontWeight: '800' },
   secondaryValue: { color: ink, fontSize: 12, fontWeight: '800', marginLeft: 4 },
+  graphicsBar: {position:'absolute',bottom:150,right:7,flexDirection:'row',backgroundColor:'#f4f1e8',borderWidth:1,borderColor:'#87918b'},
+  graphicsButton:{minHeight:44,paddingHorizontal:10,justifyContent:'center'},
+  graphicsNotice:{position:'absolute',bottom:300,right:8,left:8,padding:10,backgroundColor:'#f4f1e8',color:ink},
   mapModeBar: { position: 'absolute', bottom: 201, right: 7, flexDirection: 'row', borderColor: '#87918b', borderWidth: 1, backgroundColor: '#f4f1e8' },
   mapModeButton: { minHeight: 30, flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8 },
   mapModeSelected: { backgroundColor: navy },

@@ -64,3 +64,11 @@ The full specification lives in [`docs/`](./docs). Start with
 [PolyForm Noncommercial 1.0.0](./LICENSE.md). The source is available to read, learn from,
 modify, and run noncommercially. Commercial use, including hosting it as a paid or
 ad-supported service, is not licensed.
+
+## Map graphics
+
+Choose **3D · Terrain** for offline raised terrain and animated water, or
+**2D · Low power** for the lighter atlas. The setting is remembered. The native
+1830 campaign supports both; other web scenarios and analytical layers retain
+the 2D atlas. See [graphics and performance](docs/GRAPHICS.md) for the rendering
+budgets, data credits and device-validation limits.

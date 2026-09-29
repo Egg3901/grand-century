@@ -3,10 +3,10 @@ name: Native mobile
 on:
   workflow_dispatch:
   pull_request:
-    paths: ['apps/mobile/**', 'src/**', 'scripts/sync-mobile-atlas.mjs', 'package*.json', '.github/workflows/mobile.yml']
+    paths: ['apps/mobile/**', 'src/**', 'scripts/sync-mobile-atlas.mjs', 'tests/graphics.terrain.test.ts', 'tests/perf.budgets.test.ts', 'tests/e2e/graphics-terrain.spec.ts', 'playwright.graphics.config.ts', 'package*.json', '.github/workflows/mobile.yml']
   push:
     branches: [master]
-    paths: ['apps/mobile/**', 'src/**', 'scripts/sync-mobile-atlas.mjs', 'package*.json', '.github/workflows/mobile.yml']
+    paths: ['apps/mobile/**', 'src/**', 'scripts/sync-mobile-atlas.mjs', 'tests/graphics.terrain.test.ts', 'tests/perf.budgets.test.ts', 'tests/e2e/graphics-terrain.spec.ts', 'playwright.graphics.config.ts', 'package*.json', '.github/workflows/mobile.yml']
 
 permissions:
   contents: read
@@ -35,7 +35,10 @@ jobs:
       - run: npm run mobile:typecheck
       - run: npm --prefix apps/mobile run bundle:workers:ios
       - run: npx vitest run --project unit tests/mobile.mapLabelPlacement.test.ts
+      - run: npx vitest run --project unit tests/graphics.terrain.test.ts tests/perf.budgets.test.ts
       - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test --config playwright.graphics.config.ts
   ios:
     name: iOS simulator compile
     runs-on: macos-26
