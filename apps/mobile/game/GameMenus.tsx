@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { StatusBar } from "expo-status-bar";
 import {
   Modal,
   Pressable,
@@ -69,6 +70,7 @@ export function MenuSheet({
     >
       <SafeAreaProvider>
         <SafeAreaView style={styles.safe}>
+          <StatusBar style="dark"/>
           <View style={styles.heading}>
             <Text accessibilityRole="header" style={styles.title}>
               {heading}
@@ -414,6 +416,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#18272d",
     justifyContent: "center",
     borderRadius: 3,
+    borderWidth: 1,
+    borderColor: "#bd954e",
   },
   buttonText: {
     fontSize: 14,

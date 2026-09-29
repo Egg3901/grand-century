@@ -6,6 +6,7 @@ const services = fileURLToPath(
 );
 const shim = fileURLToPath(new URL("./platform.tsx", import.meta.url));
 export default defineConfig({
+  cacheDir: "node_modules/.vite-native-graphics",
   plugins: [
     react(),
     {
