@@ -1,5 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
+import { useSnapshotFields } from '../ui/useSnapshotFields';
 import type { View } from '../graphics/terrainData';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './GrandMap.css';
@@ -2389,7 +2390,7 @@ export function GrandMap() {
   const [notice,setNotice]=useState('');
   const camera=useRef<View|null>(null);
   const previousCampaign=useRef('');
-  const mode=useStore(s=>s.mapMode),snapshot=useStore(s=>s.snapshot);
+  const mode=useStore(s=>s.mapMode),snapshot=useSnapshotFields(['scenarioId','playerNation','seed','mapMode'] as const);
   const campaign=`${snapshot?.scenarioId}:${snapshot?.playerNation}:${snapshot?.seed}`;
   if(previousCampaign.current!==campaign){previousCampaign.current=campaign;camera.current=null;}
   const supported=(mode==='political'||mode==='terrain')&&(!snapshot?.scenarioId||snapshot.scenarioId==='1830-01-01')&&snapshot?.mapMode!=='procedural_random';

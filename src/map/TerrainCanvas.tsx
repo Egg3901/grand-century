@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { homelandAnchors } from "../graphics/mapAnchors";
 import worldSeed from "../data/generated/worldSeed.json";
 import { useStore } from "../store";
+import { useSnapshotFields } from "../ui/useSnapshotFields";
 import {
   TerrainRenderer,
   renderScale,
@@ -25,7 +26,7 @@ export function TerrainCanvas({
 }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const renderer = useRef<TerrainRenderer | null>(null);
-  const snapshot = useStore((s) => s.snapshot),
+  const snapshot = useSnapshotFields(["playerNation", "nations", "provinces", "armies", "fleets", "wars", "relations"] as const),
     data = worldSeed,
     mode = useStore((s) => s.mapMode),
     selected = useStore((s) => s.selectedProvince);
