@@ -84,6 +84,7 @@ export function TerrainCanvas({
         snapshot.provinces.map(
           (p) => snapshot.nations[p.owner]?.color ?? [170, 160, 130],
         ),
+        snapshot.provinces.map((p) => p.owner),
       );
     wakeRef.current();
   }, [snapshot, mode, selected]);
@@ -185,6 +186,7 @@ export function TerrainCanvas({
               s.provinces.map(
                 (p) => s.nations[p.owner]?.color ?? [170, 160, 130],
               ),
+              s.provinces.map((p) => p.owner),
             );
           resize();
           observer = new ResizeObserver(resize);

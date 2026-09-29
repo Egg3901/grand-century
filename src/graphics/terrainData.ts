@@ -122,11 +122,20 @@ export const MESH_SEGMENTS = 128;
 export const HIGH_MESH_SEGMENTS = 254;
 export type TerrainQuality = "balanced" | "high";
 export const TERRAIN_EXAGGERATION = 12;
-export function terrainHeight(data: TerrainData, x: number, y: number): number {
+/** Readable relief at world scale, gentler slopes at city scale. */
+export function reliefForZoom(zoom: number): number {
+  return 12 - clamp((zoom - 4) / 3, 0, 1) * 8;
+}
+export function terrainHeight(
+  data: TerrainData,
+  x: number,
+  y: number,
+  exaggeration = TERRAIN_EXAGGERATION,
+): number {
   const lat = (geographic(x, y)[1] * Math.PI) / 180;
   return (
     (elevation(data, x, y) / (40075016.686 * Math.max(0.12, Math.cos(lat)))) *
-    TERRAIN_EXAGGERATION
+    exaggeration
   );
 }
 export function normalizeView(v: View): View {

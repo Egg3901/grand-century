@@ -247,3 +247,79 @@ test("High renders detailed geometry, modeled scenery and moving water while pau
   );
   await expect(page.getByTestId("terrain-3d")).toBeVisible();
 });
+
+test("close-zoom frontiers follow ownership even when nations have identical colors", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("grand-century.tutorial.v0_2_0.seen", "1");
+    localStorage.setItem("grand-century-graphics-v1", "3d");
+  });
+  await page.goto("/");
+  await page.getByTestId("menu-new-game").click();
+  await page.waitForFunction(() => !!(window as any).__gcTerrain);
+  await page.evaluate(() =>
+    (window as any).__gcTerrainFocus({ lon: 10, lat: 45, zoom: 6 }),
+  );
+  await page.waitForFunction(
+    () => !(window as any).__gcTerrain.isPreparingScenery,
+  );
+  const result = await page.evaluate(() => {
+    const r = (window as any).__gcTerrain;
+    const gl = (
+      document.querySelector(".gc-terrain-view canvas") as HTMLCanvasElement
+    ).getContext("webgl")!;
+    const colors = Array.from({ length: 1024 }, () => [160, 150, 110]);
+    const read = () => {
+      const pixels = new Uint8Array(
+        gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
+      );
+      gl.readPixels(
+        0,
+        0,
+        gl.drawingBufferWidth,
+        gl.drawingBufferHeight,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        pixels,
+      );
+      return pixels;
+    };
+    r.setPalette(
+      colors,
+      colors.map((_, i) => i),
+    );
+    r.render(0, true, null, false);
+    const before = read();
+    r.setPalette(
+      colors,
+      colors.map(() => 0),
+    );
+    r.render(0, true, null, false);
+    const after = read();
+    let changed = 0;
+    for (let i = 0; i < before.length; i += 4)
+      if (
+        Math.abs(before[i] - after[i]) +
+          Math.abs(before[i + 1] - after[i + 1]) +
+          Math.abs(before[i + 2] - after[i + 2]) >
+        30
+      )
+        changed++;
+    const anchor = r.project(10.4, 45.2),
+      view = r.zoomAt(...anchor, 0.6);
+    r.setView(view, innerWidth, innerHeight);
+    return {
+      changed,
+      detail: r.detailResolution,
+      error: gl.getError(),
+      anchor,
+      after: r.project(10.4, 45.2),
+    };
+  });
+  expect(result.detail).toBe(1024);
+  expect(result.error).toBe(0);
+  expect(result.changed).toBeGreaterThan(100);
+  expect(result.after[0]).toBeCloseTo(result.anchor[0], 0);
+  expect(result.after[1]).toBeCloseTo(result.anchor[1], 0);
+});

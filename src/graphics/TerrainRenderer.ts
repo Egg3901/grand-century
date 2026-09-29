@@ -1,3 +1,8 @@
+import {
+  provinceGeometry,
+  type ProvinceDetail,
+  type DetailBounds,
+} from "./provinceDetail";
 import { iterateScenery, type SceneryProvince } from "./terrainScenery";
 import {
   clamp,
@@ -7,7 +12,7 @@ import {
   HIGH_MESH_SEGMENTS,
   type TerrainQuality,
   normalizeView,
-  provinceAt,
+  reliefForZoom,
   terrainHeight,
   type TerrainData,
   type View,
@@ -26,6 +31,7 @@ uniform vec2 meshCenter;
 uniform vec2 meshExtent;
 uniform sampler2D heightMap;
 uniform float heightTexel;
+uniform float relief;
 uniform float scenery;
 float metersAt(vec2 at) {
   vec2 bytes=texture2D(heightMap,at).ra;
@@ -50,7 +56,7 @@ void main() {
   // estimates must not put buildings below a differently sampled GPU surface.
   float t=3.14159265*(1.0-2.0*world.y);
   float cosLatitude=2.0/(exp(t)+exp(-t));
-  world.z+=heightAt(world.xy)*12.0/(40075016.686*max(.12,cosLatitude));
+  world.z+=heightAt(world.xy)*relief/(40075016.686*max(.12,cosLatitude));
   float north = center.y - world.y;
   gl_Position = vec4((world.x-center.x)/extent.x,
     (north*tilt.x+world.z*tilt.y)/extent.y,
@@ -64,6 +70,14 @@ uniform sampler2D surface;
 uniform sampler2D provinces;
 uniform sampler2D palette;
 uniform sampler2D normalMap;
+uniform sampler2D localProvinces;
+uniform sampler2D owners;
+uniform vec4 localBounds;
+uniform float localTexel;
+uniform float localEnabled;
+uniform float provinceLines;
+uniform float surfaceTexel;
+uniform float closeDetail;
 uniform float clock;
 uniform float political;
 uniform float selected;
@@ -74,7 +88,24 @@ uniform float scenery;
 varying vec2 uv;
 varying vec3 n;
 varying vec3 tint;
-float idAt(vec2 p) { vec2 c=texture2D(provinces,p).ra; return floor(c.x*255.0+.5)+floor(c.y*255.0+.5)*256.0; }
+float decodeId(vec2 c) { return floor(c.x*255.0+.5)+floor(c.y*255.0+.5)*256.0; }
+float inLocal(vec2 p) {
+  vec2 at=(p-localBounds.xy)/localBounds.zw;
+  return localEnabled*step(0.0,at.x)*step(at.x,1.0)*step(0.0,at.y)*step(at.y,1.0);
+}
+float idAt(vec2 p) {
+  if(inLocal(p)>.5) return decodeId(texture2D(localProvinces,(p-localBounds.xy)/localBounds.zw).ra);
+  return decodeId(texture2D(provinces,p).ra);
+}
+float ownerAt(float id) { return decodeId(texture2D(owners,vec2((id-.5)/1024.0,.5)).ra); }
+float landAt(vec2 p) { return step(.5,idAt(p)); }
+float coastCoverage(vec2 p) {
+  vec2 pixel=(p-localBounds.xy)/localBounds.zw/localTexel-.5;
+  vec2 base=(floor(pixel)+.5)*localTexel*localBounds.zw+localBounds.xy;
+  vec2 delta=localBounds.zw*localTexel, f=fract(pixel);
+  return mix(mix(landAt(base),landAt(base+vec2(delta.x,0)),f.x),
+    mix(landAt(base+vec2(0,delta.y)),landAt(base+delta),f.x),f.y);
+}
 float hash(vec2 p) {
   vec2 q=fract(p*vec2(.1031,.11369));
   q+=dot(q,q.yx+19.19);
@@ -92,7 +123,7 @@ void main() {
   if(uv.x<0.0||uv.x>1.0||uv.y<0.0||uv.y>1.0) discard;
   vec4 ground=texture2D(surface,uv);
   float id=idAt(uv);
-  float coverage=smoothstep(.35,.65,ground.a);
+  float coverage=inLocal(uv)>.5 ? coastCoverage(uv) : smoothstep(.35,.65,ground.a);
   vec3 water=vec3(0.0);
   if(coverage<.999) {
     // Crossed travelling swells, with smaller capillary waves appearing on zoom.
@@ -117,11 +148,20 @@ void main() {
     water=sea;
     if(coverage<.001) { gl_FragColor=vec4(water,1.0);return; }
   }
-  if(id<.5) id=max(idAt(uv+vec2(provinceTexel*2.0,0.0)),max(idAt(uv-vec2(provinceTexel*2.0,0.0)),max(idAt(uv+vec2(0.0,provinceTexel*2.0)),idAt(uv-vec2(0.0,provinceTexel*2.0)))));
+  vec2 edgeStep=inLocal(uv)>.5 ? localBounds.zw*localTexel : vec2(provinceTexel);
+  if(id<.5) id=max(idAt(uv+vec2(edgeStep.x,0.0)),max(idAt(uv-vec2(edgeStep.x,0.0)),max(idAt(uv+vec2(0.0,edgeStep.y)),idAt(uv-vec2(0.0,edgeStep.y)))));
   vec2 oct=texture2D(normalMap,uv).ra*2.0-1.0;
   vec3 normal=normalize(vec3(oct,1.0-abs(oct.x)-abs(oct.y)));
-  float grain=noise(uv*18000.0);
-  float broad=grain;
+  // Smooth the baked kilometre-scale grain before adding continuous material detail.
+  // This avoids enlarging individual atlas pixels into square patches near cities.
+  if(closeDetail>0.0) {
+  vec2 blur=vec2(surfaceTexel*.65,0);
+  vec3 smoothGround=(texture2D(surface,uv-blur).rgb+texture2D(surface,uv+blur).rgb+
+    texture2D(surface,uv-blur.yx).rgb+texture2D(surface,uv+blur.yx).rgb)*.25;
+  ground.rgb=mix(ground.rgb,smoothGround,closeDetail*.85);
+  }
+  float broad=noise(uv*23000.0);
+  float grain=mix(broad,noise(uv*160000.0),closeDetail);
   float vegetation=smoothstep(.01,.10,ground.g-ground.r)*step(ground.b,ground.g);
   // Fine canopy and exposed-rock variation is material detail, not invented mountain height.
   vec3 material=ground.rgb*(.94+.10*broad+detail*(grain-.5)*(.025+vegetation*.06));
@@ -132,8 +172,16 @@ void main() {
   land*=1.0-slope*.13;
   vec3 pigment=texture2D(palette,vec2((id-.5)/1024.0,.5)).rgb;
   land=mix(land,land*.68+pigment*light*.32,political*step(.5,id));
-  float border=step(.5,abs(id-idAt(uv+vec2(texel,0.0))))+step(.5,abs(id-idAt(uv+vec2(0.0,texel))));
-  land=mix(land,vec3(.20,.23,.16),min(1.0,border)*mix(.16,.50,political));
+  // Symmetric, screen-sized edges. Ownership comes from the live simulation,
+  // so conquests and procedural worlds do not retain historical frontiers.
+  float right=idAt(uv+vec2(texel,0)), left=idAt(uv-vec2(texel,0));
+  float up=idAt(uv+vec2(0,texel)), down=idAt(uv-vec2(0,texel));
+  float border=min(1.0,step(.5,abs(id-right))+step(.5,abs(id-left))+step(.5,abs(id-up))+step(.5,abs(id-down)));
+  float owner=ownerAt(id);
+  float frontier=max(max(step(.5,abs(owner-ownerAt(right)))*step(.5,right),step(.5,abs(owner-ownerAt(left)))*step(.5,left)),
+    max(step(.5,abs(owner-ownerAt(up)))*step(.5,up),step(.5,abs(owner-ownerAt(down)))*step(.5,down)));
+  land=mix(land,vec3(.22,.25,.20),border*provinceLines*mix(.12,.30,political));
+  land=mix(land,vec3(.96,.88,.65),frontier*mix(.32,.75,political));
   if(abs(id-selected)<.1) land=mix(land,vec3(.96,.79,.38),.13+min(1.0,border)*.62);
   gl_FragColor=vec4(mix(water,land,coverage),1.0);
 }
@@ -174,6 +222,10 @@ export class TerrainRenderer {
   private sceneryTimer: ReturnType<typeof setTimeout> | null = null;
   private readyScenery: Float32Array | null = null;
   private sceneryFailure: unknown = null;
+  private detailBounds: DetailBounds | null = null;
+  private detailWork: Generator<void, ProvinceDetail> | null = null;
+  private readyDetail: ProvinceDetail | null = null;
+  private activeDetail: ProvinceDetail | null = null;
   private paletteKey = "";
   private count = 0;
   private sceneryCount = 0;
@@ -260,10 +312,19 @@ export class TerrainRenderer {
         "texel",
         "provinceTexel",
         "normalMap",
+        "localProvinces",
+        "owners",
+        "localBounds",
+        "localTexel",
+        "localEnabled",
+        "provinceLines",
+        "surfaceTexel",
+        "closeDetail",
         "detail",
         "scenery",
         "heightMap",
         "heightTexel",
+        "relief",
         "meshCenter",
         "meshExtent",
       ])
@@ -303,6 +364,10 @@ export class TerrainRenderer {
         false,
         gl.LUMINANCE_ALPHA,
       );
+      this.texture(1, 1, new Uint8Array(2), false, gl.LUMINANCE_ALPHA);
+      this.texture(1024, 1, new Uint8Array(2048), false, gl.LUMINANCE_ALPHA);
+      // Project the shared polygons once, outside camera gestures.
+      provinceGeometry();
       // Fixed grid: the vertex shader samples elevation. Camera gestures only
       // change uniforms, never generate 65,000 vertices on the JS thread.
       const vertices = new Float32Array((this.segments + 1) ** 2 * 6);
@@ -374,8 +439,13 @@ export class TerrainRenderer {
     );
     if (linear) gl.generateMipmap(gl.TEXTURE_2D);
   }
-  setPalette(colors: ReadonlyArray<readonly number[]>) {
-    const key = colors.map((c) => c.join(",")).join(";");
+  setPalette(
+    colors: ReadonlyArray<readonly number[]>,
+    owners: readonly number[] = [],
+  ) {
+    const key = colors
+      .map((c, i) => `${c.join(",")}:${owners[i] ?? 0}`)
+      .join(";");
     if (key === this.paletteKey) return;
     this.paletteKey = key;
     const pixels = new Uint8Array(4096);
@@ -394,6 +464,24 @@ export class TerrainRenderer {
       gl.UNSIGNED_BYTE,
       pixels,
     );
+    const ownerPixels = new Uint16Array(1024);
+    for (let i = 0; i < Math.min(1024, owners.length); i++)
+      ownerPixels[i] = owners[i] + 1;
+    gl.bindTexture(gl.TEXTURE_2D, this.textures[6]);
+    gl.texSubImage2D(
+      gl.TEXTURE_2D,
+      0,
+      0,
+      0,
+      1024,
+      1,
+      gl.LUMINANCE_ALPHA,
+      gl.UNSIGNED_BYTE,
+      new Uint8Array(ownerPixels.buffer),
+    );
+  }
+  get detailResolution() {
+    return this.activeDetail?.size ?? 0;
   }
   setView(view: View, width: number, height: number) {
     this.lastCameraChange = performance.now();
@@ -421,16 +509,28 @@ export class TerrainRenderer {
     this.sceneryTimer = null;
     this.sceneryBounds =
       this.quality === "high" ? { x: cx, y: cy, ex, ey, zoom: level } : null;
-    if (this.sceneryBounds) this.scheduleScenery(120);
+    this.detailBounds = this.view.zoom >= 4 ? { x: cx, y: cy, ex, ey } : null;
+    this.detailWork = null;
+    this.readyDetail = null;
+    if (this.sceneryBounds || this.detailBounds) this.scheduleScenery(120);
   }
   get sceneryVertexCount() {
     return this.sceneryCount;
   }
   get needsFrame() {
-    return this.readyScenery !== null || this.sceneryFailure !== null;
+    return (
+      this.readyScenery !== null ||
+      this.readyDetail !== null ||
+      this.sceneryFailure !== null
+    );
   }
   get isPreparingScenery() {
-    return this.sceneryBounds !== null || this.sceneryWork !== null;
+    return (
+      this.sceneryBounds !== null ||
+      this.sceneryWork !== null ||
+      this.detailBounds !== null ||
+      this.detailWork !== null
+    );
   }
   private scheduleScenery(delay: number) {
     this.sceneryTimer = setTimeout(() => {
@@ -440,6 +540,8 @@ export class TerrainRenderer {
         this.sceneryTimer = null;
         this.sceneryWork = null;
         this.sceneryBounds = null;
+        this.detailWork = null;
+        this.detailBounds = null;
         this.sceneryFailure =
           error instanceof Error ? error : new Error(String(error));
       }
@@ -463,7 +565,23 @@ export class TerrainRenderer {
       );
       this.sceneryBounds = null;
     }
+    if (this.detailBounds) {
+      this.detailWork = provinceGeometry().raster(this.detailBounds);
+      this.detailBounds = null;
+    }
     const deadline = performance.now() + 2;
+    while (this.detailWork) {
+      const next = this.detailWork.next();
+      if (next.done) {
+        this.readyDetail = next.value;
+        this.detailWork = null;
+        break;
+      }
+      if (performance.now() >= deadline) {
+        this.scheduleScenery(0);
+        return;
+      }
+    }
     for (let batches = 0; this.sceneryWork && batches < 8; batches++) {
       const next = this.sceneryWork.next();
       if (next.done) {
@@ -492,7 +610,7 @@ export class TerrainRenderer {
     const cy =
       y +
       (((1 - (py / this.height) * 2) * span) / 2 -
-        terrainHeight(this.data, x, y) * this.tilt[1]) /
+        terrainHeight(this.data, x, y, reliefForZoom(zoom)) * this.tilt[1]) /
         this.tilt[0];
     const center = geographic(cx, cy);
     return normalizeView({ lon: center[0], lat: center[1], zoom });
@@ -502,7 +620,8 @@ export class TerrainRenderer {
       [x, y] = mercator(lon, lat);
     const py =
       ((cy - y) * this.tilt[0] +
-        terrainHeight(this.data, x, y) * this.tilt[1]) /
+        terrainHeight(this.data, x, y, reliefForZoom(this.view.zoom)) *
+          this.tilt[1]) /
       this.extent[1];
     return [
       (((x - cx) / this.extent[0] + 1) * this.width) / 2,
@@ -516,7 +635,8 @@ export class TerrainRenderer {
     const base = cy - north / this.tilt[0];
     const f = (y: number) =>
       (cy - y) * this.tilt[0] +
-      terrainHeight(this.data, x, y) * this.tilt[1] -
+      terrainHeight(this.data, x, y, reliefForZoom(this.view.zoom)) *
+        this.tilt[1] -
       north;
     // Walk the view ray from the near side; fixed-point iteration fails on steep slopes.
     let near = base + 0.04,
@@ -547,7 +667,7 @@ export class TerrainRenderer {
   provinceAtPoint(x: number, y: number): number | null {
     const [lon, lat] = this.unproject(x, y);
     if (lon < -180 || lon > 180 || Math.abs(lat) > 85) return null;
-    return provinceAt(this.data, lon, lat);
+    return provinceGeometry().at(lon, lat);
   }
   render(
     time: number,
@@ -558,6 +678,23 @@ export class TerrainRenderer {
     if (this.disposed) return;
     if (this.sceneryFailure) throw this.sceneryFailure;
     const gl = this.gl;
+    if (this.readyDetail) {
+      const tile = this.readyDetail;
+      gl.bindTexture(gl.TEXTURE_2D, this.textures[5]);
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.LUMINANCE_ALPHA,
+        tile.size,
+        tile.size,
+        0,
+        gl.LUMINANCE_ALPHA,
+        gl.UNSIGNED_BYTE,
+        new Uint8Array(tile.ids.buffer),
+      );
+      this.activeDetail = tile;
+      this.readyDetail = null;
+    }
     if (this.readyScenery) {
       this.sceneryCount = this.readyScenery.length / 9;
       gl.bindBuffer(gl.ARRAY_BUFFER, this.sceneryBuffer);
@@ -585,8 +722,32 @@ export class TerrainRenderer {
       gl.activeTexture(gl.TEXTURE0 + i);
       gl.bindTexture(gl.TEXTURE_2D, t);
     });
+    gl.uniform1i(this.uniforms.localProvinces, 5);
+    gl.uniform1i(this.uniforms.owners, 6);
+    const local = this.activeDetail;
+    gl.uniform4fv(
+      this.uniforms.localBounds,
+      local
+        ? [local.x - local.ex, local.y - local.ey, local.ex * 2, local.ey * 2]
+        : [0, 0, 1, 1],
+    );
+    gl.uniform1f(this.uniforms.localTexel, 1 / (local?.size ?? 1));
+    gl.uniform1f(
+      this.uniforms.localEnabled,
+      local && this.view.zoom >= 4 ? 1 : 0,
+    );
+    gl.uniform1f(
+      this.uniforms.closeDetail,
+      clamp((this.view.zoom - 5) / 2, 0, 1),
+    );
+    gl.uniform1f(this.uniforms.surfaceTexel, 1 / this.data.size);
+    gl.uniform1f(
+      this.uniforms.provinceLines,
+      clamp((this.view.zoom - 3.5) / 2, 0, 1),
+    );
     gl.uniform1i(this.uniforms.heightMap, 4);
     gl.uniform1f(this.uniforms.heightTexel, 1 / this.data.size);
+    gl.uniform1f(this.uniforms.relief, reliefForZoom(this.view.zoom));
     gl.uniform2fv(this.uniforms.meshCenter, this.meshCenter);
     gl.uniform2fv(this.uniforms.meshExtent, this.meshExtent);
     gl.uniform1i(this.uniforms.surface, 0);
@@ -641,6 +802,10 @@ export class TerrainRenderer {
     this.sceneryTimer = null;
     this.sceneryWork = null;
     this.sceneryBounds = null;
+    this.detailWork = null;
+    this.detailBounds = null;
+    this.readyDetail = null;
+    this.activeDetail = null;
     this.readyScenery = null;
     this.sceneryFailure = null;
   }
