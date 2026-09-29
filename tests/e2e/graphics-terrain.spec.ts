@@ -114,7 +114,8 @@ test("High renders detailed geometry, modeled scenery and moving water while pau
       ".gc-terrain-view canvas",
     ) as HTMLCanvasElement;
     (window as any).__gcTerrainFocus({ lon: 8, lat: 46, zoom: 4.4 });
-    r.render(0, false, null);
+    const now = performance.now() / 1000;
+    r.render(now, false, null);
     const gl = c.getContext("webgl")!;
     const pixels = new Uint8Array(
       gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
@@ -128,7 +129,7 @@ test("High renders detailed geometry, modeled scenery and moving water while pau
       gl.UNSIGNED_BYTE,
       pixels,
     );
-    r.render(1.5, false, null);
+    r.render(now + 1.5, false, null);
     const later = new Uint8Array(pixels.length);
     gl.readPixels(
       0,

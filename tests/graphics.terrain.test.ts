@@ -15,6 +15,7 @@ import {
   unpackTerrain,
 } from "../src/graphics/terrainData";
 import {
+  TerrainAnimationClock,
   renderScale,
   shouldRenderFrame,
 } from "../src/graphics/TerrainRenderer";
@@ -67,6 +68,15 @@ describe("offline terrain and low-power contract", () => {
       lat: 78,
       zoom: 7,
     });
+  });
+  it("keeps water moving with native device-uptime timestamps and Reduced Motion startup", () => {
+    const clock = new TerrainAnimationClock();
+    expect(clock.sample(0)).toBe(0);
+    const uptime = 90 * 24 * 60 * 60;
+    expect(clock.sample(uptime)).toBe(0);
+    expect(Math.fround(clock.sample(uptime + 1 / 30))).toBeCloseTo(1 / 30, 6);
+    expect(clock.sample(0)).toBe(0);
+    expect(Math.fround(clock.sample(uptime + 2 / 30))).toBeCloseTo(2 / 30, 6);
   });
   it("does no animated work in background or reduced motion and caps water at 30fps", () => {
     expect(shouldRenderFrame(100, 0, false, false, true)).toBe(false);

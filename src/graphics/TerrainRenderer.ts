@@ -111,6 +111,17 @@ void main() {
 }
 `;
 
+/** Native RAF uses device uptime. Subtract in JS before conversion to a GPU float. */
+export class TerrainAnimationClock {
+  private origin: number | null = null;
+  sample(seconds: number): number {
+    // Zero is the explicit Reduced Motion frame, not an animation epoch.
+    if (seconds <= 0) return 0;
+    this.origin ??= seconds;
+    return Math.max(0, seconds - this.origin);
+  }
+}
+
 /** Bounded terrain and scenery batches, no scene-graph allocations per frame. */
 export class TerrainRenderer {
   private gl: WebGLRenderingContext;
@@ -130,6 +141,7 @@ export class TerrainRenderer {
   private height = 1;
   private extent: [number, number] = [0.1, 0.1];
   private disposed = false;
+  private animationClock = new TerrainAnimationClock();
   private view: View = { lon: 8, lat: 40, zoom: 3 };
   private readonly tilt: [number, number] = [
     Math.cos(Math.PI / 4),
@@ -460,7 +472,7 @@ export class TerrainRenderer {
     gl.uniform2fv(this.uniforms.center, mercator(this.view.lon, this.view.lat));
     gl.uniform2fv(this.uniforms.extent, this.extent);
     gl.uniform2fv(this.uniforms.tilt, this.tilt);
-    gl.uniform1f(this.uniforms.clock, time);
+    gl.uniform1f(this.uniforms.clock, this.animationClock.sample(time));
     gl.uniform1f(this.uniforms.political, political ? 1 : 0);
     gl.uniform1f(this.uniforms.selected, selected == null ? -1 : selected + 1);
     gl.uniform1f(this.uniforms.provinceTexel, 1 / this.data.provinceSize);

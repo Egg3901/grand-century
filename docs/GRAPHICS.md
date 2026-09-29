@@ -11,7 +11,9 @@ Both 3D modes use real Mapzen Terrarium elevation, raised geometry, per-pixel
 terrain normals, Natural Earth land-cover color blended with biome materials, latitude/altitude snow and moving ocean lighting.
 Crossed swells, reflected sky, specular highlights and broken coastal surf continue
 while the simulation is paused. Reduced Motion deliberately freezes water, and
-background scenes stop rendering. 2D is static by design.
+background scenes stop rendering. Native device uptime is converted to local
+elapsed time before upload to the GPU, preserving sub-frame precision after long
+phone uptimes. 2D is static by design.
 
 High uses a 4096-square elevation/material/normal atlas and 254 x 254 terrain
 cells (129,032 triangles). Balanced uses 2048-square fields and 128 x 128 cells
