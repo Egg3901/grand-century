@@ -70,20 +70,43 @@ test("a blank first draw reports fallback instead of declaring the terrain ready
   );
 });
 
-test('a slow initialization cannot time out between allocation and its first animation frame', async ({page}) => {
+test("a slow initialization cannot time out between allocation and its first animation frame", async ({
+  page,
+}) => {
   await page.addInitScript(() => {
-    const originalTimeout=window.setTimeout;
-    (window as any).terrainFrames=[];
-    window.requestAnimationFrame=(callback)=>{(window as any).terrainFrames.push(callback);return 1;};
-    window.setTimeout=((callback:TimerHandler,delay?:number,...args:any[])=>{
-      if(delay===15000){(window as any).startupWatchdog=callback;return 1;}
-      return originalTimeout(callback,delay,...args);
+    const originalTimeout = window.setTimeout;
+    (window as any).originalTerrainRAF = window.requestAnimationFrame;
+    (window as any).terrainFrames = [];
+    window.requestAnimationFrame = (callback) => {
+      (window as any).terrainFrames.push(callback);
+      return 1;
+    };
+    window.setTimeout = ((
+      callback: TimerHandler,
+      delay?: number,
+      ...args: any[]
+    ) => {
+      if (delay === 15000) {
+        (window as any).startupWatchdog = callback;
+        return 1;
+      }
+      return originalTimeout(callback, delay, ...args);
     }) as typeof window.setTimeout;
   });
-  await page.goto('/tests/native-graphics/index.html');
-  await page.waitForFunction(()=>(window as any).terrainFrames.length>0);
-  await page.evaluate(()=>(window as any).startupWatchdog());
-  expect(await page.evaluate(()=>(window as any).nativeFailure)).toBeUndefined();
-  await page.evaluate(()=>(window as any).terrainFrames.shift()(performance.now()));
-  await expect(page.getByText('Preparing offline terrain...')).toHaveCount(0);
+  await page.goto("/tests/native-graphics/index.html");
+  // RAF is deliberately held, so the test must poll on timers as well.
+  await page.waitForFunction(
+    () => (window as any).terrainFrames.length > 0,
+    undefined,
+    { polling: 20 },
+  );
+  await page.evaluate(() => (window as any).startupWatchdog());
+  expect(
+    await page.evaluate(() => (window as any).nativeFailure),
+  ).toBeUndefined();
+  await page.evaluate(() => {
+    window.requestAnimationFrame = (window as any).originalTerrainRAF;
+    (window as any).terrainFrames.shift()(performance.now());
+  });
+  await expect(page.getByText("Preparing offline terrain...")).toHaveCount(0);
 });
