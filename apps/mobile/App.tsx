@@ -25,15 +25,12 @@ import {
   type MapRef,
 } from "@maplibre/maplibre-react-native";
 import {
-  Alert,
   AppState,
   ScrollView,
-  FlatList,
   Image,
   Pressable,
   StyleSheet,
   Text,
-  TextInput,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -54,11 +51,14 @@ import { NationFlag } from "./game/NationFlag";
 import terrainAttribution from "../../src/graphics/terrain-attribution.json";
 const graphicsFile = new File(Paths.document, GRAPHICS_KEY + ".json");
 import worldSeed from "./assets/game/worldSeed.json";
-import { NativeSimTransport } from "./game/NativeSimTransport";
+import { useCampaign, type Session } from "./game/useCampaign";
+import { CampaignSetup, SaveLibrary } from "./game/CampaignScreens";
+import { AccountScreen } from "./game/AccountScreen";
+import { campaignNation, type NativeSave, type CampaignConfig } from "./game/campaign";
+import type { SeedNation } from "../../src/data/generated";
 import { labelFitsViewport } from "./game/mapLabelPlacement";
-import type { WorldSnapshot } from "../../src/shared/types";
 
-type Nation = (typeof worldSeed.nations)[number];
+type Nation = SeedNation;
 type Province = (typeof worldSeed.provinces)[number];
 const paper = "#f4eddf";
 const ink = "#192e35";
@@ -103,91 +103,17 @@ function compact(value: number): string {
   return `${Math.round(value)}`;
 }
 
-function NationPicker({
-  onSelect,
-  onBack,
-}: {
-  onSelect: (nation: Nation) => void;
-  onBack: () => void;
-}) {
-  const [query, setQuery] = useState("");
-  const nations = useMemo(
-    () =>
-      worldSeed.nations
-        .filter((nation) =>
-          nation.name.toLowerCase().includes(query.trim().toLowerCase()),
-        )
-        .sort((a, b) => a.name.localeCompare(b.name)),
-    [query],
-  );
-  return (
-    <View style={styles.page}>
-      <View style={styles.hero}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Back to main menu"
-          onPress={onBack}
-          style={{ minHeight: 44, justifyContent: "center" }}
-        >
-          <Text style={styles.brand}>‹ GRAND CENTURY</Text>
-        </Pressable>
-        <Text style={styles.heroFoot}>NEW CAMPAIGN / 1830 / SINGLE PLAYER</Text>
-      </View>
-      <View style={styles.pickerContent}>
-        <Text style={styles.title}>Select nation</Text>
-        <TextInput
-          accessibilityLabel="Search nations"
-          placeholder="Search nations"
-          placeholderTextColor="#817e76"
-          value={query}
-          onChangeText={setQuery}
-          style={styles.search}
-        />
-        <View style={styles.listHeading}>
-          <Text style={styles.resultCount}>NATION</Text>
-          <Text style={styles.resultCount}>{nations.length} AVAILABLE</Text>
-        </View>
-        <FlatList
-          data={nations}
-          keyExtractor={(nation) => nation.tag}
-          keyboardShouldPersistTaps="handled"
-          ListEmptyComponent={
-            <Text style={styles.emptyText}>No nations match that search.</Text>
-          }
-          renderItem={({ item }) => (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`Start as ${item.name}`}
-              onPress={() => onSelect(item)}
-              style={({ pressed }) => [
-                styles.nationRow,
-                pressed && styles.pressed,
-              ]}
-            >
-              <NationFlag
-                tag={item.tag}
-                name={item.name}
-                color={item.color}
-                size={30}
-              />
-              <View style={styles.nationText}>
-                <Text style={styles.nationName}>{item.name}</Text>
-                <Text style={styles.nationTag}>1830 CAMPAIGN</Text>
-              </View>
-              <Text style={styles.rowArrow}>→</Text>
-            </Pressable>
-          )}
-        />
-      </View>
-    </View>
-  );
-}
-
 function Atlas({
   nation,
   onHome,
   active,
+  session,
+  onSaves,
+  notice,
 }: {
+  notice: string;
+  session: Session;
+  onSaves: () => void;
   nation: Nation;
   onHome: () => void;
   active: boolean;
@@ -197,8 +123,7 @@ function Atlas({
   const terrainCamera = useRef<TerrainView | null>(null);
   const projectionRun = useRef(0);
   const [province, setProvince] = useState<Province | null>(null);
-  const [snapshot, setSnapshot] = useState<WorldSnapshot | null>(null);
-  const [transport, setTransport] = useState<NativeSimTransport | null>(null);
+  const { snapshot, transport } = session;
   const [mapMode, setMapMode] = useState<"political" | "terrain">("political");
   const [actionMessage, setActionMessage] = useState("");
   const [preference, setPreference] = useState<GraphicsPreference>(() => {
@@ -244,7 +169,7 @@ function Atlas({
   const capital = worldSeed.provinces.find(
     (item) => item.id === nation.capitalProvinceId,
   );
-  const focus = mapAnchors[nation.tag] ?? {
+  const focus = (session.config.mapMode === "historical" ? mapAnchors[nation.tag] : null) ?? {
     center: capital
       ? ([capital.lon, capital.lat] as [number, number])
       : ([0, 20] as [number, number]),
@@ -260,11 +185,16 @@ function Atlas({
   );
   const candidateTags = (snapshot?.nations ?? [])
     .filter(
-      (item) => item.gpRank > 0 && item.gpRank <= 8 && item.tag in mapAnchors,
+      (item) => session.config.mapMode === "historical" && item.gpRank > 0 && item.gpRank <= 8 && item.tag in mapAnchors,
     )
     .map((item) => item.tag)
     .sort()
     .join(",");
+  const ownershipKey = snapshot.provinces.map((p) => p.owner).join(',') + '/' + snapshot.nations.map((n) => n.color.join(',')).join(';');
+  const politicalAtlas = useMemo(() => ({ ...atlas, features: atlas.features.map((feature) => {
+    const owner = snapshot.nations[snapshot.provinces[feature.properties.id]?.owner];
+    return { ...feature, properties: { ...feature.properties, color: owner ? `rgb(${owner.color.join(',')})` : feature.properties.color } };
+  }) }), [ownershipKey, session.config.id]);
   const powerLabels = {
     type: "FeatureCollection" as const,
     features: visibleLabelTags.map((tag) => ({
@@ -321,36 +251,6 @@ function Atlas({
     void placeLabels();
   }, [candidateTags, mapSize.width, mapSize.height, province?.id]);
 
-  useEffect(() => {
-    const sim = new NativeSimTransport();
-    sim.onMessage((message) => {
-      if (message.t === "snapshot") setSnapshot(message.snapshot);
-      if (message.t === "log") {
-        if (message.level === "error") console.error(message.msg);
-        setActionMessage(message.msg);
-      }
-    });
-    setTransport(sim);
-    sim.send({ t: "init", seed: 1830 });
-    sim.send({
-      t: "command",
-      cmd: {
-        t: "newGame",
-        seed: 1830,
-        playerNation: worldSeed.nations.findIndex(
-          (item) => item.tag === nation.tag,
-        ),
-      },
-    });
-    const appState = AppState.addEventListener("change", (state) => {
-      if (state !== "active")
-        sim.send({ t: "command", cmd: { t: "setSpeed", speed: 0 } });
-    });
-    return () => {
-      appState.remove();
-      sim.dispose();
-    };
-  }, [nation.tag]);
 
   return (
     <View style={styles.mapPage}>
@@ -462,7 +362,7 @@ function Atlas({
 
             <GeoJSONSource
               id="provinces"
-              data={atlas as GeoJSON.FeatureCollection}
+              data={politicalAtlas as GeoJSON.FeatureCollection}
               onPress={(event) => {
                 const id = Number(
                   event.nativeEvent.features?.[0]?.properties?.id,
@@ -579,14 +479,14 @@ function Atlas({
                 paint={{
                   "line-color": "#efe8d2",
                   "line-width": 2.2,
-                  "line-opacity": 0.9,
+                  "line-opacity": session.config.mapMode === "historical" ? 0.9 : 0,
                 }}
               />
               <Layer
                 id="country-border"
                 type="line"
                 filter={["==", ["get", "kind"], "country"]}
-                paint={{ "line-color": "#344a49", "line-width": 1.1 }}
+                paint={{ "line-color": "#344a49", "line-width": 1.1, "line-opacity": session.config.mapMode === "historical" ? 1 : 0 }}
               />
             </GeoJSONSource>
             <GeoJSONSource
@@ -721,8 +621,9 @@ function Atlas({
             setPanel(null);
             onHome();
           }}
+          onSaves={() => { setPanel(null); onSaves(); }}
           snapshot={snapshot}
-          notice={actionMessage}
+          notice={[actionMessage, notice].filter(Boolean).join(" ")}
           selectedProvince={province?.id ?? null}
           send={(cmd) => {
             setActionMessage("Order sent.");
@@ -1006,52 +907,40 @@ export default function App() {
     };
   }, []);
 
-  const [nation, setNation] = useState<Nation | null>(null);
-  const [screen, setScreen] = useState<"home" | "picker" | "game">("home");
-  const [campaign, setCampaign] = useState(0);
-  const startNew = () => {
-    if (nation)
-      Alert.alert(
-        "Start a new campaign?",
-        "This replaces your current campaign.",
-        [
-          { text: "Keep campaign", style: "cancel" },
-          {
-            text: "Choose nation",
-            style: "destructive",
-            onPress: () => setScreen("picker"),
-          },
-        ],
-      );
-    else setScreen("picker");
+  const campaign = useCampaign();
+  const { session, busy, notice } = campaign;
+  const config = session?.config;
+  const nation = useMemo(() => config ? campaignNation(config) : null, [config]);
+  const [screen, setScreen] = useState<"home" | "picker" | "game" | "saves" | "account">("home");
+  const start = async (config: CampaignConfig) => { if (await campaign.open(config)) setScreen("game"); };
+  const load = async (save: NativeSave) => { if (await campaign.open(save.config, save)) setScreen("game"); };
+  const home = () => {
+    setScreen("home");
+    void campaign.save('auto', 'Returned to main menu');
   };
   return (
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1, backgroundColor: navy }}>
         <StatusBar style="light" />
         <View style={styles.root}>
-          {nation && (
+          {nation && session && (
             <View
               style={{ flex: 1, display: screen === "game" ? "flex" : "none" }}
             >
               <Atlas
-                key={campaign}
+                key={session.config.id}
+                session={session}
+                notice={notice}
+                onSaves={() => setScreen("saves")}
                 nation={nation}
                 active={screen === "game"}
-                onHome={() => setScreen("home")}
+                onHome={home}
               />
             </View>
           )}
-          {screen === "picker" && (
-            <NationPicker
-              onBack={() => setScreen("home")}
-              onSelect={(chosen) => {
-                setNation(chosen);
-                setCampaign((n) => n + 1);
-                setScreen("game");
-              }}
-            />
-          )}
+          {screen === "picker" && <CampaignSetup onBack={() => setScreen("home")} onStart={(config) => { void start(config); }} busy={busy} notice={notice} />}
+          {screen === "saves" && <SaveLibrary onBack={() => setScreen("home")} onLoad={(save) => { void load(save); }} onSave={session ? (label) => campaign.save('manual', label) : undefined} campaignName={session?.config.name} busy={busy} notice={notice} />}
+          {screen === "account" && <AccountScreen onBack={() => setScreen("home")} />}
           {screen === "home" && (
             <ScrollView contentContainerStyle={styles.home}>
               <View style={styles.homeMasthead}>
@@ -1103,12 +992,16 @@ export default function App() {
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel="New campaign"
-                onPress={startNew}
+                disabled={busy}
+                onPress={() => setScreen("picker")}
                 style={styles.homePrimary}
               >
                 <Text style={styles.homePrimaryText}>New campaign</Text>
                 <Ionicons name="arrow-forward" size={24} color={navy} />
               </Pressable>
+              <MenuButton label="Load and manage saves" onPress={() => setScreen("saves")} disabled={busy} />
+              <MenuButton label="Lakeside account" onPress={() => setScreen("account")} />
+              {!!notice && <Text style={styles.homeCopy}>{notice}</Text>}
               <View style={styles.homeGuide}>
                 <Text style={styles.homeGuideTitle}>
                   Power is built, not given.
@@ -1127,7 +1020,7 @@ export default function App() {
                 </View>
               </View>
               <Text style={styles.homeFootnote}>
-                Campaigns can be resumed during this app session.
+                Campaigns save on this device. Play offline and return whenever you like.
               </Text>
             </ScrollView>
           )}

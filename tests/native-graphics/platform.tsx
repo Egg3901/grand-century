@@ -95,7 +95,7 @@ export const Pressable = ({
     onClick={onPress}
     style={{
       border: 0,
-      background: "transparent",
+      backgroundColor: "transparent",
       fontFamily: "inherit",
       padding: 0,
       display: "flex",
@@ -141,8 +141,9 @@ export function GLView({ style, onContextCreate }: any) {
 }
 
 export const Alert = {
-  alert: (_title: string, _message: string, buttons: any[]) =>
-    buttons.at(-1).onPress(),
+  alert: (title: string, message: string, buttons: any[]) => {
+    if (window.confirm(`${title}\n${message}`)) buttons.at(-1).onPress();
+  },
 };
 export function useWindowDimensions() {
   const [size, setSize] = useState({ width: innerWidth, height: innerHeight });

@@ -98,6 +98,7 @@ export function GameMenus({
   onPage,
   onClose,
   onHome,
+  onSaves,
   snapshot,
   send,
   notice,
@@ -108,6 +109,7 @@ export function GameMenus({
   onPage: (p: GamePanel) => void;
   onClose: () => void;
   onHome: () => void;
+  onSaves: () => void;
   snapshot: WorldSnapshot | null;
   send: (command: Command) => void;
   notice: string;
@@ -153,6 +155,7 @@ export function GameMenus({
             label="Map and graphics"
             onPress={() => onPage("graphics")}
           />
+          <MenuButton label="Save and load campaigns" onPress={onSaves} />
           <MenuButton label="Main menu" onPress={onHome} />
         </>
       )}
