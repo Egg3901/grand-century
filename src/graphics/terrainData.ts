@@ -133,6 +133,6 @@ export function normalizeView(v: View): View {
   return {
     lon: clamp(v.lon, -179, 179),
     lat: clamp(v.lat, -78, 78),
-    zoom: clamp(v.zoom, 1.2, 7),
+    zoom: clamp(v.zoom, 1.2, 9),
   };
 }

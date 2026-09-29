@@ -66,7 +66,7 @@ describe("offline terrain and low-power contract", () => {
     expect(normalizeView({ lon: 999, lat: 90, zoom: 20 })).toEqual({
       lon: 179,
       lat: 78,
-      zoom: 7,
+      zoom: 9,
     });
   });
   it("keeps water moving with native device-uptime timestamps and Reduced Motion startup", () => {
