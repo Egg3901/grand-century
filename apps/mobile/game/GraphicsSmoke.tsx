@@ -24,7 +24,12 @@ export default function GraphicsSmoke() {
     );
   }
   function frame(gl: ExpoWebGLRenderingContext, renderer: TerrainRenderer) {
-    if (done.current === phase || renderer.needsFrame) return;
+    if (
+      done.current === phase ||
+      renderer.needsFrame ||
+      renderer.isPreparingScenery
+    )
+      return;
     // A layout event reaches JS after the parent changes height. Ignore frames
     // from the previous surface while waiting for the resized context.
     if (phase === 2 && gl.drawingBufferHeight >= highHeight.current - 100)
@@ -69,6 +74,9 @@ export default function GraphicsSmoke() {
         sceneryVertices: renderer.sceneryVertexCount,
         ...result,
       });
+      new File(Paths.document, "graphics-smoke-progress.json").write(
+        JSON.stringify({ phase, results: results.current }),
+      );
       if (phase < 2) setTimeout(() => setPhase((p) => p + 1), 1500);
       else
         setTimeout(

@@ -111,7 +111,11 @@ test("High renders detailed geometry, modeled scenery and moving water while pau
   await page.evaluate(() =>
     (window as any).__gcTerrainFocus({ lon: 8, lat: 46, zoom: 4.4 }),
   );
-  await page.waitForFunction(() => !(window as any).__gcTerrain.needsFrame);
+  await page.waitForFunction(
+    () =>
+      !(window as any).__gcTerrain.needsFrame &&
+      !(window as any).__gcTerrain.isPreparingScenery,
+  );
   const metrics = await page.evaluate(() => {
     const r = (window as any).__gcTerrain;
     const c = document.querySelector(

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { TerrainRenderer } from "../src/graphics/TerrainRenderer";
 import { unpackTerrain } from "../src/graphics/terrainData";
 import atlas from "./native-graphics/atlas.json";
@@ -48,5 +48,44 @@ describe("terrain interaction budget", () => {
     renderer.render(2, false, null);
     expect(lookups).toBe(0);
     renderer.dispose();
+  });
+  it("prepares scenery between frames instead of requiring repeated full GPU draws", async () => {
+    vi.useFakeTimers();
+    try {
+      const gl = new Proxy(
+        {
+          NO_ERROR: 0,
+          getParameter: () => 16384,
+          getError: () => 0,
+          getShaderParameter: () => true,
+          getProgramParameter: () => true,
+        },
+        {
+          get: (target: any, key: string) =>
+            key in target
+              ? target[key]
+              : key.startsWith("create")
+                ? () => ({})
+                : /^[A-Z_0-9]+$/.test(key)
+                  ? 1
+                  : () => {},
+        },
+      ) as unknown as WebGLRenderingContext;
+      const data = unpackTerrain(atlas);
+      data.provinces.fill(1);
+      for (let i = 0; i < data.surface.length; i += 4)
+        data.surface.set([40, 100, 30, 255], i);
+      const renderer = new TerrainRenderer(gl, data, "high");
+      renderer.setScenery([
+        { id: 0, lon: 0, lat: 0, terrain: "forest", populationWeight: 1 },
+      ]);
+      renderer.setView({ lon: 0, lat: 0, zoom: 4 }, 430, 932);
+      await vi.runAllTimersAsync();
+      renderer.render(1, false, null);
+      expect(renderer.sceneryVertexCount).toBeGreaterThan(0);
+      renderer.dispose();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

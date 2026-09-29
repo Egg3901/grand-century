@@ -166,6 +166,9 @@ export class TerrainRenderer {
     zoom: number;
   } | null = null;
   private lastCameraChange = 0;
+  private sceneryTimer: ReturnType<typeof setTimeout> | null = null;
+  private readyScenery: Float32Array | null = null;
+  private sceneryFailure: unknown = null;
   private paletteKey = "";
   private count = 0;
   private sceneryCount = 0;
@@ -407,19 +410,46 @@ export class TerrainRenderer {
     this.meshCenter = [cx, cy];
     this.meshExtent = [ex, ey];
     this.sceneryWork = null;
+    this.readyScenery = null;
+    this.sceneryFailure = null;
+    if (this.sceneryTimer !== null) clearTimeout(this.sceneryTimer);
+    this.sceneryTimer = null;
     this.sceneryBounds =
       this.quality === "high" ? { x: cx, y: cy, ex, ey, zoom: level } : null;
+    if (this.sceneryBounds) this.scheduleScenery(120);
   }
   get sceneryVertexCount() {
     return this.sceneryCount;
   }
   get needsFrame() {
+    return this.readyScenery !== null || this.sceneryFailure !== null;
+  }
+  get isPreparingScenery() {
     return this.sceneryBounds !== null || this.sceneryWork !== null;
   }
+  private scheduleScenery(delay: number) {
+    this.sceneryTimer = setTimeout(() => {
+      try {
+        this.advanceScenery();
+      } catch (error) {
+        this.sceneryTimer = null;
+        this.sceneryWork = null;
+        this.sceneryBounds = null;
+        this.sceneryFailure =
+          error instanceof Error ? error : new Error(String(error));
+      }
+    }, delay);
+  }
   private advanceScenery() {
-    // Keep the previous geographic models while the camera is moving. Work is
-    // split into small model batches after the gesture settles.
-    if (performance.now() - this.lastCameraChange < 120) return;
+    this.sceneryTimer = null;
+    if (this.disposed) return;
+    // CPU preparation does not depend on GPU throughput. Yield between small
+    // batches and keep the previous models until the complete buffer is ready.
+    const quietFor = performance.now() - this.lastCameraChange;
+    if (quietFor < 120) {
+      this.scheduleScenery(120 - quietFor);
+      return;
+    }
     if (this.sceneryBounds) {
       this.sceneryWork = iterateScenery(
         this.data,
@@ -429,21 +459,16 @@ export class TerrainRenderer {
       this.sceneryBounds = null;
     }
     const deadline = performance.now() + 2;
-    while (this.sceneryWork) {
+    for (let batches = 0; this.sceneryWork && batches < 8; batches++) {
       const next = this.sceneryWork.next();
       if (next.done) {
-        this.sceneryCount = next.value.length / 9;
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.sceneryBuffer);
-        this.gl.bufferData(
-          this.gl.ARRAY_BUFFER,
-          next.value,
-          this.gl.DYNAMIC_DRAW,
-        );
+        this.readyScenery = next.value;
         this.sceneryWork = null;
         break;
       }
       if (performance.now() >= deadline) break;
     }
+    if (this.sceneryWork) this.scheduleScenery(0);
   }
   setScenery(provinces: readonly SceneryProvince[]) {
     this.sceneryProvinces = provinces;
@@ -521,8 +546,14 @@ export class TerrainRenderer {
   }
   render(time: number, political: boolean, selected: number | null) {
     if (this.disposed) return;
-    this.advanceScenery();
+    if (this.sceneryFailure) throw this.sceneryFailure;
     const gl = this.gl;
+    if (this.readyScenery) {
+      this.sceneryCount = this.readyScenery.length / 9;
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.sceneryBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, this.readyScenery, gl.DYNAMIC_DRAW);
+      this.readyScenery = null;
+    }
     gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
     gl.clearColor(0.035, 0.1, 0.15, 1);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -596,8 +627,12 @@ export class TerrainRenderer {
     gl.deleteBuffer(this.indexBuffer);
     gl.deleteBuffer(this.sceneryBuffer);
     gl.deleteProgram(this.program);
+    if (this.sceneryTimer !== null) clearTimeout(this.sceneryTimer);
+    this.sceneryTimer = null;
     this.sceneryWork = null;
     this.sceneryBounds = null;
+    this.readyScenery = null;
+    this.sceneryFailure = null;
   }
 }
 

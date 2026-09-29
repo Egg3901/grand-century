@@ -105,7 +105,7 @@ function TerrainSurface(
         time,
         last.current,
         true,
-        reduce.current,
+        reduce.current || r.isPreparingScenery,
         dirty.current || r.needsFrame || labelsDirty.current,
       )
     ) {
@@ -139,7 +139,13 @@ function TerrainSurface(
       dirty.current = false;
       last.current = time;
     }
-    if (r && (!reduce.current || r.needsFrame || labelsDirty.current))
+    if (
+      r &&
+      (!reduce.current ||
+        r.needsFrame ||
+        r.isPreparingScenery ||
+        labelsDirty.current)
+    )
       frame.current = requestAnimationFrame(tick);
   }
   function wake() {
