@@ -1,3 +1,4 @@
+import { cityLabels } from "../graphics/cities";
 import type { RefObject } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { homelandAnchors } from "../graphics/mapAnchors";
@@ -357,7 +358,9 @@ export function TerrainCanvas({
       {ready && snapshot && data && r && (
         <div className="gc-terrain-labels">
           {snapshot.nations
-            .filter((n) => n.gpRank > 0 && n.gpRank <= 8)
+            .filter(
+              (n) => view.current.zoom < 4.2 && n.gpRank > 0 && n.gpRank <= 8,
+            )
             .map((n) => {
               const p = data.provinces[n.capital];
               if (!p) return null;
@@ -380,6 +383,24 @@ export function TerrainCanvas({
                 </button>
               );
             })}
+          {cityLabels(
+            (lon, lat) => r.project(lon, lat),
+            view.current.zoom,
+            canvas.current?.clientWidth ?? 0,
+            canvas.current?.clientHeight ?? 0,
+          ).map(({ city, x, y }) => (
+            <button
+              key={city.id}
+              style={{ left: x, top: y + 8, fontSize: 12 }}
+              onClick={() => {
+                const id = r.provinceAtPoint(x, y);
+                if (id !== null) useStore.getState().selectProvince(id);
+              }}
+            >
+              {city.importance === 0 ? "◆ " : "• "}
+              {city.name}
+            </button>
+          ))}
           {snapshot.armies
             .filter((a) => owners.has(a.owner))
             .map((a) => {

@@ -7,6 +7,12 @@ import {
   useRef,
   useState,
 } from "react";
+import * as Device from "expo-device";
+import {
+  automaticGraphics,
+  graphicsPreference,
+  type GraphicsPreference,
+} from "../../src/graphics/deviceQuality";
 import { StatusBar } from "expo-status-bar";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
@@ -41,11 +47,7 @@ import {
 import atlas from "./assets/game/atlas.json";
 import borders from "./assets/game/borders.json";
 import { File, Paths } from "expo-file-system";
-import {
-  GRAPHICS_KEY,
-  parseGraphicsMode,
-  type GraphicsMode,
-} from "../../src/graphics/preferences";
+import { GRAPHICS_KEY } from "../../src/graphics/preferences";
 const TerrainMap = lazy(() => import("./game/TerrainMap"));
 import type { View as TerrainView } from "../../src/graphics/terrainData";
 import { NationFlag } from "./game/NationFlag";
@@ -199,15 +201,17 @@ function Atlas({
   const [transport, setTransport] = useState<NativeSimTransport | null>(null);
   const [mapMode, setMapMode] = useState<"political" | "terrain">("political");
   const [actionMessage, setActionMessage] = useState("");
-  const [graphics, setGraphics] = useState<GraphicsMode>(() => {
+  const [preference, setPreference] = useState<GraphicsPreference>(() => {
     try {
-      return parseGraphicsMode(
+      return graphicsPreference(
         graphicsFile.exists ? graphicsFile.textSync() : null,
       );
     } catch {
-      return "2d";
+      return "auto";
     }
   });
+  const graphics =
+    preference === "auto" ? automaticGraphics(Device) : preference;
   const [graphicsNotice, setGraphicsNotice] = useState("");
   const [panel, setPanel] = useState<GamePanel | null>(null);
   const openPanel = (next: GamePanel) => {
@@ -219,8 +223,8 @@ function Atlas({
     if (!active)
       transport?.send({ t: "command", cmd: { t: "setSpeed", speed: 0 } });
   }, [active, transport]);
-  const chooseGraphics = useCallback((value: GraphicsMode) => {
-    setGraphics(value);
+  const chooseGraphics = useCallback((value: GraphicsPreference) => {
+    setPreference(value);
     setGraphicsNotice("");
     try {
       graphicsFile.write(value);
@@ -729,18 +733,42 @@ function Atlas({
               <View style={styles.graphicsOptions}>
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel="2D low power graphics"
-                  accessibilityState={{ selected: graphics === "2d" }}
-                  onPress={() => chooseGraphics("2d")}
+                  accessibilityLabel="Automatic graphics"
+                  accessibilityState={{ selected: preference === "auto" }}
+                  onPress={() => chooseGraphics("auto")}
                   style={[
                     styles.graphicsButton,
-                    graphics === "2d" && styles.mapModeSelected,
+                    preference === "auto" && styles.mapModeSelected,
                   ]}
                 >
                   <Text
                     style={[
                       styles.mapModeText,
-                      graphics === "2d" && styles.mapModeSelectedText,
+                      preference === "auto" && styles.mapModeSelectedText,
+                    ]}
+                  >
+                    Auto ·{" "}
+                    {graphics === "high"
+                      ? "High"
+                      : graphics === "3d"
+                        ? "Balanced"
+                        : "2D"}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="2D low power graphics"
+                  accessibilityState={{ selected: preference === "2d" }}
+                  onPress={() => chooseGraphics("2d")}
+                  style={[
+                    styles.graphicsButton,
+                    preference === "2d" && styles.mapModeSelected,
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.mapModeText,
+                      preference === "2d" && styles.mapModeSelectedText,
                     ]}
                   >
                     2D · Low power
@@ -749,17 +777,17 @@ function Atlas({
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel="3D terrain graphics"
-                  accessibilityState={{ selected: graphics === "3d" }}
+                  accessibilityState={{ selected: preference === "3d" }}
                   onPress={() => chooseGraphics("3d")}
                   style={[
                     styles.graphicsButton,
-                    graphics === "3d" && styles.mapModeSelected,
+                    preference === "3d" && styles.mapModeSelected,
                   ]}
                 >
                   <Text
                     style={[
                       styles.mapModeText,
-                      graphics === "3d" && styles.mapModeSelectedText,
+                      preference === "3d" && styles.mapModeSelectedText,
                     ]}
                   >
                     3D · Balanced
@@ -768,17 +796,17 @@ function Atlas({
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel="3D high quality graphics"
-                  accessibilityState={{ selected: graphics === "high" }}
+                  accessibilityState={{ selected: preference === "high" }}
                   onPress={() => chooseGraphics("high")}
                   style={[
                     styles.graphicsButton,
-                    graphics === "high" && styles.mapModeSelected,
+                    preference === "high" && styles.mapModeSelected,
                   ]}
                 >
                   <Text
                     style={[
                       styles.mapModeText,
-                      graphics === "high" && styles.mapModeSelectedText,
+                      preference === "high" && styles.mapModeSelectedText,
                     ]}
                   >
                     3D · High
@@ -948,6 +976,36 @@ function Atlas({
 }
 
 export default function App() {
+  useEffect(() => {
+    let cancelled = false;
+    const warm = setTimeout(() => {
+      let choice: GraphicsPreference = "auto";
+      try {
+        choice = graphicsPreference(
+          graphicsFile.exists ? graphicsFile.textSync() : null,
+        );
+      } catch {}
+      const mode = choice === "auto" ? automaticGraphics(Device) : choice;
+      if (mode !== "2d")
+        void import("./game/terrainAssets")
+          .then(({ loadNativeTerrain }) => {
+            if (!cancelled)
+              return loadNativeTerrain(mode === "high" ? "high" : "balanced");
+          })
+          .catch(() => {});
+    }, 300);
+    const memory = AppState.addEventListener("memoryWarning", () => {
+      void import("./game/terrainAssets").then(({ releaseTerrainCache }) =>
+        releaseTerrainCache(),
+      );
+    });
+    return () => {
+      cancelled = true;
+      clearTimeout(warm);
+      memory.remove();
+    };
+  }, []);
+
   const [nation, setNation] = useState<Nation | null>(null);
   const [screen, setScreen] = useState<"home" | "picker" | "game">("home");
   const [campaign, setCampaign] = useState(0);

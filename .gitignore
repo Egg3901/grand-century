@@ -30,3 +30,5 @@ artifacts/
 test-results/
 .claude/worktrees/
 worktrees/
+
+apps/mobile/assets/terrain/

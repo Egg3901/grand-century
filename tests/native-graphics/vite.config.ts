@@ -25,9 +25,16 @@ export default defineConfig({
   resolve: {
     dedupe: ["react", "react-dom"],
     alias: [
+      {
+        find: /.*\/terrainAssets$/,
+        replacement: fileURLToPath(
+          new URL("./terrain-assets.ts", import.meta.url),
+        ),
+      },
       { find: /.*\/NativeSimTransport$/, replacement: services },
       ...[
         "expo-file-system",
+        "expo-device",
         "expo-status-bar",
         "@expo/vector-icons/Ionicons",
         "@maplibre/maplibre-react-native",

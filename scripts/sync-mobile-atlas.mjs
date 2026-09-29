@@ -101,3 +101,6 @@ await writeFile(new URL('borders.json', target), JSON.stringify(borders));
 await writeFile(new URL('waves.json', target), JSON.stringify(waves));
 await writeFile(new URL('worldSeed.json', target), JSON.stringify(world));
 console.log(`Synced ${geometry.features.length} provinces for native mobile`);
+
+// Binary assets are generated at build time, before Metro packages the app.
+await import('./bake-mobile-terrain.mjs');

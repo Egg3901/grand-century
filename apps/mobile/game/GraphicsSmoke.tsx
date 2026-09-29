@@ -104,7 +104,7 @@ export default function GraphicsSmoke() {
         <TerrainMap
           quality={phase === 0 ? "balanced" : "high"}
           camera={camera}
-          focus={{ center: [8, 46], zoom: 4.8 }}
+          focus={{ center: [-0.118668, 51.501941], zoom: 7.7 }}
           snapshot={null}
           political={false}
           selected={null}

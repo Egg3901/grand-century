@@ -60,3 +60,8 @@ export const SafeAreaProvider = ({ children }: any) => <>{children}</>;
 export const SafeAreaView = ({ children, style }: any) => (
   <View style={[style, { paddingTop: 59, paddingBottom: 34 }]}>{children}</View>
 );
+
+export const modelId = null,
+  modelName = null,
+  totalMemory = null,
+  isDevice = false;

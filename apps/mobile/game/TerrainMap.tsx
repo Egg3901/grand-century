@@ -1,3 +1,5 @@
+import { loadNativeTerrain } from "./terrainAssets";
+import { cityLabels } from "../../../src/graphics/cities";
 import type { RefObject } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -18,7 +20,6 @@ import {
 } from "../../../src/graphics/TerrainRenderer";
 import {
   normalizeView,
-  unpackTerrain,
   type View,
   type TerrainQuality,
 } from "../../../src/graphics/terrainData";
@@ -293,15 +294,12 @@ function TerrainSurface(
   );
   async function context(gl: ExpoWebGLRenderingContext) {
     try {
-      const packed =
-        props.quality === "high"
-          ? await import("../../../src/graphics/terrain-atlas-high.json")
-          : await import("../../../src/graphics/terrain-atlas.json");
+      const terrain = await loadNativeTerrain(props.quality);
       if (!alive.current) return;
       glRef.current = gl;
       const r = new TerrainRenderer(
         gl as unknown as WebGLRenderingContext,
-        unpackTerrain(packed.default),
+        terrain,
         props.quality,
       );
       renderer.current = r;
@@ -368,6 +366,7 @@ function TerrainSurface(
         </Text>
       )}
       {ready &&
+        view.current.zoom < 4.2 &&
         r &&
         props.snapshot?.nations
           .filter((n) => n.gpRank > 0 && n.gpRank <= 8)
@@ -394,6 +393,33 @@ function TerrainSurface(
               </Text>
             );
           })}
+      {ready &&
+        r &&
+        cityLabels(
+          (lon, lat) => r.project(lon, lat),
+          view.current.zoom,
+          size.current.width,
+          size.current.height,
+        ).map(({ city, x, y, width }) => (
+          <Text
+            key={city.id}
+            pointerEvents="none"
+            numberOfLines={1}
+            style={[
+              styles.label,
+              {
+                left: x - width / 2,
+                top: y + 8,
+                width,
+                fontSize: 12,
+                color: "#fff4d7",
+              },
+            ]}
+          >
+            {city.importance === 0 ? "◆ " : "• "}
+            {city.name}
+          </Text>
+        ))}
       <NativeView style={styles.zoom}>
         <Pressable
           accessibilityRole="button"
