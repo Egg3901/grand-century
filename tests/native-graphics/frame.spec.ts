@@ -46,7 +46,7 @@ test("native High paints the measured phone surface after initial layout", async
   expect(frame.fraction).toBeGreaterThan(0.9);
   await page.setViewportSize({ width: 600, height: 844 });
   await page.waitForFunction(
-    () => (window as any).nativeGL.initial[0] === 1500,
+    () => (window as any).nativeGL.initial[0] === 1200,
   );
   await expect(page.getByText("Preparing offline terrain...")).toHaveCount(0);
   expect(
@@ -57,7 +57,7 @@ test("native High paints the measured phone surface after initial layout", async
         ),
       ),
     ),
-  ).toEqual([0, 0, 1500, 2110]);
+  ).toEqual([0, 0, 1200, 1688]);
 });
 
 test("a blank first draw reports fallback instead of declaring the terrain ready", async ({
@@ -86,7 +86,7 @@ test("a slow initialization cannot time out between allocation and its first ani
       delay?: number,
       ...args: any[]
     ) => {
-      if (delay === 15000) {
+      if (delay === 12000) {
         (window as any).startupWatchdog = callback;
         return 1;
       }
@@ -96,7 +96,9 @@ test("a slow initialization cannot time out between allocation and its first ani
   await page.goto("/tests/native-graphics/index.html");
   // RAF is deliberately held, so the test must poll on timers as well.
   await page.waitForFunction(
-    () => (window as any).terrainFrames.length > 0,
+    () =>
+      (window as any).terrainFrames.length > 0 &&
+      typeof (window as any).startupWatchdog === "function",
     undefined,
     { polling: 20 },
   );

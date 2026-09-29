@@ -37,7 +37,7 @@ type Props = {
   selected: number | null;
   onSelect: (id: number | null) => void;
   onFallback: (reason: string) => void;
-  onFrame?: (gl: ExpoWebGLRenderingContext) => void;
+  onFrame?: (gl: ExpoWebGLRenderingContext, renderer: TerrainRenderer) => void;
 };
 export default function TerrainMap(props: Props) {
   const [layout, setLayout] = useState({ width: 0, height: 0 });
@@ -79,7 +79,9 @@ function TerrainSurface(
     ),
     reduce = useRef(false),
     dirty = useRef(true),
-    presented = useRef(false);
+    presented = useRef(false),
+    labelsDirty = useRef(false),
+    lastLabels = useRef(0);
   const latest = useRef(props);
   latest.current = props;
   const view = useRef<View>(
@@ -99,7 +101,13 @@ function TerrainSurface(
     const r = renderer.current;
     if (
       r &&
-      shouldRenderFrame(time, last.current, true, reduce.current, dirty.current)
+      shouldRenderFrame(
+        time,
+        last.current,
+        true,
+        reduce.current,
+        dirty.current || r.needsFrame || labelsDirty.current,
+      )
     ) {
       try {
         r.render(
@@ -113,7 +121,7 @@ function TerrainSurface(
           presented.current = true;
           setReady(true);
         }
-        latest.current.onFrame?.(gl);
+        latest.current.onFrame?.(gl, r);
         gl.endFrameEXP();
       } catch {
         r.dispose();
@@ -123,10 +131,16 @@ function TerrainSurface(
         );
         return;
       }
+      if (labelsDirty.current && time - lastLabels.current >= 100) {
+        labelsDirty.current = false;
+        lastLabels.current = time;
+        setRevision((n) => n + 1);
+      }
       dirty.current = false;
       last.current = time;
     }
-    if (r && !reduce.current) frame.current = requestAnimationFrame(tick);
+    if (r && (!reduce.current || r.needsFrame || labelsDirty.current))
+      frame.current = requestAnimationFrame(tick);
   }
   function wake() {
     dirty.current = true;
@@ -141,7 +155,7 @@ function TerrainSurface(
       size.current.width,
       size.current.height,
     );
-    setRevision((n) => n + 1);
+    labelsDirty.current = true;
     wake();
   }
   useEffect(() => {
@@ -308,28 +322,29 @@ function TerrainSurface(
           position: "absolute",
           width:
             (size.current.width *
-              renderScale(PixelRatio.get(), props.quality)) /
+              Math.min(2, renderScale(PixelRatio.get(), props.quality))) /
             PixelRatio.get(),
           height:
             (size.current.height *
-              renderScale(PixelRatio.get(), props.quality)) /
+              Math.min(2, renderScale(PixelRatio.get(), props.quality))) /
             PixelRatio.get(),
           left:
             (size.current.width -
               (size.current.width *
-                renderScale(PixelRatio.get(), props.quality)) /
+                Math.min(2, renderScale(PixelRatio.get(), props.quality))) /
                 PixelRatio.get()) /
             2,
           top:
             (size.current.height -
               (size.current.height *
-                renderScale(PixelRatio.get(), props.quality)) /
+                Math.min(2, renderScale(PixelRatio.get(), props.quality))) /
                 PixelRatio.get()) /
             2,
           transform: [
             {
               scale:
-                PixelRatio.get() / renderScale(PixelRatio.get(), props.quality),
+                PixelRatio.get() /
+                Math.min(2, renderScale(PixelRatio.get(), props.quality)),
             },
           ],
         }}
@@ -358,8 +373,8 @@ function TerrainSurface(
             if (
               x < 60 ||
               x > size.current.width - 60 ||
-              y < 220 ||
-              y > size.current.height - 250
+              y < 140 ||
+              y > size.current.height - 180
             )
               return null;
             return (
@@ -421,8 +436,8 @@ const styles = StyleSheet.create({
   zoom: {
     position: "absolute",
     right: 8,
-    bottom: 255,
-    flexDirection: "row",
+    bottom: 192,
+    flexDirection: "column",
     gap: 4,
   },
   zoomButton: {
@@ -430,9 +445,10 @@ const styles = StyleSheet.create({
     height: 44,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#eeeae0",
+    backgroundColor: "#102b35",
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: "#87918b",
   },
-  zoomText: { fontSize: 24, color: "#17262d" },
+  zoomText: { fontSize: 24, color: "#f4eddf" },
 });

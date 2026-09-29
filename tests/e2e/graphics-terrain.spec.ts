@@ -108,6 +108,10 @@ test("High renders detailed geometry, modeled scenery and moving water while pau
   await expect(
     page.getByRole("button", { name: "3D · High", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
+  await page.evaluate(() =>
+    (window as any).__gcTerrainFocus({ lon: 8, lat: 46, zoom: 4.4 }),
+  );
+  await page.waitForFunction(() => !(window as any).__gcTerrain.needsFrame);
   const metrics = await page.evaluate(() => {
     const r = (window as any).__gcTerrain;
     const c = document.querySelector(

@@ -17,16 +17,17 @@ export const SCENERY_VERTEX_BUDGET = 90000;
 type Point = [number, number, number];
 type Color = [number, number, number];
 /** Geographic illustration only: these models do not represent simulation buildings or units. */
-export function buildScenery(
+export function* iterateScenery(
   data: TerrainData,
   provinces: readonly SceneryProvince[],
   bounds: { x: number; y: number; ex: number; ey: number; zoom: number },
-): Float32Array {
+): Generator<void, Float32Array> {
   if (bounds.zoom < 3.3) return new Float32Array();
-  const vertices: number[] = [];
+  const vertices = new Float32Array(SCENERY_VERTEX_BUDGET * 9);
+  let cursor = 0;
   const scale = Math.min(0.00015, 1 / 2 ** bounds.zoom / 140);
   const triangle = (a: Point, b: Point, c: Point, color: Color) => {
-    if (vertices.length / 9 + 3 > SCENERY_VERTEX_BUDGET) return;
+    if (cursor / 9 + 3 > SCENERY_VERTEX_BUDGET) return;
     const u = b.map((v, i) => v - a[i]),
       v = c.map((v, i) => v - a[i]);
     // Mesh y points south; lighting y points north.
@@ -34,8 +35,17 @@ export function buildScenery(
       ny = -(u[2] * v[0] - u[0] * v[2]),
       nz = u[0] * v[1] - u[1] * v[0];
     const length = Math.hypot(nx, ny, nz) || 1;
-    for (const p of [a, b, c])
-      vertices.push(...p, nx / length, ny / length, nz / length, ...color);
+    for (const p of [a, b, c]) {
+      vertices[cursor++] = p[0];
+      vertices[cursor++] = p[1];
+      vertices[cursor++] = p[2];
+      vertices[cursor++] = nx / length;
+      vertices[cursor++] = ny / length;
+      vertices[cursor++] = nz / length;
+      vertices[cursor++] = color[0];
+      vertices[cursor++] = color[1];
+      vertices[cursor++] = color[2];
+    }
   };
   const tree = (x: number, y: number, size: number, shade: number) => {
     const z = terrainHeight(data, x, y),
@@ -115,6 +125,7 @@ export function buildScenery(
         ? 0
         : Math.min(18, 5 + Math.round(p.populationWeight * 2));
     for (let i = 0; i < count; i++) {
+      if (i % 8 === 0) yield;
       const a = random() * Math.PI * 2,
         radius = forest
           ? Math.sqrt(-2 * Math.log(Math.max(0.001, random()))) * 0.003
@@ -144,7 +155,19 @@ export function buildScenery(
           house(u, v, scale * (0.8 + random() * 0.4), random() * 0.08);
       }
     }
-    if (vertices.length / 9 >= SCENERY_VERTEX_BUDGET - 40) break;
+    if (cursor / 9 >= SCENERY_VERTEX_BUDGET - 40) break;
   }
-  return new Float32Array(vertices);
+  return vertices.subarray(0, cursor);
+}
+
+/** Synchronous helper for asset checks; interactive renderers consume small batches. */
+export function buildScenery(
+  data: TerrainData,
+  provinces: readonly SceneryProvince[],
+  bounds: { x: number; y: number; ex: number; ey: number; zoom: number },
+): Float32Array {
+  const work = iterateScenery(data, provinces, bounds);
+  let next = work.next();
+  while (!next.done) next = work.next();
+  return next.value;
 }

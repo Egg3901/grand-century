@@ -15,8 +15,9 @@ export default defineConfig({
       transform(code, id) {
         if (id.includes("/apps/mobile/"))
           return code.replace(
-            /require\(('(?:[^']*\.png)')\)/g,
-            "new URL($1,import.meta.url).href",
+            /require\((['"])([^'"]*\.png)\1\)/g,
+            (_, _quote, path) =>
+              `new URL(${JSON.stringify(path)},import.meta.url).href`,
           );
       },
     },

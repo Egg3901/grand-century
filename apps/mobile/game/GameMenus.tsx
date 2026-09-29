@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { NationFlag } from "./NationFlag";
 import { StatusBar } from "expo-status-bar";
 import {
   Modal,
@@ -6,6 +8,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -13,17 +16,16 @@ import type { Command, WorldSnapshot } from "../../../src/shared/types";
 import worldSeed from "../assets/game/worldSeed.json";
 
 export type GamePanel =
-  | "menu"
-  | "economy"
-  | "military"
-  | "diplomacy"
-  | "research"
-  | "graphics";
-export const gamePanels: { key: GamePanel; label: string }[] = [
-  { key: "economy", label: "Economy" },
-  { key: "military", label: "Military" },
-  { key: "diplomacy", label: "Diplomacy" },
-  { key: "research", label: "Research" },
+  "menu" | "economy" | "military" | "diplomacy" | "research" | "graphics";
+export const gamePanels: {
+  key: GamePanel;
+  label: string;
+  icon: "wallet-outline" | "shield-outline" | "globe-outline" | "flask-outline";
+}[] = [
+  { key: "economy", label: "Economy", icon: "wallet-outline" },
+  { key: "military", label: "Military", icon: "shield-outline" },
+  { key: "diplomacy", label: "Diplomacy", icon: "globe-outline" },
+  { key: "research", label: "Research", icon: "flask-outline" },
 ];
 const title = (page: GamePanel) =>
   page === "menu"
@@ -70,11 +72,14 @@ export function MenuSheet({
     >
       <SafeAreaProvider>
         <SafeAreaView style={styles.safe}>
-          <StatusBar style="dark"/>
+          <StatusBar style="light" />
           <View style={styles.heading}>
-            <Text accessibilityRole="header" style={styles.title}>
-              {heading}
-            </Text>
+            <View>
+              <Text style={styles.eyebrow}>THE CABINET</Text>
+              <Text accessibilityRole="header" style={styles.headingTitle}>
+                {heading}
+              </Text>
+            </View>
             <MenuButton label="Return to map" onPress={onClose} />
           </View>
           <ScrollView
@@ -110,6 +115,8 @@ export function GameMenus({
   selectedProvince: number | null;
 }) {
   const player = snapshot?.nations[snapshot.playerNation];
+  const [query, setQuery] = useState("");
+  const [limit, setLimit] = useState(12);
   const fact = (label: string, value: string | number) => (
     <View style={styles.row} key={label}>
       <Text style={styles.text}>{label}</Text>
@@ -311,9 +318,25 @@ export function GameMenus({
             Math.floor(snapshot.playerDiplomaticPoints),
           )}
           {fact("Infamy", player.infamy.toFixed(1))}
-          <Text style={styles.title}>Nations</Text>
+          <Text style={styles.title}>Foreign relations</Text>
+          <TextInput
+            accessibilityLabel="Search diplomatic nations"
+            placeholder="Find a nation"
+            placeholderTextColor="#657b80"
+            value={query}
+            onChangeText={(v) => {
+              setQuery(v);
+              setLimit(12);
+            }}
+            style={styles.search}
+          />
           {snapshot.nations
-            .filter((n) => n.id !== snapshot.playerNation)
+            .filter(
+              (n) =>
+                n.id !== snapshot.playerNation &&
+                n.name.toLowerCase().includes(query.toLowerCase()),
+            )
+            .slice(0, limit)
             .map((n) => {
               const allied = snapshot.relations.some(
                 (r) =>
@@ -323,7 +346,15 @@ export function GameMenus({
               );
               return (
                 <View key={n.id} style={styles.card}>
-                  <Text style={styles.value}>{n.name}</Text>
+                  <View style={styles.nationHeading}>
+                    <NationFlag
+                      tag={n.tag}
+                      name={n.name}
+                      color={n.color}
+                      size={24}
+                    />
+                    <Text style={styles.value}>{n.name}</Text>
+                  </View>
                   <Text style={styles.text}>
                     {n.atWar ? "At war" : "At peace"}
                     {allied ? " · Allied" : ""}
@@ -347,6 +378,18 @@ export function GameMenus({
             })}
         </>
       )}
+      {page === "diplomacy" &&
+        snapshot &&
+        snapshot.nations.filter(
+          (n) =>
+            n.id !== snapshot.playerNation &&
+            n.name.toLowerCase().includes(query.toLowerCase()),
+        ).length > limit && (
+          <MenuButton
+            label="Show more nations"
+            onPress={() => setLimit((n) => n + 12)}
+          />
+        )}
       {page === "research" && snapshot?.playerTech && (
         <>
           {fact(
@@ -398,24 +441,53 @@ export function GameMenus({
   );
 }
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: "#eeeae0" },
+  safe: { flex: 1, backgroundColor: "#102b35" },
+  eyebrow: {
+    fontSize: 9,
+    letterSpacing: 2,
+    color: "#d6b475",
+    fontWeight: "700",
+    marginBottom: 6,
+  },
+  headingTitle: { fontFamily: "Georgia", fontSize: 30, color: "#f4eddf" },
+  search: {
+    minHeight: 48,
+    borderRadius: 12,
+    padding: 12,
+    backgroundColor: "#fffdf8",
+    borderWidth: 1,
+    borderColor: "#d7d2c4",
+    color: "#192e35",
+  },
+  nationHeading: { flexDirection: "row", alignItems: "center", gap: 12 },
   heading: {
     padding: 16,
     borderBottomWidth: 1,
     borderColor: "#bd954e",
     gap: 8,
   },
-  content: { padding: 16, paddingBottom: 32, gap: 12 },
-  title: { fontSize: 21, fontWeight: "800", color: "#17262d" },
+  content: {
+    padding: 20,
+    paddingBottom: 32,
+    gap: 16,
+    backgroundColor: "#f4eddf",
+    flexGrow: 1,
+  },
+  title: {
+    fontSize: 24,
+    fontFamily: "Georgia",
+    fontWeight: "600",
+    color: "#17262d",
+  },
   text: { fontSize: 15, lineHeight: 22, color: "#42565a" },
   value: { fontSize: 16, fontWeight: "700", color: "#17262d", flexShrink: 1 },
   button: {
     minHeight: 46,
     paddingVertical: 12,
     paddingHorizontal: 14,
-    backgroundColor: "#18272d",
+    backgroundColor: "#102b35",
     justifyContent: "center",
-    borderRadius: 3,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: "#bd954e",
   },
@@ -431,7 +503,14 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingVertical: 8,
   },
-  card: { borderWidth: 1, borderColor: "#b9b6a8", padding: 12, gap: 10 },
+  card: {
+    backgroundColor: "#fffdf8",
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#ddd6c5",
+    padding: 16,
+    gap: 12,
+  },
   actions: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   notice: {
     fontSize: 14,

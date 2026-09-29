@@ -104,7 +104,7 @@ export function TerrainCanvas({
           last,
           !document.hidden,
           motion.matches,
-          dirty.current,
+          dirty.current || r.needsFrame,
         )
       ) {
         r.render(
@@ -115,7 +115,7 @@ export function TerrainCanvas({
         last = time;
         dirty.current = false;
       }
-      if (!motion.matches) frame = requestAnimationFrame(tick);
+      if (!motion.matches || r?.needsFrame) frame = requestAnimationFrame(tick);
     };
     const resize = () => {
       const c = canvas.current,

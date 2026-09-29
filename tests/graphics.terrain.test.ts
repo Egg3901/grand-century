@@ -83,6 +83,7 @@ describe("offline terrain and low-power contract", () => {
     expect(shouldRenderFrame(100, 0, true, true, false)).toBe(false);
     expect(shouldRenderFrame(16, 0, true, false, false)).toBe(false);
     expect(shouldRenderFrame(34, 0, true, false, false)).toBe(true);
+    expect(shouldRenderFrame(33, 0, true, false, false)).toBe(true);
     expect(shouldRenderFrame(16, 0, true, true, true)).toBe(true);
     expect(parseGraphicsMode(null)).toBe("2d");
     expect(parseGraphicsMode("garbage")).toBe("2d");
