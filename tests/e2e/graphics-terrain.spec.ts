@@ -427,4 +427,7 @@ test("fine terrain, day/night cycle and weather draw real pixels and persist con
       JSON.parse(localStorage.getItem("grand-century-atmosphere-v1")!),
     ),
   ).toMatchObject({ lighting: "night", weather: "snow" });
+  await page.setViewportSize({ width: 1280, height: 850 });
+  await page.getByLabel("Map weather").selectOption("clear");
+  await expect(page.getByLabel("Map weather")).toHaveValue("clear");
 });

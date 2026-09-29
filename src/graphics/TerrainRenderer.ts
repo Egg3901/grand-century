@@ -105,13 +105,13 @@ float idAt(vec2 p) {
   return decodeId(texture2D(provinces,p).ra);
 }
 float ownerAt(float id) { return decodeId(texture2D(palette,vec2((id-.5)/1024.0,.75)).ra); }
-float landAt(vec2 p) { return texture2D(localProvinces,(p-localBounds.xy)/localBounds.zw).g; }
-float coastCoverage(vec2 p) {
+vec2 coastAt(vec2 p) { return texture2D(localProvinces,(p-localBounds.xy)/localBounds.zw).gb; }
+vec2 coastCoverage(vec2 p) {
   vec2 pixel=(p-localBounds.xy)/localBounds.zw/localTexel-.5;
   vec2 base=(floor(pixel)+.5)*localTexel*localBounds.zw+localBounds.xy;
   vec2 delta=localBounds.zw*localTexel, f=fract(pixel);
-  return mix(mix(landAt(base),landAt(base+vec2(delta.x,0)),f.x),
-    mix(landAt(base+vec2(0,delta.y)),landAt(base+delta),f.x),f.y);
+  return mix(mix(coastAt(base),coastAt(base+vec2(delta.x,0)),f.x),
+    mix(coastAt(base+vec2(0,delta.y)),coastAt(base+delta),f.x),f.y);
 }
 float hash(vec2 p) {
   vec2 q=fract(p*vec2(.1031,.11369));
@@ -142,7 +142,8 @@ void main() {
   if(uv.x<0.0||uv.x>1.0||uv.y<0.0||uv.y>1.0) discard;
   vec4 ground=texture2D(surface,uv);
   float id=idAt(uv);
-  float coverage=inLocal(uv)>.5 ? coastCoverage(uv) : smoothstep(.35,.65,ground.a);
+  vec2 coastalData=inLocal(uv)>.5 ? coastCoverage(uv) : vec2(smoothstep(.35,.65,ground.a),texture2D(normalMap,uv).a);
+  float coverage=coastalData.x;
   vec3 water=vec3(0.0);
   if(coverage<.999) {
     // Crossed travelling swells, with smaller capillary waves appearing on zoom.
@@ -155,12 +156,12 @@ void main() {
     vec3 eye=normalize(vec3(0.0,-.707,.707));
     float fresnel=.035+.965*pow(1.0-max(0.0,dot(wn,eye)),5.0);
     float glint=pow(max(0.0,dot(wn,normalize(sun+eye))),128.0);
-    float coast=texture2D(normalMap,uv).a;
+    float coast=coastalData.y;
     float shelf=smoothstep(.02,.95,coast);
     vec3 sea=mix(vec3(.025,.13,.24),vec3(.055,.43,.48),shelf);
     sea=mix(sea,vec3(.38,.57,.68),fresnel*.7);
     sea+=vec3(.65,.73,.70)*glint*.24*(.3+.7*noise(p*.27))+(swell+cross*.5)*.011;
-    // Moving surf bands follow the authored coast, not a separate geographic outline.
+    // Moving surf bands follow the physical shore distance at close zoom.
     float breaker=pow(max(0.0,sin(coast*18.0-clock*2.4+cross*1.7)),10.0);
     float shore=smoothstep(.77,.99,coast);
     sea=mix(sea,vec3(.71,.83,.79),shore*breaker*(.65+.35*fine)*.52);

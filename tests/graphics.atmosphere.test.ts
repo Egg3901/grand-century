@@ -16,7 +16,7 @@ import {
   calendarDay,
   DAY_CYCLE_SECONDS,
 } from "../src/graphics/atmosphere";
-import { physicalCoast } from "../src/graphics/physicalCoast";
+import { coastalDetail, physicalCoast } from "../src/graphics/physicalCoast";
 import { mercator, type TerrainData } from "../src/graphics/terrainData";
 import offline from "../src/graphics/terrain-detail.json";
 const base: TerrainData = {
@@ -147,4 +147,32 @@ it("uses physical Istrian coastline independently of province ownership", () => 
   expect(coast.at(13.85, 45.15)).toBe(0); // Istrian peninsula
   expect(coast.at(13.2, 45.1)).toBeNull(); // Adriatic west of peninsula
   expect(coast.at(12.1, 44.5)).toBe(0); // Italian mainland
+});
+
+it("bakes shelf shading from the physical coast while retaining province IDs", () => {
+  const [x, y] = mercator(13.6, 45.1),
+    size = 64;
+  const work = coastalDetail({
+    x,
+    y,
+    ex: 0.002,
+    ey: 0.002,
+    size,
+    ids: new Uint16Array(size * size).fill(301),
+  });
+  let next = work.next();
+  while (!next.done) next = work.next();
+  const rgba = next.value;
+  let shoreWater = 0,
+    deepWater = 0,
+    land = 0;
+  for (let i = 0; i < size * size; i++) {
+    expect(rgba[i * 4] + rgba[i * 4 + 3] * 256).toBe(301);
+    if (rgba[i * 4 + 1]) land++;
+    else if (rgba[i * 4 + 2] > 180) shoreWater++;
+    else if (rgba[i * 4 + 2] < 100) deepWater++;
+  }
+  expect(land).toBeGreaterThan(100);
+  expect(shoreWater).toBeGreaterThan(10);
+  expect(deepWater).toBeGreaterThan(10);
 });
