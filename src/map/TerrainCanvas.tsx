@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { homelandAnchors } from "../graphics/mapAnchors";
 import worldSeed from "../data/generated/worldSeed.json";
 import { useStore } from "../store";
@@ -13,6 +13,7 @@ import {
   normalizeView,
   unpackTerrain,
   type View,
+  type TerrainQuality,
 } from "../graphics/terrainData";
 import { TERRAIN_CREDIT } from "../graphics/preferences";
 import { visibleUnitOwnerIds } from "./unitVisibility";
@@ -20,13 +21,23 @@ import { visibleUnitOwnerIds } from "./unitVisibility";
 export function TerrainCanvas({
   onFallback,
   camera,
+  quality = "balanced",
 }: {
   onFallback: (reason: string) => void;
   camera: RefObject<View | null>;
+  quality?: TerrainQuality;
 }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const renderer = useRef<TerrainRenderer | null>(null);
-  const snapshot = useSnapshotFields(["playerNation", "nations", "provinces", "armies", "fleets", "wars", "relations"] as const),
+  const snapshot = useSnapshotFields([
+      "playerNation",
+      "nations",
+      "provinces",
+      "armies",
+      "fleets",
+      "wars",
+      "relations",
+    ] as const),
     data = worldSeed,
     mode = useStore((s) => s.mapMode),
     selected = useStore((s) => s.selectedProvince);
@@ -47,6 +58,21 @@ export function TerrainCanvas({
   const view = useRef(initial.current),
     dirty = useRef(true);
   const wakeRef = useRef(() => {});
+  const move = useCallback(
+    (v: View) => {
+      view.current = normalizeView(v);
+      camera.current = view.current;
+      const c = canvas.current,
+        r = renderer.current;
+      if (c && r) {
+        r.setView(view.current, c.clientWidth, c.clientHeight);
+        dirty.current = true;
+        setRevision((n) => n + 1);
+        wakeRef.current();
+      }
+    },
+    [camera],
+  );
   const latest = useRef({ snapshot, data, mode, selected });
   latest.current = { snapshot, data, mode, selected };
   useEffect(() => {
@@ -96,8 +122,10 @@ export function TerrainCanvas({
         r = renderer.current;
       if (!c || !r) return;
       const box = c.getBoundingClientRect();
-      c.width = Math.round(box.width * renderScale(devicePixelRatio));
-      c.height = Math.round(box.height * renderScale(devicePixelRatio));
+      c.width = Math.round(box.width * renderScale(devicePixelRatio, quality));
+      c.height = Math.round(
+        box.height * renderScale(devicePixelRatio, quality),
+      );
       r.setView(view.current, box.width, box.height);
       camera.current = view.current;
       dirty.current = true;
@@ -113,21 +141,37 @@ export function TerrainCanvas({
       e.preventDefault();
       onFallback("3D graphics became unavailable. Switched to 2D.");
     };
-    void import("../graphics/terrain-atlas.json")
+    void (
+      quality === "high"
+        ? import("../graphics/terrain-atlas-high.json")
+        : import("../graphics/terrain-atlas.json")
+    )
       .then((p) => {
         if (!alive || !canvas.current) return;
         try {
           const gl = canvas.current.getContext("webgl", {
             alpha: false,
             antialias: false,
-            powerPreference: "low-power",
+            powerPreference:
+              quality === "high" ? "high-performance" : "low-power",
           });
           if (!gl) throw new Error("No graphics context");
-          renderer.current = new TerrainRenderer(gl, unpackTerrain(p.default));
-          if (import.meta.env.DEV)
+          renderer.current = new TerrainRenderer(
+            gl,
+            unpackTerrain(p.default),
+            quality,
+          );
+          renderer.current.setScenery(worldSeed.provinces);
+          if (import.meta.env.DEV) {
             (
               globalThis as unknown as { __gcTerrain: TerrainRenderer | null }
             ).__gcTerrain = renderer.current;
+            (
+              globalThis as unknown as {
+                __gcTerrainFocus: ((v: View) => void) | null;
+              }
+            ).__gcTerrainFocus = move;
+          }
           const s = latest.current.snapshot;
           if (s)
             renderer.current.setPalette(
@@ -157,24 +201,18 @@ export function TerrainCanvas({
       node?.removeEventListener("webglcontextlost", lost);
       renderer.current?.dispose();
       renderer.current = null;
-      if (import.meta.env.DEV)
+      if (import.meta.env.DEV) {
         (
           globalThis as unknown as { __gcTerrain: TerrainRenderer | null }
         ).__gcTerrain = null;
+        (
+          globalThis as unknown as {
+            __gcTerrainFocus: ((v: View) => void) | null;
+          }
+        ).__gcTerrainFocus = null;
+      }
     };
-  }, [onFallback, camera]);
-  const move = (v: View) => {
-    view.current = normalizeView(v);
-    camera.current = view.current;
-    const c = canvas.current,
-      r = renderer.current;
-    if (c && r) {
-      r.setView(view.current, c.clientWidth, c.clientHeight);
-      dirty.current = true;
-      setRevision((n) => n + 1);
-      wakeRef.current();
-    }
-  };
+  }, [onFallback, camera, quality, move]);
   const pointers = useRef(new Map<number, { x: number; y: number }>());
   const gesture = useRef({ distance: 0, moved: 0, x: 0, y: 0 });
   function selectAt(x: number, y: number) {
@@ -248,12 +286,17 @@ export function TerrainCanvas({
             );
           }
         }}
-        onWheel={(e) =>
-          move({
-            ...view.current,
-            zoom: view.current.zoom - Math.sign(e.deltaY) * 0.18,
-          })
-        }
+        onWheel={(e) => {
+          const box = e.currentTarget.getBoundingClientRect();
+          if (r)
+            move(
+              r.zoomAt(
+                e.clientX - box.left,
+                e.clientY - box.top,
+                -Math.sign(e.deltaY) * 0.18,
+              ),
+            );
+        }}
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture(e.pointerId);
           pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -274,12 +317,16 @@ export function TerrainCanvas({
               points[0].x - points[1].x,
               points[0].y - points[1].y,
             );
-            if (gesture.current.distance > 0)
-              move({
-                ...view.current,
-                zoom:
-                  view.current.zoom + Math.log2(d / gesture.current.distance),
-              });
+            if (gesture.current.distance > 0 && d > 0 && r) {
+              const box = e.currentTarget.getBoundingClientRect();
+              move(
+                r.zoomAt(
+                  (points[0].x + points[1].x) / 2 - box.left,
+                  (points[0].y + points[1].y) / 2 - box.top,
+                  Math.log2(d / gesture.current.distance),
+                ),
+              );
+            }
             gesture.current.distance = d;
             gesture.current.moved = 100;
           } else {
@@ -298,7 +345,7 @@ export function TerrainCanvas({
       />
       {!ready && (
         <p className="gc-terrain-loading" role="status">
-          Preparing offline terrain…
+          Preparing offline terrain...
         </p>
       )}
       {ready && snapshot && data && r && (

@@ -1,72 +1,82 @@
 # Terrain graphics
 
-Grand Century offers an explicit **2D / Low power** and **3D / Terrain** choice.
-The choice persists locally and does not alter the campaign or simulation.
-2D is the conservative default; a player can opt into 3D without hardware guessing.
+The map offers **2D / Low power**, **3D / Balanced**, and **3D / High** on web and
+native. Choices persist without changing the campaign. 2D remains the conservative
+default. High is an explicit option for capable devices, not an automatic hardware
+claim. Political and Terrain are separate map layers within each graphics mode.
 
-## Rendering
+## What is rendered
 
-Web and iOS/Android share `TerrainRenderer`, a small OpenGL ES / WebGL renderer.
-MapLibre Native does not support its web counterpart's raster-DEM terrain, so the
-3D mode uses Expo GL on native and a WebGL canvas on web. It renders actual
-height geometry rather than pitching a flat relief image. Both retain the
-existing React / React Native game interface and authoritative simulation.
+Both 3D modes use real Mapzen Terrarium elevation, raised geometry, per-pixel
+terrain normals, Natural Earth land-cover color blended with biome materials, latitude/altitude snow and moving ocean lighting.
+Crossed swells, reflected sky, specular highlights and broken coastal surf continue
+while the simulation is paused. Reduced Motion deliberately freezes water, and
+background scenes stop rendering. 2D is static by design.
 
-The offline atlas contains 2048-pixel elevation and biome fields plus a 4096-pixel
-province mask. It is generated from Mapzen Terrarium elevation tiles and the
-1830 game province geometry. Biome tint, slope shade and altitude snow tint are
-artistic derivatives. Heights are exaggerated 12 times for legibility at strategy
-map scale. Coast and province picking use the same geographic mask; ray picking
-accounts for elevated terrain. Homeland label anchors are independent of the
-simulation's capital relocation.
+High uses a 4096-square elevation/material/normal atlas and 254 x 254 terrain
+cells (129,032 triangles). Balanced uses 2048-square fields and 128 x 128 cells
+(32,768 triangles). The normal texture preserves terrain ridges finer than the
+geometry grid. Heights are exaggerated 12 times at strategy-map scale. This is
+geographic terrain with artistic materials, not a surveyed depiction of 1830
+land use or measured water-depth data. Coast coverage is supersampled from the same authored polygons
+as the selectable province mask, avoiding nearest-neighbor staircase edges.
 
-Water uses moving surface normals, restrained directional wave variation,
-specular highlights and a coastal tint. It does not run a fluid simulation or
-claim physically measured water depth. All assets ship with native. Web downloads
-and runtime-caches the optional atlas only when 3D is selected; after it has loaded
-once, it is available offline. Failed loading or context loss returns to 2D.
-Attribution is available through Terrain data credits in native and Credits on web.
+High also draws bounded batches of geometric trees and roofed settlements at
+regional zoom. These are geographic illustration anchored to province terrain and
+population weights. They do not claim to represent simulation buildings, enemy
+units or historically surveyed city footprints. Decoration is clipped to its
+province, seeded independently from simulation RNG, and absent in Balanced/2D.
+
+Web and native share the same WebGL / OpenGL ES renderer. Expo GL supplies the
+native context; MapLibre remains the interactive 2D map. Province selection,
+political coloring and camera continuity remain independent of quality. Pointer
+wheel and pinch zoom preserve the geographic point beneath the gesture.
 
 ## Cost controls
 
-- One scene draw call; 128 x 128 cells, 32,768 triangles, unsigned-short indices.
-- Mesh updates use a padded, snapped view region instead of rebuilding on every
-  drag pixel. Simulation updates only recolor a tiny palette when owners/colors change.
-- Water animation is capped at 30 fps. Reduced motion renders only changed frames.
-  Background scenes stop their frame loop, and unmount frees GPU resources.
-- Render scale is capped at 1.5, with MSAA disabled. Province texture resolution
-  does not increase triangle count. The high-resolution masks are allocated only
-  in 3D; devices without sufficient texture support fall back to 2D.
-- 3D retains about 56 MiB of decoded CPU atlas data and 80 MiB of GPU textures,
-  plus mesh/framebuffers. Decoding and texture upload have a higher temporary peak.
-  These costs are why 2D remains the default on unprofiled devices.
-- Native 2D uses a static 2048-pixel relief (16 MiB decoded rather than 64 MiB),
-  no water timer, and a 30 fps native map cap.
+- Terrain is one indexed draw; High scenery adds at most one batch and 90,000
+  vertices. Both meshes fit unsigned-short indices without an extension.
+- A padded, snapped mesh avoids rebuilds per drag pixel. Normals are baked rather
+  than recomputed per mesh vertex. Ownership updates change only a small palette.
+- Animated water is capped at 30 fps. Reduced Motion renders on demand; background
+  scenes stop the frame loop. Unmount and quality changes free GPU resources.
+- Balanced caps render scale at 1.5; High at 2.5. MSAA is disabled. Neither quality
+  changes simulation speed or tick scheduling.
+- Province IDs and octahedral normals upload as two-channel LUMINANCE_ALPHA,
+  avoiding an expanded RGBA province copy. Decoded atlas payloads total about
+  64 MiB in Balanced and 160 MiB in High. Texture upload payloads total about
+  56 MiB and 128 MiB respectively. Filtered material/normal mipmaps add about
+  8 MiB and 32 MiB to avoid distant shimmer and improve texture locality, plus
+  mesh/framebuffers. Drivers can choose
+  different internal storage; these are payload budgets, not measured VRAM.
+  Parsing/decompression has a higher temporary peak.
+- Only the chosen 3D atlas is decoded. Native bundles both for offline use; web
+  lazily downloads each and runtime-caches it after first use. Allocation/context
+  failure returns to 2D. Native 2D keeps its 2048-pixel relief and 30 fps map cap.
 
-## Coverage and verification limits
+## Coverage and verification
 
-Native currently ships the 1830 campaign, which the 3D atlas supports. On web,
-3D supports the 1830 real geography in Political/Terrain modes. Other historical
-geometries, generated geography and analytical overlays retain the existing
-interactive 2D atlas with an explicit explanation. The renderer must not paint
-1830 province IDs onto a different scenario. This is not an assertion that every
-web overlay has been ported to 3D.
+Native ships the 1830 campaign. Web 3D supports 1830 real geography in Political
+and Terrain. Other eras, generated geography and analytical overlays retain the
+interactive 2D atlas with an explanation. The 1830 mask must never be reused for
+a different historical scenario.
 
-`tests/graphics.terrain.test.ts` checks projection, independent geographic
-landmarks, ocean/land picking, mesh/pixel budgets and frame scheduling.
-`tests/e2e/graphics-terrain.spec.ts` exercises the production UI, province selection,
-mode switches, small viewport controls and context-failure recovery.
+Unit checks cover geographic projection, source provenance, land/ocean picking,
+quality budgets, preference persistence and frame scheduling. Browser acceptance
+covers actual shader execution, high-byte province IDs, camera anchoring, scenery,
+visibly different water frames, the live animation loop while paused, quality
+switches, small viewports and context-loss recovery.
 
-Run `npx playwright test --config playwright.graphics.config.ts` for isolated
-browser acceptance. Linux software WebGL verifies behavior and shader execution,
-not phone GPU frame rate, thermal behavior or battery life. Physical iPhone and
-low-end Android profiling remains necessary before raising quality defaults.
+Run `npx playwright test --config playwright.graphics.config.ts`. Software WebGL
+verifies behavior and images, not iPhone GPU frame times, thermals or battery life.
+Physical-device profiling is still required; no 60 fps claim is made.
 
 ## Rebuilding assets
 
-`python3 scripts/build-terrain-atlas.py --cache <download-cache>` requires Pillow
-and numpy. The script records source-tile SHA-256 hashes in
-`src/graphics/terrain-provenance.json`; data-provider notices live in
-`public/terrain-attribution.txt` and the bundled native credits. It makes no runtime
-requests to the tile provider. See `apps/mobile/assets/map/SOURCE.md` for the
-Natural Earth 2D relief provenance.
+`python3 scripts/build-terrain-atlas.py --cache <download-cache>` generates Balanced.
+Add `--quality high` for High. Pillow/numpy are required. Tile SHA-256 provenance
+and the game geometry hash are checked in separately for each tier. Elevations derive
+from public Mapzen Terrarium data; surface color also uses public-domain Natural
+Earth I (NE1_LR_LC). The rebuild downloads its source once into the supplied cache;
+`--landcover <zip>` can reuse an existing copy. All source hashes are recorded; provider notices are exposed in native Terrain
+data credits and web Credits. No tile service is contacted during gameplay.

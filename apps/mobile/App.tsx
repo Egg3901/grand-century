@@ -165,7 +165,7 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
 
   return (
     <View style={styles.mapPage}>
-      {graphics==='3d'?<Suspense fallback={<Text style={{position:'absolute',top:'45%',alignSelf:'center'}}>Loading terrain...</Text>}><TerrainMap camera={terrainCamera} focus={focus} snapshot={snapshot} political={mapMode==='political'} selected={province?.id??null} onFallback={graphicsFallback} onSelect={id=>{setProvince(worldSeed.provinces.find(p=>p.id===id)??null);setActionMessage('');}}/></Suspense>:<Map ref={mapRef} mapStyle={mapStyle} style={styles.map} touchRotate={false} touchPitch={false} preferredFramesPerSecond={30}
+      {graphics!=='2d'?<Suspense fallback={<Text style={{position:'absolute',top:'45%',alignSelf:'center'}}>Loading terrain...</Text>}><TerrainMap key={graphics} quality={graphics==='high'?'high':'balanced'} camera={terrainCamera} focus={focus} snapshot={snapshot} political={mapMode==='political'} selected={province?.id??null} onFallback={graphicsFallback} onSelect={id=>{setProvince(worldSeed.provinces.find(p=>p.id===id)??null);setActionMessage('');}}/></Suspense>:<Map ref={mapRef} mapStyle={mapStyle} style={styles.map} touchRotate={false} touchPitch={false} preferredFramesPerSecond={30}
         onLayout={(event) => setMapSize(event.nativeEvent.layout)}
         onDidFinishLoadingMap={() => { void placeLabels(); }}
         onRegionWillChange={() => { projectionRun.current += 1; setVisibleLabelTags([]); }}
@@ -241,11 +241,12 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
         <View style={styles.secondaryItem}><Ionicons name="shield-outline" size={14} color="#42565a" /><Text style={styles.secondaryLabel}> MILITARY</Text><Text style={styles.secondaryValue}>{player?.militaryScore ?? '...'}</Text></View>
         <View style={styles.secondaryItem}><Ionicons name="star-outline" size={14} color="#42565a" /><Text style={styles.secondaryLabel}> PRESTIGE</Text><Text style={styles.secondaryValue}>{player ? Math.round(player.prestige) : '...'}</Text></View>
       </View>
-      {graphics==='3d'&&<Pressable accessibilityRole="button" accessibilityLabel="Terrain data credits" onPress={()=>setShowCredits(true)} style={{position:'absolute',left:8,bottom:105,backgroundColor:'#18272ddd',padding:7}}><Text style={{fontSize:10,color:paper}}>Terrain data credits</Text></Pressable>}
+      {graphics!=='2d'&&<Pressable accessibilityRole="button" accessibilityLabel="Terrain data credits" onPress={()=>setShowCredits(true)} style={{position:'absolute',left:8,bottom:105,backgroundColor:'#18272ddd',padding:7}}><Text style={{fontSize:10,color:paper}}>Terrain data credits</Text></Pressable>}
       <Modal visible={showCredits} animationType="slide" onRequestClose={()=>setShowCredits(false)}><View style={{flex:1,padding:24,paddingTop:60,backgroundColor:paper}}><Pressable accessibilityRole="button" onPress={()=>setShowCredits(false)} style={{minHeight:44}}><Text style={{color:ink,fontWeight:'700'}}>Close terrain credits</Text></Pressable><ScrollView><Text selectable style={{color:ink,lineHeight:20}}>{terrainAttribution.text}</Text></ScrollView></View></Modal>
       <View style={styles.graphicsBar}>
         <Pressable accessibilityRole="button" accessibilityLabel="2D low power graphics" accessibilityState={{selected:graphics==='2d'}} onPress={()=>chooseGraphics('2d')} style={[styles.graphicsButton,graphics==='2d'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='2d'&&styles.mapModeSelectedText]}>2D · Low power</Text></Pressable>
-        <Pressable accessibilityRole="button" accessibilityLabel="3D terrain graphics" accessibilityState={{selected:graphics==='3d'}} onPress={()=>chooseGraphics('3d')} style={[styles.graphicsButton,graphics==='3d'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='3d'&&styles.mapModeSelectedText]}>3D · Terrain</Text></Pressable>
+        <Pressable accessibilityRole="button" accessibilityLabel="3D terrain graphics" accessibilityState={{selected:graphics==='3d'}} onPress={()=>chooseGraphics('3d')} style={[styles.graphicsButton,graphics==='3d'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='3d'&&styles.mapModeSelectedText]}>3D · Balanced</Text></Pressable>
+        <Pressable accessibilityRole="button" accessibilityLabel="3D high quality graphics" accessibilityState={{selected:graphics==='high'}} onPress={()=>chooseGraphics('high')} style={[styles.graphicsButton,graphics==='high'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='high'&&styles.mapModeSelectedText]}>3D · High</Text></Pressable>
       </View>
       {!!graphicsNotice&&<Text accessibilityRole="alert" style={styles.graphicsNotice}>{graphicsNotice}</Text>}
       <View style={styles.mapModeBar}>
@@ -337,7 +338,7 @@ const styles = StyleSheet.create({
   secondaryLabel: { color: '#42565a', fontSize: 9, fontWeight: '800' },
   secondaryValue: { color: ink, fontSize: 12, fontWeight: '800', marginLeft: 4 },
   graphicsBar: {position:'absolute',bottom:150,right:7,flexDirection:'row',backgroundColor:'#f4f1e8',borderWidth:1,borderColor:'#87918b'},
-  graphicsButton:{minHeight:44,paddingHorizontal:10,justifyContent:'center'},
+  graphicsButton:{minHeight:44,paddingHorizontal:8,justifyContent:'center'},
   graphicsNotice:{position:'absolute',bottom:300,right:8,left:8,padding:10,backgroundColor:'#f4f1e8',color:ink},
   mapModeBar: { position: 'absolute', bottom: 201, right: 7, flexDirection: 'row', borderColor: '#87918b', borderWidth: 1, backgroundColor: '#f4f1e8' },
   mapModeButton: { minHeight: 30, flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8 },

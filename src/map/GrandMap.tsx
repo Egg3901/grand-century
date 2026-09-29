@@ -1,3 +1,4 @@
+import { parseGraphicsMode, type GraphicsMode } from "../graphics/preferences";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
 import { useSnapshotFields } from '../ui/useSnapshotFields';
@@ -2386,7 +2387,7 @@ function AtlasMap2D({ camera }: { camera: RefObject<View|null> }) {
 
 const TerrainCanvas = lazy(() => import('./TerrainCanvas').then(m => ({ default: m.TerrainCanvas })));
 export function GrandMap() {
-  const [graphics,setGraphics]=useState<'2d'|'3d'>(()=>{try{return localStorage.getItem('grand-century-graphics-v1')==='3d'?'3d':'2d';}catch{return '2d';}});
+  const [graphics,setGraphics]=useState<GraphicsMode>(()=>{try{return parseGraphicsMode(localStorage.getItem('grand-century-graphics-v1'));}catch{return '2d';}});
   const [notice,setNotice]=useState('');
   const camera=useRef<View|null>(null);
   const previousCampaign=useRef('');
@@ -2394,14 +2395,15 @@ export function GrandMap() {
   const campaign=`${snapshot?.scenarioId}:${snapshot?.playerNation}:${snapshot?.seed}`;
   if(previousCampaign.current!==campaign){previousCampaign.current=campaign;camera.current=null;}
   const supported=(mode==='political'||mode==='terrain')&&(!snapshot?.scenarioId||snapshot.scenarioId==='1830-01-01')&&snapshot?.mapMode!=='procedural_random';
-  const choose=useCallback((value:'2d'|'3d')=>{setGraphics(value);setNotice('');try{localStorage.setItem('grand-century-graphics-v1',value);}catch{/* Session preference still works. */}},[]);
+  const choose=useCallback((value:GraphicsMode)=>{setGraphics(value);setNotice('');try{localStorage.setItem('grand-century-graphics-v1',value);}catch{/* Session preference still works. */}},[]);
   const fallback=useCallback((reason:string)=>{choose('2d');setNotice(reason);},[choose]);
   return <>
-    {graphics==='3d'&&supported?<Suspense fallback={<div className="gc-terrain-loading" role="status">Loading terrain...</div>}><TerrainCanvas key={campaign} onFallback={fallback} camera={camera}/></Suspense>:<AtlasMap2D key={campaign} camera={camera}/>}
+    {graphics!=='2d'&&supported?<Suspense fallback={<div className="gc-terrain-loading" role="status">Loading terrain...</div>}><TerrainCanvas quality={graphics==='high'?'high':'balanced'} key={campaign+graphics} onFallback={fallback} camera={camera}/></Suspense>:<AtlasMap2D key={campaign} camera={camera}/>}
     <div className="gc-graphics-controls" aria-label="Map graphics">
       <button aria-pressed={graphics==='2d'} onClick={()=>choose('2d')} title="Flat map, lower graphics cost">2D · Low power</button>
-      <button aria-pressed={graphics==='3d'} onClick={()=>choose('3d')} title="Raised terrain and animated water">3D · Terrain</button>
+      <button aria-pressed={graphics==='3d'} onClick={()=>choose('3d')} title="Raised terrain and animated water">3D · Balanced</button>
+      <button aria-pressed={graphics==='high'} onClick={()=>choose('high')} title="Detailed terrain, animated sea and modeled scenery">3D · High</button>
     </div>
-    {(notice||(graphics==='3d'&&!supported))&&<p className="gc-graphics-notice" role="status">{notice||'This map layer uses the detailed 2D atlas. Return to Political or Terrain for 3D.'}</p>}
+    {(notice||(graphics!=='2d'&&!supported))&&<p className="gc-graphics-notice" role="status">{notice||'This map layer uses the detailed 2D atlas. Return to Political or Terrain for 3D.'}</p>}
   </>;
 }

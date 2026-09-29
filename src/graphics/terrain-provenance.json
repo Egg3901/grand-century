@@ -1,5 +1,12 @@
 {
+  "provinceGeometrySha256": "c46ea561b1e4118636848d4209898cbb4e7ce36b062ea50bc8570e1a014c79e3",
   "source": "https://registry.opendata.aws/terrain-tiles/",
+  "landcover": {
+    "url": "https://naturalearth.s3.amazonaws.com/10m_raster/NE1_LR_LC.zip",
+    "sha256": "dae6ad77c963976f44afb3a3916febf36f44c42da1690854b9fa1dac74694e54",
+    "license": "Public domain: https://www.naturalearthdata.com/about/terms-of-use/",
+    "processing": "Unshaded land-cover color reprojected to Web Mercator and blended with authored biome palette."
+  },
   "tiles": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/3/{x}/{y}.png",
   "sha256": {
     "3/0/0": "d19385010b7336c1f56fa2c47f4ed1d59b3913566c665d20d849cd93c98c8791",
@@ -67,6 +74,5 @@
     "3/6/7": "ab5d8813457456d7b96b658928e4a723b85914383bda5ea121d553baf8504386",
     "3/7/7": "37c6f70d4e56bcda62ceff6851612ae3449ab7258398e1795057433587773980"
   },
-  "processing": "Sea-clamped metre heights, game-province land mask and biomes, slope lighting and altitude snow tint. No simulation state changed.",
-  "provinceGeometrySha256": "c46ea561b1e4118636848d4209898cbb4e7ce36b062ea50bc8570e1a014c79e3"
+  "processing": "Sea-clamped metre heights, game-province land mask, biome materials, octahedral normals, altitude/latitude snow. Natural Earth land-cover color and deterministic artistic material variation, not historical satellite imagery. No simulation state changed."
 }
