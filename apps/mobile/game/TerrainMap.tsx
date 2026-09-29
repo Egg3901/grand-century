@@ -218,6 +218,7 @@ function TerrainSurface(
     if (r && s)
       r.setPalette(
         s.provinces.map((p) => s.nations[p.owner]?.color ?? [170, 160, 130]),
+        s.provinces.map((p) => p.owner),
       );
     wake();
   }, [props.snapshot, props.political, props.selected]);
@@ -309,6 +310,7 @@ function TerrainSurface(
       if (s)
         r.setPalette(
           s.provinces.map((p) => s.nations[p.owner]?.color ?? [170, 160, 130]),
+          s.provinces.map((p) => p.owner),
         );
       wake();
     } catch {

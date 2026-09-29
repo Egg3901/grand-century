@@ -103,6 +103,8 @@ export default function GraphicsSmoke() {
       const result = verifyTerrainFrame(gl);
       if (phase > 0 && renderer.sceneryVertexCount === 0)
         throw new Error("High scenery did not finish loading");
+      if (renderer.detailResolution !== 1024)
+        throw new Error("Close-zoom province detail did not finish loading");
       const sceneryPixels = phase > 0 ? visibleSceneryPixels(gl, renderer) : 0;
       let cameraUpdateMaxMs = 0;
       if (phase === 1) {
@@ -137,6 +139,7 @@ export default function GraphicsSmoke() {
         ratio: PixelRatio.get(),
         cameraUpdateMaxMs,
         sceneryVertices: renderer.sceneryVertexCount,
+        provinceDetailSize: renderer.detailResolution,
         sceneryPixels,
         ...result,
       });

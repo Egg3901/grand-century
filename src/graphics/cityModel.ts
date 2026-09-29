@@ -6,6 +6,17 @@ export type Triangle = (a: Point, b: Point, c: Point, color: Color) => void;
  * These are illustrative period buildings, not reconstructions of named monuments.
  */
 export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
+  const emit = triangle;
+  const hash = (value: number) => {
+    let n = Math.imul(value ^ seed, 0x45d9f3b);
+    n = Math.imul(n ^ (n >>> 16), 0x45d9f3b);
+    return ((n ^ (n >>> 16)) >>> 0) / 4294967296;
+  };
+  const angle = (hash(731) - 0.5) * 1.2;
+  const c = Math.cos(angle),
+    s = Math.sin(angle);
+  const orient = ([x, y, z]: Point): Point => [x * c - y * s, x * s + y * c, z];
+  triangle = (a, b, c, color) => emit(orient(a), orient(b), orient(c), color);
   const quad = (a: Point, b: Point, c: Point, d: Point, color: Color) => {
     triangle(a, b, c, color);
     triangle(a, c, d, color);
@@ -51,37 +62,37 @@ export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
   };
   // Streets belong to the same depth-tested mesh as the houses.
   quad(
-    [-10, -0.36, 0.02],
-    [10, -0.36, 0.02],
-    [10, 0.36, 0.02],
-    [-10, 0.36, 0.02],
-    [0.55, 0.51, 0.43],
+    [-8, -0.26, 0.02],
+    [8, -0.26, 0.02],
+    [8, 0.26, 0.02],
+    [-8, 0.26, 0.02],
+    [0.47, 0.45, 0.37],
   );
   quad(
-    [-0.36, -9, 0.025],
-    [0.36, -9, 0.025],
-    [0.36, 9, 0.025],
-    [-0.36, 9, 0.025],
-    [0.55, 0.51, 0.43],
+    [-0.26, -7.5, 0.025],
+    [0.26, -7.5, 0.025],
+    [0.26, 7.5, 0.025],
+    [-0.26, 7.5, 0.025],
+    [0.47, 0.45, 0.37],
   );
   const extent = detail ? 4 : 2;
   for (let row = -extent; row <= extent; row++)
     for (let col = -extent; col <= extent; col++) {
       if (!row || !col) continue;
-      const n =
-        (Math.imul(seed + row * 17 + col * 31, 1103515245) >>> 0) / 4294967296;
-      if (Math.abs(row) === extent && Math.abs(col) === extent && n > 0.3)
-        continue;
-      const x = col * 1.8 + Math.sin(row * 0.7) * 0.35,
-        y = row * 1.65 + Math.cos(col) * 0.2,
-        h = 0.65 + n * 1.15;
-      quad(
-        [x - 0.85, y - 0.7, 0.01],
-        [x + 1, y - 0.7, 0.01],
-        [x + 1, y + 0.85, 0.01],
-        [x - 0.85, y + 0.85, 0.01],
-        [0.43, 0.43, 0.32],
-      );
+      const n = hash(row * 107 + col * 31);
+      // Irregular outskirts and mixed heights avoid identical square city stamps.
+      if (Math.hypot(row, col) > extent + 0.3 + n * 0.8) continue;
+      const x = col * 1.8 + Math.sin(row * 0.7 + hash(12)) * 0.4,
+        y = row * 1.65 + Math.cos(col * 0.8) * 0.32,
+        h = 0.55 + n * 1.4 + (Math.abs(row) + Math.abs(col) < 4 ? 0.35 : 0);
+      if (Math.abs(row) + Math.abs(col) < 5)
+        quad(
+          [x - 0.85, y - 0.7, 0.01],
+          [x + 1, y - 0.7, 0.01],
+          [x + 1, y + 0.85, 0.01],
+          [x - 0.85, y + 0.85, 0.01],
+          [0.46, 0.47, 0.34],
+        );
       box(x, y, 0.72, 0.57, h, 0, [
         0.7 + n * 0.12,
         0.64 + n * 0.1,
