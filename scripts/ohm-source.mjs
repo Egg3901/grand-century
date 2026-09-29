@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 import process from 'node:process';
 import {
   auditOhmGeometry,
@@ -30,6 +31,7 @@ function usage() {
   ].join('\n');
 }
 
+// --refresh --resume on geometry-audit fetches missing chunks only; cached queries must still match.
 const args = process.argv.slice(2);
 const command = args[0];
 const refresh = args.includes('--refresh');
@@ -93,7 +95,7 @@ if (command === 'discover') {
   for (let offset = 0; offset < relationIds.length; offset += chunkSize) {
     const chunk = relationIds.slice(offset, offset + chunkSize);
     const cachePath = path.join(resolvedCacheDir, `relations-${String(offset / chunkSize).padStart(3, '0')}.json`);
-    const document = await queryOverpassCached(curatedRelationsQuery(chunk), { cachePath, refresh });
+    const document = await queryOverpassCached(curatedRelationsQuery(chunk), { cachePath, refresh: refresh && !(args.includes('--resume') && existsSync(cachePath)) });
     entries.push(...auditOhmGeometry(document, { asOf: discovery.asOf, relationIds: chunk }));
   }
   const counts = Object.fromEntries(

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1830-01-01",
+  "description": "Geographic acceptance assertions for replacement province data. Passing engine/name tests alone does not establish map accuracy. These location-based assertions deliberately fail the legacy region-majority map.",
+  "points": [
+    {"key":"london","name":"London","point":[-0.118668,51.501941],"owner":"ENG","forbidProvinceNames":["Midlands"]},
+    {"key":"edinburgh","name":"Edinburgh","point":[-3.219091,55.948328],"owner":"ENG","forbidProvinceNames":["Midlands"]},
+    {"key":"cardiff","name":"Cardiff","point":[-3.18,51.48],"owner":"ENG","forbidProvinceNames":["Midlands"]},
+    {"key":"birmingham","name":"Birmingham","point":[-1.89,52.48],"owner":"ENG"},
+    {"key":"berlin","name":"Berlin","point":[13.399603,52.523764],"owner":"PRU","forbidProvinceNames":["Schlesien","Sachsen"]},
+    {"key":"dresden","name":"Dresden","point":[13.74,51.05],"owner":"SAX"},
+    {"key":"frankfurt","name":"Free City of Frankfurt","point":[8.68,50.11],"owner":"FRM"},
+    {"key":"parma","name":"Duchy of Parma","point":[10.320031,44.810429],"owner":"PAR"},
+    {"key":"lucca","name":"Duchy of Lucca","point":[10.50,43.84],"owner":"LUC"},
+    {"key":"modena","name":"Duchy of Modena","point":[10.93,44.65],"owner":"MOD"},
+    {"key":"milan","name":"Lombardy under Austria","point":[9.19,45.46],"owner":"AUS"},
+    {"key":"venice","name":"Venetia under Austria","point":[12.33,45.44],"owner":"AUS"},
+    {"key":"turin","name":"Sardinia-Piedmont","point":[7.69,45.07],"owner":"SAR"},
+    {"key":"quebec","name":"Lower Canada","point":[-71.24561,46.839969],"owner":"ENG"},
+    {"key":"york","name":"Upper Canada","point":[-79.389459,43.664645],"owner":"ENG"},
+    {"key":"halifax","name":"Nova Scotia","point":[-63.57,44.65],"owner":"ENG"},
+    {"key":"labrador","name":"Labrador coast","point":[-60.38,53.3],"owner":"ENG"}
+  ],
+  "distinctProvinces": [["london","edinburgh","cardiff","birmingham"],["quebec","york","halifax"],["parma","lucca","modena","milan","venice","turin"]],
+  "waterPoints": [
+    {"name":"Hudson Bay","point":[-85,60]},
+    {"name":"Lake Ontario","point":[-77.9,43.7]},
+    {"name":"North Sea","point":[3,56]}
+  ],
+  "sourcePolicy": {
+    "date":"Exact scenario date, with explicit reviewed exceptions only",
+    "geometry":"Dated OHM relations or hash-pinned licensed historical supplements; never region-majority ownership or an undetected procedural fallback",
+    "provinces":"Explicit curated subdivisions with persistent keys; small polities cannot be removed by aggregation",
+    "topology":"One shared-edge topology for fills, borders, adjacency, collision and picking; simplify shared arcs once",
+    "rendering":"Build multiresolution assets from the same geometry fingerprint; no independent hand-edited border layer",
+    "promotion":"Require valid rings, no exclusive overlaps, reviewed land coverage, all geographic assertions and visual regional snapshots before replacing the legacy atlas"
+  },
+  "evidence": [
+    "https://www.openhistoricalmap.org/relation/2828388",
+    "https://www.openhistoricalmap.org/relation/2913636",
+    "https://www.openhistoricalmap.org/relation/2693578",
+    "https://www.openhistoricalmap.org/relation/2690440",
+    "https://www.openhistoricalmap.org/relation/2696938",
+    "https://www.openhistoricalmap.org/relation/2696937",
+    "https://www.openhistoricalmap.org/relation/2830999",
+    "https://www.openhistoricalmap.org/relation/2831002"
+  ]
+}

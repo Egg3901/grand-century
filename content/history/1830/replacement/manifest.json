@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1830-01-01",
+  "status": "source-audit",
+  "runtimeApproved": false,
+  "legacyProblems": {
+    "provinceFeatures": 387,
+    "geographicContractFailures": 9,
+    "invalidGeometryFeatures": 189,
+    "invalidGeometryDetail": {"degenerateComponents":177,"nestedShells":12},
+    "note": "Geometry counts indicate features containing invalid components, not that every component in those features is invalid. Region-majority ownership and missing subdivisions are separate historical defects."
+  },
+  "candidateSources": {
+    "OpenHistoricalMap": {"datedNationalCandidates":219,"validGeometry":213,"unresolvedGeometry":6},
+    "Cliopatria": {"role":"Reviewed historical supplements, not automatic gap filling","sourceManifest":"content/sources/cliopatria/source.json"},
+    "NaturalEarth": {"role":"Physical coastline/hydrography and settlement coordinates, not evidence for 1830 sovereignty"}
+  },
+  "requiredBeforePromotion": [
+    "Curate the exact-date polity roster, including dependencies, disputed authority and all small states. Discovery output is not approval.",
+    "Resolve each of the six malformed national source geometries using documented endpoint corrections or hash-pinned historical supplements.",
+    "Complete source-backed province subdivisions. Existing OHM coverage includes Scotland, Wales and Ireland but is incomplete for English counties; record and resolve coverage gaps explicitly.",
+    "Assign persistent province keys and retain an append-only runtime ID registry. Produce explicit save migration/version handling; never renumber by sorting names.",
+    "Compile one shared-edge topology with holes and enclaves. Derive adjacency, national borders, fills and picking from it; simplify shared arcs once at each level of detail.",
+    "Validate exclusive overlaps, missing land coverage against a pinned physical coastline, province ownership and roster coverage. Require all geographic-contract assertions.",
+    "Build tiled levels of detail and fingerprints for 2D/3D from the same compiled geography. A 4096-pixel global province mask must not define close-zoom border precision.",
+    "Review regional visual baselines for Britain, Canada, the German states and northern Italy in political/terrain/2D modes before replacing the runtime atlas."
+  ],
+  "promotionCommands": [
+    "node scripts/audit-geography.mjs --strict",
+    "python scripts/audit-map-topology.py",
+    "node scripts/check-terrain-fingerprint.mjs"
+  ]
+}
