@@ -3,10 +3,10 @@ name: Native mobile
 on:
   workflow_dispatch:
   pull_request:
-    paths: ['apps/mobile/**', 'src/**', 'scripts/sync-mobile-atlas.mjs', 'tests/graphics.terrain.test.ts', 'tests/perf.budgets.test.ts', 'tests/e2e/graphics-terrain.spec.ts', 'playwright.graphics.config.ts', 'package*.json', '.github/workflows/mobile.yml']
+    paths: ['apps/mobile/**', 'src/**', 'scripts/sync-mobile-atlas.mjs', 'tests/graphics.terrain.test.ts', 'tests/perf.budgets.test.ts', 'tests/e2e/graphics-terrain.spec.ts', 'playwright.graphics.config.ts', 'playwright.native-graphics.config.ts', 'tests/native-graphics/**', 'scripts/ios-graphics-smoke.sh', 'scripts/mobile-flags.test.mjs', 'package*.json', '.github/workflows/mobile.yml']
   push:
     branches: [master]
-    paths: ['apps/mobile/**', 'src/**', 'scripts/sync-mobile-atlas.mjs', 'tests/graphics.terrain.test.ts', 'tests/perf.budgets.test.ts', 'tests/e2e/graphics-terrain.spec.ts', 'playwright.graphics.config.ts', 'package*.json', '.github/workflows/mobile.yml']
+    paths: ['apps/mobile/**', 'src/**', 'scripts/sync-mobile-atlas.mjs', 'tests/graphics.terrain.test.ts', 'tests/perf.budgets.test.ts', 'tests/e2e/graphics-terrain.spec.ts', 'playwright.graphics.config.ts', 'playwright.native-graphics.config.ts', 'tests/native-graphics/**', 'scripts/ios-graphics-smoke.sh', 'scripts/mobile-flags.test.mjs', 'package*.json', '.github/workflows/mobile.yml']
 
 permissions:
   contents: read
@@ -19,7 +19,7 @@ jobs:
   checks:
     name: Web and mobile checks
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -31,20 +31,21 @@ jobs:
             apps/mobile/package-lock.json
       - run: npm ci
       - run: npm ci --prefix apps/mobile
-      - run: node --test scripts/project-mobile-relief.test.mjs
+      - run: node --test scripts/project-mobile-relief.test.mjs scripts/mobile-flags.test.mjs
       - run: npm run mobile:typecheck
       - run: npm --prefix apps/mobile run bundle:workers:ios
-      - run: npx vitest run --project unit tests/mobile.mapLabelPlacement.test.ts
-      - run: npx vitest run --project unit tests/graphics.terrain.test.ts tests/perf.budgets.test.ts
+      - run: npm test -- --maxWorkers=2
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test --config playwright.graphics.config.ts
+      - run: npx playwright test --config playwright.native-graphics.config.ts
   ios:
-    name: iOS simulator compile
+    name: iOS simulator render
     runs-on: macos-26
     timeout-minutes: 45
     env:
       CI: '1'
+      EXPO_PUBLIC_GRAPHICS_SMOKE: '1'
       DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
     steps:
       - uses: actions/checkout@v4
@@ -72,3 +73,12 @@ jobs:
           -destination 'generic/platform=iOS Simulator'
           -derivedDataPath "$RUNNER_TEMP/grand-century-derived"
           CODE_SIGNING_ALLOWED=NO build
+      - name: Render on an iPhone simulator
+        run: bash scripts/ios-graphics-smoke.sh
+      - name: Upload native rendering evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-graphics-smoke
+          path: ${{ runner.temp }}/graphics-evidence
+          if-no-files-found: ignore

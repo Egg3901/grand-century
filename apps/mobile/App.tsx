@@ -2,13 +2,16 @@ import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } fro
 import { StatusBar } from 'expo-status-bar';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Camera, GeoJSONSource, ImageSource, Images, Layer, Map, type MapRef } from '@maplibre/maplibre-react-native';
-import { AppState, Modal, ScrollView, FlatList, Image, Pressable, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
+import { Alert, AppState, ScrollView, FlatList, Image, Pressable, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { GameMenus, MenuButton, gamePanels, type GamePanel } from './game/GameMenus';
 import atlas from './assets/game/atlas.json';
 import borders from './assets/game/borders.json';
 import { File, Paths } from 'expo-file-system';
 import { GRAPHICS_KEY, parseGraphicsMode, type GraphicsMode } from '../../src/graphics/preferences';
 const TerrainMap = lazy(() => import('./game/TerrainMap'));
 import type { View as TerrainView } from '../../src/graphics/terrainData';
+import { NationFlag } from './game/NationFlag';
 import terrainAttribution from '../../src/graphics/terrain-attribution.json';
 const graphicsFile = new File(Paths.document, GRAPHICS_KEY + '.json');
 import worldSeed from './assets/game/worldSeed.json';
@@ -51,7 +54,7 @@ function compact(value: number): string {
   return `${Math.round(value)}`;
 }
 
-function NationPicker({ onSelect }: { onSelect: (nation: Nation) => void }) {
+function NationPicker({ onSelect, onBack }: { onSelect: (nation: Nation) => void; onBack:()=>void }) {
   const [query, setQuery] = useState('');
   const nations = useMemo(() => worldSeed.nations
     .filter((nation) => nation.name.toLowerCase().includes(query.trim().toLowerCase()))
@@ -59,7 +62,7 @@ function NationPicker({ onSelect }: { onSelect: (nation: Nation) => void }) {
   return (
     <View style={styles.page}>
       <View style={styles.hero}>
-        <Text style={styles.brand}>GRAND CENTURY</Text>
+        <Pressable accessibilityRole="button" accessibilityLabel="Back to main menu" onPress={onBack} style={{minHeight:44,justifyContent:'center'}}><Text style={styles.brand}>‹ GRAND CENTURY</Text></Pressable>
         <Text style={styles.heroFoot}>NEW CAMPAIGN  /  1830  /  SINGLE PLAYER</Text>
       </View>
       <View style={styles.pickerContent}>
@@ -86,7 +89,7 @@ function colorOf(nation: Nation) {
   return `#${nation.color.map((part) => part.toString(16).padStart(2, '0')).join('')}`;
 }
 
-function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
+function Atlas({ nation, onHome, active }: { nation: Nation; onHome: () => void; active:boolean }) {
   const screenHeight=useWindowDimensions().height;
   const mapRef = useRef<MapRef>(null);
   const terrainCamera=useRef<TerrainView|null>(null);
@@ -98,7 +101,9 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
   const [actionMessage, setActionMessage] = useState('');
   const [graphics,setGraphics]=useState<GraphicsMode>(()=>{try{return parseGraphicsMode(graphicsFile.exists?graphicsFile.textSync():null);}catch{return '2d';}});
   const [graphicsNotice,setGraphicsNotice]=useState('');
-  const [showCredits,setShowCredits]=useState(false);
+  const [panel,setPanel]=useState<GamePanel|null>(null);
+  const openPanel=(next:GamePanel)=>{ transport?.send({t:'command',cmd:{t:'setSpeed',speed:0}}); setActionMessage(''); setPanel(next); };
+  useEffect(()=>{if(!active)transport?.send({t:'command',cmd:{t:'setSpeed',speed:0}});},[active,transport]);
   const chooseGraphics=useCallback((value:GraphicsMode)=>{setGraphics(value);setGraphicsNotice('');try{graphicsFile.write(value);}catch{/* Keep the working session preference. */}},[]);
   const graphicsFallback=useCallback((reason:string)=>{chooseGraphics('2d');setGraphicsNotice(reason);},[chooseGraphics]);
   const [mapSize, setMapSize] = useState({ width: 0, height: 0 });
@@ -125,13 +130,13 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
       catch { return null; }
     }));
     if (run !== projectionRun.current) return;
-    const bottomReserved = province ? 215 : 72;
+    const bottomReserved = province ? 320 : 116;
     setVisibleLabelTags(positions.filter((position): position is { tag: string; point: [number, number] } => {
       if (!position) return false;
       const image = Image.resolveAssetSource(labelImages[`nation-${position.tag}` as keyof typeof labelImages]);
       return labelFitsViewport({ point: position.point, imageWidth: image.width,
         imageHeight: image.height, iconScale: 0.5, mapWidth: mapSize.width,
-        mapHeight: mapSize.height, topInset: 205,
+        mapHeight: mapSize.height, topInset: 176,
         bottomInset: bottomReserved, sideInset: 12 });
     }).map((position) => position.tag));
   }
@@ -165,7 +170,7 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
 
   return (
     <View style={styles.mapPage}>
-      {graphics!=='2d'?<Suspense fallback={<Text style={{position:'absolute',top:'45%',alignSelf:'center'}}>Loading terrain...</Text>}><TerrainMap key={graphics} quality={graphics==='high'?'high':'balanced'} camera={terrainCamera} focus={focus} snapshot={snapshot} political={mapMode==='political'} selected={province?.id??null} onFallback={graphicsFallback} onSelect={id=>{setProvince(worldSeed.provinces.find(p=>p.id===id)??null);setActionMessage('');}}/></Suspense>:<Map ref={mapRef} mapStyle={mapStyle} style={styles.map} touchRotate={false} touchPitch={false} preferredFramesPerSecond={30}
+      {active && (graphics!=='2d'?<Suspense fallback={<Text style={{position:'absolute',top:'45%',alignSelf:'center'}}>Loading terrain...</Text>}><TerrainMap visible={panel===null} key={graphics} quality={graphics==='high'?'high':'balanced'} camera={terrainCamera} focus={focus} snapshot={snapshot} political={mapMode==='political'} selected={province?.id??null} onFallback={graphicsFallback} onSelect={id=>{setProvince(worldSeed.provinces.find(p=>p.id===id)??null);setActionMessage('');}}/></Suspense>:<Map ref={mapRef} mapStyle={mapStyle} style={styles.map} touchRotate={false} touchPitch={false} preferredFramesPerSecond={30}
         onLayout={(event) => setMapSize(event.nativeEvent.layout)}
         onDidFinishLoadingMap={() => { void placeLabels(); }}
         onRegionWillChange={() => { projectionRun.current += 1; setVisibleLabelTags([]); }}
@@ -224,12 +229,12 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
               'symbol-avoid-edges': true, 'icon-allow-overlap': false,
               'icon-ignore-placement': false, 'icon-anchor': 'center' }} />
         </GeoJSONSource>
-      </Map>}
+      </Map>)}
       <View style={styles.topBar}>
-        <Pressable accessibilityRole="button" accessibilityLabel="Choose another nation" onPress={onBack} style={styles.backButton}>
-          <Text style={styles.backText}>‹</Text>
+        <Pressable accessibilityRole="button" accessibilityLabel="Open campaign menu" onPress={()=>openPanel('menu')} style={styles.backButton}>
+          <Ionicons name="menu" size={25} color="#f1eadc"/>
         </Pressable>
-        <View style={styles.topTitleBlock}><Text style={styles.topEyebrow}>PLAYING AS</Text><Text style={styles.topTitle} numberOfLines={1}>{nation.name}</Text><Text style={styles.topStatus}>{player?.atWar ? 'At war' : 'At peace'}  ·  Unrest {player?.unrest.toFixed(2) ?? '...'}</Text></View>
+        <View style={{paddingLeft:10}}><NationFlag tag={nation.tag} name={nation.name} color={nation.color}/></View><View style={styles.topTitleBlock}><Text style={styles.topEyebrow}>PLAYING AS</Text><Text style={styles.topTitle} numberOfLines={1}>{nation.name}</Text><Text style={styles.topStatus}>{player?.atWar ? 'At war' : 'At peace'}  ·  Unrest {player?.unrest.toFixed(2) ?? '...'}</Text></View>
       </View>
       <View style={styles.summaryBar}>
         <View style={styles.summaryItem}><Text style={styles.summaryLabel}>TREASURY</Text><Text style={styles.summaryValue}>{player ? `£${Math.round(player.treasury).toLocaleString()}` : '...'}</Text></View>
@@ -240,13 +245,6 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
         <View style={styles.secondaryItem}><Ionicons name="construct-outline" size={14} color="#42565a" /><Text style={styles.secondaryLabel}> INDUSTRY</Text><Text style={styles.secondaryValue}>{player?.industryScore ?? '...'}</Text></View>
         <View style={styles.secondaryItem}><Ionicons name="shield-outline" size={14} color="#42565a" /><Text style={styles.secondaryLabel}> MILITARY</Text><Text style={styles.secondaryValue}>{player?.militaryScore ?? '...'}</Text></View>
         <View style={styles.secondaryItem}><Ionicons name="star-outline" size={14} color="#42565a" /><Text style={styles.secondaryLabel}> PRESTIGE</Text><Text style={styles.secondaryValue}>{player ? Math.round(player.prestige) : '...'}</Text></View>
-      </View>
-      {graphics!=='2d'&&<Pressable accessibilityRole="button" accessibilityLabel="Terrain data credits" onPress={()=>setShowCredits(true)} style={{position:'absolute',left:8,bottom:105,backgroundColor:'#18272ddd',padding:7}}><Text style={{fontSize:10,color:paper}}>Terrain data credits</Text></Pressable>}
-      <Modal visible={showCredits} animationType="slide" onRequestClose={()=>setShowCredits(false)}><View style={{flex:1,padding:24,paddingTop:60,backgroundColor:paper}}><Pressable accessibilityRole="button" onPress={()=>setShowCredits(false)} style={{minHeight:44}}><Text style={{color:ink,fontWeight:'700'}}>Close terrain credits</Text></Pressable><ScrollView><Text selectable style={{color:ink,lineHeight:20}}>{terrainAttribution.text}</Text></ScrollView></View></Modal>
-      <View style={styles.graphicsBar}>
-        <Pressable accessibilityRole="button" accessibilityLabel="2D low power graphics" accessibilityState={{selected:graphics==='2d'}} onPress={()=>chooseGraphics('2d')} style={[styles.graphicsButton,graphics==='2d'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='2d'&&styles.mapModeSelectedText]}>2D · Low power</Text></Pressable>
-        <Pressable accessibilityRole="button" accessibilityLabel="3D terrain graphics" accessibilityState={{selected:graphics==='3d'}} onPress={()=>chooseGraphics('3d')} style={[styles.graphicsButton,graphics==='3d'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='3d'&&styles.mapModeSelectedText]}>3D · Balanced</Text></Pressable>
-        <Pressable accessibilityRole="button" accessibilityLabel="3D high quality graphics" accessibilityState={{selected:graphics==='high'}} onPress={()=>chooseGraphics('high')} style={[styles.graphicsButton,graphics==='high'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='high'&&styles.mapModeSelectedText]}>3D · High</Text></Pressable>
       </View>
       {!!graphicsNotice&&<Text accessibilityRole="alert" style={styles.graphicsNotice}>{graphicsNotice}</Text>}
       <View style={styles.mapModeBar}>
@@ -261,8 +259,15 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
           <Text style={[styles.mapModeText, mapMode === 'terrain' && styles.mapModeSelectedText]}>Terrain</Text>
         </Pressable>
       </View>
+      {panel&&<GameMenus page={panel} onPage={openPanel} onClose={()=>setPanel(null)} onHome={()=>{setPanel(null);onHome();}} snapshot={snapshot} notice={actionMessage} selectedProvince={province?.id??null}
+        send={cmd=>{setActionMessage('Order sent.');transport?.send({t:'command',cmd});}}
+        graphics={<><View style={styles.graphicsOptions}>
+        <Pressable accessibilityRole="button" accessibilityLabel="2D low power graphics" accessibilityState={{selected:graphics==='2d'}} onPress={()=>chooseGraphics('2d')} style={[styles.graphicsButton,graphics==='2d'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='2d'&&styles.mapModeSelectedText]}>2D · Low power</Text></Pressable>
+        <Pressable accessibilityRole="button" accessibilityLabel="3D terrain graphics" accessibilityState={{selected:graphics==='3d'}} onPress={()=>chooseGraphics('3d')} style={[styles.graphicsButton,graphics==='3d'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='3d'&&styles.mapModeSelectedText]}>3D · Balanced</Text></Pressable>
+        <Pressable accessibilityRole="button" accessibilityLabel="3D high quality graphics" accessibilityState={{selected:graphics==='high'}} onPress={()=>chooseGraphics('high')} style={[styles.graphicsButton,graphics==='high'&&styles.mapModeSelected]}><Text style={[styles.mapModeText,graphics==='high'&&styles.mapModeSelectedText]}>3D · High</Text></Pressable>
+      </View><Text style={{color:ink,lineHeight:21}}>{terrainAttribution.text}</Text></>}/>}
       <View style={styles.bottomDock}>
-      {province && <View style={styles.provinceSheet}>
+      {province && <ScrollView style={[styles.provinceSheet,{maxHeight:screenHeight*.35}]} contentContainerStyle={{paddingBottom:12}}>
         <View style={styles.sheetHeader}><View><Text style={styles.eyebrow}>PROVINCE  /  {province.terrain.toUpperCase()}</Text><Text style={styles.sheetTitle}>{province.name}</Text></View>
           <Pressable accessibilityRole="button" accessibilityLabel="Close province detail" onPress={() => setProvince(null)}><Text style={styles.closeText}>×</Text></Pressable></View>
         <View style={styles.provinceFacts}><View><Text style={styles.factLabel}>OWNER</Text><Text style={styles.factValue}>{owner?.name ?? province.ownerTag}</Text></View><View><Text style={styles.factLabel}>POPULATION</Text><Text style={styles.factValue}>{selected?.population.toLocaleString() ?? '...'}</Text></View><View><Text style={styles.factLabel}>UNREST</Text><Text style={styles.factValue}>{selected ? selected.unrestRisk.toFixed(2) : '...'}</Text></View></View>
@@ -271,7 +276,8 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
           <Ionicons name="add-circle-outline" size={15} color="#f1eadc" /><Text style={styles.provinceActionText}>Recruit regiment</Text>
         </Pressable>}
         {!!actionMessage && <Text style={styles.actionMessage}>{actionMessage}</Text>}
-      </View>}
+      </ScrollView>}
+      <View style={styles.navigationBar}>{gamePanels.map(p=><Pressable key={p.key} accessibilityRole="button" accessibilityLabel={`Open ${p.label}`} onPress={()=>openPanel(p.key)} style={styles.navigationButton}><Text style={styles.navigationText}>{p.label}</Text></Pressable>)}<Pressable accessibilityRole="button" accessibilityLabel="Open map settings" onPress={()=>openPanel('graphics')} style={styles.navigationButton}><Ionicons name="settings-outline" size={21} color={paper}/></Pressable></View>
       <View style={styles.clockBar}>
         <View><Text style={styles.clockLabel}>DATE  /  SPEED {snapshot?.speed ?? 0}</Text><Text style={styles.clockText}>{snapshot ? `${snapshot.date.day} / ${snapshot.date.month} / ${snapshot.date.year}` : 'Loading...'}</Text></View>
         <View style={styles.speedControls}>
@@ -293,17 +299,45 @@ function Atlas({ nation, onBack }: { nation: Nation; onBack: () => void }) {
 }
 
 export default function App() {
-  const [nation, setNation] = useState<Nation | null>(null);
-  return <View style={styles.root}>
-    <StatusBar style={nation ? 'light' : 'dark'} />
-    {nation ? <Atlas nation={nation} onBack={() => setNation(null)} /> : <NationPicker onSelect={setNation} />}
-  </View>;
+  const [nation,setNation]=useState<Nation|null>(null);
+  const [screen,setScreen]=useState<'home'|'picker'|'game'>('home');
+  const [campaign,setCampaign]=useState(0);
+  const startNew=()=>{
+    if(nation) Alert.alert('Start a new campaign?','This replaces your current campaign.',[
+      {text:'Keep campaign',style:'cancel'},
+      {text:'Choose nation',style:'destructive',onPress:()=>setScreen('picker')},
+    ]);
+    else setScreen('picker');
+  };
+  return <SafeAreaProvider><SafeAreaView style={{flex:1,backgroundColor:navy}}>
+    <StatusBar style="light"/>
+    <View style={styles.root}>
+      {nation&&<View style={{flex:1,display:screen==='game'?'flex':'none'}}><Atlas key={campaign} nation={nation} active={screen==='game'} onHome={()=>setScreen('home')}/></View>}
+      {screen==='picker'&&<NationPicker onBack={()=>setScreen('home')} onSelect={chosen=>{setNation(chosen);setCampaign(n=>n+1);setScreen('game');}}/>}
+      {screen==='home'&&<ScrollView contentContainerStyle={styles.home}>
+        <Image source={require('./assets/grand-century-icon.png')} style={{width:144,height:144,borderRadius:24}} accessibilityLabel="Grand Century"/>
+        <Text style={styles.homeTitle}>GRAND CENTURY</Text>
+        <Text style={styles.homeSubtitle}>A world to shape. A century to remember.</Text>
+        {nation&&<MenuButton label={`Resume ${nation.name}`} onPress={()=>setScreen('game')}/>}
+        <MenuButton label="New campaign" onPress={startNew}/>
+        <View style={styles.homeGuide}><Text style={styles.title}>Your campaign</Text><Text style={styles.homeCopy}>Choose a country in 1830. Manage its economy, raise armies, build alliances and pursue research.</Text><Text style={styles.homeCopy}>Use the menu button or the bottom navigation to open your government panels. Select a province to inspect it. Press play to advance time.</Text><Text style={styles.homeCopy}>Your current campaign can be resumed during this app session.</Text></View>
+      </ScrollView>}
+    </View>
+  </SafeAreaView></SafeAreaProvider>;
 }
 
 const styles = StyleSheet.create({
+  home:{flexGrow:1,padding:24,gap:22,backgroundColor:navy,alignItems:'stretch'},
+  homeTitle:{fontSize:30,fontWeight:'800',color:paper,letterSpacing:2},
+  homeSubtitle:{fontSize:17,color:'#c9aa71',lineHeight:25},
+  homeGuide:{backgroundColor:paper,padding:18,gap:12,borderRadius:4},
+  homeCopy:{fontSize:15,lineHeight:23,color:ink},
+  navigationBar:{flexDirection:'row',backgroundColor:navy,borderTopWidth:1,borderColor:wax},
+  navigationButton:{flex:1,minHeight:48,alignItems:'center',justifyContent:'center'},
+  navigationText:{fontSize:11,fontWeight:'700',color:paper},
   root: { flex: 1, backgroundColor: paper },
   page: { flex: 1 },
-  hero: { backgroundColor: navy, paddingTop: 52, paddingHorizontal: 16, paddingBottom: 12, borderBottomColor: wax, borderBottomWidth: 2 },
+  hero: { backgroundColor: navy, paddingTop: 12, paddingHorizontal: 16, paddingBottom: 12, borderBottomColor: wax, borderBottomWidth: 2 },
   brand: { color: '#f1eadc', fontSize: 16, fontWeight: '800', letterSpacing: 2 },
   heroFoot: { color: '#afbbb9', fontSize: 9, fontWeight: '700', letterSpacing: 1, marginTop: 5 },
   pickerContent: { flex: 1, paddingHorizontal: 12, paddingTop: 15 },
@@ -322,25 +356,25 @@ const styles = StyleSheet.create({
   emptyText: { color: '#66747a', paddingVertical: 24 },
   mapPage: { flex: 1, backgroundColor: '#a5bec5' },
   map: { flex: 1 },
-  topBar: { position: 'absolute', top: 0, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', backgroundColor: navy, paddingTop: 40, height: 106, borderBottomColor: wax, borderBottomWidth: 2 },
+  topBar: { position: 'absolute', top: 0, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', backgroundColor: navy, paddingTop: 0, height: 76, borderBottomColor: wax, borderBottomWidth: 2 },
   backButton: { width: 48, height: 64, alignItems: 'center', justifyContent: 'center', borderRightColor: '#4b5a5d', borderRightWidth: 1 },
   backText: { color: '#f1eadc', fontSize: 28, lineHeight: 31 },
   topTitleBlock: { flex: 1, paddingLeft: 11 },
   topEyebrow: { color: '#c9aa71', fontSize: 9, fontWeight: '800', letterSpacing: 0.9 },
   topTitle: { color: '#f1eadc', fontSize: 17, fontWeight: '800', marginTop: 1 },
   topStatus: { color: '#c4d0cc', fontSize: 10, fontWeight: '700', marginTop: 1 },
-  summaryBar: { position: 'absolute', top: 106, left: 0, right: 0, flexDirection: 'row', backgroundColor: '#f4f1e8', borderBottomColor: '#878e8b', borderBottomWidth: 1, paddingVertical: 6 },
+  summaryBar: { position: 'absolute', top: 76, left: 0, right: 0, flexDirection: 'row', backgroundColor: '#f4f1e8', borderBottomColor: '#878e8b', borderBottomWidth: 1, paddingVertical: 6 },
   summaryItem: { flex: 1, alignItems: 'center', borderRightColor: '#b4b8af', borderRightWidth: 1 },
   summaryLabel: { color: '#42565a', fontSize: 9, fontWeight: '800', letterSpacing: 0.3 },
   summaryValue: { color: ink, fontSize: 13, fontWeight: '800', marginTop: 2 },
-  secondaryBar: { position: 'absolute', top: 155, left: 0, right: 0, flexDirection: 'row', backgroundColor: '#dfdfd2', borderBottomColor: '#878e8b', borderBottomWidth: 1, height: 38, alignItems: 'center' },
+  secondaryBar: { position: 'absolute', top: 125, left: 0, right: 0, flexDirection: 'row', backgroundColor: '#dfdfd2', borderBottomColor: '#878e8b', borderBottomWidth: 1, height: 38, alignItems: 'center' },
   secondaryItem: { flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderRightColor: '#b4b8af', borderRightWidth: 1 },
   secondaryLabel: { color: '#42565a', fontSize: 9, fontWeight: '800' },
   secondaryValue: { color: ink, fontSize: 12, fontWeight: '800', marginLeft: 4 },
-  graphicsBar: {position:'absolute',bottom:150,right:7,flexDirection:'row',backgroundColor:'#f4f1e8',borderWidth:1,borderColor:'#87918b'},
+  graphicsOptions: {gap:12,backgroundColor:'#f4f1e8',borderWidth:1,borderColor:'#87918b'},
   graphicsButton:{minHeight:44,paddingHorizontal:8,justifyContent:'center'},
   graphicsNotice:{position:'absolute',bottom:300,right:8,left:8,padding:10,backgroundColor:'#f4f1e8',color:ink},
-  mapModeBar: { position: 'absolute', bottom: 201, right: 7, flexDirection: 'row', borderColor: '#87918b', borderWidth: 1, backgroundColor: '#f4f1e8' },
+  mapModeBar: { position: 'absolute', bottom: 126, right: 7, flexDirection: 'row', borderColor: '#87918b', borderWidth: 1, backgroundColor: '#f4f1e8' },
   mapModeButton: { minHeight: 30, flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8 },
   mapModeSelected: { backgroundColor: navy },
   mapModeText: { color: ink, fontSize: 10, fontWeight: '800' },
