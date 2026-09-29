@@ -490,3 +490,10 @@
   .gc-graphics-notice { bottom:calc(env(safe-area-inset-bottom) + 270px); width:calc(100vw - 32px); }
   .gc-terrain-credit { bottom:calc(env(safe-area-inset-bottom) + 148px); font-size:9px; }
 }
+
+.gc-atmosphere-controls { bottom: 126px; }
+.gc-atmosphere-controls summary { cursor: pointer; min-height: 28px; }
+.gc-atmosphere-controls select { min-height: 36px; max-width: 100%; }
+@media (max-width: 760px) {
+  .gc-atmosphere-controls { bottom: calc(env(safe-area-inset-bottom) + 274px); }
+}

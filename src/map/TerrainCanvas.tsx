@@ -472,11 +472,11 @@ export function TerrainCanvas({
         </div>
       )}
       <details
+        className="gc-atmosphere-controls"
         style={{
           position: "absolute",
           maxWidth: "calc(100% - 24px)",
           left: 12,
-          bottom: 42,
           background: "#112c35",
           color: "#f4efdd",
           padding: 8,

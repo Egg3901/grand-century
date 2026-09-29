@@ -327,6 +327,8 @@ test("close-zoom frontiers follow ownership even when nations have identical col
 test("fine terrain, day/night cycle and weather draw real pixels and persist controls", async ({
   page,
 }) => {
+  // Five full pixel readbacks use software GL in CI; camera timing has its own native gate.
+  test.setTimeout(180000);
   await page.setViewportSize({ width: 430, height: 932 });
   await page.addInitScript(() => {
     localStorage.setItem("grand-century.tutorial.v0_2_0.seen", "1");

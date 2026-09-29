@@ -42,14 +42,14 @@ vec3 atmosphereColor(vec3 color,vec3 sun,vec3 weather){
  color=mix(color,mist,haze);
  vec2 screen=gl_FragCoord.xy/max(viewport.y,1.0);
  if(weather.y>.01){
-  vec2 p=screen*vec2(190.0,37.0)+vec2(clock*11.0,-clock*38.0);
+  vec2 p=screen*vec2(190.0,37.0)+vec2(clock*11.0,clock*38.0);
   p.x+=p.y*.14;
   vec2 f=fract(p),cell=floor(p);
   float streak=(1.0-smoothstep(.018,.05,abs(f.x-.5)))*smoothstep(.12,.25,f.y)*(1.0-smoothstep(.72,.9,f.y));
   color=mix(color,mist+vec3(.13),streak*step(.66,hash(cell))*weather.y*.38);
  }
  if(weather.z>.01){
-  vec2 p=screen*110.0+vec2(sin(clock*.6)*1.8,-clock*3.8);
+  vec2 p=screen*110.0+vec2(sin(clock*.6)*1.8,clock*3.8);
   vec2 cell=floor(p),f=fract(p)-.5;
   float flake=(1.0-smoothstep(.025,.09,length(f)))*step(.63,hash(cell));
   color=mix(color,mix(vec3(.48,.57,.69),vec3(.96),day),flake*weather.z*.85);
