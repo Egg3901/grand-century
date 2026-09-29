@@ -9,10 +9,14 @@ for (const width of [390, 430])
     await page
       .getByRole("button", { name: "New campaign", exact: true })
       .click();
-    await page.getByRole("button", { name: "Choose nation", exact: true }).click();
+    await page
+      .getByRole("button", { name: "Choose nation", exact: true })
+      .click();
     await page.getByRole("textbox", { name: "Search nations" }).fill("Algeria");
     await page.getByRole("button", { name: "Select Algeria" }).click();
-    await page.getByRole("button", { name: "Begin campaign as Algeria" }).click();
+    await page
+      .getByRole("button", { name: "Begin campaign as Algeria" })
+      .click();
     await expect(page.getByTestId("player-country-flag")).toBeVisible();
     await expect
       .poll(() =>
@@ -51,6 +55,19 @@ for (const width of [390, 430])
     await page.screenshot({
       path: `artifacts/native-ui-research-${width}.png`,
     });
+    await page.getByRole("button", { name: "All menus" }).click();
+    await page
+      .getByRole("button", { name: "Map and graphics", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "Lighting night", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "Weather snow", exact: true })
+      .click();
+    await expect(
+      page.getByRole("button", { name: "Lighting night", exact: true }),
+    ).toHaveAttribute("aria-pressed", "true");
     await page.getByRole("button", { name: "All menus" }).click();
     await page.getByRole("button", { name: "Main menu", exact: true }).click();
     await expect(

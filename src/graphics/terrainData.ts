@@ -35,7 +35,7 @@ export function geographic(x: number, y: number): [number, number] {
     (Math.atan(Math.sinh(Math.PI * (1 - 2 * y))) * 180) / Math.PI,
   ];
 }
-function decode(s: string): Uint8Array {
+export function decode(s: string): Uint8Array {
   // Hermes and browsers share this decoder; no Node Buffer or DOM dependency.
   const alphabet =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";

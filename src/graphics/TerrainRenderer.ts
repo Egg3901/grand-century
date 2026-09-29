@@ -1,3 +1,22 @@
+import "./terrainOffline";
+import { terrainHeightShader } from "./terrainHeightShader";
+import { atmosphereShader } from "./atmosphereShader";
+import {
+  atmosphereUniforms,
+  DEFAULT_ATMOSPHERE,
+  type Atmosphere,
+} from "./atmosphere";
+import {
+  heightPixels,
+  tilePlan,
+  loadHeightRegion,
+  regionElevation,
+  detailSpacingMeters,
+  type HeightRegion,
+} from "./terrainTiles";
+import { coastalDetail, physicalCoast } from "./physicalCoast";
+import materialAtlas from "./terrain-material.json";
+import { decode } from "./terrainData";
 import {
   provinceGeometry,
   type ProvinceDetail,
@@ -29,21 +48,9 @@ uniform vec2 extent;
 uniform vec2 tilt;
 uniform vec2 meshCenter;
 uniform vec2 meshExtent;
-uniform sampler2D heightMap;
-uniform float heightTexel;
 uniform float relief;
 uniform float scenery;
-float metersAt(vec2 at) {
-  vec2 bytes=texture2D(heightMap,at).ra;
-  return dot(floor(bytes*255.0+.5),vec2(1.0,256.0));
-}
-float heightAt(vec2 at) {
-  vec2 pixel=at/heightTexel-.5;
-  vec2 base=(floor(pixel)+.5)*heightTexel;
-  vec2 f=fract(pixel);
-  return mix(mix(metersAt(base),metersAt(base+vec2(heightTexel,0)),f.x),
-    mix(metersAt(base+vec2(0,heightTexel)),metersAt(base+vec2(heightTexel)),f.x),f.y);
-}
+${terrainHeightShader}
 varying vec2 uv;
 varying vec3 n;
 varying vec3 tint;
@@ -71,7 +78,8 @@ uniform sampler2D provinces;
 uniform sampler2D palette;
 uniform sampler2D normalMap;
 uniform sampler2D localProvinces;
-uniform sampler2D owners;
+uniform sampler2D materials;
+${terrainHeightShader}
 uniform vec4 localBounds;
 uniform float localTexel;
 uniform float localEnabled;
@@ -97,8 +105,8 @@ float idAt(vec2 p) {
   if(inLocal(p)>.5) return decodeId(texture2D(localProvinces,(p-localBounds.xy)/localBounds.zw).ra);
   return decodeId(texture2D(provinces,p).ra);
 }
-float ownerAt(float id) { return decodeId(texture2D(owners,vec2((id-.5)/1024.0,.5)).ra); }
-float landAt(vec2 p) { return step(.5,idAt(p)); }
+float ownerAt(float id) { return decodeId(texture2D(palette,vec2((id-.5)/1024.0,.75)).ra); }
+float landAt(vec2 p) { return texture2D(localProvinces,(p-localBounds.xy)/localBounds.zw).g; }
 float coastCoverage(vec2 p) {
   vec2 pixel=(p-localBounds.xy)/localBounds.zw/localTexel-.5;
   vec2 base=(floor(pixel)+.5)*localTexel*localBounds.zw+localBounds.xy;
@@ -115,10 +123,22 @@ float noise(vec2 p) {
   vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);
   return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);
 }
+${atmosphereShader}
+vec3 materialAt(vec2 p,vec2 quadrant){
+ // Mirrored coordinates avoid seam jumps without requiring repeat on NPOT textures.
+ vec2 tiled=abs(fract(p*.5)*2.0-1.0);
+ return texture2D(materials,(quadrant*.5+vec2(.003)+tiled*.494)*0.612304688).rgb;
+}
 void main() {
-  vec3 sun=normalize(vec3(-.4,.5,.77));
+  vec3 sun=sunAt(uv);
+  float meters=heightAt(uv);
+  vec3 weather=weatherAt(uv,meters);
   if(scenery>.5) {
-    gl_FragColor=vec4(tint*(.54+.62*max(0.0,dot(normalize(n),sun))),1.0);return;
+    float window=step(1.0,tint.b);
+    vec3 albedo=vec3(tint.rg,tint.b-window);
+    vec3 lit=illumination(albedo,normalize(n),sun);
+    lit+=vec3(1.0,.57,.18)*window*(1.0-daylight(sun))*.9;
+    gl_FragColor=vec4(atmosphereColor(lit,sun,weather),1.0);return;
   }
   if(uv.x<0.0||uv.x>1.0||uv.y<0.0||uv.y>1.0) discard;
   vec4 ground=texture2D(surface,uv);
@@ -145,13 +165,19 @@ void main() {
     float breaker=pow(max(0.0,sin(coast*18.0-clock*2.4+cross*1.7)),10.0);
     float shore=smoothstep(.77,.99,coast);
     sea=mix(sea,vec3(.71,.83,.79),shore*breaker*(.65+.35*fine)*.52);
-    water=sea;
-    if(coverage<.001) { gl_FragColor=vec4(water,1.0);return; }
+    water=illumination(sea,wn,sun);
+    if(coverage<.001) { gl_FragColor=vec4(atmosphereColor(water,sun,weather),1.0);return; }
   }
   vec2 edgeStep=inLocal(uv)>.5 ? localBounds.zw*localTexel : vec2(provinceTexel);
   if(id<.5) id=max(idAt(uv+vec2(edgeStep.x,0.0)),max(idAt(uv-vec2(edgeStep.x,0.0)),max(idAt(uv+vec2(0.0,edgeStep.y)),idAt(uv-vec2(0.0,edgeStep.y)))));
   vec2 oct=texture2D(normalMap,uv).ra*2.0-1.0;
   vec3 normal=normalize(vec3(oct,1.0-abs(oct.x)-abs(oct.y)));
+  if(detailInside(uv)>.5){
+    vec2 p=(uv-heightBounds.xy)/heightBounds.zw/detailHeightTexel-.5;
+    vec2 base=(floor(p)+.5)*detailHeightTexel,f=fract(p),d=detailHeightTexel;
+    vec2 encoded=mix(mix(texture2D(detailHeight,base).gb,texture2D(detailHeight,base+vec2(d.x,0)).gb,f.x),mix(texture2D(detailHeight,base+vec2(0,d.y)).gb,texture2D(detailHeight,base+d).gb,f.x),f.y)*2.0-1.0;
+    normal=normalize(vec3(encoded,1.0-abs(encoded.x)-abs(encoded.y)));
+  }
   // Smooth the baked kilometre-scale grain before adding continuous material detail.
   // This avoids enlarging individual atlas pixels into square patches near cities.
   if(closeDetail>0.0) {
@@ -161,16 +187,26 @@ void main() {
   ground.rgb=mix(ground.rgb,smoothGround,closeDetail*.85);
   }
   float broad=noise(uv*23000.0);
-  float grain=mix(broad,noise(uv*160000.0),closeDetail);
   float vegetation=smoothstep(.01,.10,ground.g-ground.r)*step(ground.b,ground.g);
-  // Fine canopy and exposed-rock variation is material detail, not invented mountain height.
-  vec3 material=ground.rgb*(.94+.10*broad+detail*(grain-.5)*(.025+vegetation*.06));
   float slope=1.0-normal.z;
-  float light=.32+.88*max(0.0,dot(normal,sun));
-  vec3 ambient=vec3(.83,.92,1.0);
-  vec3 land=material*mix(ambient,vec3(1.0,.97,.89),max(0.0,dot(normal,sun)))*light;
-  land*=1.0-slope*.13;
-  vec3 pigment=texture2D(palette,vec2((id-.5)/1024.0,.5)).rgb;
+  vec2 materialUV=uv*1800.0;
+  vec3 meadow=materialAt(materialUV,vec2(0,0));
+  vec3 forest=materialAt(materialUV*.7,vec2(0,1));
+  vec3 rock=materialAt(materialUV,vec2(1,0));
+  vec3 snow=materialAt(materialUV*.8,vec2(1,1));
+  float forestCover=vegetation*smoothstep(.35,.68,noise(uv*370.0))*(1.0-smoothstep(1600.0,2600.0,meters));
+  vec3 albedo=mix(meadow,forest,forestCover*.8);
+  albedo=mix(albedo,rock,smoothstep(.04,.34,slope)*smoothstep(400.0,1500.0,meters));
+  float latitude=latitudeAt(uv);
+  float snowline=3300.0-abs(latitude)*700.0+sin(latitude)*sin(atmosphere.y)*2600.0;
+  float snowCover=smoothstep(snowline-250.0,snowline+300.0,meters)*(1.0-smoothstep(.45,.7,slope));
+  albedo=mix(albedo,snow,snowCover);
+  // Retain biome color at broad scale; materials take over only at close range.
+  vec3 material=mix(ground.rgb*vec3(.76,.83,.79),albedo,closeDetail*.92);
+  material*=.99+broad*.02;
+  vec3 land=illumination(material,normal,sun);
+  float light=.3+.7*daylight(sun);
+  vec3 pigment=texture2D(palette,vec2((id-.5)/1024.0,.25)).rgb;
   land=mix(land,land*.68+pigment*light*.32,political*step(.5,id));
   // Symmetric, screen-sized edges. Ownership comes from the live simulation,
   // so conquests and procedural worlds do not retain historical frontiers.
@@ -183,7 +219,7 @@ void main() {
   land=mix(land,vec3(.22,.25,.20),border*provinceLines*mix(.12,.30,political));
   land=mix(land,vec3(.96,.88,.65),frontier*mix(.32,.75,political));
   if(abs(id-selected)<.1) land=mix(land,vec3(.96,.79,.38),.13+min(1.0,border)*.62);
-  gl_FragColor=vec4(mix(water,land,coverage),1.0);
+  gl_FragColor=vec4(atmosphereColor(mix(water,land,coverage),sun,weather),1.0);
 }
 `;
 
@@ -226,6 +262,32 @@ export class TerrainRenderer {
   private detailWork: Generator<void, ProvinceDetail> | null = null;
   private readyDetail: ProvinceDetail | null = null;
   private activeDetail: ProvinceDetail | null = null;
+  private coastWork: Generator<void, Uint8Array> | null = null;
+  private readyCoast: Uint8Array | null = null;
+  private pendingCoast: ProvinceDetail | null = null;
+  private heightController: AbortController | null = null;
+  private loadingElevation = false;
+  private heightTimer: ReturnType<typeof setTimeout> | null = null;
+  private activeHeight: HeightRegion | null = null;
+  private readyHeight: (HeightRegion & { pixels: Uint8Array }) | null = null;
+  private atmosphere: Atmosphere = { ...DEFAULT_ATMOSPHERE };
+  onInvalidate: () => void = () => {};
+  private geometryRevision = 0;
+  get projectionRevision() {
+    return this.geometryRevision;
+  }
+  setAtmosphere(value: Atmosphere) {
+    this.atmosphere = value;
+  }
+  get elevationDetail() {
+    return {
+      loading: this.loadingElevation,
+      loadedTiles: this.activeHeight?.loadedTiles ?? 0,
+      spacingMeters: this.activeHeight
+        ? detailSpacingMeters(this.activeHeight.sourceZoom, this.view.lat)
+        : null,
+    };
+  }
   private paletteKey = "";
   private count = 0;
   private sceneryCount = 0;
@@ -255,7 +317,7 @@ export class TerrainRenderer {
     this.data = data;
     if (gl.getParameter(gl.MAX_TEXTURE_SIZE) < data.provinceSize)
       throw new Error("This device requires the 2D map");
-    if (gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS) < 1)
+    if (gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS) < 2)
       throw new Error("This device requires the 2D map");
     const shaders: WebGLShader[] = [];
     const compile = (source: string, type: number) => {
@@ -313,7 +375,13 @@ export class TerrainRenderer {
         "provinceTexel",
         "normalMap",
         "localProvinces",
-        "owners",
+        "materials",
+        "detailHeight",
+        "heightBounds",
+        "detailHeightTexel",
+        "heightEnabled",
+        "atmosphere",
+        "viewport",
         "localBounds",
         "localTexel",
         "localEnabled",
@@ -345,7 +413,7 @@ export class TerrainRenderer {
         false,
         gl.LUMINANCE_ALPHA,
       );
-      this.texture(1024, 1, new Uint8Array(4096).fill(180), false);
+      this.texture(1024, 2, new Uint8Array(8192).fill(180), false);
       this.texture(
         data.size,
         data.size,
@@ -364,10 +432,26 @@ export class TerrainRenderer {
         false,
         gl.LUMINANCE_ALPHA,
       );
+      this.texture(1, 1, new Uint8Array(4), false);
+      // Upload the original NPOT image into a padded power-of-two texture.
+      // Hardware mipmaps remove distant texel shimmer without editing the asset.
+      this.texture(2048, 2048, null, true);
+      gl.texSubImage2D(
+        gl.TEXTURE_2D,
+        0,
+        0,
+        0,
+        materialAtlas.width,
+        materialAtlas.height,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        decode(materialAtlas.rgba),
+      );
+      gl.generateMipmap(gl.TEXTURE_2D);
       this.texture(1, 1, new Uint8Array(2), false, gl.LUMINANCE_ALPHA);
-      this.texture(1024, 1, new Uint8Array(2048), false, gl.LUMINANCE_ALPHA);
       // Project the shared polygons once, outside camera gestures.
       provinceGeometry();
+      physicalCoast();
       // Fixed grid: the vertex shader samples elevation. Camera gestures only
       // change uniforms, never generate 65,000 vertices on the JS thread.
       const vertices = new Float32Array((this.segments + 1) ** 2 * 6);
@@ -405,7 +489,7 @@ export class TerrainRenderer {
   private texture(
     w: number,
     h: number,
-    pixels: Uint8Array,
+    pixels: Uint8Array | null,
     linear: boolean,
     format: number = this.gl.RGBA,
   ) {
@@ -417,7 +501,11 @@ export class TerrainRenderer {
     gl.texParameteri(
       gl.TEXTURE_2D,
       gl.TEXTURE_MIN_FILTER,
-      linear ? gl.LINEAR_MIPMAP_LINEAR : gl.NEAREST,
+      linear
+        ? (w & (w - 1)) === 0 && (h & (h - 1)) === 0
+          ? gl.LINEAR_MIPMAP_LINEAR
+          : gl.LINEAR
+        : gl.NEAREST,
     );
     gl.texParameteri(
       gl.TEXTURE_2D,
@@ -437,7 +525,8 @@ export class TerrainRenderer {
       gl.UNSIGNED_BYTE,
       pixels,
     );
-    if (linear) gl.generateMipmap(gl.TEXTURE_2D);
+    if (linear && (w & (w - 1)) === 0 && (h & (h - 1)) === 0)
+      gl.generateMipmap(gl.TEXTURE_2D);
   }
   setPalette(
     colors: ReadonlyArray<readonly number[]>,
@@ -464,20 +553,22 @@ export class TerrainRenderer {
       gl.UNSIGNED_BYTE,
       pixels,
     );
-    const ownerPixels = new Uint16Array(1024);
-    for (let i = 0; i < Math.min(1024, owners.length); i++)
-      ownerPixels[i] = owners[i] + 1;
-    gl.bindTexture(gl.TEXTURE_2D, this.textures[6]);
+    const ownerPixels = new Uint8Array(4096);
+    for (let i = 0; i < Math.min(1024, owners.length); i++) {
+      ownerPixels[i * 4] = (owners[i] + 1) & 255;
+      ownerPixels[i * 4 + 3] = (owners[i] + 1) >> 8;
+    }
+    gl.bindTexture(gl.TEXTURE_2D, this.textures[2]);
     gl.texSubImage2D(
       gl.TEXTURE_2D,
       0,
       0,
-      0,
+      1,
       1024,
       1,
-      gl.LUMINANCE_ALPHA,
+      gl.RGBA,
       gl.UNSIGNED_BYTE,
-      new Uint8Array(ownerPixels.buffer),
+      ownerPixels,
     );
   }
   get detailResolution() {
@@ -502,6 +593,49 @@ export class TerrainRenderer {
       ey = (1 / 2 ** level / this.tilt[0]) * 0.8;
     this.meshCenter = [cx, cy];
     this.meshExtent = [ex, ey];
+    this.heightController?.abort();
+    if (this.heightTimer !== null) clearTimeout(this.heightTimer);
+    this.readyHeight = null;
+    this.loadingElevation = false;
+    if (this.view.zoom >= 5) {
+      this.loadingElevation = true;
+      const controller = new AbortController();
+      this.heightController = controller;
+      const plan = tilePlan(
+        cx,
+        cy,
+        ex,
+        ey,
+        this.quality === "high" ? level : level - 1,
+      );
+      this.heightTimer = setTimeout(() => {
+        this.heightTimer = null;
+        void loadHeightRegion(plan, this.data, controller.signal)
+          .then(async (region) => {
+            if (
+              !this.disposed &&
+              !controller.signal.aborted &&
+              region.loadedTiles > 0
+            ) {
+              this.readyHeight = {
+                ...region,
+                pixels: await heightPixels(region, controller.signal),
+              };
+              this.onInvalidate();
+            }
+          })
+          .catch(() => {})
+          .finally(() => {
+            if (this.heightController === controller) {
+              this.loadingElevation = false;
+              this.onInvalidate();
+            }
+          });
+      }, 200);
+    }
+    this.coastWork = null;
+    this.pendingCoast = null;
+    this.readyCoast = null;
     this.sceneryWork = null;
     this.readyScenery = null;
     this.sceneryFailure = null;
@@ -520,6 +654,7 @@ export class TerrainRenderer {
   get needsFrame() {
     return (
       this.readyScenery !== null ||
+      this.readyHeight !== null ||
       this.readyDetail !== null ||
       this.sceneryFailure !== null
     );
@@ -529,7 +664,8 @@ export class TerrainRenderer {
       this.sceneryBounds !== null ||
       this.sceneryWork !== null ||
       this.detailBounds !== null ||
-      this.detailWork !== null
+      this.detailWork !== null ||
+      this.coastWork !== null
     );
   }
   private scheduleScenery(delay: number) {
@@ -573,8 +709,23 @@ export class TerrainRenderer {
     while (this.detailWork) {
       const next = this.detailWork.next();
       if (next.done) {
-        this.readyDetail = next.value;
+        this.pendingCoast = next.value;
+        this.coastWork = coastalDetail(next.value);
         this.detailWork = null;
+        break;
+      }
+      if (performance.now() >= deadline) {
+        this.scheduleScenery(0);
+        return;
+      }
+    }
+    while (this.coastWork) {
+      const next = this.coastWork.next();
+      if (next.done) {
+        this.readyCoast = next.value;
+        this.readyDetail = this.pendingCoast;
+        this.pendingCoast = null;
+        this.coastWork = null;
         break;
       }
       if (performance.now() >= deadline) {
@@ -597,6 +748,16 @@ export class TerrainRenderer {
     this.sceneryProvinces = provinces;
     this.meshKey = "";
   }
+  private groundHeight(x: number, y: number, relief: number) {
+    const metres = this.activeHeight
+      ? regionElevation(this.activeHeight, x, y)
+      : null;
+    if (metres === null) return terrainHeight(this.data, x, y, relief);
+    const latitude = (geographic(x, y)[1] * Math.PI) / 180;
+    return (
+      (metres * relief) / (40075016.686 * Math.max(0.12, Math.cos(latitude)))
+    );
+  }
   zoomAt(px: number, py: number, delta: number): View {
     const [lon, lat] = this.unproject(px, py);
     const [x, y] = mercator(lon, lat);
@@ -610,7 +771,7 @@ export class TerrainRenderer {
     const cy =
       y +
       (((1 - (py / this.height) * 2) * span) / 2 -
-        terrainHeight(this.data, x, y, reliefForZoom(zoom)) * this.tilt[1]) /
+        this.groundHeight(x, y, reliefForZoom(zoom)) * this.tilt[1]) /
         this.tilt[0];
     const center = geographic(cx, cy);
     return normalizeView({ lon: center[0], lat: center[1], zoom });
@@ -620,8 +781,7 @@ export class TerrainRenderer {
       [x, y] = mercator(lon, lat);
     const py =
       ((cy - y) * this.tilt[0] +
-        terrainHeight(this.data, x, y, reliefForZoom(this.view.zoom)) *
-          this.tilt[1]) /
+        this.groundHeight(x, y, reliefForZoom(this.view.zoom)) * this.tilt[1]) /
       this.extent[1];
     return [
       (((x - cx) / this.extent[0] + 1) * this.width) / 2,
@@ -635,8 +795,7 @@ export class TerrainRenderer {
     const base = cy - north / this.tilt[0];
     const f = (y: number) =>
       (cy - y) * this.tilt[0] +
-      terrainHeight(this.data, x, y, reliefForZoom(this.view.zoom)) *
-        this.tilt[1] -
+      this.groundHeight(x, y, reliefForZoom(this.view.zoom)) * this.tilt[1] -
       north;
     // Walk the view ray from the near side; fixed-point iteration fails on steep slopes.
     let near = base + 0.04,
@@ -678,21 +837,42 @@ export class TerrainRenderer {
     if (this.disposed) return;
     if (this.sceneryFailure) throw this.sceneryFailure;
     const gl = this.gl;
+    gl.activeTexture(gl.TEXTURE0);
+    if (this.readyHeight) {
+      const h = this.readyHeight;
+      gl.bindTexture(gl.TEXTURE_2D, this.textures[7]);
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA,
+        h.width,
+        h.height,
+        0,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        h.pixels,
+      );
+      const { pixels: _pixels, ...region } = h;
+      this.activeHeight = region;
+      this.readyHeight = null;
+      this.geometryRevision++;
+    }
     if (this.readyDetail) {
       const tile = this.readyDetail;
       gl.bindTexture(gl.TEXTURE_2D, this.textures[5]);
       gl.texImage2D(
         gl.TEXTURE_2D,
         0,
-        gl.LUMINANCE_ALPHA,
+        gl.RGBA,
         tile.size,
         tile.size,
         0,
-        gl.LUMINANCE_ALPHA,
+        gl.RGBA,
         gl.UNSIGNED_BYTE,
-        new Uint8Array(tile.ids.buffer),
+        this.readyCoast,
       );
       this.activeDetail = tile;
+      this.readyCoast = null;
       this.readyDetail = null;
     }
     if (this.readyScenery) {
@@ -723,7 +903,26 @@ export class TerrainRenderer {
       gl.bindTexture(gl.TEXTURE_2D, t);
     });
     gl.uniform1i(this.uniforms.localProvinces, 5);
-    gl.uniform1i(this.uniforms.owners, 6);
+    gl.uniform1i(this.uniforms.materials, 6);
+    gl.uniform1i(this.uniforms.detailHeight, 7);
+    const h = this.activeHeight,
+      n = h ? 2 ** h.z : 1;
+    gl.uniform4fv(
+      this.uniforms.heightBounds,
+      h ? [h.x / n, h.y / n, h.columns / n, h.rows / n] : [0, 0, 1, 1],
+    );
+    gl.uniform2fv(
+      this.uniforms.detailHeightTexel,
+      h ? [1 / h.width, 1 / h.height] : [1, 1],
+    );
+    gl.uniform1f(this.uniforms.heightEnabled, h ? 1 : 0);
+    const seconds = this.animationClock.sample(time),
+      a = atmosphereUniforms(this.atmosphere, seconds, this.view.lon);
+    gl.uniform3fv(this.uniforms.atmosphere, [a.hour, a.declination, a.weather]);
+    gl.uniform2fv(this.uniforms.viewport, [
+      gl.drawingBufferWidth,
+      gl.drawingBufferHeight,
+    ]);
     const local = this.activeDetail;
     gl.uniform4fv(
       this.uniforms.localBounds,
@@ -762,7 +961,7 @@ export class TerrainRenderer {
     gl.uniform2fv(this.uniforms.center, mercator(this.view.lon, this.view.lat));
     gl.uniform2fv(this.uniforms.extent, this.extent);
     gl.uniform2fv(this.uniforms.tilt, this.tilt);
-    gl.uniform1f(this.uniforms.clock, this.animationClock.sample(time));
+    gl.uniform1f(this.uniforms.clock, seconds);
     gl.uniform1f(this.uniforms.political, political ? 1 : 0);
     gl.uniform1f(this.uniforms.selected, selected == null ? -1 : selected + 1);
     gl.uniform1f(this.uniforms.provinceTexel, 1 / this.data.provinceSize);
@@ -792,6 +991,13 @@ export class TerrainRenderer {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
+    this.heightController?.abort();
+    if (this.heightTimer !== null) clearTimeout(this.heightTimer);
+    this.activeHeight = null;
+    this.readyHeight = null;
+    this.coastWork = null;
+    this.readyCoast = null;
+    this.pendingCoast = null;
     const gl = this.gl;
     this.textures.forEach((t) => gl.deleteTexture(t));
     gl.deleteBuffer(this.vertexBuffer);

@@ -1,3 +1,8 @@
+import {
+  DEFAULT_ATMOSPHERE,
+  calendarDay,
+  type Atmosphere,
+} from "../../../src/graphics/atmosphere";
 import { loadNativeTerrain } from "./terrainAssets";
 import { cityLabels } from "../../../src/graphics/cities";
 import type { RefObject } from "react";
@@ -30,6 +35,7 @@ import worldSeed from "../assets/game/worldSeed.json";
 
 type Props = {
   quality: TerrainQuality;
+  atmosphere?: Atmosphere;
   visible?: boolean;
   camera: RefObject<View | null>;
   focus: { center: [number, number]; zoom: number };
@@ -111,11 +117,19 @@ function TerrainSurface(
       )
     ) {
       try {
+        r.onInvalidate = wake;
+        r.setAtmosphere({
+          ...(latest.current.atmosphere ?? DEFAULT_ATMOSPHERE),
+          dayOfYear: calendarDay(latest.current.snapshot?.date),
+        });
+        const projectionBefore = r.projectionRevision;
         r.render(
           reduce.current ? 0 : time / 1000,
           latest.current.political,
           latest.current.selected,
         );
+        if (r.projectionRevision !== projectionBefore)
+          labelsDirty.current = true;
         const gl = glRef.current!;
         if (!presented.current) {
           verifyTerrainFrame(gl);
@@ -221,7 +235,7 @@ function TerrainSurface(
         s.provinces.map((p) => p.owner),
       );
     wake();
-  }, [props.snapshot, props.political, props.selected]);
+  }, [props.snapshot, props.political, props.selected, props.atmosphere]);
   const pan = useMemo(
     () =>
       PanResponder.create({

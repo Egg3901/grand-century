@@ -87,11 +87,13 @@ export const Pressable = ({
   onPress,
   style,
   accessibilityLabel,
+  accessibilityState,
   disabled,
 }: any) => (
   <button
     disabled={disabled}
     aria-label={accessibilityLabel}
+    aria-pressed={accessibilityState?.selected}
     onClick={onPress}
     style={{
       border: 0,

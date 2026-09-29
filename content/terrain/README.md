@@ -1,0 +1,11 @@
+# Physical terrain and atmosphere
+
+Province geometry and save IDs remain unchanged. Natural Earth physical land and lakes determine the visual coast at close zoom; they do not assert historical borders, and modern reclaimed coastlines can differ from 1830. Historical province corrections remain tracked separately in issue 78.
+
+Elevation comes from Mapzen/Terrarium. The original global atlas remains the immediate fallback. 348 bundled regional tiles cover Europe, with additional zoom-8 detail around the Alps, Adriatic and London. Actual source spacing is about 425 m at 46 N for zoom 8, versus 6.8 km in the previous High global atlas. Parent tiles report their original resolution. Elsewhere, up to three requests run concurrently after the camera rests, with cancellation, six-second request deadlines, a bounded regional load window and a 96-tile memory cache. Native keeps up to 64 validated PNG tiles in its disposable filesystem cache. No network is needed for the original globe or bundled regional data.
+
+Regional elevation uses at most 8 by 8 tiles: 8 MiB of CPU height samples and a 16 MiB RGBA GPU texture containing height and precomputed normals. The mesh triangle budget is unchanged. Deferred preparation yields to gestures. Materials use hardware mipmaps. Existing background and Reduced Motion rendering rules remain in force; low-power 2D avoids these effects.
+
+Lighting is an ambient four-minute solar cycle, independent of simulation speed. The campaign date controls solar declination and visual snowlines. Dynamic cloud, rain and snow fields vary geographically and drift over time. Fixed Day, Night, Clear, Rain, Snow and Fog controls aid accessibility and inspection. These settings are presentation preferences, not save data or combat rules. Weather does not change movement, battles or the simulation.
+
+Rebuild data with `scripts/build-terrain-detail.py` (Python, Pillow, numpy; optional `TERRAIN_TILE_CACHE`), `scripts/build-physical-coast.py <downloaded-ne_10m_land.geojson>` (Shapely) and `scripts/pack-terrain-material.py` (Pillow). Source SHA-256 hashes and attribution URLs are checked in next to this document. The generated material image and complete prompt are in `materials/`.
