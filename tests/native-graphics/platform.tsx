@@ -81,7 +81,7 @@ export function View({ style, children, onLayout, ...props }: any) {
 export const Text = ({ children, style, accessibilityRole }: any) => (
   <span
     role={accessibilityRole === "header" ? "heading" : accessibilityRole}
-    style={{ display: "block", ...css(style) }}
+    style={{ display: "block", whiteSpace: "pre-wrap", ...css(style) }}
   >
     {children}
   </span>
@@ -161,9 +161,29 @@ export function useWindowDimensions() {
   }, []);
   return size;
 }
-export const ScrollView = ({ children, style, contentContainerStyle }: any) => (
-  <div style={{ overflow: "auto", minHeight: 0, ...css(style) }}>
-    <View style={contentContainerStyle}>{children}</View>
+export const ScrollView = ({
+  children,
+  style,
+  contentContainerStyle,
+  horizontal,
+}: any) => (
+  <div
+    style={{
+      overflow: "auto",
+      minHeight: 0,
+      flexGrow: 1,
+      ...css(style),
+      flexShrink: 1,
+    }}
+  >
+    <View
+      style={[
+        horizontal && { flexDirection: "row", width: "max-content" },
+        contentContainerStyle,
+      ]}
+    >
+      {children}
+    </View>
   </div>
 );
 export const FlatList = ({ data, renderItem, ListEmptyComponent }: any) => (

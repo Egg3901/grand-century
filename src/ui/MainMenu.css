@@ -1,0 +1,213 @@
+.menu-home.menu-overlay {
+  display: block;
+  overflow: auto;
+  padding: clamp(16px, 3vw, 40px);
+  background: #102b35;
+}
+.menu-home::before {
+  display: none;
+}
+.menu-home__spread {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  max-width: 1240px;
+  margin: auto;
+  align-items: start;
+}
+.menu-home__cover {
+  color: #f4eddf;
+  min-width: 0;
+}
+.menu-home__masthead {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 24px;
+  margin-bottom: 30px;
+  border-bottom: 3px double #7e8067;
+}
+.menu-home__monogram {
+  display: grid;
+  place-content: center;
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
+  border: 3px double #bca576;
+  font-family: var(--gc-font-display);
+  font-size: 28px;
+  color: #d6b475;
+}
+.menu-home__masthead h1 {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.menu-home__masthead p,
+.menu-home__kicker {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #d6b475;
+}
+.menu-home__masthead p {
+  margin: 6px 0 0;
+}
+.menu-home__cover h2 {
+  white-space: pre-line;
+  font-size: clamp(38px, 4.4vw, 62px);
+  font-weight: 400;
+  line-height: 1.06;
+  margin: 16px 0 22px;
+  letter-spacing: -0.025em;
+}
+.menu-home__introduction {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #c6d2d2;
+  max-width: 460px;
+}
+.menu-home__atlas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 14 / 9;
+  margin-top: 28px;
+  border: 1px solid #b49a66;
+}
+.menu-home__caption {
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: #aebbaf;
+}
+.menu-home__chapters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 3px double #7e8067;
+}
+.menu-home__chapters h3 {
+  font-size: 20px;
+  font-weight: 400;
+  color: #d6b475;
+  margin: 0 0 8px;
+}
+.menu-home__chapters p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #c6d2d2;
+  margin: 0;
+}
+.menu-home__credit {
+  font-size: 10px;
+  color: #aebbaf;
+  margin-top: 24px;
+}
+.menu-home .menu-card--title {
+  width: 100%;
+  max-height: none;
+  overflow: visible;
+  padding: 28px;
+  border-radius: 0;
+  border: 1px solid #9c8c6a;
+  background: #ece6d6;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 3px, #4b635f06 3px 4px),
+    linear-gradient(115deg, #f0eadb, #e3dbc7);
+  box-shadow: 0 8px 24px #05192040;
+}
+.menu-home .menu-card::before {
+  border-radius: 0;
+  border-color: #9c8c6a60;
+}
+.menu-home .menu-title {
+  justify-items: start;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #9c8c6a60;
+}
+.menu-home .menu-title__rule {
+  display: none;
+}
+.menu-home .menu-home__kicker {
+  color: #85734e;
+}
+.menu-home .menu-home__cover .menu-home__kicker { color: #d6b475; }
+.menu-home__register-title {
+  font-size: 32px;
+  font-weight: 400;
+  margin: 0;
+  color: #192e35;
+}
+.menu-home .nation-card,
+.menu-home .btn,
+.menu-home .menu-resume,
+.menu-home .gc-input,
+.menu-home .gc-select {
+  border-radius: 0;
+}
+.menu-home .menu-browser__grid {
+  max-height: 284px;
+  grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
+  grid-auto-rows: 128px;
+}
+.menu-home .nation-card__flavor { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.menu-home .nation-card {
+  min-height: 104px;
+}
+.menu-home .menu-actions {
+  justify-content: start;
+}
+.menu-home .menu-actions .btn {
+  min-height: 44px;
+}
+.menu-home .menu-actions .btn--primary {
+  min-width: 140px;
+  border: 3px double #f1ebdb;
+}
+.menu-home .menu-advanced__toggle {
+  min-height: 44px;
+}
+.menu-home .menu-version {
+  opacity: 0.85;
+}
+@media (max-width: 760px) {
+  .menu-home__spread {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .menu-home__masthead {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+  }
+  .menu-home__atlas {
+    max-height: 240px;
+    object-fit: cover;
+  }
+  .menu-home__cover h2 {
+    font-size: 40px;
+  }
+  .menu-home__chapters {
+    display: none;
+  }
+  .menu-home .menu-card--title {
+    padding: 22px 18px;
+  }
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  .menu-home__spread {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+  }
+  .menu-home__cover h2 {
+    font-size: 36px;
+  }
+  .menu-home__masthead {
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  .menu-home__atlas {
+    margin-top: 18px;
+  }
+}

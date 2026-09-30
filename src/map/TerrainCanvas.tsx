@@ -1,6 +1,4 @@
 import {
-  ATMOSPHERE_KEY,
-  parseAtmosphere,
   calendarDay,
   type Atmosphere,
 } from "../graphics/atmosphere";
@@ -29,10 +27,12 @@ export function TerrainCanvas({
   onFallback,
   camera,
   quality = "balanced",
+  atmosphere,
 }: {
   onFallback: (reason: string) => void;
   camera: RefObject<View | null>;
   quality?: TerrainQuality;
+  atmosphere: Atmosphere;
 }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const renderer = useRef<TerrainRenderer | null>(null);
@@ -49,21 +49,6 @@ export function TerrainCanvas({
     data = worldSeed,
     mode = useStore((s) => s.mapMode),
     selected = useStore((s) => s.selectedProvince);
-  const [atmosphere, setAtmosphere] = useState<Atmosphere>(() => {
-    try {
-      return parseAtmosphere(localStorage.getItem(ATMOSPHERE_KEY));
-    } catch {
-      return parseAtmosphere(null);
-    }
-  });
-  const chooseAtmosphere = (value: Atmosphere) => {
-    setAtmosphere(value);
-    try {
-      localStorage.setItem(ATMOSPHERE_KEY, JSON.stringify(value));
-    } catch {
-      /* Optional persistence. */
-    }
-  };
   const [ready, setReady] = useState(false),
     [revision, setRevision] = useState(0);
   const initial = useRef<View | null>(null);
@@ -471,58 +456,6 @@ export function TerrainCanvas({
             })}
         </div>
       )}
-      <details
-        className="gc-atmosphere-controls"
-        style={{
-          position: "absolute",
-          background: "#112c35",
-          color: "#f4efdd",
-          padding: 8,
-          borderRadius: 8,
-          zIndex: 3,
-        }}
-      >
-        <summary>Atmosphere</summary>
-        <label>
-          Lighting{" "}
-          <select
-            aria-label="Map lighting"
-            value={atmosphere.lighting}
-            onChange={(e) =>
-              chooseAtmosphere({
-                ...atmosphere,
-                lighting: e.target.value as Atmosphere["lighting"],
-              })
-            }
-          >
-            <option value="cycle">Day / night cycle</option>
-            <option value="day">Day</option>
-            <option value="night">Night</option>
-          </select>
-        </label>{" "}
-        <label>
-          Weather{" "}
-          <select
-            aria-label="Map weather"
-            value={atmosphere.weather}
-            onChange={(e) =>
-              chooseAtmosphere({
-                ...atmosphere,
-                weather: e.target.value as Atmosphere["weather"],
-              })
-            }
-          >
-            {["dynamic", "clear", "rain", "snow", "fog"].map((w) => (
-              <option key={w} value={w}>
-                {w}
-              </option>
-            ))}
-          </select>
-        </label>
-        <div style={{ fontSize: 12, marginTop: 6 }}>
-          Ambient cycle. Visual weather only.
-        </div>
-      </details>
       <div className="gc-terrain-zoom">
         <button
           aria-label="Zoom in"

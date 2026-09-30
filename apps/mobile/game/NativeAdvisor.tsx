@@ -28,7 +28,9 @@ export function NativeReportToast({
   alerts,
   onReview,
   dismiss,
+  landscape = false,
 }: {
+  landscape?: boolean;
   alerts: readonly UiAlert[];
   onReview: () => void;
   dismiss: (id: string) => void;
@@ -47,8 +49,8 @@ export function NativeReportToast({
       style={{
         position: "absolute",
         left: 12,
-        right: 12,
-        bottom: 140,
+        right: landscape ? 200 : 12,
+        bottom: landscape ? 64 : 190,
         flexDirection: "row",
         borderRadius: 12,
         backgroundColor: "#102b35",
@@ -149,7 +151,7 @@ const lessons: { title: string; text: string; page: GamePanel | null }[] = [
   },
   {
     title: "Read the map modes",
-    text: "Use the scrollable map bar to compare economy, hunger, unrest, military control, diplomacy, cores and culture. Every mode has an explanation in Map and graphics.",
+    text: "Open the Map mode chooser to compare economy, hunger, unrest, military control, diplomacy, cores and culture. Every mode has an explanation in Map and graphics.",
     page: "graphics",
   },
   {

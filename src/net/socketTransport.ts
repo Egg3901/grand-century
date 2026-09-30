@@ -6,6 +6,7 @@
  */
 
 import type { FromWorker, ToWorker } from '../shared/types';
+import { PRODUCTION_MULTIPLAYER_URL } from './productionServer';
 import type { SimTransport } from './transport';
 import {
   isChatRelayMessage,
@@ -44,6 +45,10 @@ export function resolveSocketUrl(
   if (env.DEV || !locationLike) {
     const port = env.VITE_MP_PORT ?? '3412';
     return `ws://127.0.0.1:${port}`;
+  }
+  const hostname = locationLike.host.split(':')[0];
+  if (hostname === 'lakesidegames.net' || hostname === 'grand-century.pages.dev' || hostname.endsWith('.grand-century.pages.dev')) {
+    return PRODUCTION_MULTIPLAYER_URL;
   }
   const proto = locationLike.protocol === 'https:' ? 'wss:' : 'ws:';
   const base = (env.BASE_URL ?? '/').endsWith('/') ? (env.BASE_URL ?? '/') : `${env.BASE_URL}/`;

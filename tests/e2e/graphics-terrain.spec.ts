@@ -419,7 +419,7 @@ test("fine terrain, day/night cycle and weather draw real pixels and persist con
   expect(result.error).toBe(0);
   expect(result.after[0]).toBeCloseTo(result.anchor[0], 0);
   expect(result.after[1]).toBeCloseTo(result.anchor[1], 0);
-  await page.getByText("Atmosphere", { exact: true }).click();
+  await page.locator(".gc-atmosphere-controls summary").click();
   await page.getByLabel("Map lighting").selectOption("night");
   await page.getByLabel("Map weather").selectOption("snow");
   expect(
@@ -430,4 +430,54 @@ test("fine terrain, day/night cycle and weather draw real pixels and persist con
   await page.setViewportSize({ width: 1280, height: 850 });
   await page.getByLabel("Map weather").selectOption("clear");
   await expect(page.getByLabel("Map weather")).toHaveValue("clear");
+});
+
+test("engraved homepage fits portrait and landscape; regional weather remains visible in 2D", async ({ page }) => {
+  test.setTimeout(180000);
+  await page.addInitScript(() => {
+    localStorage.setItem("grand-century.tutorial.v0_2_0.seen", "1");
+    localStorage.setItem("grand-century-graphics-v1", "2d");
+    localStorage.setItem("grand-century-atmosphere-v1", JSON.stringify({ lighting: "day", weather: "clear" }));
+  });
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: "An age of steam. A world in upheaval." })).toBeVisible();
+  await expect(page.locator(".menu-home__atlas")).toBeVisible();
+  for (const viewport of [{ width: 390, height: 844 }, { width: 844, height: 390 }, { width: 1280, height: 850 }]) {
+    await page.setViewportSize(viewport);
+    expect(await page.evaluate(() => document.querySelector(".menu-home")!.scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({ path: `artifacts/homepage-web-${viewport.width}.png` });
+  }
+  await page.setViewportSize({ width: 430, height: 932 });
+  await page.getByTestId("menu-new-game").click();
+  await page.waitForFunction(() => (window as any).__grandCenturyMap?.getSource("visual-weather-clouds"));
+  await page.evaluate(() => (window as any).__grandCenturyMap.jumpTo({ center: [2.5, 47], zoom: 3.8 }));
+  const clip = { x: 60, y: 220, width: 300, height: 300 };
+  await page.waitForFunction(() => (window as any).__grandCenturyMap.loaded() && !(window as any).__grandCenturyMap.isMoving());
+  const clear = await page.screenshot({ clip });
+  await page.locator(".gc-atmosphere-controls summary").click();
+  await page.getByLabel("Map weather").selectOption("rain");
+  await page.locator(".gc-atmosphere-controls summary").click();
+  await page.waitForFunction(() => {
+    const map = (window as any).__grandCenturyMap;
+    return map.loaded() && !map.isMoving() && map.querySourceFeatures("visual-weather-clouds").length > 0;
+  });
+  const rain = await page.screenshot({ clip });
+  // Compare pixels from the central map, away from HUD and weather controls.
+  const changed = await page.evaluate(async ([a, b]) => {
+    const read = async (data: string) => {
+      const img = new Image(); img.src = `data:image/png;base64,${data}`; await img.decode();
+      const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
+      const ctx = c.getContext("2d")!; ctx.drawImage(img, 0, 0);
+      return ctx.getImageData(0, 0, 300, 300).data;
+    };
+    const x = await read(a), y = await read(b); let count = 0;
+    for (let i = 0; i < x.length; i += 4) if (Math.abs(x[i] - y[i]) + Math.abs(x[i+1] - y[i+1]) + Math.abs(x[i+2] - y[i+2]) > 12) count++;
+    return count;
+  }, [clear.toString("base64"), rain.toString("base64")]);
+  expect(changed).toBeGreaterThan(1000);
+  await page.screenshot({ path: "artifacts/regional-weather-2d.png" });
+  await page.getByRole("button", { name: "3D · Balanced", exact: true }).click();
+  await page.waitForFunction(() => !!(window as any).__gcTerrain);
+  await page.locator(".gc-atmosphere-controls summary").click();
+  await expect(page.getByLabel("Map weather")).toHaveValue("rain");
 });

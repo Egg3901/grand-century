@@ -1,5 +1,12 @@
 import { type ReactNode } from "react";
-import { Modal, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import type { Command, WorldSnapshot } from "../../../src/shared/types";
@@ -30,20 +37,36 @@ export function MenuSheet({
   onClose: () => void;
   children: ReactNode;
 }) {
+  const { width, height } = useWindowDimensions();
+  const landscape = width > height;
   return (
     <Modal
       visible
       animationType="slide"
       presentationStyle="fullScreen"
+      supportedOrientations={["portrait", "landscape-left", "landscape-right"]}
       onRequestClose={onClose}
     >
       <SafeAreaProvider>
         <SafeAreaView style={styles.safe}>
           <StatusBar style="light" />
-          <View style={styles.heading}>
-            <View>
+          <View
+            style={[
+              styles.heading,
+              landscape && {
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                paddingVertical: 8,
+              },
+            ]}
+          >
+            <View style={{ flex: 1 }}>
               <Text style={styles.eyebrow}>THE CABINET</Text>
-              <Text accessibilityRole="header" style={styles.headingTitle}>
+              <Text
+                accessibilityRole="header"
+                style={[styles.headingTitle, landscape && { fontSize: 24 }]}
+              >
                 {title}
               </Text>
             </View>

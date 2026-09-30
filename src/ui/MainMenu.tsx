@@ -1,3 +1,6 @@
+import menuAtlas from "../assets/home/menu-atlas.png";
+import { homeContent } from "./homeContent";
+import "./MainMenu.css";
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useStore } from '../store';
 import { useSnapshotFields } from './useSnapshotFields';
@@ -173,12 +176,23 @@ export function MainMenu() {
   };
 
   return (
-    <div className="menu-overlay menu-overlay--hero">
+    <div className="menu-overlay menu-overlay--hero menu-home">
+      <div className="menu-home__spread">
+      <section className="menu-home__cover" aria-label="Grand Century">
+        <header className="menu-home__masthead"><span className="menu-home__monogram" aria-hidden="true">GC</span><div><h1>Grand Century</h1><p>{homeContent.edition}</p></div></header>
+        <p className="menu-home__kicker">A HISTORICAL GRAND STRATEGY</p>
+        <h2>{homeContent.title}</h2>
+        <p className="menu-home__introduction">{homeContent.introduction}</p>
+        <img className="menu-home__atlas" src={menuAtlas} alt="Engraved world atlas with coastlines, graticules and compass rose" />
+        <p className="menu-home__caption">THE WORLD AWAITS YOUR HAND</p>
+        <div className="menu-home__chapters">{homeContent.chapters.map((chapter, i) => <div key={chapter.title}><h3>{["I", "II", "III"][i]} / {chapter.title}</h3><p>{chapter.text}</p></div>)}</div>
+        <p className="menu-home__credit">Cartographic plate: Natural Earth, public domain. Decorative physical coastline.</p>
+      </section>
       <section className="menu-card menu-card--title atlas-panel">
         <header className="menu-title">
-          <h1 className="menu-title__name">Grand Century</h1>
+          <p className="menu-home__kicker">THE CAMPAIGN REGISTER</p>
+          <h2 className="menu-home__register-title">Write your history.</h2>
           <p className="menu-title__rule" aria-hidden="true" />
-          <p className="menu-title__tag">A historical grand-strategy engine · 1700 to 1945</p>
         </header>
 
         {multiplayer ? (
@@ -196,7 +210,7 @@ export function MainMenu() {
                   <NationFlag tag={latestSaveNation.tag} color={latestSaveNation.color} size={26} />
                 </span>
                 <span className="menu-resume__text">
-                  <span className="menu-resume__action">Continue — {latestSaveNation.name}</span>
+                  <span className="menu-resume__action">Continue / {latestSaveNation.name}</span>
                   <span className="menu-resume__detail">
                     {yearAtDay(latestSave.day, latestSave.startDate)} · {latestSave.slot.replace(/^autosave-/, 'autosave ')}
                   </span>
@@ -373,6 +387,7 @@ export function MainMenu() {
         </p>
         <p className="menu-version" data-testid="menu-version" title={APP_RELEASE}>{VERSION_LABEL}</p>
       </section>
+      </div>
     </div>
   );
 }

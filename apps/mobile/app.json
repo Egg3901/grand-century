@@ -4,7 +4,7 @@
     "slug": "grand-century",
     "scheme": "grandcentury",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/grand-century-icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
