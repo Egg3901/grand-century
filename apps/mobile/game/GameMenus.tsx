@@ -1,61 +1,28 @@
-import { useState, type ReactNode } from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { NationFlag } from "./NationFlag";
-import { StatusBar } from "expo-status-bar";
-import {
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { type ReactNode } from "react";
+import { Modal, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 import type { Command, WorldSnapshot } from "../../../src/shared/types";
-import worldSeed from "../assets/game/worldSeed.json";
-
+import type { CampaignTransport } from "./NativeSimTransport";
+import {
+  GameplayPanels,
+  gameplayPages,
+  type GameplayPage,
+} from "./GameplayPanels";
+import { NativeAlerts, NativeTutorial } from "./NativeAdvisor";
+import type { UiAlert } from "../../../src/ui/alerts";
+import { Button, Copy, Heading } from "./PanelControls";
+export { Button as MenuButton } from "./PanelControls";
 export type GamePanel =
-  "menu" | "economy" | "military" | "diplomacy" | "research" | "graphics";
-export const gamePanels: {
-  key: GamePanel;
-  label: string;
-  icon: "wallet-outline" | "shield-outline" | "globe-outline" | "flask-outline";
-}[] = [
+  "menu" | "graphics" | "alerts" | "tutorial" | GameplayPage;
+export const gamePanels = [
   { key: "economy", label: "Economy", icon: "wallet-outline" },
   { key: "military", label: "Military", icon: "shield-outline" },
   { key: "diplomacy", label: "Diplomacy", icon: "globe-outline" },
   { key: "research", label: "Research", icon: "flask-outline" },
-];
-const title = (page: GamePanel) =>
-  page === "menu"
-    ? "Campaign menu"
-    : page === "graphics"
-      ? "Map and graphics"
-      : gamePanels.find((p) => p.key === page)!.label;
-export function MenuButton({
-  label,
-  onPress,
-  disabled = false,
-}: {
-  label: string;
-  onPress: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      disabled={disabled}
-      onPress={onPress}
-      style={[styles.button, disabled && { opacity: 0.4 }]}
-    >
-      <Text style={styles.buttonText}>{label}</Text>
-    </Pressable>
-  );
-}
+] as const;
 export function MenuSheet({
-  title: heading,
+  title,
   onClose,
   children,
 }: {
@@ -77,14 +44,15 @@ export function MenuSheet({
             <View>
               <Text style={styles.eyebrow}>THE CABINET</Text>
               <Text accessibilityRole="header" style={styles.headingTitle}>
-                {heading}
+                {title}
               </Text>
             </View>
-            <MenuButton label="Return to map" onPress={onClose} />
+            <Button label="Return to map" onPress={onClose} />
           </View>
           <ScrollView
             style={{ flex: 1 }}
             contentContainerStyle={styles.content}
+            keyboardShouldPersistTaps="handled"
           >
             {children}
           </ScrollView>
@@ -104,341 +72,100 @@ export function GameMenus({
   notice,
   graphics,
   selectedProvince,
+  transport,
+  online,
+  alerts,
+  dismissAlert,
+  muted,
+  onMuted,
 }: {
+  alerts: readonly UiAlert[];
+  dismissAlert: (id: string) => void;
+  muted: boolean;
+  onMuted: (value: boolean) => void;
+  online?: boolean;
   page: GamePanel;
   onPage: (p: GamePanel) => void;
   onClose: () => void;
   onHome: () => void;
   onSaves: () => void;
   snapshot: WorldSnapshot | null;
-  send: (command: Command) => void;
+  send: (cmd: Command) => void;
   notice: string;
   graphics: ReactNode;
   selectedProvince: number | null;
+  transport: CampaignTransport;
 }) {
-  const player = snapshot?.nations[snapshot.playerNation];
-  const [query, setQuery] = useState("");
-  const [limit, setLimit] = useState(12);
-  const fact = (label: string, value: string | number) => (
-    <View style={styles.row} key={label}>
-      <Text style={styles.text}>{label}</Text>
-      <Text style={styles.value}>{value}</Text>
-    </View>
-  );
-  const provinceName = (id: number) =>
-    worldSeed.provinces.find((p) => p.id === id)?.name ?? `Province ${id}`;
+  const heading =
+    page === "alerts"
+      ? "Reports and alerts"
+      : page === "tutorial"
+        ? "Tutorial"
+        : page === "menu"
+          ? "Campaign menu"
+          : page === "graphics"
+            ? "Map and graphics"
+            : (gamePanels.find((p) => p.key === page)?.label ??
+              gameplayPages.find(([key]) => key === page)?.[1] ??
+              page);
   return (
-    <MenuSheet title={title(page)} onClose={onClose}>
+    <MenuSheet title={heading} onClose={onClose}>
       {page !== "menu" && (
-        <MenuButton label="All menus" onPress={() => onPage("menu")} />
+        <Button label="All menus" onPress={() => onPage("menu")} />
       )}
       {!!notice && (
         <Text accessibilityRole="alert" style={styles.notice}>
           {notice}
         </Text>
       )}
-      {page === "menu" && (
+      {page === "menu" ? (
         <>
-          <Text style={styles.title}>{player?.name ?? "Your campaign"}</Text>
-          <Text style={styles.text}>
-            The campaign is paused. Return to the map and press play to advance
-            time.
-          </Text>
+          <Heading>
+            {snapshot?.nations[snapshot.playerNation]?.name ?? "Your campaign"}
+          </Heading>
+          <Copy>
+            {online
+              ? "Online campaign. Time is controlled by the session host."
+              : "The campaign is paused. Return to the map and press play to advance time."}
+          </Copy>
           {gamePanels.map((p) => (
-            <MenuButton
-              key={p.key}
-              label={p.label}
-              onPress={() => onPage(p.key)}
-            />
+            <Button key={p.key} label={p.label} onPress={() => onPage(p.key)} />
           ))}
-          <MenuButton
-            label="Map and graphics"
-            onPress={() => onPage("graphics")}
-          />
-          <MenuButton label="Save and load campaigns" onPress={onSaves} />
-          <MenuButton label="Main menu" onPress={onHome} />
-        </>
-      )}
-      {page === "graphics" && graphics}
-      {!snapshot && page !== "menu" && page !== "graphics" && (
-        <Text style={styles.text}>Preparing campaign...</Text>
-      )}
-      {page === "economy" && player && snapshot && (
-        <>
-          {fact("Treasury", `£${Math.round(player.treasury).toLocaleString()}`)}
-          <Text style={styles.title}>Tax policy</Text>
-          {(["poor", "middle", "rich"] as const).map((bracket) => {
-            const rate =
-              bracket === "poor"
-                ? player.taxRatePoor
-                : bracket === "middle"
-                  ? player.taxRateMiddle
-                  : player.taxRateRich;
-            return (
-              <View key={bracket} style={styles.card}>
-                {fact(
-                  `${bracket[0].toUpperCase() + bracket.slice(1)} income`,
-                  `${Math.round(rate * 100)}%`,
-                )}
-                <View style={styles.actions}>
-                  <MenuButton
-                    label={`Lower ${bracket} tax`}
-                    disabled={rate <= 0}
-                    onPress={() =>
-                      send({
-                        t: "setTax",
-                        bracket,
-                        rate: Math.max(0, rate - 0.05),
-                      })
-                    }
-                  />
-                  <MenuButton
-                    label={`Raise ${bracket} tax`}
-                    disabled={rate >= 1}
-                    onPress={() =>
-                      send({
-                        t: "setTax",
-                        bracket,
-                        rate: Math.min(1, rate + 0.05),
-                      })
-                    }
-                  />
-                </View>
-              </View>
-            );
-          })}
-          {fact("Tariffs", `${Math.round(player.tariffRate * 100)}%`)}
-          <View style={styles.actions}>
-            <MenuButton
-              label="Lower tariffs"
-              disabled={player.tariffRate <= player.tariffMin}
-              onPress={() =>
-                send({
-                  t: "setTariff",
-                  rate: Math.max(player.tariffMin, player.tariffRate - 0.05),
-                })
-              }
-            />
-            <MenuButton
-              label="Raise tariffs"
-              disabled={player.tariffRate >= player.tariffMax}
-              onPress={() =>
-                send({
-                  t: "setTariff",
-                  rate: Math.min(player.tariffMax, player.tariffRate + 0.05),
-                })
-              }
-            />
-          </View>
-          <Text style={styles.title}>Production</Text>
-          {snapshot.playerProduction.length === 0 && (
-            <Text style={styles.text}>No production reported yet.</Text>
-          )}
-          {snapshot.playerProduction.map((p, i) => (
-            <View style={styles.card} key={i}>
-              <Text style={styles.value}>{p.locationName}</Text>
-              <Text style={styles.text}>
-                {p.recipe} · {p.outputGood}
-              </Text>
-            </View>
+          <Button label="Reports and alerts" onPress={() => onPage("alerts")} />
+          <Button label="Tutorial" onPress={() => onPage("tutorial")} />
+          {gameplayPages.map(([key, label]) => (
+            <Button key={key} label={label} onPress={() => onPage(key)} />
           ))}
-        </>
-      )}
-      {page === "military" && snapshot && player && (
-        <>
-          {fact("Military score", player.militaryScore)}
-          {fact("Mobilization capacity", player.mobilizationCapacity)}
-          <View style={styles.actions}>
-            <MenuButton
-              label="Mobilize reserves"
-              onPress={() => send({ t: "mobilize" })}
-            />
-            <MenuButton
-              label="Stand down reserves"
-              onPress={() => send({ t: "demobilize" })}
-            />
-          </View>
-          <Text style={styles.title}>Armies</Text>
-          {snapshot.armies.filter((a) => a.owner === snapshot.playerNation)
-            .length === 0 && (
-            <Text style={styles.text}>
-              No armies raised. Select an owned province on the map to recruit a
-              regiment.
-            </Text>
-          )}
-          {snapshot.armies
-            .filter((a) => a.owner === snapshot.playerNation)
-            .map((a) => (
-              <View style={styles.card} key={a.id}>
-                <Text style={styles.value}>
-                  Army {a.id + 1} · {a.regiments.length} regiments
-                </Text>
-                <Text style={styles.text}>
-                  {provinceName(a.location)} ·{" "}
-                  {a.supplied === false ? "Out of supply" : "In supply"}
-                </Text>
-                {!a.leader && (
-                  <MenuButton
-                    label={`Assign general to army ${a.id + 1}`}
-                    onPress={() => send({ t: "assignGeneral", army: a.id })}
-                  />
-                )}
-                {selectedProvince != null && (
-                  <MenuButton
-                    label={`Move army ${a.id + 1} to ${provinceName(selectedProvince)}`}
-                    onPress={() =>
-                      send({
-                        t: "moveArmy",
-                        army: a.id,
-                        target: selectedProvince,
-                      })
-                    }
-                  />
-                )}
-              </View>
-            ))}
-          {selectedProvince != null &&
-            snapshot.provinces[selectedProvince]?.owner ===
-              snapshot.playerNation && (
-              <MenuButton
-                label={`Recruit in ${provinceName(selectedProvince)}`}
-                onPress={() =>
-                  send({ t: "recruitArmy", province: selectedProvince })
-                }
-              />
-            )}
-          {fact(
-            "Fleets",
-            snapshot.fleets.filter((f) => f.owner === snapshot.playerNation)
-              .length,
-          )}
-        </>
-      )}
-      {page === "diplomacy" && snapshot && player && (
-        <>
-          {fact(
-            "Diplomatic points",
-            Math.floor(snapshot.playerDiplomaticPoints),
-          )}
-          {fact("Infamy", player.infamy.toFixed(1))}
-          <Text style={styles.title}>Foreign relations</Text>
-          <TextInput
-            accessibilityLabel="Search diplomatic nations"
-            placeholder="Find a nation"
-            placeholderTextColor="#657b80"
-            value={query}
-            onChangeText={(v) => {
-              setQuery(v);
-              setLimit(12);
-            }}
-            style={styles.search}
+          <Button label="Map and graphics" onPress={() => onPage("graphics")} />
+          <Button
+            label={online ? "Session and chat" : "Save and load campaigns"}
+            onPress={onSaves}
           />
-          {snapshot.nations
-            .filter(
-              (n) =>
-                n.id !== snapshot.playerNation &&
-                n.name.toLowerCase().includes(query.toLowerCase()),
-            )
-            .slice(0, limit)
-            .map((n) => {
-              const allied = snapshot.relations.some(
-                (r) =>
-                  r.kind === "alliance" &&
-                  ((r.a === n.id && r.b === snapshot.playerNation) ||
-                    (r.b === n.id && r.a === snapshot.playerNation)),
-              );
-              return (
-                <View key={n.id} style={styles.card}>
-                  <View style={styles.nationHeading}>
-                    <NationFlag
-                      tag={n.tag}
-                      name={n.name}
-                      color={n.color}
-                      size={24}
-                    />
-                    <Text style={styles.value}>{n.name}</Text>
-                  </View>
-                  <Text style={styles.text}>
-                    {n.atWar ? "At war" : "At peace"}
-                    {allied ? " · Allied" : ""}
-                  </Text>
-                  <MenuButton
-                    label={`${allied ? "End alliance with" : "Propose alliance to"} ${n.name}`}
-                    onPress={() =>
-                      send(
-                        allied
-                          ? {
-                              t: "cancelRelation",
-                              target: n.id,
-                              kind: "alliance",
-                            }
-                          : { t: "proposeAlliance", target: n.id },
-                      )
-                    }
-                  />
-                </View>
-              );
-            })}
+          <Button label="Main menu" onPress={onHome} />
         </>
-      )}
-      {page === "diplomacy" &&
-        snapshot &&
-        snapshot.nations.filter(
-          (n) =>
-            n.id !== snapshot.playerNation &&
-            n.name.toLowerCase().includes(query.toLowerCase()),
-        ).length > limit && (
-          <MenuButton
-            label="Show more nations"
-            onPress={() => setLimit((n) => n + 12)}
-          />
-        )}
-      {page === "research" && snapshot?.playerTech && (
+      ) : page === "alerts" ? (
+        <NativeAlerts alerts={alerts} onPage={onPage} dismiss={dismissAlert} />
+      ) : page === "tutorial" ? (
+        <NativeTutorial onPage={onPage} />
+      ) : page === "graphics" ? (
         <>
-          {fact(
-            "Research points",
-            snapshot.playerTech.researchPoints.toFixed(1),
-          )}
-          {fact(
-            "Monthly research",
-            snapshot.playerTech.monthlyResearch.toFixed(1),
-          )}
-          {fact(
-            "Current research",
-            snapshot.playerTech.statuses.find(
-              (t) => t.key === snapshot.playerTech?.current,
-            )?.name ?? "None selected",
-          )}
-          {snapshot.playerTech.current && (
-            <Text style={styles.text}>
-              {snapshot.playerTech.progress.toFixed(1)} /{" "}
-              {snapshot.playerTech.currentCost} points
-            </Text>
-          )}
-          {snapshot.playerTech.statuses.map((t) => (
-            <View style={styles.card} key={t.key}>
-              <Text style={styles.value}>{t.name}</Text>
-              <Text style={styles.text}>
-                {t.category} · {t.cost} points
-              </Text>
-              <Text style={styles.text}>{t.effectsSummary.join(" · ")}</Text>
-              {t.researched ? (
-                <Text style={styles.text}>Researched</Text>
-              ) : t.key === snapshot.playerTech?.current ? (
-                <Text style={styles.text}>Researching</Text>
-              ) : (
-                <>
-                  <Text style={styles.text}>{t.reason}</Text>
-                  <MenuButton
-                    label={`Research ${t.name}`}
-                    disabled={!t.available}
-                    onPress={() => send({ t: "setResearch", tech: t.key })}
-                  />
-                </>
-              )}
-            </View>
-          ))}
+          {graphics}
+          <Button
+            label={muted ? "Enable game audio" : "Mute game audio"}
+            onPress={() => onMuted(!muted)}
+          />
         </>
+      ) : snapshot ? (
+        <GameplayPanels
+          key={page}
+          page={page}
+          snapshot={snapshot}
+          transport={transport}
+          send={send}
+          selectedProvince={selectedProvince}
+        />
+      ) : (
+        <Copy>Preparing campaign...</Copy>
       )}
     </MenuSheet>
   );

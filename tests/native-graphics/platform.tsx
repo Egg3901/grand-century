@@ -212,3 +212,13 @@ export const Modal = ({ visible, children }: any) =>
       {children}
     </div>
   ) : null;
+
+export const Linking = {
+  getInitialURL: async () => null,
+  addEventListener: () => ({ remove() {} }),
+};
+export const Share = {
+  share: async (value: any) => {
+    (window as any).sharedInvitation = value.message;
+  },
+};

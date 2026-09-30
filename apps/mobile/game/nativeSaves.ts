@@ -1,6 +1,6 @@
 import { Directory, File, Paths } from 'expo-file-system';
 import { validSeed, type NativeSave } from './campaign';
-import { DEFAULT_SCENARIO_ID } from '../../../src/data/generated';
+import { loadScenario } from '../../../src/data/generated';
 import { isCampaignMapMode } from '../../../src/shared/campaignMap';
 
 const directory = () => {
@@ -22,10 +22,11 @@ export function listNativeSaves(): NativeSave[] {
       assertId(save.id);
       const c = save.config;
       if (entry.name !== save.id + '.json' || !c || typeof c.id !== 'string' || typeof c.name !== 'string'
-        || c.scenarioId !== DEFAULT_SCENARIO_ID || !isCampaignMapMode(c.mapMode) || validSeed(String(c.seed)) === null
+        || typeof c.scenarioId !== 'string' || !isCampaignMapMode(c.mapMode) || validSeed(String(c.seed)) === null
         || !Number.isInteger(c.playerNation) || c.playerNation < 0 || ![1, 5, 10].includes(c.autosaveMinutes)
         || typeof save.label !== 'string' || typeof save.nation !== 'string' || typeof save.date !== 'string'
         || !['auto', 'manual'].includes(save.kind) || !Number.isFinite(save.updatedAt) || !Number.isFinite(save.day)) return [];
+      loadScenario(c.scenarioId);
       if (!new File(directory(), save.id + '.gz').exists) return [];
       return [save];
     } catch { return []; }

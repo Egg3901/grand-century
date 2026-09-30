@@ -5,8 +5,8 @@
  * then acts as SimTransport for ToWorker / FromWorker (with snapshot diffs).
  */
 
-import type { FromWorker, ScenarioId, ToWorker } from '../shared/types';
-import type { SimTransport } from './transport';
+import type { FromWorker, ScenarioId, ToWorker } from "../shared/types";
+import type { SimTransport } from "./transport";
 import {
   isChatRelayMessage,
   isFromWorkerMessage,
@@ -21,21 +21,33 @@ import {
   type SessionListEntry,
   type SessionMode,
   type ServerToClient,
-} from './sessionProtocol';
-import { decodeWireBrowser } from './snapshotCodec';
-import { applyServerSnapshotMessage, createApplierState } from './snapshotApplier';
-import { resolveSocketUrl } from './socketTransport';
+} from "./sessionProtocol";
+import { decodeWireBrowser } from "./snapshotCodec";
+import {
+  applyServerSnapshotMessage,
+  createApplierState,
+} from "./snapshotApplier";
+import { defaultSocketUrl } from "./socketUrl";
 
 export type LobbyStateHandler = (state: LobbyStateMessage) => void;
 export type SessionListHandler = (sessions: SessionListEntry[]) => void;
 export type LobbyErrorHandler = (msg: string) => void;
 export type PresenceHandler = (players: PresencePlayer[]) => void;
-export type ChatHandler = (msg: { from: string; name: string; text: string; at: number }) => void;
+export type ChatHandler = (msg: {
+  from: string;
+  name: string;
+  text: string;
+  at: number;
+}) => void;
 
 export interface LobbyClientOptions {
   url?: string;
   WebSocketImpl?: typeof WebSocket;
   playerName?: string;
+  autoReconnect?: boolean;
+  onConnection?: (
+    state: "connecting" | "connected" | "reconnecting" | "disconnected",
+  ) => void;
 }
 
 export class LobbyClient implements SimTransport {
@@ -54,40 +66,110 @@ export class LobbyClient implements SimTransport {
   private clientId: string | null = null;
   private readonly url: string;
   private readonly WS: typeof WebSocket;
+  private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  private reconnectAttempts = 0;
+  private recovering = false;
+  private readonly options: LobbyClientOptions;
   lastLobby: LobbyStateMessage | null = null;
   sessionId: string | null = null;
   playerName: string;
 
   constructor(options: LobbyClientOptions = {}) {
+    this.options = options;
     this.WS = options.WebSocketImpl ?? WebSocket;
-    this.url = options.url ?? resolveSocketUrl();
-    this.playerName = options.playerName?.trim() || 'Player';
+    this.url = options.url ?? defaultSocketUrl();
+    this.playerName = options.playerName?.trim() || "Player";
     this.ws = new this.WS(this.url);
     this.bindSocket(this.ws);
+    options.onConnection?.("connecting");
   }
 
   private bindSocket(ws: WebSocket): void {
-    ws.binaryType = 'arraybuffer';
+    ws.binaryType = "arraybuffer";
 
-    ws.addEventListener('open', () => {
-      if (this.disposed) return;
+    ws.addEventListener("open", () => {
+      if (this.disposed || ws !== this.ws) return;
+      if (this.recovering && this.sessionId && this.clientId) {
+        ws.send(
+          JSON.stringify({
+            t: "reconnect",
+            sessionId: this.sessionId,
+            clientId: this.clientId,
+          }),
+        );
+        return;
+      }
       this.open = true;
+      this.reconnectAttempts = 0;
+      this.options.onConnection?.("connected");
       for (const msg of this.pending) {
         ws.send(JSON.stringify(msg));
       }
       this.pending.length = 0;
     });
 
-    ws.addEventListener('message', (event: MessageEvent) => {
-      if (this.disposed) return;
+    ws.addEventListener("message", (event: MessageEvent) => {
+      if (this.disposed || ws !== this.ws) return;
       this.enqueueRaw(event.data);
     });
+    ws.addEventListener("close", () => {
+      if (this.disposed || ws !== this.ws) return;
+      this.open = false;
+      // Orders from a lost connection must never be replayed into a later world.
+      this.pending.length = 0;
+      this.recovering =
+        this.lastLobby?.phase === "running" &&
+        !!this.sessionId &&
+        !!this.clientId;
+      if (!this.options.autoReconnect || this.reconnectAttempts >= 8) {
+        this.options.onConnection?.("disconnected");
+        return;
+      }
+      this.options.onConnection?.("reconnecting");
+      this.reconnectTimer = setTimeout(
+        () => this.connectAgain(),
+        Math.min(1000 * 2 ** this.reconnectAttempts++, 10000),
+      );
+    });
+  }
+
+  private connectAgain(): void {
+    this.reconnectTimer = null;
+    if (this.disposed) return;
+    if (
+      !this.recovering &&
+      this.sessionId &&
+      this.lastLobby?.phase === "lobby"
+    ) {
+      this.clientId = null;
+      this.pending.push({
+        t: "joinLobby",
+        sessionId: this.sessionId,
+        playerName: this.playerName,
+      });
+    }
+    const old = this.ws;
+    this.ws = new this.WS(this.url);
+    this.bindSocket(this.ws);
+    try {
+      old.close();
+    } catch {}
+  }
+
+  reconnect(): void {
+    if (this.disposed || this.open) return;
+    if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
+    this.reconnectAttempts = 0;
+    this.options.onConnection?.("reconnecting");
+    this.connectAgain();
   }
 
   private chain: Promise<void> = Promise.resolve();
 
   private enqueueRaw(data: unknown): void {
-    this.chain = this.chain.then(() => this.handleRaw(data)).catch(() => undefined);
+    this.chain = this.chain
+      .then(() => this.handleRaw(data))
+      .catch(() => undefined);
   }
 
   private async handleRaw(data: unknown): Promise<void> {
@@ -99,13 +181,13 @@ export class LobbyClient implements SimTransport {
     }
 
     if (
-      raw
-      && typeof raw === 'object'
-      && (raw as { t?: string }).t === 'log'
-      && typeof (raw as { msg?: string }).msg === 'string'
+      raw &&
+      typeof raw === "object" &&
+      (raw as { t?: string }).t === "log" &&
+      typeof (raw as { msg?: string }).msg === "string"
     ) {
       const m = /clientId:(\S+)/.exec((raw as { msg: string }).msg);
-      if (m) this.clientId = m[1]!;
+      if (m && !this.recovering) this.clientId = m[1]!;
     }
 
     if (isLobbyStateMessage(raw)) {
@@ -124,6 +206,13 @@ export class LobbyClient implements SimTransport {
       return;
     }
     if (isSessionJoinedMessage(raw)) {
+      if (this.recovering) {
+        this.recovering = false;
+        this.open = true;
+        this.reconnectAttempts = 0;
+        this.pending.length = 0;
+        this.options.onConnection?.("connected");
+      }
       return;
     }
     if (isPresenceMessage(raw)) {
@@ -135,14 +224,30 @@ export class LobbyClient implements SimTransport {
       return;
     }
 
-    const snap = applyServerSnapshotMessage(this.applier, raw as ServerToClient);
+    if (isFromWorkerMessage(raw) && raw.t === "ready") {
+      this.applier.shared = null;
+      this.applier.view = null;
+      this.applier.seq = 0;
+    }
+    if (
+      isFromWorkerMessage(raw) &&
+      raw.t === "log" &&
+      raw.level === "error" &&
+      this.recovering
+    ) {
+      this.options.onConnection?.("disconnected");
+    }
+    const snap = applyServerSnapshotMessage(
+      this.applier,
+      raw as ServerToClient,
+    );
     if (snap) {
       this.simHandler?.(snap);
       return;
     }
 
     if (isFromWorkerMessage(raw)) {
-      if (raw.t === 'log' && (raw.level === 'error' || raw.level === 'warn')) {
+      if (raw.t === "log" && (raw.level === "error" || raw.level === "warn")) {
         this.errorHandler?.(raw.msg);
       }
       this.simHandler?.(raw);
@@ -151,6 +256,15 @@ export class LobbyClient implements SimTransport {
 
   private wire(msg: unknown): void {
     if (this.disposed) return;
+    if (
+      this.recovering ||
+      (!this.open && this.lastLobby?.phase === "running")
+    ) {
+      this.errorHandler?.(
+        "Connection lost. Wait until reconnected before sending orders.",
+      );
+      return;
+    }
     if (!this.open || this.ws.readyState !== 1) {
       this.pending.push(msg);
       return;
@@ -191,7 +305,7 @@ export class LobbyClient implements SimTransport {
     scenarioId?: ScenarioId;
   }): void {
     const msg: LobbyClientMessage = {
-      t: 'createSession',
+      t: "createSession",
       name: opts.name,
       seed: opts.seed,
       mode: opts.mode,
@@ -203,41 +317,41 @@ export class LobbyClient implements SimTransport {
   }
 
   listSessions(): void {
-    this.wire({ t: 'listSessions' } satisfies LobbyClientMessage);
+    this.wire({ t: "listSessions" } satisfies LobbyClientMessage);
   }
 
   joinLobby(sessionId: string): void {
     this.wire({
-      t: 'joinLobby',
+      t: "joinLobby",
       sessionId,
       playerName: this.playerName,
     } satisfies LobbyClientMessage);
   }
 
   selectNation(nation: string): void {
-    this.wire({ t: 'selectNation', nation } satisfies LobbyClientMessage);
+    this.wire({ t: "selectNation", nation } satisfies LobbyClientMessage);
   }
 
   selectTeam(team: number): void {
-    this.wire({ t: 'selectTeam', team } satisfies LobbyClientMessage);
+    this.wire({ t: "selectTeam", team } satisfies LobbyClientMessage);
   }
 
   setReady(ready: boolean): void {
-    this.wire({ t: 'setReady', ready } satisfies LobbyClientMessage);
+    this.wire({ t: "setReady", ready } satisfies LobbyClientMessage);
   }
 
   leaderStart(): void {
-    this.wire({ t: 'leaderStart' } satisfies LobbyClientMessage);
+    this.wire({ t: "leaderStart" } satisfies LobbyClientMessage);
   }
 
   leaveSession(): void {
-    this.wire({ t: 'leaveSession' } satisfies LobbyClientMessage);
+    this.wire({ t: "leaveSession" } satisfies LobbyClientMessage);
     this.sessionId = null;
     this.lastLobby = null;
   }
 
   sendChat(text: string): void {
-    this.wire({ t: 'chat', text });
+    this.wire({ t: "chat", text });
   }
 
   getClientId(): string | null {
@@ -264,6 +378,8 @@ export class LobbyClient implements SimTransport {
     this.presenceHandler = null;
     this.chatHandler = null;
     this.pending.length = 0;
+    if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
+    this.reconnectTimer = null;
     try {
       this.ws.close();
     } catch {
@@ -274,16 +390,16 @@ export class LobbyClient implements SimTransport {
 
 /** Resolve HTTP lobby list URL from the WS URL (same host/port, path /sessions). */
 export function resolveSessionsHttpUrl(
-  wsUrl: string = resolveSocketUrl(),
+  wsUrl: string = defaultSocketUrl(),
 ): string {
   try {
     const u = new URL(wsUrl);
-    u.protocol = u.protocol === 'wss:' ? 'https:' : 'http:';
-    u.pathname = '/sessions';
-    u.search = '';
-    u.hash = '';
+    u.protocol = u.protocol === "wss:" ? "https:" : "http:";
+    u.pathname = "/sessions";
+    u.search = "";
+    u.hash = "";
     return u.toString();
   } catch {
-    return 'http://127.0.0.1:3412/sessions';
+    return "http://127.0.0.1:3412/sessions";
   }
 }

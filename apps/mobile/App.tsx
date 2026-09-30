@@ -31,6 +31,7 @@ import {
 } from "@maplibre/maplibre-react-native";
 import {
   AppState,
+  Linking,
   ScrollView,
   Image,
   Pressable,
@@ -47,7 +48,19 @@ import {
   type GamePanel,
 } from "./game/GameMenus";
 import atlas from "./assets/game/atlas.json";
-import borders from "./assets/game/borders.json";
+import {
+  nativeMapModes,
+  mapColors,
+  mapDisplayKey,
+  NativeFrontiers,
+  unitRoutes,
+  type NativeMapMode,
+} from "./game/mapModes";
+import { UnitCounters } from "./game/UnitCounters";
+import { useNativeAlerts } from "./game/NativeAdvisor";
+import { NativeAudio } from "./game/NativeAudio";
+import { gameDataForScenario } from "../../src/data/gameData";
+import { campaignRoster } from "./game/campaign";
 import { File, Paths } from "expo-file-system";
 import { GRAPHICS_KEY } from "../../src/graphics/preferences";
 const TerrainMap = lazy(() => import("./game/TerrainMap"));
@@ -59,6 +72,11 @@ const graphicsFile = new File(Paths.document, GRAPHICS_KEY + ".json");
 import worldSeed from "./assets/game/worldSeed.json";
 import { useCampaign, type Session } from "./game/useCampaign";
 import { CampaignSetup, SaveLibrary } from "./game/CampaignScreens";
+import {
+  useMultiplayer,
+  MultiplayerScreen,
+  inviteSession,
+} from "./game/Multiplayer";
 import { AccountScreen } from "./game/AccountScreen";
 import {
   campaignNation,
@@ -129,13 +147,45 @@ function Atlas({
   active: boolean;
 }) {
   const screenHeight = useWindowDimensions().height;
+  const worldSeed = useMemo(
+    () =>
+      campaignRoster(
+        session.config.seed,
+        session.config.mapMode,
+        session.config.scenarioId,
+      ),
+    [
+      session.config.id,
+      session.config.seed,
+      session.config.mapMode,
+      session.config.scenarioId,
+    ],
+  );
   const mapRef = useRef<MapRef>(null);
   const terrainCamera = useRef<TerrainView | null>(null);
   const projectionRun = useRef(0);
   const [province, setProvince] = useState<Province | null>(null);
   const { snapshot, transport } = session;
-  const [mapMode, setMapMode] = useState<"political" | "terrain">("political");
+  const [mapMode, setMapMode] = useState<NativeMapMode>("political");
   const [actionMessage, setActionMessage] = useState("");
+  const { alerts, dismiss } = useNativeAlerts(snapshot);
+  const audioFile = useMemo(
+    () => new File(Paths.document, "grand-century-audio-muted"),
+    [],
+  );
+  const [muted, setMuted] = useState(() => {
+    try {
+      return !audioFile.exists || audioFile.textSync() !== "false";
+    } catch {
+      return true;
+    }
+  });
+  const chooseMuted = (value: boolean) => {
+    setMuted(value);
+    try {
+      audioFile.write(String(value));
+    } catch {}
+  };
   const [preference, setPreference] = useState<GraphicsPreference>(() => {
     try {
       return graphicsPreference(
@@ -167,14 +217,26 @@ function Atlas({
   const [graphicsNotice, setGraphicsNotice] = useState("");
   const [panel, setPanel] = useState<GamePanel | null>(null);
   const openPanel = (next: GamePanel) => {
-    transport?.send({ t: "command", cmd: { t: "setSpeed", speed: 0 } });
+    if (!session.online)
+      transport?.send({ t: "command", cmd: { t: "setSpeed", speed: 0 } });
     setActionMessage("");
     setPanel(next);
   };
   useEffect(() => {
-    if (!active)
+    if (!active && !session.online)
       transport?.send({ t: "command", cmd: { t: "setSpeed", speed: 0 } });
-  }, [active, transport]);
+  }, [active, transport, session.online]);
+  const seenEvent = useRef<number | null>(null);
+  const eventId = snapshot.pendingPlayerEvents?.[0]?.instanceId ?? null;
+  useEffect(() => {
+    if (active && eventId != null && seenEvent.current !== eventId) {
+      seenEvent.current = eventId;
+      openPanel("events");
+    }
+  }, [active, eventId]);
+  useEffect(() => {
+    if (snapshot.campaignOver && active) openPanel("recap");
+  }, [snapshot.campaignOver, active]);
   const chooseGraphics = useCallback((value: GraphicsPreference) => {
     setPreference(value);
     setGraphicsNotice("");
@@ -191,6 +253,7 @@ function Atlas({
     },
     [chooseGraphics],
   );
+  const [mapRevision, setMapRevision] = useState(0);
   const [mapSize, setMapSize] = useState({ width: 0, height: 0 });
   const [visibleLabelTags, setVisibleLabelTags] = useState<string[]>([]);
   const capital = worldSeed.provinces.find(
@@ -223,28 +286,51 @@ function Atlas({
     .map((item) => item.tag)
     .sort()
     .join(",");
+  const useTerrain =
+    graphics !== "2d" &&
+    session.config.scenarioId === "1830-01-01" &&
+    (mapMode === "political" || mapMode === "terrain");
+  const frontierIndex = useMemo(() => new NativeFrontiers(atlas.features), []);
   const ownershipKey =
-    snapshot.provinces.map((p) => p.owner).join(",") +
+    snapshot.provinces.map((p) => `${p.owner}:${p.controller}`).join(",") +
     "/" +
     snapshot.nations.map((n) => n.color.join(",")).join(";");
+  const displayKey = mapDisplayKey(mapMode, snapshot);
+  const colors = useMemo(
+    () =>
+      mapColors(
+        mapMode,
+        snapshot,
+        gameDataForScenario(session.config.scenarioId),
+      ),
+    [mapMode, displayKey, session.config.scenarioId],
+  );
   const politicalAtlas = useMemo(
     () => ({
       ...atlas,
-      features: atlas.features.map((feature) => {
-        const owner =
-          snapshot.nations[snapshot.provinces[feature.properties.id]?.owner];
-        return {
-          ...feature,
-          properties: {
-            ...feature.properties,
-            color: owner
-              ? `rgb(${owner.color.join(",")})`
-              : feature.properties.color,
-          },
-        };
-      }),
+      features: atlas.features.map((feature) => ({
+        ...feature,
+        properties: {
+          ...feature.properties,
+          name:
+            worldSeed.provinces[feature.properties.id]?.name ??
+            feature.properties.name,
+          terrain:
+            worldSeed.provinces[feature.properties.id]?.terrain ??
+            feature.properties.terrain,
+          color: colors.get(feature.properties.id) ?? feature.properties.color,
+        },
+      })),
     }),
-    [ownershipKey, session.config.id],
+    [colors, worldSeed],
+  );
+  const borders = useMemo(
+    () => frontierIndex.borders(snapshot),
+    [ownershipKey, frontierIndex],
+  );
+  const routes = useMemo(
+    () => unitRoutes(snapshot, worldSeed),
+    [snapshot.armies, snapshot.fleets, worldSeed],
   );
   const powerLabels = {
     type: "FeatureCollection" as const,
@@ -304,8 +390,9 @@ function Atlas({
 
   return (
     <View style={styles.mapPage}>
+      <NativeAudio alerts={alerts} muted={muted} active={active} />
       {active &&
-        (graphics !== "2d" ? (
+        (useTerrain ? (
           <Suspense
             fallback={
               <Text
@@ -348,6 +435,7 @@ function Atlas({
             preferredFramesPerSecond={30}
             onLayout={(event) => setMapSize(event.nativeEvent.layout)}
             onDidFinishLoadingMap={() => {
+              setMapRevision((n) => n + 1);
               void placeLabels();
             }}
             onRegionWillChange={() => {
@@ -355,6 +443,7 @@ function Atlas({
               setVisibleLabelTags([]);
             }}
             onRegionDidChange={(event) => {
+              setMapRevision((n) => n + 1);
               const v = event.nativeEvent;
               terrainCamera.current = {
                 lon: v.center[0],
@@ -407,7 +496,14 @@ function Atlas({
               <Layer
                 id="relief-raster"
                 type="raster"
-                paint={{ "raster-opacity": mapMode === "terrain" ? 0.8 : 0.55 }}
+                paint={{
+                  "raster-opacity":
+                    mapMode === "terrain"
+                      ? 0.8
+                      : mapMode === "political"
+                        ? 0.55
+                        : 0.1,
+                }}
               />
             </ImageSource>
 
@@ -429,7 +525,7 @@ function Atlas({
                 type="fill"
                 paint={{
                   "fill-color": ["get", "color"],
-                  "fill-opacity": mapMode === "political" ? 0.77 : 0.18,
+                  "fill-opacity": mapMode === "terrain" ? 0.18 : 0.85,
                 }}
               />
               <Layer
@@ -455,7 +551,12 @@ function Atlas({
                     "#a8b383",
                     "#a8b383",
                   ],
-                  "fill-opacity": mapMode === "terrain" ? 0.45 : 0.1,
+                  "fill-opacity":
+                    mapMode === "terrain"
+                      ? 0.45
+                      : mapMode === "political"
+                        ? 0.1
+                        : 0,
                 }}
               />
               <Layer
@@ -479,7 +580,12 @@ function Atlas({
                     "arctic",
                     "plain",
                   ],
-                  "fill-opacity": mapMode === "terrain" ? 0.38 : 0.15,
+                  "fill-opacity":
+                    mapMode === "terrain"
+                      ? 0.38
+                      : mapMode === "political"
+                        ? 0.15
+                        : 0,
                 }}
               />
               <Layer
@@ -546,6 +652,25 @@ function Atlas({
                 }}
               />
             </GeoJSONSource>
+            <GeoJSONSource id="native-routes" data={routes}>
+              <Layer
+                id="native-route-lines"
+                type="line"
+                paint={{
+                  "line-color": "#17262d",
+                  "line-width": 2,
+                  "line-dasharray": [3, 2],
+                }}
+              />
+            </GeoJSONSource>
+            <GeoJSONSource id="native-fronts" data={borders}>
+              <Layer
+                id="native-front-lines"
+                type="line"
+                filter={["==", ["get", "kind"], "front"]}
+                paint={{ "line-color": "#b8322e", "line-width": 3 }}
+              />
+            </GeoJSONSource>
             <GeoJSONSource
               id="power-labels"
               data={powerLabels as GeoJSON.FeatureCollection}
@@ -565,6 +690,15 @@ function Atlas({
             </GeoJSONSource>
           </Map>
         ))}
+      {!useTerrain && active && (
+        <UnitCounters
+          snapshot={snapshot}
+          seed={worldSeed}
+          map={mapRef}
+          revision={mapRevision}
+          onSelect={(id) => setProvince(worldSeed.provinces[id] ?? null)}
+        />
+      )}
       <View style={styles.topBar}>
         <Pressable
           accessibilityRole="button"
@@ -576,15 +710,15 @@ function Atlas({
         </Pressable>
         <View style={{ paddingLeft: 10 }}>
           <NationFlag
-            tag={nation.tag}
-            name={nation.name}
-            color={nation.color}
+            tag={player?.tag ?? nation.tag}
+            name={player?.name ?? nation.name}
+            color={player?.color ?? nation.color}
           />
         </View>
         <View style={styles.topTitleBlock}>
           <Text style={styles.topEyebrow}>YOUR NATION</Text>
           <Text style={styles.topTitle} numberOfLines={1}>
-            {nation.name}
+            {player?.name ?? nation.name}
           </Text>
           <Text style={styles.topStatus}>
             {player?.atWar ? "At war" : "At peace"} · Unrest{" "}
@@ -619,59 +753,44 @@ function Atlas({
           {graphicsNotice}
         </Text>
       )}
-      <View style={styles.mapModeBar}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Political map"
-          accessibilityState={{ selected: mapMode === "political" }}
-          onPress={() => setMapMode("political")}
-          style={[
-            styles.mapModeButton,
-            mapMode === "political" && styles.mapModeSelected,
-          ]}
-        >
-          <Ionicons
-            name="globe-outline"
-            size={13}
-            color={mapMode === "political" ? "#f1eadc" : ink}
-          />
-          <Text
+      <ScrollView
+        horizontal
+        style={styles.mapModeBar}
+        contentContainerStyle={{ flexDirection: "row", gap: 6 }}
+      >
+        {nativeMapModes.map(([mode, label]) => (
+          <Pressable
+            key={mode}
+            accessibilityRole="button"
+            accessibilityLabel={`${label} map`}
+            accessibilityState={{ selected: mapMode === mode }}
+            onPress={() => setMapMode(mode)}
             style={[
-              styles.mapModeText,
-              mapMode === "political" && styles.mapModeSelectedText,
+              styles.mapModeButton,
+              { minHeight: 44 },
+              mapMode === mode && styles.mapModeSelected,
             ]}
           >
-            Political
-          </Text>
-        </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Terrain map"
-          accessibilityState={{ selected: mapMode === "terrain" }}
-          onPress={() => setMapMode("terrain")}
-          style={[
-            styles.mapModeButton,
-            mapMode === "terrain" && styles.mapModeSelected,
-          ]}
-        >
-          <Ionicons
-            name="leaf-outline"
-            size={13}
-            color={mapMode === "terrain" ? "#f1eadc" : ink}
-          />
-          <Text
-            style={[
-              styles.mapModeText,
-              mapMode === "terrain" && styles.mapModeSelectedText,
-            ]}
-          >
-            Terrain
-          </Text>
-        </Pressable>
-      </View>
+            <Text
+              style={[
+                styles.mapModeText,
+                mapMode === mode && styles.mapModeSelectedText,
+              ]}
+            >
+              {label}
+            </Text>
+          </Pressable>
+        ))}
+      </ScrollView>
       {panel && (
         <GameMenus
           page={panel}
+          transport={transport}
+          online={session.online}
+          alerts={alerts}
+          dismissAlert={dismiss}
+          muted={muted}
+          onMuted={chooseMuted}
           onPage={openPanel}
           onClose={() => setPanel(null)}
           onHome={() => {
@@ -691,6 +810,18 @@ function Atlas({
           }}
           graphics={
             <>
+              <Text style={{ color: ink, lineHeight: 22 }}>
+                Reports: {alerts.length}. Open Reports and alerts from the
+                campaign menu.
+              </Text>
+              <Text style={{ color: ink, lineHeight: 22 }}>
+                {nativeMapModes.find(([id]) => id === mapMode)?.[2]}
+              </Text>
+              <Text style={{ color: ink, lineHeight: 22 }}>
+                Analytical overlays and preview scenarios use the 2D atlas.
+                Political and Terrain views in 1830 use your chosen graphics
+                quality.
+              </Text>
               <View style={styles.graphicsOptions}>
                 <Pressable
                   accessibilityRole="button"
@@ -912,6 +1043,10 @@ function Atlas({
                 <Text style={styles.provinceActionText}>Recruit regiment</Text>
               </Pressable>
             )}
+            <MenuButton
+              label="Open province ledger"
+              onPress={() => openPanel("province")}
+            />
             {!!actionMessage && (
               <Text style={styles.actionMessage}>{actionMessage}</Text>
             )}
@@ -1041,24 +1176,51 @@ export default function App() {
   }, []);
 
   const campaign = useCampaign();
-  const { session, busy, notice } = campaign;
+  const multiplayer = useMultiplayer();
+  const [focusOnline, setFocusOnline] = useState(false);
+  const session = focusOnline ? multiplayer.session : campaign.session;
+  const busy = campaign.busy;
+  const notice = focusOnline
+    ? `${multiplayer.status}: ${multiplayer.notice}`
+    : campaign.notice;
+  const [invitation, setInvitation] = useState<string | null>(null);
   const config = session?.config;
   const nation = useMemo(
     () => (config ? campaignNation(config) : null),
     [config],
   );
   const [screen, setScreen] = useState<
-    "home" | "picker" | "game" | "saves" | "account"
+    "home" | "picker" | "game" | "saves" | "account" | "multiplayer"
   >("home");
+  useEffect(() => {
+    const receive = (url: string) => {
+      const id = inviteSession(url);
+      if (id) {
+        setInvitation(id);
+        setScreen("multiplayer");
+      }
+    };
+    void Linking.getInitialURL().then((url) => {
+      if (url) receive(url);
+    });
+    const listener = Linking.addEventListener("url", ({ url }) => receive(url));
+    return () => listener.remove();
+  }, []);
   const start = async (config: CampaignConfig) => {
-    if (await campaign.open(config)) setScreen("game");
+    if (await campaign.open(config)) {
+      setFocusOnline(false);
+      setScreen("game");
+    }
   };
   const load = async (save: NativeSave) => {
-    if (await campaign.open(save.config, save)) setScreen("game");
+    if (await campaign.open(save.config, save)) {
+      setFocusOnline(false);
+      setScreen("game");
+    }
   };
   const home = () => {
     setScreen("home");
-    void campaign.save("auto", "Returned to main menu");
+    if (!focusOnline) void campaign.save("auto", "Returned to main menu");
   };
   return (
     <SafeAreaProvider>
@@ -1073,7 +1235,9 @@ export default function App() {
                 key={session.config.id}
                 session={session}
                 notice={notice}
-                onSaves={() => setScreen("saves")}
+                onSaves={() =>
+                  setScreen(session.online ? "multiplayer" : "saves")
+                }
                 nation={nation}
                 active={screen === "game"}
                 onHome={home}
@@ -1097,11 +1261,24 @@ export default function App() {
                 void load(save);
               }}
               onSave={
-                session ? (label) => campaign.save("manual", label) : undefined
+                campaign.session
+                  ? (label) => campaign.save("manual", label)
+                  : undefined
               }
-              campaignName={session?.config.name}
+              campaignName={campaign.session?.config.name}
               busy={busy}
               notice={notice}
+            />
+          )}
+          {screen === "multiplayer" && (
+            <MultiplayerScreen
+              multiplayer={multiplayer}
+              invitation={invitation}
+              onBack={() => setScreen("home")}
+              onPlay={() => {
+                setFocusOnline(true);
+                setScreen("game");
+              }}
             />
           )}
           {screen === "account" && (
@@ -1169,6 +1346,10 @@ export default function App() {
                 label="Load and manage saves"
                 onPress={() => setScreen("saves")}
                 disabled={busy}
+              />
+              <MenuButton
+                label="Multiplayer"
+                onPress={() => setScreen("multiplayer")}
               />
               <MenuButton
                 label="Lakeside account"

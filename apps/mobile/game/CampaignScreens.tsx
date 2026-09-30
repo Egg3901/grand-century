@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { DEFAULT_SCENARIO_ID, loadScenario } from '../../../src/data/generated';
+import { DEFAULT_SCENARIO_ID, listScenarios, loadScenario } from '../../../src/data/generated';
 import { CAMPAIGN_MAP_MODES, type CampaignMapMode } from '../../../src/shared/campaignMap';
 import { campaignRoster, validSeed, type CampaignConfig, type NativeSave } from './campaign';
 import { deleteNativeSave, listNativeSaves, newSaveId } from './nativeSaves';
@@ -29,23 +29,27 @@ function Choice({ title, detail, selected, onPress }: { title: string; detail?: 
 export function CampaignSetup({ onBack, onStart, busy, notice }: { onBack: () => void; onStart: (config: CampaignConfig) => void; busy: boolean; notice: string }) {
   const [name, setName] = useState('');
   const [seedInput, setSeed] = useState('1830');
+  const [scenarioId, setScenarioId] = useState(DEFAULT_SCENARIO_ID);
+  const scenarios = useMemo(() => listScenarios().filter((s) => s.status === 'playable' || s.status === 'preview'), []);
   const [mode, setMode] = useState<CampaignMapMode>('historical');
   const [query, setQuery] = useState('');
   const [nationTag, setNationTag] = useState('ENG');
   const [autosave, setAutosave] = useState(5);
   const [step, setStep] = useState<'world' | 'nation'>('world');
   const seed = validSeed(seedInput);
-  const roster = useMemo(() => campaignRoster(seed ?? 1830, mode), [seed, mode]);
+  const roster = useMemo(() => campaignRoster(seed ?? 1830, mode, scenarioId), [seed, mode, scenarioId]);
   const nations = roster.nations.filter((n) => !['UNC', 'UNA', 'COL'].includes(n.tag));
   const selected = nations.find((n) => n.tag === nationTag) ?? nations[0];
   const owned = roster.provinces.filter((p) => p.ownerTag === selected.tag);
-  const scenario = loadScenario(DEFAULT_SCENARIO_ID).manifest;
+  const scenario = loadScenario(scenarioId).manifest;
   return <ScrollView style={s.page} contentContainerStyle={s.content} keyboardShouldPersistTaps="handled">
     <MenuButton label={step === 'world' ? 'Back to main menu' : 'Back to campaign options'} onPress={step === 'world' ? onBack : () => setStep('world')} disabled={busy} />
     <Text style={s.label}>NEW CAMPAIGN / {step === 'world' ? '1. WORLD' : '2. NATION'}</Text>
     <Text accessibilityRole="header" style={s.title}>{step === 'world' ? 'Shape your campaign' : 'Choose your nation'}</Text>
     {step === 'world' ? <>
-      <View style={s.card}><Text style={s.label}>SCENARIO</Text><Text style={s.heading}>1830 · {scenario.title}</Text><Text style={s.text}>Industrialization, diplomacy and revolution. Other eras are still in development for native.</Text></View>
+      <Text style={s.label}>SCENARIO</Text>
+      {scenarios.map((era) => <Choice key={era.id} title={`${era.startDate.year} · ${era.title}`} detail={`${era.status === 'preview' ? 'Preview scenario. ' : ''}${era.summary}`} selected={scenarioId === era.id} onPress={() => { setScenarioId(era.id); setNationTag('ENG'); }} />)}
+      <Text style={s.text}>Start date: {scenario.startDate.day}/{scenario.startDate.month}/{scenario.startDate.year}.</Text>
       <Text style={s.label}>CAMPAIGN NAME</Text>
       <TextInput style={s.input} accessibilityLabel="Campaign name" value={name} onChangeText={setName} placeholder="My grand campaign" placeholderTextColor="#a8b8b9" maxLength={60} />
       <Text style={s.label}>WORLD RULES</Text>
@@ -65,7 +69,7 @@ export function CampaignSetup({ onBack, onStart, busy, notice }: { onBack: () =>
         <Text style={s.text}>{selected.government.replaceAll('_', ' ')} · {owned.length} provinces</Text>
         <Text style={s.text}>{selected.eraSummary ?? `Capital: ${roster.provinces.find((p) => p.id === selected.capitalProvinceId)?.name ?? 'Unknown'}. Lead ${selected.primaryCulture.replaceAll('_', ' ')} society into a new century.`}</Text>
         <Text style={s.text}>{name.trim() || `${selected.name} campaign`} · Seed {seed} · Autosave every {autosave} min</Text>
-        <MenuButton label={`Begin campaign as ${selected.name}`} disabled={busy} onPress={() => { if (seed !== null) onStart({ id: newSaveId(), name: name.trim() || `${selected.name} campaign`, seed, mapMode: mode, scenarioId: DEFAULT_SCENARIO_ID, playerNation: roster.nations.indexOf(selected), autosaveMinutes: autosave }); }} />
+        <MenuButton label={`Begin campaign as ${selected.name}`} disabled={busy} onPress={() => { if (seed !== null) onStart({ id: newSaveId(), name: name.trim() || `${selected.name} campaign`, seed, mapMode: mode, scenarioId, playerNation: roster.nations.indexOf(selected), autosaveMinutes: autosave }); }} />
       </View>
       <TextInput style={s.input} accessibilityLabel="Search nations" placeholder="Search nations" placeholderTextColor="#a8b8b9" value={query} onChangeText={setQuery} />
       {nations.filter((n) => `${n.name} ${n.tag}`.toLowerCase().includes(query.trim().toLowerCase())).sort((a,b) => a.name.localeCompare(b.name)).map((n) => <Choice key={n.tag} title={`Select ${n.name}`} selected={n.tag === selected.tag} onPress={() => setNationTag(n.tag)} />)}

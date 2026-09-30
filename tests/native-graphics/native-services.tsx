@@ -1,31 +1,74 @@
 import React from "react";
 import { View, Text } from "./platform";
 export class Worker {
-  private worker = new window.Worker(new URL('../../apps/mobile/game/sim.worker.ts', import.meta.url), { type: 'module' });
-  set onmessage(handler: (event: MessageEvent) => void) { this.worker.onmessage = handler; }
-  postMessage(message: any) { if (message.t === 'command') (window as any).nativeCommand = message.cmd; this.worker.postMessage(message); }
-  terminate() { this.worker.terminate(); }
+  private worker = new window.Worker(
+    new URL("../../apps/mobile/game/sim.worker.ts", import.meta.url),
+    { type: "module" },
+  );
+  set onmessage(handler: (event: MessageEvent) => void) {
+    this.worker.onmessage = (event) => {
+      if (event.data.t === "snapshot")
+        (window as any).nativeSnapshot = event.data.snapshot;
+      if (event.data.t === "nationDetail")
+        (window as any).nativeNationDetail = event.data.detail;
+      handler(event);
+    };
+  }
+  postMessage(message: any) {
+    if (message.t === "command") (window as any).nativeCommand = message.cmd;
+    this.worker.postMessage(message);
+  }
+  terminate() {
+    this.worker.terminate();
+  }
 }
-const keyOf = (parts: any[]) => parts.map((part) => typeof part === 'string' ? part : part.uri).join('/');
+const keyOf = (parts: any[]) =>
+  parts.map((part) => (typeof part === "string" ? part : part.uri)).join("/");
 export class File {
   uri: string;
-  constructor(...parts: any[]) { this.uri = keyOf(parts); }
-  get name() { return this.uri.split('/').pop()!; }
-  get exists() { return localStorage.getItem(this.uri) !== null; }
-  textSync() { return localStorage.getItem(this.uri) ?? ''; }
-  async bytes() { return new Uint8Array(JSON.parse(this.textSync())); }
-  write(data: string | Uint8Array) { localStorage.setItem(this.uri, typeof data === 'string' ? data : JSON.stringify(Array.from(data))); }
-  delete() { localStorage.removeItem(this.uri); }
+  constructor(...parts: any[]) {
+    this.uri = keyOf(parts);
+  }
+  get name() {
+    return this.uri.split("/").pop()!;
+  }
+  get exists() {
+    return localStorage.getItem(this.uri) !== null;
+  }
+  textSync() {
+    return localStorage.getItem(this.uri) ?? "";
+  }
+  async bytes() {
+    return new Uint8Array(JSON.parse(this.textSync()));
+  }
+  write(data: string | Uint8Array) {
+    localStorage.setItem(
+      this.uri,
+      typeof data === "string" ? data : JSON.stringify(Array.from(data)),
+    );
+  }
+  delete() {
+    localStorage.removeItem(this.uri);
+  }
 }
 export class Directory {
   uri: string;
-  constructor(...parts: any[]) { this.uri = keyOf(parts); }
+  constructor(...parts: any[]) {
+    this.uri = keyOf(parts);
+  }
   create() {}
-  list() { return Object.keys(localStorage).filter((key) => key.startsWith(this.uri + '/')).map((key) => new File(key)); }
+  list() {
+    return Object.keys(localStorage)
+      .filter((key) => key.startsWith(this.uri + "/"))
+      .map((key) => new File(key));
+  }
 }
-export const Paths = { document: 'test' };
-export const WebBrowserPresentationStyle = { FULL_SCREEN: 'fullScreen' };
-export async function openBrowserAsync(url: string) { (window as any).accountURL = url; return { type: 'cancel' }; }
+export const Paths = { document: "test" };
+export const WebBrowserPresentationStyle = { FULL_SCREEN: "fullScreen" };
+export async function openBrowserAsync(url: string) {
+  (window as any).accountURL = url;
+  return { type: "cancel" };
+}
 export const StatusBar = () => null;
 export default function Ionicons({ name }: any) {
   return (
@@ -51,3 +94,14 @@ export const modelId = null,
   modelName = null,
   totalMemory = null,
   isDevice = false;
+
+export const setAudioModeAsync = async () => {};
+export function useAudioPlayer(_source: any) {
+  const ref = React.useRef({
+    loop: false,
+    play() {},
+    pause() {},
+    replace(_asset: any) {},
+  });
+  return ref.current;
+}

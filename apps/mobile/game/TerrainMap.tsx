@@ -31,6 +31,7 @@ import {
 import type { WorldSnapshot } from "../../../src/shared/types";
 import { homelandAnchors } from "../../../src/graphics/mapAnchors";
 import { verifyTerrainFrame } from "./terrainFrame";
+import { UnitCounters } from "./UnitCounters";
 import worldSeed from "../assets/game/worldSeed.json";
 
 type Props = {
@@ -376,6 +377,15 @@ function TerrainSurface(
         {...pan.panHandlers}
         accessibilityLabel="3D terrain map. Drag to pan and pinch to zoom."
       />
+      {ready && r && props.snapshot && (
+        <UnitCounters
+          snapshot={props.snapshot}
+          seed={worldSeed}
+          revision={revision}
+          project={([lon, lat]) => r.project(lon, lat)}
+          onSelect={(id) => props.onSelect(id)}
+        />
+      )}
       {!ready && (
         <Text style={styles.loading} accessibilityRole="text">
           Preparing offline terrain...

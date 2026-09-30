@@ -47,6 +47,15 @@ describe('native save library', () => {
     expect([...memory.files.keys()].some((p) => p.includes('new'))).toBe(false);
     expect(await readNativeSave('old')).toEqual(new Uint8Array([9]));
   });
+  it('lists registered scenarios while ignoring unknown scenarios', () => {
+    const modern = save('modern');
+    modern.config.scenarioId = '1936-01-01';
+    writeNativeSave(modern, new Uint8Array([9]));
+    const unknown = save('unknown');
+    unknown.config.scenarioId = 'unknown-era';
+    writeNativeSave(unknown, new Uint8Array([9]));
+    expect(listNativeSaves().map((s) => s.id)).toEqual(['modern']);
+  });
   it('rejects traversal and accidental overwrite', () => {
     expect(() => deleteNativeSave('../graphics')).toThrow();
     writeNativeSave(save('old'), new Uint8Array([9]));

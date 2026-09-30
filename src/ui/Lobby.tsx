@@ -6,6 +6,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { attachTransport } from '../bootTransport';
 import { LobbyClient } from '../net/lobbyClient';
+import { resolveSocketUrl } from '../net/socketTransport';
 import { buildLobbyInviteUrl } from '../net/mpJoin';
 import type { LobbyStateMessage, SessionListEntry, SessionMode } from '../net/sessionProtocol';
 import { useStore } from '../store';
@@ -92,7 +93,7 @@ export function LobbyScreen({ initialSessionId = null }: LobbyScreenProps) {
 
   const ensureClient = (): LobbyClient => {
     if (clientRef.current) return clientRef.current;
-    const client = new LobbyClient({ playerName: playerName.trim() || 'Player' });
+    const client = new LobbyClient({ url: resolveSocketUrl(), playerName: playerName.trim() || 'Player' });
     clientRef.current = client;
     bindClient(client);
     return client;
