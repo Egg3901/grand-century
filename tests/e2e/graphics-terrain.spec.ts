@@ -447,11 +447,13 @@ test("engraved homepage fits portrait and landscape; regional weather remains vi
     expect(await page.evaluate(() => document.querySelector(".menu-home")!.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: `artifacts/homepage-web-${viewport.width}.png` });
   }
+  await page.setViewportSize({ width: 430, height: 932 });
   await page.getByTestId("menu-new-game").click();
   await page.waitForFunction(() => (window as any).__grandCenturyMap?.getSource("visual-weather-clouds"));
-  const canvas = page.locator(".grand-map canvas");
+  await page.evaluate(() => (window as any).__grandCenturyMap.jumpTo({ center: [2.5, 47], zoom: 3.8 }));
+  const clip = { x: 60, y: 220, width: 300, height: 300 };
   await page.waitForFunction(() => (window as any).__grandCenturyMap.loaded() && !(window as any).__grandCenturyMap.isMoving());
-  const clear = await canvas.screenshot();
+  const clear = await page.screenshot({ clip });
   await page.locator(".gc-atmosphere-controls summary").click();
   await page.getByLabel("Map weather").selectOption("rain");
   await page.locator(".gc-atmosphere-controls summary").click();
@@ -459,14 +461,14 @@ test("engraved homepage fits portrait and landscape; regional weather remains vi
     const map = (window as any).__grandCenturyMap;
     return map.loaded() && !map.isMoving() && map.querySourceFeatures("visual-weather-clouds").length > 0;
   });
-  const rain = await canvas.screenshot();
+  const rain = await page.screenshot({ clip });
   // Compare pixels from the central map, away from HUD and weather controls.
   const changed = await page.evaluate(async ([a, b]) => {
     const read = async (data: string) => {
       const img = new Image(); img.src = `data:image/png;base64,${data}`; await img.decode();
       const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
       const ctx = c.getContext("2d")!; ctx.drawImage(img, 0, 0);
-      return ctx.getImageData(460, 300, 400, 200).data;
+      return ctx.getImageData(0, 0, 300, 300).data;
     };
     const x = await read(a), y = await read(b); let count = 0;
     for (let i = 0; i < x.length; i += 4) if (Math.abs(x[i] - y[i]) + Math.abs(x[i+1] - y[i+1]) + Math.abs(x[i+2] - y[i+2]) > 12) count++;

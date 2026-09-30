@@ -2404,44 +2404,176 @@ function AtlasMap2D({ camera, atmosphere }: { camera: RefObject<View|null>; atmo
   );
 }
 
-const TerrainCanvas = lazy(() => import('./TerrainCanvas').then(m => ({ default: m.TerrainCanvas })));
+const TerrainCanvas = lazy(() =>
+  import('./TerrainCanvas').then((m) => ({ default: m.TerrainCanvas })),
+);
 export function GrandMap() {
-  const showHome = useStore(s => s.showMainMenu);
-  const [graphics,setGraphics]=useState<GraphicsMode>(()=>{try{return parseGraphicsMode(localStorage.getItem('grand-century-graphics-v1'));}catch{return '2d';}});
-  const [notice,setNotice]=useState('');
+  const showHome = useStore((s) => s.showMainMenu);
+  const [graphics, setGraphics] = useState<GraphicsMode>(() => {
+    try {
+      return parseGraphicsMode(
+        localStorage.getItem('grand-century-graphics-v1'),
+      );
+    } catch {
+      return '2d';
+    }
+  });
+  const [notice, setNotice] = useState('');
   const [atmosphere, setAtmosphere] = useState(() => {
-    try { return parseAtmosphere(localStorage.getItem(ATMOSPHERE_KEY)); } catch { return parseAtmosphere(null); }
+    try {
+      return parseAtmosphere(localStorage.getItem(ATMOSPHERE_KEY));
+    } catch {
+      return parseAtmosphere(null);
+    }
   });
   const chooseAtmosphere = (value: Atmosphere) => {
     setAtmosphere(value);
-    try { localStorage.setItem(ATMOSPHERE_KEY, JSON.stringify(value)); } catch { /* Session setting still works. */ }
+    try {
+      localStorage.setItem(ATMOSPHERE_KEY, JSON.stringify(value));
+    } catch {
+      /* Session setting still works. */
+    }
   };
-  const camera=useRef<View|null>(null);
-  const previousCampaign=useRef('');
-  const mode=useStore(s=>s.mapMode),snapshot=useSnapshotFields(['scenarioId','playerNation','seed','mapMode'] as const);
-  const campaign=`${snapshot?.scenarioId}:${snapshot?.playerNation}:${snapshot?.seed}`;
-  if(previousCampaign.current!==campaign){previousCampaign.current=campaign;camera.current=null;}
-  const supported=(mode==='political'||mode==='terrain')&&(!snapshot?.scenarioId||snapshot.scenarioId==='1830-01-01')&&snapshot?.mapMode!=='procedural_random';
-  const choose=useCallback((value:GraphicsMode)=>{setGraphics(value);setNotice('');try{localStorage.setItem('grand-century-graphics-v1',value);}catch{/* Session preference still works. */}},[]);
-  const fallback=useCallback((reason:string)=>{choose('2d');setNotice(reason);},[choose]);
+  const camera = useRef<View | null>(null);
+  const previousCampaign = useRef('');
+  const mode = useStore((s) => s.mapMode),
+    snapshot = useSnapshotFields([
+      'scenarioId',
+      'playerNation',
+      'seed',
+      'mapMode',
+    ] as const);
+  const campaign = `${snapshot?.scenarioId}:${snapshot?.playerNation}:${snapshot?.seed}`;
+  if (previousCampaign.current !== campaign) {
+    previousCampaign.current = campaign;
+    camera.current = null;
+  }
+  const supported =
+    (mode === 'political' || mode === 'terrain') &&
+    (!snapshot?.scenarioId || snapshot.scenarioId === '1830-01-01') &&
+    snapshot?.mapMode !== 'procedural_random';
+  const choose = useCallback((value: GraphicsMode) => {
+    setGraphics(value);
+    setNotice('');
+    try {
+      localStorage.setItem('grand-century-graphics-v1', value);
+    } catch {
+      /* Session preference still works. */
+    }
+  }, []);
+  const fallback = useCallback(
+    (reason: string) => {
+      choose('2d');
+      setNotice(reason);
+    },
+    [choose],
+  );
   if (showHome) return null;
-  return <>
-    {graphics!=='2d'&&supported?<Suspense fallback={<div className="gc-terrain-loading" role="status">Loading terrain...</div>}><TerrainCanvas quality={graphics==='high'?'high':'balanced'} key={campaign+graphics} onFallback={fallback} camera={camera} atmosphere={atmosphere}/></Suspense>:<AtlasMap2D key={campaign} camera={camera} atmosphere={atmosphere}/>}
-    <details className="gc-atmosphere-controls" style={{ position: "absolute", background: "#112c35", color: "#f4efdd", padding: 8, zIndex: 3 }}>
-      <summary>Weather / {atmosphere.weather === "dynamic" ? "Regional" : atmosphere.weather}</summary>
-      <label>Lighting <select aria-label="Map lighting" value={atmosphere.lighting} onChange={e => chooseAtmosphere({ ...atmosphere, lighting: e.target.value as Atmosphere["lighting"] })}>
-        <option value="cycle">Day / night cycle</option><option value="day">Day</option><option value="night">Night</option>
-      </select></label>{" "}
-      <label>Weather <select aria-label="Map weather" value={atmosphere.weather} onChange={e => chooseAtmosphere({ ...atmosphere, weather: e.target.value as Atmosphere["weather"] })}>
-        {["dynamic", "clear", "rain", "snow", "fog"].map(w => <option key={w} value={w}>{w}</option>)}
-      </select></label>
-      <p style={{ fontSize: 12 }}>Regional cloud banks and precipitation. Visual only. Lighting cycles in 3D.</p>
-    </details>
-    <div className="gc-graphics-controls" aria-label="Map graphics">
-      <button aria-pressed={graphics==='2d'} onClick={()=>choose('2d')} title="Flat map, lower graphics cost">2D · Low power</button>
-      <button aria-pressed={graphics==='3d'} onClick={()=>choose('3d')} title="Raised terrain and animated water">3D · Balanced</button>
-      <button aria-pressed={graphics==='high'} onClick={()=>choose('high')} title="Detailed terrain, animated sea and modeled scenery">3D · High</button>
-    </div>
-    {(notice||(graphics!=='2d'&&!supported))&&<p className="gc-graphics-notice" role="status">{notice||'This map layer uses the detailed 2D atlas. Return to Political or Terrain for 3D.'}</p>}
-  </>;
+  return (
+    <>
+      {graphics !== '2d' && supported ? (
+        <Suspense
+          fallback={
+            <div className="gc-terrain-loading" role="status">
+              Loading terrain...
+            </div>
+          }
+        >
+          <TerrainCanvas
+            quality={graphics === 'high' ? 'high' : 'balanced'}
+            key={campaign + graphics}
+            onFallback={fallback}
+            camera={camera}
+            atmosphere={atmosphere}
+          />
+        </Suspense>
+      ) : (
+        <AtlasMap2D key={campaign} camera={camera} atmosphere={atmosphere} />
+      )}
+      <details
+        className="gc-atmosphere-controls"
+        style={{
+          position: 'absolute',
+          background: '#112c35',
+          color: '#f4efdd',
+          padding: 8,
+          zIndex: 3,
+        }}
+      >
+        <summary>
+          Weather /{' '}
+          {atmosphere.weather === 'dynamic' ? 'Regional' : atmosphere.weather}
+        </summary>
+        <label>
+          Lighting{' '}
+          <select
+            aria-label="Map lighting"
+            value={atmosphere.lighting}
+            onChange={(e) =>
+              chooseAtmosphere({
+                ...atmosphere,
+                lighting: e.target.value as Atmosphere['lighting'],
+              })
+            }
+          >
+            <option value="cycle">Day / night cycle</option>
+            <option value="day">Day</option>
+            <option value="night">Night</option>
+          </select>
+        </label>{' '}
+        <label>
+          Weather{' '}
+          <select
+            aria-label="Map weather"
+            value={atmosphere.weather}
+            onChange={(e) =>
+              chooseAtmosphere({
+                ...atmosphere,
+                weather: e.target.value as Atmosphere['weather'],
+              })
+            }
+          >
+            {['dynamic', 'clear', 'rain', 'snow', 'fog'].map((w) => (
+              <option key={w} value={w}>
+                {w}
+              </option>
+            ))}
+          </select>
+        </label>
+        <p style={{ fontSize: 12 }}>
+          Regional cloud banks and precipitation. Visual only. Lighting cycles
+          in 3D.
+        </p>
+      </details>
+      <div className="gc-graphics-controls" aria-label="Map graphics">
+        <button
+          aria-pressed={graphics === '2d'}
+          onClick={() => choose('2d')}
+          title="Flat map, lower graphics cost"
+        >
+          2D · Low power
+        </button>
+        <button
+          aria-pressed={graphics === '3d'}
+          onClick={() => choose('3d')}
+          title="Raised terrain and animated water"
+        >
+          3D · Balanced
+        </button>
+        <button
+          aria-pressed={graphics === 'high'}
+          onClick={() => choose('high')}
+          title="Detailed terrain, animated sea and modeled scenery"
+        >
+          3D · High
+        </button>
+      </div>
+      {(notice || (graphics !== '2d' && !supported)) && (
+        <p className="gc-graphics-notice" role="status">
+          {notice ||
+            'This map layer uses the detailed 2D atlas. Return to Political or Terrain for 3D.'}
+        </p>
+      )}
+    </>
+  );
 }

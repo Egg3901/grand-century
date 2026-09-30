@@ -36,6 +36,14 @@ jobs:
       - run: npm --prefix apps/mobile run bundle:workers:ios
       - run: npm test -- --maxWorkers=2
       - run: npm run build
+        env:
+          VITE_BASE: /games/grand-century/
+      - name: Retain reviewed web distribution
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-refinement-release
+          path: dist/
+          if-no-files-found: error
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test --config playwright.graphics.config.ts
       - run: npx playwright test --config playwright.native-graphics.config.ts
