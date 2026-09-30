@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('production High terrain loads split assets below the public game path and resumes offline', async ({ page, context }) => {
+test('production High terrain loads split assets below the public game path and restarts offline', async ({ page, context }) => {
   const errors: string[] = [];
   const fields = new Set<string>();
   page.on('pageerror', e => errors.push(e.message));
@@ -33,7 +33,7 @@ test('production High terrain loads split assets below the public game path and 
   });
   await context.setOffline(true);
   await page.reload();
-  await page.getByTestId('menu-new-game').click();
+  // Campaign setup is encoded in the permalink and boots directly on reload.
   await expect(page.locator('.gc-terrain-labels')).toBeVisible();
   await expect(page.getByRole('button', { name: '3D · High', exact: true })).toHaveAttribute('aria-pressed', 'true');
   expect(errors).toEqual([]);
