@@ -57,7 +57,7 @@ import {
   type NativeMapMode,
 } from "./game/mapModes";
 import { UnitCounters } from "./game/UnitCounters";
-import { useNativeAlerts } from "./game/NativeAdvisor";
+import { useNativeAlerts, NativeReportToast } from "./game/NativeAdvisor";
 import { NativeAudio } from "./game/NativeAudio";
 import { gameDataForScenario } from "../../src/data/gameData";
 import { campaignRoster } from "./game/campaign";
@@ -782,6 +782,13 @@ function Atlas({
           </Pressable>
         ))}
       </ScrollView>
+      {active && !panel && !province && (
+        <NativeReportToast
+          alerts={alerts}
+          onReview={() => openPanel("alerts")}
+          dismiss={dismiss}
+        />
+      )}
       {panel && (
         <GameMenus
           page={panel}

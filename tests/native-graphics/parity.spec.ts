@@ -159,6 +159,17 @@ test("all native gameplay ledgers are reachable and budget, stockpile and indust
   await expect(
     page.getByRole("heading", { name: "Peace conference", exact: true }),
   ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Return to map", exact: true })
+    .click();
+  await page.getByRole("button", { name: /^Latest report:/ }).click();
+  await expect(
+    page.getByRole("heading", { name: "Reports and alerts", exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: /^Dismiss report:/ })
+    .first()
+    .click();
   expect(errors).toEqual([]);
 });
 test("1936 preview starts and restores the correct scenario and late-era technology", async ({

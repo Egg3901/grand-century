@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { Pressable, Text, View } from "react-native";
+import { TOAST_AUTO_DISMISS_MS } from "../../../src/ui/alertBatching";
 import { File, Paths } from "expo-file-system";
 import { deriveAlerts, type UiAlert } from "../../../src/ui/alerts";
 import { gameDataForScenario } from "../../../src/data/gameData";
@@ -21,6 +23,71 @@ export function useNativeAlerts(snapshot: WorldSnapshot) {
     dismiss: (id: string) =>
       setAlerts((current) => current.filter((a) => a.id !== id)),
   };
+}
+export function NativeReportToast({
+  alerts,
+  onReview,
+  dismiss,
+}: {
+  alerts: readonly UiAlert[];
+  onReview: () => void;
+  dismiss: (id: string) => void;
+}) {
+  const latest = alerts.at(-1);
+  const [hidden, setHidden] = useState<string | null>(null);
+  useEffect(() => {
+    if (!latest || ["war", "rebellion", "formation"].includes(latest.kind))
+      return;
+    const timer = setTimeout(() => setHidden(latest.id), TOAST_AUTO_DISMISS_MS);
+    return () => clearTimeout(timer);
+  }, [latest?.id]);
+  if (!latest || hidden === latest.id) return null;
+  return (
+    <View
+      style={{
+        position: "absolute",
+        left: 12,
+        right: 12,
+        bottom: 140,
+        flexDirection: "row",
+        borderRadius: 12,
+        backgroundColor: "#102b35",
+        borderWidth: 1,
+        borderColor: "#d6b475",
+      }}
+    >
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Latest report: ${latest.message}`}
+        onPress={onReview}
+        style={{ flex: 1, padding: 12, minHeight: 48 }}
+      >
+        <Text style={{ color: "#d6b475", fontWeight: "700", fontSize: 12 }}>
+          DESPATCH / {alerts.length} REPORTS
+        </Text>
+        <Text
+          accessibilityRole="alert"
+          numberOfLines={3}
+          style={{ color: "#f4eddf", fontSize: 14 }}
+        >
+          {latest.message}
+        </Text>
+      </Pressable>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Dismiss latest report"
+        onPress={() => dismiss(latest.id)}
+        style={{
+          minWidth: 44,
+          minHeight: 44,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ color: "#f4eddf", fontSize: 22 }}>×</Text>
+      </Pressable>
+    </View>
+  );
 }
 const alertPages: Record<string, GamePanel> = {
   budget: "economy",

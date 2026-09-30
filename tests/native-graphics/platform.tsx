@@ -65,7 +65,10 @@ export function View({ style, children, onLayout, ...props }: any) {
         display: "flex",
         position: "relative",
         flexDirection: "column",
-        pointerEvents: props.pointerEvents === "none" || props.pointerEvents === "box-none" ? "none" : undefined,
+        pointerEvents:
+          props.pointerEvents === "none" || props.pointerEvents === "box-none"
+            ? "none"
+            : undefined,
         ...css(style),
       }}
       data-testid={props.testID}

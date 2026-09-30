@@ -10,7 +10,12 @@ const project = () => [180, 250] as [number, number];
 export function UnitCounterHarness() {
   const [state, setState] = useState(() => {
     const world = createWorld(GAME_DATA, 24681);
-    applyCommand(world, GAME_DATA, { t: 'recruitArmy', province: world.nations[world.playerNation].capital }, () => {});
+    applyCommand(
+      world,
+      GAME_DATA,
+      { t: "recruitArmy", province: world.nations[world.playerNation].capital },
+      () => {},
+    );
     const s = snapshot(world, GAME_DATA);
     return {
       ...s,
