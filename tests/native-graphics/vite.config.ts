@@ -15,7 +15,7 @@ export default defineConfig({
       transform(code, id) {
         if (id.includes("/apps/mobile/"))
           return code.replace(
-            /require\((['"])([^'"]*\.png)\1\)/g,
+            /require\((['"])([^'"]*\.(?:png|wav))\1\)/g,
             (_, _quote, path) =>
               `new URL(${JSON.stringify(path)},import.meta.url).href`,
           );
@@ -36,6 +36,7 @@ export default defineConfig({
         "expo-file-system",
         "expo-web-browser",
         "expo-device",
+        "expo-audio",
         "expo-status-bar",
         "@expo/vector-icons/Ionicons",
         "@maplibre/maplibre-react-native",

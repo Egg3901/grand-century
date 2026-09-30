@@ -65,6 +65,10 @@ export function View({ style, children, onLayout, ...props }: any) {
         display: "flex",
         position: "relative",
         flexDirection: "column",
+        pointerEvents:
+          props.pointerEvents === "none" || props.pointerEvents === "box-none"
+            ? "none"
+            : undefined,
         ...css(style),
       }}
       data-testid={props.testID}
@@ -97,6 +101,7 @@ export const Pressable = ({
     onClick={onPress}
     style={{
       border: 0,
+      pointerEvents: "auto",
       backgroundColor: "transparent",
       fontFamily: "inherit",
       padding: 0,
@@ -212,3 +217,13 @@ export const Modal = ({ visible, children }: any) =>
       {children}
     </div>
   ) : null;
+
+export const Linking = {
+  getInitialURL: async () => null,
+  addEventListener: () => ({ remove() {} }),
+};
+export const Share = {
+  share: async (value: any) => {
+    (window as any).sharedInvitation = value.message;
+  },
+};

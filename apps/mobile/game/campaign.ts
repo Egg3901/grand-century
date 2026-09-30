@@ -22,8 +22,8 @@ export interface NativeSave {
   nation: string;
   tag: string;
 }
-export function campaignRoster(seed: number, mode: CampaignMapMode) {
-  return resolveWorldSeed(loadScenario(DEFAULT_SCENARIO_ID).worldSeed, seed, mode);
+export function campaignRoster(seed: number, mode: CampaignMapMode, scenarioId = DEFAULT_SCENARIO_ID) {
+  return resolveWorldSeed(loadScenario(scenarioId).worldSeed, seed, mode);
 }
 export function validSeed(raw: string): number | null {
   const seed = Number(raw);
@@ -35,7 +35,7 @@ export function saveSummary(config: CampaignConfig, snapshot: WorldSnapshot, kin
     date: `${snapshot.date.day}/${snapshot.date.month}/${snapshot.date.year}`, nation: nation.name, tag: nation.tag };
 }
 export function campaignNation(config: CampaignConfig): SeedNation {
-  const nation = campaignRoster(config.seed, config.mapMode).nations[config.playerNation];
+  const nation = campaignRoster(config.seed, config.mapMode, config.scenarioId).nations[config.playerNation];
   if (!nation) throw new Error('This campaign has an unknown player nation.');
   return nation;
 }

@@ -1,12 +1,12 @@
 # Grand Century native mobile migration
 
-Status: implementation started. Owner decisions: fully offline single player and web feature parity for the first playable mobile release.
+Status: core native feature coverage implemented; cross-platform release verification remains in progress. Owner decisions: fully offline single player and web feature parity for the first playable mobile release.
 
 The explicit release checklist is in [NATIVE-PARITY.md](./NATIVE-PARITY.md).
 
 ## Current implementation slice
 
-`apps/mobile` is an Expo development-build app with React Native screens, MapLibre Native, a bundled 1830 political atlas, and a separate Hermes simulation worker. The worker currently handles new games, the real tick, commands, snapshots, and detail requests. The UI currently exposes nation selection, political and terrain map views, animated offline water lines, major-power map labels, province selection, key national stats, and speed controls. Terrain rendering uses province terrain categories, small local textures, and a bundled, reduced Natural Earth shaded-relief raster clipped to the game map. The native save adapter, map updates from snapshots, remaining screens, other scenarios, and multiplayer are still required. This is an integration slice, not a playable parity build.
+`apps/mobile` is an Expo development-build app with React Native screens, native 2D and GPU terrain maps, bundled scenario data, and a separate Hermes simulation worker. It starts 1830 and the registered 1936 preview, supports local checkpoints and background autosave, exposes every web gameplay ledger and command family, and uses the shared lobby protocol for multiplayer. Ten map modes, unit counters, alerts, event choices, peace conferences, tutorial lessons, trace disclosures and bundled audio are available. Device campaign, accessibility, lifecycle and performance gates remain open; implementation coverage alone is not a parity release. See [NATIVE-PARITY.md](./NATIVE-PARITY.md) for evidence and remaining gates.
 
 The political atlas adjusts adjacent nation colors for contrast. Major-power map labels are offline image symbols with deliberate home-region anchors. Labels hide while the camera moves. After the move, the app projects their anchors into screen coordinates and shows a symbol only when its full rendered image fits between the map HUD and province controls. The campaign header says which nation the player controls; the stat rows use full labels. An owned province exposes the existing recruit command as its first native action.
 

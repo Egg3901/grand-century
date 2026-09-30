@@ -2,10 +2,19 @@ import { Worker } from '@ammarahmed/react-native-workers';
 import type { FromWorker, ToWorker, WorldSnapshot } from '../../../src/shared/types';
 import type { NativeRequest, NativeResponse } from './nativeProtocol';
 
-type Exported = { payload: Uint8Array; snapshot: WorldSnapshot };
-export class NativeSimTransport {
+export type Exported = { payload: Uint8Array; snapshot: WorldSnapshot };
+export interface CampaignTransport {
+  send(message: ToWorker): void;
+  onMessage(handler: (message: FromWorker) => void): void;
+  subscribe(handler: (message: FromWorker) => void): () => void;
+  exportSave(): Promise<Exported>;
+  importSave(payload: Uint8Array): Promise<void>;
+  dispose(): void;
+}
+export class NativeSimTransport implements CampaignTransport {
   private readonly worker = new Worker('./sim.worker');
   private handler: ((message: FromWorker) => void) | null = null;
+  private listeners = new Set<(message: FromWorker) => void>();
   private sequence = 0;
   private requests = new Map<number, { resolve: (result: Exported | null) => void; reject: (error: Error) => void; timer: ReturnType<typeof setTimeout> }>();
   constructor() {
@@ -18,11 +27,18 @@ export class NativeSimTransport {
         this.requests.delete(message.request);
         if (message.t === 'storageError') pending.reject(new Error(message.message));
         else pending.resolve(message.t === 'exportedSave' ? { payload: new Uint8Array(message.payload), snapshot: message.snapshot } : null);
-      } else this.handler?.(message);
+      } else {
+        this.handler?.(message);
+        for (const listener of this.listeners) listener(message);
+      }
     };
   }
   send(message: ToWorker): void { this.worker.postMessage(message); }
   onMessage(handler: (message: FromWorker) => void): void { this.handler = handler; }
+  subscribe(handler: (message: FromWorker) => void): () => void {
+    this.listeners.add(handler);
+    return () => { this.listeners.delete(handler); };
+  }
   private request(message: { t: 'exportSave' } | { t: 'importSave'; payload: number[] }): Promise<Exported | null> {
     const request = ++this.sequence;
     return new Promise((resolve, reject) => {
@@ -38,5 +54,6 @@ export class NativeSimTransport {
     this.requests.clear();
     this.worker.terminate();
     this.handler = null;
+    this.listeners.clear();
   }
 }

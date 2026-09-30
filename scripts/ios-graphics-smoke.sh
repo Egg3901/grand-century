@@ -38,7 +38,7 @@ for attempt in $(seq 1 180); do
   if [ -f "$container/Documents/graphics-smoke.json" ]; then
     cp "$container/Documents/graphics-smoke.json" "$evidence/result.json"
     xcrun simctl io "$device" screenshot "$evidence/native-high.png"
-    python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(json.dumps(r,indent=2)); assert r["ok"] and len(r["results"])==3; assert r["campaignStorage"]["ok"] and r["campaignStorage"]["separateSaves"]; assert r["results"][2]["height"] < r["results"][1]["height"] - 100' "$evidence/result.json"
+    python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(json.dumps(r,indent=2)); assert r["ok"] and len(r["results"])==3; assert r["campaignStorage"]["ok"] and r["campaignStorage"]["separateSaves"]; assert {p["scenarioId"] for p in r["campaignStorage"]["scenarioParity"]} == {"1830-01-01", "1936-01-01"}; assert all(p["equalSnapshot"] and p["roundtrip"] for p in r["campaignStorage"]["scenarioParity"]); assert r["results"][2]["height"] < r["results"][1]["height"] - 100' "$evidence/result.json"
     exit 0
   fi
   sleep 2

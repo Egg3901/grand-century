@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 import type { WorldSnapshot } from '../../../src/shared/types';
-import { NativeSimTransport } from './NativeSimTransport';
+import { NativeSimTransport, type CampaignTransport } from './NativeSimTransport';
 import { type CampaignConfig, type NativeSave, saveSummary, campaignNation } from './campaign';
 import { newSaveId, readNativeSave, writeNativeSave } from './nativeSaves';
 
-export type Session = { config: CampaignConfig; transport: NativeSimTransport; snapshot: WorldSnapshot };
+export type Session = { config: CampaignConfig; transport: CampaignTransport; snapshot: WorldSnapshot; online?: boolean };
 export function useCampaign() {
   const current = useRef<Session | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -55,7 +55,7 @@ export function useCampaign() {
       if (saved) await transport.importSave(await readNativeSave(saved.id));
       else transport.send({ t: 'command', cmd: { t: 'newGame', ...config } });
       const exported = await transport.exportSave();
-      if (exported.snapshot.seed !== config.seed || exported.snapshot.playerNation !== config.playerNation || exported.snapshot.mapMode !== config.mapMode) {
+      if (exported.snapshot.seed !== config.seed || exported.snapshot.playerNation !== config.playerNation || exported.snapshot.mapMode !== config.mapMode || (exported.snapshot.scenarioId ?? '1830-01-01') !== config.scenarioId) {
         throw new Error('This checkpoint does not match its campaign information. Your current campaign is unchanged.');
       }
       const next = { config, transport, snapshot: latest ?? exported.snapshot };
