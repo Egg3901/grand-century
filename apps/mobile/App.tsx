@@ -791,6 +791,7 @@ function Atlas({
             tag={player?.tag ?? nation.tag}
             name={player?.name ?? nation.name}
             color={player?.color ?? nation.color}
+            testID="player-country-flag"
           />
         </View>
         <View style={styles.topTitleBlock}>
