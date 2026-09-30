@@ -110,7 +110,7 @@ export class LobbyClient implements SimTransport {
 
     ws.addEventListener("message", (event: MessageEvent) => {
       if (this.disposed || ws !== this.ws) return;
-      this.enqueueRaw(event.data);
+      this.enqueueRaw(event.data, ws);
     });
     ws.addEventListener("close", () => {
       if (this.disposed || ws !== this.ws) return;
@@ -166,19 +166,21 @@ export class LobbyClient implements SimTransport {
 
   private chain: Promise<void> = Promise.resolve();
 
-  private enqueueRaw(data: unknown): void {
+  private enqueueRaw(data: unknown, socket: WebSocket): void {
     this.chain = this.chain
-      .then(() => this.handleRaw(data))
+      .then(() => this.handleRaw(data, socket))
       .catch(() => undefined);
   }
 
-  private async handleRaw(data: unknown): Promise<void> {
+  private async handleRaw(data: unknown, socket: WebSocket): Promise<void> {
     let raw: unknown;
     try {
       raw = await decodeWireBrowser(data);
     } catch {
       return;
     }
+
+    if (this.disposed || socket !== this.ws) return;
 
     if (
       raw &&

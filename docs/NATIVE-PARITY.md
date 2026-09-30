@@ -26,7 +26,7 @@ The native client uses the shared simulation, command protocol, content, seriali
 
 `tests/native-graphics/multiplayer.spec.ts` hosts an isolated session server and connects the native screen and the same `LobbyClient` used by web. It verifies seat selection/start, server-authoritative tax orders, invitation generation, chat in both directions and interruption/reconnect without losing the nation.
 
-The iOS simulator gate calls `verifyNativeCampaignStorage` in the real Hermes worker and Expo file system. It compares a fixed command log with the shared engine for both 1830 and 1936, restores complete snapshots and verifies deletion isolation. Existing GPU readbacks still gate native terrain rendering. CI must pass before merge.
+The iOS simulator gate calls `verifyNativeCampaignStorage` in the real Hermes worker and Expo file system. It compares a fixed command log with the shared engine for both 1830 and 1936, restores complete snapshots and verifies deletion isolation. Existing GPU readbacks still gate native terrain rendering. CI also compiles the bundled Android release app and retains its APK for device verification. CI must pass before merge.
 
 ## Remaining release gates
 

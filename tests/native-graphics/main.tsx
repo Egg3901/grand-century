@@ -1,9 +1,12 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "../../apps/mobile/App";
+import { UnitCounterHarness } from "./unit-counter-harness";
 import TerrainMap from "../../apps/mobile/game/TerrainMap";
 createRoot(document.getElementById("root")!).render(
-  location.search.includes("menus") ? (
+  location.search.includes("units") ? (
+    <UnitCounterHarness />
+  ) : location.search.includes("menus") ? (
     <App />
   ) : (
     <TerrainMap

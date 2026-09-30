@@ -172,7 +172,10 @@ export function MultiplayerScreen({
   const [inviteOpened, setInviteOpened] = useState(false);
   const launched = useRef(!!mp.session);
   useEffect(() => {
-    if (invitation) setJoin(invitation);
+    if (invitation) {
+      setJoin(invitation);
+      setInviteOpened(false);
+    }
   }, [invitation]);
   useEffect(() => {
     if (mp.session && mp.status === "connected" && !launched.current) {

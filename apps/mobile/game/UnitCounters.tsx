@@ -91,7 +91,9 @@ export function UnitCounters({
   return (
     <View pointerEvents="box-none" style={{ position: "absolute", inset: 0 }}>
       {positions.map((position) => {
-        const marker = markers.find((m) => m.id === position.id)!;
+        const marker = markers.find((m) => m.id === position.id);
+        // Projection can finish after a formation moves or is destroyed.
+        if (!marker) return null;
         const name = snapshot.nations[marker.owner]?.name ?? "Unknown";
         return (
           <Pressable

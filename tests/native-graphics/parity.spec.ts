@@ -195,16 +195,27 @@ test("1936 preview starts and restores the correct scenario and late-era technol
     .toBe("1936-01-01");
 });
 
-test('native worker command log matches the shared engine and both scenarios roundtrip through checkpoints', async ({ page }) => {
+test("native worker command log matches the shared engine and both scenarios roundtrip through checkpoints", async ({
+  page,
+}) => {
   test.setTimeout(120000);
-  await page.goto('/tests/native-graphics/index.html?menus');
+  await page.goto("/tests/native-graphics/index.html?menus");
   const result = await page.evaluate(async () => {
-    const { verifyNativeCampaignStorage } = await import('/apps/mobile/game/campaignSmoke.ts');
+    const { verifyNativeCampaignStorage } =
+      await import("/apps/mobile/game/campaignSmoke.ts");
     return verifyNativeCampaignStorage();
   });
   expect(result.ok).toBe(true);
   expect(result.scenarioParity).toEqual([
-    expect.objectContaining({ scenarioId: '1830-01-01', equalSnapshot: true, roundtrip: true }),
-    expect.objectContaining({ scenarioId: '1936-01-01', equalSnapshot: true, roundtrip: true }),
+    expect.objectContaining({
+      scenarioId: "1830-01-01",
+      equalSnapshot: true,
+      roundtrip: true,
+    }),
+    expect.objectContaining({
+      scenarioId: "1936-01-01",
+      equalSnapshot: true,
+      roundtrip: true,
+    }),
   ]);
 });
