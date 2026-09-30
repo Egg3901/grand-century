@@ -34,6 +34,14 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test --config playwright.web-release.config.ts
       - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: web-packaging-evidence
+          path: |
+            artifacts/web-release/
+            artifacts/web-release-high.png
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
         with:
           name: web-refinement-release
           path: dist/

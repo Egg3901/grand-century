@@ -21,7 +21,12 @@ test('production High terrain loads split assets below the public game path and 
   await expect(page.getByRole('button', { name: '3D · High', exact: true })).toHaveAttribute('aria-pressed', 'true');
   expect([...fields].sort()).toEqual(['height', 'normals', 'province', 'surface']);
   await page.screenshot({ path: 'artifacts/web-release-high.png' });
-  await page.locator('.gc-terrain-labels button').first().click();
+  // Nation labels open diplomacy. Tap the capital's map position to exercise
+  // province picking, which is the interaction this packaging gate verifies.
+  const paris = await page.getByRole('button', { name: /Paris$/ }).boundingBox();
+  expect(paris).not.toBeNull();
+  await page.mouse.click(paris!.x + paris!.width / 2, paris!.y + paris!.height / 2);
+  await expect(page.getByRole('heading', { name: 'Region Centre', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Done', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Done', exact: true }).click();
   // Wait for the runtime cache writes before testing an actual offline reload.
