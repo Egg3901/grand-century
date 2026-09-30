@@ -45,6 +45,7 @@ type Props = {
   selected: number | null;
   onSelect: (id: number | null) => void;
   onFallback: (reason: string) => void;
+  onViewChange?: (view: View) => void;
   onFrame?: (gl: ExpoWebGLRenderingContext, renderer: TerrainRenderer) => void;
 };
 export default function TerrainMap(props: Props) {
@@ -136,6 +137,7 @@ function TerrainSurface(
           verifyTerrainFrame(gl);
           presented.current = true;
           setReady(true);
+          latest.current.onViewChange?.(view.current);
         }
         latest.current.onFrame?.(gl, r);
         gl.endFrameEXP();
@@ -172,6 +174,7 @@ function TerrainSurface(
   function move(v: View) {
     view.current = normalizeView(v);
     latest.current.camera.current = view.current;
+    latest.current.onViewChange?.(view.current);
     renderer.current?.setView(
       view.current,
       size.current.width,

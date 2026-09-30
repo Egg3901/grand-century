@@ -1,5 +1,6 @@
 import {
   ATMOSPHERE_KEY,
+  calendarDay,
   parseAtmosphere,
   type Atmosphere,
 } from "../../src/graphics/atmosphere";
@@ -56,6 +57,13 @@ import {
   unitRoutes,
   type NativeMapMode,
 } from "./game/mapModes";
+import {
+  weatherMapData,
+  weatherAtLocation,
+  WEATHER_CLOUD_PAINT,
+} from "../../src/graphics/weather";
+import { HomeScreen } from "./game/HomeScreen";
+import { MapModeChooser } from "./game/MapModeChooser";
 import { UnitCounters } from "./game/UnitCounters";
 import { useNativeAlerts, NativeReportToast } from "./game/NativeAdvisor";
 import { NativeAudio } from "./game/NativeAudio";
@@ -146,7 +154,12 @@ function Atlas({
   onHome: () => void;
   active: boolean;
 }) {
-  const screenHeight = useWindowDimensions().height;
+  const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+  const landscape = screenWidth > screenHeight;
+  const nationBarWidth = Math.max(
+    200,
+    Math.min(330, (screenWidth - 88) * 0.42),
+  );
   const worldSeed = useMemo(
     () =>
       campaignRoster(
@@ -214,6 +227,17 @@ function Atlas({
       /* Keep this session's selection. */
     }
   };
+  const [weatherCenter, setWeatherCenter] = useState<[number, number] | null>(
+    null,
+  );
+  const currentAtmosphere = {
+    ...atmosphere,
+    dayOfYear: calendarDay(snapshot.date),
+  };
+  const weatherData = useMemo(
+    () => weatherMapData(currentAtmosphere),
+    [atmosphere.weather, currentAtmosphere.dayOfYear],
+  );
   const [graphicsNotice, setGraphicsNotice] = useState("");
   const [panel, setPanel] = useState<GamePanel | null>(null);
   const openPanel = (next: GamePanel) => {
@@ -267,6 +291,10 @@ function Atlas({
       : ([0, 20] as [number, number]),
     zoom: 3.3,
   };
+  const localWeather = weatherAtLocation(
+    ...(weatherCenter ?? focus.center),
+    currentAtmosphere,
+  );
   const player = snapshot?.nations[snapshot.playerNation];
   const selected = province && snapshot?.provinces[province.id];
   const owner = selected && snapshot?.nations[selected.owner];
@@ -358,7 +386,7 @@ function Atlas({
       }),
     );
     if (run !== projectionRun.current) return;
-    const bottomReserved = province ? 320 : 116;
+    const bottomReserved = landscape ? 66 : province ? 320 : 116;
     setVisibleLabelTags(
       positions
         .filter(
@@ -374,7 +402,7 @@ function Atlas({
               iconScale: 0.5,
               mapWidth: mapSize.width,
               mapHeight: mapSize.height,
-              topInset: 176,
+              topInset: landscape ? 72 : 136,
               bottomInset: bottomReserved,
               sideInset: 12,
             });
@@ -386,7 +414,7 @@ function Atlas({
 
   useEffect(() => {
     void placeLabels();
-  }, [candidateTags, mapSize.width, mapSize.height, province?.id]);
+  }, [candidateTags, mapSize.width, mapSize.height, province?.id, landscape]);
 
   return (
     <View style={styles.mapPage}>
@@ -408,6 +436,7 @@ function Atlas({
           >
             <TerrainMap
               atmosphere={atmosphere}
+              onViewChange={(v) => setWeatherCenter([v.lon, v.lat])}
               visible={panel === null}
               key={graphics}
               quality={graphics === "high" ? "high" : "balanced"}
@@ -445,6 +474,7 @@ function Atlas({
             onRegionDidChange={(event) => {
               setMapRevision((n) => n + 1);
               const v = event.nativeEvent;
+              setWeatherCenter(v.center);
               terrainCamera.current = {
                 lon: v.center[0],
                 lat: v.center[1],
@@ -688,6 +718,38 @@ function Atlas({
                 }}
               />
             </GeoJSONSource>
+            <GeoJSONSource id="visual-weather-clouds" data={weatherData.clouds}>
+              <Layer
+                id="visual-weather-clouds"
+                type="fill"
+                paint={WEATHER_CLOUD_PAINT}
+              />
+            </GeoJSONSource>
+            <GeoJSONSource
+              id="visual-weather-precipitation"
+              data={weatherData.precipitation}
+            >
+              <Layer
+                id="visual-weather-rain"
+                type="line"
+                filter={["==", ["get", "kind"], "rain"]}
+                paint={{
+                  "line-color": "#b2d8eb",
+                  "line-width": 1.5,
+                  "line-opacity": 0.8,
+                }}
+              />
+              <Layer
+                id="visual-weather-snow"
+                type="line"
+                filter={["==", ["get", "kind"], "snow"]}
+                paint={{
+                  "line-color": "#fffaf1",
+                  "line-width": 3,
+                  "line-opacity": 0.85,
+                }}
+              />
+            </GeoJSONSource>
           </Map>
         ))}
       {!useTerrain && active && (
@@ -699,7 +761,18 @@ function Atlas({
           onSelect={(id) => setProvince(worldSeed.provinces[id] ?? null)}
         />
       )}
-      <View style={styles.topBar}>
+      <View
+        style={[
+          styles.topBar,
+          landscape && {
+            top: 8,
+            right: undefined,
+            width: nationBarWidth,
+            height: 56,
+            borderRadius: 0,
+          },
+        ]}
+      >
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Open campaign menu"
@@ -726,7 +799,18 @@ function Atlas({
           </Text>
         </View>
       </View>
-      <View style={styles.summaryBar}>
+      <View
+        style={[
+          styles.summaryBar,
+          landscape && {
+            top: 8,
+            left: nationBarWidth + 20,
+            height: 56,
+            justifyContent: "center",
+            borderRadius: 0,
+          },
+        ]}
+      >
         <View style={styles.summaryItem}>
           <Text style={styles.summaryLabel}>TREASURY</Text>
           <Text style={styles.summaryValue}>
@@ -753,38 +837,36 @@ function Atlas({
           {graphicsNotice}
         </Text>
       )}
-      <ScrollView
-        horizontal
-        style={styles.mapModeBar}
-        contentContainerStyle={{ flexDirection: "row", gap: 6 }}
+      <MapModeChooser
+        mode={mapMode}
+        onChange={setMapMode}
+        landscape={landscape}
+      />
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Weather: ${localWeather.kind}. Open atmosphere settings`}
+        onPress={() => openPanel("graphics")}
+        style={{
+          position: "absolute",
+          left: 12,
+          top: landscape ? 76 : 136,
+          minHeight: 44,
+          paddingHorizontal: 12,
+          justifyContent: "center",
+          backgroundColor: "#102b35",
+        }}
       >
-        {nativeMapModes.map(([mode, label]) => (
-          <Pressable
-            key={mode}
-            accessibilityRole="button"
-            accessibilityLabel={`${label} map`}
-            accessibilityState={{ selected: mapMode === mode }}
-            onPress={() => setMapMode(mode)}
-            style={[
-              styles.mapModeButton,
-              { minHeight: 44 },
-              mapMode === mode && styles.mapModeSelected,
-            ]}
-          >
-            <Text
-              style={[
-                styles.mapModeText,
-                mapMode === mode && styles.mapModeSelectedText,
-              ]}
-            >
-              {label}
-            </Text>
-          </Pressable>
-        ))}
-      </ScrollView>
+        <Text style={{ color: "#f4eddf", fontSize: 12 }}>
+          Weather /{" "}
+          {localWeather.kind.charAt(0).toUpperCase() +
+            localWeather.kind.slice(1)}
+          {atmosphere.weather !== "clear" ? " · Regional" : ""}
+        </Text>
+      </Pressable>
       {active && !panel && !province && (
         <NativeReportToast
           alerts={alerts}
+          landscape={landscape}
           onReview={() => openPanel("alerts")}
           dismiss={dismiss}
         />
@@ -913,10 +995,11 @@ function Atlas({
                 </Pressable>
               </View>
               <Text style={{ color: ink, fontWeight: "700", marginTop: 12 }}>
-                3D atmosphere
+                Atmosphere
               </Text>
               <Text style={{ color: ink, lineHeight: 21 }}>
-                Ambient day and night cycle. Weather is visual only. Reduced
+                Cloud banks, rain and snow follow regions of the map in 2D and
+                3D. Lighting cycles in 3D. Weather is visual only. Reduced
                 Motion freezes animation.
               </Text>
               <View style={styles.graphicsOptions}>
@@ -992,10 +1075,26 @@ function Atlas({
           }
         />
       )}
-      <View style={styles.bottomDock}>
+      <View
+        style={[
+          styles.bottomDock,
+          landscape && { flexDirection: "row", alignItems: "flex-end" },
+        ]}
+      >
         {province && (
           <ScrollView
-            style={[styles.provinceSheet, { maxHeight: screenHeight * 0.35 }]}
+            style={[
+              styles.provinceSheet,
+              landscape
+                ? {
+                    position: "absolute",
+                    right: 10,
+                    bottom: 66,
+                    width: 300,
+                    maxHeight: screenHeight - 160,
+                  }
+                : { maxHeight: screenHeight * 0.35 },
+            ]}
             contentContainerStyle={{ paddingBottom: 12 }}
           >
             <View style={styles.sheetHeader}>
@@ -1059,14 +1158,26 @@ function Atlas({
             )}
           </ScrollView>
         )}
-        <View style={styles.navigationBar}>
+        <View
+          style={[
+            styles.navigationBar,
+            landscape && { flex: 1, paddingVertical: 0 },
+          ]}
+        >
           {gamePanels.map((p) => (
             <Pressable
               key={p.key}
               accessibilityRole="button"
               accessibilityLabel={`Open ${p.label}`}
               onPress={() => openPanel(p.key)}
-              style={styles.navigationButton}
+              style={[
+                styles.navigationButton,
+                landscape && {
+                  minHeight: 56,
+                  flexDirection: screenWidth < 740 ? "column" : "row",
+                  gap: screenWidth < 740 ? 4 : 8,
+                },
+              ]}
             >
               <Ionicons name={p.icon} size={21} color={wax} />
               <Text style={styles.navigationText}>{p.label}</Text>
@@ -1076,12 +1187,24 @@ function Atlas({
             accessibilityRole="button"
             accessibilityLabel="Open map settings"
             onPress={() => openPanel("graphics")}
-            style={styles.navigationButton}
+            style={[
+              styles.navigationButton,
+              landscape && {
+                minHeight: 56,
+                flexDirection: screenWidth < 740 ? "column" : "row",
+                gap: screenWidth < 740 ? 4 : 8,
+              },
+            ]}
           >
             <Ionicons name="settings-outline" size={21} color={paper} />
           </Pressable>
         </View>
-        <View style={styles.clockBar}>
+        <View
+          style={[
+            styles.clockBar,
+            landscape && { width: screenWidth < 740 ? 245 : 300 },
+          ]}
+        >
           <View>
             <Text style={styles.clockLabel}>
               DATE / SPEED {snapshot?.speed ?? 0}
@@ -1292,99 +1415,16 @@ export default function App() {
             <AccountScreen onBack={() => setScreen("home")} />
           )}
           {screen === "home" && (
-            <ScrollView contentContainerStyle={styles.home}>
-              <View style={styles.homeMasthead}>
-                <Image
-                  source={require("./assets/grand-century-icon.png")}
-                  style={{ width: 48, height: 48, borderRadius: 12 }}
-                  accessibilityLabel="Grand Century"
-                />
-                <View>
-                  <Text style={styles.homeBrand}>GRAND CENTURY</Text>
-                  <Text style={styles.homeEdition}>THE AGE OF AMBITION</Text>
-                </View>
-              </View>
-              <View style={styles.homeHero}>
-                <Image
-                  source={require("./assets/map/gray-earth-relief.png")}
-                  resizeMode="cover"
-                  style={styles.homeMap}
-                />
-                <Text style={styles.homeKicker}>
-                  A WORLD ON THE BRINK OF CHANGE
-                </Text>
-                <Text style={styles.homeTitle}>
-                  The world{`\n`}is yours to shape.
-                </Text>
-                <View style={styles.homeRule} />
-                <Text style={styles.homeSubtitle}>
-                  Build a nation. Command its future.
-                </Text>
-                <View style={styles.homeMetrics}>
-                  <View>
-                    <Text style={styles.homeNumber}>1830</Text>
-                    <Text style={styles.homeEdition}>THE BEGINNING</Text>
-                  </View>
-                  <View>
-                    <Text style={styles.homeNumber}>
-                      {worldSeed.nations.length}
-                    </Text>
-                    <Text style={styles.homeEdition}>PLAYABLE NATIONS</Text>
-                  </View>
-                </View>
-              </View>
-              {nation && (
-                <MenuButton
-                  label={`Resume ${nation.name}`}
-                  onPress={() => setScreen("game")}
-                />
-              )}
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="New campaign"
-                disabled={busy}
-                onPress={() => setScreen("picker")}
-                style={styles.homePrimary}
-              >
-                <Text style={styles.homePrimaryText}>New campaign</Text>
-                <Ionicons name="arrow-forward" size={24} color={navy} />
-              </Pressable>
-              <MenuButton
-                label="Load and manage saves"
-                onPress={() => setScreen("saves")}
-                disabled={busy}
-              />
-              <MenuButton
-                label="Multiplayer"
-                onPress={() => setScreen("multiplayer")}
-              />
-              <MenuButton
-                label="Lakeside account"
-                onPress={() => setScreen("account")}
-              />
-              {!!notice && <Text style={styles.homeCopy}>{notice}</Text>}
-              <View style={styles.homeGuide}>
-                <Text style={styles.homeGuideTitle}>
-                  Power is built, not given.
-                </Text>
-                <Text style={styles.homeCopy}>
-                  Shape your economy, forge alliances and lead your armies.
-                  Every decision leaves its mark.
-                </Text>
-                <View style={styles.homePillars}>
-                  {gamePanels.map((p) => (
-                    <View key={p.key} style={styles.homePillar}>
-                      <Ionicons name={p.icon} size={23} color={wax} />
-                      <Text style={styles.homePillarLabel}>{p.label}</Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-              <Text style={styles.homeFootnote}>
-                Campaigns save on this device. Play offline and return whenever
-                you like.
-              </Text>
-            </ScrollView>
+            <HomeScreen
+              busy={busy}
+              notice={notice}
+              resume={nation?.name}
+              onResume={() => setScreen("game")}
+              onNew={() => setScreen("picker")}
+              onLoad={() => setScreen("saves")}
+              onMultiplayer={() => setScreen("multiplayer")}
+              onAccount={() => setScreen("account")}
+            />
           )}
         </View>
       </SafeAreaView>
@@ -1393,97 +1433,6 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  home: {
-    flexGrow: 1,
-    padding: 22,
-    gap: 18,
-    backgroundColor: navy,
-    alignItems: "stretch",
-  },
-  homeMasthead: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 14,
-    paddingBottom: 4,
-  },
-  homeBrand: {
-    fontSize: 17,
-    fontWeight: "800",
-    color: paper,
-    letterSpacing: 2,
-  },
-  homeEdition: {
-    fontSize: 9,
-    fontWeight: "700",
-    color: "#a8b8b9",
-    letterSpacing: 1.5,
-    marginTop: 5,
-  },
-  homeHero: {
-    paddingTop: 32,
-    paddingBottom: 22,
-    overflow: "hidden",
-    borderBottomWidth: 1,
-    borderColor: "#34515b",
-  },
-  homeMap: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    opacity: 0.12,
-  },
-  homeKicker: {
-    fontSize: 9,
-    fontWeight: "700",
-    letterSpacing: 1.7,
-    color: wax,
-    marginBottom: 18,
-  },
-  homeTitle: {
-    fontFamily: "Georgia",
-    fontSize: 42,
-    lineHeight: 48,
-    color: paper,
-    letterSpacing: -1,
-  },
-  homeRule: {
-    height: 2,
-    width: 44,
-    backgroundColor: wax,
-    marginTop: 22,
-    marginBottom: 16,
-  },
-  homeSubtitle: { fontSize: 16, color: "#c2d0cc", lineHeight: 25 },
-  homeMetrics: { flexDirection: "row", gap: 48, marginTop: 28 },
-  homeNumber: { fontFamily: "Georgia", fontSize: 27, color: paper },
-  homePrimary: {
-    minHeight: 60,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    backgroundColor: wax,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  homePrimaryText: { fontSize: 17, fontWeight: "800", color: navy },
-  homeGuide: { paddingTop: 10, gap: 12 },
-  homeGuideTitle: { fontFamily: "Georgia", fontSize: 23, color: paper },
-  homeCopy: { fontSize: 14, lineHeight: 22, color: "#afc0c0" },
-  homePillars: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingTop: 12,
-  },
-  homePillar: { alignItems: "center", gap: 8 },
-  homePillarLabel: { fontSize: 10, color: paper, fontWeight: "600" },
-  homeFootnote: {
-    fontSize: 11,
-    lineHeight: 18,
-    color: "#96acab",
-    marginTop: 10,
-  },
   navigationBar: {
     flexDirection: "row",
     backgroundColor: navy,
@@ -1688,17 +1637,6 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#f4f1e8",
     color: ink,
-  },
-  mapModeBar: {
-    borderRadius: 12,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 134,
-    right: 12,
-    flexDirection: "row",
-    borderColor: "#87918b",
-    borderWidth: 1,
-    backgroundColor: "#f4f1e8",
   },
   mapModeButton: {
     minHeight: 44,

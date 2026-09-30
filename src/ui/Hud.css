@@ -610,7 +610,7 @@
   border-top: 1px solid var(--gc-rule);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (orientation: landscape) and (max-width: 1024px) and (max-height: 500px) {
   .hud-top,
   .hud-rail,
   .hud-mapmodes,
@@ -897,4 +897,13 @@
 
 .chat-hud.is-collapsed {
   width: auto;
+}
+
+@media (orientation: landscape) and (max-width: 1024px) and (max-height: 500px) {
+  .hud-mobile-top { grid-template-columns: minmax(140px, 1fr) auto minmax(0, 2fr); }
+  .hud-mobile-top__nation { grid-column: auto; border-top: 0; padding-top: 0; }
+  .hud-mobile-bottom { padding: .3rem; }
+  .hud-mobile-panel-drawer { max-height: calc(100dvh - 140px); bottom: calc(env(safe-area-inset-bottom) + 64px); }
+  .hud-mobile-mapmodes { bottom: calc(env(safe-area-inset-bottom) + 64px); }
+  .event-feed { top: 72px; width: min(360px, calc(100vw - 32px)); }
 }

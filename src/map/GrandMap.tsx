@@ -1,3 +1,5 @@
+import { ATMOSPHERE_KEY, parseAtmosphere, calendarDay, type Atmosphere } from "../graphics/atmosphere";
+import { weatherMapData, WEATHER_CLOUD_PAINT } from "../graphics/weather";
 import { parseGraphicsMode, type GraphicsMode } from "../graphics/preferences";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
@@ -367,7 +369,7 @@ function insideViewport(box: ScreenBox, width: number, height: number, padding: 
   return box.right >= -padding && box.left <= width + padding && box.bottom >= -padding && box.top <= height + padding;
 }
 
-function AtlasMap2D({ camera }: { camera: RefObject<View|null> }) {
+function AtlasMap2D({ camera, atmosphere }: { camera: RefObject<View|null>; atmosphere: Atmosphere }) {
   const snapshot = useStore(useShallow((state) => state.snapshot));
   const scenarioId = snapshot?.scenarioId ?? DEFAULT_SCENARIO_ID;
   const scenario = loadScenario(scenarioId);
@@ -1443,6 +1445,23 @@ function AtlasMap2D({ camera }: { camera: RefObject<View|null> }) {
     sendCommand,
   ]);
 
+  const weatherDay = calendarDay(snapshot?.date);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !mapReady) return;
+    const data = weatherMapData({ ...atmosphere, dayOfYear: weatherDay });
+    for (const [id, geometry] of [["visual-weather-clouds", data.clouds], ["visual-weather-precipitation", data.precipitation]] as const) {
+      const source = map.getSource(id) as import("maplibre-gl").GeoJSONSource | undefined;
+      if (source) source.setData(geometry);
+      else map.addSource(id, { type: "geojson", data: geometry });
+    }
+    if (!map.getLayer("visual-weather-clouds")) {
+      map.addLayer({ id: "visual-weather-clouds", type: "fill", source: "visual-weather-clouds", paint: WEATHER_CLOUD_PAINT });
+      map.addLayer({ id: "visual-weather-rain", type: "line", source: "visual-weather-precipitation", filter: ["==", ["get", "kind"], "rain"], paint: { "line-color": "#b2d8eb", "line-width": 1.5, "line-opacity": .8 } });
+      map.addLayer({ id: "visual-weather-snow", type: "line", source: "visual-weather-precipitation", filter: ["==", ["get", "kind"], "snow"], paint: { "line-color": "#fffaf1", "line-width": 3, "line-opacity": .85 } });
+    }
+  }, [mapReady, atmosphere.weather, weatherDay]);
+
   // Historical national-border polylines don't match reshuffled ownership.
   useEffect(() => {
     const map = mapRef.current;
@@ -2387,8 +2406,16 @@ function AtlasMap2D({ camera }: { camera: RefObject<View|null> }) {
 
 const TerrainCanvas = lazy(() => import('./TerrainCanvas').then(m => ({ default: m.TerrainCanvas })));
 export function GrandMap() {
+  const showHome = useStore(s => s.showMainMenu);
   const [graphics,setGraphics]=useState<GraphicsMode>(()=>{try{return parseGraphicsMode(localStorage.getItem('grand-century-graphics-v1'));}catch{return '2d';}});
   const [notice,setNotice]=useState('');
+  const [atmosphere, setAtmosphere] = useState(() => {
+    try { return parseAtmosphere(localStorage.getItem(ATMOSPHERE_KEY)); } catch { return parseAtmosphere(null); }
+  });
+  const chooseAtmosphere = (value: Atmosphere) => {
+    setAtmosphere(value);
+    try { localStorage.setItem(ATMOSPHERE_KEY, JSON.stringify(value)); } catch { /* Session setting still works. */ }
+  };
   const camera=useRef<View|null>(null);
   const previousCampaign=useRef('');
   const mode=useStore(s=>s.mapMode),snapshot=useSnapshotFields(['scenarioId','playerNation','seed','mapMode'] as const);
@@ -2397,8 +2424,19 @@ export function GrandMap() {
   const supported=(mode==='political'||mode==='terrain')&&(!snapshot?.scenarioId||snapshot.scenarioId==='1830-01-01')&&snapshot?.mapMode!=='procedural_random';
   const choose=useCallback((value:GraphicsMode)=>{setGraphics(value);setNotice('');try{localStorage.setItem('grand-century-graphics-v1',value);}catch{/* Session preference still works. */}},[]);
   const fallback=useCallback((reason:string)=>{choose('2d');setNotice(reason);},[choose]);
+  if (showHome) return null;
   return <>
-    {graphics!=='2d'&&supported?<Suspense fallback={<div className="gc-terrain-loading" role="status">Loading terrain...</div>}><TerrainCanvas quality={graphics==='high'?'high':'balanced'} key={campaign+graphics} onFallback={fallback} camera={camera}/></Suspense>:<AtlasMap2D key={campaign} camera={camera}/>}
+    {graphics!=='2d'&&supported?<Suspense fallback={<div className="gc-terrain-loading" role="status">Loading terrain...</div>}><TerrainCanvas quality={graphics==='high'?'high':'balanced'} key={campaign+graphics} onFallback={fallback} camera={camera} atmosphere={atmosphere}/></Suspense>:<AtlasMap2D key={campaign} camera={camera} atmosphere={atmosphere}/>}
+    <details className="gc-atmosphere-controls" style={{ position: "absolute", background: "#112c35", color: "#f4efdd", padding: 8, zIndex: 3 }}>
+      <summary>Weather / {atmosphere.weather === "dynamic" ? "Regional" : atmosphere.weather}</summary>
+      <label>Lighting <select aria-label="Map lighting" value={atmosphere.lighting} onChange={e => chooseAtmosphere({ ...atmosphere, lighting: e.target.value as Atmosphere["lighting"] })}>
+        <option value="cycle">Day / night cycle</option><option value="day">Day</option><option value="night">Night</option>
+      </select></label>{" "}
+      <label>Weather <select aria-label="Map weather" value={atmosphere.weather} onChange={e => chooseAtmosphere({ ...atmosphere, weather: e.target.value as Atmosphere["weather"] })}>
+        {["dynamic", "clear", "rain", "snow", "fog"].map(w => <option key={w} value={w}>{w}</option>)}
+      </select></label>
+      <p style={{ fontSize: 12 }}>Regional cloud banks and precipitation. Visual only. Lighting cycles in 3D.</p>
+    </details>
     <div className="gc-graphics-controls" aria-label="Map graphics">
       <button aria-pressed={graphics==='2d'} onClick={()=>choose('2d')} title="Flat map, lower graphics cost">2D · Low power</button>
       <button aria-pressed={graphics==='3d'} onClick={()=>choose('3d')} title="Raised terrain and animated water">3D · Balanced</button>

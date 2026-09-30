@@ -19,6 +19,9 @@ The native client uses the shared simulation, command protocol, content, seriali
 | Saves, autosave, load, content fingerprint | `src/worker/saveSlots.ts`, `src/sim/persistence.ts` | Immutable app-private checkpoints, two autosave recovery points per campaign, background pause/save, fingerprint validation | Both scenario save roundtrips and independent deletion; process termination/upgrade on devices pending |
 | Multiplayer lobby, presence, chat, reconnect, invite | `src/ui/Lobby.tsx`, `src/net/` | Shared protocol/client, native create/join/nation/team/ready/start, presence/chat, bounded reconnect, native invitation deep link and Share | Native host plus shared web guest verified against isolated real server, including same-seat reconnect and two-way chat; OS invitation/background checks pending |
 | Audio and preferences | `src/ui/AudioManager.tsx`, `src/store.ts` | Bundled ambient/event tones, persistent mute, app-state pause, existing graphics/atmosphere preferences | Native compilation plus device listening/lifecycle pending |
+| Homepage | `src/ui/MainMenu.tsx`, `src/ui/homeContent.ts` | Shared atlas plate and period copy, campaign register, responsive columns, resume/save/multiplayer/account navigation | Portrait and landscape browser touch flows; device typography review pending |
+| Weather | `src/graphics/weather.ts`, `src/graphics/atmosphereShader.ts` | Regional cloud banks, more legible rain/snow, native weather readout; 2D weather retained in analytical/scenario/fallback views | Regional/seasonal invariants, 2D pixel comparison and 3D/iOS GPU gates; device visibility review pending |
+| Landscape and map chooser | `src/ui/Hud.css` | OS rotation enabled, compact HUD/clock, scrollable cabinet and province detail, bounded ten-mode chooser | Rotation and all-mode touch flows, compiled iOS orientation and generated Android manifest gates; physical rotation pending |
 
 ## Automated evidence
 

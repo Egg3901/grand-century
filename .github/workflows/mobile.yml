@@ -113,6 +113,17 @@ jobs:
       - name: Generate Android project
         working-directory: apps/mobile
         run: npx expo prebuild --platform android --no-install
+      - name: Verify native Android rotation configuration
+        run: |
+          python3 - <<'PYTHON'
+          import xml.etree.ElementTree as ET
+          root = ET.parse('apps/mobile/android/app/src/main/AndroidManifest.xml').getroot()
+          ns = '{http://schemas.android.com/apk/res/android}'
+          activity = next(a for a in root.findall('./application/activity') if a.get(ns + 'name', '').endswith('MainActivity'))
+          orientation = activity.get(ns + 'screenOrientation')
+          assert orientation in (None, 'unspecified', 'fullSensor', 'fullUser', 'sensor'), orientation
+          print('Generated Android app permits portrait and landscape rotation.')
+          PYTHON
       - name: Compile bundled native Android app
         working-directory: apps/mobile
         run: >-

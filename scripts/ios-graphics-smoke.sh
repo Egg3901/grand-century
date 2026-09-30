@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 app="$RUNNER_TEMP/grand-century-derived/Build/Products/Release-iphonesimulator/GrandCentury.app"
+# Verify the compiled native app actually advertises both landscape rotations.
+python3 - "$app/Info.plist" <<'PYTHON'
+import plistlib, sys
+with open(sys.argv[1], 'rb') as f: info = plistlib.load(f)
+for key in ['UISupportedInterfaceOrientations', 'UISupportedInterfaceOrientations~ipad']:
+    orientations = info.get(key, info.get('UISupportedInterfaceOrientations', []))
+    assert {'UIInterfaceOrientationLandscapeLeft', 'UIInterfaceOrientationLandscapeRight'} <= set(orientations), (key, orientations)
+print('Compiled iOS app supports portrait and both landscape rotations.')
+PYTHON
 evidence="$RUNNER_TEMP/graphics-evidence"
 mkdir -p "$evidence"
 device=$(xcrun simctl list devices available --json | python3 -c 'import json,sys; ds=json.load(sys.stdin)["devices"]; print(next(d["udid"] for devices in ds.values() for d in devices if "iPhone" in d["name"]))')

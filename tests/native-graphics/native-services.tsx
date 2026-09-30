@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "./platform";
+import { View, Text, useWindowDimensions } from "./platform";
 export class Worker {
   private worker = new window.Worker(
     new URL("../../apps/mobile/game/sim.worker.ts", import.meta.url),
@@ -86,9 +86,26 @@ export const Camera = () => null,
   Images = () => null,
   Layer = () => null;
 export const SafeAreaProvider = ({ children }: any) => <>{children}</>;
-export const SafeAreaView = ({ children, style }: any) => (
-  <View style={[style, { paddingTop: 59, paddingBottom: 34 }]}>{children}</View>
-);
+export const SafeAreaView = ({ children, style }: any) => {
+  const { width, height } = useWindowDimensions();
+  return (
+    <View
+      style={[
+        style,
+        width > height
+          ? {
+              paddingTop: 0,
+              paddingBottom: 21,
+              paddingLeft: 44,
+              paddingRight: 44,
+            }
+          : { paddingTop: 59, paddingBottom: 34 },
+      ]}
+    >
+      {children}
+    </View>
+  );
+};
 
 export const modelId = null,
   modelName = null,

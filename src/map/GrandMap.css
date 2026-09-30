@@ -497,3 +497,11 @@
 @media (max-width: 760px) {
   .gc-atmosphere-controls { bottom: calc(env(safe-area-inset-bottom) + 274px); left: 14px; transform: none; max-width: calc(100% - 28px); }
 }
+
+@media (orientation: landscape) and (max-width: 1024px) and (max-height: 500px) {
+  .gc-graphics-controls { left: auto; right: 14px; bottom: 72px; transform: none; }
+  .gc-terrain-zoom { left: auto; right: 14px; bottom: 122px; transform: none; }
+  .gc-atmosphere-controls { left: 14px; bottom: 72px; transform: none; max-width: calc(100% - 330px); max-height: calc(100dvh - 155px); overflow: auto; }
+  .gc-terrain-credit { bottom: 62px; }
+  .gc-graphics-notice { bottom: 174px; }
+}
