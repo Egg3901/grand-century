@@ -220,10 +220,15 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 2 * 1024 * 1024,
         runtimeCaching: [
           {
-            // Optional 3D atlas loads only when selected; 2D pays no download cost.
-            urlPattern: ({ url }) => /\/assets\/terrain-atlas(?:-high)?-[^/]+\.js$/.test(url.pathname),
+            urlPattern: ({url}) => url.origin === 'https://s3.amazonaws.com' && /^\/elevation-tiles-prod\/terrarium\/\d+\/\d+\/\d+\.png$/.test(url.pathname),
             handler: 'CacheFirst',
-            options: { cacheName: 'gc-terrain-atlas', expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
+            options: {cacheName:'gc-elevation-detail-v1',expiration:{maxEntries:64,maxAgeSeconds:60*60*24*365},cacheableResponse:{statuses:[200]}},
+          },
+          {
+            // Optional 3D atlas loads only when selected; 2D pays no download cost.
+            urlPattern: ({ url }) => /\/assets\/terrain-atlas(?:-(?:high|detail|material|coast))?-[^/]+\.js$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: { cacheName: 'gc-terrain-atlas', expiration: { maxEntries: 8, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
           },
           {
             urlPattern: ({ url }) => /\/generated\/[^/]+\/[^/]+\.geo\.json$/.test(url.pathname),
@@ -273,6 +278,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id: string) {
+          if (id.endsWith('/graphics/terrain-detail.json')) return 'terrain-atlas-detail';
+          if (id.endsWith('/graphics/terrain-material.json')) return 'terrain-atlas-material';
+          if (id.endsWith('/graphics/physical-land.json')) return 'terrain-atlas-coast';
           // Split the former 1.3 MB map monolith: MapLibre is large and stable;
           // GrandMap changes with game UI and should hash independently.
           if (id.includes('maplibre-gl') || id.includes('node_modules/maplibre')) return 'maplibre';

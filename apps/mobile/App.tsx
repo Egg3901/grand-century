@@ -1,4 +1,9 @@
 import {
+  ATMOSPHERE_KEY,
+  parseAtmosphere,
+  type Atmosphere,
+} from "../../src/graphics/atmosphere";
+import {
   lazy,
   Suspense,
   useCallback,
@@ -49,12 +54,17 @@ const TerrainMap = lazy(() => import("./game/TerrainMap"));
 import type { View as TerrainView } from "../../src/graphics/terrainData";
 import { NationFlag } from "./game/NationFlag";
 import terrainAttribution from "../../src/graphics/terrain-attribution.json";
+const atmosphereFile = new File(Paths.document, ATMOSPHERE_KEY + ".json");
 const graphicsFile = new File(Paths.document, GRAPHICS_KEY + ".json");
 import worldSeed from "./assets/game/worldSeed.json";
 import { useCampaign, type Session } from "./game/useCampaign";
 import { CampaignSetup, SaveLibrary } from "./game/CampaignScreens";
 import { AccountScreen } from "./game/AccountScreen";
-import { campaignNation, type NativeSave, type CampaignConfig } from "./game/campaign";
+import {
+  campaignNation,
+  type NativeSave,
+  type CampaignConfig,
+} from "./game/campaign";
 import type { SeedNation } from "../../src/data/generated";
 import { labelFitsViewport } from "./game/mapLabelPlacement";
 
@@ -137,6 +147,23 @@ function Atlas({
   });
   const graphics =
     preference === "auto" ? automaticGraphics(Device) : preference;
+  const [atmosphere, setAtmosphere] = useState<Atmosphere>(() => {
+    try {
+      return parseAtmosphere(
+        atmosphereFile.exists ? atmosphereFile.textSync() : null,
+      );
+    } catch {
+      return parseAtmosphere(null);
+    }
+  });
+  const chooseAtmosphere = (value: Atmosphere) => {
+    setAtmosphere(value);
+    try {
+      atmosphereFile.write(JSON.stringify(value));
+    } catch {
+      /* Keep this session's selection. */
+    }
+  };
   const [graphicsNotice, setGraphicsNotice] = useState("");
   const [panel, setPanel] = useState<GamePanel | null>(null);
   const openPanel = (next: GamePanel) => {
@@ -169,7 +196,9 @@ function Atlas({
   const capital = worldSeed.provinces.find(
     (item) => item.id === nation.capitalProvinceId,
   );
-  const focus = (session.config.mapMode === "historical" ? mapAnchors[nation.tag] : null) ?? {
+  const focus = (session.config.mapMode === "historical"
+    ? mapAnchors[nation.tag]
+    : null) ?? {
     center: capital
       ? ([capital.lon, capital.lat] as [number, number])
       : ([0, 20] as [number, number]),
@@ -185,16 +214,38 @@ function Atlas({
   );
   const candidateTags = (snapshot?.nations ?? [])
     .filter(
-      (item) => session.config.mapMode === "historical" && item.gpRank > 0 && item.gpRank <= 8 && item.tag in mapAnchors,
+      (item) =>
+        session.config.mapMode === "historical" &&
+        item.gpRank > 0 &&
+        item.gpRank <= 8 &&
+        item.tag in mapAnchors,
     )
     .map((item) => item.tag)
     .sort()
     .join(",");
-  const ownershipKey = snapshot.provinces.map((p) => p.owner).join(',') + '/' + snapshot.nations.map((n) => n.color.join(',')).join(';');
-  const politicalAtlas = useMemo(() => ({ ...atlas, features: atlas.features.map((feature) => {
-    const owner = snapshot.nations[snapshot.provinces[feature.properties.id]?.owner];
-    return { ...feature, properties: { ...feature.properties, color: owner ? `rgb(${owner.color.join(',')})` : feature.properties.color } };
-  }) }), [ownershipKey, session.config.id]);
+  const ownershipKey =
+    snapshot.provinces.map((p) => p.owner).join(",") +
+    "/" +
+    snapshot.nations.map((n) => n.color.join(",")).join(";");
+  const politicalAtlas = useMemo(
+    () => ({
+      ...atlas,
+      features: atlas.features.map((feature) => {
+        const owner =
+          snapshot.nations[snapshot.provinces[feature.properties.id]?.owner];
+        return {
+          ...feature,
+          properties: {
+            ...feature.properties,
+            color: owner
+              ? `rgb(${owner.color.join(",")})`
+              : feature.properties.color,
+          },
+        };
+      }),
+    }),
+    [ownershipKey, session.config.id],
+  );
   const powerLabels = {
     type: "FeatureCollection" as const,
     features: visibleLabelTags.map((tag) => ({
@@ -251,7 +302,6 @@ function Atlas({
     void placeLabels();
   }, [candidateTags, mapSize.width, mapSize.height, province?.id]);
 
-
   return (
     <View style={styles.mapPage}>
       {active &&
@@ -270,6 +320,7 @@ function Atlas({
             }
           >
             <TerrainMap
+              atmosphere={atmosphere}
               visible={panel === null}
               key={graphics}
               quality={graphics === "high" ? "high" : "balanced"}
@@ -479,14 +530,20 @@ function Atlas({
                 paint={{
                   "line-color": "#efe8d2",
                   "line-width": 2.2,
-                  "line-opacity": session.config.mapMode === "historical" ? 0.9 : 0,
+                  "line-opacity":
+                    session.config.mapMode === "historical" ? 0.9 : 0,
                 }}
               />
               <Layer
                 id="country-border"
                 type="line"
                 filter={["==", ["get", "kind"], "country"]}
-                paint={{ "line-color": "#344a49", "line-width": 1.1, "line-opacity": session.config.mapMode === "historical" ? 1 : 0 }}
+                paint={{
+                  "line-color": "#344a49",
+                  "line-width": 1.1,
+                  "line-opacity":
+                    session.config.mapMode === "historical" ? 1 : 0,
+                }}
               />
             </GeoJSONSource>
             <GeoJSONSource
@@ -621,7 +678,10 @@ function Atlas({
             setPanel(null);
             onHome();
           }}
-          onSaves={() => { setPanel(null); onSaves(); }}
+          onSaves={() => {
+            setPanel(null);
+            onSaves();
+          }}
           snapshot={snapshot}
           notice={[actionMessage, notice].filter(Boolean).join(" ")}
           selectedProvince={province?.id ?? null}
@@ -713,6 +773,79 @@ function Atlas({
                     3D · High
                   </Text>
                 </Pressable>
+              </View>
+              <Text style={{ color: ink, fontWeight: "700", marginTop: 12 }}>
+                3D atmosphere
+              </Text>
+              <Text style={{ color: ink, lineHeight: 21 }}>
+                Ambient day and night cycle. Weather is visual only. Reduced
+                Motion freezes animation.
+              </Text>
+              <View style={styles.graphicsOptions}>
+                {(["cycle", "day", "night"] as const).map((lighting) => (
+                  <Pressable
+                    key={lighting}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Lighting ${lighting}`}
+                    accessibilityState={{
+                      selected: atmosphere.lighting === lighting,
+                    }}
+                    onPress={() =>
+                      chooseAtmosphere({ ...atmosphere, lighting })
+                    }
+                    style={[
+                      styles.graphicsButton,
+                      atmosphere.lighting === lighting &&
+                        styles.mapModeSelected,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.mapModeText,
+                        atmosphere.lighting === lighting &&
+                          styles.mapModeSelectedText,
+                      ]}
+                    >
+                      {lighting === "cycle"
+                        ? "Day / night cycle"
+                        : lighting === "day"
+                          ? "Day"
+                          : "Night"}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+              <View style={styles.graphicsOptions}>
+                {(["dynamic", "clear", "rain", "snow", "fog"] as const).map(
+                  (weather) => (
+                    <Pressable
+                      key={weather}
+                      accessibilityRole="button"
+                      accessibilityLabel={`Weather ${weather}`}
+                      accessibilityState={{
+                        selected: atmosphere.weather === weather,
+                      }}
+                      onPress={() =>
+                        chooseAtmosphere({ ...atmosphere, weather })
+                      }
+                      style={[
+                        styles.graphicsButton,
+                        atmosphere.weather === weather &&
+                          styles.mapModeSelected,
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.mapModeText,
+                          atmosphere.weather === weather &&
+                            styles.mapModeSelectedText,
+                        ]}
+                      >
+                        {weather.charAt(0).toUpperCase() + weather.slice(1)}
+                      </Text>
+                    </Pressable>
+                  ),
+                )}
               </View>
               <Text style={{ color: ink, lineHeight: 21 }}>
                 {terrainAttribution.text}
@@ -910,13 +1043,22 @@ export default function App() {
   const campaign = useCampaign();
   const { session, busy, notice } = campaign;
   const config = session?.config;
-  const nation = useMemo(() => config ? campaignNation(config) : null, [config]);
-  const [screen, setScreen] = useState<"home" | "picker" | "game" | "saves" | "account">("home");
-  const start = async (config: CampaignConfig) => { if (await campaign.open(config)) setScreen("game"); };
-  const load = async (save: NativeSave) => { if (await campaign.open(save.config, save)) setScreen("game"); };
+  const nation = useMemo(
+    () => (config ? campaignNation(config) : null),
+    [config],
+  );
+  const [screen, setScreen] = useState<
+    "home" | "picker" | "game" | "saves" | "account"
+  >("home");
+  const start = async (config: CampaignConfig) => {
+    if (await campaign.open(config)) setScreen("game");
+  };
+  const load = async (save: NativeSave) => {
+    if (await campaign.open(save.config, save)) setScreen("game");
+  };
   const home = () => {
     setScreen("home");
-    void campaign.save('auto', 'Returned to main menu');
+    void campaign.save("auto", "Returned to main menu");
   };
   return (
     <SafeAreaProvider>
@@ -938,9 +1080,33 @@ export default function App() {
               />
             </View>
           )}
-          {screen === "picker" && <CampaignSetup onBack={() => setScreen("home")} onStart={(config) => { void start(config); }} busy={busy} notice={notice} />}
-          {screen === "saves" && <SaveLibrary onBack={() => setScreen("home")} onLoad={(save) => { void load(save); }} onSave={session ? (label) => campaign.save('manual', label) : undefined} campaignName={session?.config.name} busy={busy} notice={notice} />}
-          {screen === "account" && <AccountScreen onBack={() => setScreen("home")} />}
+          {screen === "picker" && (
+            <CampaignSetup
+              onBack={() => setScreen("home")}
+              onStart={(config) => {
+                void start(config);
+              }}
+              busy={busy}
+              notice={notice}
+            />
+          )}
+          {screen === "saves" && (
+            <SaveLibrary
+              onBack={() => setScreen("home")}
+              onLoad={(save) => {
+                void load(save);
+              }}
+              onSave={
+                session ? (label) => campaign.save("manual", label) : undefined
+              }
+              campaignName={session?.config.name}
+              busy={busy}
+              notice={notice}
+            />
+          )}
+          {screen === "account" && (
+            <AccountScreen onBack={() => setScreen("home")} />
+          )}
           {screen === "home" && (
             <ScrollView contentContainerStyle={styles.home}>
               <View style={styles.homeMasthead}>
@@ -999,8 +1165,15 @@ export default function App() {
                 <Text style={styles.homePrimaryText}>New campaign</Text>
                 <Ionicons name="arrow-forward" size={24} color={navy} />
               </Pressable>
-              <MenuButton label="Load and manage saves" onPress={() => setScreen("saves")} disabled={busy} />
-              <MenuButton label="Lakeside account" onPress={() => setScreen("account")} />
+              <MenuButton
+                label="Load and manage saves"
+                onPress={() => setScreen("saves")}
+                disabled={busy}
+              />
+              <MenuButton
+                label="Lakeside account"
+                onPress={() => setScreen("account")}
+              />
               {!!notice && <Text style={styles.homeCopy}>{notice}</Text>}
               <View style={styles.homeGuide}>
                 <Text style={styles.homeGuideTitle}>
@@ -1020,7 +1193,8 @@ export default function App() {
                 </View>
               </View>
               <Text style={styles.homeFootnote}>
-                Campaigns save on this device. Play offline and return whenever you like.
+                Campaigns save on this device. Play offline and return whenever
+                you like.
               </Text>
             </ScrollView>
           )}

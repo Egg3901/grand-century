@@ -77,9 +77,10 @@ describe("terrain interaction budget", () => {
         data.surface.set([40, 100, 30, 255], i);
       const renderer = new TerrainRenderer(gl, data, "high");
       renderer.setScenery([
-        { id: 0, lon: 0, lat: 0, terrain: "forest", populationWeight: 1 },
+        { id: 0, lon: 2, lat: 48, terrain: "forest", populationWeight: 1 },
       ]);
-      renderer.setView({ lon: 0, lat: 0, zoom: 4 }, 430, 932);
+      // Use actual land: the physical coast mask correctly rejects Null Island.
+      renderer.setView({ lon: 2, lat: 48, zoom: 4 }, 430, 932);
       await vi.runAllTimersAsync();
       renderer.render(1, false, null);
       expect(renderer.sceneryVertexCount).toBeGreaterThan(0);

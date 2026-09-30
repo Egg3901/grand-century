@@ -1,0 +1,7 @@
+# Ground material atlas
+
+Generated with the built-in image generation tool on 2026-09-30. Original selected output is `alpine-atlas.png` (1254 square). The runtime JSON is a lossless RGBA serialization; no resizing or retouching. Quadrants: meadow, rock, forest, snow. Shader coordinates mirror within each quadrant to reduce tiling seams.
+
+Final prompt:
+
+Create a production game terrain albedo texture atlas, exactly square 1024 by 1024 pixels, arranged as a precise 2 by 2 grid of four equally sized material quadrants with absolutely no gutters, dividers, borders, labels, text or margins. Orthographic directly overhead texture photography, flat diffuse illumination, no cast shadows, no horizon or perspective. Top left: natural green alpine meadow, interwoven fine grasses with subtle brown earth and small moss patches. Top right: weathered gray alpine limestone, fine stratified fractured stone and subtle mineral color variation. Bottom left: dense mixed temperate forest canopy seen directly vertically overhead, rich deep green crowns with varied needle and broadleaf foliage, no buildings or roads. Bottom right: wind-scoured alpine snow with delicate crystalline grain, gentle blue-white variations and tiny exposed pale stone speckles. Each quadrant should be a seamless tileable material with convincing fine and medium scale detail, restrained natural colors, no dramatic baked lighting. These are physically plausible surface color textures for a 3D grand strategy world map, not an illustration or map. All four quadrants fill their own square completely.

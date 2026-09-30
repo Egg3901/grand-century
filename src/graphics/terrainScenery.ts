@@ -1,3 +1,4 @@
+import { isPhysicalLand } from "./physicalCoast";
 import { cities } from "./cities";
 import { cityModel } from "./cityModel";
 import {
@@ -23,6 +24,8 @@ export function* iterateScenery(
   data: TerrainData,
   provinces: readonly SceneryProvince[],
   bounds: { x: number; y: number; ex: number; ey: number; zoom: number },
+  supportsGround: (x: number, y: number) => boolean = (x, y) =>
+    isPhysicalLand(...geographic(x, y)),
 ): Generator<void, Float32Array> {
   if (bounds.zoom < 3.3) return new Float32Array();
   const vertices = new Float32Array(SCENERY_VERTEX_BUDGET * 9);
@@ -107,6 +110,7 @@ export function* iterateScenery(
         },
         bounds.zoom >= 5.5,
         Number(city.id),
+        (point) => supportsGround(x + point[0] * unit, y + point[1] * unit),
       );
       if (cursor / 9 >= SCENERY_VERTEX_BUDGET - 5000) break;
     }
@@ -137,6 +141,7 @@ export function* iterateScenery(
         v = y + Math.sin(a) * radius;
       const [lon, lat] = geographic(u, v);
       if (
+        !supportsGround(u, v) ||
         provinceAt(data, lon, lat) !== p.id ||
         terrainHeight(data, u, v) > 0.003
       )
@@ -158,8 +163,9 @@ export function buildScenery(
   data: TerrainData,
   provinces: readonly SceneryProvince[],
   bounds: { x: number; y: number; ex: number; ey: number; zoom: number },
+  supportsGround?: (x: number, y: number) => boolean,
 ): Float32Array {
-  const work = iterateScenery(data, provinces, bounds);
+  const work = iterateScenery(data, provinces, bounds, supportsGround);
   let next = work.next();
   while (!next.done) next = work.next();
   return next.value;

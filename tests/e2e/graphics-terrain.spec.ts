@@ -323,3 +323,111 @@ test("close-zoom frontiers follow ownership even when nations have identical col
   expect(result.after[0]).toBeCloseTo(result.anchor[0], 0);
   expect(result.after[1]).toBeCloseTo(result.anchor[1], 0);
 });
+
+test("fine terrain, day/night cycle and weather draw real pixels and persist controls", async ({
+  page,
+}) => {
+  // Five full pixel readbacks use software GL in CI; camera timing has its own native gate.
+  test.setTimeout(180000);
+  await page.setViewportSize({ width: 430, height: 932 });
+  await page.addInitScript(() => {
+    localStorage.setItem("grand-century.tutorial.v0_2_0.seen", "1");
+    localStorage.setItem("grand-century-graphics-v1", "high");
+  });
+  await page.goto("/");
+  await page.getByTestId("menu-new-game").click();
+  await page.waitForFunction(() => !!(window as any).__gcTerrain);
+  await page.evaluate(() =>
+    (window as any).__gcTerrainFocus({ lon: 12, lat: 46, zoom: 7 }),
+  );
+  await page.waitForFunction(() => {
+    const r = (window as any).__gcTerrain;
+    return (
+      !r.isPreparingScenery &&
+      !r.needsFrame &&
+      !r.elevationDetail.loading &&
+      r.elevationDetail.loadedTiles > 0
+    );
+  });
+  const result = await page.evaluate(() => {
+    const r = (window as any).__gcTerrain,
+      gl = (
+        document.querySelector(".gc-terrain-view canvas") as HTMLCanvasElement
+      ).getContext("webgl")!;
+    const read = () => {
+      const p = new Uint8Array(
+        gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
+      );
+      gl.readPixels(
+        0,
+        0,
+        gl.drawingBufferWidth,
+        gl.drawingBufferHeight,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        p,
+      );
+      return p;
+    };
+    const now = performance.now() / 1000;
+    r.setAtmosphere({ lighting: "cycle", weather: "clear", dayOfYear: 180 });
+    r.render(now, false, null);
+    const day = read();
+    r.render(now + 120, false, null);
+    const night = read();
+    const changed = (a: Uint8Array, b: Uint8Array) => {
+      let n = 0;
+      for (let i = 0; i < a.length; i += 4)
+        if (
+          Math.abs(a[i] - b[i]) +
+            Math.abs(a[i + 1] - b[i + 1]) +
+            Math.abs(a[i + 2] - b[i + 2]) >
+          12
+        )
+          n++;
+      return n;
+    };
+    r.setAtmosphere({ lighting: "day", weather: "rain", dayOfYear: 180 });
+    r.render(now, false, null);
+    const rain = read();
+    r.render(now + 1, false, null);
+    const movingRain = changed(rain, read());
+    r.setAtmosphere({ lighting: "day", weather: "snow", dayOfYear: 180 });
+    r.render(now, false, null);
+    const snow = read();
+    const anchor = r.project(12.1, 46.1),
+      target = r.zoomAt(...anchor, 0.4);
+    r.setView(target, innerWidth, innerHeight);
+    const after = r.project(12.1, 46.1);
+    return {
+      night: changed(day, night),
+      rain: changed(day, rain),
+      snow: changed(rain, snow),
+      movingRain,
+      pixels: day.length / 4,
+      error: gl.getError(),
+      elevation: r.elevationDetail,
+      anchor,
+      after,
+    };
+  });
+  expect(result.elevation.spacingMeters).toBeLessThan(1000);
+  expect(result.night / result.pixels).toBeGreaterThan(0.5);
+  expect(result.rain).toBeGreaterThan(100);
+  expect(result.snow).toBeGreaterThan(100);
+  expect(result.movingRain).toBeGreaterThan(100);
+  expect(result.error).toBe(0);
+  expect(result.after[0]).toBeCloseTo(result.anchor[0], 0);
+  expect(result.after[1]).toBeCloseTo(result.anchor[1], 0);
+  await page.getByText("Atmosphere", { exact: true }).click();
+  await page.getByLabel("Map lighting").selectOption("night");
+  await page.getByLabel("Map weather").selectOption("snow");
+  expect(
+    await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("grand-century-atmosphere-v1")!),
+    ),
+  ).toMatchObject({ lighting: "night", weather: "snow" });
+  await page.setViewportSize({ width: 1280, height: 850 });
+  await page.getByLabel("Map weather").selectOption("clear");
+  await expect(page.getByLabel("Map weather")).toHaveValue("clear");
+});

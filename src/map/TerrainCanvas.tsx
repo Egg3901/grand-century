@@ -1,3 +1,9 @@
+import {
+  ATMOSPHERE_KEY,
+  parseAtmosphere,
+  calendarDay,
+  type Atmosphere,
+} from "../graphics/atmosphere";
 import { cityLabels } from "../graphics/cities";
 import type { RefObject } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -31,6 +37,7 @@ export function TerrainCanvas({
   const canvas = useRef<HTMLCanvasElement>(null);
   const renderer = useRef<TerrainRenderer | null>(null);
   const snapshot = useSnapshotFields([
+      "date",
       "playerNation",
       "nations",
       "provinces",
@@ -42,6 +49,21 @@ export function TerrainCanvas({
     data = worldSeed,
     mode = useStore((s) => s.mapMode),
     selected = useStore((s) => s.selectedProvince);
+  const [atmosphere, setAtmosphere] = useState<Atmosphere>(() => {
+    try {
+      return parseAtmosphere(localStorage.getItem(ATMOSPHERE_KEY));
+    } catch {
+      return parseAtmosphere(null);
+    }
+  });
+  const chooseAtmosphere = (value: Atmosphere) => {
+    setAtmosphere(value);
+    try {
+      localStorage.setItem(ATMOSPHERE_KEY, JSON.stringify(value));
+    } catch {
+      /* Optional persistence. */
+    }
+  };
   const [ready, setReady] = useState(false),
     [revision, setRevision] = useState(0);
   const initial = useRef<View | null>(null);
@@ -74,8 +96,8 @@ export function TerrainCanvas({
     },
     [camera],
   );
-  const latest = useRef({ snapshot, data, mode, selected });
-  latest.current = { snapshot, data, mode, selected };
+  const latest = useRef({ snapshot, data, mode, selected, atmosphere });
+  latest.current = { snapshot, data, mode, selected, atmosphere };
   useEffect(() => {
     dirty.current = true;
     const r = renderer.current;
@@ -87,7 +109,7 @@ export function TerrainCanvas({
         snapshot.provinces.map((p) => p.owner),
       );
     wakeRef.current();
-  }, [snapshot, mode, selected]);
+  }, [snapshot, mode, selected, atmosphere]);
   useEffect(() => {
     const node = canvas.current;
     let alive = true,
@@ -110,11 +132,19 @@ export function TerrainCanvas({
         )
       ) {
         try {
+          r.onInvalidate = wake;
+          r.setAtmosphere({
+            ...latest.current.atmosphere,
+            dayOfYear: calendarDay(latest.current.snapshot?.date),
+          });
+          const projectionBefore = r.projectionRevision;
           r.render(
             motion.matches ? 0 : time / 1000,
             latest.current.mode !== "terrain",
             latest.current.selected,
           );
+          if (projectionBefore !== r.projectionRevision)
+            setRevision((v) => v + 1);
         } catch {
           onFallback("3D graphics became unavailable. Switched to 2D.");
           return;
@@ -441,6 +471,58 @@ export function TerrainCanvas({
             })}
         </div>
       )}
+      <details
+        className="gc-atmosphere-controls"
+        style={{
+          position: "absolute",
+          background: "#112c35",
+          color: "#f4efdd",
+          padding: 8,
+          borderRadius: 8,
+          zIndex: 3,
+        }}
+      >
+        <summary>Atmosphere</summary>
+        <label>
+          Lighting{" "}
+          <select
+            aria-label="Map lighting"
+            value={atmosphere.lighting}
+            onChange={(e) =>
+              chooseAtmosphere({
+                ...atmosphere,
+                lighting: e.target.value as Atmosphere["lighting"],
+              })
+            }
+          >
+            <option value="cycle">Day / night cycle</option>
+            <option value="day">Day</option>
+            <option value="night">Night</option>
+          </select>
+        </label>{" "}
+        <label>
+          Weather{" "}
+          <select
+            aria-label="Map weather"
+            value={atmosphere.weather}
+            onChange={(e) =>
+              chooseAtmosphere({
+                ...atmosphere,
+                weather: e.target.value as Atmosphere["weather"],
+              })
+            }
+          >
+            {["dynamic", "clear", "rain", "snow", "fog"].map((w) => (
+              <option key={w} value={w}>
+                {w}
+              </option>
+            ))}
+          </select>
+        </label>
+        <div style={{ fontSize: 12, marginTop: 6 }}>
+          Ambient cycle. Visual weather only.
+        </div>
+      </details>
       <div className="gc-terrain-zoom">
         <button
           aria-label="Zoom in"

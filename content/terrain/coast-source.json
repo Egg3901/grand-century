@@ -1,0 +1,7 @@
+{
+  "source": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_land.geojson",
+  "sha256": "1ac90796408bc6ad6911d69448485d3c4dbf2190370080368a09976e1c9f7416",
+  "license": "https://www.naturalearthdata.com/about/terms-of-use/",
+  "simplifyDegrees": 0.004,
+  "purpose": "Physical coast rendering only. Modern coastline; not historical ownership or province authority."
+}

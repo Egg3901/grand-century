@@ -1,6 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { cities, cityLabels } from "../src/graphics/cities";
 import { cityModel, type Point } from "../src/graphics/cityModel";
+import atlas from "../src/graphics/terrain-atlas.json";
+import { buildScenery } from "../src/graphics/terrainScenery";
+import {
+  physicalCoast,
+  coastalDetail,
+  coastalLandAt,
+} from "../src/graphics/physicalCoast";
+import {
+  geographic,
+  mercator,
+  unpackTerrain,
+} from "../src/graphics/terrainData";
 import { readTerrainBinary } from "../src/graphics/terrainBinary";
 describe("settlement presentation", () => {
   it("anchors London, Berlin and Parma to cities rather than provincial centroids", () => {
@@ -23,6 +35,30 @@ describe("settlement presentation", () => {
     expect(high.length).toBeLessThan(14000);
     expect(Math.max(...high.map((p) => p[2]))).toBeGreaterThan(3);
     expect(high.every((p) => p.every(Number.isFinite))).toBe(true);
+  });
+  it("keeps Trieste buildings and streets on the physical land footprint", () => {
+    const city = cities.find((city) => city.name === "Trieste")!;
+    const [x, y] = mercator(city.lon, city.lat);
+    const bounds = { x, y, ex: 0.0008, ey: 0.0008, zoom: 8 };
+    const data = unpackTerrain(atlas);
+    const detail = { ...bounds, size: 128, ids: new Uint16Array(128 ** 2) };
+    const work = coastalDetail(detail);
+    let next = work.next();
+    while (!next.done) next = work.next();
+    const coast = next.value;
+    const vertices = buildScenery(
+      data,
+      [],
+      bounds,
+      (u, v) => coastalLandAt(detail, coast, u, v) ?? false,
+    );
+    expect(vertices.length).toBeGreaterThan(900);
+    let overWater = 0;
+    for (let i = 0; i < vertices.length; i += 9) {
+      const [lon, lat] = geographic(vertices[i], vertices[i + 1]);
+      if (physicalCoast().at(lon, lat) === null) overWater++;
+    }
+    expect(overWater).toBe(0);
   });
   it("shows city names when zoomed and suppresses overlapping names", () => {
     expect(cityLabels(() => [200, 200], 3, 430, 900)).toEqual([]);

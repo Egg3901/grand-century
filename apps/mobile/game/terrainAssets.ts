@@ -1,3 +1,4 @@
+import "./terrainTileCache";
 import { Asset } from "expo-asset";
 import { File } from "expo-file-system";
 import { readTerrainBinary } from "../../../src/graphics/terrainBinary";

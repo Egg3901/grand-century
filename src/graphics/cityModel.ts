@@ -5,7 +5,12 @@ export type Triangle = (a: Point, b: Point, c: Point, color: Color) => void;
 /** Reusable settlement kit: streets, courtyard blocks, pitched roofs and a civic tower.
  * These are illustrative period buildings, not reconstructions of named monuments.
  */
-export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
+export function cityModel(
+  triangle: Triangle,
+  detail: boolean,
+  seed: number,
+  supportsGround?: (point: Point) => boolean,
+) {
   const emit = triangle;
   const hash = (value: number) => {
     let n = Math.imul(value ^ seed, 0x45d9f3b);
@@ -20,6 +25,24 @@ export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
   const quad = (a: Point, b: Point, c: Point, d: Point, color: Color) => {
     triangle(a, b, c, color);
     triangle(a, c, d, color);
+  };
+  const footprint = (x: number, y: number, w: number, d: number) =>
+    !supportsGround ||
+    (
+      [
+        [x, y, 0],
+        [x - w, y - d, 0],
+        [x + w, y - d, 0],
+        [x + w, y + d, 0],
+        [x - w, y + d, 0],
+      ] as Point[]
+    ).every((point) => supportsGround(orient(point)));
+  const groundQuad = (a: Point, b: Point, c: Point, d: Point, color: Color) => {
+    if (
+      !supportsGround ||
+      [a, b, c, d].every((point) => supportsGround(orient(point)))
+    )
+      quad(a, b, c, d, color);
   };
   const box = (
     x: number,
@@ -61,14 +84,14 @@ export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
     triangle(b, c, right, [0.67, 0.6, 0.48]);
   };
   // Streets belong to the same depth-tested mesh as the houses.
-  quad(
+  groundQuad(
     [-8, -0.26, 0.02],
     [8, -0.26, 0.02],
     [8, 0.26, 0.02],
     [-8, 0.26, 0.02],
     [0.47, 0.45, 0.37],
   );
-  quad(
+  groundQuad(
     [-0.26, -7.5, 0.025],
     [0.26, -7.5, 0.025],
     [0.26, 7.5, 0.025],
@@ -85,6 +108,8 @@ export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
       const x = col * 1.8 + Math.sin(row * 0.7 + hash(12)) * 0.4,
         y = row * 1.65 + Math.cos(col * 0.8) * 0.32,
         h = 0.55 + n * 1.4 + (Math.abs(row) + Math.abs(col) < 4 ? 0.35 : 0);
+      // Reject the whole block, including its courtyard and roof overhang.
+      if (!footprint(x, y, 1.02, 0.87)) continue;
       if (Math.abs(row) + Math.abs(col) < 5)
         quad(
           [x - 0.85, y - 0.7, 0.01],
@@ -122,14 +147,14 @@ export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
             [wx + 0.08, y - 0.575, h * 0.45],
             [wx + 0.08, y - 0.575, h * 0.72],
             [wx - 0.08, y - 0.575, h * 0.72],
-            [0.2, 0.24, 0.25],
+            [0.2, 0.24, 1.25],
           );
           quad(
             [wx - 0.08, y + 0.575, 0.31],
             [wx + 0.08, y + 0.575, 0.31],
             [wx + 0.08, y + 0.575, 0.58],
             [wx - 0.08, y + 0.575, 0.58],
-            [0.2, 0.24, 0.25],
+            [0.2, 0.24, 1.25],
           );
         }
       }
@@ -138,7 +163,7 @@ export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
     for (let i = -3; i <= 3; i++) {
       if (!i) continue;
       const y = i * 1.65 + 0.82;
-      quad(
+      groundQuad(
         [-8, y - 0.13, 0.025],
         [8, y - 0.13, 0.025],
         [8, y + 0.13, 0.025],
@@ -147,6 +172,7 @@ export function cityModel(triangle: Triangle, detail: boolean, seed: number) {
       );
     }
   // Central square, hall and tiered clock/bell tower create a legible silhouette.
+  if (!footprint(0, 0.1, 1.02, 2.6)) return;
   quad(
     [-0.9, 0.6, 0.03],
     [0.9, 0.6, 0.03],
