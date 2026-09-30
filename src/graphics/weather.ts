@@ -1,4 +1,5 @@
 import type { Atmosphere, WeatherMode } from "./atmosphere";
+import type { FeatureCollection, Polygon, LineString } from "geojson";
 
 // Synoptic cloud banks belong to the map, rather than following the camera.
 // This visual field never reads or mutates simulation state.
@@ -67,11 +68,11 @@ export function weatherAtLocation(
   };
 }
 export function weatherMapData(atmosphere: Atmosphere) {
-  const clouds: GeoJSON.FeatureCollection<GeoJSON.Polygon> = {
+  const clouds: FeatureCollection<Polygon> = {
     type: "FeatureCollection",
     features: [],
   };
-  const precipitation: GeoJSON.FeatureCollection<GeoJSON.LineString> = {
+  const precipitation: FeatureCollection<LineString> = {
     type: "FeatureCollection",
     features: [],
   };
