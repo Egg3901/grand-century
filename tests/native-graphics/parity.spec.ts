@@ -37,7 +37,7 @@ test("all native gameplay ledgers are reachable and budget, stockpile and indust
   page.on("pageerror", (e) => errors.push(e.message));
   await start(page);
   await page.getByRole("button", { name: "Open Economy", exact: true }).click();
-  await page.getByRole("button", { name: "Explain net", exact: true }).click();
+  await page.getByRole("button", { name: "Explain Weekly net", exact: true }).click();
   await expect(
     page.getByText("Hide calculation", { exact: true }),
   ).toBeVisible();

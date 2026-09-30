@@ -4,6 +4,27 @@ All notable changes to Grand Century are documented here.
 
 ## [Unreleased]
 
+### Map and menu refinement
+
+- **Weather reads as weather.** Rain and snow no longer fall on a visible
+  screen grid. Drops and flakes scatter in layered depths, showers are patchy,
+  storm banks have ragged edges, clouds cast shadows and fog settles in low
+  ground. The 2D atlas draws rain as ink hatching and snow as cased flakes.
+- **Clearer political map in 3D.** Nation colours carry further at strategic
+  zoom, night is moonlit rather than black, coastlines are inked and the open
+  sea no longer shimmers into a zigzag when zoomed out.
+- **Map lettering.** Nation and city names in 3D are haloed map type instead
+  of boxed tags, and city names no longer sit on top of nation names. In 2D,
+  empire labels stay on the home country.
+- **One map dock.** Graphics quality and weather share a single dock on
+  desktop and phones, with zoom moved clear of the legend.
+- **Tidier HUD.** The top bar no longer wraps or truncates the date and nation
+  name. Panels are grouped by section and map modes sit in a compact grid.
+- **Menus.** Nation cards show whole lines, the main actions are ordered by
+  importance, and source credits are styled. On iOS and Android the nation
+  picker shows flags, provinces and great powers first, scenario choices use
+  real radio buttons and the budget ledger uses proper line names.
+
 ## [1.7.0] - 2026-09-02
 
 ### The long century

@@ -149,23 +149,62 @@
   border-radius: 0;
 }
 .menu-home .menu-browser__grid {
-  max-height: 284px;
+  max-height: 300px;
   grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
-  grid-auto-rows: 128px;
+  grid-auto-rows: minmax(118px, auto);
 }
-.menu-home .nation-card__flavor { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+/* Whole lines only: a fixed row height used to slice the third line in half. */
+.menu-home .nation-card__flavor { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .menu-home .nation-card {
   min-height: 104px;
+  align-content: start;
+  gap: 4px;
+  padding: 12px 8px 10px;
 }
+.menu-home .nation-card__shield {
+  margin-bottom: 4px;
+}
+/* One primary action, a secondary pair, then quiet text actions. */
 .menu-home .menu-actions {
-  justify-content: start;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 .menu-home .menu-actions .btn {
   min-height: 44px;
 }
 .menu-home .menu-actions .btn--primary {
-  min-width: 140px;
+  grid-column: 1 / -1;
+  min-height: 52px;
   border: 3px double #f1ebdb;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+}
+.menu-home .menu-actions [data-testid="menu-multiplayer"] { order: 1; }
+.menu-home .menu-actions .btn--secondary:not([data-testid]) { order: 2; }
+.menu-home .menu-actions .btn--ghost {
+  order: 3;
+  min-height: 40px;
+  border-color: transparent;
+  background: transparent;
+  color: #6d5a33;
+  text-decoration: underline;
+  text-decoration-color: #6d5a3355;
+  text-underline-offset: 3px;
+}
+.menu-home .menu-version a {
+  color: #6d5a33;
+  text-decoration-color: #6d5a3355;
+  text-underline-offset: 2px;
+}
+.menu-home .menu-version a:hover { color: #192e35; text-decoration-color: currentColor; }
+.menu-home .menu-version[data-testid="menu-data-credits"] {
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: left;
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px solid #9c8c6a40;
 }
 .menu-home .menu-advanced__toggle {
   min-height: 44px;

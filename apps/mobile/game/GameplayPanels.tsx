@@ -152,20 +152,20 @@ export function GameplayPanels(props: GameplayProps) {
         <Heading>Weekly budget</Heading>
         {(
           [
-            "taxIncome",
-            "tariffIncome",
-            "productionIncome",
-            "armyUpkeep",
-            "subsidySpend",
-            "constructionSpend",
-            "adminSpend",
-            "reformUpkeep",
-            "net",
+            ["taxIncome", "Tax income"],
+            ["tariffIncome", "Tariff income"],
+            ["productionIncome", "Production"],
+            ["armyUpkeep", "Army and navy upkeep"],
+            ["subsidySpend", "Factory subsidies"],
+            ["constructionSpend", "Construction"],
+            ["adminSpend", "Administration"],
+            ["reformUpkeep", "Reform upkeep"],
+            ["net", "Weekly net"],
           ] as const
-        ).map((key) => (
+        ).map(([key, label]) => (
           <Fact
             key={key}
-            label={words(key.replace(/([A-Z])/g, " $1"))}
+            label={label}
             value={money(snap.playerBudget[key])}
             trace={snap.playerBudget.trace[key]}
           />
@@ -180,7 +180,7 @@ export function GameplayPanels(props: GameplayProps) {
                 : player.taxRateRich;
           return (
             <Card key={bracket}>
-              <Fact label={`${bracket} income`} value={percent(rate)} />
+              <Fact label={`${bracket[0].toUpperCase()}${bracket.slice(1)} tax`} value={percent(rate)} />
               <View style={s.actions}>
                 <Button
                   label={`Lower ${bracket} tax`}
