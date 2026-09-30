@@ -44,10 +44,10 @@ describe('resolveSocketUrl', () => {
       .toBe('ws://127.0.0.1:3412');
   });
 
-  it('uses BASE_URL ws path in prod', () => {
+  it('uses BASE_URL ws path for a self-hosted deployment', () => {
     expect(resolveSocketUrl(
       { DEV: false, BASE_URL: '/games/grand-century/' },
-      { protocol: 'https:', host: 'lakesidegames.net' },
-    )).toBe('wss://lakesidegames.net/games/grand-century/ws');
+      { protocol: 'https:', host: 'game.example' },
+    )).toBe('wss://game.example/games/grand-century/ws');
   });
 });
