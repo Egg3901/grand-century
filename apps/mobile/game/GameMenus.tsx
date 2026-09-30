@@ -44,6 +44,7 @@ export function MenuSheet({
       visible
       animationType="slide"
       presentationStyle="fullScreen"
+      supportedOrientations={["portrait", "landscape-left", "landscape-right"]}
       onRequestClose={onClose}
     >
       <SafeAreaProvider>
