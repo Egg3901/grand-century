@@ -32,6 +32,12 @@ directly to the Railway endpoint in `src/net/productionServer.ts`; Pages does
 not provide the multiplayer WebSocket route. Explicit `VITE_MP_WS_URL`
 overrides still support custom deployments.
 
+The Web release packaging workflow also checks the 25 MiB Pages per-file limit
+and runs the production High renderer at the public game path, including an
+offline reload. High terrain is served as four hashed compressed text fields
+by `scripts/web-terrain-assets.ts`; its decoded data matches the bundled native
+atlas exactly. Run `node scripts/check-web-assets.mjs dist` before any upload.
+
 After the candidate passes and merges, verify that its git tree matches the
 merged `master` tree. Download the successful candidate's web artifact and
 publish it through the existing Cloudflare deployment credentials:

@@ -1,0 +1,48 @@
+name: Web release packaging
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: ['vite.config.ts', 'scripts/web-terrain-assets*', 'scripts/check-web-assets.mjs', 'playwright.web-release.config.ts', 'tests/e2e/web-release.spec.ts', '.github/workflows/web-release.yml']
+  push:
+    branches: [master]
+    paths: ['vite.config.ts', 'scripts/web-terrain-assets*', 'scripts/check-web-assets.mjs', 'playwright.web-release.config.ts', 'tests/e2e/web-release.spec.ts', '.github/workflows/web-release.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  packaging:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node --experimental-strip-types --test scripts/web-terrain-assets.test.mjs
+      - run: npm run build
+        env:
+          VITE_BASE: /games/grand-century/
+      - run: node scripts/check-web-assets.mjs dist
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test --config playwright.web-release.config.ts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: web-packaging-evidence
+          path: |
+            artifacts/web-release/
+            artifacts/web-release-high.png
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-refinement-release
+          path: dist/
+          if-no-files-found: error
