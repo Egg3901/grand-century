@@ -1,5 +1,6 @@
 import { ATMOSPHERE_KEY, parseAtmosphere, calendarDay, type Atmosphere } from "../graphics/atmosphere";
 import { weatherMapData, WEATHER_CLOUD_PAINT } from "../graphics/weather";
+import type { FeatureCollection, Geometry } from 'geojson';
 import { parseGraphicsMode, type GraphicsMode } from "../graphics/preferences";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
@@ -49,10 +50,9 @@ type ProvinceGeoJson = {
     type: 'Feature';
     id: number;
     properties: { id: number; n: string };
-    geometry: {
-      type: 'Polygon' | 'MultiPolygon';
-      coordinates: number[][][] | number[][][][];
-    };
+    geometry:
+      | { type: 'Polygon'; coordinates: number[][][] }
+      | { type: 'MultiPolygon'; coordinates: number[][][][] };
   }>;
 };
 type NationalBorderGeoJson = {
@@ -416,8 +416,8 @@ function AtlasMap2D({ camera, atmosphere }: { camera: RefObject<View|null>; atmo
   const provinceLabelMarkerRef = useRef<Map<number, MapLibreMarker>>(new globalThis.Map());
   const [geojson, setGeojson] = useState<ProvinceGeoJson | null>(null);
   const [nationalBorders, setNationalBorders] = useState<NationalBorderGeoJson | null>(null);
-  const [rivers, setRivers] = useState<object | null>(null);
-  const [lakes, setLakes] = useState<object | null>(null);
+  const [rivers, setRivers] = useState<FeatureCollection<Geometry> | null>(null);
+  const [lakes, setLakes] = useState<FeatureCollection<Geometry> | null>(null);
   const [mapReady, setMapReady] = useState(false);
   const [tooltip, setTooltip] = useState<{
     x: number;
@@ -752,8 +752,8 @@ function AtlasMap2D({ camera, atmosphere }: { camera: RefObject<View|null>; atmo
       const [provinces, borders, riverData, lakeData] = await Promise.all([
         fetchJson<ProvinceGeoJson>(geometryUrls.provinces),
         fetchJson<NationalBorderGeoJson>(geometryUrls.nationalBorders),
-        fetchJson<object>(geometryUrls.rivers),
-        fetchJson<object>(geometryUrls.lakes),
+        fetchJson<FeatureCollection<Geometry>>(geometryUrls.rivers),
+        fetchJson<FeatureCollection<Geometry>>(geometryUrls.lakes),
       ]);
       if (!alive) return;
       if (provinces) setGeojson(provinces);
@@ -825,30 +825,30 @@ function AtlasMap2D({ camera, atmosphere }: { camera: RefObject<View|null>; atmo
           // feature-state (fills, hover, occupation) needs a source-level feature
           // id; the generated file only guarantees properties.id.
           promoteId: 'id',
-          data: geojson as unknown as object,
+          data: geojson,
         });
         map.addSource(MAP_NATIONAL_SOURCE_ID, {
           type: 'geojson',
-          data: nationalBorders as unknown as object,
+          data: nationalBorders,
         });
         map.addSource(MAP_GRATICULE_SOURCE_ID, {
           type: 'geojson',
-          data: createGraticule() as unknown as object,
+          data: createGraticule(),
         });
         map.addSource(MAP_MOVEMENT_SOURCE, {
           type: 'geojson',
-          data: { type: 'FeatureCollection', features: [] } as unknown as object,
+          data: { type: 'FeatureCollection', features: [] },
         });
         if (rivers) {
           map.addSource(MAP_RIVERS_SOURCE_ID, {
             type: 'geojson',
-            data: rivers as object,
+            data: rivers,
           });
         }
         if (lakes) {
           map.addSource(MAP_LAKES_SOURCE_ID, {
             type: 'geojson',
-            data: lakes as object,
+            data: lakes,
           });
         }
 
