@@ -5,6 +5,7 @@ import path from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import { highTerrainAssetsPlugin } from './scripts/web-terrain-assets.ts';
 
 const BASE = process.env.VITE_BASE ?? '/';
 
@@ -176,6 +177,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    highTerrainAssetsPlugin(__dirname, BASE),
     generatedDataPublicPlugin(),
     VitePWA({
       registerType: 'autoUpdate',
@@ -219,6 +221,11 @@ export default defineConfig({
         // Shell chunks stay under 2 MiB; geo is asserted separately above.
         maximumFileSizeToCacheInBytes: 2 * 1024 * 1024,
         runtimeCaching: [
+          {
+            urlPattern: ({ url }) => /\/terrain\/terrain-atlas-high-(height|surface|normals|province)-[a-f0-9]+\.txt$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: { cacheName: 'gc-high-terrain-fields', expiration: { maxEntries: 8, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
+          },
           {
             urlPattern: ({url}) => url.origin === 'https://s3.amazonaws.com' && /^\/elevation-tiles-prod\/terrarium\/\d+\/\d+\/\d+\.png$/.test(url.pathname),
             handler: 'CacheFirst',
