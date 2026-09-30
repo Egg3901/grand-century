@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Share, ScrollView, TextInput, View } from "react-native";
 import { LobbyClient } from "../../../src/net/lobbyClient";
+import { PRODUCTION_MULTIPLAYER_URL } from "../../../src/net/productionServer";
 import { listScenarios } from "../../../src/data/generated";
 import type {
   LobbyStateMessage,
@@ -22,8 +23,7 @@ import {
   panelStyles as s,
 } from "./PanelControls";
 
-export const NATIVE_MULTIPLAYER_URL =
-  "wss://lakesidegames.net/games/grand-century/ws";
+export const NATIVE_MULTIPLAYER_URL = PRODUCTION_MULTIPLAYER_URL;
 export function inviteSession(url: string): string | null {
   try {
     const parsed = new URL(url);

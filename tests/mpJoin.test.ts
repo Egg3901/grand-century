@@ -31,6 +31,14 @@ describe('mp join hash', () => {
 });
 
 describe('resolveSocketUrl', () => {
+  it('routes static hosted UIs directly to the session server, with explicit overrides retained', () => {
+    for (const host of ['lakesidegames.net', 'grand-century.pages.dev', 'preview.grand-century.pages.dev']) {
+      expect(resolveSocketUrl({ DEV: false, BASE_URL: '/games/grand-century/' }, { protocol: 'https:', host }))
+        .toBe('wss://grand-century-server-production.up.railway.app/ws');
+      expect(resolveSocketUrl({ DEV: false, VITE_MP_WS_URL: 'wss://custom.example/ws' }, { protocol: 'https:', host }))
+        .toBe('wss://custom.example/ws');
+    }
+  });
   it('uses localhost port in DEV', () => {
     expect(resolveSocketUrl({ DEV: true, VITE_MP_PORT: '3412' }, { protocol: 'http:', host: 'example.com' }))
       .toBe('ws://127.0.0.1:3412');
