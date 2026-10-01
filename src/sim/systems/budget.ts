@@ -55,7 +55,43 @@ function popBracket(pop: Pop): 'poor' | 'middle' | 'rich' {
   }
 }
 
-function nationPopulation(world: World, nationId: NationId): number {
+/**
+ * Per-owner index built once per monthly pass. Without it every nation scanned
+ * every pop, province and state in the world: nations x pops per month, which
+ * grew with the square of map size.
+ */
+interface OwnershipIndex {
+  provinces: number[][];
+  pops: World['pops'][];
+  states: World['states'][];
+}
+
+function ownershipIndex(world: World): OwnershipIndex {
+  const n = world.nations.length;
+  const index: OwnershipIndex = {
+    provinces: Array.from({ length: n }, () => []),
+    pops: Array.from({ length: n }, () => []),
+    states: Array.from({ length: n }, () => []),
+  };
+  for (const province of world.provinces) {
+    const list = index.provinces[province.owner];
+    if (!list) continue;
+    list.push(province.id);
+    for (const popId of province.popIds) {
+      const pop = world.pops[popId];
+      if (pop) index.pops[province.owner].push(pop);
+    }
+  }
+  for (const state of world.states) index.states[state.owner]?.push(state);
+  return index;
+}
+
+function nationPopulation(world: World, nationId: NationId, index?: OwnershipIndex): number {
+  if (index) {
+    let total = 0;
+    for (const pop of index.pops[nationId] ?? []) total += Math.max(0, finite(pop.size));
+    return total;
+  }
   let total = 0;
   for (const province of world.provinces) {
     if (province.owner !== nationId) continue;
@@ -64,7 +100,8 @@ function nationPopulation(world: World, nationId: NationId): number {
   return total;
 }
 
-function nationProvinceIds(world: World, nationId: NationId): number[] {
+function nationProvinceIds(world: World, nationId: NationId, index?: OwnershipIndex): number[] {
+  if (index) return index.provinces[nationId] ?? [];
   const ids: number[] = [];
   for (const province of world.provinces) {
     if (province.owner === nationId) ids.push(province.id);
@@ -72,9 +109,9 @@ function nationProvinceIds(world: World, nationId: NationId): number[] {
   return ids;
 }
 
-function nationFactorySubsidies(world: World, nationId: NationId): number {
+function nationFactorySubsidies(world: World, nationId: NationId, index?: OwnershipIndex): number {
   let subsidies = 0;
-  for (const state of world.states) {
+  for (const state of index ? index.states[nationId] ?? [] : world.states) {
     if (state.owner !== nationId) continue;
     for (const factory of state.factories) {
       const weeklyLoss = Math.max(0, -finite(factory.weeklyProfit));
@@ -85,8 +122,8 @@ function nationFactorySubsidies(world: World, nationId: NationId): number {
 }
 
 /** Credit loss-making factories with the subsidy amount billed to the treasury. */
-function creditFactorySubsidies(world: World, nationId: NationId, multiplier: number): void {
-  for (const state of world.states) {
+function creditFactorySubsidies(world: World, nationId: NationId, multiplier: number, index?: OwnershipIndex): void {
+  for (const state of index ? index.states[nationId] ?? [] : world.states) {
     if (state.owner !== nationId) continue;
     for (const factory of state.factories) {
       const weeklyLoss = Math.max(0, -finite(factory.weeklyProfit));
@@ -97,12 +134,17 @@ function creditFactorySubsidies(world: World, nationId: NationId, multiplier: nu
   }
 }
 
-function computeNationBudget(world: World, data: GameData, nationId: NationId, mutatePopMoney: boolean): BudgetLine {
+function computeNationBudget(
+  world: World,
+  data: GameData,
+  nationId: NationId,
+  mutatePopMoney: boolean,
+  index: OwnershipIndex = ownershipIndex(world),
+): BudgetLine {
   const nation = world.nations[nationId];
   if (!nation) return zeroBudget();
 
-  const provinceIds = nationProvinceIds(world, nationId);
-  const provinceIdSet = new Set(provinceIds);
+  const provinceIds = nationProvinceIds(world, nationId, index);
   // 0.6.0: commerce tech raises how much of the assessed tax is captured. The
   // extra is deducted from pops like the base tax — no money is minted.
   const taxEfficiency = 1 + Math.max(0, techModifiersFor(nation, data).taxEfficiency);
@@ -114,8 +156,7 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
   let middleTax = 0;
   let richTax = 0;
 
-  for (const pop of world.pops) {
-    if (!provinceIdSet.has(pop.provinceId)) continue;
+  for (const pop of index.pops[nationId] ?? []) {
     const money = Math.max(0, finite(pop.money));
     const bracket = popBracket(pop);
     const rate = bracket === 'poor' ? nation.taxRatePoor : bracket === 'middle' ? nation.taxRateMiddle : nation.taxRateRich;
@@ -144,9 +185,10 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
     .filter((fleet) => fleet.owner === nationId)
     .reduce((total, fleet) => total + fleet.ships.length * BALANCE.economy.navyUpkeepPerShip, 0);
   const armyUpkeep = armyOnlyUpkeep + navyOnlyUpkeep;
-  const subsidySpend = nationFactorySubsidies(world, nationId);
+  const subsidySpend = nationFactorySubsidies(world, nationId, index);
   const constructionSpend = nation.constructionBlocked ? 0 : provinceIds.length * BALANCE.economy.constructionSpendPerProvince;
-  const adminSpend = nationPopulation(world, nationId) * BALANCE.economy.adminSpendPerPopulation
+  const population = nationPopulation(world, nationId, index);
+  const adminSpend = population * BALANCE.economy.adminSpendPerPopulation
     + provinceIds.length * BALANCE.economy.adminSpendPerProvince;
   const reformUpkeep = Object.values(nation.reforms).reduce((sum, level) => (
     sum + Math.max(0, level) * BALANCE.economy.reformUpkeepPerLevel
@@ -211,7 +253,7 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
         { label: 'Formula', value: provinceIds.length * BALANCE.economy.constructionSpendPerProvince },
       ],
       adminSpend: [
-        { label: 'Population', value: nationPopulation(world, nationId) },
+        { label: 'Population', value: population },
         { label: 'Province count', value: provinceIds.length },
       ],
       reformUpkeep: [
@@ -226,11 +268,13 @@ function computeNationBudget(world: World, data: GameData, nationId: NationId, m
 }
 
 export function runBudgetMonthly(world: World, data: GameData, _rng: Rng): void {
+  // Ownership does not change during the budget pass, so one index serves all nations.
+  const index = ownershipIndex(world);
   for (const nation of world.nations) {
-    const budget = computeNationBudget(world, data, nation.id, true);
+    const budget = computeNationBudget(world, data, nation.id, true, index);
     // BALANCE: subsidies previously drained treasury without bailing plants.
     // Credit cashReserve with the same post-bankruptcy amount billed above.
-    creditFactorySubsidies(world, nation.id, nation.isBankrupt ? 0.3 : 1);
+    creditFactorySubsidies(world, nation.id, nation.isBankrupt ? 0.3 : 1, index);
     nation.treasury = finite(nation.treasury) + budget.net;
     if (!Number.isFinite(nation.treasury)) nation.treasury = 0;
     nation.monthlyTariffIncome = 0;
