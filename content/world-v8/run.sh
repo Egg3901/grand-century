@@ -7,8 +7,8 @@ SRC=$1; W=$2; FROM=${3:-atoms}
 HERE=$(cd "$(dirname "$0")" && pwd); ROOT=$(cd "$HERE/../.." && pwd)
 SCEN="1700-01-01 1776-07-04 1815-06-18 1830-01-01 1914-07-28 1936-01-01 1945-09-02"
 LAYERS=$(for s in $SCEN; do echo -n "$ROOT/content/scenarios/$s/compiled/world-borders.geo.json "; done)
-LEGACY_SEED=${LEGACY_SEED:-$ROOT/src/data/generated/worldSeed.json}
-LEGACY_GEO=${LEGACY_GEO:-$ROOT/src/data/generated/provinces.geo.json}
+LEGACY_SEED=${LEGACY_SEED:-$HERE/legacy/worldSeed-1830.json}
+LEGACY_GEO=${LEGACY_GEO:-$HERE/legacy/provinces.geo.json}
 export PROCS=${PROCS:-6}
 step() { [[ " atoms cut group export attributes names seed runtime " == *" $FROM "* ]] || { echo "unknown stage $FROM"; exit 2; }; }
 step

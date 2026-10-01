@@ -364,10 +364,8 @@ export const PLACEHOLDER_NAME_RULES: Record<string, string> = {
   'West Sahara': 'african',
   'Libyan Desert': 'african',
   'Inner Mauritania': 'african',
-  // Pacific: Vic2's island coordinates are unreliable (the map is hand-drawn,
-  // not projected), so these are named rather than boxed.
-  Fiji: 'polynesian',
-  Kiribati: 'polynesian',
+  // Pacific islands are boxed by coordinate in placeholderCultureFor now that
+  // province positions are real geography; these names remain for the old cut.
   'Western Polynesia': 'polynesian',
   'Northern New Guinea': 'polynesian',
   'Southern New Guinea': 'polynesian',
@@ -376,7 +374,6 @@ export const PLACEHOLDER_NAME_RULES: Record<string, string> = {
   // Mongols, Tibetans and Kazakhs.
   'Inner Chukotka': 'central_asian',
   'North Siberia': 'central_asian',
-  Sakhalin: 'central_asian',
   // The North American interior is not empty and is not American yet.
   'Northwest Territories': 'indigenous_american',
   'Yukon Territory': 'indigenous_american',
@@ -423,9 +420,16 @@ export const PLACEHOLDER_RELIGION_RULES: Record<string, string> = {
 function placeholderCultureFor(name: string, lon: number, lat: number): string | null {
   const named = PLACEHOLDER_NAME_RULES[name];
   if (named) return named;
+  // Oceania and New Guinea, before the Malay box that would otherwise take them.
+  if ((lon >= 160 || lon <= -120) && lat >= -50 && lat <= 30) return 'polynesian';
+  if (lon >= 130 && lon <= 160 && lat >= -12 && lat <= 0) return 'polynesian';
   if (lon >= -20 && lon <= 52 && lat >= -36 && lat <= 20) return 'african';
   if (lon >= 95 && lon <= 170 && lat >= -12 && lat <= 25) return 'malay';
   if (lon >= -100 && lon <= -55 && lat >= -60 && lat <= 30) return 'latin_american';
+  // Siberia's peoples share the steppe bucket; the North American interior
+  // and Arctic are not empty and not yet settled.
+  if (lon >= 60 && lat >= 50) return 'central_asian';
+  if (lon <= -52 && lat >= 25) return 'indigenous_american';
   return null;
 }
 /**

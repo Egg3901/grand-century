@@ -214,11 +214,6 @@
       "eraSummary": "The imams of Sanaa hold the highlands. The coffee trade of Mocha has passed its peak."
     },
     {
-      "tag": "HDJ",
-      "mode": "merge",
-      "eraSummary": "The holy cities are held for the Ottoman sultan by Muhammad Ali's Egyptian garrisons."
-    },
-    {
       "tag": "ABU",
       "mode": "merge",
       "eraSummary": "The Trucial coast lives on pearls and lives with the British maritime truce that ended the Gulf's own naval wars."
@@ -287,11 +282,6 @@
       "tag": "BER",
       "mode": "merge",
       "eraSummary": "Berar is held under the same subsidiary terms that follow every Maratha defeat."
-    },
-    {
-      "tag": "ORI",
-      "mode": "merge",
-      "eraSummary": "Orissa has been Company territory since 1803, its salt and its pilgrim tax administered from Calcutta."
     },
     {
       "tag": "TRA",
@@ -402,16 +392,6 @@
       "tag": "LIB",
       "mode": "merge",
       "eraSummary": "Liberia is a settlement of freed American slaves on land bought by a colonisation society, not yet a state."
-    },
-    {
-      "tag": "TRN",
-      "mode": "merge",
-      "eraSummary": "The Transvaal is not a country yet. The trekboers who will make it are still in the Cape Colony, and increasingly unhappy there."
-    },
-    {
-      "tag": "ORA",
-      "mode": "merge",
-      "eraSummary": "The high veld beyond the Orange river is Griqua, Sotho and Tswana country, with Boer graziers pressing north into it."
     },
     {
       "tag": "CAM",

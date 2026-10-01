@@ -6,13 +6,21 @@
       "polityKey": "KAZAKH_KHANATE",
       "tag": "KZH",
       "name": "Kazakh Hordes",
-      "color": [158, 188, 98],
+      "color": [
+        158,
+        188,
+        98
+      ],
       "government": "uncivilized",
       "primaryCulture": "central_asian",
       "religion": "sunni",
       "polityStatus": "decentralized",
       "overlordTag": null,
-      "capital": ["Ulytau", 67.73, 48.65],
+      "capital": [
+        "Ulytau",
+        67.73,
+        48.65
+      ],
       "flagSource": "historical",
       "flagNote": "existing game design, a stylised steppe emblem rather than a documented 1830 flag",
       "eraSummary": "Russia abolished the khans of the Middle Horde in 1822 and the Junior Horde in 1824, and the steppe is now run by sultans and clan elders. The Senior Horde to the south pays court to Kokand and the Qing."
@@ -21,13 +29,21 @@
       "polityKey": "RAJPUTANA_STATES",
       "tag": "RAJ",
       "name": "Rajput States",
-      "color": [193, 133, 181],
+      "color": [
+        193,
+        133,
+        181
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "south_asian",
       "religion": "hindu",
       "polityStatus": "tributary",
       "overlordTag": "ENG",
-      "capital": ["Jaipur", 75.82, 26.92],
+      "capital": [
+        "Jaipur",
+        75.82,
+        26.92
+      ],
       "flagSource": "procedural",
       "eraSummary": "The treaties of 1817 and 1818 bound Jaipur, Jodhpur, Udaipur and the other Rajput courts to the East India Company. The princes keep their thrones and their quarrels, and the Company keeps the peace between them."
     },
@@ -35,13 +51,21 @@
       "polityKey": "BORNU_EMPIRE",
       "tag": "BOR",
       "name": "Bornu",
-      "color": [200, 126, 175],
+      "color": [
+        200,
+        126,
+        175
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "decentralized",
       "overlordTag": null,
-      "capital": ["Kukawa", 13.64, 12.95],
+      "capital": [
+        "Kukawa",
+        13.64,
+        12.95
+      ],
       "flagSource": "procedural",
       "eraSummary": "Muhammad al-Amin al-Kanemi governs Bornu from Kukawa, the town he founded in 1814, while the Sayfawa mai keeps the throne in name. He has held the Sokoto jihad at bay for two decades."
     },
@@ -49,13 +73,21 @@
       "polityKey": "MASSINA_EMPIRE",
       "tag": "MSN",
       "name": "Massina",
-      "color": [157, 193, 133],
+      "color": [
+        157,
+        193,
+        133
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Hamdullahi", -4.08, 14.35],
+      "capital": [
+        "Hamdullahi",
+        -4.08,
+        14.35
+      ],
       "flagSource": "procedural",
       "eraSummary": "Seku Amadu's Fulani caliphate rules the inner Niger delta from Hamdullahi, the capital he founded in 1820. Its councils enforce strict Maliki law, and Timbuktu has acknowledged its authority since 1826."
     },
@@ -63,13 +95,21 @@
       "polityKey": "SULTANATE_OF_BANJAR",
       "tag": "BAN",
       "name": "Banjar",
-      "color": [126, 200, 136],
+      "color": [
+        126,
+        200,
+        136
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "vassal",
       "overlordTag": "NLD",
-      "capital": ["Martapura", 114.85, -3.41],
+      "capital": [
+        "Martapura",
+        114.85,
+        -3.41
+      ],
       "flagSource": "procedural",
       "eraSummary": "Sultan Adam rules Banjar from Martapura. The contract of 1826 handed most of southeastern Borneo to the Dutch and leaves the sultanate a dependency of Batavia."
     },
@@ -77,13 +117,21 @@
       "polityKey": "SULTANATE_OF_DARFUR",
       "tag": "DAR",
       "name": "Darfur",
-      "color": [82, 163, 125],
+      "color": [
+        82,
+        163,
+        125
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["El Fasher", 25.35, 13.63],
+      "capital": [
+        "El Fasher",
+        25.35,
+        13.63
+      ],
       "flagSource": "historical",
       "flagNote": "existing game design, stylised; Darfur used banners but no single documented state flag",
       "eraSummary": "Sultan Muhammad al-Fadl rules from El Fasher. Darfur lost Kordofan to Muhammad Ali's army in 1821 and still sends caravans down the Forty Days Road to Egypt."
@@ -92,13 +140,21 @@
       "polityKey": "ASANTE_EMPIRE",
       "tag": "ASH",
       "name": "Asante",
-      "color": [126, 171, 73],
+      "color": [
+        126,
+        171,
+        73
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "traditional",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Kumasi", -1.62, 6.69],
+      "capital": [
+        "Kumasi",
+        -1.62,
+        6.69
+      ],
       "flagSource": "historical",
       "flagNote": "existing game design built on the Golden Stool emblem; Asante had no national flag in 1830",
       "eraSummary": "Asantehene Osei Yaw Akoto rules from Kumasi over the gold and kola trade of the forest. The defeat at Katamanso in 1826 broke Asante's hold on the coast, and peace with the British forts has not yet been signed."
@@ -107,13 +163,21 @@
       "polityKey": "WADAI_EMPIRE",
       "tag": "WAD",
       "name": "Wadai",
-      "color": [82, 125, 163],
+      "color": [
+        82,
+        125,
+        163
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Wara", 20.7, 13.97],
+      "capital": [
+        "Wara",
+        20.7,
+        13.97
+      ],
       "flagSource": "procedural",
       "eraSummary": "Wadai rules from Wara and holds Bagirmi as a tributary. The caravan road north to Benghazi, opened under Sultan Sabun, carries its ivory and slaves."
     },
@@ -121,13 +185,21 @@
       "polityKey": "UBWAMI_BW_U_RWANDA",
       "tag": "RWA",
       "name": "Rwanda",
-      "color": [73, 100, 171],
+      "color": [
+        73,
+        100,
+        171
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "traditional",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Nyanza", 29.75, -2.35],
+      "capital": [
+        "Nyanza",
+        29.75,
+        -2.35
+      ],
       "flagSource": "procedural",
       "eraSummary": "Mwami Yuhi IV Gahindiro rules the highland kingdom through cattle chiefs and army lineages. The court moves between royal residences rather than keeping a fixed capital."
     },
@@ -135,13 +207,21 @@
       "polityKey": "COMANCHERIA",
       "tag": "COM",
       "name": "Comanche",
-      "color": [104, 163, 82],
+      "color": [
+        104,
+        163,
+        82
+      ],
       "government": "uncivilized",
       "primaryCulture": "indigenous_american",
       "religion": "traditional",
       "polityStatus": "decentralized",
       "overlordTag": null,
-      "capital": ["Palo Duro Canyon", -101.66, 34.94],
+      "capital": [
+        "Palo Duro Canyon",
+        -101.66,
+        34.94
+      ],
       "flagSource": "procedural",
       "eraSummary": "Comanche bands hold the southern plains between the Arkansas and the Texas frontier. They trade horses and captives across the region and raid deep into northern Mexico."
     },
@@ -149,69 +229,65 @@
       "polityKey": "UBWAMI_BW_URUNDI",
       "tag": "BDI",
       "name": "Burundi",
-      "color": [98, 188, 146],
+      "color": [
+        98,
+        188,
+        146
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "traditional",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Muramvya", 29.61, -3.27],
+      "capital": [
+        "Muramvya",
+        29.61,
+        -3.27
+      ],
       "flagSource": "procedural",
       "eraSummary": "Mwami Ntare IV Rugamba has spent three decades enlarging Burundi to the east and north. Princes of the royal line govern the provinces under him."
-    },
-    {
-      "polityKey": "KATHIRI_SULTANATE",
-      "tag": "KAT",
-      "name": "Kathiri Sultanate",
-      "color": [154, 91, 133],
-      "government": "absolute_monarchy",
-      "primaryCulture": "arabic",
-      "religion": "sunni",
-      "polityStatus": "sovereign",
-      "overlordTag": null,
-      "capital": ["Seiyun", 48.79, 15.94],
-      "flagSource": "procedural",
-      "eraSummary": "The Kathiri sultans hold Seiyun and Tarim in the Wadi Hadhramaut. They contest the valley with Yafa'i chiefs whose mercenaries are gaining ground."
     },
     {
       "polityKey": "MAJEERTEEN_SULTANATE",
       "tag": "MJR",
       "name": "Majeerteen",
-      "color": [108, 91, 154],
+      "color": [
+        108,
+        91,
+        154
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Bargal", 51.08, 11.28],
+      "capital": [
+        "Bargal",
+        51.08,
+        11.28
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Majeerteen sultan rules the northeastern Horn from Bargal. Frankincense, gums and the salvage of wrecks on the Guardafui coast pay for his court."
-    },
-    {
-      "polityKey": "COSTA_RICA",
-      "tag": "COS",
-      "name": "Costa Rica",
-      "color": [163, 82, 136],
-      "government": "democracy",
-      "primaryCulture": "latin_american",
-      "religion": "catholic",
-      "polityStatus": "sovereign",
-      "overlordTag": null,
-      "capital": ["San Jose", -84.09, 9.93],
-      "flagSource": "historical",
-      "eraSummary": "Costa Rica is a member state of the Federal Republic of Central America, governed from San Jose since 1823 under Juan Mora Fernandez. The first coffee exports have begun."
     },
     {
       "polityKey": "SULTANATE_OF_QISHN_AND_SOCOTRA",
       "tag": "MHR",
       "name": "Mahra",
-      "color": [133, 193, 157],
+      "color": [
+        133,
+        193,
+        157
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "arabic",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Qishn", 51.68, 15.42],
+      "capital": [
+        "Qishn",
+        51.68,
+        15.42
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Afrar sultans of Mahra rule the coast around Qishn and the island of Socotra. Their subjects keep their own South Arabian language."
     },
@@ -219,13 +295,21 @@
       "polityKey": "KINGDOM_OF_LUANG_PHRABANG",
       "tag": "LUA",
       "name": "Luang Phrabang",
-      "color": [133, 189, 193],
+      "color": [
+        133,
+        189,
+        193
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "indochinese",
       "religion": "buddhist",
       "polityStatus": "tributary",
       "overlordTag": "SIA",
-      "capital": ["Luang Phrabang", 102.13, 19.89],
+      "capital": [
+        "Luang Phrabang",
+        102.13,
+        19.89
+      ],
       "flagSource": "procedural",
       "eraSummary": "King Manthaturath rules Luang Phrabang as a tributary of Bangkok. Siam crushed Vientiane in 1828, and Luang Phrabang is the last Lao court on the Mekong with its own king."
     },
@@ -233,13 +317,21 @@
       "polityKey": "KINGDOM_OF_NGOYO",
       "tag": "NGY",
       "name": "Ngoyo",
-      "color": [126, 106, 180],
+      "color": [
+        126,
+        106,
+        180
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "traditional",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Mbanza Ngoyo", 12.28, -5.72],
+      "capital": [
+        "Mbanza Ngoyo",
+        12.28,
+        -5.72
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Mangoyo rules the coast around Cabinda. Its harbour is one of the busiest slaving ports north of the Congo, frequented by Portuguese and Brazilian ships."
     },
@@ -247,13 +339,21 @@
       "polityKey": "IMAMATE_OF_FUTA_TORO",
       "tag": "FTO",
       "name": "Futa Toro",
-      "color": [133, 193, 189],
+      "color": [
+        133,
+        193,
+        189
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Thilogne", -13.57, 15.92],
+      "capital": [
+        "Thilogne",
+        -13.57,
+        15.92
+      ],
       "flagSource": "procedural",
       "eraSummary": "Futa Toro is a Muslim imamate on the middle Senegal. Its almamy is elected by Torodbe clerics who hold the real power, and the river trade with Saint-Louis pays tolls to them."
     },
@@ -261,13 +361,21 @@
       "polityKey": "OYO_EMPIRE",
       "tag": "OYO",
       "name": "Oyo",
-      "color": [163, 147, 82],
+      "color": [
+        163,
+        147,
+        82
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "traditional",
       "polityStatus": "decentralized",
       "overlordTag": null,
-      "capital": ["Oyo-Ile", 4.17, 8.95],
+      "capital": [
+        "Oyo-Ile",
+        4.17,
+        8.95
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Oyo empire is breaking apart. Ilorin has passed to emirs allied with Sokoto, Dahomey no longer pays tribute, and the Alaafin's capital at Oyo-Ile is under threat."
     },
@@ -275,13 +383,21 @@
       "polityKey": "RIAU_LINGGA_SULTANATE",
       "tag": "RIA",
       "name": "Riau-Lingga",
-      "color": [114, 129, 172],
+      "color": [
+        114,
+        129,
+        172
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "vassal",
       "overlordTag": "NLD",
-      "capital": ["Daik", 104.63, -0.2],
+      "capital": [
+        "Daik",
+        104.63,
+        -0.2
+      ],
       "flagSource": "procedural",
       "eraSummary": "The treaty of 1824 cut the old Johor realm in two. The sultan at Daik on Lingga is under Dutch protection, and Bugis viceroys govern from Penyengat."
     },
@@ -289,13 +405,21 @@
       "polityKey": "KINGDOM_OF_KAKONGO",
       "tag": "KKG",
       "name": "Kakongo",
-      "color": [180, 106, 116],
+      "color": [
+        180,
+        106,
+        116
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "traditional",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Kinguele", 12.25, -5.3],
+      "capital": [
+        "Kinguele",
+        12.25,
+        -5.3
+      ],
       "flagSource": "procedural",
       "eraSummary": "Kakongo's king rules from Kinguele, and its port of Malemba trades slaves and ivory with European ships off the Loango coast."
     },
@@ -303,13 +427,21 @@
       "polityKey": "SULTANATE_OF_SULU",
       "tag": "SUL",
       "name": "Sulu",
-      "color": [187, 139, 165],
+      "color": [
+        187,
+        139,
+        165
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Jolo", 121.0, 6.05],
+      "capital": [
+        "Jolo",
+        121.0,
+        6.05
+      ],
       "flagSource": "procedural",
       "eraSummary": "Sultan Jamalul Kiram I rules from Jolo. Sulu's prosperity rests on trade with China and on Iranun and Balangingi raiders who take captives across the Spanish Philippines."
     },
@@ -317,13 +449,21 @@
       "polityKey": "KINGDOM_OF_CHIANG_MAI",
       "tag": "LNA",
       "name": "Chiang Mai",
-      "color": [106, 180, 106],
+      "color": [
+        106,
+        180,
+        106
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "indochinese",
       "religion": "buddhist",
       "polityStatus": "tributary",
       "overlordTag": "SIA",
-      "capital": ["Chiang Mai", 98.99, 18.79],
+      "capital": [
+        "Chiang Mai",
+        98.99,
+        18.79
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Chet Ton princes rule Chiang Mai and the Lanna principalities as tributaries of Bangkok. They repopulated the north with war captives after the Burmese were driven out."
     },
@@ -331,13 +471,21 @@
       "polityKey": "AWADH",
       "tag": "AWA",
       "name": "Awadh",
-      "color": [122, 98, 188],
+      "color": [
+        122,
+        98,
+        188
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "south_asian",
       "religion": "hindu",
       "polityStatus": "tributary",
       "overlordTag": "ENG",
-      "capital": ["Lucknow", 80.95, 26.85],
+      "capital": [
+        "Lucknow",
+        80.95,
+        26.85
+      ],
       "flagSource": "historical",
       "flagNote": "existing game design built on the twin-fish emblem of the Awadh court",
       "eraSummary": "King Nasir-ud-Din Haidar rules at Lucknow under a Company resident. Awadh ceded half its territory to the Company in 1801 and keeps a lavish court on the rest."
@@ -346,13 +494,21 @@
       "polityKey": "BHUTAN",
       "tag": "BHU",
       "name": "Bhutan",
-      "color": [113, 171, 73],
+      "color": [
+        113,
+        171,
+        73
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "south_asian",
       "religion": "buddhist",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Punakha", 89.86, 27.58],
+      "capital": [
+        "Punakha",
+        89.86,
+        27.58
+      ],
       "flagSource": "historical",
       "flagNote": "existing game design in the later yellow and orange dragon pattern",
       "eraSummary": "Bhutan is governed by a civil ruler, the Druk Desi, beside the Je Khenpo of the Drukpa church. The regional governors of Paro and Tongsa are steadily gaining power at his expense."
@@ -361,13 +517,21 @@
       "polityKey": "SHOSHONE",
       "tag": "SHO",
       "name": "Shoshone",
-      "color": [185, 200, 126],
+      "color": [
+        185,
+        200,
+        126
+      ],
       "government": "uncivilized",
       "primaryCulture": "indigenous_american",
       "religion": "traditional",
       "polityStatus": "decentralized",
       "overlordTag": null,
-      "capital": ["Green River rendezvous", -110.07, 42.87],
+      "capital": [
+        "Green River rendezvous",
+        -110.07,
+        42.87
+      ],
       "flagSource": "procedural",
       "eraSummary": "Eastern and Northern Shoshone bands range from the Wind River to the Snake. American and British trappers hold their summer rendezvous in Shoshone country."
     },
@@ -375,13 +539,21 @@
       "polityKey": "NIANI",
       "tag": "NIA",
       "name": "Niani",
-      "color": [104, 82, 163],
+      "color": [
+        104,
+        82,
+        163
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Kuntaur", -14.89, 13.67],
+      "capital": [
+        "Kuntaur",
+        -14.89,
+        13.67
+      ],
       "flagSource": "procedural",
       "eraSummary": "Niani is a Mandinka kingdom on the north bank of the middle Gambia. British traders from Bathurst buy hides and beeswax at its river landings."
     },
@@ -389,13 +561,21 @@
       "polityKey": "WOLOF",
       "tag": "JOL",
       "name": "Jolof",
-      "color": [171, 73, 100],
+      "color": [
+        171,
+        73,
+        100
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Yang-Yang", -15.37, 15.33],
+      "capital": [
+        "Yang-Yang",
+        -15.37,
+        15.33
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Buurba Jolof once held the overlordship of all the Wolof kingdoms. Jolof is now an inland state of herders, overshadowed by Kajoor and Waalo on the coast."
     },
@@ -403,13 +583,21 @@
       "polityKey": "DAHOMEY",
       "tag": "DAH",
       "name": "Dahomey",
-      "color": [91, 133, 154],
+      "color": [
+        91,
+        133,
+        154
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "traditional",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Abomey", 1.99, 7.18],
+      "capital": [
+        "Abomey",
+        1.99,
+        7.18
+      ],
       "flagSource": "procedural",
       "eraSummary": "King Gezo rules from Abomey. He has stopped paying tribute to Oyo, and his army, with its corps of women soldiers, raids for the coastal slave trade at Ouidah."
     },
@@ -417,13 +605,21 @@
       "polityKey": "WAALO",
       "tag": "WAA",
       "name": "Waalo",
-      "color": [195, 126, 200],
+      "color": [
+        195,
+        126,
+        200
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Nder", -15.93, 16.25],
+      "capital": [
+        "Nder",
+        -15.93,
+        16.25
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Brak of Waalo rules the lower Senegal next to Saint-Louis. A French plantation scheme on Waalo land is failing, and Trarza raiders press from the north bank."
     },
@@ -431,13 +627,21 @@
       "polityKey": "BOUNDOU",
       "tag": "BDU",
       "name": "Bundu",
-      "color": [114, 137, 172],
+      "color": [
+        114,
+        137,
+        172
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Boulebane", -12.28, 14.46],
+      "capital": [
+        "Boulebane",
+        -12.28,
+        14.46
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Sissibe almamys rule Bundu, a Muslim Fulbe state between the upper Senegal and the Gambia. It trades gum and gold with the French post at Bakel."
     },
@@ -445,13 +649,21 @@
       "polityKey": "WUULI_MANSA_BANKO",
       "tag": "WUL",
       "name": "Wuli",
-      "color": [91, 154, 91],
+      "color": [
+        91,
+        154,
+        91
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "traditional",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Medina", -13.85, 13.6],
+      "capital": [
+        "Medina",
+        -13.85,
+        13.6
+      ],
       "flagSource": "procedural",
       "eraSummary": "Wuli is a Mandinka kingdom on the upper Gambia, ruled by its mansa from Medina. Caravans to the coast pay it tolls."
     },
@@ -459,13 +671,21 @@
       "polityKey": "KASULTANAN_NU_MAGINDANAW",
       "tag": "MGD",
       "name": "Maguindanao",
-      "color": [126, 136, 200],
+      "color": [
+        126,
+        136,
+        200
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Cotabato", 124.25, 7.22],
+      "capital": [
+        "Cotabato",
+        124.25,
+        7.22
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Maguindanao sultan rules the Pulangi valley and the Illana coast from Cotabato. Spain claims Mindanao but holds only a few forts on it."
     },
@@ -473,13 +693,21 @@
       "polityKey": "BAHAWALPUR_STATE",
       "tag": "BHP",
       "name": "Bahawalpur",
-      "color": [73, 171, 86],
+      "color": [
+        73,
+        171,
+        86
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "south_asian",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Bahawalpur", 71.68, 29.4],
+      "capital": [
+        "Bahawalpur",
+        71.68,
+        29.4
+      ],
       "flagSource": "procedural",
       "eraSummary": "Nawab Bahawal Khan III of the Daudpotra dynasty rules the desert state along the Sutlej. Ranjit Singh's Sikhs press from the north and Sindh from the south."
     },
@@ -487,13 +715,21 @@
       "polityKey": "SALUUM",
       "tag": "SAL",
       "name": "Saloum",
-      "color": [98, 188, 98],
+      "color": [
+        98,
+        188,
+        98
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "traditional",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Kahone", -16.03, 14.15],
+      "capital": [
+        "Kahone",
+        -16.03,
+        14.15
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Buur Saloum rules from Kahone. The kingdom's wealth is salt from the Saloum estuary, traded inland for cattle and cloth."
     },
@@ -501,13 +737,21 @@
       "polityKey": "HAUSHABI",
       "tag": "HSB",
       "name": "Haushabi",
-      "color": [91, 154, 99],
+      "color": [
+        91,
+        154,
+        99
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "arabic",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Al Musaymir", 44.62, 13.44],
+      "capital": [
+        "Al Musaymir",
+        44.62,
+        13.44
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Haushabi sultans hold a small tribal territory north of Lahej, astride the road from Aden to the highlands."
     },
@@ -515,13 +759,21 @@
       "polityKey": "DINE",
       "tag": "NAV",
       "name": "Dine",
-      "color": [133, 193, 189],
+      "color": [
+        133,
+        193,
+        189
+      ],
       "government": "uncivilized",
       "primaryCulture": "indigenous_american",
       "religion": "traditional",
       "polityStatus": "decentralized",
       "overlordTag": null,
-      "capital": ["Canyon de Chelly", -109.48, 36.13],
+      "capital": [
+        "Canyon de Chelly",
+        -109.48,
+        36.13
+      ],
       "flagSource": "procedural",
       "eraSummary": "Navajo bands hold the canyon and mesa country west of the Rio Grande. They herd sheep and horses and alternate trade and raiding with Mexican New Mexico."
     },
@@ -529,13 +781,21 @@
       "polityKey": "SULTANATE_OF_JAMBI",
       "tag": "JMB",
       "name": "Jambi",
-      "color": [180, 106, 145],
+      "color": [
+        180,
+        106,
+        145
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Jambi", 103.61, -1.61],
+      "capital": [
+        "Jambi",
+        103.61,
+        -1.61
+      ],
       "flagSource": "procedural",
       "eraSummary": "The sultan of Jambi rules the Batang Hari basin of central Sumatra. Pepper and forest goods go downriver, and the Dutch have not yet forced a treaty on the court."
     },
@@ -543,13 +803,21 @@
       "polityKey": "KANGLEIPAK_KINGDOM",
       "tag": "MNP",
       "name": "Manipur",
-      "color": [91, 154, 108],
+      "color": [
+        91,
+        154,
+        108
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "south_asian",
       "religion": "hindu",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Imphal", 93.94, 24.81],
+      "capital": [
+        "Imphal",
+        93.94,
+        24.81
+      ],
       "flagSource": "procedural",
       "eraSummary": "Raja Gambhir Singh restored Manipur in 1826 with British help after seven years of Burmese occupation. The Treaty of Yandabo recognised the kingdom's independence."
     },
@@ -557,13 +825,21 @@
       "polityKey": "SULTANATE_OF_PERAK",
       "tag": "PRK",
       "name": "Perak",
-      "color": [114, 168, 172],
+      "color": [
+        114,
+        168,
+        172
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Kuala Kangsar", 100.93, 4.77],
+      "capital": [
+        "Kuala Kangsar",
+        100.93,
+        4.77
+      ],
       "flagSource": "procedural",
       "eraSummary": "Perak's sultans rule the tin country of the western peninsula. The Anglo-Siamese treaty of 1826 ended Siamese claims on Perak, and Penang watches its affairs closely."
     },
@@ -571,13 +847,21 @@
       "polityKey": "SHILLUK_KINGDOM",
       "tag": "SHL",
       "name": "Shilluk",
-      "color": [113, 73, 171],
+      "color": [
+        113,
+        73,
+        171
+      ],
       "government": "uncivilized",
       "primaryCulture": "african",
       "religion": "traditional",
       "polityStatus": "decentralized",
       "overlordTag": null,
-      "capital": ["Fashoda", 32.11, 9.88],
+      "capital": [
+        "Fashoda",
+        32.11,
+        9.88
+      ],
       "flagSource": "procedural",
       "eraSummary": "The reth of the Shilluk rules from Fashoda over a dense chain of villages along the White Nile. Egyptian Sudan lies to the north and has not yet reached him."
     },
@@ -585,13 +869,21 @@
       "polityKey": "KAJOOR",
       "tag": "KAY",
       "name": "Kajoor",
-      "color": [141, 154, 91],
+      "color": [
+        141,
+        154,
+        91
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Mboul", -16.41, 15.11],
+      "capital": [
+        "Mboul",
+        -16.41,
+        15.11
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Damel of Kajoor rules the Wolof coast between Saint-Louis and Cape Verde. His ceddo warriors and the kingdom's Muslim clerics are in long rivalry."
     },
@@ -599,13 +891,21 @@
       "polityKey": "GROSSHERZOGTUM_MECKLENBURG_SCHWERIN",
       "tag": "MEC",
       "name": "Mecklenburg-Schwerin",
-      "color": [106, 180, 165],
+      "color": [
+        106,
+        180,
+        165
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "north_german",
       "religion": "protestant",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Ludwigslust", 11.5, 53.33],
+      "capital": [
+        "Ludwigslust",
+        11.5,
+        53.33
+      ],
       "flagSource": "procedural",
       "eraSummary": "Grand Duke Friedrich Franz I holds court at Ludwigslust. Mecklenburg is governed under the estates settlement of 1755, and its knights hold the land and the peasants who work it."
     },
@@ -613,13 +913,21 @@
       "polityKey": "SULTANATE_OF_SAMBALIUNG",
       "tag": "SMB",
       "name": "Sambaliung",
-      "color": [188, 98, 170],
+      "color": [
+        188,
+        98,
+        170
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Sambaliung", 117.45, 2.15],
+      "capital": [
+        "Sambaliung",
+        117.45,
+        2.15
+      ],
       "flagSource": "procedural",
       "eraSummary": "Sambaliung is one of the two sultanates formed when Berau split in east Borneo. It trades birds' nests and forest goods with Bugis and Sulu merchants."
     },
@@ -627,13 +935,21 @@
       "polityKey": "SULTANATE_OF_LAHEJ",
       "tag": "LAH",
       "name": "Lahej",
-      "color": [166, 126, 200],
+      "color": [
+        166,
+        126,
+        200
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "arabic",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Al Hawtah", 44.89, 13.05],
+      "capital": [
+        "Al Hawtah",
+        44.89,
+        13.05
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Abdali sultans rule Lahej and the port of Aden, a small town in decline since the Mocha coffee trade moved on. British ships call there for water."
     },
@@ -641,13 +957,21 @@
       "polityKey": "KUTAI_KINGDOM",
       "tag": "KTI",
       "name": "Kutai",
-      "color": [125, 82, 163],
+      "color": [
+        125,
+        82,
+        163
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Tenggarong", 116.99, -0.42],
+      "capital": [
+        "Tenggarong",
+        116.99,
+        -0.42
+      ],
       "flagSource": "procedural",
       "eraSummary": "Sultan Muhammad Salehuddin rules Kutai from Tenggarong on the Mahakam river. Bugis merchants at Samarinda handle most of its trade."
     },
@@ -655,13 +979,21 @@
       "polityKey": "SULTANATE_OF_SELANGOR",
       "tag": "SEL",
       "name": "Selangor",
-      "color": [147, 82, 163],
+      "color": [
+        147,
+        82,
+        163
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Kuala Selangor", 101.25, 3.34],
+      "capital": [
+        "Kuala Selangor",
+        101.25,
+        3.34
+      ],
       "flagSource": "procedural",
       "eraSummary": "Selangor's Bugis sultans hold the coast between Perak and the Linggi river. Tin is mined up the Klang and Selangor rivers on a small scale."
     },
@@ -669,13 +1001,21 @@
       "polityKey": "SACHSEN_WEIMAR_EISENACH",
       "tag": "WEI",
       "name": "Saxe-Weimar-Eisenach",
-      "color": [133, 154, 91],
+      "color": [
+        133,
+        154,
+        91
+      ],
       "government": "constitutional_monarchy",
       "primaryCulture": "north_german",
       "religion": "protestant",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Weimar", 11.33, 50.98],
+      "capital": [
+        "Weimar",
+        11.33,
+        50.98
+      ],
       "flagSource": "historical",
       "eraSummary": "Grand Duke Karl Friedrich succeeded his father Karl August in 1828. Weimar had the first constitution in the German Confederation in 1816, and Goethe still lives in the town."
     },
@@ -683,13 +1023,21 @@
       "polityKey": "SULTANATE_OF_BIMA",
       "tag": "BIM",
       "name": "Bima",
-      "color": [133, 173, 193],
+      "color": [
+        133,
+        173,
+        193
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Bima", 118.72, -8.46],
+      "capital": [
+        "Bima",
+        118.72,
+        -8.46
+      ],
       "flagSource": "procedural",
       "eraSummary": "The sultan of Bima rules eastern Sumbawa under a Dutch contract. The island has not recovered from the Tambora eruption of 1815."
     },
@@ -697,13 +1045,21 @@
       "polityKey": "SULTANATE_OF_SUKADANA",
       "tag": "SKD",
       "name": "Sukadana",
-      "color": [145, 114, 172],
+      "color": [
+        145,
+        114,
+        172
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Sukadana", 109.96, -1.24],
+      "capital": [
+        "Sukadana",
+        109.96,
+        -1.24
+      ],
       "flagSource": "procedural",
       "eraSummary": "Sukadana is a small sultanate on the southwest coast of Borneo. The Dutch have taken an interest in reviving its port."
     },
@@ -711,13 +1067,21 @@
       "polityKey": "DUCATO_DI_PARMA_E_PIACENZA",
       "tag": "PAR",
       "name": "Parma",
-      "color": [114, 160, 172],
+      "color": [
+        114,
+        160,
+        172
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "italian",
       "religion": "catholic",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Parma", 10.33, 44.8],
+      "capital": [
+        "Parma",
+        10.33,
+        44.8
+      ],
       "flagSource": "historical",
       "flagNote": "existing game design in the yellow and blue of the ducal arms",
       "eraSummary": "Marie Louise of Austria, Napoleon's widow, holds Parma, Piacenza and Guastalla for life under the 1815 settlement. Austrian advisers run the duchy, and it will return to the Bourbons after her."
@@ -726,13 +1090,21 @@
       "polityKey": "NEGERI_SEMBILAN",
       "tag": "NSM",
       "name": "Negeri Sembilan",
-      "color": [126, 200, 146],
+      "color": [
+        126,
+        200,
+        146
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Seri Menanti", 102.03, 2.7],
+      "capital": [
+        "Seri Menanti",
+        102.03,
+        2.7
+      ],
       "flagSource": "procedural",
       "eraSummary": "Negeri Sembilan is a federation of Minangkabau chiefdoms under the Yang di-Pertuan Besar at Seri Menanti. The local chiefs, chosen by matrilineal custom, hold most of the power."
     },
@@ -740,13 +1112,21 @@
       "polityKey": "BALI",
       "tag": "BAL",
       "name": "Bali",
-      "color": [108, 154, 91],
+      "color": [
+        108,
+        154,
+        91
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "hindu",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Klungkung", 115.4, -8.54],
+      "capital": [
+        "Klungkung",
+        115.4,
+        -8.54
+      ],
       "flagSource": "procedural",
       "eraSummary": "Bali is divided among Hindu rajas who acknowledge the Dewa Agung of Klungkung as first among them. The island sells slaves and rice to Batavia and the Straits."
     },
@@ -754,13 +1134,21 @@
       "polityKey": "PRINCE_BISHOPRIC_OF_MONTENEGRO",
       "tag": "MON",
       "name": "Montenegro",
-      "color": [180, 106, 165],
+      "color": [
+        180,
+        106,
+        165
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "south_slavic",
       "religion": "orthodox",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Cetinje", 18.92, 42.39],
+      "capital": [
+        "Cetinje",
+        18.92,
+        42.39
+      ],
       "flagSource": "historical",
       "eraSummary": "The aged Prince-Bishop Petar I governs the Montenegrin clans from Cetinje. The mountains have not acknowledged Ottoman authority for a generation."
     },
@@ -768,13 +1156,21 @@
       "polityKey": "OLDENBURG",
       "tag": "OLD",
       "name": "Oldenburg",
-      "color": [195, 200, 126],
+      "color": [
+        195,
+        200,
+        126
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "north_german",
       "religion": "protestant",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Oldenburg", 8.21, 53.14],
+      "capital": [
+        "Oldenburg",
+        8.21,
+        53.14
+      ],
       "flagSource": "historical",
       "eraSummary": "Paul Friedrich August succeeded as ruler in 1829 and took the title of Grand Duke. Oldenburg has no constitution and also holds the exclaves of Lubeck and Birkenfeld."
     },
@@ -782,13 +1178,21 @@
       "polityKey": "DUCHY_OF_NASSAU",
       "tag": "NAS",
       "name": "Nassau",
-      "color": [188, 98, 122],
+      "color": [
+        188,
+        98,
+        122
+      ],
       "government": "constitutional_monarchy",
       "primaryCulture": "north_german",
       "religion": "protestant",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Wiesbaden", 8.24, 50.08],
+      "capital": [
+        "Wiesbaden",
+        8.24,
+        50.08
+      ],
       "flagSource": "historical",
       "eraSummary": "Duke Wilhelm rules from Wiesbaden under the constitution of 1814, the earliest in Germany. The duchy's spas and Rhine wines draw visitors from across Europe."
     },
@@ -796,13 +1200,21 @@
       "polityKey": "BRAUNSCHWEIG",
       "tag": "BRS",
       "name": "Brunswick",
-      "color": [113, 73, 171],
+      "color": [
+        113,
+        73,
+        171
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "north_german",
       "religion": "protestant",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Brunswick", 10.52, 52.27],
+      "capital": [
+        "Brunswick",
+        10.52,
+        52.27
+      ],
       "flagSource": "procedural",
       "eraSummary": "Duke Charles II refuses to recognise the constitution agreed during his minority and is at odds with his estates and with Hanover."
     },
@@ -810,13 +1222,21 @@
       "polityKey": "GROSSHERZOGTUM_MECKLENBURG_STRELITZ",
       "tag": "MST",
       "name": "Mecklenburg-Strelitz",
-      "color": [175, 106, 180],
+      "color": [
+        175,
+        106,
+        180
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "north_german",
       "religion": "protestant",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Neustrelitz", 13.07, 53.36],
+      "capital": [
+        "Neustrelitz",
+        13.07,
+        53.36
+      ],
       "flagSource": "procedural",
       "eraSummary": "Grand Duke Georg rules from Neustrelitz under the same estates settlement as Mecklenburg-Schwerin. It is a quiet agricultural state with close ties to the British royal family."
     },
@@ -824,13 +1244,21 @@
       "polityKey": "SACHSEN_MEININGEN",
       "tag": "MEI",
       "name": "Saxe-Meiningen",
-      "color": [73, 86, 171],
+      "color": [
+        73,
+        86,
+        171
+      ],
       "government": "constitutional_monarchy",
       "primaryCulture": "north_german",
       "religion": "protestant",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Meiningen", 10.42, 50.57],
+      "capital": [
+        "Meiningen",
+        10.42,
+        50.57
+      ],
       "flagSource": "historical",
       "eraSummary": "Duke Bernhard II gained Hildburghausen and Saalfeld in the 1826 partition of the Gotha inheritance. A new constitution for the enlarged duchy was issued in 1829."
     },
@@ -838,13 +1266,21 @@
       "polityKey": "SIIN",
       "tag": "SII",
       "name": "Sine",
-      "color": [114, 172, 137],
+      "color": [
+        114,
+        172,
+        137
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "traditional",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Diakhao", -16.42, 14.42],
+      "capital": [
+        "Diakhao",
+        -16.42,
+        14.42
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Maad a Sinig rules the Serer kingdom of Sine from Diakhao. Sine has resisted the spread of Islam and keeps the Serer religion."
     },
@@ -852,13 +1288,21 @@
       "polityKey": "PAT_A_PANGAMPONG_SA_RANAO",
       "tag": "RAN",
       "name": "Lanao",
-      "color": [106, 175, 180],
+      "color": [
+        106,
+        175,
+        180
+      ],
       "government": "uncivilized",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "decentralized",
       "overlordTag": null,
-      "capital": ["Dansalan", 124.29, 8.0],
+      "capital": [
+        "Dansalan",
+        124.29,
+        8.0
+      ],
       "flagSource": "procedural",
       "eraSummary": "The Maranao principalities around Lake Lanao form a loose confederation of four districts. No sultan rules them all, and Spain has never reached the lake."
     },
@@ -866,13 +1310,21 @@
       "polityKey": "SULTANATE_OF_BONE",
       "tag": "BON",
       "name": "Bone",
-      "color": [139, 187, 171],
+      "color": [
+        139,
+        187,
+        171
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "malay",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Watampone", 120.27, -4.68],
+      "capital": [
+        "Watampone",
+        120.27,
+        -4.68
+      ],
       "flagSource": "procedural",
       "eraSummary": "Bone is the leading Bugis kingdom of south Sulawesi. Dutch expeditions in 1824 and 1825 failed to subdue it."
     },
@@ -880,13 +1332,21 @@
       "polityKey": "SULTANATE_OF_MWALI",
       "tag": "MWA",
       "name": "Mwali",
-      "color": [187, 139, 184],
+      "color": [
+        187,
+        139,
+        184
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Fomboni", 43.74, -12.28],
+      "capital": [
+        "Fomboni",
+        43.74,
+        -12.28
+      ],
       "flagSource": "procedural",
       "eraSummary": "Mwali is the smallest of the Comoro sultanates and has long resisted claims by Ndzuwani to rule it."
     },
@@ -894,13 +1354,21 @@
       "polityKey": "LIPPE",
       "tag": "LIP",
       "name": "Lippe",
-      "color": [139, 171, 73],
+      "color": [
+        139,
+        171,
+        73
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "north_german",
       "religion": "protestant",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Detmold", 8.88, 51.94],
+      "capital": [
+        "Detmold",
+        8.88,
+        51.94
+      ],
       "flagSource": "historical",
       "eraSummary": "Prince Leopold II rules Lippe from Detmold. The constitution of 1819 has never come into force because the estates rejected it."
     },
@@ -908,13 +1376,21 @@
       "polityKey": "WALDECK",
       "tag": "WDK",
       "name": "Waldeck",
-      "color": [171, 73, 126],
+      "color": [
+        171,
+        73,
+        126
+      ],
       "government": "constitutional_monarchy",
       "primaryCulture": "north_german",
       "religion": "protestant",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Arolsen", 9.02, 51.38],
+      "capital": [
+        "Arolsen",
+        9.02,
+        51.38
+      ],
       "flagSource": "historical",
       "eraSummary": "Prince Georg Heinrich rules Waldeck and Pyrmont from Arolsen under the estates constitution of 1816."
     },
@@ -922,13 +1398,21 @@
       "polityKey": "BAHRAIN",
       "tag": "BHR",
       "name": "Bahrain",
-      "color": [165, 180, 106],
+      "color": [
+        165,
+        180,
+        106
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "arabic",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Muharraq", 50.61, 26.25],
+      "capital": [
+        "Muharraq",
+        50.61,
+        26.25
+      ],
       "flagSource": "historical",
       "eraSummary": "The Al Khalifa have ruled Bahrain since 1783 and signed the General Maritime Treaty of 1820. Pearling pays for the island, and Oman, Persia and the Wahhabis all claim it."
     },
@@ -936,13 +1420,21 @@
       "polityKey": "ANDORRA",
       "tag": "AND",
       "name": "Andorra",
-      "color": [200, 126, 185],
+      "color": [
+        200,
+        126,
+        185
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "iberian",
       "religion": "catholic",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Andorra la Vella", 1.52, 42.51],
+      "capital": [
+        "Andorra la Vella",
+        1.52,
+        42.51
+      ],
       "flagSource": "procedural",
       "eraSummary": "Andorra is a co-principality of the Bishop of Urgell and the King of France, governed day to day by its Council of the Land."
     },
@@ -950,13 +1442,21 @@
       "polityKey": "SULTANATE_OF_NDZUWANI",
       "tag": "NDZ",
       "name": "Ndzuwani",
-      "color": [188, 170, 98],
+      "color": [
+        188,
+        170,
+        98
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "african",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Mutsamudu", 44.4, -12.17],
+      "capital": [
+        "Mutsamudu",
+        44.4,
+        -12.17
+      ],
       "flagSource": "procedural",
       "eraSummary": "Sultan Abdallah II rules Ndzuwani from Mutsamudu, which supplies ships on the route to India and claims overlordship of Mwali."
     },
@@ -964,13 +1464,21 @@
       "polityKey": "FREE_CITY_OF_BREMEN",
       "tag": "BRE",
       "name": "Bremen",
-      "color": [73, 171, 126],
+      "color": [
+        73,
+        171,
+        126
+      ],
       "government": "democracy",
       "primaryCulture": "north_german",
       "religion": "protestant",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Bremen", 8.81, 53.08],
+      "capital": [
+        "Bremen",
+        8.81,
+        53.08
+      ],
       "flagSource": "historical",
       "eraSummary": "The Free Hanseatic City of Bremen is governed by its senate and merchant burghers. In 1827 it founded Bremerhaven on land bought from Hanover to keep its port open to large ships."
     },
@@ -978,13 +1486,21 @@
       "polityKey": "SULTANATE_OF_THE_MALDIVES",
       "tag": "MDV",
       "name": "Maldives",
-      "color": [133, 193, 173],
+      "color": [
+        133,
+        193,
+        173
+      ],
       "government": "absolute_monarchy",
       "primaryCulture": "south_asian",
       "religion": "sunni",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["Male", 73.51, 4.17],
+      "capital": [
+        "Male",
+        73.51,
+        4.17
+      ],
       "flagSource": "historical",
       "eraSummary": "The sultan rules the atolls from Male and sends tribute to Ceylon. Cowries, coir and dried fish are traded to India."
     },
@@ -992,15 +1508,33 @@
       "polityKey": "SAN_MARINO",
       "tag": "SMR",
       "name": "San Marino",
-      "color": [126, 200, 126],
+      "color": [
+        126,
+        200,
+        126
+      ],
       "government": "democracy",
       "primaryCulture": "italian",
       "religion": "catholic",
       "polityStatus": "sovereign",
       "overlordTag": null,
-      "capital": ["San Marino", 12.45, 43.94],
+      "capital": [
+        "San Marino",
+        12.45,
+        43.94
+      ],
       "flagSource": "historical",
       "eraSummary": "The republic is governed by its Grand and General Council and two Captains Regent. Napoleon left it independent, and the Congress of Vienna confirmed it."
     }
-  ]
+  ],
+  "folds": {
+    "COSTA_RICA": {
+      "to": "UCA",
+      "reason": "A member state of the Federal Republic of Central America on 1830-01-01."
+    },
+    "KATHIRI_SULTANATE": {
+      "to": "UNC",
+      "reason": "The source polygon lies in Central Africa, not the Hadhramaut; withheld until corrected geometry exists."
+    }
+  }
 }

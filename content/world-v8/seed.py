@@ -21,6 +21,11 @@ from shapely.geometry import shape, Point
 (PROVINCES, PROVINCE_LIST, PIECES, ATTRIBUTES, NAMES, ADJ, LEGACY_SEED, LEGACY_GEO, CROSSWALK,
  CAPITALS, OUT, MIGRATION) = [Path(p) for p in sys.argv[1:13]]
 SCEN = '1830-01-01'
+# Autonomous 1830 polities that the source layer draws inside a larger state:
+# Moldavia (Ottoman principality under Russian occupation) and Mysore
+# (princely state under the Company) keep the land of their legacy provinces.
+KEEP_LEGACY = {'MOL', 'MYS'}
+NEW_NATIONS = Path(__file__).with_name('new-nations-1830.json')
 STATE_MIN = 3       # provinces per state, grown by merging neighbours
 STATE_MAX = 6
 R = 6371.0088
@@ -54,12 +59,21 @@ def main():
     caps = json.load(open(CAPITALS))['capitals']
     n = len(feats)
 
+    new_nations = json.loads(NEW_NATIONS.read_text())['nations'] if NEW_NATIONS.exists() else []
+    tag_of_key = {x['polityKey']: x['tag'] for x in new_nations}
+    if NEW_NATIONS.exists():
+        for key, fold in json.loads(NEW_NATIONS.read_text()).get('folds', {}).items(): tag_of_key[key] = fold['to']
+    for x in new_nations:
+        caps[x['tag']] = x['capital']
+        legacy['nations'].append({k: v for k, v in x.items() if k not in ('polityKey', 'capital', 'flagSource') and v is not None}
+                                 | {'coreStateIds': []})
     gc_tags = {x['tag'] for x in legacy['nations']}
     overlord = {x['polityKey']: x.get('runtimeOverlord') for x in cross['politiesWithoutGcNation']}
     def to_gc(key):
+        key = tag_of_key.get(key, key)
         seen = set()
         while key and key not in gc_tags and key not in seen:
-            seen.add(key); key = overlord.get(key)
+            seen.add(key); key = overlord.get(key); key = tag_of_key.get(key, key)
         return key if key in gc_tags else 'UNC'
 
     # legacy geometry and predecessors
@@ -81,8 +95,8 @@ def main():
         lp = lprov.get(pred)
         if lp and lp['ownerTag'] != owner:
             lnat = nation_by_tag.get(lp['ownerTag'])
-            if lnat and lnat.get('overlordTag') == owner: owner = lp['ownerTag']
-        weight = sum(lprov[k]['populationWeight'] * v / max(larea.get(k, 1e-9), 1e-9) for k, v in ov.items() if k in lprov)
+            if lnat and (lnat.get('overlordTag') == owner or lp['ownerTag'] in KEEP_LEGACY): owner = lp['ownerTag']
+        weight = 0.0  # filled below, once every successor of each legacy province is known
         lon, lat = a['labelPoint']
         provinces.append({
             'id': pid, 'key': names[pid]['key'], 'name': names[pid]['name'], 'ownerTag': owner,
@@ -102,6 +116,11 @@ def main():
         p = max(cands, key=lambda q: q['_ov'][lid])
         named[p['_pred']] -= 1; named[lid] += 1
         p['_pred'] = lid; p['legacyName'] = lprov[lid]['name']; p['legacyStateId'] = lprov[lid]['stateId']
+    # Population: Maddison 1820 country totals (regional residuals for the
+    # rest), split within each country by terrain-weighted land area and
+    # modern urban population as a density proxy. Independent of the legacy
+    # geometry, whose collapsed provinces (one for most of Britain) skewed it.
+    assign_population(provinces, feats, names)
     # preserve the legacy world population total
     total_old = sum(p['populationWeight'] for p in legacy['provinces'])
     total_new = sum(p['populationWeight'] for p in provinces) or 1
@@ -152,7 +171,7 @@ def main():
     state_records = []
     used = Counter()
     for sid, ids in enumerate(states):
-        lead = max(ids, key=lambda i: (provinces[i]['populationWeight'], -i))
+        lead = min(ids, key=lambda i: (tuple(names[i]['rank']), -provinces[i]['populationWeight'], i))
         name = provinces[lead]['name']
         used[name] += 1
         if used[name] > 1: name = f"{name} {used[name]}"
@@ -205,7 +224,8 @@ def main():
     out_provinces = []
     for p in provinces:
         out_provinces.append({k: p[k] for k in ('id', 'name', 'ownerTag', 'stateId', 'stateName', 'terrain', 'coastal',
-                                                 'rgoGood', 'neighbors', 'lon', 'lat', 'populationWeight', 'legacyName')})
+                                                 'rgoGood', 'neighbors', 'lon', 'lat', 'populationWeight', 'legacyName')}
+                             | {'legacyStateName': lprov[p['_pred']].get('stateName') if p['_pred'] in lprov else None})
     seed = {
         'source': 'world-v8', 'generatedAt': '1830-01-01T00:00:00.000Z', 'provinceCount': n,
         'provinces': out_provinces,
@@ -226,6 +246,54 @@ def main():
                                      'states': {str(k): sorted(v) for k, v in successors.items()}}))
     print(json.dumps({'provinces': n, 'states': len(state_records), 'nations': len(nations), 'dropped': dropped,
                       'unclaimed': owned['UNC'], 'ownersTop': owned.most_common(8)}))
+
+TERRAIN_DENSITY = {'farmland': 1.0, 'plains': 0.65, 'hills': 0.55, 'forest': 0.3, 'jungle': 0.25,
+                   'mountains': 0.25, 'marsh': 0.2, 'desert': 0.04, 'arctic': 0.01}
+REGION = {}
+for r, isos in {
+    'Western Europe': 'GBR IRL FRA BEL NLD LUX DEU CHE AUT LIE ITA SMR VAT MCO AND DNK NOR SWE FIN ISL ESP PRT GRC MLT CYP',
+    'Eastern Europe': 'POL CZE SVK HUN ROU BGR ALB SRB HRV BIH SVN MKD MNE XKX RUS UKR BLR LTU LVA EST MDA GEO ARM AZE KAZ UZB TKM KGZ TJK',
+    'Western Offshoots': 'USA CAN AUS NZL',
+    'Middle East': 'TUR SYR LBN ISR PSE JOR IRQ IRN SAU YEM OMN ARE QAT BHR KWT EGY LBY TUN DZA MAR ESH',
+    'Asia (East)': 'CHN JPN KOR PRK TWN MNG HKG MAC',
+    'Asia (South and South-East)': 'IND PAK BGD LKA NPL BTN AFG MMR THA LAO KHM VNM MYS SGP IDN PHL BRN TLS MDV',
+}.items():
+    for iso in isos.split(): REGION[iso] = r
+
+def region_of(iso, lon, lat):
+    if iso in REGION: return REGION[iso]
+    if lon < -30: return 'Latin America'
+    if lon > 110 and lat < -10: return 'Western Offshoots'
+    if lon > 90: return 'Asia (South and South-East)'
+    return 'Sub-Sahara Africa'
+
+def assign_population(provinces, feats, names):
+    mad = json.loads(Path(__file__).with_name('maddison-1820.json').read_text())
+    pop = dict(mad['population'])
+    if 'GBR' in pop and 'IRL' in pop: pop['GBR'] -= pop['IRL']  # Maddison's UK includes Ireland
+    unit_of = {}
+    for g, isos in mad['groups'].items():
+        for iso in isos: unit_of[iso] = g
+    def unit(iso): return unit_of.get(iso, iso) if (unit_of.get(iso, iso) in pop) else None
+    members = defaultdict(list)
+    for p, f in zip(provinces, feats):
+        iso = f['properties']['iso']; u = unit(iso)
+        key = ('unit', u) if u else ('region', region_of(iso, p['lon'], p['lat']))
+        members[key].append(p)
+    # regional residual for countries without a figure
+    listed = defaultdict(float)
+    for (kind, k), ps in members.items():
+        if kind == 'unit': listed[region_of(ps[0]['_iso'] if '_iso' in ps[0] else feats[ps[0]['id']]['properties']['iso'], ps[0]['lon'], ps[0]['lat'])] += pop[k]
+    totals = {}
+    for (kind, k), ps in members.items():
+        totals[(kind, k)] = pop[k] if kind == 'unit' else max(mad['regions'].get(k, 0) - listed[k], 0.05 * mad['regions'].get(k, 0))
+    for key, ps in members.items():
+        land = [feats[p['id']]['properties']['km2'] * TERRAIN_DENSITY.get(p['terrain'], 0.4) ** 2 for p in ps]
+        urb = [names[p['id']]['urban'] for p in ps]
+        sl, su = sum(land) or 1, sum(urb)
+        for p, a, u in zip(ps, land, urb):
+            share = 0.5 * a / sl + 0.5 * (u / su if su > 0 else a / sl)
+            p['populationWeight'] = totals[key] * share
 
 def split_contiguous(ids, k, nb, provinces):
     import heapq

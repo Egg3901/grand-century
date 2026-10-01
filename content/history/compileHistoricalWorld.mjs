@@ -124,17 +124,23 @@ function rebuildDerivedOwnership(world, nationsByTag) {
   }
 }
 
-export function validateHistoricalAnchors(world, anchorData) {
+export function validateHistoricalAnchors(world, anchorData, locate = null) {
+  const provincesById = new Map(world.provinces.map((province) => [province.id, province]));
   const nationsByTag = new Map(world.nations.map((nation) => [nation.tag, nation]));
   const provincesByName = new Map(world.provinces.map((province) => [province.name, province]));
   for (const anchor of anchorData.anchors) {
     if (anchor.kind === 'province') {
-      // Keyed by name, not id. Province ids renumber whenever the cut changes,
-      // so an id-keyed anchor fails on every rebuild for a reason that has
-      // nothing to do with the fact it is guarding. The name is the stable
-      // identity, and content.lint already asserts names resolve.
-      const province = provincesByName.get(anchor.provinceName);
-      requireValue(province, `${anchor.id}: no province named ${anchor.provinceName}`);
+      // Keyed by location, not id or name. Ids renumber and names change when
+      // the mesh is rebuilt; the place being guarded does not move. The
+      // province whose label point is nearest the anchor holds it.
+      // Geometry resolves it exactly; without geometry, the nearest label point.
+      // With geometry, a point on no province (open sea, a shifted coast) fails.
+      const located = anchor.lon != null && locate ? provincesById.get(locate(anchor.lon, anchor.lat)) : null;
+      const province = locate && anchor.lon != null ? located : (anchor.lon != null
+        ? world.provinces.reduce((best, p) => ((p.lon - anchor.lon) ** 2 + (p.lat - anchor.lat) ** 2
+          < (best.lon - anchor.lon) ** 2 + (best.lat - anchor.lat) ** 2 ? p : best))
+        : provincesByName.get(anchor.provinceName));
+      requireValue(province, `${anchor.id}: no province for ${anchor.place ?? anchor.provinceName}`);
       requireValue(province.ownerTag === anchor.ownerTag, `${anchor.id}: expected owner ${anchor.ownerTag}, got ${province.ownerTag}`);
       if (anchor.controllerTag) requireValue(province.controllerTag === anchor.controllerTag, `${anchor.id}: expected controller ${anchor.controllerTag}`);
       continue;
@@ -155,13 +161,13 @@ export function validateHistoricalAnchors(world, anchorData) {
  * declarative 1830 documents; all mutation, validation and derived fields stay
  * behind this single interface.
  */
-export function compileHistoricalWorld(baseWorld, polityData, ownershipData, anchorData) {
+export function compileHistoricalWorld(baseWorld, polityData, ownershipData, anchorData, locate = null) {
   validateEpoch(polityData, ownershipData, anchorData);
   const world = clone(baseWorld);
   const nationsByTag = applyPolities(world, polityData, world.source === HISTORICAL_SOURCE);
   applyOwnership(world, ownershipData, nationsByTag);
   rebuildDerivedOwnership(world, nationsByTag);
-  validateHistoricalAnchors(world, anchorData);
+  validateHistoricalAnchors(world, anchorData, locate);
   world.generatedAt = '1830-01-01T00:00:00.000Z';
   world.source = HISTORICAL_SOURCE;
   world.provinceCount = world.provinces.length;

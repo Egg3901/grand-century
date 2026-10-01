@@ -75,6 +75,8 @@ export interface SeedProvince {
   populationWeight: number;
   /** World v8: name of the dominant pre-v8 province, the key for region-named content. */
   legacyName?: string | null;
+  /** World v8: state name of that predecessor. */
+  legacyStateName?: string | null;
 }
 
 export interface SeedState {

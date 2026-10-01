@@ -302,9 +302,13 @@ export const UNRESOLVED_STATE_NAMES: { tag: string; name: string }[] = [];
 
 // World v8 states carry the name of their dominant pre-v8 state, so content
 // keyed by historical region ("Bohemia") resolves to every successor state.
+// A province also carries the state name of its pre-v8 predecessor, so every
+// state holding land of old Venetia resolves "Venetia".
 const LEGACY_STATE_NAME = new Map(WORLD_SEED.states.map((s) => [s.id, s.legacyStateName ?? s.name]));
 const stateMatches = (p: (typeof WORLD_SEED.provinces)[number], names: string[]) =>
-  names.includes(p.stateName ?? p.name) || names.includes(LEGACY_STATE_NAME.get(p.stateId) ?? '');
+  names.includes(p.stateName ?? p.name)
+  || names.includes(LEGACY_STATE_NAME.get(p.stateId) ?? '')
+  || names.includes(p.legacyStateName ?? '');
 
 const statesNamed = (tag: string, names: string[]): number[] => {
   for (const name of names) {

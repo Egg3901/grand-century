@@ -149,8 +149,9 @@ function ringSelfIntersects(ring: Ring): boolean {
 
 describe('generated world seed data', () => {
   it('stays in the perf-safe province range', () => {
-    expect(WORLD_SEED.provinces.length).toBeGreaterThanOrEqual(300);
-    expect(WORLD_SEED.provinces.length).toBeLessThanOrEqual(800);
+    // World v8: about 2,100 provinces; the 3D palette holds 4,096.
+    expect(WORLD_SEED.provinces.length).toBeGreaterThanOrEqual(1500);
+    expect(WORLD_SEED.provinces.length).toBeLessThanOrEqual(3000);
   });
 
   it('ensures every province has at least one neighbor', () => {

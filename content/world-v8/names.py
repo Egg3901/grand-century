@@ -94,10 +94,24 @@ def main():
             if geoms[j].contains(p): return int(j)
         return None
     cand = defaultdict(list)
+    urban = defaultdict(float)  # modern urban population: a density proxy only
+    places = json.load(open(PLACES))['features']
+    # Pair curated 1830 cities with their Natural Earth counterpart so the
+    # city's population is credited to the province named after it, even when
+    # the two points fall either side of a province edge.
+    paired = set()
     for c in json.load(open(CITIES))['cities']:
         j = province_of(c['lon'], c['lat'])
-        if j is not None: cand[j].append((-1, c['importance'], 0, c['name']))
-    for f in json.load(open(PLACES))['features']:
+        if j is None: continue
+        pop = 0
+        for k, f in enumerate(places):
+            pr = f['properties']; x, y = f['geometry']['coordinates']
+            if abs(x - c['lon']) > 0.6 or abs(y - c['lat']) > 0.6: continue
+            nm = {fold(pr.get('NAME') or ''), fold(pr.get('NAMEASCII') or ''), fold(ERA.get(pr.get('NAME') or '', ''))}
+            if fold(c['name']) in nm or (pr.get('POP_MAX') or 0) > 500_000 and abs(x - c['lon']) < 0.15 and abs(y - c['lat']) < 0.15:
+                paired.add(k); pop = max(pop, pr.get('POP_MAX') or 0)
+        cand[j].append((-1, c['importance'], 0, c['name'])); urban[j] += min(pop, 5_000_000)
+    for k, f in enumerate(places):
         p = f['properties']
         name = p.get('NAME') or p.get('NAMEASCII')
         if not name or name in POST_1830: continue
@@ -105,6 +119,7 @@ def main():
         j = province_of(x, y)
         if j is None: continue
         cand[j].append((0, p.get('SCALERANK', 10), -(p.get('POP_MAX') or 0), ERA.get(name, name)))
+        if k not in paired: urban[j] += min(p.get('POP_MAX') or 0, 5_000_000)
     overrides = json.loads(OVERRIDES.read_text()) if OVERRIDES.exists() else {}
     # largest units and region coverage for fallbacks
     pieces = {}
@@ -141,7 +156,9 @@ def main():
             if r and fold(r) != fold(n): n = f'{n} ({r})'
         base, k = n, 2
         while fold(n) in used: n = f'{base} {k}'; k += 1
-        used.add(fold(n)); final.append({'id': pid, 'key': keys[pid], 'name': n, 'source': how})
+        top = sorted(cand.get(pid, []))[:1]
+        rank = list(top[0][:3]) if top else [9, 99, 0]
+        used.add(fold(n)); final.append({'id': pid, 'key': keys[pid], 'name': n, 'source': how, 'rank': rank, 'urban': round(urban[pid])})
     OUT.write_text(json.dumps(final, ensure_ascii=False))
     print(json.dumps(Counter(x['source'] for x in final)))
 

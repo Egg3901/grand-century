@@ -211,6 +211,8 @@ def main():
         lon, lat = cent[pid]
         near = sorted((min((ROWS[i]['lon'] - cent[q][0]) ** 2 + (ROWS[i]['lat'] - cent[q][1]) ** 2 for i in members), q)
                       for q in range(len(ordered)) if q != pid and (cent[q][0] - lon) ** 2 + (cent[q][1] - lat) ** 2 < 400)
+        if not near:  # remote islands (Chatham, Easter Island): nearest at any range
+            near = sorted(((cent[q][0] - lon) ** 2 + (cent[q][1] - lat) ** 2, q) for q in range(len(ordered)) if q != pid)[:1]
         for _, q in near[:2]: sea.add((min(pid, q), max(pid, q)))
     with OUT.open('w') as out:
         for pid, members in enumerate(ordered):
