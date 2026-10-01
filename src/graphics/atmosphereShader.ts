@@ -20,9 +20,10 @@ vec3 illumination(vec3 albedo,vec3 normal,vec3 sun){
 }
 float cloudAt(vec2 p){
  vec2 q=p*155.0+vec2(clock*.004,-clock*.0015);
- // Domain warp turns round value-noise blobs into sheared frontal bands.
- q+=vec2(noise(q*.35+3.1),noise(q*.35+11.7))*1.6-.8;
- return noise(q)*.50+noise(q*2.13+13.7)*.27+noise(q*4.37+2.9)*.15+noise(q*9.1)*.08;
+ // One warp sample shears round value-noise blobs into frontal bands.
+ float w=noise(q*.35+3.1);
+ q+=vec2(w,1.0-w)*1.6-.8;
+ return noise(q)*.55+noise(q*2.13+13.7)*.3+noise(q*4.37+2.9)*.15;
 }
 ${WEATHER_FIELD_GLSL}
 vec3 weatherAt(vec2 p,float height){
@@ -31,7 +32,7 @@ vec3 weatherAt(vec2 p,float height){
  float lat=latitudeAt(p);
  vec2 geo=vec2((p.x-.5)*360.0-atmosphere.y*15.0,lat*57.2958);
  // Ragged edges: the elliptical bank only sets where weather can form.
- float ragged=noise(geo*.16+vec2(clock*.002,0.0))*.62+noise(geo*.43+7.3)*.38;
+ float ragged=noise(geo*.22+vec2(clock*.002,0.0));
  float bank=smoothstep(.12,.8,weatherCoverage(geo)*1.15-(1.0-ragged)*.5);
  float winter=max(0.0,-sin(lat)*sin(atmosphere.y))*35.0;
  float cold=smoothstep(53.0,59.0,abs(lat)*57.2958+height*.003+winter);
@@ -63,8 +64,8 @@ vec3 atmosphereColor(vec3 color,vec3 sun,vec3 weather){
  if(weather.x<.001&&weather.y<.001&&weather.z<.001)return color;
  float day=daylight(sun),cloud=cloudAt(uv);
  bool fog=atmosphere.z>3.5;
- // Cloud shadows fall slightly down-sun of the deck that casts them.
- float shadow=smoothstep(.45,.8,cloudAt(uv-sun.xy*.0022))*weather.x;
+ // Dense cores shade the ground beneath them; one cloud sample serves both.
+ float shadow=smoothstep(.45,.8,cloud)*weather.x;
  color*=1.0-shadow*(fog?.05:.24)*day-weather.x*.06;
  vec3 deck=mix(vec3(.19,.24,.34),mix(vec3(.80,.83,.86),vec3(.96,.96,.95),smoothstep(.55,.9,cloud)),day);
  // Dense cores stay translucent so borders and provinces read beneath them.
@@ -76,11 +77,11 @@ vec3 atmosphereColor(vec3 color,vec3 sun,vec3 weather){
  float shower=.35+.65*smoothstep(.3,.72,noise(uv*520.0+vec2(clock*.012,0.0)));
  vec3 drop=mix(vec3(.42,.52,.64),vec3(.84,.90,.95),day);
  if(weather.y>.01){
-  float rain=rainLayer(screen,16.0,21.0,0.0,.30)*.55+rainLayer(screen,27.0,30.0,41.0,.26)*.38+rainLayer(screen,44.0,40.0,83.0,.22)*.24;
+  float rain=rainLayer(screen,16.0,21.0,0.0,.32)*.6+rainLayer(screen,31.0,34.0,41.0,.26)*.36;
   color=mix(color*(1.0-weather.y*.05),drop,min(1.0,rain)*weather.y*shower*.7);
  }
  if(weather.z>.01){
-  float snow=snowLayer(screen,13.0,1.6,0.0,.36)+snowLayer(screen,22.0,2.4,29.0,.32)*.7+snowLayer(screen,38.0,3.3,61.0,.3)*.45;
+  float snow=snowLayer(screen,14.0,1.7,0.0,.38)+snowLayer(screen,30.0,2.9,29.0,.32)*.6;
   color=mix(color,mix(vec3(.55,.62,.74),vec3(.98),day),min(1.0,snow)*weather.z*shower*.85);
  }
  return color;
