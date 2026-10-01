@@ -3069,6 +3069,7 @@
     }
   ],
   "explicitProvinceAssignments": [],
+  "regionFillAssignments": [],
   "representedRosterPolities": 193,
   "rosterPolitiesWithoutProvinceCentroids": [
     "BABA_MAHAL",

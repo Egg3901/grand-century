@@ -3216,6 +3216,7 @@
     }
   ],
   "explicitProvinceAssignments": [],
+  "regionFillAssignments": [],
   "representedRosterPolities": 202,
   "rosterPolitiesWithoutProvinceCentroids": [
     "BRITISH_SETTLEMENTS_ON_THE_BAY_OF_HONDURAS",

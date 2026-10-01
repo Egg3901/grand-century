@@ -43,13 +43,29 @@ def dedupe(ring):
         if not out or out[-1] != pt: out.append(pt)
     return out
 
+def despike(ring):
+    """Drop zero-width spikes: a vertex where the ring doubles back on the
+    line it arrived on. Only reversals are removed, never collinear vertices
+    on a straight edge, which neighbours may share."""
+    pts = ring[:-1]
+    changed = True
+    while changed and len(pts) > 3:
+        changed = False
+        for i in range(len(pts)):
+            a, b, c = pts[i - 1], pts[i], pts[(i + 1) % len(pts)]
+            cross = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])
+            dot = (b[0] - a[0]) * (c[0] - b[0]) + (b[1] - a[1]) * (c[1] - b[1])
+            if abs(cross) <= 1e-12 and dot < 0:
+                del pts[i]; changed = True; break
+    return pts + [pts[0]]
+
 def to_geojson(g, digits=4):
     parts = polys(g)
     rings = []
     for p in parts:
-        shell = dedupe(rounded(p.exterior.coords, digits))
+        shell = despike(dedupe(rounded(p.exterior.coords, digits)))
         if not ring_ok(shell): continue
-        holes = [h for h in (dedupe(rounded(r.coords, digits)) for r in p.interiors) if ring_ok(h)]
+        holes = [h for h in (despike(dedupe(rounded(r.coords, digits))) for r in p.interiors) if ring_ok(h)]
         rings.append([shell] + holes)
     if len(rings) == 1: return {'type': 'Polygon', 'coordinates': rings[0]}
     return {'type': 'MultiPolygon', 'coordinates': rings}

@@ -68,6 +68,13 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test --config playwright.graphics.config.ts
       - run: npx playwright test --config playwright.native-graphics.config.ts
+      - name: Retain browser test evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-artifacts
+          path: artifacts/
+          if-no-files-found: ignore
   ios:
     name: iOS simulator render
     runs-on: macos-26
