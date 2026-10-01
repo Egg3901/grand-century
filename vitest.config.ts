@@ -20,7 +20,8 @@ export const BALANCE_TEST_GLOBS = [
  * release gate. 30 s is generous enough to absorb scheduling noise while still
  * failing a genuinely hung test.
  */
-const SIM_TEST_TIMEOUT_MS = 30_000;
+// World v8 tripled the per-day simulation cost; see tests/simTimeout.ts.
+const SIM_TEST_TIMEOUT_MS = 90_000;
 
 export default defineConfig({
   test: {

@@ -5,6 +5,7 @@ import { dateAtDay } from './calendar';
 import { ideologyFromPop, partyByKey, reformDemandForPop, topReformDemandEntries } from './politics';
 import {
   evaluateAllianceAcceptance,
+  allianceAcceptanceContext,
   getCbsForNation,
   getCoalitionAgainst,
   getDiplomaticPoints,
@@ -558,12 +559,12 @@ export function buildPlayerView(world: World, data: GameData, nationId: NationId
     warGoalInfamyUse: getWarGoalInfamyUse(),
     playerInfluencePool: getInfluencePool(world, nationId),
     playerInfluenceTargets: getInfluenceTargetsForNation(world, nationId).map((entry) => ({ ...entry })),
-    playerAlliancePreviews: world.nations
+    playerAlliancePreviews: ((context) => world.nations
       .filter((nation) => nation.id !== nationId)
       .map((nation) => {
-        const result = evaluateAllianceAcceptance(world, nationId, nation.id);
+        const result = evaluateAllianceAcceptance(world, nationId, nation.id, context);
         return { target: nation.id, score: Number(result.score.toFixed(1)), accepted: result.accepted };
-      }),
+      }))(allianceAcceptanceContext(world)),
     coalitionAgainstPlayer: getCoalitionAgainst(world, nationId),
     playerPowerScore: getNationPowerBreakdown(world, nationId).score,
     rivalryDpCost: getRivalryDpCost(),

@@ -20,6 +20,7 @@ import {
   pressCrisisDemand,
 } from '../src/sim/systems/crisis';
 import type { Crisis, World } from '../src/shared/types';
+import { simTimeout } from './simTimeout';
 
 function advanceMonths(world: World, months: number, perMonth?: (world: World) => void): void {
   let seen = 0;
@@ -78,7 +79,7 @@ describe('E7 Concert of Europe — crises', () => {
         expect(Number.isFinite(contribution.value)).toBe(true);
       }
     }
-  }, 220_000);
+  }, simTimeout(220_000));
 
   it('is deterministic: same seed, same crisis history', () => {
     const runOnce = () => {
@@ -93,7 +94,7 @@ describe('E7 Concert of Europe — crises', () => {
       };
     };
     expect(runOnce()).toEqual(runOnce());
-  }, 220_000);
+  }, simTimeout(220_000));
 
   it('spawns a crisis from a hot flashpoint under high tension', () => {
     const world = createWorld(GAME_DATA, 5150);
@@ -122,7 +123,7 @@ describe('E7 Concert of Europe — crises', () => {
       }
     });
     expect(sawCrisis).toBe(true);
-  }, 220_000);
+  }, simTimeout(220_000));
 
   it('resolves lopsided crises at the congress table and enforces the demand', () => {
     const world = createWorld(GAME_DATA, 3033);
@@ -158,7 +159,7 @@ describe('E7 Concert of Europe — crises', () => {
     const decayedBaseline = beforePrestige * Math.pow(0.995, 2);
     expect(eng.prestige).toBeGreaterThan(decayedBaseline);
     expect(world.crisisCooldownUntil).toBeGreaterThan(world.day);
-  }, 60_000);
+  }, simTimeout(60_000));
 
   it('ignites a bloc war when balanced sides both press the demand', () => {
     const world = createWorld(GAME_DATA, 7777);
@@ -194,7 +195,7 @@ describe('E7 Concert of Europe — crises', () => {
     expect(crisisWar).toBeDefined();
     // Defenders get a reciprocal goal so the war is winnable both ways.
     expect(crisisWar!.goals.some((goal) => goal.holder === fra.id && goal.target === eng.id)).toBe(true);
-  }, 60_000);
+  }, simTimeout(60_000));
 
   it('handles player commands: back a side, press, back down', () => {
     const world = createWorld(GAME_DATA, 1212);
@@ -261,5 +262,5 @@ describe('E7 Concert of Europe — crises', () => {
     const snap = buildSnapshot(legacy, GAME_DATA);
     expect(Number.isFinite(snap.worldTension)).toBe(true);
     expect(snap.activeCrisis === null || typeof snap.activeCrisis === 'object').toBe(true);
-  }, 120_000);
+  }, simTimeout(120_000));
 });

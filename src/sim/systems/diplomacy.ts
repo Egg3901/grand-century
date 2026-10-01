@@ -702,7 +702,32 @@ export function tryAddRivalry(world: World, a: NationId, b: NationId): { ok: boo
   return { ok: true, reason: `${world.nations[b].name} is now marked as a rival (−${RIVALRY_DP_COST} DP).` };
 }
 
-export function evaluateAllianceAcceptance(world: World, proposer: NationId, target: NationId): { accepted: boolean; score: number } {
+/** Per-nation rivalry and war counts, built once when evaluating many targets. */
+export interface AllianceAcceptanceContext {
+  rivals: Map<NationId, number>;
+  wars: Map<NationId, number>;
+}
+
+export function allianceAcceptanceContext(world: World): AllianceAcceptanceContext {
+  const rivals = new Map<NationId, number>();
+  for (const entry of world.relations) {
+    if (entry.kind !== 'rivalry') continue;
+    rivals.set(entry.a, (rivals.get(entry.a) ?? 0) + 1);
+    if (entry.b !== entry.a) rivals.set(entry.b, (rivals.get(entry.b) ?? 0) + 1);
+  }
+  const wars = new Map<NationId, number>();
+  for (const war of world.wars) {
+    for (const nation of new Set([...war.attackers, ...war.defenders])) wars.set(nation, (wars.get(nation) ?? 0) + 1);
+  }
+  return { rivals, wars };
+}
+
+export function evaluateAllianceAcceptance(
+  world: World,
+  proposer: NationId,
+  target: NationId,
+  context?: AllianceAcceptanceContext,
+): { accepted: boolean; score: number } {
   const relation = getOrCreateRelation(world, proposer, target);
   if (relation.kind === 'rivalry' || hasActiveTruce(world, proposer, target)) return { accepted: false, score: -999 };
   const runtime = ensureRuntime(world);
@@ -710,10 +735,11 @@ export function evaluateAllianceAcceptance(world: World, proposer: NationId, tar
   const proposerScore = runtime.powerScores.find((entry) => entry.nation === proposer)?.score ?? 1;
   const targetScore = runtime.powerScores.find((entry) => entry.nation === target)?.score ?? 1;
   const balance = 25 - Math.abs(proposerScore - targetScore) / Math.max(20, targetScore) * 26;
-  const rivals = world.relations.filter((entry) => (
+  const rivals = context ? context.rivals.get(target) ?? 0 : world.relations.filter((entry) => (
     entry.kind === 'rivalry' && (entry.a === target || entry.b === target)
   )).length;
-  const wars = world.wars.filter((war) => war.attackers.includes(target) || war.defenders.includes(target)).length;
+  const wars = context ? context.wars.get(target) ?? 0
+    : world.wars.filter((war) => war.attackers.includes(target) || war.defenders.includes(target)).length;
   const threat = rivals * 6 + wars * 8;
   const infamyPenalty = Math.max(0, world.nations[proposer]?.infamy - INFAMY_LIMIT) * 2;
   const score = relation.opinion + threat + balance - infamyPenalty;

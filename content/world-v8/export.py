@@ -16,6 +16,7 @@ PIECES = Path(sys.argv[1]); PROVINCES = Path(sys.argv[2]); OUT = Path(sys.argv[3
 GRID = 1e-6
 
 PIECE = {}
+IDENT = []
 
 def polys(g):
     if g.is_empty: return []
@@ -46,7 +47,9 @@ def dissolve(args):
             'iso': Counter(r['iso'] for r in rows).most_common(1)[0][0],
             'adm1Name': Counter(r['adm1Name'] for r in rows).most_common(1)[0][0],
             'largestUnit': big['name'],
-            'owners': {s: c.most_common(1)[0][0] for s, c in sorted(owners.items())},
+            # The grouping stage's owner identity wins over area majority, so a
+            # small state keeps its province after foreign fringes merge in.
+            'owners': {s: (IDENT[pid] or {}).get(s) or c.most_common(1)[0][0] for s, c in sorted(owners.items())},
             'pieces': len(rows),
         },
         'geometry': mapping(g),
@@ -55,7 +58,9 @@ def dissolve(args):
 if __name__ == '__main__':
     for line in PIECES.open():
         r = json.loads(line); PIECE[r['piece']] = r
-    provs = [json.loads(l)['members'] for l in PROVINCES.open()]
+    rows = [json.loads(l) for l in PROVINCES.open()]
+    provs = [r['members'] for r in rows]
+    IDENT.extend(r.get('owners') for r in rows)
     with mp.get_context('fork').Pool(int(os.environ.get('PROCS', '6'))) as pool:
         feats = list(pool.imap(dissolve, list(enumerate(provs)), chunksize=8))
     OUT.write_text(json.dumps({'type': 'FeatureCollection', 'features': feats}, ensure_ascii=False))

@@ -10,6 +10,7 @@ import {
   REFORM_FATIGUE_MAX_SUPPORT_PENALTY,
   reformFatigueGain,
 } from '../src/sim/politics';
+import { simTimeout } from './simTimeout';
 
 function noopPost() {
   // Intentionally empty for command tests.
@@ -72,7 +73,7 @@ describe('M3 politics and unrest', () => {
       && state.provinceIds.includes(army.location)
     ));
     expect(hasRebelArmy || state.unrestRisk > 0.8).toBe(true);
-  }, 60_000);
+  }, simTimeout(60_000));
 
   it('higher conscription reform increases mobilization capacity', () => {
     const world = createWorld(GAME_DATA, 1903);

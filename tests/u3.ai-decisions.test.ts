@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { GAME_DATA } from '../src/data/gameData';
 import { createWorld } from '../src/sim/bootstrap';
 import { advanceDay } from '../src/sim/world';
+import { simTimeout } from './simTimeout';
 
 describe('U3 — AI decision uptake', () => {
   it('AI nations take decisions over time; player is untouched; determinism holds', () => {
@@ -27,5 +28,5 @@ describe('U3 — AI decision uptake', () => {
     // determinism: same seed → same decisions taken
     const world2 = run(2024);
     expect(Object.keys(world2.decisionLastTaken ?? {}).sort()).toEqual(taken.sort());
-  }, 240_000);
+  }, simTimeout(240_000));
 });

@@ -14,6 +14,7 @@ import {
   resolvePendingEvent,
 } from '../src/sim/systems/events';
 import { advanceDay } from '../src/sim/world';
+import { simTimeout } from './simTimeout';
 
 function noopPost() {
   // test log sink
@@ -187,7 +188,7 @@ describe('E4 events & decisions', () => {
 
     expect(run(7711)).toBe(run(7711));
     expect(run(7711)).not.toBe(run(7712));
-  }, 60_000);
+  }, simTimeout(60_000));
 
   it('no event choice causes NaN, negative pop, or treasury explosion', () => {
     const world = createWorld(GAME_DATA, 5501);
@@ -208,7 +209,7 @@ describe('E4 events & decisions', () => {
 
     const popAfter = world.pops.reduce((sum, pop) => sum + Math.max(0, pop.size), 0);
     expect(popAfter).toBe(popBefore);
-  }, 60_000);
+  }, simTimeout(60_000));
 
   it('decisions are gated by prerequisites', () => {
     const world = createWorld(GAME_DATA, 6601);

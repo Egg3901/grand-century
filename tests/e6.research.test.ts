@@ -23,6 +23,7 @@ import {
   techModifiersFor,
 } from '../src/sim/systems/research';
 import type { FromWorker, World } from '../src/shared/types';
+import { simTimeout } from './simTimeout';
 
 const noop = (_msg: FromWorker) => {};
 
@@ -119,7 +120,7 @@ describe('E6 research progression', () => {
     expect(a.rng).toBe(b.rng);
     expect(a.techs).toEqual(b.techs);
     expect(a.inventions).toEqual(b.inventions);
-  }, 120_000);
+  }, simTimeout(120_000));
 
   it('player-directed research completes and effects apply', () => {
     const world = createWorld(GAME_DATA, 99);
@@ -132,7 +133,7 @@ describe('E6 research progression', () => {
     expect(player.techs).toContain('mechanical_production');
     const after = techModifiersFor(player, GAME_DATA).factoryThroughput;
     expect(after).toBeGreaterThan(before);
-  }, 120_000);
+  }, simTimeout(120_000));
 
   it('rejects locked techs: missing prereq and future year gates', () => {
     const world = createWorld(GAME_DATA, 7);
@@ -184,7 +185,7 @@ describe('E6 research progression', () => {
     }
     // Most civilized nations should have made progress in ten years.
     expect(researchedSomething).toBeGreaterThan(world.nations.length / 2);
-  }, 120_000);
+  }, simTimeout(120_000));
 
   it('inventions only fire with their prereq tech researched', () => {
     const world = createWorld(GAME_DATA, 555);
@@ -197,7 +198,7 @@ describe('E6 research progression', () => {
         expect(nation.techs).toContain(def!.prereqTech);
       }
     }
-  }, 120_000);
+  }, simTimeout(120_000));
 });
 
 describe('E6 recipe gating', () => {
@@ -290,7 +291,7 @@ describe('E6 effects & stability', () => {
     expect(richPlayer.lastBudget.taxIncome).toBeGreaterThan(player.lastBudget.taxIncome);
     // Money conservation: pops paid the extra, it wasn't minted.
     expect(Number.isFinite(richPlayer.treasury)).toBe(true);
-  }, 120_000);
+  }, simTimeout(120_000));
 
   it('depth modifiers apply: factory profit, pop growth, movement, supply, trade', () => {
     const world = createWorld(GAME_DATA, 41);
@@ -361,7 +362,7 @@ describe('E6 effects & stability', () => {
     expect(Number.isFinite(view.monthlyResearch)).toBe(true);
     expect(view.statuses.some((status) => status.prereqName != null || status.prereq == null)).toBe(true);
     expect(view.statuses.every((status) => status.etaMonths === null || status.etaMonths === undefined || status.etaMonths >= 0)).toBe(true);
-  }, 120_000);
+  }, simTimeout(120_000));
 
   // This full 25-year run takes about 140 seconds on shared build hosts.
   it('year gates hold: nobody owns a post-1870 tech in 1855', () => {
@@ -374,7 +375,7 @@ describe('E6 effects & stability', () => {
         expect((def?.year ?? 1830)).toBeLessThanOrEqual(1855);
       }
     }
-  }, 180_000);
+  }, simTimeout(180_000));
 
   it('availableTechsFor exposes only researchable frontier techs', () => {
     const world = createWorld(GAME_DATA, 88);

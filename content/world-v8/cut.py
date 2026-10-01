@@ -22,6 +22,21 @@ from shapely.geometry import shape, MultiPolygon, Polygon
 ATOMS = Path(sys.argv[1]); OUT = Path(sys.argv[2]); LAYERS = sys.argv[3:]
 MIN_PIECE_KM2 = 150.0      # never cut off less than this
 MIN_PIECE_SHARE = 0.12     # ... or less than this share of the atom
+
+def protected_keys():
+    """1830 polities kept as their own provinces however small (free cities,
+    small German states): marked "protect" in new-nations-1830.json, plus the
+    keys folded into them."""
+    path = Path(__file__).with_name('new-nations-1830.json')
+    if not path.exists(): return set()
+    d = json.loads(path.read_text())
+    tags = {n['tag'] for n in d['nations'] if n.get('protect')}
+    keys = {n['polityKey'] for n in d['nations'] if n.get('protect')}
+    keys |= {k for k, f in d.get('folds', {}).items() if f['to'] in tags}
+    return keys
+
+PROTECTED = protected_keys()
+PROTECTED_MIN_KM2 = 20.0
 R = 6371.0088
 KM2_PER_DEG2 = (math.pi / 180 * R) ** 2
 
@@ -111,7 +126,8 @@ def split(piece, layer, sh):
     if not sh: return None
     if max(sh.values()) >= total * 0.999: return None
     total_km2 = km2(piece)
-    big = [k for k, a in sh.items() if a / total * total_km2 >= MIN_PIECE_KM2 and a / total >= MIN_PIECE_SHARE]
+    big = [k for k, a in sh.items() if (a / total * total_km2 >= MIN_PIECE_KM2 and a / total >= MIN_PIECE_SHARE)
+           or (k in PROTECTED and a / total * total_km2 >= PROTECTED_MIN_KM2)]
     if len(big) <= 1: return None
     _, geoms, keys, tree = layer
     parts = {k: [] for k in big}

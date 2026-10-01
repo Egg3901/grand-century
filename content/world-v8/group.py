@@ -146,9 +146,12 @@ class DSU:
         a, b = self.find(a), self.find(b)
         if a != b: self.p[max(a, b)] = min(a, b)
 
+SCENARIOS = []
+
 def main():
     global ROWS
     ROWS = load()
+    SCENARIOS.extend(sorted(ROWS[0]['owners']))
     n = len(ROWS)
     print('pieces', n, file=sys.stderr, flush=True)
     adj = adjacency(ROWS)
@@ -187,6 +190,7 @@ def main():
     # 3. merge undersize provinces into the best same-owner neighbour.
     provinces = merge_small(provinces, nbrs)
 
+    ident = {tuple(sorted(m)): v for m, v in zip(provinces, IDENTITY)}
     ordered = sorted(provinces, key=lambda m: (-sum(ROWS[i]['km2'] for i in m), ROWS[m[0]]['piece']))
     prov_of = {}
     for pid, members in enumerate(ordered):
@@ -216,7 +220,9 @@ def main():
         for _, q in near[:2]: sea.add((min(pid, q), max(pid, q)))
     with OUT.open('w') as out:
         for pid, members in enumerate(ordered):
-            out.write(json.dumps({'members': [ROWS[i]['piece'] for i in members]}) + '\n')
+            v = ident.get(tuple(sorted(members)))
+            out.write(json.dumps({'members': [ROWS[i]['piece'] for i in members],
+                                  'owners': dict(zip(SCENARIOS, v)) if v else None}) + '\n')
     OUT.with_suffix('.adjacency.json').write_text(json.dumps({
         'land': [[a, b, round(l, 5)] for (a, b), l in sorted(padj.items())],
         'sea': sorted([list(e) for e in sea]),
@@ -256,7 +262,23 @@ def partition(members, k, nbrs):
     for i, c in label.items(): out[c].append(i)
     return list(out.values())
 
+IDENTITY = []  # owner vector per province returned by merge_small, same order
 NOISE_SHARE = 0.15   # a conflicting fringe below this share of its polity is source noise
+
+def protected_keys():
+    """1830 polities kept as their own provinces however small (free cities,
+    small German states): marked "protect" in new-nations-1830.json, plus the
+    keys folded into them."""
+    path = Path(__file__).with_name('new-nations-1830.json')
+    if not path.exists(): return set()
+    d = json.loads(path.read_text())
+    tags = {n['tag'] for n in d['nations'] if n.get('protect')}
+    keys = {n['polityKey'] for n in d['nations'] if n.get('protect')}
+    keys |= {k for k, f in d.get('folds', {}).items() if f['to'] in tags}
+    return keys
+
+PROTECTED = protected_keys()
+PROTECTED_MIN_KM2 = 20.0
 UNDERSIZE = 0.5
 MAX_MERGED = 2.2
 ISLAND_REACH_DEG = 4.0
@@ -272,6 +294,15 @@ def merge_small(provinces, nbrs):
         for i in m: owner_of[i] = pid
     alive = {pid: list(m) for pid, m in enumerate(provinces)}
     stats = {}
+    # Owner identity per province: the area majority of its own members, kept
+    # when fringes merge in (the target's owners win every conflict).
+    identity = {}
+    for pid, m in alive.items():
+        by = [defaultdict(float) for _ in range(scen)]
+        for i in m:
+            for s_, o in enumerate(ROWS[i]['key']):
+                if o is not None: by[s_][o] += ROWS[i]['km2']
+        identity[pid] = tuple(max(b, key=b.get) if b else None for b in by)
     def recompute(pid):
         m = alive[pid]
         area = sum(ROWS[i]['km2'] for i in m)
@@ -281,7 +312,7 @@ def merge_small(provinces, nbrs):
         for i in m:
             for s_, o in enumerate(ROWS[i]['key']):
                 if o is not None: by[s_][o] += ROWS[i]['km2']
-        vec = tuple(max(b, key=b.get) if b else None for b in by)
+        vec = identity.get(pid) or tuple(max(b, key=b.get) if b else None for b in by)
         stats[pid] = (area, target_km2(ROWS[m[0]]['iso'], lon, lat), lon, lat, vec, by)
     for pid in alive: recompute(pid)
 
@@ -293,6 +324,7 @@ def merge_small(provinces, nbrs):
             if a is None or b is None or a == b: continue
             if ap > UNDERSIZE * tp: return False
             if byp[s_][a] / max(total[s_][a], 1e-9) >= NOISE_SHARE: return False
+            if a in PROTECTED or b in PROTECTED: return False
         return True
 
     centroids = None
@@ -313,13 +345,20 @@ def merge_small(provinces, nbrs):
             # A fully compatible neighbour always wins; the source-noise
             # exception only applies when no such neighbour exists. Otherwise a
             # small core area (Berlin) can be absorbed by a foreign neighbour.
+            # A tiny fragment may exceed the size cap rather than be handed to
+            # a foreign province (Hanover's sliver of modern Hamburg).
             hard = {q: w for q, w in fits.items() if compatible(stats[pid][4], stats[q][4])}
+            if not hard and area < 0.25 * tgt:
+                hard = {q: w for q, w in cand.items() if compatible(stats[pid][4], stats[q][4])}
             cand = hard or {q: w for q, w in fits.items() if mergeable(pid, q)}
             if not cand:
                 # Islands and exclaves: nearest mergeable province within reach.
                 lon, lat = stats[pid][2], stats[pid][3]
                 best_d, best = None, None
-                for rule in (lambda q: compatible(stats[pid][4], stats[q][4]), lambda q: mergeable(pid, q)):
+                # Islands and exclaves join only a fully compatible province: the
+                # source-noise exception would hand a remote island group (the
+                # Canaries) to whichever coast lies nearest.
+                for rule in (lambda q: compatible(stats[pid][4], stats[q][4]),):
                   if best is not None: break
                   for q in alive:
                     if q == pid: continue
@@ -334,8 +373,10 @@ def merge_small(provinces, nbrs):
             best = max(cand, key=lambda q: (cand[q], -q))
             for i in alive[pid]: owner_of[i] = best
             alive[best] += alive.pop(pid)
+            identity[best] = fill(identity[best], identity.pop(pid))
             stats.pop(pid); recompute(best)
             changed = True
+    IDENTITY.clear(); IDENTITY.extend(identity[p] for p in alive)
     return list(alive.values())
 
 if __name__ == '__main__':

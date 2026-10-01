@@ -24,6 +24,7 @@ import {
   buildMovementViews,
 } from '../src/sim/systems/culture';
 import type { World } from '../src/shared/types';
+import { simTimeout } from './simTimeout';
 
 function cultureIdx(key: string): number {
   const index = GAME_DATA.cultures.findIndex((culture) => culture.key === key);
@@ -394,7 +395,7 @@ describe('E8 culture — snapshot, self-healing, determinism, stability', () => 
     const first = runOnce();
     const second = runOnce();
     expect(second).toEqual(first);
-  }, 60_000);
+  }, simTimeout(60_000));
 
   it('stays stable over a 4-year full-sim run (bounded rebellions, finite state)', () => {
     const world = createWorld(GAME_DATA, 20260720);
@@ -417,5 +418,5 @@ describe('E8 culture — snapshot, self-healing, determinism, stability', () => 
     // The snapshot stays serializable (MP/worker boundary).
     const snapshot = buildSnapshot(world, GAME_DATA);
     expect(() => structuredClone(snapshot)).not.toThrow();
-  }, 120_000);
+  }, simTimeout(120_000));
 });

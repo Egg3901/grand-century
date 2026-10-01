@@ -1525,6 +1525,327 @@
       ],
       "flagSource": "historical",
       "eraSummary": "The republic is governed by its Grand and General Council and two Captains Regent. Napoleon left it independent, and the Congress of Vienna confirmed it."
+    },
+    {
+      "polityKey": "FREE_CITY_OF_HAMBURG",
+      "tag": "HAM",
+      "name": "Hamburg",
+      "color": [
+        184,
+        58,
+        52
+      ],
+      "government": "democracy",
+      "primaryCulture": "north_german",
+      "religion": "protestant",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Hamburg",
+        9.99,
+        53.55
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The Free and Hanseatic City of Hamburg governs itself through its senate and burgher assemblies, a member of the German Confederation and the busiest port in the German lands."
+    },
+    {
+      "polityKey": "FREE_CITY_OF_CRACOW",
+      "tag": "KRA",
+      "name": "Free City of Kraków",
+      "color": [
+        176,
+        64,
+        78
+      ],
+      "government": "democracy",
+      "primaryCulture": "polish",
+      "religion": "catholic",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Kraków",
+        19.94,
+        50.06
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "Created at the Congress of Vienna, the Free City of Kraków is a small republic under the joint protection of Austria, Prussia and Russia, the last free fragment of the old Polish state.",
+      "protect": true
+    },
+    {
+      "polityKey": "FREE_CITY_OF_FRANKFURT",
+      "tag": "FRM",
+      "name": "Frankfurt",
+      "color": [
+        150,
+        72,
+        96
+      ],
+      "government": "democracy",
+      "primaryCulture": "south_german",
+      "religion": "protestant",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Frankfurt",
+        8.68,
+        50.11
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The Free City of Frankfurt hosts the Federal Diet of the German Confederation and the banking houses that finance half its princes.",
+      "protect": true
+    },
+    {
+      "polityKey": "FREE_CITY_OF_LUBECK",
+      "tag": "LUB",
+      "name": "Lübeck",
+      "color": [
+        160,
+        52,
+        60
+      ],
+      "government": "democracy",
+      "primaryCulture": "north_german",
+      "religion": "protestant",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Lübeck",
+        10.69,
+        53.87
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The Free Hanseatic City of Lübeck keeps its senate and its Baltic trade, a member of the German Confederation.",
+      "protect": true
+    },
+    {
+      "polityKey": "DUCATO_DI_LUCCA",
+      "tag": "LUC",
+      "name": "Lucca",
+      "color": [
+        164,
+        120,
+        64
+      ],
+      "government": "absolute_monarchy",
+      "primaryCulture": "italian",
+      "religion": "catholic",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Lucca",
+        10.5,
+        43.84
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The Duchy of Lucca is held by the Bourbon-Parma line until Parma itself falls to them, under the Vienna settlement.",
+      "protect": true
+    },
+    {
+      "polityKey": "HERZOGTUM_ANHALT_DESSAU",
+      "tag": "ANH",
+      "name": "Anhalt",
+      "color": [
+        126,
+        140,
+        74
+      ],
+      "government": "absolute_monarchy",
+      "primaryCulture": "north_german",
+      "religion": "protestant",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Dessau",
+        12.25,
+        51.83
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The three Anhalt duchies of Dessau, Bernburg and Cöthen are small Ascanian states on the middle Elbe within the German Confederation.",
+      "protect": true
+    },
+    {
+      "polityKey": "SACHSEN_COBURG_UND_GOTHA",
+      "tag": "SCG",
+      "name": "Saxe-Coburg and Gotha",
+      "color": [
+        90,
+        126,
+        92
+      ],
+      "government": "absolute_monarchy",
+      "primaryCulture": "north_german",
+      "religion": "protestant",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Gotha",
+        10.7,
+        50.95
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "Duke Ernst I has just united Coburg and Gotha, a Thuringian duchy whose family is marrying into the thrones of Europe.",
+      "protect": true
+    },
+    {
+      "polityKey": "SACHSEN_ALTENBURG",
+      "tag": "SAA",
+      "name": "Saxe-Altenburg",
+      "color": [
+        112,
+        150,
+        110
+      ],
+      "government": "absolute_monarchy",
+      "primaryCulture": "north_german",
+      "religion": "protestant",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Altenburg",
+        12.43,
+        50.99
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "Saxe-Altenburg was reconstituted in the 1826 Ernestine partition, a small Thuringian duchy of the German Confederation.",
+      "protect": true
+    },
+    {
+      "polityKey": "FURSTENTUM_REUSS_GERA",
+      "tag": "REU",
+      "name": "Reuss",
+      "color": [
+        150,
+        96,
+        140
+      ],
+      "government": "absolute_monarchy",
+      "primaryCulture": "north_german",
+      "religion": "protestant",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Gera",
+        12.08,
+        50.88
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The Reuss principalities of the elder and younger lines, every prince named Heinrich, sit in eastern Thuringia.",
+      "protect": true
+    },
+    {
+      "polityKey": "FURSTENTUM_SCHWARZBURG_RUDOLSTADT",
+      "tag": "SWZ",
+      "name": "Schwarzburg",
+      "color": [
+        66,
+        110,
+        130
+      ],
+      "government": "absolute_monarchy",
+      "primaryCulture": "north_german",
+      "religion": "protestant",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Rudolstadt",
+        11.33,
+        50.72
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The two Schwarzburg principalities, Rudolstadt and Sondershausen, are small Thuringian states of the German Confederation.",
+      "protect": true
+    },
+    {
+      "polityKey": "HOHENZOLLERN_SIGMARINGEN",
+      "tag": "HOH",
+      "name": "Hohenzollern",
+      "color": [
+        132,
+        132,
+        132
+      ],
+      "government": "absolute_monarchy",
+      "primaryCulture": "south_german",
+      "religion": "catholic",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Sigmaringen",
+        9.22,
+        48.09
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The Catholic Swabian principalities of Hohenzollern-Sigmaringen and Hechingen, cousins of the Prussian royal house.",
+      "protect": true
+    },
+    {
+      "polityKey": "KINGDOM_OF_COORG",
+      "tag": "CRG",
+      "name": "Coorg",
+      "color": [
+        160,
+        110,
+        60
+      ],
+      "government": "absolute_monarchy",
+      "primaryCulture": "south_asian",
+      "religion": "hindu",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Madikeri",
+        75.73,
+        12.42
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The hill kingdom of Coorg is still ruled by its own Raja in the Western Ghats; the Company annexes it in 1834.",
+      "protect": true
+    },
+    {
+      "polityKey": "KUWAIT",
+      "tag": "KUW",
+      "name": "Kuwait",
+      "color": [
+        96,
+        140,
+        150
+      ],
+      "government": "absolute_monarchy",
+      "primaryCulture": "arabic",
+      "religion": "sunni",
+      "polityStatus": "vassal",
+      "overlordTag": "OTT",
+      "capital": [
+        "Kuwait",
+        47.98,
+        29.37
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The Al Sabah sheikhs of Kuwait trade by sea under a loose acknowledgement of Ottoman Basra.",
+      "protect": true
+    },
+    {
+      "polityKey": "LIECHTENSTEIN",
+      "tag": "LIE",
+      "name": "Liechtenstein",
+      "color": [
+        60,
+        80,
+        150
+      ],
+      "government": "absolute_monarchy",
+      "primaryCulture": "south_german",
+      "religion": "catholic",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Vaduz",
+        9.52,
+        47.14
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The Principality of Liechtenstein is a sovereign member of the German Confederation whose princes live in Vienna.",
+      "protect": true
     }
   ],
   "folds": {
@@ -1535,6 +1856,46 @@
     "KATHIRI_SULTANATE": {
       "to": "UNC",
       "reason": "The source polygon lies in Central Africa, not the Hadhramaut; withheld until corrected geometry exists."
+    },
+    "HERZOGTUM_ANHALT_BERNBURG": {
+      "to": "ANH",
+      "reason": "One of the three Anhalt duchies, represented as Anhalt."
+    },
+    "HERZOGTUM_ANHALT_COTHEN": {
+      "to": "ANH",
+      "reason": "One of the three Anhalt duchies, represented as Anhalt."
+    },
+    "FURSTENTUM_REUSS_GREIZ": {
+      "to": "REU",
+      "reason": "The elder Reuss line, represented with the younger as Reuss."
+    },
+    "FURSTENTUM_SCHWARZBURG_SONDERSHAUSEN": {
+      "to": "SWZ",
+      "reason": "Represented with Rudolstadt as Schwarzburg."
+    },
+    "HOHENZOLLERN_HECHINGEN": {
+      "to": "HOH",
+      "reason": "Represented with Sigmaringen as Hohenzollern."
+    },
+    "MONACO": {
+      "to": "SAR",
+      "reason": "A Sardinian protectorate since 1815."
+    },
+    "PYRMONT": {
+      "to": "WDK",
+      "reason": "Held in personal union with Waldeck."
+    },
+    "HESSEN_HOMBURG": {
+      "to": "HES",
+      "reason": "A micro-state of 346 km2; represented with neighbouring Hesse-Darmstadt."
+    },
+    "SCHAUMBURG_LIPPE": {
+      "to": "LIP",
+      "reason": "A micro-state of 561 km2; represented with neighbouring Lippe."
+    },
+    "COUTO_MISTO": {
+      "to": "ESP",
+      "reason": "A 33 km2 border enclave below map resolution."
     }
   }
 }
