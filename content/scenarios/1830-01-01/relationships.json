@@ -1,0 +1,2733 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1830-01-01",
+  "relationships": [
+    {
+      "kind": "overlord",
+      "from": "OTT",
+      "to": "ALG",
+      "basis": "reviewed_suzerainty",
+      "notes": "The Regency of Algiers is Ottoman in name and self-governing under its dey; the French invasion begins only in June and July 1830.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861415
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "ANTIGUA_BARBUDA_MONTSERRAT_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Antigua, Barbuda and Montserrat is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832955
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "AWADH",
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Awadh is a Company subsidiary state since 1801; its king rules internally. The 1815 sovereign classification is corrected to tributary.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848332
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "BER",
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "The Gaekwad state of Baroda is bound to the Company by the subsidiary treaties of 1802 and 1805. Company paramountcy is represented under the United Kingdom, matching the current campaign.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922111
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "BRITISH_ARCTIC_TERRITORIES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British claim to the Arctic archipelago by discovery; thinly asserted but uncontested by another state in 1830.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831205
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "BRITISH_CEYLON",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British Ceylon is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848313
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "BRITISH_MAURITIUS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "British Mauritius is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831875
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "BRITISH_SETTLEMENTS_ON_THE_BAY_OF_HONDURAS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "The Belize settlements are British-administered; Spanish and Central American claims to sovereignty are noted but do not displace British control.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2748794
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "VIE",
+      "to": "CAM",
+      "basis": "reviewed_tributary",
+      "notes": "Cambodia under Ang Chan II has been under Vietnamese protection since 1813 while also tributary to Siam; the runtime keeps the Vietnamese protector as the single overlord.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 21
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "CAPE_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Cape Colony is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691739
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ESP",
+      "to": "CAPITANIA_GENERAL_DE_CUBA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Captaincy General of Cuba is administered as a dependency of Spain on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841669
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ESP",
+      "to": "CAPITANIA_GENERAL_DE_FILIPINAS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Captaincy General of the Philippines is administered as a dependency of Spain on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841332
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ESP",
+      "to": "CAPITANIA_GENERAL_DE_PUERTO_RICO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Captaincy General of Puerto Rico is administered as a dependency of Spain on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841681
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "POR",
+      "to": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Captaincy-General of Mozambique is administered as a dependency of Portugal on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2698260
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "CAYMAN_ISLANDS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "A dependency of Jamaica.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831970
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRA",
+      "to": "COLONIE_DE_LA_GUADELOUPE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Guadeloupe is administered as a dependency of France on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861173
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRA",
+      "to": "COLONIE_DE_LA_GUYANE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French Guiana is administered as a dependency of France on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861194
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_BARBADOS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Barbados is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832946
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_BERBICE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Merged into British Guiana in 1831.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848053
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_BERMUDA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Bermuda is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831964
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_DEMERARA_ESSEQUIBO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Merged into British Guiana in 1831.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848059
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_DOMINICA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "A British crown colony; the 1815 pack classified the relation as a claim, which is corrected here.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834744
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_GRENADA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Grenada has been British since 1783; the 1815 pack keyed it as French, which is corrected here.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834756
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_JAMAICA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Jamaica is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831981
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_MALTA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Malta is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801185
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_NEW_BRUNSWICK",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of New Brunswick is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830930
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_NEW_SOUTH_WALES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of New South Wales is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828329
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_NOVA_SCOTIA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Nova Scotia is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830921
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_SAINT_LUCIA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Saint Lucia has been British since 1803 and was confirmed in 1814; the 1815 pack keyed it as French, which is corrected here.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834804
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_SIERRA_LEONE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Sierra Leone is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828775
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_THE_BAHAMAS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "A British crown colony; the 1815 pack classified the relation as a claim, which is corrected here.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832950
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_TOBAGO",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Tobago is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834833
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_TRINIDAD",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Trinidad has been British since 1797; the 1815 pack keyed it under Spain, which is corrected here.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834830
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLONY_OF_VAN_DIEMEN_S_LAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Van Diemen's Land became a separate colony in 1825. OHM tags it as a settlement, but it is a distinct crown colony.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828332
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COLUMBIA_DISTRICT",
+      "basis": "joint_occupation",
+      "notes": "Hudson's Bay Company district in the Oregon Country, which is under joint British and American occupation by the Convention of 1818, renewed in 1827. The Company is the effective authority.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841921
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "COMPANY_RAJ",
+      "basis": "reviewed_colonial_identity",
+      "notes": "East India Company territory under the Charter Act of 1813. The OHM polygon is a paramountcy envelope that also covers many protected states; those with their own geometry are represented separately and win as the smaller polygon.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848228
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DEN",
+      "to": "DANISH_GOLD_COAST",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish Gold Coast is administered as a dependency of Denmark on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828430
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DEN",
+      "to": "DANISH_INDIA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish India is a Danish colony.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 20
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DEN",
+      "to": "DANSK_VESTINDIEN",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish West Indies is administered as a dependency of Denmark on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2696415
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "NLD",
+      "to": "DUTCH_EAST_INDIES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "The OHM polygon is the 1824 to 1860 colonial envelope and also covers sultanates outside effective Dutch control; those with their own geometry are represented separately.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848466
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "OTT",
+      "to": "EGY",
+      "basis": "reviewed_suzerainty",
+      "notes": "Muhammad Ali governs Egypt as Ottoman vali; the Porte retains formal suzerainty and receives tribute.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 79
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "GAMBIA_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "The British settlement at Bathurst dates from 1816; the later protectorate label in the OHM name is anachronistic.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803502
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "GIBRALTAR",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Gibraltar is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692855
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "POR",
+      "to": "GOA_PORTUGUESA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese Goa is administered as a dependency of Portugal on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922053
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922074
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "GOLD_COAST_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "From 1828 the British forts are run by a committee of London merchants under Crown oversight; they remain British.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828427
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DEN",
+      "to": "GREENLAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Greenland is a Danish colony.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 139
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "POR",
+      "to": "GUINE_PORTUGUESA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Cacheu and Bissau, administered from Cape Verde.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803504
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "GWALIOR_STATE",
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Gwalior is bound to the Company by the treaties of 1817 and 1818; Company paramountcy is represented under the United Kingdom.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923117
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "HELGOLAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Heligoland is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848139
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "DEN",
+      "to": "HOL",
+      "basis": "personal_union",
+      "notes": "The King of Denmark rules Holstein as duke; Holstein is a member of the German Confederation and is not part of the Danish kingdom proper.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2748587
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "HYD",
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Hyderabad is bound to the East India Company by the subsidiary alliance of 1798 and 1800. Company paramountcy is represented under the United Kingdom, matching the current campaign.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923306
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRA",
+      "to": "ILE_SAINTE_MARIE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French post reoccupied in 1818 and administered from Bourbon.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865799
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRA",
+      "to": "INDE_FRANCAISE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "French India is administered as a dependency of France on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2961649
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRA",
+      "to": "ISLE_BOURBON",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Ile Bourbon is administered as a dependency of France on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865902
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SIA",
+      "to": "KELANTAN",
+      "basis": "reviewed_tributary",
+      "notes": "Kelantan sends the bunga mas to Siam.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 12
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SIA",
+      "to": "KINGDOM_OF_CHAMPASAK",
+      "basis": "reviewed_tributary",
+      "notes": "Champasak is a Siamese tributary.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 99
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SIA",
+      "to": "KINGDOM_OF_CHIANG_MAI",
+      "basis": "reviewed_tributary",
+      "notes": "Lanna (Chiang Mai) is a Siamese tributary kingdom.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 18
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SIA",
+      "to": "KINGDOM_OF_LUANG_PHRABANG",
+      "basis": "reviewed_tributary",
+      "notes": "Luang Phrabang is a Siamese tributary after the suppression of Anouvong (1827 to 1828).",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 100
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "OTT",
+      "to": "KUWAIT",
+      "basis": "reviewed_suzerainty",
+      "notes": "Al Sabah Kuwait acknowledges nominal Ottoman suzerainty while governing itself.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 50
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SAR",
+      "to": "MONACO",
+      "basis": "reviewed_protectorate",
+      "notes": "Monaco is a protectorate of the Kingdom of Sardinia from 1815 to 1860.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 33
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "NAG",
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "The Bhonsle state of Nagpur is a Company subsidiary state after the settlement of 1818. Company paramountcy is represented under the United Kingdom, matching the current campaign.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923410
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "VIE",
+      "to": "NAM_BAN",
+      "basis": "reviewed_tributary",
+      "notes": "Highland polity tributary to the Nguyen court.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830728
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "NLD",
+      "to": "NETHERLANDS_ANTILLES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "The Dutch Antilles are a Dutch colony, governed from Paramaribo from 1828.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 69
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "NEW_CALEDONIA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "New Caledonia (Hudson's Bay Company district) is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831213
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "NEWFOUNDLAND_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Crown Colony of Newfoundland is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828508
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "NORTH_WEST_TERRITORIES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Hudson's Bay Company and Crown territory beyond Rupert's Land.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831207
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "OMA",
+      "to": "OMANI_SWAHILI_COAST",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Zanzibar, Pemba and the Swahili ports under Omani governors; Said bin Sultan moves his court to Zanzibar in the 1830s.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 111
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "RUS",
+      "to": "POL",
+      "basis": "personal_union",
+      "notes": "Congress Poland is a separate constitutional kingdom whose king is the Russian emperor; its sejm, army and constitution still function on 1830-01-01, ten months before the November Uprising.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692576
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "POR",
+      "to": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese Sao Tome and Principe is administered as a dependency of Portugal on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2885981
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "POR",
+      "to": "PORTUGUESE_TIMOR",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese Timor is administered as a dependency of Portugal on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2864416
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "PRINCE_EDWARD_ISLAND_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Prince Edward Island Colony is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830904
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "VIE",
+      "to": "PRINCIPALITY_OF_THUAN_THANH",
+      "basis": "reviewed_tributary",
+      "notes": "Cham principality under Nguyen suzerainty until its abolition in 1832.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745639
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "PROVINCE_OF_LOWER_CANADA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Province of Lower Canada is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830999
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "PROVINCE_OF_UPPER_CANADA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Province of Upper Canada is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831002
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "RAJPUTANA_STATES",
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Aggregate OHM polygon for the Rajput states (Jaipur, Jodhpur, Udaipur and others), each bound to the Company by the treaties of 1817 and 1818. One aggregate is kept pending state-level geometry; the 1815 pack treated it as a map fragment, which left the region uncovered.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847600
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "RED_RIVER_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Red River Colony is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828530
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "NLD",
+      "to": "RIAU_LINGGA_SULTANATE",
+      "basis": "reviewed_protectorate",
+      "notes": "Riau-Lingga is a Dutch-protected sultanate after the Anglo-Dutch Treaty of 1824.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 92
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "RUPERT_S_LAND",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Hudson's Bay Company chartered territory.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831206
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "RUS",
+      "to": "RUSSIAN_AMERICA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Russian-American Company territory under its 1799 charter.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851143
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "JPN",
+      "to": "RYUKYU_KINGDOM",
+      "basis": "reviewed_tributary",
+      "notes": "Ryukyu is controlled by the Satsuma domain since 1609 while remaining a Qing tributary; the runtime keeps Japan as the single overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2890079
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "SAINT_CHRISTOPHER_NEVIS_ANGUILLA_VIRGIN_ISLANDS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Saint Christopher, Nevis, Anguilla and the Virgin Islands is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834791
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "SAINT_HELENA_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Saint Helena is governed by the East India Company until 1834.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848196
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "FRA",
+      "to": "SAINT_PIERRE_ET_MIQUELON",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Saint-Pierre and Miquelon is administered as a dependency of France on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831312
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "SATARA_STATE",
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Bhonsle Satara restored by the Company in 1818 as a subsidiary state.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922468
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "OTT",
+      "to": "SER",
+      "basis": "reviewed_suzerainty",
+      "notes": "Serbia is an autonomous principality under Milos Obrenovic; the Treaty of Adrianople (1829-09-14) bound the Porte to confirm its autonomy, done by hatt-i sharif later in 1830.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 34
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ESP",
+      "to": "SPANISH_GUINEA",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Fernando Po and Annobon are Spanish by the 1778 treaty; from 1827 Britain leases a base at Clarence, without a transfer of sovereignty.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860392
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "ST_VINCENT_AND_THE_GRENADINES",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of St Vincent and the Grenadines is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834820
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "STRAITS_SETTLEMENTS",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Penang, Malacca and Singapore, united as a Company presidency in 1826. Only the Straits components of Cliopatria record 144 are kept; the other British Empire records duplicate reviewed OHM geometry and are omitted by component filters.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 116
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 138
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 144
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "NLD",
+      "to": "SULTANATE_OF_BANJAR",
+      "basis": "reviewed_suzerainty",
+      "notes": "The 1826 treaty made Banjar a Dutch vassal and ceded territory; the OHM polygon still covers much of southern and eastern Borneo.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2871332
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "SIA",
+      "to": "SULTANATE_OF_TERENGGANU",
+      "basis": "reviewed_tributary",
+      "notes": "Terengganu sends the bunga mas to Siam.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 10
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "NLD",
+      "to": "SURINAME",
+      "basis": "reviewed_colonial_identity",
+      "notes": "From 1828 Suriname and the Dutch Antilles share one Governor-General in Paramaribo.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806842
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "SWAN_RIVER_COLONY",
+      "basis": "reviewed_colonial_identity",
+      "notes": "The Swan River Colony was proclaimed in 1829; its OHM polygon is the claimed colony.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828317
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "TRA",
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Travancore is bound to the East India Company by the treaties of 1795 and 1805. Company paramountcy is represented under the United Kingdom, matching the current campaign.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922413
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "OTT",
+      "to": "TRI",
+      "basis": "reviewed_suzerainty",
+      "notes": "The Karamanli pashas of Tripoli rule autonomously under nominal Ottoman suzerainty until direct Ottoman rule in 1835.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 19
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "OTT",
+      "to": "TUN",
+      "basis": "reviewed_suzerainty",
+      "notes": "The Husainid beys of Tunis rule autonomously under nominal Ottoman suzerainty.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 137
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "EGY",
+      "to": "TURCO_EGYPTIAN_SUDAN",
+      "basis": "reviewed_colonial_identity",
+      "notes": "Sennar, Kordofan and Nubia conquered by Muhammad Ali in 1820 to 1821. The OHM polygon reaches into independent Darfur, which is represented separately and wins as the smaller polygon. OHM tags it as a British colony, which is anachronistic.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690845
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "ENG",
+      "to": "UNITED_STATES_OF_THE_IONIAN_ISLANDS",
+      "basis": "reviewed_protectorate",
+      "notes": "A British protectorate under the Treaty of Paris (1815), governed by a Lord High Commissioner.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2827696
+        }
+      ]
+    },
+    {
+      "kind": "overlord",
+      "from": "OTT",
+      "to": "WAL",
+      "basis": "reviewed_suzerainty",
+      "notes": "Wallachia is an Ottoman tributary principality; the Treaty of Adrianople placed it under Russian protection and Russian military administration continues until 1834.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2929117
+        }
+      ]
+    }
+  ],
+  "resolutions": [
+    {
+      "polityKey": "ALG",
+      "action": "overlord",
+      "runtimeOverlord": "OTT",
+      "participants": [],
+      "basis": "reviewed_suzerainty",
+      "notes": "The Regency of Algiers is Ottoman in name and self-governing under its dey; the French invasion begins only in June and July 1830.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861415
+        }
+      ]
+    },
+    {
+      "polityKey": "ANTIGUA_BARBUDA_MONTSERRAT_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Antigua, Barbuda and Montserrat is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832955
+        }
+      ]
+    },
+    {
+      "polityKey": "AWADH",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Awadh is a Company subsidiary state since 1801; its king rules internally. The 1815 sovereign classification is corrected to tributary.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848332
+        }
+      ]
+    },
+    {
+      "polityKey": "BAOL",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "conflicting_source_classification",
+      "notes": "OHM marks Baol as a vassal, while historical summaries describe independence after 1549 and intermittent personal union with Kajoor. It remains a dependent type without an invented overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879278
+        }
+      ]
+    },
+    {
+      "polityKey": "BER",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "The Gaekwad state of Baroda is bound to the Company by the subsidiary treaties of 1802 and 1805. Company paramountcy is represented under the United Kingdom, matching the current campaign.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922111
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_ARCTIC_TERRITORIES",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British claim to the Arctic archipelago by discovery; thinly asserted but uncontested by another state in 1830.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831205
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_CEYLON",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British Ceylon is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848313
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_MAURITIUS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "British Mauritius is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831875
+        }
+      ]
+    },
+    {
+      "polityKey": "BRITISH_SETTLEMENTS_ON_THE_BAY_OF_HONDURAS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "The Belize settlements are British-administered; Spanish and Central American claims to sovereignty are noted but do not displace British control.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2748794
+        }
+      ]
+    },
+    {
+      "polityKey": "CAM",
+      "action": "overlord",
+      "runtimeOverlord": "VIE",
+      "participants": [],
+      "basis": "reviewed_tributary",
+      "notes": "Cambodia under Ang Chan II has been under Vietnamese protection since 1813 while also tributary to Siam; the runtime keeps the Vietnamese protector as the single overlord.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 21
+        }
+      ]
+    },
+    {
+      "polityKey": "CAPE_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Cape Colony is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691739
+        }
+      ]
+    },
+    {
+      "polityKey": "CAPITANIA_GENERAL_DE_CUBA",
+      "action": "overlord",
+      "runtimeOverlord": "ESP",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Captaincy General of Cuba is administered as a dependency of Spain on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841669
+        }
+      ]
+    },
+    {
+      "polityKey": "CAPITANIA_GENERAL_DE_FILIPINAS",
+      "action": "overlord",
+      "runtimeOverlord": "ESP",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Captaincy General of the Philippines is administered as a dependency of Spain on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841332
+        }
+      ]
+    },
+    {
+      "polityKey": "CAPITANIA_GENERAL_DE_PUERTO_RICO",
+      "action": "overlord",
+      "runtimeOverlord": "ESP",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Captaincy General of Puerto Rico is administered as a dependency of Spain on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841681
+        }
+      ]
+    },
+    {
+      "polityKey": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
+      "action": "overlord",
+      "runtimeOverlord": "POR",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Captaincy-General of Mozambique is administered as a dependency of Portugal on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2698260
+        }
+      ]
+    },
+    {
+      "polityKey": "CAYMAN_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "A dependency of Jamaica.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831970
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DE_LA_GUADELOUPE",
+      "action": "overlord",
+      "runtimeOverlord": "FRA",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Guadeloupe is administered as a dependency of France on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861173
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONIE_DE_LA_GUYANE",
+      "action": "overlord",
+      "runtimeOverlord": "FRA",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French Guiana is administered as a dependency of France on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861194
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_BARBADOS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Barbados is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832946
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_BERBICE",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Merged into British Guiana in 1831.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848053
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_BERMUDA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Bermuda is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831964
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_DEMERARA_ESSEQUIBO",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Merged into British Guiana in 1831.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848059
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_DOMINICA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "A British crown colony; the 1815 pack classified the relation as a claim, which is corrected here.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834744
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_GRENADA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Grenada has been British since 1783; the 1815 pack keyed it as French, which is corrected here.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834756
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_JAMAICA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Jamaica is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831981
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_MALTA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Malta is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801185
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_NEW_BRUNSWICK",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of New Brunswick is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830930
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_NEW_SOUTH_WALES",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of New South Wales is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828329
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_NOVA_SCOTIA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Nova Scotia is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830921
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_SAINT_LUCIA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Saint Lucia has been British since 1803 and was confirmed in 1814; the 1815 pack keyed it as French, which is corrected here.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834804
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_SIERRA_LEONE",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Sierra Leone is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828775
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_THE_BAHAMAS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "A British crown colony; the 1815 pack classified the relation as a claim, which is corrected here.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832950
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_TOBAGO",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of Tobago is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834833
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_TRINIDAD",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Trinidad has been British since 1797; the 1815 pack keyed it under Spain, which is corrected here.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834830
+        }
+      ]
+    },
+    {
+      "polityKey": "COLONY_OF_VAN_DIEMEN_S_LAND",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Van Diemen's Land became a separate colony in 1825. OHM tags it as a settlement, but it is a distinct crown colony.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828332
+        }
+      ]
+    },
+    {
+      "polityKey": "COLUMBIA_DISTRICT",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [
+        "ENG",
+        "USA"
+      ],
+      "basis": "joint_occupation",
+      "notes": "Hudson's Bay Company district in the Oregon Country, which is under joint British and American occupation by the Convention of 1818, renewed in 1827. The Company is the effective authority.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841921
+        }
+      ]
+    },
+    {
+      "polityKey": "COMPANY_RAJ",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "East India Company territory under the Charter Act of 1813. The OHM polygon is a paramountcy envelope that also covers many protected states; those with their own geometry are represented separately and win as the smaller polygon.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848228
+        }
+      ]
+    },
+    {
+      "polityKey": "DANISH_GOLD_COAST",
+      "action": "overlord",
+      "runtimeOverlord": "DEN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish Gold Coast is administered as a dependency of Denmark on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828430
+        }
+      ]
+    },
+    {
+      "polityKey": "DANISH_INDIA",
+      "action": "overlord",
+      "runtimeOverlord": "DEN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish India is a Danish colony.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 20
+        }
+      ]
+    },
+    {
+      "polityKey": "DANSK_VESTINDIEN",
+      "action": "overlord",
+      "runtimeOverlord": "DEN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Danish West Indies is administered as a dependency of Denmark on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2696415
+        }
+      ]
+    },
+    {
+      "polityKey": "DUTCH_EAST_INDIES",
+      "action": "overlord",
+      "runtimeOverlord": "NLD",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "The OHM polygon is the 1824 to 1860 colonial envelope and also covers sultanates outside effective Dutch control; those with their own geometry are represented separately.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848466
+        }
+      ]
+    },
+    {
+      "polityKey": "EGY",
+      "action": "overlord",
+      "runtimeOverlord": "OTT",
+      "participants": [],
+      "basis": "reviewed_suzerainty",
+      "notes": "Muhammad Ali governs Egypt as Ottoman vali; the Porte retains formal suzerainty and receives tribute.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 79
+        }
+      ]
+    },
+    {
+      "polityKey": "FREE_CITY_OF_CRACOW",
+      "action": "joint_administration",
+      "runtimeOverlord": null,
+      "participants": [
+        "AUS",
+        "PRU",
+        "RUS"
+      ],
+      "basis": "joint_protection",
+      "notes": "The Free City of Krakow is a protectorate of Austria, Prussia and Russia under the Final Act of Vienna. The exact-date OHM relation has two unclosed chains, so the hash-pinned Cliopatria polygon supplies geometry.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692575
+        }
+      ]
+    },
+    {
+      "polityKey": "GAMBIA_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "The British settlement at Bathurst dates from 1816; the later protectorate label in the OHM name is anachronistic.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803502
+        }
+      ]
+    },
+    {
+      "polityKey": "GIBRALTAR",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Gibraltar is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692855
+        }
+      ]
+    },
+    {
+      "polityKey": "GOA_PORTUGUESA",
+      "action": "overlord",
+      "runtimeOverlord": "POR",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese Goa is administered as a dependency of Portugal on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922053
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922074
+        }
+      ]
+    },
+    {
+      "polityKey": "GOLD_COAST_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "From 1828 the British forts are run by a committee of London merchants under Crown oversight; they remain British.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828427
+        }
+      ]
+    },
+    {
+      "polityKey": "GREENLAND",
+      "action": "overlord",
+      "runtimeOverlord": "DEN",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Greenland is a Danish colony.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 139
+        }
+      ]
+    },
+    {
+      "polityKey": "GUINE_PORTUGUESA",
+      "action": "overlord",
+      "runtimeOverlord": "POR",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Cacheu and Bissau, administered from Cape Verde.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803504
+        }
+      ]
+    },
+    {
+      "polityKey": "GWALIOR_STATE",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Gwalior is bound to the Company by the treaties of 1817 and 1818; Company paramountcy is represented under the United Kingdom.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923117
+        }
+      ]
+    },
+    {
+      "polityKey": "HELGOLAND",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Heligoland is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848139
+        }
+      ]
+    },
+    {
+      "polityKey": "HOL",
+      "action": "overlord",
+      "runtimeOverlord": "DEN",
+      "participants": [],
+      "basis": "personal_union",
+      "notes": "The King of Denmark rules Holstein as duke; Holstein is a member of the German Confederation and is not part of the Danish kingdom proper.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2748587
+        }
+      ]
+    },
+    {
+      "polityKey": "HYD",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Hyderabad is bound to the East India Company by the subsidiary alliance of 1798 and 1800. Company paramountcy is represented under the United Kingdom, matching the current campaign.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923306
+        }
+      ]
+    },
+    {
+      "polityKey": "ILE_SAINTE_MARIE",
+      "action": "overlord",
+      "runtimeOverlord": "FRA",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French post reoccupied in 1818 and administered from Bourbon.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865799
+        }
+      ]
+    },
+    {
+      "polityKey": "INDE_FRANCAISE",
+      "action": "overlord",
+      "runtimeOverlord": "FRA",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "French India is administered as a dependency of France on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2961649
+        }
+      ]
+    },
+    {
+      "polityKey": "ISLE_BOURBON",
+      "action": "overlord",
+      "runtimeOverlord": "FRA",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Ile Bourbon is administered as a dependency of France on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865902
+        }
+      ]
+    },
+    {
+      "polityKey": "KELANTAN",
+      "action": "overlord",
+      "runtimeOverlord": "SIA",
+      "participants": [],
+      "basis": "reviewed_tributary",
+      "notes": "Kelantan sends the bunga mas to Siam.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 12
+        }
+      ]
+    },
+    {
+      "polityKey": "KINGDOM_OF_CHAMPASAK",
+      "action": "overlord",
+      "runtimeOverlord": "SIA",
+      "participants": [],
+      "basis": "reviewed_tributary",
+      "notes": "Champasak is a Siamese tributary.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 99
+        }
+      ]
+    },
+    {
+      "polityKey": "KINGDOM_OF_CHIANG_MAI",
+      "action": "overlord",
+      "runtimeOverlord": "SIA",
+      "participants": [],
+      "basis": "reviewed_tributary",
+      "notes": "Lanna (Chiang Mai) is a Siamese tributary kingdom.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 18
+        }
+      ]
+    },
+    {
+      "polityKey": "KINGDOM_OF_LUANG_PHRABANG",
+      "action": "overlord",
+      "runtimeOverlord": "SIA",
+      "participants": [],
+      "basis": "reviewed_tributary",
+      "notes": "Luang Phrabang is a Siamese tributary after the suppression of Anouvong (1827 to 1828).",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 100
+        }
+      ]
+    },
+    {
+      "polityKey": "KUWAIT",
+      "action": "overlord",
+      "runtimeOverlord": "OTT",
+      "participants": [],
+      "basis": "reviewed_suzerainty",
+      "notes": "Al Sabah Kuwait acknowledges nominal Ottoman suzerainty while governing itself.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 50
+        }
+      ]
+    },
+    {
+      "polityKey": "LIB",
+      "action": "no_runtime_overlord",
+      "runtimeOverlord": null,
+      "participants": [],
+      "basis": "private_colonization_society",
+      "notes": "The Colony of Liberia is governed by agents of the American Colonization Society, a private body; the United States government asserts no sovereignty, so no runtime overlord is invented.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828772
+        }
+      ]
+    },
+    {
+      "polityKey": "MONACO",
+      "action": "overlord",
+      "runtimeOverlord": "SAR",
+      "participants": [],
+      "basis": "reviewed_protectorate",
+      "notes": "Monaco is a protectorate of the Kingdom of Sardinia from 1815 to 1860.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 33
+        }
+      ]
+    },
+    {
+      "polityKey": "NAG",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "The Bhonsle state of Nagpur is a Company subsidiary state after the settlement of 1818. Company paramountcy is represented under the United Kingdom, matching the current campaign.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923410
+        }
+      ]
+    },
+    {
+      "polityKey": "NAM_BAN",
+      "action": "overlord",
+      "runtimeOverlord": "VIE",
+      "participants": [],
+      "basis": "reviewed_tributary",
+      "notes": "Highland polity tributary to the Nguyen court.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830728
+        }
+      ]
+    },
+    {
+      "polityKey": "NETHERLANDS_ANTILLES",
+      "action": "overlord",
+      "runtimeOverlord": "NLD",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "The Dutch Antilles are a Dutch colony, governed from Paramaribo from 1828.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 69
+        }
+      ]
+    },
+    {
+      "polityKey": "NEW_CALEDONIA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "New Caledonia (Hudson's Bay Company district) is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831213
+        }
+      ]
+    },
+    {
+      "polityKey": "NEWFOUNDLAND_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Crown Colony of Newfoundland is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828508
+        }
+      ]
+    },
+    {
+      "polityKey": "NORTH_WEST_TERRITORIES",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Hudson's Bay Company and Crown territory beyond Rupert's Land.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831207
+        }
+      ]
+    },
+    {
+      "polityKey": "OMANI_SWAHILI_COAST",
+      "action": "overlord",
+      "runtimeOverlord": "OMA",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Zanzibar, Pemba and the Swahili ports under Omani governors; Said bin Sultan moves his court to Zanzibar in the 1830s.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 111
+        }
+      ]
+    },
+    {
+      "polityKey": "POL",
+      "action": "overlord",
+      "runtimeOverlord": "RUS",
+      "participants": [],
+      "basis": "personal_union",
+      "notes": "Congress Poland is a separate constitutional kingdom whose king is the Russian emperor; its sejm, army and constitution still function on 1830-01-01, ten months before the November Uprising.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692576
+        }
+      ]
+    },
+    {
+      "polityKey": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "action": "overlord",
+      "runtimeOverlord": "POR",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese Sao Tome and Principe is administered as a dependency of Portugal on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2885981
+        }
+      ]
+    },
+    {
+      "polityKey": "PORTUGUESE_TIMOR",
+      "action": "overlord",
+      "runtimeOverlord": "POR",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Portuguese Timor is administered as a dependency of Portugal on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2864416
+        }
+      ]
+    },
+    {
+      "polityKey": "PRINCE_EDWARD_ISLAND_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Prince Edward Island Colony is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830904
+        }
+      ]
+    },
+    {
+      "polityKey": "PRINCIPALITY_OF_THUAN_THANH",
+      "action": "overlord",
+      "runtimeOverlord": "VIE",
+      "participants": [],
+      "basis": "reviewed_tributary",
+      "notes": "Cham principality under Nguyen suzerainty until its abolition in 1832.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745639
+        }
+      ]
+    },
+    {
+      "polityKey": "PROVINCE_OF_LOWER_CANADA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Province of Lower Canada is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830999
+        }
+      ]
+    },
+    {
+      "polityKey": "PROVINCE_OF_UPPER_CANADA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Province of Upper Canada is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831002
+        }
+      ]
+    },
+    {
+      "polityKey": "RAJPUTANA_STATES",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Aggregate OHM polygon for the Rajput states (Jaipur, Jodhpur, Udaipur and others), each bound to the Company by the treaties of 1817 and 1818. One aggregate is kept pending state-level geometry; the 1815 pack treated it as a map fragment, which left the region uncovered.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847600
+        }
+      ]
+    },
+    {
+      "polityKey": "RED_RIVER_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Red River Colony is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828530
+        }
+      ]
+    },
+    {
+      "polityKey": "RIAU_LINGGA_SULTANATE",
+      "action": "overlord",
+      "runtimeOverlord": "NLD",
+      "participants": [],
+      "basis": "reviewed_protectorate",
+      "notes": "Riau-Lingga is a Dutch-protected sultanate after the Anglo-Dutch Treaty of 1824.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 92
+        }
+      ]
+    },
+    {
+      "polityKey": "RUPERT_S_LAND",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Hudson's Bay Company chartered territory.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831206
+        }
+      ]
+    },
+    {
+      "polityKey": "RUSSIAN_AMERICA",
+      "action": "overlord",
+      "runtimeOverlord": "RUS",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Russian-American Company territory under its 1799 charter.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851143
+        }
+      ]
+    },
+    {
+      "polityKey": "RYUKYU_KINGDOM",
+      "action": "overlord",
+      "runtimeOverlord": "JPN",
+      "participants": [],
+      "basis": "reviewed_tributary",
+      "notes": "Ryukyu is controlled by the Satsuma domain since 1609 while remaining a Qing tributary; the runtime keeps Japan as the single overlord.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2890079
+        }
+      ]
+    },
+    {
+      "polityKey": "SAINT_CHRISTOPHER_NEVIS_ANGUILLA_VIRGIN_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Saint Christopher, Nevis, Anguilla and the Virgin Islands is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834791
+        }
+      ]
+    },
+    {
+      "polityKey": "SAINT_HELENA_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Saint Helena is governed by the East India Company until 1834.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848196
+        }
+      ]
+    },
+    {
+      "polityKey": "SAINT_PIERRE_ET_MIQUELON",
+      "action": "overlord",
+      "runtimeOverlord": "FRA",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Saint-Pierre and Miquelon is administered as a dependency of France on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831312
+        }
+      ]
+    },
+    {
+      "polityKey": "SATARA_STATE",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Bhonsle Satara restored by the Company in 1818 as a subsidiary state.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922468
+        }
+      ]
+    },
+    {
+      "polityKey": "SER",
+      "action": "overlord",
+      "runtimeOverlord": "OTT",
+      "participants": [],
+      "basis": "reviewed_suzerainty",
+      "notes": "Serbia is an autonomous principality under Milos Obrenovic; the Treaty of Adrianople (1829-09-14) bound the Porte to confirm its autonomy, done by hatt-i sharif later in 1830.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 34
+        }
+      ]
+    },
+    {
+      "polityKey": "SPANISH_GUINEA",
+      "action": "overlord",
+      "runtimeOverlord": "ESP",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Fernando Po and Annobon are Spanish by the 1778 treaty; from 1827 Britain leases a base at Clarence, without a transfer of sovereignty.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860392
+        }
+      ]
+    },
+    {
+      "polityKey": "ST_VINCENT_AND_THE_GRENADINES",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Colony of St Vincent and the Grenadines is administered as a dependency of United Kingdom on 1830-01-01.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834820
+        }
+      ]
+    },
+    {
+      "polityKey": "STRAITS_SETTLEMENTS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Penang, Malacca and Singapore, united as a Company presidency in 1826. Only the Straits components of Cliopatria record 144 are kept; the other British Empire records duplicate reviewed OHM geometry and are omitted by component filters.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 116
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 138
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 144
+        }
+      ]
+    },
+    {
+      "polityKey": "SULTANATE_OF_BANJAR",
+      "action": "overlord",
+      "runtimeOverlord": "NLD",
+      "participants": [],
+      "basis": "reviewed_suzerainty",
+      "notes": "The 1826 treaty made Banjar a Dutch vassal and ceded territory; the OHM polygon still covers much of southern and eastern Borneo.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2871332
+        }
+      ]
+    },
+    {
+      "polityKey": "SULTANATE_OF_TERENGGANU",
+      "action": "overlord",
+      "runtimeOverlord": "SIA",
+      "participants": [],
+      "basis": "reviewed_tributary",
+      "notes": "Terengganu sends the bunga mas to Siam.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 10
+        }
+      ]
+    },
+    {
+      "polityKey": "SURINAME",
+      "action": "overlord",
+      "runtimeOverlord": "NLD",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "From 1828 Suriname and the Dutch Antilles share one Governor-General in Paramaribo.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806842
+        }
+      ]
+    },
+    {
+      "polityKey": "SWAN_RIVER_COLONY",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "The Swan River Colony was proclaimed in 1829; its OHM polygon is the claimed colony.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828317
+        }
+      ]
+    },
+    {
+      "polityKey": "TRA",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_subsidiary_alliance",
+      "notes": "Travancore is bound to the East India Company by the treaties of 1795 and 1805. Company paramountcy is represented under the United Kingdom, matching the current campaign.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922413
+        }
+      ]
+    },
+    {
+      "polityKey": "TRI",
+      "action": "overlord",
+      "runtimeOverlord": "OTT",
+      "participants": [],
+      "basis": "reviewed_suzerainty",
+      "notes": "The Karamanli pashas of Tripoli rule autonomously under nominal Ottoman suzerainty until direct Ottoman rule in 1835.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 19
+        }
+      ]
+    },
+    {
+      "polityKey": "TUN",
+      "action": "overlord",
+      "runtimeOverlord": "OTT",
+      "participants": [],
+      "basis": "reviewed_suzerainty",
+      "notes": "The Husainid beys of Tunis rule autonomously under nominal Ottoman suzerainty.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 137
+        }
+      ]
+    },
+    {
+      "polityKey": "TURCO_EGYPTIAN_SUDAN",
+      "action": "overlord",
+      "runtimeOverlord": "EGY",
+      "participants": [],
+      "basis": "reviewed_colonial_identity",
+      "notes": "Sennar, Kordofan and Nubia conquered by Muhammad Ali in 1820 to 1821. The OHM polygon reaches into independent Darfur, which is represented separately and wins as the smaller polygon. OHM tags it as a British colony, which is anachronistic.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690845
+        }
+      ]
+    },
+    {
+      "polityKey": "UNITED_STATES_OF_THE_IONIAN_ISLANDS",
+      "action": "overlord",
+      "runtimeOverlord": "ENG",
+      "participants": [],
+      "basis": "reviewed_protectorate",
+      "notes": "A British protectorate under the Treaty of Paris (1815), governed by a Lord High Commissioner.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2827696
+        }
+      ]
+    },
+    {
+      "polityKey": "WAL",
+      "action": "overlord",
+      "runtimeOverlord": "OTT",
+      "participants": [],
+      "basis": "reviewed_suzerainty",
+      "notes": "Wallachia is an Ottoman tributary principality; the Treaty of Adrianople placed it under Russian protection and Russian military administration continues until 1834.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2929117
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "dependentPolities": 101,
+    "runtimeOverlords": 98,
+    "jointAdministrations": 1,
+    "noRuntimeOverlord": 2
+  }
+}

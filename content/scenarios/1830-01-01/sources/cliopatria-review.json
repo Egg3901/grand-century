@@ -1,0 +1,2206 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1830-01-01",
+  "source": {
+    "key": "cliopatria-0.2.0",
+    "commit": "ad28a691b7c07c1fca89d0e0636d324667d2a258",
+    "archiveSha256": "d01ae3a20d358cc5d54f69d9d725d390767d9c8759ac89ad6f90c58d106f3370",
+    "license": "CC BY 4.0",
+    "attribution": "Cliopatria by Seshat Global History Databank, used under CC BY 4.0.",
+    "transformations": "Filtered to the exact scenario year, normalized into source-candidate records, hashed per geometry, and compared with independently curated scenario assertions."
+  },
+  "entries": [
+    {
+      "identityKey": "Q1026",
+      "displayName": "Poles",
+      "wikidata": "Q1026",
+      "sourceRecords": [
+        115
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "616216f80954b15caaa681b384c98910627ecc9398d18808dd53c8c0cc59ccbb"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "The Poles polygon is labelled for the November Uprising, which begins on 1830-11-29; Congress Poland is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1028",
+      "displayName": "Morocco",
+      "wikidata": "Q1028",
+      "sourceRecords": [
+        14
+      ],
+      "intervals": [
+        {
+          "fromYear": 1769,
+          "toYear": 1860
+        }
+      ],
+      "geometryHashes": [
+        "b7a27af96ba70bd24e4b1752c403adefc1393ce75e50c7e619845e05cdea6072"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Morocco is represented by the exact-date OHM relation.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1042069",
+      "displayName": "Imamate of Yemen",
+      "wikidata": "Q1042069",
+      "sourceRecords": [
+        35
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1869
+        }
+      ],
+      "geometryHashes": [
+        "7381b2fd6ce4b54bb2645c0d5abb9efe5b615ccc1c2eb9d485a4c97ac1b8dfe8"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "YEM",
+      "notes": "Zaydi Imamate of Sanaa; Cliopatria interval 1815 to 1869.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1061057",
+      "displayName": "Sultanate of Aceh",
+      "wikidata": "Q1061057",
+      "sourceRecords": [
+        4
+      ],
+      "intervals": [
+        {
+          "fromYear": 1640,
+          "toYear": 1861
+        }
+      ],
+      "geometryHashes": [
+        "9b3343cce766d2c5f0ca4bfd94127106a69ef39d513068cf572cabb79dc5a4ba"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "ATJ",
+      "notes": "Sultanate of Aceh, independent until the Dutch war of 1873. The Dutch East Indies envelope covers it, and this smaller polygon wins.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q109252949",
+      "displayName": "Duchy of Mecklenburg",
+      "wikidata": "Q109252949",
+      "sourceRecords": [
+        31
+      ],
+      "intervals": [
+        {
+          "fromYear": 1814,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "94924a17f155458c58c17091c783a3ea59a65c156613f294b46761283c668d45"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Mecklenburg-Schwerin is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1132786",
+      "displayName": "Wadai Empire",
+      "wikidata": "Q1132786",
+      "sourceRecords": [
+        3
+      ],
+      "intervals": [
+        {
+          "fromYear": 1636,
+          "toYear": 1889
+        }
+      ],
+      "geometryHashes": [
+        "b92d2ff957812767b014af5ed375344b90ae84acc6184fb6d9015cb006f082f3"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "WADAI_EMPIRE",
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1636 to 1889 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1139762",
+      "displayName": "Bornu Empire",
+      "wikidata": "Q1139762",
+      "sourceRecords": [
+        29
+      ],
+      "intervals": [
+        {
+          "fromYear": 1811,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "4e2ba299590fef0bcc2cfad77332726ba1985baa234384d6cec1be9fd8e62ed2"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "BORNU_EMPIRE",
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1811 to 1833 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1150344",
+      "displayName": "Sultanate of Johor",
+      "wikidata": "Q1150344",
+      "sourceRecords": [
+        72
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1852
+        }
+      ],
+      "geometryHashes": [
+        "ecbbcd8dcec93973931fd061a9f452c5c1617a77cc7ba5076525d4c281c87b81"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "JOH",
+      "notes": "Johor-Pahang under the Temenggong and Bendahara after the 1824 partition.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1158126",
+      "displayName": "House of Khalifa",
+      "wikidata": "Q1158126",
+      "sourceRecords": [
+        22
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1889
+        }
+      ],
+      "geometryHashes": [
+        "dee8525173c8871e6eb610a80647cd014535c5250267ce445b6bfe4d1cfb409c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "BAHRAIN",
+      "notes": "Al Khalifa Bahrain, a signatory of the 1820 General Maritime Treaty; Persian and Ottoman claims are nominal.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q127885",
+      "displayName": "Serbs",
+      "wikidata": "Q127885",
+      "sourceRecords": [
+        34
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1847
+        }
+      ],
+      "geometryHashes": [
+        "c39d970de70eb6524a49c5faf55be4417756119c465e1fcef6d006deb8a32473"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "SER",
+      "notes": "Autonomous Principality of Serbia. The Cliopatria label is an ethnonym, but the 1815 to 1847 polygon is the principality.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1317991",
+      "displayName": "Đại Việt",
+      "wikidata": "Q1317991",
+      "sourceRecords": [
+        129
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "911c1a3a2738292a59a7810e3a2b494e6e623912391f124708a74bfc4eefc607"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Fragment of Nguyen Vietnam, represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1335260",
+      "displayName": "Emirate of Afghanistan",
+      "wikidata": "Q1335260",
+      "sourceRecords": [
+        136
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "bf1c60b1c61286827031daa512a29e047f798bfcea39b25c5e187326fdee1ecf"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The Kabul-centred Afghan polity is represented by OHM; this 1830 to 1833 polygon unites Herat and Kandahar anachronistically.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q13558877",
+      "displayName": "Zululand",
+      "wikidata": "Q13558877",
+      "sourceRecords": [
+        54
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1839
+        }
+      ],
+      "geometryHashes": [
+        "48f4bf13d366976d308fd446264c855c8b4b43489d9f12c9d7dec1fdef40a156"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "ZUL",
+      "notes": "Zulu Kingdom under Dingane.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q146862",
+      "displayName": "Emirate of Nejd",
+      "wikidata": "Q146862",
+      "sourceRecords": [
+        134
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1845
+        }
+      ],
+      "geometryHashes": [
+        "a935a09e6be9b21fadecac131c54dbd66bb14f0b8214b605d6c463e4a3b9d91b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "NEJ",
+      "notes": "Second Saudi State (Emirate of Nejd) under Turki ibn Abdullah, restored in 1824.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1474791",
+      "displayName": "Sultanate of Darfur",
+      "wikidata": "Q1474791",
+      "sourceRecords": [
+        75
+      ],
+      "intervals": [
+        {
+          "fromYear": 1822,
+          "toYear": 1872
+        }
+      ],
+      "geometryHashes": [
+        "15014ccaafeaa9b0aaf33f3ae48b8f2fe431d292b9631078327299740fd9ce3d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_DARFUR",
+      "notes": "Keira Darfur under Muhammad al-Fadl is independent until 1874; the 1815 decentralized status is tightened to sovereign.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q151624",
+      "displayName": "German Confederation",
+      "wikidata": "Q151624",
+      "sourceRecords": [
+        131
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "13d25c638af9846c468ffa3110d7999115e1aa9af212bdfd696febc23cef8119"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "The German Confederation is a confederation of represented members, not a territorial polity.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q152115",
+      "displayName": "Duchy of Warsaw",
+      "wikidata": "Q152115",
+      "sourceRecords": [
+        56
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1863
+        }
+      ],
+      "geometryHashes": [
+        "24d7510904e6e4c0ec0067d32ea5c86408b791909e360e275331f1a740eebe00"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "The Duchy of Warsaw ended in 1815; the label is anachronistic and the polygon lies in Saxony.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q157013",
+      "displayName": "Principality of Hohenzollern-Sigmaringen",
+      "wikidata": "Q157013",
+      "sourceRecords": [
+        27
+      ],
+      "intervals": [
+        {
+          "fromYear": 1811,
+          "toYear": 1848
+        }
+      ],
+      "geometryHashes": [
+        "4aa43a8a7b4ef45c437ae1002940395f4e28c3fd722da8bf48cf008eae5602e2"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Hohenzollern-Sigmaringen is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q16550783",
+      "displayName": "Duchy of Anhalt",
+      "wikidata": "Q16550783",
+      "sourceRecords": [
+        58
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1863
+        }
+      ],
+      "geometryHashes": [
+        "713c5919685ad500a9033684e15b543d88031ba65d909003e321e0460ca238f6"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "The united Duchy of Anhalt dates from 1863; the three Anhalt duchies are represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1679856",
+      "displayName": "Sultanate of Jambi",
+      "wikidata": "Q1679856",
+      "sourceRecords": [
+        82
+      ],
+      "intervals": [
+        {
+          "fromYear": 1822,
+          "toYear": 1894
+        }
+      ],
+      "geometryHashes": [
+        "bcce24d00957f92640328f1c53ca7c3d3e46cd305357d48b275398ddff35ee0f"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_JAMBI",
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1822 to 1894 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1794655",
+      "displayName": "Sultanate of Kutai Kartanegara",
+      "wikidata": "Q1794655",
+      "sourceRecords": [
+        11
+      ],
+      "intervals": [
+        {
+          "fromYear": 1734,
+          "toYear": 1841
+        }
+      ],
+      "geometryHashes": [
+        "7e7f68bfdf29a14a2328c26b8a95aa8d26869bbddf6474a22cec51a6213759c2"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "KUTAI_KINGDOM",
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1734 to 1841 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1796223",
+      "displayName": "Kingdom of Lunda",
+      "wikidata": "Q1796223",
+      "sourceRecords": [
+        9
+      ],
+      "intervals": [
+        {
+          "fromYear": 1709,
+          "toYear": 1855
+        }
+      ],
+      "geometryHashes": [
+        "453f6ea43a7570bc9ae0a4442e2b3d30adf255183f7bcb277bbcdf0fb4476ee2"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1709 to 1855 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q185944",
+      "displayName": "Kelantan",
+      "wikidata": "Q185944",
+      "sourceRecords": [
+        12
+      ],
+      "intervals": [
+        {
+          "fromYear": 1762,
+          "toYear": 1889
+        }
+      ],
+      "geometryHashes": [
+        "aa6a8119f6b842bf6ddfc8f5d686e3d897735de9a7954915cb483ea864a96b0b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "KELANTAN",
+      "notes": "Kelantan sends the bunga mas to Siam.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q189326",
+      "displayName": "Qajar Dynasty",
+      "wikidata": "Q189326",
+      "sourceRecords": [
+        109
+      ],
+      "intervals": [
+        {
+          "fromYear": 1828,
+          "toYear": 1855
+        }
+      ],
+      "geometryHashes": [
+        "958d8a25be5b8a06381dbe06835a2a99b87fcbffc518f4ad21d7efa10672db6f"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Qajar Iran is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q190025",
+      "displayName": "United Provinces of Central America",
+      "wikidata": "Q190025",
+      "sourceRecords": [
+        89
+      ],
+      "intervals": [
+        {
+          "fromYear": 1824,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "c744276cc236f1facb4282b8b01b5ce80f485f353253ca34033c5f2feeddced9"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The Central American federation is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q190165",
+      "displayName": "Kingdom of Luang Phrabang",
+      "wikidata": "Q190165",
+      "sourceRecords": [
+        100
+      ],
+      "intervals": [
+        {
+          "fromYear": 1828,
+          "toYear": 1884
+        }
+      ],
+      "geometryHashes": [
+        "eed6c9bee110db112a7f4c52031447445aad32f473735625bf56f1696222156c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "KINGDOM_OF_LUANG_PHRABANG",
+      "notes": "Luang Phrabang is a Siamese tributary after the suppression of Anouvong (1827 to 1828).",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q1929987",
+      "displayName": "Karamanli Dynasty",
+      "wikidata": "Q1929987",
+      "sourceRecords": [
+        19
+      ],
+      "intervals": [
+        {
+          "fromYear": 1796,
+          "toYear": 1835
+        }
+      ],
+      "geometryHashes": [
+        "b8bccfb32b23e38cdc0f38a7186ea1daff25de00f994a563bb1606785585c37a"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "TRI",
+      "notes": "Karamanli Tripoli.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q19569014",
+      "displayName": "Talpur Dynasty",
+      "wikidata": "Q19569014",
+      "sourceRecords": [
+        84
+      ],
+      "intervals": [
+        {
+          "fromYear": 1822,
+          "toYear": 1835
+        }
+      ],
+      "geometryHashes": [
+        "7a38bf72a01dbcf115647e6a88f229aecd9181f40acf2f223f9cd34da8438c33"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Talpur Sindh is represented by OHM; this polygon also overruns Kalat.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q19727688",
+      "displayName": "Sultanate of Sambaliung",
+      "wikidata": "Q19727688",
+      "sourceRecords": [
+        122
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1847
+        }
+      ],
+      "geometryHashes": [
+        "dd7cde070147afe298cd1144f535cbcdadaabe956dee497f119cc582c1e10bf5"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_SAMBALIUNG",
+      "notes": "Sambaliung, separated from Berau; first Dutch contract in 1834.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q200464",
+      "displayName": "Portuguese Colonies",
+      "wikidata": "Q200464",
+      "sourceRecords": [
+        90
+      ],
+      "intervals": [
+        {
+          "fromYear": 1824,
+          "toYear": 1845
+        }
+      ],
+      "geometryHashes": [
+        "6caafeb0cea7e4850ebbe22603cfa5ee3ffe17a59915001cbacdbbd4ee3902e0"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Portuguese possessions in Asia are represented by OHM relations.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q2006756",
+      "displayName": "Empire of Haiti",
+      "wikidata": "Q2006756",
+      "sourceRecords": [
+        76
+      ],
+      "intervals": [
+        {
+          "fromYear": 1822,
+          "toYear": 1845
+        }
+      ],
+      "geometryHashes": [
+        "b2900d41fe59573d11a34996372e167588123e784352e8d71194b872a94ffd7f"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Haiti is represented by OHM; the Empire label is anachronistic (republic since 1820).",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q201705",
+      "displayName": "Khmer Empire",
+      "wikidata": "Q201705",
+      "sourceRecords": [
+        21
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1858
+        }
+      ],
+      "geometryHashes": [
+        "684fe9c31b7216aa4155ecb0ffde69d9ef63cf49dc6e5f0b1bd4769993567687"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "CAM",
+      "notes": "Cambodia under Ang Chan II. The Cliopatria label Khmer Empire is anachronistic; the polygon is the 1803 to 1858 kingdom.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q207521",
+      "displayName": "Ethiopian Empire",
+      "wikidata": "Q207521",
+      "sourceRecords": [
+        15
+      ],
+      "intervals": [
+        {
+          "fromYear": 1769,
+          "toYear": 1889
+        }
+      ],
+      "geometryHashes": [
+        "31cb858a47b1cae4a21e571026024a765d44754ff15f99ed0ec6f544cd829adc"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "ETH",
+      "notes": "Ethiopia in the Zemene Mesafint: the emperor at Gondar is a figurehead and power lies with regional lords, so it is classified as decentralized.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q2088141",
+      "displayName": "Caucasian Imamate",
+      "wikidata": "Q2088141",
+      "sourceRecords": [
+        102
+      ],
+      "intervals": [
+        {
+          "fromYear": 1828,
+          "toYear": 1835
+        }
+      ],
+      "geometryHashes": [
+        "41e40598d75b6c8d87a59f46588ddd26db2a66ccda9b4585fbfd5c00cddf9e9d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Ghazi Muhammad's imamate is a movement inside the Russian claim in 1829 to 1830, not yet a territorial state.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q213893",
+      "displayName": "Negeri Sembilan",
+      "wikidata": "Q213893",
+      "sourceRecords": [
+        16
+      ],
+      "intervals": [
+        {
+          "fromYear": 1775,
+          "toYear": 1872
+        }
+      ],
+      "geometryHashes": [
+        "5d893b30b62f01bc0cff1f948431d9b45d207533dd06da99f51fd5a400168d01"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "NEGERI_SEMBILAN",
+      "notes": "Minangkabau confederacy of Negeri Sembilan.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q223",
+      "displayName": "Greenland",
+      "wikidata": "Q223",
+      "sourceRecords": [
+        139
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1845
+        }
+      ],
+      "geometryHashes": [
+        "5d5f1b4a338272f6b60844c267e25e0c94e651064dceae6372b4f43b5b3ce85a"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "GREENLAND",
+      "notes": "Danish trading colony.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q235",
+      "displayName": "Kingdom of Monaco",
+      "wikidata": "Q235",
+      "sourceRecords": [
+        33
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1847
+        }
+      ],
+      "geometryHashes": [
+        "9ef96e86fd50194fa8b6e5e3ecbfce4cd6cfcf5f576b4ac4d62217ab5b2c21ae"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "MONACO",
+      "notes": "Monaco is a protectorate of the Kingdom of Sardinia from 1815 to 1860.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q23666",
+      "displayName": "Kingdom of Great Britain",
+      "wikidata": "Q23666",
+      "sourceRecords": [
+        61
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1839
+        }
+      ],
+      "geometryHashes": [
+        "75db55d9a51f0718e609983ad9f394c02183ca632f19600207b5c65a4e3db2c9"
+      ],
+      "memberOf": [
+        "(British Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The United Kingdom is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q25227",
+      "displayName": "Netherlands Antilles",
+      "wikidata": "Q25227",
+      "sourceRecords": [
+        69
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1876
+        }
+      ],
+      "geometryHashes": [
+        "9b157f8187ca6d8a1a71f6d22efb01d42ec8eb302d60fe33699691b9ae9b5b80"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "NETHERLANDS_ANTILLES",
+      "notes": "Curacao, Aruba, Bonaire and the Dutch Leeward Islands; the Cliopatria record also contains Suriname, which is removed by a component filter because OHM supplies it.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q2577303",
+      "displayName": "Kingdom of Sardinia",
+      "wikidata": "Q2577303",
+      "sourceRecords": [
+        36
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1847
+        }
+      ],
+      "geometryHashes": [
+        "0dafd7c87f076819022731bb2fde6557c1ac38457c3eaeaa3791a81e030a2161"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Sardinia is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q2649311",
+      "displayName": "Sultanate of Perak",
+      "wikidata": "Q2649311",
+      "sourceRecords": [
+        80
+      ],
+      "intervals": [
+        {
+          "fromYear": 1822,
+          "toYear": 1872
+        }
+      ],
+      "geometryHashes": [
+        "f75d8fcace4d9a9d389f57f87b33c377b78872c07a34b7d7087c5dc583a27b9c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_PERAK",
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1822 to 1872 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q2817348",
+      "displayName": "Sultanate of Bima",
+      "wikidata": "Q2817348",
+      "sourceRecords": [
+        2
+      ],
+      "intervals": [
+        {
+          "fromYear": 1626,
+          "toYear": 1865
+        }
+      ],
+      "geometryHashes": [
+        "a4b2d07cf8d229730b71f7d47eab7091d8edc61fc59d04a3edc978c4d323848c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_BIMA",
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1626 to 1865 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q28405",
+      "displayName": "Joseon",
+      "wikidata": "Q28405",
+      "sourceRecords": [
+        5
+      ],
+      "intervals": [
+        {
+          "fromYear": 1640,
+          "toYear": 1859
+        }
+      ],
+      "geometryHashes": [
+        "6fb08a7388f22612e64d1a96ff981819657a6306d91d7eab9185a66ec0fdb438"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Joseon is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q2919545",
+      "displayName": "Principality of Svaneti",
+      "wikidata": "Q2919545",
+      "sourceRecords": [
+        127
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "ded3a9596bee7ae62bb8aec2527700e4e1577b6b8f19abf6fc88391481535040"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Svaneti is a principality inside the Russian claim without exact-date sovereignty.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q3057606",
+      "displayName": "Muhammad Ali dynasty",
+      "wikidata": "Q3057606",
+      "sourceRecords": [
+        79
+      ],
+      "intervals": [
+        {
+          "fromYear": 1822,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "8ccd1cd6bf70f762cd9ceb63f6883da268da16c7e4cdd94e4322da67e19e3061"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "EGY",
+      "notes": "Egypt under Muhammad Ali.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q31",
+      "displayName": "Kingdom of Belgium",
+      "wikidata": "Q31",
+      "sourceRecords": [
+        125
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "e40bc54d1c6d4cb95f64432591bdaa3f456c782e2388e5b07c867abb997f4b9a"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "The Kingdom of Belgium does not exist on 1830-01-01; the revolution begins on 1830-08-25.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q3125978",
+      "displayName": "Bali",
+      "wikidata": "Q3125978",
+      "sourceRecords": [
+        8
+      ],
+      "intervals": [
+        {
+          "fromYear": 1687,
+          "toYear": 1848
+        }
+      ],
+      "geometryHashes": [
+        "371cb3c7aa7cc65c4fbc61afbe78bb6c70a6a8392b95bb20f86d681d6333656d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "BALI",
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1687 to 1848 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q33296",
+      "displayName": "Mughal Empire",
+      "wikidata": "Q33296",
+      "sourceRecords": [
+        26
+      ],
+      "intervals": [
+        {
+          "fromYear": 1811,
+          "toYear": 1856
+        }
+      ],
+      "geometryHashes": [
+        "de3d3e02a18a2700f1c658e9bde2fde5d043a7ac0e49da4c321708b9f990ed6b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "The Mughal emperor at Delhi is a Company pensioner; this polygon actually covers Rajputana, which OHM represents.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q3446232",
+      "displayName": "Sultanate of Sukadana",
+      "wikidata": "Q3446232",
+      "sourceRecords": [
+        121
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "f679860f131c46a6727ea4e145bd8f6a3d78740a1eaf72cbdcd094f8b401c67d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_SUKADANA",
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1830 to 1833 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q3503553",
+      "displayName": "Riau-Lingga Sultanate",
+      "wikidata": "Q3503553",
+      "sourceRecords": [
+        92
+      ],
+      "intervals": [
+        {
+          "fromYear": 1824,
+          "toYear": 1855
+        }
+      ],
+      "geometryHashes": [
+        "f5027e16c3a7bc655a73a2a26a5397f47239d6c745c406071efbd763d998c94e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "RIAU_LINGGA_SULTANATE",
+      "notes": "Riau-Lingga is a Dutch-protected sultanate after the Anglo-Dutch Treaty of 1824.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q3561",
+      "displayName": "French Algiers",
+      "wikidata": "Q3561",
+      "sourceRecords": [
+        120
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "5811f94cab089a3eb589f8927ee62adf6878fc84f998f52ac21d620360c33df1"
+      ],
+      "memberOf": [
+        "(Bourbon Kingdom of France)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "French Algiers begins with the invasion of June and July 1830.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q35827",
+      "displayName": "Río de la Plata",
+      "wikidata": "Q35827",
+      "sourceRecords": [
+        145
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "0581af6e89a51dfb2369927bbcc809fbf207d453f0ff6e37510537976cb73f9f"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The Rio de la Plata provinces are represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q403369",
+      "displayName": "Kingdom of Champasak",
+      "wikidata": "Q403369",
+      "sourceRecords": [
+        99
+      ],
+      "intervals": [
+        {
+          "fromYear": 1828,
+          "toYear": 1884
+        }
+      ],
+      "geometryHashes": [
+        "668a25235b7b7c3680d91fa7a4ef462c609f193202d2a7c356568e16504237f6"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "KINGDOM_OF_CHAMPASAK",
+      "notes": "Champasak is a Siamese tributary.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q419",
+      "displayName": "Republic of Peru",
+      "wikidata": "Q419",
+      "sourceRecords": [
+        107
+      ],
+      "intervals": [
+        {
+          "fromYear": 1828,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "07cfb0a1d004f9946e44e3689ab85e2d5f23ccc1a24b661aa6e5bb8e4fa631f8"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Peru is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q43292",
+      "displayName": "Sultanate of Bone",
+      "wikidata": "Q43292",
+      "sourceRecords": [
+        6
+      ],
+      "intervals": [
+        {
+          "fromYear": 1670,
+          "toYear": 1856
+        }
+      ],
+      "geometryHashes": [
+        "3b836bbe9941a5f8999c85193a49e5f99d0dde88b3fd8cebfe451a13151887af"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_BONE",
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1670 to 1856 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q4334533",
+      "displayName": "Omani Slave Coast",
+      "wikidata": "Q4334533",
+      "sourceRecords": [
+        111
+      ],
+      "intervals": [
+        {
+          "fromYear": 1828,
+          "toYear": 1839
+        }
+      ],
+      "geometryHashes": [
+        "c28658dc3d05044536fdda8adc69d342a04940ae3fe36dbdf182c7b71049615b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "OMANI_SWAHILI_COAST",
+      "notes": "Zanzibar, Pemba and the Swahili ports under Omani governors; Said bin Sultan moves his court to Zanzibar in the 1830s.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q46652",
+      "displayName": "Sultanate of Malacca",
+      "wikidata": "Q46652",
+      "sourceRecords": [
+        24
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1860
+        }
+      ],
+      "geometryHashes": [
+        "21317c416405f623680fcce9382cd01234d2e0a11d694330eed491a58a1b6a13"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1803 to 1860 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q474779",
+      "displayName": "Free City of Bremen",
+      "wikidata": "Q474779",
+      "sourceRecords": [
+        48
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1839
+        }
+      ],
+      "geometryHashes": [
+        "6691cf4ee506a6641f35c08df9ec6939cccb0f01d718c4944abffbed9b3487ae"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Bremen is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q4807130",
+      "displayName": "Napoleonic Batavia Republic",
+      "wikidata": "Q4807130",
+      "sourceRecords": [
+        25
+      ],
+      "intervals": [
+        {
+          "fromYear": 1805,
+          "toYear": 1867
+        }
+      ],
+      "geometryHashes": [
+        "644d7db44a26a5fede6cf44f94fa73b639d0bbd6a1a444330fac8f95c1a0673e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1805 to 1867 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q4899891",
+      "displayName": "Beylik of Tunis",
+      "wikidata": "Q4899891",
+      "sourceRecords": [
+        137
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1839
+        }
+      ],
+      "geometryHashes": [
+        "fa370e1ce6699284cea0dd4dfe8f2849e660d3ebdf7425cba60300aaf38ef597"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "TUN",
+      "notes": "Beylik of Tunis.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q491106",
+      "displayName": "Khanate of Khiva",
+      "wikidata": "Q491106",
+      "sourceRecords": [
+        78
+      ],
+      "intervals": [
+        {
+          "fromYear": 1822,
+          "toYear": 1855
+        }
+      ],
+      "geometryHashes": [
+        "bb43dda87c5322598d61fa75da2db5235779241a5141063b66ff0b616f673f7c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Khiva is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q52028",
+      "displayName": "Chiangmai",
+      "wikidata": "Q52028",
+      "sourceRecords": [
+        18
+      ],
+      "intervals": [
+        {
+          "fromYear": 1783,
+          "toYear": 1852
+        }
+      ],
+      "geometryHashes": [
+        "f2bbc4b92d87fb38d6019ee128b09b597c00ae9c06b9251a2bc5f87d0027714e"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "KINGDOM_OF_CHIANG_MAI",
+      "notes": "Lanna (Chiang Mai) is a Siamese tributary kingdom.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q528546",
+      "displayName": "First Hellenic Republic",
+      "wikidata": "Q528546",
+      "sourceRecords": [
+        130
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "a8e0bcabc169669e2559ca1f8d61479ad0f7060ef9831f135c7a7b39548de0c7"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "GRE",
+      "notes": "The Hellenic State under Governor Kapodistrias. On 1830-01-01 the Porte had accepted the London Treaty of 1827 at Adrianople (1829-09-14), which still envisaged an autonomous tributary state; full independence was recognized by the London Protocol of 1830-02-03. Ottoman authority was absent, no tribute was ever paid, and the state is treated as de facto sovereign, matching the GC tag. Judgment call. The Cliopatria label is a later name, and its Crete component and a stray Rhineland fragment are removed by a reviewed component filter.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q55",
+      "displayName": "Netherlands",
+      "wikidata": "Q55",
+      "sourceRecords": [
+        142,
+        143
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        },
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "c5b2275c4c5d01279dd1f93348300b0665beb4c25ecce22e99d464b90a0cde50",
+        "8c69659d1a678a807ad020f36310fe098f8adf932be20bd3abea4a48d4bb2840"
+      ],
+      "memberOf": [
+        "(Netherlands)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The United Kingdom of the Netherlands and its colonies are represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q5769444",
+      "displayName": "Sultanate of Terengganu",
+      "wikidata": "Q5769444",
+      "sourceRecords": [
+        10
+      ],
+      "intervals": [
+        {
+          "fromYear": 1727,
+          "toYear": 1899
+        }
+      ],
+      "geometryHashes": [
+        "13c55d3b014c0314a417120d167963f0af9ef07bede72f6c877c332d3de9417f"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "SULTANATE_OF_TERENGGANU",
+      "notes": "Terengganu sends the bunga mas to Siam.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q600524",
+      "displayName": "Sokoto Caliphate",
+      "wikidata": "Q600524",
+      "sourceRecords": [
+        73
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "77ba0515ac89507968d971f372189ae030bfaf3469fbbac2b84a632bc931fbed"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Sokoto is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q62651",
+      "displayName": "Denmark-Norway",
+      "wikidata": "Q62651",
+      "sourceRecords": [
+        42
+      ],
+      "intervals": [
+        {
+          "fromYear": 1815,
+          "toYear": 1847
+        }
+      ],
+      "geometryHashes": [
+        "1401e102f8c7be81968d4c532fe0c6d77fc2bf3c7b177de3924e8ebea95e1d48"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "The Denmark-Norway label is anachronistic after 1814; Denmark is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q635394",
+      "displayName": "Massina Empire",
+      "wikidata": "Q635394",
+      "sourceRecords": [
+        87
+      ],
+      "intervals": [
+        {
+          "fromYear": 1822,
+          "toYear": 1860
+        }
+      ],
+      "geometryHashes": [
+        "8a6d6b15f67ad11e211f504f0cb62f56bf1df0caf570cc32df5c267db033ebbc"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "MASSINA_EMPIRE",
+      "notes": "Caliphate of Hamdullahi founded in 1818; it took Timbuktu in 1826.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q6500483",
+      "displayName": "Nguyễn dynasty",
+      "wikidata": "Q6500483",
+      "sourceRecords": [
+        23
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "80d4e10220a3e8a7143d693d237658e74b446b488bfe505fc523185aee89d83c"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Nguyen Vietnam is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q697084",
+      "displayName": "Duchy of Oldenburg",
+      "wikidata": "Q697084",
+      "sourceRecords": [
+        49
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "9618368ee1020e2266dc450eed09997a75edba398f1dd2e3278f59e28fe95e68"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Oldenburg is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q708821",
+      "displayName": "Principality of Schwarzburg-Sonderhausen",
+      "wikidata": "Q708821",
+      "sourceRecords": [
+        45
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1863
+        }
+      ],
+      "geometryHashes": [
+        "86203fb4e650aefbffcffe5dcdfe073052fc22fb21283a9aa47ff8b6f0a8550d"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Schwarzburg-Sondershausen is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q722071",
+      "displayName": "Ashanti Empire",
+      "wikidata": "Q722071",
+      "sourceRecords": [
+        13
+      ],
+      "intervals": [
+        {
+          "fromYear": 1769,
+          "toYear": 1835
+        }
+      ],
+      "geometryHashes": [
+        "36776249241c91b68f0c983d0fde2dc2b548c3c1afbceab092b18b24a5082804"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "ASANTE_EMPIRE",
+      "notes": "Asante under Osei Yaw Akoto; the 1831 treaty with the British forts is still ahead. The 1815 pack excluded it, leaving the forest zone uncovered.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q7636765",
+      "displayName": "Sultanate of Selangor",
+      "wikidata": "Q7636765",
+      "sourceRecords": [
+        17
+      ],
+      "intervals": [
+        {
+          "fromYear": 1775,
+          "toYear": 1872
+        }
+      ],
+      "geometryHashes": [
+        "50aa79cb208283553f3897b025e3897d7e25c40f9f054bc6560c2d33ee58077b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "SULTANATE_OF_SELANGOR",
+      "notes": "Sultanate of Selangor.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q80702",
+      "displayName": "(Spanish Empire)",
+      "wikidata": "Q80702",
+      "sourceRecords": [
+        91,
+        93
+      ],
+      "intervals": [
+        {
+          "fromYear": 1824,
+          "toYear": 1833
+        },
+        {
+          "fromYear": 1824,
+          "toYear": 1852
+        }
+      ],
+      "geometryHashes": [
+        "8db0e27ddfe3b2dda8c0bf55c3de24050e596de0eba1d601945d14911f7a8ac1",
+        "6fd7f9cffcf7e76d5858a6590ce6df7af02676c9bd1fe459f890135590170bd0"
+      ],
+      "memberOf": [
+        "(Spanish Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Spanish possessions are represented by OHM relations.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q817",
+      "displayName": "Kuwait",
+      "wikidata": "Q817",
+      "sourceRecords": [
+        50
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1872
+        }
+      ],
+      "geometryHashes": [
+        "7b25cfe6115bd42f2818a68a208d415c3f7c3988844b8793ccbb13719324f4ed"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "KUWAIT",
+      "notes": "Al Sabah Kuwait acknowledges nominal Ottoman suzerainty while governing itself.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q83572",
+      "displayName": "Sikh Empire",
+      "wikidata": "Q83572",
+      "sourceRecords": [
+        128
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "4691f3cca8b847b1cfb47a1ebd372ca2d122e9864fa91c1879e2fadfd4bc64b8"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "PAN",
+      "notes": "Sikh Empire under Ranjit Singh, including Kashmir and Peshawar. The Company Raj envelope overlaps it; this smaller polygon wins.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q836",
+      "displayName": "Burma",
+      "wikidata": "Q836",
+      "sourceRecords": [
+        106
+      ],
+      "intervals": [
+        {
+          "fromYear": 1828,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "ed1bb01a88caa694d904258a0d06bea000b581229cb9bfa11bba9730f3b0d1b8"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "BUR",
+      "notes": "Konbaung Burma after the Treaty of Yandabo (1826) ceded Arakan, Tenasserim, Assam and Manipur.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q83618",
+      "displayName": "Maratha Empire",
+      "wikidata": "Q83618",
+      "sourceRecords": [
+        52
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1841
+        }
+      ],
+      "geometryHashes": [
+        "980362a1e6987986e681c9bf541598409357ab84e3c0f34d3fbb8cae8e2360a9"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "The Maratha Confederacy was dissolved in 1818; its successor states are represented by their own relations.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q842",
+      "displayName": "Sultanate of Oman",
+      "wikidata": "Q842",
+      "sourceRecords": [
+        141
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1855
+        }
+      ],
+      "geometryHashes": [
+        "af8adb9e37c0b47e476127b627f634c7d2f6c27d0dd4088941caa58a238d44e6"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "duplicate_geometry",
+      "polityKey": null,
+      "notes": "Oman is represented by OHM.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q846",
+      "displayName": "Qatar Dynasty",
+      "wikidata": "Q846",
+      "sourceRecords": [
+        63
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1852
+        }
+      ],
+      "geometryHashes": [
+        "17f33bbe76d0f6072b6be0501a7fa1ab9260c2edef0fb8954286163e12aeb086"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "exclude",
+      "polityKey": null,
+      "notes": "Al Thani rule in Qatar dates from the 1850s; the coast is under Bahraini influence in 1830.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q849623",
+      "displayName": "Oyo Empire",
+      "wikidata": "Q849623",
+      "sourceRecords": [
+        53
+      ],
+      "intervals": [
+        {
+          "fromYear": 1820,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "fa8852d50a5abe732ef52f0fc348132955324c6d8d56fb9a0cc53295a273dc7b"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "polity",
+      "polityKey": "OYO_EMPIRE",
+      "notes": "Classification carried forward from 1815-06-18 and re-checked for 1830-01-01: source dates 1820 to 1833 bracket the scenario date and no change of status between the two dates was identified.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q8680",
+      "displayName": "British Empire",
+      "wikidata": "Q8680",
+      "sourceRecords": [
+        116,
+        138,
+        144
+      ],
+      "intervals": [
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        },
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        },
+        {
+          "fromYear": 1830,
+          "toYear": 1833
+        }
+      ],
+      "geometryHashes": [
+        "bea32408331e3eee691a5d9d365e2216b9239c2c3c254d7739ffc2dc3bd0f130",
+        "04c49b58b8f91e4e6662be29d60d4892fb9ea7cfc01f9f0cfb7585e1e515dbfd",
+        "54e1cf4b29970e931c3114abfc987aab3d6b7c2880a48e19418c058cb5013799"
+      ],
+      "memberOf": [
+        "(British Empire)"
+      ],
+      "license": "CC BY 4.0",
+      "reviewLane": "dependency_check",
+      "reviewLaneReason": "Cliopatria supplies a coarse membership value that requires documentary review.",
+      "disposition": "dependent_polity",
+      "polityKey": "STRAITS_SETTLEMENTS",
+      "notes": "Penang, Malacca and Singapore, united as a Company presidency in 1826. Only the Straits components of Cliopatria record 144 are kept; the other British Empire records duplicate reviewed OHM geometry and are omitted by component filters.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    },
+    {
+      "identityKey": "Q912382",
+      "displayName": "Danish India",
+      "wikidata": "Q912382",
+      "sourceRecords": [
+        20
+      ],
+      "intervals": [
+        {
+          "fromYear": 1803,
+          "toYear": 1848
+        }
+      ],
+      "geometryHashes": [
+        "c7574e69f01eee20cf455c81cb9839888c7ca28f80e2a69365b0aa6695e5c1d1"
+      ],
+      "memberOf": [],
+      "license": "CC BY 4.0",
+      "reviewLane": "sovereignty_check",
+      "reviewLaneReason": "Cliopatria identifies a polity absent from the OHM identity crosswalk.",
+      "disposition": "dependent_polity",
+      "polityKey": "DANISH_INDIA",
+      "notes": "Tranquebar and Serampore; components outside India are removed by a component filter.",
+      "reviewedBy": "Claude 1830 exact-date review",
+      "reviewedAt": "2026-10-01"
+    }
+  ]
+}

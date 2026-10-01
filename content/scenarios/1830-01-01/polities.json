@@ -1,0 +1,3402 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1830-01-01",
+  "coverage": "global",
+  "polities": [
+    {
+      "key": "ABU",
+      "displayName": "Abu Dhabi",
+      "status": "sovereign",
+      "flagAssetTag": "ABU",
+      "notes": "Existing Grand Century nation ABU mapped to its 1830-01-01 source identity. The Trucial coast sheikhdoms bound by the 1820 General Maritime Treaty, which is a maritime truce, not a protectorate. The GC Abu Dhabi tag represents the coast.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848320
+        }
+      ]
+    },
+    {
+      "key": "AFG",
+      "displayName": "Afghanistan",
+      "status": "sovereign",
+      "flagAssetTag": "AFG",
+      "notes": "Existing Grand Century nation AFG mapped to its 1830-01-01 source identity. Afghan polity centred on Kabul under Dost Mohammad. Herat and Kandahar are held by rival Durrani and Barakzai rulers but have no separate exact-date geometry.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2822865
+        }
+      ]
+    },
+    {
+      "key": "ALG",
+      "displayName": "Algeria",
+      "status": "vassal",
+      "flagAssetTag": "ALG",
+      "notes": "Existing Grand Century nation ALG mapped to its 1830-01-01 source identity. Regency of Algiers under Dey Hussein, Ottoman in name.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861415
+        }
+      ]
+    },
+    {
+      "key": "ANDORRA",
+      "displayName": "Andorra",
+      "status": "sovereign",
+      "flagAssetTag": "ANDORRA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2739874
+        }
+      ]
+    },
+    {
+      "key": "ANTIGUA_BARBUDA_MONTSERRAT_COLONY",
+      "displayName": "Antigua, Barbuda and Montserrat",
+      "status": "colonial_administration",
+      "flagAssetTag": "ANTIGUA_BARBUDA_MONTSERRAT_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832955
+        }
+      ]
+    },
+    {
+      "key": "ARG",
+      "displayName": "Argentina",
+      "status": "sovereign",
+      "flagAssetTag": "ARG",
+      "notes": "Existing Grand Century nation ARG mapped to its 1830-01-01 source identity. United Provinces of the Rio de la Plata. On 1830-01-01 Rosas has just become governor of Buenos Aires and the interior is contested by the Unitarian League; no single Argentine state exists, and the OHM polygon is the confederal envelope.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848678
+        }
+      ]
+    },
+    {
+      "key": "ASANTE_EMPIRE",
+      "displayName": "Asante Empire",
+      "status": "sovereign",
+      "flagAssetTag": "ASANTE_EMPIRE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 13,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "ATJ",
+      "displayName": "Atjeh",
+      "status": "sovereign",
+      "flagAssetTag": "ATJ",
+      "notes": "Existing Grand Century nation ATJ mapped to its 1830-01-01 source identity. Sultanate of Aceh, independent until the Dutch war of 1873. The Dutch East Indies envelope covers it, and this smaller polygon wins.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 4,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "AUS",
+      "displayName": "Austrian Empire",
+      "status": "sovereign",
+      "flagAssetTag": "AUS",
+      "notes": "Existing Grand Century nation AUS mapped to its 1830-01-01 source identity. Austrian Empire. The OHM relation has one unclosed chain whose repair misplaces an inner ring, so the hash-pinned Cliopatria polygon supplies geometry.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2916014
+        }
+      ]
+    },
+    {
+      "key": "AWADH",
+      "displayName": "Awadh",
+      "status": "tributary",
+      "flagAssetTag": "AWADH",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848332
+        }
+      ]
+    },
+    {
+      "key": "BAD",
+      "displayName": "Baden",
+      "status": "sovereign",
+      "flagAssetTag": "BAD",
+      "notes": "Existing Grand Century nation BAD mapped to its 1830-01-01 source identity. Grand Duchy of Baden.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2660798
+        }
+      ]
+    },
+    {
+      "key": "BAHAWALPUR_STATE",
+      "displayName": "Bahawalpur State",
+      "status": "sovereign",
+      "flagAssetTag": "BAHAWALPUR_STATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2857300
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2923782
+        }
+      ]
+    },
+    {
+      "key": "BAHRAIN",
+      "displayName": "Bahrain",
+      "status": "sovereign",
+      "flagAssetTag": "BAHRAIN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 22,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "BALI",
+      "displayName": "Bali",
+      "status": "sovereign",
+      "flagAssetTag": "BALI",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 8,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "BAOL",
+      "displayName": "Baol",
+      "status": "vassal",
+      "flagAssetTag": "BAOL",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879278
+        }
+      ]
+    },
+    {
+      "key": "BAV",
+      "displayName": "Bavaria",
+      "status": "sovereign",
+      "flagAssetTag": "BAV",
+      "notes": "Existing Grand Century nation BAV mapped to its 1830-01-01 source identity. Kingdom of Bavaria, including the Rhenish Palatinate.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2912841
+        }
+      ]
+    },
+    {
+      "key": "BER",
+      "displayName": "Beroda",
+      "status": "tributary",
+      "flagAssetTag": "BER",
+      "notes": "Existing Grand Century nation BER mapped to its 1830-01-01 source identity. Gaekwad Baroda, a Company subsidiary state. Found by supplemental name search.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922111
+        }
+      ]
+    },
+    {
+      "key": "BHUTAN",
+      "displayName": "Bhutan",
+      "status": "sovereign",
+      "flagAssetTag": "BHUTAN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2906074
+        }
+      ]
+    },
+    {
+      "key": "BOL",
+      "displayName": "Bolivia",
+      "status": "sovereign",
+      "flagAssetTag": "BOL",
+      "notes": "Existing Grand Century nation BOL mapped to its 1830-01-01 source identity. Republic of Bolivia under Santa Cruz.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848685
+        }
+      ]
+    },
+    {
+      "key": "BORNU_EMPIRE",
+      "displayName": "Bornu Empire",
+      "status": "decentralized",
+      "flagAssetTag": "BORNU_EMPIRE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 29,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "BOUNDOU",
+      "displayName": "Boundou",
+      "status": "sovereign",
+      "flagAssetTag": "BOUNDOU",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879806
+        }
+      ]
+    },
+    {
+      "key": "BRA",
+      "displayName": "Brazil",
+      "status": "sovereign",
+      "flagAssetTag": "BRA",
+      "notes": "Existing Grand Century nation BRA mapped to its 1830-01-01 source identity. Empire of Brazil under Pedro I.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848712
+        }
+      ]
+    },
+    {
+      "key": "BRAUNSCHWEIG",
+      "displayName": "Braunschweig",
+      "status": "sovereign",
+      "flagAssetTag": "BRAUNSCHWEIG",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691497
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_ARCTIC_TERRITORIES",
+      "displayName": "British Arctic Territories",
+      "status": "colonial_administration",
+      "flagAssetTag": "BRITISH_ARCTIC_TERRITORIES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831205
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_CEYLON",
+      "displayName": "British Ceylon",
+      "status": "colonial_administration",
+      "flagAssetTag": "BRITISH_CEYLON",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848313
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_MAURITIUS",
+      "displayName": "British Mauritius",
+      "status": "colonial_administration",
+      "flagAssetTag": "BRITISH_MAURITIUS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831875
+        }
+      ]
+    },
+    {
+      "key": "BRITISH_SETTLEMENTS_ON_THE_BAY_OF_HONDURAS",
+      "displayName": "British Settlements on the Bay of Honduras",
+      "status": "colonial_administration",
+      "flagAssetTag": "BRITISH_SETTLEMENTS_ON_THE_BAY_OF_HONDURAS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2748794
+        }
+      ]
+    },
+    {
+      "key": "BRU",
+      "displayName": "Brunei",
+      "status": "sovereign",
+      "flagAssetTag": "BRU",
+      "notes": "Existing Grand Century nation BRU mapped to its 1830-01-01 source identity. Sultanate of Brunei, still including Sarawak before 1841.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2961073
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2827168
+        }
+      ]
+    },
+    {
+      "key": "BUK",
+      "displayName": "Bukkhara",
+      "status": "sovereign",
+      "flagAssetTag": "BUK",
+      "notes": "Existing Grand Century nation BUK mapped to its 1830-01-01 source identity. Emirate of Bukhara.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851361
+        }
+      ]
+    },
+    {
+      "key": "BUR",
+      "displayName": "Burma",
+      "status": "sovereign",
+      "flagAssetTag": "BUR",
+      "notes": "Existing Grand Century nation BUR mapped to its 1830-01-01 source identity. Konbaung Burma after the Treaty of Yandabo (1826) ceded Arakan, Tenasserim, Assam and Manipur.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 106,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "CAM",
+      "displayName": "Cambodia",
+      "status": "tributary",
+      "flagAssetTag": "CAM",
+      "notes": "Existing Grand Century nation CAM mapped to its 1830-01-01 source identity. Cambodia under Ang Chan II. The Cliopatria label Khmer Empire is anachronistic; the polygon is the 1803 to 1858 kingdom.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 21,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "CAPE_COLONY",
+      "displayName": "Cape Colony",
+      "status": "colonial_administration",
+      "flagAssetTag": "CAPE_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2691739
+        }
+      ]
+    },
+    {
+      "key": "CAPITANIA_GENERAL_DE_CUBA",
+      "displayName": "Captaincy General of Cuba",
+      "status": "colonial_administration",
+      "flagAssetTag": "CAPITANIA_GENERAL_DE_CUBA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841669
+        }
+      ]
+    },
+    {
+      "key": "CAPITANIA_GENERAL_DE_FILIPINAS",
+      "displayName": "Captaincy General of the Philippines",
+      "status": "colonial_administration",
+      "flagAssetTag": "CAPITANIA_GENERAL_DE_FILIPINAS",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841332
+        }
+      ]
+    },
+    {
+      "key": "CAPITANIA_GENERAL_DE_PUERTO_RICO",
+      "displayName": "Captaincy General of Puerto Rico",
+      "status": "colonial_administration",
+      "flagAssetTag": "CAPITANIA_GENERAL_DE_PUERTO_RICO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841681
+        }
+      ]
+    },
+    {
+      "key": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
+      "displayName": "Captaincy-General of Mozambique",
+      "status": "colonial_administration",
+      "flagAssetTag": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2698260
+        }
+      ]
+    },
+    {
+      "key": "CAYMAN_ISLANDS",
+      "displayName": "Cayman Islands",
+      "status": "colonial_administration",
+      "flagAssetTag": "CAYMAN_ISLANDS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831970
+        }
+      ]
+    },
+    {
+      "key": "CHL",
+      "displayName": "Chile",
+      "status": "sovereign",
+      "flagAssetTag": "CHL",
+      "notes": "Existing Grand Century nation CHL mapped to its 1830-01-01 source identity. Republic of Chile.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848841
+        }
+      ]
+    },
+    {
+      "key": "CLM",
+      "displayName": "New Granada",
+      "status": "sovereign",
+      "flagAssetTag": "CLM",
+      "notes": "Existing Grand Century nation CLM mapped to its 1830-01-01 source identity. Gran Colombia still exists in law on 1830-01-01. Venezuela proclaims separation in early 1830 and Ecuador on 1830-05-13; the GC New Granada tag is the continuing polity.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848981
+        }
+      ]
+    },
+    {
+      "key": "COLONIE_DE_LA_GUADELOUPE",
+      "displayName": "Guadeloupe",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONIE_DE_LA_GUADELOUPE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861173
+        }
+      ]
+    },
+    {
+      "key": "COLONIE_DE_LA_GUYANE",
+      "displayName": "French Guiana",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONIE_DE_LA_GUYANE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861194
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_BARBADOS",
+      "displayName": "Colony of Barbados",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_BARBADOS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832946
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_BERBICE",
+      "displayName": "Colony of Berbice",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_BERBICE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848053
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_BERMUDA",
+      "displayName": "Colony of Bermuda",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_BERMUDA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831964
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_DEMERARA_ESSEQUIBO",
+      "displayName": "Colony of Demerara-Essequibo",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_DEMERARA_ESSEQUIBO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848059
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_DOMINICA",
+      "displayName": "Colony of Dominica",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_DOMINICA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834744
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_GRENADA",
+      "displayName": "Colony of Grenada",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_GRENADA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834756
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_JAMAICA",
+      "displayName": "Colony of Jamaica",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_JAMAICA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831981
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_MALTA",
+      "displayName": "Colony of Malta",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_MALTA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2801185
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_NEW_BRUNSWICK",
+      "displayName": "Colony of New Brunswick",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_NEW_BRUNSWICK",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830930
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_NEW_SOUTH_WALES",
+      "displayName": "Colony of New South Wales",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_NEW_SOUTH_WALES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828329
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_NOVA_SCOTIA",
+      "displayName": "Colony of Nova Scotia",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_NOVA_SCOTIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830921
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_SAINT_LUCIA",
+      "displayName": "Colony of Saint Lucia",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_SAINT_LUCIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834804
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_SIERRA_LEONE",
+      "displayName": "Colony of Sierra Leone",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_SIERRA_LEONE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828775
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_THE_BAHAMAS",
+      "displayName": "Colony of the Bahamas",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_THE_BAHAMAS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2832950
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_TOBAGO",
+      "displayName": "Colony of Tobago",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_TOBAGO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834833
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_TRINIDAD",
+      "displayName": "Colony of Trinidad",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_TRINIDAD",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834830
+        }
+      ]
+    },
+    {
+      "key": "COLONY_OF_VAN_DIEMEN_S_LAND",
+      "displayName": "Colony of Van Diemen's Land",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLONY_OF_VAN_DIEMEN_S_LAND",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828332
+        }
+      ]
+    },
+    {
+      "key": "COLUMBIA_DISTRICT",
+      "displayName": "Columbia District",
+      "status": "colonial_administration",
+      "flagAssetTag": "COLUMBIA_DISTRICT",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841921
+        }
+      ]
+    },
+    {
+      "key": "COMANCHERIA",
+      "displayName": "Comancheria",
+      "status": "decentralized",
+      "flagAssetTag": "COMANCHERIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692912
+        }
+      ]
+    },
+    {
+      "key": "COMPANY_RAJ",
+      "displayName": "Company Raj",
+      "status": "colonial_administration",
+      "flagAssetTag": "COMPANY_RAJ",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848228
+        }
+      ]
+    },
+    {
+      "key": "COSTA_RICA",
+      "displayName": "Costa Rica",
+      "status": "sovereign",
+      "flagAssetTag": "COSTA_RICA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2808147
+        }
+      ]
+    },
+    {
+      "key": "COUTO_MISTO",
+      "displayName": "Couto Misto",
+      "status": "sovereign",
+      "flagAssetTag": "COUTO_MISTO",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2835764
+        }
+      ]
+    },
+    {
+      "key": "DAHOMEY",
+      "displayName": "Dahomey",
+      "status": "sovereign",
+      "flagAssetTag": "DAHOMEY",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2914815
+        }
+      ]
+    },
+    {
+      "key": "DANISH_GOLD_COAST",
+      "displayName": "Danish Gold Coast",
+      "status": "colonial_administration",
+      "flagAssetTag": "DANISH_GOLD_COAST",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828430
+        }
+      ]
+    },
+    {
+      "key": "DANISH_INDIA",
+      "displayName": "Danish India",
+      "status": "colonial_administration",
+      "flagAssetTag": "DANISH_INDIA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 20,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "DANSK_VESTINDIEN",
+      "displayName": "Danish West Indies",
+      "status": "colonial_administration",
+      "flagAssetTag": "DANSK_VESTINDIEN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2696415
+        }
+      ]
+    },
+    {
+      "key": "DEN",
+      "displayName": "Denmark",
+      "status": "sovereign",
+      "flagAssetTag": "DEN",
+      "notes": "Existing Grand Century nation DEN mapped to its 1830-01-01 source identity. Denmark, including Iceland, the Faroes and Greenland in this OHM polygon. Norway was ceded in 1814 and is not part of it.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2870400
+        }
+      ]
+    },
+    {
+      "key": "DINE",
+      "displayName": "Dine (Navajo)",
+      "status": "decentralized",
+      "flagAssetTag": "DINE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2961391
+        }
+      ]
+    },
+    {
+      "key": "DUCATO_DI_LUCCA",
+      "displayName": "Ducato di Lucca",
+      "status": "sovereign",
+      "flagAssetTag": "DUCATO_DI_LUCCA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2696937
+        }
+      ]
+    },
+    {
+      "key": "DUCATO_DI_PARMA_E_PIACENZA",
+      "displayName": "Ducato di Parma e Piacenza",
+      "status": "sovereign",
+      "flagAssetTag": "DUCATO_DI_PARMA_E_PIACENZA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2696938
+        }
+      ]
+    },
+    {
+      "key": "DUCHY_OF_NASSAU",
+      "displayName": "Duchy of Nassau",
+      "status": "sovereign",
+      "flagAssetTag": "DUCHY_OF_NASSAU",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690443
+        }
+      ]
+    },
+    {
+      "key": "DUTCH_EAST_INDIES",
+      "displayName": "Dutch East Indies",
+      "status": "colonial_administration",
+      "flagAssetTag": "DUTCH_EAST_INDIES",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848466
+        }
+      ]
+    },
+    {
+      "key": "EGY",
+      "displayName": "Egypt",
+      "status": "vassal",
+      "flagAssetTag": "EGY",
+      "notes": "Existing Grand Century nation EGY mapped to its 1830-01-01 source identity. Egypt under Muhammad Ali.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 79,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "ENG",
+      "displayName": "United Kingdom",
+      "status": "sovereign",
+      "flagAssetTag": "ENG",
+      "notes": "Existing Grand Century nation ENG mapped to its 1830-01-01 source identity. United Kingdom of Great Britain and Ireland, exact-date OHM relation 1801 to 1922.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828388
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2828270
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2828299
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2693293
+        }
+      ]
+    },
+    {
+      "key": "ESP",
+      "displayName": "Spain",
+      "status": "sovereign",
+      "flagAssetTag": "ESP",
+      "notes": "Existing Grand Century nation ESP mapped to its 1830-01-01 source identity. Spanish monarchy under Ferdinand VII.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860664
+        }
+      ]
+    },
+    {
+      "key": "ETH",
+      "displayName": "Ethiopia",
+      "status": "decentralized",
+      "flagAssetTag": "ETH",
+      "notes": "Existing Grand Century nation ETH mapped to its 1830-01-01 source identity. Ethiopia in the Zemene Mesafint: the emperor at Gondar is a figurehead and power lies with regional lords, so it is classified as decentralized.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 15,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "FRA",
+      "displayName": "France",
+      "status": "sovereign",
+      "flagAssetTag": "FRA",
+      "notes": "Existing Grand Century nation FRA mapped to its 1830-01-01 source identity. Bourbon Restoration France under Charles X; the July Revolution is seven months away.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2913637
+        }
+      ]
+    },
+    {
+      "key": "FREE_CITY_OF_BREMEN",
+      "displayName": "Free City of Bremen",
+      "status": "sovereign",
+      "flagAssetTag": "FREE_CITY_OF_BREMEN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694653
+        }
+      ]
+    },
+    {
+      "key": "FREE_CITY_OF_CRACOW",
+      "displayName": "Free City of Krakow",
+      "status": "vassal",
+      "flagAssetTag": "FREE_CITY_OF_CRACOW",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692575
+        }
+      ]
+    },
+    {
+      "key": "FREE_CITY_OF_FRANKFURT",
+      "displayName": "Free City of Frankfurt",
+      "status": "sovereign",
+      "flagAssetTag": "FREE_CITY_OF_FRANKFURT",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690440
+        }
+      ]
+    },
+    {
+      "key": "FREE_CITY_OF_HAMBURG",
+      "displayName": "Free City of Hamburg",
+      "status": "sovereign",
+      "flagAssetTag": "FREE_CITY_OF_HAMBURG",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2856441
+        }
+      ]
+    },
+    {
+      "key": "FREE_CITY_OF_LUBECK",
+      "displayName": "Free City of Lübeck",
+      "status": "sovereign",
+      "flagAssetTag": "FREE_CITY_OF_LUBECK",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2748578
+        }
+      ]
+    },
+    {
+      "key": "FURSTENTUM_REUSS_GERA",
+      "displayName": "Fürstentum Reuß-Gera",
+      "status": "sovereign",
+      "flagAssetTag": "FURSTENTUM_REUSS_GERA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831854
+        }
+      ]
+    },
+    {
+      "key": "FURSTENTUM_REUSS_GREIZ",
+      "displayName": "Fürstentum Reuß-Greiz",
+      "status": "sovereign",
+      "flagAssetTag": "FURSTENTUM_REUSS_GREIZ",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831855
+        }
+      ]
+    },
+    {
+      "key": "FURSTENTUM_SCHWARZBURG_RUDOLSTADT",
+      "displayName": "Fürstentum Schwarzburg-Rudolstadt",
+      "status": "sovereign",
+      "flagAssetTag": "FURSTENTUM_SCHWARZBURG_RUDOLSTADT",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830674
+        }
+      ]
+    },
+    {
+      "key": "FURSTENTUM_SCHWARZBURG_SONDERSHAUSEN",
+      "displayName": "Fürstentum Schwarzburg-Sondershausen",
+      "status": "sovereign",
+      "flagAssetTag": "FURSTENTUM_SCHWARZBURG_SONDERSHAUSEN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830677
+        }
+      ]
+    },
+    {
+      "key": "GAMBIA_COLONY",
+      "displayName": "Gambia settlements (Bathurst)",
+      "status": "colonial_administration",
+      "flagAssetTag": "GAMBIA_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803502
+        }
+      ]
+    },
+    {
+      "key": "GIBRALTAR",
+      "displayName": "Gibraltar",
+      "status": "colonial_administration",
+      "flagAssetTag": "GIBRALTAR",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692855
+        }
+      ]
+    },
+    {
+      "key": "GOA_PORTUGUESA",
+      "displayName": "Portuguese Goa",
+      "status": "colonial_administration",
+      "flagAssetTag": "GOA_PORTUGUESA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922053
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922074
+        }
+      ]
+    },
+    {
+      "key": "GOLD_COAST_COLONY",
+      "displayName": "British Gold Coast forts",
+      "status": "colonial_administration",
+      "flagAssetTag": "GOLD_COAST_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828427
+        }
+      ]
+    },
+    {
+      "key": "GRE",
+      "displayName": "Kingdom of Greece",
+      "status": "sovereign",
+      "flagAssetTag": "GRE",
+      "notes": "Existing Grand Century nation GRE mapped to its 1830-01-01 source identity. The Hellenic State under Governor Kapodistrias. On 1830-01-01 the Porte had accepted the London Treaty of 1827 at Adrianople (1829-09-14), which still envisaged an autonomous tributary state; full independence was recognized by the London Protocol of 1830-02-03. Ottoman authority was absent, no tribute was ever paid, and the state is treated as de facto sovereign, matching the GC tag. Judgment call. The Cliopatria label is a later name, and its Crete component and a stray Rhineland fragment are removed by a reviewed component filter.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 130,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "GREENLAND",
+      "displayName": "Greenland",
+      "status": "colonial_administration",
+      "flagAssetTag": "GREENLAND",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 139,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "GROSSHERZOGTUM_MECKLENBURG_SCHWERIN",
+      "displayName": "Großherzogtum Mecklenburg-Schwerin",
+      "status": "sovereign",
+      "flagAssetTag": "GROSSHERZOGTUM_MECKLENBURG_SCHWERIN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830658
+        }
+      ]
+    },
+    {
+      "key": "GROSSHERZOGTUM_MECKLENBURG_STRELITZ",
+      "displayName": "Mecklenburg-Strelitz",
+      "status": "sovereign",
+      "flagAssetTag": "GROSSHERZOGTUM_MECKLENBURG_STRELITZ",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694810
+        }
+      ]
+    },
+    {
+      "key": "GUINE_PORTUGUESA",
+      "displayName": "Portuguese Guinea",
+      "status": "colonial_administration",
+      "flagAssetTag": "GUINE_PORTUGUESA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2803504
+        }
+      ]
+    },
+    {
+      "key": "GWALIOR_STATE",
+      "displayName": "Gwalior State",
+      "status": "tributary",
+      "flagAssetTag": "GWALIOR_STATE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923117
+        }
+      ]
+    },
+    {
+      "key": "HAI",
+      "displayName": "Haiti",
+      "status": "sovereign",
+      "flagAssetTag": "HAI",
+      "notes": "Existing Grand Century nation HAI mapped to its 1830-01-01 source identity. Republic of Haiti under Boyer, holding the whole of Hispaniola since 1822.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2841722
+        }
+      ]
+    },
+    {
+      "key": "HAN",
+      "displayName": "Kingdom of Hanover",
+      "status": "sovereign",
+      "flagAssetTag": "HAN",
+      "notes": "Existing Grand Century nation HAN mapped to its 1830-01-01 source identity. Kingdom of Hanover, in personal union with the United Kingdom but a separate German Confederation member.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2807615
+        }
+      ]
+    },
+    {
+      "key": "HAUSHABI",
+      "displayName": "سلطنة الحواشب",
+      "status": "sovereign",
+      "flagAssetTag": "HAUSHABI",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2921509
+        }
+      ]
+    },
+    {
+      "key": "HAW",
+      "displayName": "Hawaii",
+      "status": "sovereign",
+      "flagAssetTag": "HAW",
+      "notes": "Existing Grand Century nation HAW mapped to its 1830-01-01 source identity. Kingdom of Hawaii under Kamehameha III.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2840195
+        }
+      ]
+    },
+    {
+      "key": "HEK",
+      "displayName": "Hesse-Kassel",
+      "status": "sovereign",
+      "flagAssetTag": "HEK",
+      "notes": "Existing Grand Century nation HEK mapped to its 1830-01-01 source identity. Electorate of Hesse (Hesse-Kassel).",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745247
+        }
+      ]
+    },
+    {
+      "key": "HELGOLAND",
+      "displayName": "Heligoland",
+      "status": "colonial_administration",
+      "flagAssetTag": "HELGOLAND",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848139
+        }
+      ]
+    },
+    {
+      "key": "HERZOGTUM_ANHALT_BERNBURG",
+      "displayName": "Herzogtum Anhalt-Bernburg",
+      "status": "sovereign",
+      "flagAssetTag": "HERZOGTUM_ANHALT_BERNBURG",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2808603
+        }
+      ]
+    },
+    {
+      "key": "HERZOGTUM_ANHALT_COTHEN",
+      "displayName": "Herzogtum Anhalt-Cöthen",
+      "status": "sovereign",
+      "flagAssetTag": "HERZOGTUM_ANHALT_COTHEN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2808604
+        }
+      ]
+    },
+    {
+      "key": "HERZOGTUM_ANHALT_DESSAU",
+      "displayName": "Herzogtum Anhalt-Dessau",
+      "status": "sovereign",
+      "flagAssetTag": "HERZOGTUM_ANHALT_DESSAU",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2809697
+        }
+      ]
+    },
+    {
+      "key": "HES",
+      "displayName": "Hesse",
+      "status": "sovereign",
+      "flagAssetTag": "HES",
+      "notes": "Existing Grand Century nation HES mapped to its 1830-01-01 source identity. Grand Duchy of Hesse (Hesse-Darmstadt).",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2661272
+        }
+      ]
+    },
+    {
+      "key": "HESSEN_HOMBURG",
+      "displayName": "Hessen-Homburg",
+      "status": "sovereign",
+      "flagAssetTag": "HESSEN_HOMBURG",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690441
+        }
+      ]
+    },
+    {
+      "key": "HOHENZOLLERN_HECHINGEN",
+      "displayName": "Hohenzollern-Hechingen",
+      "status": "sovereign",
+      "flagAssetTag": "HOHENZOLLERN_HECHINGEN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2698293
+        }
+      ]
+    },
+    {
+      "key": "HOHENZOLLERN_SIGMARINGEN",
+      "displayName": "Hohenzollern-Sigmaringen",
+      "status": "sovereign",
+      "flagAssetTag": "HOHENZOLLERN_SIGMARINGEN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694607
+        }
+      ]
+    },
+    {
+      "key": "HOL",
+      "displayName": "Holstein",
+      "status": "vassal",
+      "flagAssetTag": "HOL",
+      "notes": "Existing Grand Century nation HOL mapped to its 1830-01-01 source identity. Duchy of Holstein, held by the Danish king as duke. Found by supplemental name search.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2748587
+        }
+      ]
+    },
+    {
+      "key": "HYD",
+      "displayName": "Hyderabad",
+      "status": "tributary",
+      "flagAssetTag": "HYD",
+      "notes": "Existing Grand Century nation HYD mapped to its 1830-01-01 source identity. Hyderabad under the Asaf Jahi nizam, a Company subsidiary state. Found by supplemental name search.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923306
+        }
+      ]
+    },
+    {
+      "key": "ILE_SAINTE_MARIE",
+      "displayName": "Ile Sainte-Marie",
+      "status": "colonial_administration",
+      "flagAssetTag": "ILE_SAINTE_MARIE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865799
+        }
+      ]
+    },
+    {
+      "key": "IMAMATE_OF_FUTA_TORO",
+      "displayName": "Imamate of Futa Toro",
+      "status": "sovereign",
+      "flagAssetTag": "IMAMATE_OF_FUTA_TORO",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2869648
+        }
+      ]
+    },
+    {
+      "key": "INDE_FRANCAISE",
+      "displayName": "French India",
+      "status": "colonial_administration",
+      "flagAssetTag": "INDE_FRANCAISE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2961649
+        }
+      ]
+    },
+    {
+      "key": "ISLE_BOURBON",
+      "displayName": "Ile Bourbon",
+      "status": "colonial_administration",
+      "flagAssetTag": "ISLE_BOURBON",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865902
+        }
+      ]
+    },
+    {
+      "key": "JOH",
+      "displayName": "Johore",
+      "status": "sovereign",
+      "flagAssetTag": "JOH",
+      "notes": "Existing Grand Century nation JOH mapped to its 1830-01-01 source identity. Johor-Pahang under the Temenggong and Bendahara after the 1824 partition.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 72,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "JPN",
+      "displayName": "Tokugawa Shogunate",
+      "status": "sovereign",
+      "flagAssetTag": "JPN",
+      "notes": "Existing Grand Century nation JPN mapped to its 1830-01-01 source identity. Tokugawa shogunate.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889893
+        }
+      ]
+    },
+    {
+      "key": "KAJOOR",
+      "displayName": "Kajoor",
+      "status": "sovereign",
+      "flagAssetTag": "KAJOOR",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879282
+        }
+      ]
+    },
+    {
+      "key": "KAL",
+      "displayName": "Kalat",
+      "status": "sovereign",
+      "flagAssetTag": "KAL",
+      "notes": "Existing Grand Century nation KAL mapped to its 1830-01-01 source identity. Khanate of Kalat under Mehrab Khan.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922445
+        }
+      ]
+    },
+    {
+      "key": "KANGLEIPAK_KINGDOM",
+      "displayName": "Kangleipak Kingdom",
+      "status": "sovereign",
+      "flagAssetTag": "KANGLEIPAK_KINGDOM",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923682
+        }
+      ]
+    },
+    {
+      "key": "KASULTANAN_NU_MAGINDANAW",
+      "displayName": "Kasultanan nu Magindanaw",
+      "status": "sovereign",
+      "flagAssetTag": "KASULTANAN_NU_MAGINDANAW",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860763
+        }
+      ]
+    },
+    {
+      "key": "KATHIRI_SULTANATE",
+      "displayName": "Kathiri Sultanate",
+      "status": "sovereign",
+      "flagAssetTag": "KATHIRI_SULTANATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2918031
+        }
+      ]
+    },
+    {
+      "key": "KAZAKH_KHANATE",
+      "displayName": "Kazakh Khanate",
+      "status": "decentralized",
+      "flagAssetTag": "KAZAKH_KHANATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2849532
+        }
+      ]
+    },
+    {
+      "key": "KELANTAN",
+      "displayName": "Kelantan",
+      "status": "tributary",
+      "flagAssetTag": "KELANTAN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 12,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "KHI",
+      "displayName": "Khiva",
+      "status": "sovereign",
+      "flagAssetTag": "KHI",
+      "notes": "Existing Grand Century nation KHI mapped to its 1830-01-01 source identity. Khanate of Khiva.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851349
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_CHAMPASAK",
+      "displayName": "Kingdom of Champasak",
+      "status": "tributary",
+      "flagAssetTag": "KINGDOM_OF_CHAMPASAK",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 99,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_CHIANG_MAI",
+      "displayName": "Kingdom of Chiang Mai",
+      "status": "tributary",
+      "flagAssetTag": "KINGDOM_OF_CHIANG_MAI",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 18,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_COORG",
+      "displayName": "Kingdom of Coorg",
+      "status": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_COORG",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922243
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_KAKONGO",
+      "displayName": "Kingdom of Kakongo",
+      "status": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_KAKONGO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2914604
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_LUANG_PHRABANG",
+      "displayName": "Kingdom of Luang Phrabang",
+      "status": "tributary",
+      "flagAssetTag": "KINGDOM_OF_LUANG_PHRABANG",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 100,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "KINGDOM_OF_NGOYO",
+      "displayName": "Kingdom of Ngoyo",
+      "status": "sovereign",
+      "flagAssetTag": "KINGDOM_OF_NGOYO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2914603
+        }
+      ]
+    },
+    {
+      "key": "KOK",
+      "displayName": "Kokand",
+      "status": "sovereign",
+      "flagAssetTag": "KOK",
+      "notes": "Existing Grand Century nation KOK mapped to its 1830-01-01 source identity. Khanate of Kokand.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851355
+        }
+      ]
+    },
+    {
+      "key": "KOR",
+      "displayName": "Joseon Korea",
+      "status": "sovereign",
+      "flagAssetTag": "KOR",
+      "notes": "Existing Grand Century nation KOR mapped to its 1830-01-01 source identity. Joseon Korea.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694486
+        }
+      ]
+    },
+    {
+      "key": "KUTAI_KINGDOM",
+      "displayName": "Kutai Kingdom",
+      "status": "sovereign",
+      "flagAssetTag": "KUTAI_KINGDOM",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 11,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "KUWAIT",
+      "displayName": "Kuwait",
+      "status": "vassal",
+      "flagAssetTag": "KUWAIT",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 50,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "LIB",
+      "displayName": "Liberia",
+      "status": "colonial_administration",
+      "flagAssetTag": "LIB",
+      "notes": "Existing Grand Century nation LIB mapped to its 1830-01-01 source identity. The Liberia settlement is an American Colonization Society colony on 1830-01-01; it becomes an independent republic only in 1847.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828772
+        }
+      ]
+    },
+    {
+      "key": "LIECHTENSTEIN",
+      "displayName": "Liechtenstein",
+      "status": "sovereign",
+      "flagAssetTag": "LIECHTENSTEIN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2746467
+        }
+      ]
+    },
+    {
+      "key": "LIPPE",
+      "displayName": "Lippe",
+      "status": "sovereign",
+      "flagAssetTag": "LIPPE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806794
+        }
+      ]
+    },
+    {
+      "key": "MAD",
+      "displayName": "Madagascar",
+      "status": "sovereign",
+      "flagAssetTag": "MAD",
+      "notes": "Existing Grand Century nation MAD mapped to its 1830-01-01 source identity. Merina kingdom under Ranavalona I; it controls the central highlands and much of the east, not the whole island.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865803
+        }
+      ]
+    },
+    {
+      "key": "MAJEERTEEN_SULTANATE",
+      "displayName": "𐒈𐒚𐒐𐒆𐒖𐒒𐒖𐒆𐒆𐒖 𐒑𐒖𐒃𐒜𐒇𐒂𐒜𐒒",
+      "status": "sovereign",
+      "flagAssetTag": "MAJEERTEEN_SULTANATE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923110
+        }
+      ]
+    },
+    {
+      "key": "MASSINA_EMPIRE",
+      "displayName": "Massina Empire",
+      "status": "sovereign",
+      "flagAssetTag": "MASSINA_EMPIRE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 87,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "MEX",
+      "displayName": "Mexico",
+      "status": "sovereign",
+      "flagAssetTag": "MEX",
+      "notes": "Existing Grand Century nation MEX mapped to its 1830-01-01 source identity. First Mexican Republic, including Texas, New Mexico and Alta California.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2859731
+        }
+      ]
+    },
+    {
+      "key": "MOD",
+      "displayName": "Duchy of Modena",
+      "status": "sovereign",
+      "flagAssetTag": "MOD",
+      "notes": "Existing Grand Century nation MOD mapped to its 1830-01-01 source identity. Duchy of Modena and Reggio under Francis IV.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2800111
+        }
+      ]
+    },
+    {
+      "key": "MONACO",
+      "displayName": "Monaco",
+      "status": "vassal",
+      "flagAssetTag": "MONACO",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 33,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "MOR",
+      "displayName": "Morocco",
+      "status": "sovereign",
+      "flagAssetTag": "MOR",
+      "notes": "Existing Grand Century nation MOR mapped to its 1830-01-01 source identity. Alaouite Morocco under Abd al-Rahman.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2861416
+        }
+      ]
+    },
+    {
+      "key": "NAG",
+      "displayName": "Nagpur",
+      "status": "tributary",
+      "flagAssetTag": "NAG",
+      "notes": "Existing Grand Century nation NAG mapped to its 1830-01-01 source identity. Bhonsle Nagpur, a Company subsidiary state from 1818. Found by supplemental name search.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2923410
+        }
+      ]
+    },
+    {
+      "key": "NAM_BAN",
+      "displayName": "Nam Ban",
+      "status": "tributary",
+      "flagAssetTag": "NAM_BAN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830728
+        }
+      ]
+    },
+    {
+      "key": "NEGERI_SEMBILAN",
+      "displayName": "Negeri Sembilan",
+      "status": "sovereign",
+      "flagAssetTag": "NEGERI_SEMBILAN",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 16,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "NEJ",
+      "displayName": "Nejd",
+      "status": "sovereign",
+      "flagAssetTag": "NEJ",
+      "notes": "Existing Grand Century nation NEJ mapped to its 1830-01-01 source identity. Second Saudi State (Emirate of Nejd) under Turki ibn Abdullah, restored in 1824.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 134,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "NEP",
+      "displayName": "Nepal",
+      "status": "sovereign",
+      "flagAssetTag": "NEP",
+      "notes": "Existing Grand Century nation NEP mapped to its 1830-01-01 source identity. Kingdom of Nepal.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2800955
+        }
+      ]
+    },
+    {
+      "key": "NETHERLANDS_ANTILLES",
+      "displayName": "Netherlands Antilles",
+      "status": "colonial_administration",
+      "flagAssetTag": "NETHERLANDS_ANTILLES",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 69,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "NEW_CALEDONIA",
+      "displayName": "New Caledonia (Hudson's Bay Company district)",
+      "status": "colonial_administration",
+      "flagAssetTag": "NEW_CALEDONIA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831213
+        }
+      ]
+    },
+    {
+      "key": "NEWFOUNDLAND_COLONY",
+      "displayName": "Crown Colony of Newfoundland",
+      "status": "colonial_administration",
+      "flagAssetTag": "NEWFOUNDLAND_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828508
+        }
+      ]
+    },
+    {
+      "key": "NIANI",
+      "displayName": "Niani",
+      "status": "sovereign",
+      "flagAssetTag": "NIANI",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879807
+        }
+      ]
+    },
+    {
+      "key": "NLD",
+      "displayName": "Netherlands",
+      "status": "sovereign",
+      "flagAssetTag": "NLD",
+      "notes": "Existing Grand Century nation NLD mapped to its 1830-01-01 source identity. United Kingdom of the Netherlands. Belgium is still part of it on 1830-01-01: the Belgian Revolution begins on 1830-08-25 and independence is declared on 1830-10-04. Luxembourg is held in personal union and lies inside this polygon.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2748546
+        }
+      ]
+    },
+    {
+      "key": "NORTH_WEST_TERRITORIES",
+      "displayName": "North-Western Territory",
+      "status": "colonial_administration",
+      "flagAssetTag": "NORTH_WEST_TERRITORIES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831207
+        }
+      ]
+    },
+    {
+      "key": "OLDENBURG",
+      "displayName": "Oldenburg",
+      "status": "sovereign",
+      "flagAssetTag": "OLDENBURG",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2748586
+        }
+      ]
+    },
+    {
+      "key": "OMA",
+      "displayName": "Oman",
+      "status": "sovereign",
+      "flagAssetTag": "OMA",
+      "notes": "Existing Grand Century nation OMA mapped to its 1830-01-01 source identity. Omani state under Said bin Sultan. Its Swahili coast dependencies are represented separately.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2920986
+        }
+      ]
+    },
+    {
+      "key": "OMANI_SWAHILI_COAST",
+      "displayName": "Omani Swahili Coast",
+      "status": "colonial_administration",
+      "flagAssetTag": "OMANI_SWAHILI_COAST",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 111,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "OTT",
+      "displayName": "Ottoman Empire",
+      "status": "sovereign",
+      "flagAssetTag": "OTT",
+      "notes": "Existing Grand Century nation OTT mapped to its 1830-01-01 source identity. Ottoman Empire after the Treaty of Adrianople. The OHM polygon is an imperial envelope that also covers autonomous vassals, which are represented separately.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2961281
+        }
+      ]
+    },
+    {
+      "key": "OYO_EMPIRE",
+      "displayName": "Oyo Empire",
+      "status": "decentralized",
+      "flagAssetTag": "OYO_EMPIRE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 53,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "PAN",
+      "displayName": "Panjab",
+      "status": "sovereign",
+      "flagAssetTag": "PAN",
+      "notes": "Existing Grand Century nation PAN mapped to its 1830-01-01 source identity. Sikh Empire under Ranjit Singh, including Kashmir and Peshawar. The Company Raj envelope overlaps it; this smaller polygon wins.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 128,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "PAP",
+      "displayName": "Papal States",
+      "status": "sovereign",
+      "flagAssetTag": "PAP",
+      "notes": "Existing Grand Century nation PAP mapped to its 1830-01-01 source identity. Papal States.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2696930
+        }
+      ]
+    },
+    {
+      "key": "PAT_A_PANGAMPONG_SA_RANAO",
+      "displayName": "Pat a Pangampong sa Ranao",
+      "status": "decentralized",
+      "flagAssetTag": "PAT_A_PANGAMPONG_SA_RANAO",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860735
+        }
+      ]
+    },
+    {
+      "key": "PER",
+      "displayName": "Persia",
+      "status": "sovereign",
+      "flagAssetTag": "PER",
+      "notes": "Existing Grand Century nation PER mapped to its 1830-01-01 source identity. Qajar Iran after the Treaty of Turkmenchay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2694889
+        }
+      ]
+    },
+    {
+      "key": "PEU",
+      "displayName": "Peru",
+      "status": "sovereign",
+      "flagAssetTag": "PEU",
+      "notes": "Existing Grand Century nation PEU mapped to its 1830-01-01 source identity. Republic of Peru.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848868
+        }
+      ]
+    },
+    {
+      "key": "POL",
+      "displayName": "Kingdom of Poland",
+      "status": "vassal",
+      "flagAssetTag": "POL",
+      "notes": "Existing Grand Century nation POL mapped to its 1830-01-01 source identity. Congress Poland. The single unclosed chain has a 0.009 degree endpoint gap and is closed under a recorded 0.01 degree threshold.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692576
+        }
+      ]
+    },
+    {
+      "key": "POR",
+      "displayName": "Portugal",
+      "status": "sovereign",
+      "flagAssetTag": "POR",
+      "notes": "Existing Grand Century nation POR mapped to its 1830-01-01 source identity. Kingdom of Portugal under Dom Miguel during the Liberal Wars.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2959470
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2959469
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2959468
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2959473
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2860981
+        }
+      ]
+    },
+    {
+      "key": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "displayName": "Portuguese Sao Tome and Principe",
+      "status": "colonial_administration",
+      "flagAssetTag": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2885981
+        }
+      ]
+    },
+    {
+      "key": "PORTUGUESE_TIMOR",
+      "displayName": "Portuguese Timor",
+      "status": "colonial_administration",
+      "flagAssetTag": "PORTUGUESE_TIMOR",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2864416
+        }
+      ]
+    },
+    {
+      "key": "PRG",
+      "displayName": "Paraguay",
+      "status": "sovereign",
+      "flagAssetTag": "PRG",
+      "notes": "Existing Grand Century nation PRG mapped to its 1830-01-01 source identity. Paraguay under Francia.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848691
+        }
+      ]
+    },
+    {
+      "key": "PRINCE_BISHOPRIC_OF_MONTENEGRO",
+      "displayName": "Митрополство Црногорско",
+      "status": "sovereign",
+      "flagAssetTag": "PRINCE_BISHOPRIC_OF_MONTENEGRO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2857706
+        }
+      ]
+    },
+    {
+      "key": "PRINCE_EDWARD_ISLAND_COLONY",
+      "displayName": "Prince Edward Island Colony",
+      "status": "colonial_administration",
+      "flagAssetTag": "PRINCE_EDWARD_ISLAND_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830904
+        }
+      ]
+    },
+    {
+      "key": "PRINCIPALITY_OF_THUAN_THANH",
+      "displayName": "Thuan Thanh",
+      "status": "tributary",
+      "flagAssetTag": "PRINCIPALITY_OF_THUAN_THANH",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2745639
+        }
+      ]
+    },
+    {
+      "key": "PROVINCE_OF_LOWER_CANADA",
+      "displayName": "Province of Lower Canada",
+      "status": "colonial_administration",
+      "flagAssetTag": "PROVINCE_OF_LOWER_CANADA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2830999
+        }
+      ]
+    },
+    {
+      "key": "PROVINCE_OF_UPPER_CANADA",
+      "displayName": "Province of Upper Canada",
+      "status": "colonial_administration",
+      "flagAssetTag": "PROVINCE_OF_UPPER_CANADA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831002
+        }
+      ]
+    },
+    {
+      "key": "PRU",
+      "displayName": "Prussia",
+      "status": "sovereign",
+      "flagAssetTag": "PRU",
+      "notes": "Existing Grand Century nation PRU mapped to its 1830-01-01 source identity. Kingdom of Prussia, OHM relation 1829-10-23 to 1834-08-15.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2913636
+        }
+      ]
+    },
+    {
+      "key": "PYRMONT",
+      "displayName": "Pyrmont",
+      "status": "sovereign",
+      "flagAssetTag": "PYRMONT",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690422
+        }
+      ]
+    },
+    {
+      "key": "QNG",
+      "displayName": "Qing Empire",
+      "status": "sovereign",
+      "flagAssetTag": "QNG",
+      "notes": "Existing Grand Century nation QNG mapped to its 1830-01-01 source identity. Qing Empire. The OHM relation has eight unclosed chains, so the hash-pinned Cliopatria polygon supplies geometry; Tibet, Mongolia and Xinjiang stay inside it.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2889977
+        }
+      ]
+    },
+    {
+      "key": "RAJPUTANA_STATES",
+      "displayName": "Rajput States",
+      "status": "tributary",
+      "flagAssetTag": "RAJPUTANA_STATES",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847600
+        }
+      ]
+    },
+    {
+      "key": "RED_RIVER_COLONY",
+      "displayName": "Red River Colony",
+      "status": "colonial_administration",
+      "flagAssetTag": "RED_RIVER_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828530
+        }
+      ]
+    },
+    {
+      "key": "RIAU_LINGGA_SULTANATE",
+      "displayName": "Riau-Lingga Sultanate",
+      "status": "vassal",
+      "flagAssetTag": "RIAU_LINGGA_SULTANATE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 92,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "RUPERT_S_LAND",
+      "displayName": "Rupert's Land",
+      "status": "colonial_administration",
+      "flagAssetTag": "RUPERT_S_LAND",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831206
+        }
+      ]
+    },
+    {
+      "key": "RUS",
+      "displayName": "Russian Empire",
+      "status": "sovereign",
+      "flagAssetTag": "RUS",
+      "notes": "Existing Grand Century nation RUS mapped to its 1830-01-01 source identity. Russian Empire after the Treaty of Adrianople, OHM relation 1829-09-14 to 1830-11-29.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2961282
+        }
+      ]
+    },
+    {
+      "key": "RUSSIAN_AMERICA",
+      "displayName": "Russian America",
+      "status": "colonial_administration",
+      "flagAssetTag": "RUSSIAN_AMERICA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2851143
+        }
+      ]
+    },
+    {
+      "key": "RYUKYU_KINGDOM",
+      "displayName": "Ryukyu Kingdom",
+      "status": "tributary",
+      "flagAssetTag": "RYUKYU_KINGDOM",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2890079
+        }
+      ]
+    },
+    {
+      "key": "SACHSEN_ALTENBURG",
+      "displayName": "Saxe-Altenburg",
+      "status": "sovereign",
+      "flagAssetTag": "SACHSEN_ALTENBURG",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2747273
+        }
+      ]
+    },
+    {
+      "key": "SACHSEN_COBURG_UND_GOTHA",
+      "displayName": "Saxe-Coburg and Gotha",
+      "status": "sovereign",
+      "flagAssetTag": "SACHSEN_COBURG_UND_GOTHA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2692485
+        }
+      ]
+    },
+    {
+      "key": "SACHSEN_MEININGEN",
+      "displayName": "Saxe-Meiningen",
+      "status": "sovereign",
+      "flagAssetTag": "SACHSEN_MEININGEN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2747276
+        }
+      ]
+    },
+    {
+      "key": "SACHSEN_WEIMAR_EISENACH",
+      "displayName": "Saxe-Weimar-Eisenach",
+      "status": "sovereign",
+      "flagAssetTag": "SACHSEN_WEIMAR_EISENACH",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2747274
+        }
+      ]
+    },
+    {
+      "key": "SAINT_CHRISTOPHER_NEVIS_ANGUILLA_VIRGIN_ISLANDS",
+      "displayName": "Saint Christopher, Nevis, Anguilla and the Virgin Islands",
+      "status": "colonial_administration",
+      "flagAssetTag": "SAINT_CHRISTOPHER_NEVIS_ANGUILLA_VIRGIN_ISLANDS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834791
+        }
+      ]
+    },
+    {
+      "key": "SAINT_HELENA_COLONY",
+      "displayName": "Saint Helena Colony",
+      "status": "colonial_administration",
+      "flagAssetTag": "SAINT_HELENA_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848196
+        }
+      ]
+    },
+    {
+      "key": "SAINT_PIERRE_ET_MIQUELON",
+      "displayName": "Saint-Pierre and Miquelon",
+      "status": "colonial_administration",
+      "flagAssetTag": "SAINT_PIERRE_ET_MIQUELON",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2831312
+        }
+      ]
+    },
+    {
+      "key": "SALUUM",
+      "displayName": "Saluum",
+      "status": "sovereign",
+      "flagAssetTag": "SALUUM",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879270
+        }
+      ]
+    },
+    {
+      "key": "SAN_MARINO",
+      "displayName": "San Marino",
+      "status": "sovereign",
+      "flagAssetTag": "SAN_MARINO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2853735
+        }
+      ]
+    },
+    {
+      "key": "SAR",
+      "displayName": "Sardinia-Piedmont",
+      "status": "sovereign",
+      "flagAssetTag": "SAR",
+      "notes": "Existing Grand Century nation SAR mapped to its 1830-01-01 source identity. Kingdom of Sardinia, including Piedmont, Savoy, Nice, Liguria and Sardinia.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2961020
+        }
+      ]
+    },
+    {
+      "key": "SATARA_STATE",
+      "displayName": "Satara State",
+      "status": "tributary",
+      "flagAssetTag": "SATARA_STATE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922468
+        }
+      ]
+    },
+    {
+      "key": "SAX",
+      "displayName": "Kingdom of Saxony",
+      "status": "sovereign",
+      "flagAssetTag": "SAX",
+      "notes": "Existing Grand Century nation SAX mapped to its 1830-01-01 source identity. Kingdom of Saxony.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2693578
+        }
+      ]
+    },
+    {
+      "key": "SCHAUMBURG_LIPPE",
+      "displayName": "Schaumburg-Lippe",
+      "status": "sovereign",
+      "flagAssetTag": "SCHAUMBURG_LIPPE",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690420
+        }
+      ]
+    },
+    {
+      "key": "SER",
+      "displayName": "Serbia",
+      "status": "vassal",
+      "flagAssetTag": "SER",
+      "notes": "Existing Grand Century nation SER mapped to its 1830-01-01 source identity. Autonomous Principality of Serbia. The Cliopatria label is an ethnonym, but the 1815 to 1847 polygon is the principality.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 34,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "SHILLUK_KINGDOM",
+      "displayName": "مملكة الشلك",
+      "status": "decentralized",
+      "flagAssetTag": "SHILLUK_KINGDOM",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2856878
+        }
+      ]
+    },
+    {
+      "key": "SHOSHONE",
+      "displayName": "Shoshone",
+      "status": "decentralized",
+      "flagAssetTag": "SHOSHONE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2953509
+        }
+      ]
+    },
+    {
+      "key": "SIA",
+      "displayName": "Siam",
+      "status": "sovereign",
+      "flagAssetTag": "SIA",
+      "notes": "Existing Grand Century nation SIA mapped to its 1830-01-01 source identity. Rattanakosin Siam under Rama III. The OHM mandala polygon also covers tributary Lao, Lanna, Cambodian and Malay states, which are represented separately where Cliopatria supplies geometry.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834878
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2918513
+        }
+      ]
+    },
+    {
+      "key": "SIIN",
+      "displayName": "Siin",
+      "status": "sovereign",
+      "flagAssetTag": "SIIN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879275
+        }
+      ]
+    },
+    {
+      "key": "SIN",
+      "displayName": "Sindh",
+      "status": "sovereign",
+      "flagAssetTag": "SIN",
+      "notes": "Existing Grand Century nation SIN mapped to its 1830-01-01 source identity. Talpur Sindh. Relation 2847907 is a chronology container; boundary relation 2922476 supplies geometry.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2847907
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2922476
+        }
+      ]
+    },
+    {
+      "key": "SOK",
+      "displayName": "Sokoto",
+      "status": "sovereign",
+      "flagAssetTag": "SOK",
+      "notes": "Existing Grand Century nation SOK mapped to its 1830-01-01 source identity. Sokoto Caliphate.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2869649
+        }
+      ]
+    },
+    {
+      "key": "SPANISH_GUINEA",
+      "displayName": "Spanish Guinea",
+      "status": "colonial_administration",
+      "flagAssetTag": "SPANISH_GUINEA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860392
+        }
+      ]
+    },
+    {
+      "key": "ST_VINCENT_AND_THE_GRENADINES",
+      "displayName": "Colony of St Vincent and the Grenadines",
+      "status": "colonial_administration",
+      "flagAssetTag": "ST_VINCENT_AND_THE_GRENADINES",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2834820
+        }
+      ]
+    },
+    {
+      "key": "STRAITS_SETTLEMENTS",
+      "displayName": "Straits Settlements",
+      "status": "colonial_administration",
+      "flagAssetTag": "STRAITS_SETTLEMENTS",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 116,
+          "source": "cliopatria-0.2.0"
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 138,
+          "source": "cliopatria-0.2.0"
+        },
+        {
+          "kind": "cliopatria_record",
+          "id": 144,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_BANJAR",
+      "displayName": "Sultanate of Banjar",
+      "status": "vassal",
+      "flagAssetTag": "SULTANATE_OF_BANJAR",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2871332
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_BIMA",
+      "displayName": "Sultanate of Bima",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_BIMA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 2,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_BONE",
+      "displayName": "Sultanate of Bone",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_BONE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 6,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_DARFUR",
+      "displayName": "Sultanate of Darfur",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_DARFUR",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 75,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_JAMBI",
+      "displayName": "Sultanate of Jambi",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_JAMBI",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 82,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_LAHEJ",
+      "displayName": "Sultanate of Lahej",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_LAHEJ",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2921516
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_MAORE",
+      "displayName": "Sultanate of Maore",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_MAORE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865810
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_MWALI",
+      "displayName": "Sultanate of Mwali",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_MWALI",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865814
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_NDZUWANI",
+      "displayName": "Sultanate of Ndzuwani",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_NDZUWANI",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2865812
+        },
+        {
+          "kind": "ohm_relation",
+          "id": 2865813
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_PERAK",
+      "displayName": "Sultanate of Perak",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_PERAK",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 80,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_QISHN_AND_SOCOTRA",
+      "displayName": "Sultanate of Qishn and Socotra",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_QISHN_AND_SOCOTRA",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2920979
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_SAMBALIUNG",
+      "displayName": "Sultanate of Sambaliung",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_SAMBALIUNG",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 122,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_SELANGOR",
+      "displayName": "Sultanate of Selangor",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_SELANGOR",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 17,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_SUKADANA",
+      "displayName": "Sultanate of Sukadana",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_SUKADANA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 121,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_SULU",
+      "displayName": "Sultanate of Sulu",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_SULU",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2860769
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_TERENGGANU",
+      "displayName": "Sultanate of Terengganu",
+      "status": "tributary",
+      "flagAssetTag": "SULTANATE_OF_TERENGGANU",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 10,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "SULTANATE_OF_THE_MALDIVES",
+      "displayName": "Sultanate of the Maldives",
+      "status": "sovereign",
+      "flagAssetTag": "SULTANATE_OF_THE_MALDIVES",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2874736
+        }
+      ]
+    },
+    {
+      "key": "SURINAME",
+      "displayName": "Suriname",
+      "status": "colonial_administration",
+      "flagAssetTag": "SURINAME",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806842
+        }
+      ]
+    },
+    {
+      "key": "SWAN_RIVER_COLONY",
+      "displayName": "Swan River Colony",
+      "status": "colonial_administration",
+      "flagAssetTag": "SWAN_RIVER_COLONY",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2828317
+        }
+      ]
+    },
+    {
+      "key": "SWE",
+      "displayName": "Sweden",
+      "status": "sovereign",
+      "flagAssetTag": "SWE",
+      "notes": "Existing Grand Century nation SWE mapped to its 1830-01-01 source identity. Union of Sweden and Norway. Norway is a separate kingdom in personal union under the Swedish king; no exact-date OHM relation separates the two, so the union polygon is assigned to the Swedish tag.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2956665
+        }
+      ]
+    },
+    {
+      "key": "SWI",
+      "displayName": "Switzerland",
+      "status": "sovereign",
+      "flagAssetTag": "SWI",
+      "notes": "Existing Grand Century nation SWI mapped to its 1830-01-01 source identity. Swiss Confederation under the Federal Treaty of 1815.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2747012
+        }
+      ]
+    },
+    {
+      "key": "TRA",
+      "displayName": "Travancore",
+      "status": "tributary",
+      "flagAssetTag": "TRA",
+      "notes": "Existing Grand Century nation TRA mapped to its 1830-01-01 source identity. Travancore, a Company subsidiary state. Found by supplemental name search.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2922413
+        }
+      ]
+    },
+    {
+      "key": "TRI",
+      "displayName": "Tripoli",
+      "status": "vassal",
+      "flagAssetTag": "TRI",
+      "notes": "Existing Grand Century nation TRI mapped to its 1830-01-01 source identity. Karamanli Tripoli.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 19,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "TSC",
+      "displayName": "Two Sicilies",
+      "status": "sovereign",
+      "flagAssetTag": "TSC",
+      "notes": "Existing Grand Century nation TSC mapped to its 1830-01-01 source identity. Kingdom of the Two Sicilies.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2661315
+        }
+      ]
+    },
+    {
+      "key": "TUN",
+      "displayName": "Tunis",
+      "status": "vassal",
+      "flagAssetTag": "TUN",
+      "notes": "Existing Grand Century nation TUN mapped to its 1830-01-01 source identity. Beylik of Tunis.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 137,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "TURCO_EGYPTIAN_SUDAN",
+      "displayName": "Turco-Egyptian Sudan",
+      "status": "colonial_administration",
+      "flagAssetTag": "TURCO_EGYPTIAN_SUDAN",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2690845
+        }
+      ]
+    },
+    {
+      "key": "TUS",
+      "displayName": "Grand Duchy of Tuscany",
+      "status": "sovereign",
+      "flagAssetTag": "TUS",
+      "notes": "Existing Grand Century nation TUS mapped to its 1830-01-01 source identity. Grand Duchy of Tuscany under Leopold II.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2696931
+        }
+      ]
+    },
+    {
+      "key": "UBWAMI_BW_U_RWANDA",
+      "displayName": "Ubwami bw'u Rwanda",
+      "status": "sovereign",
+      "flagAssetTag": "UBWAMI_BW_U_RWANDA",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2863642
+        }
+      ]
+    },
+    {
+      "key": "UBWAMI_BW_URUNDI",
+      "displayName": "Ubwami bw'Urundi",
+      "status": "sovereign",
+      "flagAssetTag": "UBWAMI_BW_URUNDI",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2863640
+        }
+      ]
+    },
+    {
+      "key": "UCA",
+      "displayName": "The USCA",
+      "status": "sovereign",
+      "flagAssetTag": "UCA",
+      "notes": "Existing Grand Century nation UCA mapped to its 1830-01-01 source identity. Federal Republic of Central America after Morazan's victory in 1829, without Costa Rica.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2808126
+        }
+      ]
+    },
+    {
+      "key": "UNITED_STATES_OF_THE_IONIAN_ISLANDS",
+      "displayName": "United States of the Ionian Islands",
+      "status": "vassal",
+      "flagAssetTag": "UNITED_STATES_OF_THE_IONIAN_ISLANDS",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2827696
+        }
+      ]
+    },
+    {
+      "key": "URY",
+      "displayName": "Uruguay",
+      "status": "sovereign",
+      "flagAssetTag": "URY",
+      "notes": "Existing Grand Century nation URY mapped to its 1830-01-01 source identity. Oriental Republic of Uruguay.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2848988
+        }
+      ]
+    },
+    {
+      "key": "USA",
+      "displayName": "United States",
+      "status": "sovereign",
+      "flagAssetTag": "USA",
+      "notes": "Existing Grand Century nation USA mapped to its 1830-01-01 source identity. United States, OHM relation 1821 to 1842.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2800462
+        }
+      ]
+    },
+    {
+      "key": "VIE",
+      "displayName": "Dai Nam",
+      "status": "sovereign",
+      "flagAssetTag": "VIE",
+      "notes": "Existing Grand Century nation VIE mapped to its 1830-01-01 source identity. Nguyen Vietnam under Minh Mang. The state name Dai Nam dates from 1839; the GC tag is reused for the same polity.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2918514
+        }
+      ]
+    },
+    {
+      "key": "WAALO",
+      "displayName": "Waalo",
+      "status": "sovereign",
+      "flagAssetTag": "WAALO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879269
+        }
+      ]
+    },
+    {
+      "key": "WADAI_EMPIRE",
+      "displayName": "Wadai Empire",
+      "status": "sovereign",
+      "flagAssetTag": "WADAI_EMPIRE",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 3,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "WAL",
+      "displayName": "Wallachia",
+      "status": "vassal",
+      "flagAssetTag": "WAL",
+      "notes": "Existing Grand Century nation WAL mapped to its 1830-01-01 source identity. Principality of Wallachia under the Adrianople settlement. Found by supplemental name search.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2929117
+        }
+      ]
+    },
+    {
+      "key": "WALDECK",
+      "displayName": "Waldeck",
+      "status": "sovereign",
+      "flagAssetTag": "WALDECK",
+      "notes": "Manually classified source-pack identity with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2806795
+        }
+      ]
+    },
+    {
+      "key": "WOLOF",
+      "displayName": "Wolof",
+      "status": "sovereign",
+      "flagAssetTag": "WOLOF",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879271
+        }
+      ]
+    },
+    {
+      "key": "WUR",
+      "displayName": "Wurttemberg",
+      "status": "sovereign",
+      "flagAssetTag": "WUR",
+      "notes": "Existing Grand Century nation WUR mapped to its 1830-01-01 source identity. Kingdom of Wurttemberg.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2661271
+        }
+      ]
+    },
+    {
+      "key": "WUULI_MANSA_BANKO",
+      "displayName": "Wuuli Mansa Banko",
+      "status": "sovereign",
+      "flagAssetTag": "WUULI_MANSA_BANKO",
+      "notes": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "sources": [
+        {
+          "kind": "ohm_relation",
+          "id": 2879810
+        }
+      ]
+    },
+    {
+      "key": "YEM",
+      "displayName": "Yemen",
+      "status": "sovereign",
+      "flagAssetTag": "YEM",
+      "notes": "Existing Grand Century nation YEM mapped to its 1830-01-01 source identity. Zaydi Imamate of Sanaa; Cliopatria interval 1815 to 1869.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 35,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    },
+    {
+      "key": "ZUL",
+      "displayName": "Zulu",
+      "status": "sovereign",
+      "flagAssetTag": "ZUL",
+      "notes": "Existing Grand Century nation ZUL mapped to its 1830-01-01 source identity. Zulu Kingdom under Dingane.",
+      "sources": [
+        {
+          "kind": "cliopatria_record",
+          "id": 54,
+          "source": "cliopatria-0.2.0"
+        }
+      ]
+    }
+  ]
+}

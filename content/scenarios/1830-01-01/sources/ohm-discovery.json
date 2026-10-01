@@ -1,6 +1,81 @@
 {
   "schemaVersion": 1,
   "asOf": "1830-01-01",
+  "supplementalDiscovery": {
+    "note": "The admin_level=2 discovery omits subnational-tagged relations that are sovereign or dependent polities on this date. These relations were found with the documented name-search command, filtered by relationActiveOn, and appended here so that the geometry audit and roster review cover them like any other candidate.",
+    "queries": [
+      {
+        "command": "name-search",
+        "searchText": "Hyderabad",
+        "overpassQuery": "[out:json][timeout:180];relation[\"name\"~\"Hyderabad\",i];out tags;",
+        "snapshot": "2026-10-01T00:41:11Z",
+        "relationIds": [
+          2923306
+        ],
+        "reason": "GC nation HYD: princely state absent from the admin_level=2 discovery."
+      },
+      {
+        "command": "name-search",
+        "searchText": "Travancore",
+        "overpassQuery": "[out:json][timeout:180];relation[\"name\"~\"Travancore\",i];out tags;",
+        "snapshot": "2026-10-01T00:41:11Z",
+        "relationIds": [
+          2922413
+        ],
+        "reason": "GC nation TRA: princely state absent from the admin_level=2 discovery."
+      },
+      {
+        "command": "name-search",
+        "searchText": "Nagpur",
+        "overpassQuery": "[out:json][timeout:180];relation[\"name\"~\"Nagpur\",i];out tags;",
+        "snapshot": "2026-10-01T00:41:11Z",
+        "relationIds": [
+          2923410
+        ],
+        "reason": "GC nation NAG: Bhonsle Nagpur state absent from the admin_level=2 discovery."
+      },
+      {
+        "command": "name-search",
+        "searchText": "Baroda",
+        "overpassQuery": "[out:json][timeout:180];relation[\"name\"~\"Baroda\",i];out tags;",
+        "snapshot": "2026-10-01T00:41:11Z",
+        "relationIds": [
+          2922111
+        ],
+        "reason": "GC nation BER: Gaekwad Baroda state absent from the admin_level=2 discovery."
+      },
+      {
+        "command": "name-search",
+        "searchText": "Gwalior",
+        "overpassQuery": "[out:json][timeout:180];relation[\"name\"~\"Gwalior\",i];out tags;",
+        "snapshot": "2026-10-01T00:41:11Z",
+        "relationIds": [
+          2923117
+        ],
+        "reason": "Scindia Gwalior state: a major 1830 princely state otherwise hidden inside the Company Raj envelope."
+      },
+      {
+        "command": "name-search",
+        "searchText": "Holstein",
+        "overpassQuery": "[out:json][timeout:180];relation[\"name\"~\"Holstein\",i];out tags;",
+        "snapshot": "2026-10-01T00:41:11Z",
+        "relationIds": [
+          2748587
+        ],
+        "reason": "GC nation HOL: Duchy of Holstein absent from the admin_level=2 discovery."
+      },
+      {
+        "command": "name-search",
+        "searchText": "Wallach",
+        "overpassQuery": "[out:json][timeout:180];relation[\"name\"~\"Wallach\",i];out tags;",
+        "snapshot": "2026-10-01T00:41:11Z",
+        "relationIds": [
+          2929117
+        ],
+        "reason": "GC nation WAL: Principality of Wallachia absent from the admin_level=2 discovery."
+      }
+    ]
+  },
   "candidates": [
     {
       "relationId": 2959470,
@@ -385,6 +460,23 @@
       "evidenceTags": {}
     },
     {
+      "relationId": 2923306,
+      "identityKey": "Q1240096",
+      "name": "Princely State of Hyderabad",
+      "wikidata": "Q1240096",
+      "startDate": "1798",
+      "endDate": "1903-10-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "vassal",
+        "border_type": "princely_state",
+        "source": "https://commons.wikimedia.org/wiki/File:India_map_1700_1792.jpg",
+        "wikipedia": "en:Hyderabad State",
+        "admin_level": "4"
+      }
+    },
+    {
       "relationId": 2879807,
       "identityKey": "Q124881664",
       "name": "Niani",
@@ -528,6 +620,21 @@
       }
     },
     {
+      "relationId": 2922413,
+      "identityKey": "Q150058",
+      "name": "Kingdom of Travancore",
+      "wikidata": "Q150058",
+      "startDate": "1795",
+      "endDate": "1947-08-15",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "kingdom",
+        "wikipedia": "en:Travancore",
+        "admin_level": "3"
+      }
+    },
+    {
       "relationId": 2834804,
       "identityKey": "Q15238409",
       "name": "Colony of Saint Lucia",
@@ -604,6 +711,20 @@
         "border_type": "grand_duchy",
         "country": "grand_duchy",
         "wikipedia": "en:Saxe-Weimar-Eisenach"
+      }
+    },
+    {
+      "relationId": 2923117,
+      "identityKey": "Q1557792",
+      "name": "Princely State of Gwalior",
+      "wikidata": "Q1557792",
+      "startDate": "1818-06-25",
+      "endDate": "1948-05-28",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "princely_state",
+        "admin_level": "4"
       }
     },
     {
@@ -1960,6 +2081,22 @@
       }
     },
     {
+      "relationId": 2929117,
+      "identityKey": "Q389004",
+      "name": "Wallachia",
+      "wikidata": "Q389004",
+      "startDate": "1829-09-14",
+      "endDate": "1859-02-05",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "state",
+        "border_type": "principality",
+        "wikipedia": "ro:Țara Românească",
+        "admin_level": "3"
+      }
+    },
+    {
       "relationId": 2747012,
       "identityKey": "Q39",
       "name": "Schweiz",
@@ -2025,6 +2162,20 @@
       "licenseStatus": "allowed",
       "evidenceTags": {
         "wikipedia": "en:Đại Việt"
+      }
+    },
+    {
+      "relationId": 2923410,
+      "identityKey": "Q4311709",
+      "name": "Princely State of Nagpur",
+      "wikidata": "Q4311709",
+      "startDate": "1818",
+      "endDate": "1853-12-11",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "princely_state",
+        "admin_level": "4"
       }
     },
     {
@@ -2416,6 +2567,21 @@
       }
     },
     {
+      "relationId": 2748587,
+      "identityKey": "Q704288",
+      "name": "Herzogtum Holstein",
+      "wikidata": "Q704288",
+      "startDate": "1815-06-09",
+      "endDate": "1843-01-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "place": "state",
+        "border_type": "duchy",
+        "admin_level": "4"
+      }
+    },
+    {
       "relationId": 2690440,
       "identityKey": "Q704300",
       "name": "Frankfurt",
@@ -2673,6 +2839,20 @@
       "licenseStatus": "allowed",
       "evidenceTags": {
         "border_type": "kingdom"
+      }
+    },
+    {
+      "relationId": 2922111,
+      "identityKey": "Q808575",
+      "name": "Baroda",
+      "wikidata": "Q808575",
+      "startDate": "1721",
+      "endDate": "1949-05-01",
+      "license": "CC0",
+      "licenseStatus": "allowed",
+      "evidenceTags": {
+        "border_type": "state",
+        "admin_level": "4"
       }
     },
     {

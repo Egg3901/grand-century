@@ -1,0 +1,2012 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1830-01-01",
+  "note": "Crosswalk between the 1830 source-pack roster and the existing Grand Century nations in the playable campaign seed. exclusiveAreaKm2 is the compiled polygon area left to a polity after the smallest-polygon-wins rule, on an equal-area sphere.",
+  "gcNationsInLayer": [
+    {
+      "tag": "ABU",
+      "gcName": "Abu Dhabi",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q1852345"
+      ]
+    },
+    {
+      "tag": "AFG",
+      "gcName": "Afghanistan",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:امارت کابل"
+      ]
+    },
+    {
+      "tag": "ALG",
+      "gcName": "Algeria",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "OTT",
+      "sourceIdentities": [
+        "ohm:Q3045696"
+      ]
+    },
+    {
+      "tag": "ARG",
+      "gcName": "Argentina",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q738144"
+      ]
+    },
+    {
+      "tag": "ATJ",
+      "gcName": "Atjeh",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "cliopatria:Q1061057"
+      ]
+    },
+    {
+      "tag": "AUS",
+      "gcName": "Austrian Empire",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q131964"
+      ]
+    },
+    {
+      "tag": "BAD",
+      "gcName": "Baden",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q186320"
+      ]
+    },
+    {
+      "tag": "BAV",
+      "gcName": "Bavaria",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q154195"
+      ]
+    },
+    {
+      "tag": "BER",
+      "gcName": "Beroda",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "ENG",
+      "sourceIdentities": [
+        "ohm:Q808575"
+      ]
+    },
+    {
+      "tag": "BOL",
+      "gcName": "Bolivia",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q5775324"
+      ]
+    },
+    {
+      "tag": "BRA",
+      "gcName": "Brazil",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q217230"
+      ]
+    },
+    {
+      "tag": "BRU",
+      "gcName": "Brunei",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q887803",
+        "ohm:Sarawak"
+      ]
+    },
+    {
+      "tag": "BUK",
+      "gcName": "Bukkhara",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q746558"
+      ]
+    },
+    {
+      "tag": "BUR",
+      "gcName": "Burma",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "cliopatria:Q836"
+      ]
+    },
+    {
+      "tag": "CAM",
+      "gcName": "Cambodia",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "VIE",
+      "sourceIdentities": [
+        "cliopatria:Q201705"
+      ]
+    },
+    {
+      "tag": "CHL",
+      "gcName": "Chile",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q298"
+      ]
+    },
+    {
+      "tag": "CLM",
+      "gcName": "New Granada",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q199821"
+      ]
+    },
+    {
+      "tag": "DEN",
+      "gcName": "Denmark",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q878461"
+      ]
+    },
+    {
+      "tag": "EGY",
+      "gcName": "Egypt",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "OTT",
+      "sourceIdentities": [
+        "cliopatria:Q3057606"
+      ]
+    },
+    {
+      "tag": "ENG",
+      "gcName": "United Kingdom",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q174193",
+        "ohm:Q25230",
+        "ohm:Q785",
+        "ohm:Q9676"
+      ]
+    },
+    {
+      "tag": "ESP",
+      "gcName": "Spain",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q29"
+      ]
+    },
+    {
+      "tag": "ETH",
+      "gcName": "Ethiopia",
+      "polityStatus": "decentralized",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "cliopatria:Q207521"
+      ]
+    },
+    {
+      "tag": "FRA",
+      "gcName": "France",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q207162"
+      ]
+    },
+    {
+      "tag": "GRE",
+      "gcName": "Kingdom of Greece",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "cliopatria:Q528546"
+      ]
+    },
+    {
+      "tag": "HAI",
+      "gcName": "Haiti",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q95408244"
+      ]
+    },
+    {
+      "tag": "HAN",
+      "gcName": "Kingdom of Hanover",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q164079"
+      ]
+    },
+    {
+      "tag": "HAW",
+      "gcName": "Hawaii",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q156418"
+      ]
+    },
+    {
+      "tag": "HEK",
+      "gcName": "Hesse-Kassel",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q529605"
+      ]
+    },
+    {
+      "tag": "HES",
+      "gcName": "Hesse",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q20135"
+      ]
+    },
+    {
+      "tag": "HOL",
+      "gcName": "Holstein",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "DEN",
+      "sourceIdentities": [
+        "ohm:Q704288"
+      ]
+    },
+    {
+      "tag": "HYD",
+      "gcName": "Hyderabad",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "ENG",
+      "sourceIdentities": [
+        "ohm:Q1240096"
+      ]
+    },
+    {
+      "tag": "JOH",
+      "gcName": "Johore",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "cliopatria:Q1150344"
+      ]
+    },
+    {
+      "tag": "JPN",
+      "gcName": "Tokugawa Shogunate",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q205662"
+      ]
+    },
+    {
+      "tag": "KAL",
+      "gcName": "Kalat",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q139948"
+      ]
+    },
+    {
+      "tag": "KHI",
+      "gcName": "Khiva",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:خیوه خانلیگی"
+      ]
+    },
+    {
+      "tag": "KOK",
+      "gcName": "Kokand",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q696241"
+      ]
+    },
+    {
+      "tag": "KOR",
+      "gcName": "Joseon Korea",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q28179"
+      ]
+    },
+    {
+      "tag": "LIB",
+      "gcName": "Liberia",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q104830524"
+      ]
+    },
+    {
+      "tag": "MAD",
+      "gcName": "Madagascar",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q1071439"
+      ]
+    },
+    {
+      "tag": "MEX",
+      "gcName": "Mexico",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q1109279"
+      ]
+    },
+    {
+      "tag": "MOD",
+      "gcName": "Duchy of Modena",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q252580"
+      ]
+    },
+    {
+      "tag": "MOR",
+      "gcName": "Morocco",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q131429368"
+      ]
+    },
+    {
+      "tag": "NAG",
+      "gcName": "Nagpur",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "ENG",
+      "sourceIdentities": [
+        "ohm:Q4311709"
+      ]
+    },
+    {
+      "tag": "NEJ",
+      "gcName": "Nejd",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "cliopatria:Q146862"
+      ]
+    },
+    {
+      "tag": "NEP",
+      "gcName": "Nepal",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q837"
+      ]
+    },
+    {
+      "tag": "NLD",
+      "gcName": "Netherlands",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q15864"
+      ]
+    },
+    {
+      "tag": "OMA",
+      "gcName": "Oman",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q22684779"
+      ]
+    },
+    {
+      "tag": "OTT",
+      "gcName": "Ottoman Empire",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q12560"
+      ]
+    },
+    {
+      "tag": "PAN",
+      "gcName": "Panjab",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "cliopatria:Q83572"
+      ]
+    },
+    {
+      "tag": "PAP",
+      "gcName": "Papal States",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q170174"
+      ]
+    },
+    {
+      "tag": "PER",
+      "gcName": "Persia",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q63158027"
+      ]
+    },
+    {
+      "tag": "PEU",
+      "gcName": "Peru",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q6136070"
+      ]
+    },
+    {
+      "tag": "POL",
+      "gcName": "Kingdom of Poland",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "RUS",
+      "sourceIdentities": [
+        "ohm:Q221457"
+      ]
+    },
+    {
+      "tag": "POR",
+      "gcName": "Portugal",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Capitania de Machico",
+        "ohm:Capitania de Porto Santo",
+        "ohm:Capitania do Funchal",
+        "ohm:Q17747179",
+        "ohm:Q45670"
+      ]
+    },
+    {
+      "tag": "PRG",
+      "gcName": "Paraguay",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q733"
+      ]
+    },
+    {
+      "tag": "PRU",
+      "gcName": "Prussia",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q27306"
+      ]
+    },
+    {
+      "tag": "QNG",
+      "gcName": "Qing Empire",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q8733"
+      ]
+    },
+    {
+      "tag": "RUS",
+      "gcName": "Russian Empire",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q34266"
+      ]
+    },
+    {
+      "tag": "SAR",
+      "gcName": "Sardinia-Piedmont",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q165154"
+      ]
+    },
+    {
+      "tag": "SAX",
+      "gcName": "Kingdom of Saxony",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q153015"
+      ]
+    },
+    {
+      "tag": "SER",
+      "gcName": "Serbia",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "OTT",
+      "sourceIdentities": [
+        "cliopatria:Q127885"
+      ]
+    },
+    {
+      "tag": "SIA",
+      "gcName": "Siam",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q1155700"
+      ]
+    },
+    {
+      "tag": "SIN",
+      "gcName": "Sindh",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q37211"
+      ]
+    },
+    {
+      "tag": "SOK",
+      "gcName": "Sokoto",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:دولة الخلافة في بلاد السودان"
+      ]
+    },
+    {
+      "tag": "SWE",
+      "gcName": "Sweden",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q62589"
+      ]
+    },
+    {
+      "tag": "SWI",
+      "gcName": "Switzerland",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q39"
+      ]
+    },
+    {
+      "tag": "TRA",
+      "gcName": "Travancore",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "ENG",
+      "sourceIdentities": [
+        "ohm:Q150058"
+      ]
+    },
+    {
+      "tag": "TRI",
+      "gcName": "Tripoli",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "OTT",
+      "sourceIdentities": [
+        "cliopatria:Q1929987"
+      ]
+    },
+    {
+      "tag": "TSC",
+      "gcName": "Two Sicilies",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q180393"
+      ]
+    },
+    {
+      "tag": "TUN",
+      "gcName": "Tunis",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "OTT",
+      "sourceIdentities": [
+        "cliopatria:Q4899891"
+      ]
+    },
+    {
+      "tag": "TUS",
+      "gcName": "Grand Duchy of Tuscany",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q154849"
+      ]
+    },
+    {
+      "tag": "UCA",
+      "gcName": "The USCA",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:República Federal de Centro América"
+      ]
+    },
+    {
+      "tag": "URY",
+      "gcName": "Uruguay",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q77"
+      ]
+    },
+    {
+      "tag": "USA",
+      "gcName": "United States",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q30"
+      ]
+    },
+    {
+      "tag": "VIE",
+      "gcName": "Dai Nam",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q430309"
+      ]
+    },
+    {
+      "tag": "WAL",
+      "gcName": "Wallachia",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "OTT",
+      "sourceIdentities": [
+        "ohm:Q389004"
+      ]
+    },
+    {
+      "tag": "WUR",
+      "gcName": "Wurttemberg",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "ohm:Q159631"
+      ]
+    },
+    {
+      "tag": "YEM",
+      "gcName": "Yemen",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "cliopatria:Q1042069"
+      ]
+    },
+    {
+      "tag": "ZUL",
+      "gcName": "Zulu",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "sourceIdentities": [
+        "cliopatria:Q13558877"
+      ]
+    }
+  ],
+  "gcNationsWithoutLayerGeometry": [
+    {
+      "tag": "FIN",
+      "gcName": "Grand Duchy of Finland",
+      "reason": "The Grand Duchy of Finland is held in personal union by the Russian emperor and lies inside the OHM Russian polygon; no separate exact-date relation was found."
+    },
+    {
+      "tag": "HDJ",
+      "gcName": "Hedjaz",
+      "reason": "The Hejaz is held by Egyptian forces on the Sultan's behalf (1813 to 1840) with the Sharif of Mecca subordinate to them; no separate geometry exists and the area lies inside the Ottoman polygon."
+    },
+    {
+      "tag": "MGL",
+      "gcName": "Mongolia",
+      "reason": "Outer Mongolia is administered by the Qing and lies inside the Qing polygon; no separate exact-date geometry exists."
+    },
+    {
+      "tag": "MOL",
+      "gcName": "Moldavia",
+      "reason": "Moldavia is an Ottoman tributary principality under Russian occupation, like Wallachia, but no exact-date OHM relation or Cliopatria polygon was found; the area lies inside the Ottoman polygon."
+    },
+    {
+      "tag": "MYS",
+      "gcName": "Mysore",
+      "reason": "Wodeyar Mysore is a Company subsidiary state until direct Company administration in October 1831. No exact-date OHM or Cliopatria geometry exists; the area lies inside the Company Raj envelope."
+    },
+    {
+      "tag": "ORA",
+      "gcName": "Oranje",
+      "reason": "The Orange Free State dates from 1854. In 1830 the region holds Griqua, Sotho and other polities without source geometry, so the area is uncovered."
+    },
+    {
+      "tag": "ORI",
+      "gcName": "Orissa",
+      "reason": "Coastal Orissa has been Company territory since 1803 and the inland Garjat states are tributary chiefdoms; no Orissa polity exists on this date. The area lies inside the Company Raj envelope."
+    },
+    {
+      "tag": "TIB",
+      "gcName": "Tibet",
+      "reason": "Tibet is a Qing protectorate under the ambans and lies inside the Qing polygon; no separate exact-date geometry exists."
+    },
+    {
+      "tag": "TRN",
+      "gcName": "Transvaal",
+      "reason": "The South African Republic dates from 1852. In 1830 the Highveld is Mzilikazi's Ndebele domain, for which no source geometry exists, so the area is uncovered."
+    },
+    {
+      "tag": "UNC",
+      "gcName": "Uncivilized Regions",
+      "reason": "Diagnostic owner for unassigned provinces, not a polity."
+    },
+    {
+      "tag": "XIN",
+      "gcName": "Xinjiang",
+      "reason": "Xinjiang is a Qing frontier administration and lies inside the Qing polygon; no separate exact-date geometry exists."
+    }
+  ],
+  "politiesWithoutGcNation": [
+    {
+      "polityKey": "COLONY_OF_NEW_SOUTH_WALES",
+      "displayName": "Colony of New South Wales",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 5264618
+    },
+    {
+      "polityKey": "RUPERT_S_LAND",
+      "displayName": "Rupert's Land",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 4002491
+    },
+    {
+      "polityKey": "NORTH_WEST_TERRITORIES",
+      "displayName": "North-Western Territory",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 2980317
+    },
+    {
+      "polityKey": "SWAN_RIVER_COLONY",
+      "displayName": "Swan River Colony",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 2613333
+    },
+    {
+      "polityKey": "KAZAKH_KHANATE",
+      "displayName": "Kazakh Khanate",
+      "polityStatus": "decentralized",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 2512875
+    },
+    {
+      "polityKey": "COMPANY_RAJ",
+      "displayName": "Company Raj",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 2195752
+    },
+    {
+      "polityKey": "RUSSIAN_AMERICA",
+      "displayName": "Russian America",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "RUS",
+      "exclusiveAreaKm2": 1735498
+    },
+    {
+      "polityKey": "DUTCH_EAST_INDIES",
+      "displayName": "Dutch East Indies",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "NLD",
+      "exclusiveAreaKm2": 1693306
+    },
+    {
+      "polityKey": "COLUMBIA_DISTRICT",
+      "displayName": "Columbia District",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "participants": [
+        "ENG",
+        "USA"
+      ],
+      "exclusiveAreaKm2": 1179379
+    },
+    {
+      "polityKey": "TURCO_EGYPTIAN_SUDAN",
+      "displayName": "Turco-Egyptian Sudan",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "EGY",
+      "exclusiveAreaKm2": 915658
+    },
+    {
+      "polityKey": "BRITISH_ARCTIC_TERRITORIES",
+      "displayName": "British Arctic Territories",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 885266
+    },
+    {
+      "polityKey": "PROVINCE_OF_LOWER_CANADA",
+      "displayName": "Province of Lower Canada",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 846623
+    },
+    {
+      "polityKey": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
+      "displayName": "Captaincy-General of Mozambique",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "POR",
+      "exclusiveAreaKm2": 811038
+    },
+    {
+      "polityKey": "CAPE_COLONY",
+      "displayName": "Cape Colony",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 513245
+    },
+    {
+      "polityKey": "COMANCHERIA",
+      "displayName": "Comancheria",
+      "polityStatus": "decentralized",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 485902
+    },
+    {
+      "polityKey": "PROVINCE_OF_UPPER_CANADA",
+      "displayName": "Province of Upper Canada",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 395366
+    },
+    {
+      "polityKey": "CAPITANIA_GENERAL_DE_FILIPINAS",
+      "displayName": "Captaincy General of the Philippines",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ESP",
+      "exclusiveAreaKm2": 349332
+    },
+    {
+      "polityKey": "SULTANATE_OF_BANJAR",
+      "displayName": "Sultanate of Banjar",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "NLD",
+      "exclusiveAreaKm2": 346712
+    },
+    {
+      "polityKey": "RAJPUTANA_STATES",
+      "displayName": "Rajput States",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 342787
+    },
+    {
+      "polityKey": "SULTANATE_OF_DARFUR",
+      "displayName": "Sultanate of Darfur",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 294861
+    },
+    {
+      "polityKey": "WADAI_EMPIRE",
+      "displayName": "Wadai Empire",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 280610
+    },
+    {
+      "polityKey": "NEW_CALEDONIA",
+      "displayName": "New Caledonia (Hudson's Bay Company district)",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 275227
+    },
+    {
+      "polityKey": "BORNU_EMPIRE",
+      "displayName": "Bornu Empire",
+      "polityStatus": "decentralized",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 229228
+    },
+    {
+      "polityKey": "NEWFOUNDLAND_COLONY",
+      "displayName": "Crown Colony of Newfoundland",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 227286
+    },
+    {
+      "polityKey": "SHOSHONE",
+      "displayName": "Shoshone",
+      "polityStatus": "decentralized",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 182848
+    },
+    {
+      "polityKey": "CAPITANIA_GENERAL_DE_CUBA",
+      "displayName": "Captaincy General of Cuba",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ESP",
+      "exclusiveAreaKm2": 152720
+    },
+    {
+      "polityKey": "KINGDOM_OF_LUANG_PHRABANG",
+      "displayName": "Kingdom of Luang Phrabang",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "SIA",
+      "exclusiveAreaKm2": 148749
+    },
+    {
+      "polityKey": "SURINAME",
+      "displayName": "Suriname",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "NLD",
+      "exclusiveAreaKm2": 148236
+    },
+    {
+      "polityKey": "MAJEERTEEN_SULTANATE",
+      "displayName": "𐒈𐒚𐒐𐒆𐒖𐒒𐒖𐒆𐒆𐒖 𐒑𐒖𐒃𐒜𐒇𐒂𐒜𐒒",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 114736
+    },
+    {
+      "polityKey": "ASANTE_EMPIRE",
+      "displayName": "Asante Empire",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 108684
+    },
+    {
+      "polityKey": "SULTANATE_OF_SULU",
+      "displayName": "Sultanate of Sulu",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 107135
+    },
+    {
+      "polityKey": "MASSINA_EMPIRE",
+      "displayName": "Massina Empire",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 105123
+    },
+    {
+      "polityKey": "GREENLAND",
+      "displayName": "Greenland",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "DEN",
+      "exclusiveAreaKm2": 102707
+    },
+    {
+      "polityKey": "RIAU_LINGGA_SULTANATE",
+      "displayName": "Riau-Lingga Sultanate",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "NLD",
+      "exclusiveAreaKm2": 102265
+    },
+    {
+      "polityKey": "KATHIRI_SULTANATE",
+      "displayName": "Kathiri Sultanate",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 99986
+    },
+    {
+      "polityKey": "COLONY_OF_NEW_BRUNSWICK",
+      "displayName": "Colony of New Brunswick",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 99925
+    },
+    {
+      "polityKey": "RED_RIVER_COLONY",
+      "displayName": "Red River Colony",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 97320
+    },
+    {
+      "polityKey": "SULTANATE_OF_QISHN_AND_SOCOTRA",
+      "displayName": "Sultanate of Qishn and Socotra",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 90498
+    },
+    {
+      "polityKey": "COLONY_OF_VAN_DIEMEN_S_LAND",
+      "displayName": "Colony of Van Diemen's Land",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 88009
+    },
+    {
+      "polityKey": "COLONIE_DE_LA_GUYANE",
+      "displayName": "French Guiana",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "FRA",
+      "exclusiveAreaKm2": 86640
+    },
+    {
+      "polityKey": "COLONY_OF_SIERRA_LEONE",
+      "displayName": "Colony of Sierra Leone",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 76576
+    },
+    {
+      "polityKey": "BRITISH_CEYLON",
+      "displayName": "British Ceylon",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 75773
+    },
+    {
+      "polityKey": "COLONY_OF_NOVA_SCOTIA",
+      "displayName": "Colony of Nova Scotia",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 73411
+    },
+    {
+      "polityKey": "KINGDOM_OF_CHIANG_MAI",
+      "displayName": "Kingdom of Chiang Mai",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "SIA",
+      "exclusiveAreaKm2": 65080
+    },
+    {
+      "polityKey": "KASULTANAN_NU_MAGINDANAW",
+      "displayName": "Kasultanan nu Magindanaw",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 65045
+    },
+    {
+      "polityKey": "OMANI_SWAHILI_COAST",
+      "displayName": "Omani Swahili Coast",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "OMA",
+      "exclusiveAreaKm2": 64834
+    },
+    {
+      "polityKey": "AWADH",
+      "displayName": "Awadh",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 64431
+    },
+    {
+      "polityKey": "COSTA_RICA",
+      "displayName": "Costa Rica",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 60074
+    },
+    {
+      "polityKey": "BHUTAN",
+      "displayName": "Bhutan",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 55055
+    },
+    {
+      "polityKey": "COLONY_OF_THE_BAHAMAS",
+      "displayName": "Colony of the Bahamas",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 52067
+    },
+    {
+      "polityKey": "GOLD_COAST_COLONY",
+      "displayName": "British Gold Coast forts",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 49325
+    },
+    {
+      "polityKey": "OYO_EMPIRE",
+      "displayName": "Oyo Empire",
+      "polityStatus": "decentralized",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 48087
+    },
+    {
+      "polityKey": "IMAMATE_OF_FUTA_TORO",
+      "displayName": "Imamate of Futa Toro",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 47020
+    },
+    {
+      "polityKey": "COLONY_OF_BERBICE",
+      "displayName": "Colony of Berbice",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 46426
+    },
+    {
+      "polityKey": "BAHAWALPUR_STATE",
+      "displayName": "Bahawalpur State",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 44845
+    },
+    {
+      "polityKey": "GUINE_PORTUGUESA",
+      "displayName": "Portuguese Guinea",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "POR",
+      "exclusiveAreaKm2": 41805
+    },
+    {
+      "polityKey": "PORTUGUESE_TIMOR",
+      "displayName": "Portuguese Timor",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "POR",
+      "exclusiveAreaKm2": 40238
+    },
+    {
+      "polityKey": "UBWAMI_BW_U_RWANDA",
+      "displayName": "Ubwami bw'u Rwanda",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 39961
+    },
+    {
+      "polityKey": "DINE",
+      "displayName": "Dine (Navajo)",
+      "polityStatus": "decentralized",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 39305
+    },
+    {
+      "polityKey": "KINGDOM_OF_CHAMPASAK",
+      "displayName": "Kingdom of Champasak",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "SIA",
+      "exclusiveAreaKm2": 36596
+    },
+    {
+      "polityKey": "NAM_BAN",
+      "displayName": "Nam Ban",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "VIE",
+      "exclusiveAreaKm2": 35089
+    },
+    {
+      "polityKey": "SULTANATE_OF_THE_MALDIVES",
+      "displayName": "Sultanate of the Maldives",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 31746
+    },
+    {
+      "polityKey": "SATARA_STATE",
+      "displayName": "Satara State",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 29654
+    },
+    {
+      "polityKey": "SULTANATE_OF_JAMBI",
+      "displayName": "Sultanate of Jambi",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 27544
+    },
+    {
+      "polityKey": "UBWAMI_BW_URUNDI",
+      "displayName": "Ubwami bw'Urundi",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 26921
+    },
+    {
+      "polityKey": "COLONY_OF_DEMERARA_ESSEQUIBO",
+      "displayName": "Colony of Demerara-Essequibo",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 26680
+    },
+    {
+      "polityKey": "GWALIOR_STATE",
+      "displayName": "Gwalior State",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 26675
+    },
+    {
+      "polityKey": "SULTANATE_OF_PERAK",
+      "displayName": "Sultanate of Perak",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 24057
+    },
+    {
+      "polityKey": "KANGLEIPAK_KINGDOM",
+      "displayName": "Kangleipak Kingdom",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 22379
+    },
+    {
+      "polityKey": "WOLOF",
+      "displayName": "Wolof",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 20517
+    },
+    {
+      "polityKey": "DAHOMEY",
+      "displayName": "Dahomey",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 20426
+    },
+    {
+      "polityKey": "BOUNDOU",
+      "displayName": "Boundou",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 18796
+    },
+    {
+      "polityKey": "SALUUM",
+      "displayName": "Saluum",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 16782
+    },
+    {
+      "polityKey": "SHILLUK_KINGDOM",
+      "displayName": "مملكة الشلك",
+      "polityStatus": "decentralized",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 16708
+    },
+    {
+      "polityKey": "BRITISH_MAURITIUS",
+      "displayName": "British Mauritius",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 16208
+    },
+    {
+      "polityKey": "COLONY_OF_JAMAICA",
+      "displayName": "Colony of Jamaica",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 14774
+    },
+    {
+      "polityKey": "SULTANATE_OF_TERENGGANU",
+      "displayName": "Sultanate of Terengganu",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "SIA",
+      "exclusiveAreaKm2": 14535
+    },
+    {
+      "polityKey": "PRINCIPALITY_OF_THUAN_THANH",
+      "displayName": "Thuan Thanh",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "VIE",
+      "exclusiveAreaKm2": 14465
+    },
+    {
+      "polityKey": "CAPITANIA_GENERAL_DE_PUERTO_RICO",
+      "displayName": "Captaincy General of Puerto Rico",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ESP",
+      "exclusiveAreaKm2": 14123
+    },
+    {
+      "polityKey": "KAJOOR",
+      "displayName": "Kajoor",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 14120
+    },
+    {
+      "polityKey": "GROSSHERZOGTUM_MECKLENBURG_SCHWERIN",
+      "displayName": "Großherzogtum Mecklenburg-Schwerin",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 13870
+    },
+    {
+      "polityKey": "SULTANATE_OF_SAMBALIUNG",
+      "displayName": "Sultanate of Sambaliung",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 13534
+    },
+    {
+      "polityKey": "SULTANATE_OF_SELANGOR",
+      "displayName": "Sultanate of Selangor",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 11804
+    },
+    {
+      "polityKey": "NIANI",
+      "displayName": "Niani",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 11692
+    },
+    {
+      "polityKey": "SULTANATE_OF_SUKADANA",
+      "displayName": "Sultanate of Sukadana",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 11547
+    },
+    {
+      "polityKey": "BRITISH_SETTLEMENTS_ON_THE_BAY_OF_HONDURAS",
+      "displayName": "British Settlements on the Bay of Honduras",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 10927
+    },
+    {
+      "polityKey": "RYUKYU_KINGDOM",
+      "displayName": "Ryukyu Kingdom",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "JPN",
+      "exclusiveAreaKm2": 10616
+    },
+    {
+      "polityKey": "SULTANATE_OF_BIMA",
+      "displayName": "Sultanate of Bima",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 10466
+    },
+    {
+      "polityKey": "GAMBIA_COLONY",
+      "displayName": "Gambia settlements (Bathurst)",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 9768
+    },
+    {
+      "polityKey": "SULTANATE_OF_LAHEJ",
+      "displayName": "Sultanate of Lahej",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 9648
+    },
+    {
+      "polityKey": "PRINCE_EDWARD_ISLAND_COLONY",
+      "displayName": "Prince Edward Island Colony",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 9600
+    },
+    {
+      "polityKey": "KELANTAN",
+      "displayName": "Kelantan",
+      "polityStatus": "tributary",
+      "runtimeOverlord": "SIA",
+      "exclusiveAreaKm2": 8262
+    },
+    {
+      "polityKey": "BAOL",
+      "displayName": "Baol",
+      "polityStatus": "vassal",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 8147
+    },
+    {
+      "polityKey": "BALI",
+      "displayName": "Bali",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 7793
+    },
+    {
+      "polityKey": "COLONY_OF_TRINIDAD",
+      "displayName": "Colony of Trinidad",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 7719
+    },
+    {
+      "polityKey": "UNITED_STATES_OF_THE_IONIAN_ISLANDS",
+      "displayName": "United States of the Ionian Islands",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 7453
+    },
+    {
+      "polityKey": "OLDENBURG",
+      "displayName": "Oldenburg",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 7119
+    },
+    {
+      "polityKey": "DANISH_GOLD_COAST",
+      "displayName": "Danish Gold Coast",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "DEN",
+      "exclusiveAreaKm2": 6939
+    },
+    {
+      "polityKey": "KUTAI_KINGDOM",
+      "displayName": "Kutai Kingdom",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 6848
+    },
+    {
+      "polityKey": "NEGERI_SEMBILAN",
+      "displayName": "Negeri Sembilan",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 6266
+    },
+    {
+      "polityKey": "KINGDOM_OF_KAKONGO",
+      "displayName": "Kingdom of Kakongo",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 6074
+    },
+    {
+      "polityKey": "DUCATO_DI_PARMA_E_PIACENZA",
+      "displayName": "Ducato di Parma e Piacenza",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 6072
+    },
+    {
+      "polityKey": "SPANISH_GUINEA",
+      "displayName": "Spanish Guinea",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ESP",
+      "exclusiveAreaKm2": 5759
+    },
+    {
+      "polityKey": "WAALO",
+      "displayName": "Waalo",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 5588
+    },
+    {
+      "polityKey": "KUWAIT",
+      "displayName": "Kuwait",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "OTT",
+      "exclusiveAreaKm2": 5424
+    },
+    {
+      "polityKey": "WUULI_MANSA_BANKO",
+      "displayName": "Wuuli Mansa Banko",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 5420
+    },
+    {
+      "polityKey": "GOA_PORTUGUESA",
+      "displayName": "Portuguese Goa",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "POR",
+      "exclusiveAreaKm2": 5071
+    },
+    {
+      "polityKey": "DUCHY_OF_NASSAU",
+      "displayName": "Duchy of Nassau",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 4760
+    },
+    {
+      "polityKey": "PRINCE_BISHOPRIC_OF_MONTENEGRO",
+      "displayName": "Митрополство Црногорско",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 4305
+    },
+    {
+      "polityKey": "COLONIE_DE_LA_GUADELOUPE",
+      "displayName": "Guadeloupe",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "FRA",
+      "exclusiveAreaKm2": 4231
+    },
+    {
+      "polityKey": "KINGDOM_OF_COORG",
+      "displayName": "Kingdom of Coorg",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 4116
+    },
+    {
+      "polityKey": "ISLE_BOURBON",
+      "displayName": "Ile Bourbon",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "FRA",
+      "exclusiveAreaKm2": 3944
+    },
+    {
+      "polityKey": "KINGDOM_OF_NGOYO",
+      "displayName": "Kingdom of Ngoyo",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 3935
+    },
+    {
+      "polityKey": "BRAUNSCHWEIG",
+      "displayName": "Braunschweig",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 3702
+    },
+    {
+      "polityKey": "SACHSEN_WEIMAR_EISENACH",
+      "displayName": "Saxe-Weimar-Eisenach",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 3601
+    },
+    {
+      "polityKey": "SAINT_CHRISTOPHER_NEVIS_ANGUILLA_VIRGIN_ISLANDS",
+      "displayName": "Saint Christopher, Nevis, Anguilla and the Virgin Islands",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 3371
+    },
+    {
+      "polityKey": "STRAITS_SETTLEMENTS",
+      "displayName": "Straits Settlements",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 3024
+    },
+    {
+      "polityKey": "GROSSHERZOGTUM_MECKLENBURG_STRELITZ",
+      "displayName": "Mecklenburg-Strelitz",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 2644
+    },
+    {
+      "polityKey": "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
+      "displayName": "Portuguese Sao Tome and Principe",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "POR",
+      "exclusiveAreaKm2": 2593
+    },
+    {
+      "polityKey": "SACHSEN_COBURG_UND_GOTHA",
+      "displayName": "Saxe-Coburg and Gotha",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 2501
+    },
+    {
+      "polityKey": "SACHSEN_MEININGEN",
+      "displayName": "Saxe-Meiningen",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 2460
+    },
+    {
+      "polityKey": "SIIN",
+      "displayName": "Siin",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 2344
+    },
+    {
+      "polityKey": "NETHERLANDS_ANTILLES",
+      "displayName": "Netherlands Antilles",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "NLD",
+      "exclusiveAreaKm2": 2165
+    },
+    {
+      "polityKey": "PAT_A_PANGAMPONG_SA_RANAO",
+      "displayName": "Pat a Pangampong sa Ranao",
+      "polityStatus": "decentralized",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 2078
+    },
+    {
+      "polityKey": "ST_VINCENT_AND_THE_GRENADINES",
+      "displayName": "Colony of St Vincent and the Grenadines",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 2045
+    },
+    {
+      "polityKey": "SULTANATE_OF_BONE",
+      "displayName": "Sultanate of Bone",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 1987
+    },
+    {
+      "polityKey": "ANTIGUA_BARBUDA_MONTSERRAT_COLONY",
+      "displayName": "Antigua, Barbuda and Montserrat",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 1955
+    },
+    {
+      "polityKey": "DANSK_VESTINDIEN",
+      "displayName": "Danish West Indies",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "DEN",
+      "exclusiveAreaKm2": 1904
+    },
+    {
+      "polityKey": "HAUSHABI",
+      "displayName": "سلطنة الحواشب",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 1876
+    },
+    {
+      "polityKey": "SULTANATE_OF_MAORE",
+      "displayName": "Sultanate of Maore",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 1640
+    },
+    {
+      "polityKey": "COLONY_OF_DOMINICA",
+      "displayName": "Colony of Dominica",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 1587
+    },
+    {
+      "polityKey": "CAYMAN_ISLANDS",
+      "displayName": "Cayman Islands",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 1546
+    },
+    {
+      "polityKey": "COLONY_OF_GRENADA",
+      "displayName": "Colony of Grenada",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 1511
+    },
+    {
+      "polityKey": "FREE_CITY_OF_CRACOW",
+      "displayName": "Free City of Krakow",
+      "polityStatus": "vassal",
+      "runtimeOverlord": null,
+      "participants": [
+        "AUS",
+        "PRU",
+        "RUS"
+      ],
+      "exclusiveAreaKm2": 1474
+    },
+    {
+      "polityKey": "COLONY_OF_SAINT_LUCIA",
+      "displayName": "Colony of Saint Lucia",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 1374
+    },
+    {
+      "polityKey": "SACHSEN_ALTENBURG",
+      "displayName": "Saxe-Altenburg",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 1337
+    },
+    {
+      "polityKey": "SULTANATE_OF_NDZUWANI",
+      "displayName": "Sultanate of Ndzuwani",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 1269
+    },
+    {
+      "polityKey": "LIPPE",
+      "displayName": "Lippe",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 1214
+    },
+    {
+      "polityKey": "DUCATO_DI_LUCCA",
+      "displayName": "Ducato di Lucca",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 1174
+    },
+    {
+      "polityKey": "SAINT_PIERRE_ET_MIQUELON",
+      "displayName": "Saint-Pierre and Miquelon",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "FRA",
+      "exclusiveAreaKm2": 1109
+    },
+    {
+      "polityKey": "WALDECK",
+      "displayName": "Waldeck",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 1051
+    },
+    {
+      "polityKey": "COLONY_OF_BARBADOS",
+      "displayName": "Colony of Barbados",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 1023
+    },
+    {
+      "polityKey": "COLONY_OF_TOBAGO",
+      "displayName": "Colony of Tobago",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 1022
+    },
+    {
+      "polityKey": "FURSTENTUM_SCHWARZBURG_RUDOLSTADT",
+      "displayName": "Fürstentum Schwarzburg-Rudolstadt",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 947
+    },
+    {
+      "polityKey": "COLONY_OF_MALTA",
+      "displayName": "Colony of Malta",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 939
+    },
+    {
+      "polityKey": "SULTANATE_OF_MWALI",
+      "displayName": "Sultanate of Mwali",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 934
+    },
+    {
+      "polityKey": "HOHENZOLLERN_SIGMARINGEN",
+      "displayName": "Hohenzollern-Sigmaringen",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 917
+    },
+    {
+      "polityKey": "BAHRAIN",
+      "displayName": "Bahrain",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 893
+    },
+    {
+      "polityKey": "ILE_SAINTE_MARIE",
+      "displayName": "Ile Sainte-Marie",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "FRA",
+      "exclusiveAreaKm2": 893
+    },
+    {
+      "polityKey": "FURSTENTUM_SCHWARZBURG_SONDERSHAUSEN",
+      "displayName": "Fürstentum Schwarzburg-Sondershausen",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 850
+    },
+    {
+      "polityKey": "FREE_CITY_OF_HAMBURG",
+      "displayName": "Free City of Hamburg",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 848
+    },
+    {
+      "polityKey": "HERZOGTUM_ANHALT_DESSAU",
+      "displayName": "Herzogtum Anhalt-Dessau",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 838
+    },
+    {
+      "polityKey": "FURSTENTUM_REUSS_GERA",
+      "displayName": "Fürstentum Reuß-Gera",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 835
+    },
+    {
+      "polityKey": "HERZOGTUM_ANHALT_BERNBURG",
+      "displayName": "Herzogtum Anhalt-Bernburg",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 810
+    },
+    {
+      "polityKey": "INDE_FRANCAISE",
+      "displayName": "French India",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "FRA",
+      "exclusiveAreaKm2": 731
+    },
+    {
+      "polityKey": "HERZOGTUM_ANHALT_COTHEN",
+      "displayName": "Herzogtum Anhalt-Cöthen",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 687
+    },
+    {
+      "polityKey": "DANISH_INDIA",
+      "displayName": "Danish India",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "DEN",
+      "exclusiveAreaKm2": 670
+    },
+    {
+      "polityKey": "COLONY_OF_BERMUDA",
+      "displayName": "Colony of Bermuda",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 566
+    },
+    {
+      "polityKey": "SAINT_HELENA_COLONY",
+      "displayName": "Saint Helena Colony",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 515
+    },
+    {
+      "polityKey": "ANDORRA",
+      "displayName": "Andorra",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 464
+    },
+    {
+      "polityKey": "FREE_CITY_OF_LUBECK",
+      "displayName": "Free City of Lübeck",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 415
+    },
+    {
+      "polityKey": "SCHAUMBURG_LIPPE",
+      "displayName": "Schaumburg-Lippe",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 344
+    },
+    {
+      "polityKey": "FURSTENTUM_REUSS_GREIZ",
+      "displayName": "Fürstentum Reuß-Greiz",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 316
+    },
+    {
+      "polityKey": "FREE_CITY_OF_BREMEN",
+      "displayName": "Free City of Bremen",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 253
+    },
+    {
+      "polityKey": "HOHENZOLLERN_HECHINGEN",
+      "displayName": "Hohenzollern-Hechingen",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 227
+    },
+    {
+      "polityKey": "HESSEN_HOMBURG",
+      "displayName": "Hessen-Homburg",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 223
+    },
+    {
+      "polityKey": "MONACO",
+      "displayName": "Monaco",
+      "polityStatus": "vassal",
+      "runtimeOverlord": "SAR",
+      "exclusiveAreaKm2": 164
+    },
+    {
+      "polityKey": "HELGOLAND",
+      "displayName": "Heligoland",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 159
+    },
+    {
+      "polityKey": "LIECHTENSTEIN",
+      "displayName": "Liechtenstein",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 156
+    },
+    {
+      "polityKey": "FREE_CITY_OF_FRANKFURT",
+      "displayName": "Free City of Frankfurt",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 105
+    },
+    {
+      "polityKey": "PYRMONT",
+      "displayName": "Pyrmont",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 66
+    },
+    {
+      "polityKey": "SAN_MARINO",
+      "displayName": "San Marino",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 64
+    },
+    {
+      "polityKey": "COUTO_MISTO",
+      "displayName": "Couto Misto",
+      "polityStatus": "sovereign",
+      "runtimeOverlord": null,
+      "exclusiveAreaKm2": 25
+    },
+    {
+      "polityKey": "GIBRALTAR",
+      "displayName": "Gibraltar",
+      "polityStatus": "colonial_administration",
+      "runtimeOverlord": "ENG",
+      "exclusiveAreaKm2": 7
+    }
+  ]
+}

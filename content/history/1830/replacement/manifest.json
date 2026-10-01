@@ -11,7 +11,7 @@
     "note": "Geometry counts indicate features containing invalid components, not that every component in those features is invalid. Region-majority ownership and missing subdivisions are separate historical defects."
   },
   "candidateSources": {
-    "OpenHistoricalMap": {"datedNationalCandidates":219,"validGeometry":213,"unresolvedGeometry":6},
+    "OpenHistoricalMap": {"datedNationalCandidates":219,"validGeometry":213,"unresolvedGeometry":6,"sourcePack":"content/scenarios/1830-01-01/sources","note":"Discovery and geometry audit moved into the 1830 Scenario Source Pack, which adds seven supplemental relations and resolves all six failures."},
     "Cliopatria": {"role":"Reviewed historical supplements, not automatic gap filling","sourceManifest":"content/sources/cliopatria/source.json"},
     "NaturalEarth": {"role":"Physical coastline/hydrography and settlement coordinates, not evidence for 1830 sovereignty"}
   },
