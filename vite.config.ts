@@ -43,7 +43,9 @@ const RESOLVED_VIRTUAL_GENERATED_GEO = `\0${VIRTUAL_GENERATED_GEO}`;
  * Override via GENERATED_GEO_BUDGET_BYTES_<KEY> (e.g. PROVINCES) for probes.
  */
 const GENERATED_GEO_BUDGETS_BYTES = {
-  provinces: Number(process.env.GENERATED_GEO_BUDGET_BYTES_PROVINCES) || 5 * 1024 * 1024,
+  // World v8: ~2,100 provinces at topology-preserving 4% detail, 7.5 MB raw
+  // (2.6 MB gzip). Runtime-cached, not precached; Pages allows 25 MiB per file.
+  provinces: Number(process.env.GENERATED_GEO_BUDGET_BYTES_PROVINCES) || 8 * 1024 * 1024,
   nationalBorders: Number(process.env.GENERATED_GEO_BUDGET_BYTES_NATIONALBORDERS) || 3 * 1024 * 1024,
   rivers: Number(process.env.GENERATED_GEO_BUDGET_BYTES_RIVERS) || 1 * 1024 * 1024,
   lakes: Number(process.env.GENERATED_GEO_BUDGET_BYTES_LAKES) || 1 * 1024 * 1024,

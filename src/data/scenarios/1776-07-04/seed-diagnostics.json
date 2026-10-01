@@ -2,107 +2,283 @@
   "schemaVersion": 1,
   "asOf": "1776-07-04",
   "nationalBorderGridDegrees": 0.06,
-  "provinceCount": 548,
-  "assignedProvinces": 454,
+  "provinceCount": 2091,
+  "assignedProvinces": 1821,
   "gapProvinceIds": [
-    5,
-    7,
-    8,
-    9,
-    10,
     11,
     12,
-    13,
-    14,
-    15,
-    16,
     17,
-    18,
     19,
-    20,
-    21,
-    22,
-    33,
+    28,
+    31,
     34,
-    35,
-    36,
-    47,
-    52,
-    67,
-    69,
-    70,
+    44,
+    45,
+    49,
+    50,
+    60,
+    61,
+    63,
+    65,
+    66,
+    71,
     72,
-    85,
-    86,
-    133,
-    134,
+    76,
+    80,
+    87,
+    90,
+    91,
+    97,
+    98,
+    100,
+    103,
+    104,
+    107,
+    109,
+    110,
+    115,
+    116,
+    120,
+    123,
+    126,
     135,
     136,
-    137,
-    142,
+    138,
+    143,
+    146,
+    147,
+    150,
     151,
     153,
-    154,
-    176,
-    193,
-    201,
+    158,
+    162,
+    165,
+    167,
+    169,
+    171,
+    177,
+    179,
+    181,
+    182,
+    188,
+    191,
+    194,
+    200,
+    203,
+    204,
     205,
+    208,
+    209,
+    214,
+    216,
+    217,
+    218,
+    222,
+    224,
+    225,
+    226,
     228,
-    230,
     232,
     233,
+    234,
+    236,
+    237,
+    238,
+    241,
+    242,
+    243,
+    248,
+    249,
+    253,
+    256,
+    258,
     260,
     261,
-    272,
-    273,
+    262,
+    266,
+    267,
+    268,
+    271,
+    275,
+    277,
     278,
-    280,
-    286,
-    287,
+    282,
     288,
-    289,
-    290,
-    307,
-    313,
+    292,
+    296,
+    297,
+    301,
+    306,
+    308,
+    309,
+    310,
     314,
-    315,
-    319,
+    316,
     320,
-    322,
-    323,
-    324,
-    326,
-    327,
+    325,
     328,
     329,
-    333,
+    331,
+    332,
+    335,
     336,
-    341,
-    342,
-    363,
-    368,
-    416,
+    338,
+    340,
+    345,
+    346,
+    347,
+    352,
+    355,
+    356,
+    364,
+    367,
+    370,
+    373,
+    378,
+    382,
+    383,
+    385,
+    387,
+    389,
+    394,
+    396,
+    399,
+    405,
+    408,
+    411,
+    412,
+    413,
+    415,
     417,
-    419,
+    420,
+    421,
     423,
-    428,
-    429,
-    430,
+    425,
+    426,
     431,
-    434,
-    447,
-    477,
-    492,
-    493,
-    494,
+    440,
+    444,
+    448,
+    453,
+    454,
+    455,
+    457,
+    458,
+    462,
+    464,
+    465,
+    466,
+    469,
+    472,
+    474,
+    478,
+    485,
+    487,
+    488,
+    490,
+    496,
+    497,
+    502,
+    508,
+    520,
+    525,
+    530,
     532,
-    544,
-    545,
-    546
+    535,
+    536,
+    542,
+    556,
+    558,
+    567,
+    568,
+    578,
+    582,
+    583,
+    590,
+    595,
+    602,
+    607,
+    611,
+    614,
+    616,
+    620,
+    622,
+    626,
+    629,
+    636,
+    638,
+    640,
+    642,
+    645,
+    646,
+    660,
+    664,
+    671,
+    675,
+    676,
+    681,
+    685,
+    703,
+    716,
+    721,
+    723,
+    724,
+    728,
+    757,
+    782,
+    866,
+    928,
+    942,
+    947,
+    953,
+    985,
+    1010,
+    1015,
+    1055,
+    1077,
+    1093,
+    1136,
+    1184,
+    1213,
+    1424,
+    1487,
+    1593,
+    1619,
+    1631,
+    1638,
+    1768,
+    1841,
+    1886,
+    1987,
+    2008,
+    2010,
+    2021,
+    2038,
+    2045,
+    2048,
+    2049,
+    2050,
+    2051,
+    2063,
+    2067,
+    2069,
+    2071,
+    2074,
+    2077,
+    2078,
+    2079,
+    2080,
+    2081,
+    2082,
+    2083,
+    2085,
+    2087,
+    2089,
+    2090
   ],
   "overlaps": [
     {
-      "provinceId": 28,
+      "provinceId": 75,
       "candidates": [
         "GOBERNACION_DE_CHILE",
         "VIRREINATO_DEL_PERU"
@@ -110,7 +286,7 @@
       "selected": "GOBERNACION_DE_CHILE"
     },
     {
-      "provinceId": 89,
+      "provinceId": 82,
       "candidates": [
         "GOBERNACION_DE_CHILE",
         "VIRREINATO_DEL_PERU"
@@ -118,15 +294,7 @@
       "selected": "GOBERNACION_DE_CHILE"
     },
     {
-      "provinceId": 126,
-      "candidates": [
-        "CAPITANIA_GENERAL_DE_GUATEMALA",
-        "REINO_DE_MEXICO"
-      ],
-      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
-    },
-    {
-      "provinceId": 130,
+      "provinceId": 84,
       "candidates": [
         "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
@@ -134,183 +302,79 @@
       "selected": "CAPITANIA_GENERAL_DE_CUBA"
     },
     {
-      "provinceId": 140,
+      "provinceId": 122,
       "candidates": [
-        "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
+        "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
       ],
-      "selected": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO"
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
     },
     {
-      "provinceId": 204,
+      "provinceId": 127,
       "candidates": [
-        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
       ],
-      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
     },
     {
-      "provinceId": 207,
+      "provinceId": 148,
       "candidates": [
-        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "SHOSHONE",
         "REINO_DE_MEXICO"
       ],
-      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+      "selected": "SHOSHONE"
     },
     {
-      "provinceId": 213,
+      "provinceId": 149,
       "candidates": [
-        "MARATHA_EMPIRE",
-        "MUGHAL_EMPIRE"
-      ],
-      "selected": "MARATHA_EMPIRE"
-    },
-    {
-      "provinceId": 214,
-      "candidates": [
-        "MARATHA_EMPIRE",
-        "MUGHAL_EMPIRE"
-      ],
-      "selected": "MARATHA_EMPIRE"
-    },
-    {
-      "provinceId": 216,
-      "candidates": [
-        "MARATHA_EMPIRE",
-        "MUGHAL_EMPIRE"
-      ],
-      "selected": "MARATHA_EMPIRE"
-    },
-    {
-      "provinceId": 218,
-      "candidates": [
-        "CARNATIC_SULTANATE",
-        "MUGHAL_EMPIRE"
-      ],
-      "selected": "CARNATIC_SULTANATE"
-    },
-    {
-      "provinceId": 219,
-      "candidates": [
-        "MYSORE_KINGDOM",
-        "MUGHAL_EMPIRE"
-      ],
-      "selected": "MYSORE_KINGDOM"
-    },
-    {
-      "provinceId": 220,
-      "candidates": [
-        "MARATHA_EMPIRE",
-        "MUGHAL_EMPIRE"
-      ],
-      "selected": "MARATHA_EMPIRE"
-    },
-    {
-      "provinceId": 222,
-      "candidates": [
-        "MARATHA_EMPIRE",
-        "MUGHAL_EMPIRE"
-      ],
-      "selected": "MARATHA_EMPIRE"
-    },
-    {
-      "provinceId": 225,
-      "candidates": [
-        "AWADH",
-        "MUGHAL_EMPIRE"
-      ],
-      "selected": "AWADH"
-    },
-    {
-      "provinceId": 258,
-      "candidates": [
-        "HABSBURG_MONARCHY",
-        "GRAND_DUCHY_OF_TUSCANY"
-      ],
-      "selected": "HABSBURG_MONARCHY"
-    },
-    {
-      "provinceId": 293,
-      "candidates": [
-        "NUEVA_GALICIA",
+        "N_M_N_SOOKOBIT",
         "REINO_DE_MEXICO"
       ],
-      "selected": "NUEVA_GALICIA"
+      "selected": "N_M_N_SOOKOBIT"
     },
     {
-      "provinceId": 296,
+      "provinceId": 175,
       "candidates": [
-        "NUEVO_REINO_DE_LEON",
+        "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
       ],
-      "selected": "NUEVO_REINO_DE_LEON"
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
     },
     {
-      "provinceId": 298,
+      "provinceId": 197,
       "candidates": [
-        "CAPITANIA_GENERAL_DE_YUCATAN",
+        "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
       ],
-      "selected": "CAPITANIA_GENERAL_DE_YUCATAN"
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
     },
     {
-      "provinceId": 303,
+      "provinceId": 199,
       "candidates": [
-        "ALAOUITE_MOROCCO",
-        "SHARIFIAN_SULTANATE"
+        "GOBERNACION_DE_CHILE",
+        "VIRREINATO_DEL_PERU"
       ],
-      "selected": "ALAOUITE_MOROCCO"
+      "selected": "GOBERNACION_DE_CHILE"
     },
     {
-      "provinceId": 304,
+      "provinceId": 239,
       "candidates": [
-        "ALAOUITE_MOROCCO",
-        "SHARIFIAN_SULTANATE"
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
       ],
-      "selected": "ALAOUITE_MOROCCO"
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
     },
     {
-      "provinceId": 305,
+      "provinceId": 269,
       "candidates": [
-        "ALAOUITE_MOROCCO",
-        "SHARIFIAN_SULTANATE"
+        "NUEVO_SANTANDER",
+        "REINO_DE_MEXICO"
       ],
-      "selected": "ALAOUITE_MOROCCO"
+      "selected": "NUEVO_SANTANDER"
     },
     {
-      "provinceId": 306,
-      "candidates": [
-        "ALAOUITE_MOROCCO",
-        "SHARIFIAN_SULTANATE"
-      ],
-      "selected": "ALAOUITE_MOROCCO"
-    },
-    {
-      "provinceId": 337,
-      "candidates": [
-        "KHANATE_OF_KALAT",
-        "AFSHARID_IRAN"
-      ],
-      "selected": "KHANATE_OF_KALAT"
-    },
-    {
-      "provinceId": 338,
-      "candidates": [
-        "SIKH_MISLS",
-        "MUGHAL_EMPIRE"
-      ],
-      "selected": "SIKH_MISLS"
-    },
-    {
-      "provinceId": 339,
-      "candidates": [
-        "SINDH",
-        "MUGHAL_EMPIRE"
-      ],
-      "selected": "SINDH"
-    },
-    {
-      "provinceId": 349,
+      "provinceId": 273,
       "candidates": [
         "VIRREINATO_DE_LA_NUEVA_GRANADA",
         "VIRREINATO_DEL_PERU"
@@ -318,63 +382,15 @@
       "selected": "VIRREINATO_DE_LA_NUEVA_GRANADA"
     },
     {
-      "provinceId": 350,
+      "provinceId": 302,
       "candidates": [
-        "CAPITANIA_GENERAL_DE_FILIPINAS",
-        "REINO_DE_MEXICO"
+        "GOBERNACION_DE_CHILE",
+        "VIRREINATO_DEL_PERU"
       ],
-      "selected": "CAPITANIA_GENERAL_DE_FILIPINAS"
+      "selected": "GOBERNACION_DE_CHILE"
     },
     {
-      "provinceId": 352,
-      "candidates": [
-        "CAPITANIA_GENERAL_DE_FILIPINAS",
-        "REINO_DE_MEXICO"
-      ],
-      "selected": "CAPITANIA_GENERAL_DE_FILIPINAS"
-    },
-    {
-      "provinceId": 364,
-      "candidates": [
-        "REINO_DE_MEXICO",
-        "CAPITANIA_GENERAL_DE_PUERTO_RICO"
-      ],
-      "selected": "REINO_DE_MEXICO"
-    },
-    {
-      "provinceId": 372,
-      "candidates": [
-        "PRINCIPALITY_OF_MOLDAVIA",
-        "OTTOMAN_EMPIRE"
-      ],
-      "selected": "PRINCIPALITY_OF_MOLDAVIA"
-    },
-    {
-      "provinceId": 373,
-      "candidates": [
-        "PRINCIPALITY_OF_WALLACHIA",
-        "OTTOMAN_EMPIRE"
-      ],
-      "selected": "PRINCIPALITY_OF_WALLACHIA"
-    },
-    {
-      "provinceId": 453,
-      "candidates": [
-        "OLD_SWISS_CONFEDERACY",
-        "SWISS_CONFEDERACY"
-      ],
-      "selected": "OLD_SWISS_CONFEDERACY"
-    },
-    {
-      "provinceId": 454,
-      "candidates": [
-        "OLD_SWISS_CONFEDERACY",
-        "SWISS_CONFEDERACY"
-      ],
-      "selected": "OLD_SWISS_CONFEDERACY"
-    },
-    {
-      "provinceId": 498,
+      "provinceId": 303,
       "candidates": [
         "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
@@ -382,23 +398,7 @@
       "selected": "CAPITANIA_GENERAL_DE_CUBA"
     },
     {
-      "provinceId": 500,
-      "candidates": [
-        "CAPITANIA_GENERAL_DE_CUBA",
-        "REINO_DE_MEXICO"
-      ],
-      "selected": "CAPITANIA_GENERAL_DE_CUBA"
-    },
-    {
-      "provinceId": 507,
-      "candidates": [
-        "CAPITANIA_GENERAL_DE_CUBA",
-        "REINO_DE_MEXICO"
-      ],
-      "selected": "CAPITANIA_GENERAL_DE_CUBA"
-    },
-    {
-      "provinceId": 508,
+      "provinceId": 304,
       "candidates": [
         "N_M_N_SOOKOBIT",
         "CAPITANIA_GENERAL_DE_CUBA",
@@ -407,7 +407,7 @@
       "selected": "N_M_N_SOOKOBIT"
     },
     {
-      "provinceId": 510,
+      "provinceId": 315,
       "candidates": [
         "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
@@ -415,23 +415,105 @@
       "selected": "CAPITANIA_GENERAL_DE_CUBA"
     },
     {
-      "provinceId": 514,
+      "provinceId": 341,
       "candidates": [
+        "ALAOUITE_MOROCCO",
+        "SHARIFIAN_SULTANATE"
+      ],
+      "selected": "ALAOUITE_MOROCCO"
+    },
+    {
+      "provinceId": 366,
+      "candidates": [
+        "ALAOUITE_MOROCCO",
+        "SHARIFIAN_SULTANATE"
+      ],
+      "selected": "ALAOUITE_MOROCCO"
+    },
+    {
+      "provinceId": 377,
+      "candidates": [
+        "GOBERNACION_DE_CHILE",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "GOBERNACION_DE_CHILE"
+    },
+    {
+      "provinceId": 392,
+      "candidates": [
+        "N_M_N_SOOKOBIT",
         "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
       ],
-      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+      "selected": "N_M_N_SOOKOBIT"
     },
     {
-      "provinceId": 516,
+      "provinceId": 409,
       "candidates": [
+        "N_M_N_SOOKOBIT",
         "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
       ],
-      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+      "selected": "N_M_N_SOOKOBIT"
     },
     {
-      "provinceId": 517,
+      "provinceId": 414,
+      "candidates": [
+        "VIRREINATO_DE_LA_NUEVA_GRANADA",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "VIRREINATO_DE_LA_NUEVA_GRANADA"
+    },
+    {
+      "provinceId": 460,
+      "candidates": [
+        "KHANATE_OF_KHIVA",
+        "AFSHARID_IRAN"
+      ],
+      "selected": "KHANATE_OF_KHIVA"
+    },
+    {
+      "provinceId": 476,
+      "candidates": [
+        "QASIMID_YEMEN",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "QASIMID_YEMEN"
+    },
+    {
+      "provinceId": 479,
+      "candidates": [
+        "GOBERNACION_DE_CHILE",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "GOBERNACION_DE_CHILE"
+    },
+    {
+      "provinceId": 482,
+      "candidates": [
+        "VIRREINATO_DE_LA_NUEVA_GRANADA",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "VIRREINATO_DE_LA_NUEVA_GRANADA"
+    },
+    {
+      "provinceId": 486,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_YUCATAN",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_YUCATAN"
+    },
+    {
+      "provinceId": 492,
+      "candidates": [
+        "NUEVA_GALICIA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "NUEVA_GALICIA"
+    },
+    {
+      "provinceId": 499,
       "candidates": [
         "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
@@ -441,22 +523,142 @@
     {
       "provinceId": 518,
       "candidates": [
+        "VIRREINATO_DE_LA_NUEVA_GRANADA",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "VIRREINATO_DE_LA_NUEVA_GRANADA"
+    },
+    {
+      "provinceId": 552,
+      "candidates": [
+        "GOBERNACION_DE_CHILE",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "GOBERNACION_DE_CHILE"
+    },
+    {
+      "provinceId": 559,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 632,
+      "candidates": [
+        "NUEVO_REINO_DE_LEON",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "NUEVO_REINO_DE_LEON"
+    },
+    {
+      "provinceId": 687,
+      "candidates": [
+        "KHANATE_OF_KALAT",
+        "AFSHARID_IRAN"
+      ],
+      "selected": "KHANATE_OF_KALAT"
+    },
+    {
+      "provinceId": 689,
+      "candidates": [
+        "ALAOUITE_MOROCCO",
+        "SHARIFIAN_SULTANATE"
+      ],
+      "selected": "ALAOUITE_MOROCCO"
+    },
+    {
+      "provinceId": 694,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_FILIPINAS",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_FILIPINAS"
+    },
+    {
+      "provinceId": 712,
+      "candidates": [
         "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
       ],
       "selected": "CAPITANIA_GENERAL_DE_CUBA"
     },
     {
-      "provinceId": 525,
+      "provinceId": 742,
       "candidates": [
-        "N_M_N_SOOKOBIT",
-        "CAPITANIA_GENERAL_DE_CUBA",
-        "REINO_DE_MEXICO"
+        "ALAOUITE_MOROCCO",
+        "SHARIFIAN_SULTANATE"
       ],
-      "selected": "N_M_N_SOOKOBIT"
+      "selected": "ALAOUITE_MOROCCO"
     },
     {
-      "provinceId": 528,
+      "provinceId": 750,
+      "candidates": [
+        "GOBERNACION_DE_CHILE",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "GOBERNACION_DE_CHILE"
+    },
+    {
+      "provinceId": 752,
+      "candidates": [
+        "AWADH",
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "AWADH"
+    },
+    {
+      "provinceId": 796,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 800,
+      "candidates": [
+        "VIRREINATO_DE_LA_NUEVA_GRANADA",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "VIRREINATO_DE_LA_NUEVA_GRANADA"
+    },
+    {
+      "provinceId": 801,
+      "candidates": [
+        "GOBERNACION_DE_CHILE",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "GOBERNACION_DE_CHILE"
+    },
+    {
+      "provinceId": 802,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_FILIPINAS",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_FILIPINAS"
+    },
+    {
+      "provinceId": 813,
+      "candidates": [
+        "MYSORE_KINGDOM",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MYSORE_KINGDOM"
+    },
+    {
+      "provinceId": 819,
+      "candidates": [
+        "BAHAWALPUR_STATE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "BAHAWALPUR_STATE"
+    },
+    {
+      "provinceId": 824,
       "candidates": [
         "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
@@ -464,15 +666,79 @@
       "selected": "CAPITANIA_GENERAL_DE_CUBA"
     },
     {
-      "provinceId": 530,
+      "provinceId": 827,
       "candidates": [
-        "N_M_N_SOOKOBIT",
-        "REINO_DE_MEXICO"
+        "KHANATE_OF_KALAT",
+        "AFSHARID_IRAN"
       ],
-      "selected": "N_M_N_SOOKOBIT"
+      "selected": "KHANATE_OF_KALAT"
     },
     {
-      "provinceId": 535,
+      "provinceId": 830,
+      "candidates": [
+        "NUEVA_GALICIA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "NUEVA_GALICIA"
+    },
+    {
+      "provinceId": 833,
+      "candidates": [
+        "CARNATIC_SULTANATE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "CARNATIC_SULTANATE"
+    },
+    {
+      "provinceId": 836,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_FILIPINAS",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_FILIPINAS"
+    },
+    {
+      "provinceId": 853,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_YUCATAN",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_YUCATAN"
+    },
+    {
+      "provinceId": 861,
+      "candidates": [
+        "CARNATIC_SULTANATE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "CARNATIC_SULTANATE"
+    },
+    {
+      "provinceId": 872,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 873,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 874,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 892,
       "candidates": [
         "CAPITANIA_GENERAL_DE_CUBA",
         "REINO_DE_MEXICO"
@@ -480,488 +746,2261 @@
       "selected": "CAPITANIA_GENERAL_DE_CUBA"
     },
     {
-      "provinceId": 542,
+      "provinceId": 902,
+      "candidates": [
+        "SIKH_MISLS",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "SIKH_MISLS"
+    },
+    {
+      "provinceId": 904,
+      "candidates": [
+        "GOBERNACION_DE_CHILE",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "GOBERNACION_DE_CHILE"
+    },
+    {
+      "provinceId": 906,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 910,
+      "candidates": [
+        "GOBERNACION_DE_CHILE",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "GOBERNACION_DE_CHILE"
+    },
+    {
+      "provinceId": 919,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_YUCATAN",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_YUCATAN"
+    },
+    {
+      "provinceId": 922,
+      "candidates": [
+        "KINGDOM_OF_KARTLI_KAKHETI",
+        "AFSHARID_IRAN"
+      ],
+      "selected": "KINGDOM_OF_KARTLI_KAKHETI"
+    },
+    {
+      "provinceId": 926,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 932,
+      "candidates": [
+        "NUEVA_GALICIA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "NUEVA_GALICIA"
+    },
+    {
+      "provinceId": 934,
+      "candidates": [
+        "SIKH_MISLS",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "SIKH_MISLS"
+    },
+    {
+      "provinceId": 938,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 949,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 954,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 962,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 970,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 977,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 983,
+      "candidates": [
+        "AWADH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "AWADH"
+    },
+    {
+      "provinceId": 989,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 999,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1004,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1005,
+      "candidates": [
+        "SINDH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "SINDH"
+    },
+    {
+      "provinceId": 1009,
+      "candidates": [
+        "SIKH_MISLS",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "SIKH_MISLS"
+    },
+    {
+      "provinceId": 1012,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1016,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_FILIPINAS",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_FILIPINAS"
+    },
+    {
+      "provinceId": 1017,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1018,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1021,
+      "candidates": [
+        "AWADH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "AWADH"
+    },
+    {
+      "provinceId": 1023,
       "candidates": [
         "CAMBODIA",
         "THONBURI_KINGDOM"
       ],
       "selected": "CAMBODIA"
+    },
+    {
+      "provinceId": 1027,
+      "candidates": [
+        "SINDH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "SINDH"
+    },
+    {
+      "provinceId": 1028,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1041,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1046,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1047,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1048,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1054,
+      "candidates": [
+        "AWADH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "AWADH"
+    },
+    {
+      "provinceId": 1058,
+      "candidates": [
+        "AWADH",
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "AWADH"
+    },
+    {
+      "provinceId": 1059,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1062,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1064,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1067,
+      "candidates": [
+        "AWADH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "AWADH"
+    },
+    {
+      "provinceId": 1069,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1070,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1076,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1082,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1090,
+      "candidates": [
+        "NUEVA_GALICIA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "NUEVA_GALICIA"
+    },
+    {
+      "provinceId": 1098,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_FILIPINAS",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_FILIPINAS"
+    },
+    {
+      "provinceId": 1099,
+      "candidates": [
+        "AWADH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "AWADH"
+    },
+    {
+      "provinceId": 1110,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1114,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1115,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1128,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1139,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1140,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1141,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1147,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1155,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1156,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1157,
+      "candidates": [
+        "NUEVA_GALICIA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "NUEVA_GALICIA"
+    },
+    {
+      "provinceId": 1159,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1161,
+      "candidates": [
+        "KHANATE_OF_KALAT",
+        "AFSHARID_IRAN"
+      ],
+      "selected": "KHANATE_OF_KALAT"
+    },
+    {
+      "provinceId": 1164,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1169,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1175,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1181,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1186,
+      "candidates": [
+        "KHANATE_OF_KALAT",
+        "AFSHARID_IRAN"
+      ],
+      "selected": "KHANATE_OF_KALAT"
+    },
+    {
+      "provinceId": 1193,
+      "candidates": [
+        "KHANATE_OF_KALAT",
+        "AFSHARID_IRAN"
+      ],
+      "selected": "KHANATE_OF_KALAT"
+    },
+    {
+      "provinceId": 1195,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1206,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1214,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1217,
+      "candidates": [
+        "SINDH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "SINDH"
+    },
+    {
+      "provinceId": 1244,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1249,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1254,
+      "candidates": [
+        "SINDH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "SINDH"
+    },
+    {
+      "provinceId": 1257,
+      "candidates": [
+        "KHANATE_OF_KALAT",
+        "AFSHARID_IRAN"
+      ],
+      "selected": "KHANATE_OF_KALAT"
+    },
+    {
+      "provinceId": 1259,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1265,
+      "candidates": [
+        "KHANATE_OF_KALAT",
+        "AFSHARID_IRAN"
+      ],
+      "selected": "KHANATE_OF_KALAT"
+    },
+    {
+      "provinceId": 1270,
+      "candidates": [
+        "NEW_HAMPSHIRE_COLONY",
+        "PROVINCE_OF_MASSACHUSETTS_BAY"
+      ],
+      "selected": "NEW_HAMPSHIRE_COLONY"
+    },
+    {
+      "provinceId": 1273,
+      "candidates": [
+        "AWADH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "AWADH"
+    },
+    {
+      "provinceId": 1286,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1293,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1294,
+      "candidates": [
+        "HABSBURG_MONARCHY",
+        "GRAND_DUCHY_OF_TUSCANY"
+      ],
+      "selected": "HABSBURG_MONARCHY"
+    },
+    {
+      "provinceId": 1296,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1302,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1309,
+      "candidates": [
+        "SIKH_MISLS",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "SIKH_MISLS"
+    },
+    {
+      "provinceId": 1313,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1318,
+      "candidates": [
+        "GREENLAND",
+        "DANMARK_NORGE"
+      ],
+      "selected": "GREENLAND"
+    },
+    {
+      "provinceId": 1321,
+      "candidates": [
+        "MYSORE_KINGDOM",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MYSORE_KINGDOM"
+    },
+    {
+      "provinceId": 1322,
+      "candidates": [
+        "DANG_TRONG",
+        "CAMBODIA"
+      ],
+      "selected": "DANG_TRONG"
+    },
+    {
+      "provinceId": 1327,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1329,
+      "candidates": [
+        "DANG_TRONG",
+        "CAMBODIA"
+      ],
+      "selected": "DANG_TRONG"
+    },
+    {
+      "provinceId": 1335,
+      "candidates": [
+        "AWADH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "AWADH"
+    },
+    {
+      "provinceId": 1343,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1344,
+      "candidates": [
+        "ALAOUITE_MOROCCO",
+        "SHARIFIAN_SULTANATE"
+      ],
+      "selected": "ALAOUITE_MOROCCO"
+    },
+    {
+      "provinceId": 1349,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1350,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1353,
+      "candidates": [
+        "AWADH",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "AWADH"
+    },
+    {
+      "provinceId": 1361,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1372,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO"
+    },
+    {
+      "provinceId": 1376,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1380,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1383,
+      "candidates": [
+        "ALAOUITE_MOROCCO",
+        "SHARIFIAN_SULTANATE"
+      ],
+      "selected": "ALAOUITE_MOROCCO"
+    },
+    {
+      "provinceId": 1384,
+      "candidates": [
+        "DANG_TRONG",
+        "CAMBODIA"
+      ],
+      "selected": "DANG_TRONG"
+    },
+    {
+      "provinceId": 1386,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1393,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1398,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_YUCATAN",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_YUCATAN"
+    },
+    {
+      "provinceId": 1399,
+      "candidates": [
+        "SINDH",
+        "AFSHARID_IRAN"
+      ],
+      "selected": "SINDH"
+    },
+    {
+      "provinceId": 1401,
+      "candidates": [
+        "MYSORE_KINGDOM",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MYSORE_KINGDOM"
+    },
+    {
+      "provinceId": 1403,
+      "candidates": [
+        "PRINCIPALITY_OF_WALLACHIA",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "PRINCIPALITY_OF_WALLACHIA"
+    },
+    {
+      "provinceId": 1407,
+      "candidates": [
+        "KINGDOM_OF_KARTLI_KAKHETI",
+        "AFSHARID_IRAN"
+      ],
+      "selected": "KINGDOM_OF_KARTLI_KAKHETI"
+    },
+    {
+      "provinceId": 1425,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1430,
+      "candidates": [
+        "PRINCIPALITY_OF_MOLDAVIA",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "PRINCIPALITY_OF_MOLDAVIA"
+    },
+    {
+      "provinceId": 1452,
+      "candidates": [
+        "HAUDENOSAUNEE",
+        "COLONY_OF_NEW_YORK"
+      ],
+      "selected": "HAUDENOSAUNEE"
+    },
+    {
+      "provinceId": 1459,
+      "candidates": [
+        "MYSORE_KINGDOM",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MYSORE_KINGDOM"
+    },
+    {
+      "provinceId": 1471,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1483,
+      "candidates": [
+        "MYSORE_KINGDOM",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MYSORE_KINGDOM"
+    },
+    {
+      "provinceId": 1484,
+      "candidates": [
+        "PRINCIPALITY_OF_MOLDAVIA",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "PRINCIPALITY_OF_MOLDAVIA"
+    },
+    {
+      "provinceId": 1493,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1495,
+      "candidates": [
+        "PRINCIPALITY_OF_WALLACHIA",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "PRINCIPALITY_OF_WALLACHIA"
+    },
+    {
+      "provinceId": 1503,
+      "candidates": [
+        "MYSORE_KINGDOM",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MYSORE_KINGDOM"
+    },
+    {
+      "provinceId": 1510,
+      "candidates": [
+        "PRINCIPALITY_OF_MOLDAVIA",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "PRINCIPALITY_OF_MOLDAVIA"
+    },
+    {
+      "provinceId": 1512,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO"
+    },
+    {
+      "provinceId": 1535,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_CUBA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_CUBA"
+    },
+    {
+      "provinceId": 1538,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1544,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_YUCATAN",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_YUCATAN"
+    },
+    {
+      "provinceId": 1545,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO"
+    },
+    {
+      "provinceId": 1564,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_FILIPINAS",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_FILIPINAS"
+    },
+    {
+      "provinceId": 1580,
+      "candidates": [
+        "PRINCIPALITY_OF_MOLDAVIA",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "PRINCIPALITY_OF_MOLDAVIA"
+    },
+    {
+      "provinceId": 1582,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO"
+    },
+    {
+      "provinceId": 1589,
+      "candidates": [
+        "THANJAVUR_MARATHA_KINGDOM",
+        "CARNATIC_SULTANATE"
+      ],
+      "selected": "THANJAVUR_MARATHA_KINGDOM"
+    },
+    {
+      "provinceId": 1591,
+      "candidates": [
+        "PRINCIPALITY_OF_THUAN_THANH",
+        "CAMBODIA"
+      ],
+      "selected": "PRINCIPALITY_OF_THUAN_THANH"
+    },
+    {
+      "provinceId": 1592,
+      "candidates": [
+        "PRINCIPALITY_OF_MOLDAVIA",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "PRINCIPALITY_OF_MOLDAVIA"
+    },
+    {
+      "provinceId": 1599,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1642,
+      "candidates": [
+        "OLD_SWISS_CONFEDERACY",
+        "SWISS_CONFEDERACY"
+      ],
+      "selected": "OLD_SWISS_CONFEDERACY"
+    },
+    {
+      "provinceId": 1644,
+      "candidates": [
+        "PRINCIPALITY_OF_WALLACHIA",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "PRINCIPALITY_OF_WALLACHIA"
+    },
+    {
+      "provinceId": 1650,
+      "candidates": [
+        "MYSORE_KINGDOM",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MYSORE_KINGDOM"
+    },
+    {
+      "provinceId": 1655,
+      "candidates": [
+        "PRINCIPALITY_OF_WALLACHIA",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "PRINCIPALITY_OF_WALLACHIA"
+    },
+    {
+      "provinceId": 1657,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1660,
+      "candidates": [
+        "DUCATUS_MEDIOLANI",
+        "HABSBURG_MONARCHY"
+      ],
+      "selected": "DUCATUS_MEDIOLANI"
+    },
+    {
+      "provinceId": 1667,
+      "candidates": [
+        "KONIGREICH_PREUSSEN",
+        "RZECZPOSPOLITA_OBOJGA_NARODOW"
+      ],
+      "selected": "KONIGREICH_PREUSSEN"
+    },
+    {
+      "provinceId": 1672,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1676,
+      "candidates": [
+        "KONIGREICH_PREUSSEN",
+        "RZECZPOSPOLITA_OBOJGA_NARODOW"
+      ],
+      "selected": "KONIGREICH_PREUSSEN"
+    },
+    {
+      "provinceId": 1681,
+      "candidates": [
+        "PRINCIPALITY_OF_WALLACHIA",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "PRINCIPALITY_OF_WALLACHIA"
+    },
+    {
+      "provinceId": 1689,
+      "candidates": [
+        "KONIGREICH_PREUSSEN",
+        "RZECZPOSPOLITA_OBOJGA_NARODOW"
+      ],
+      "selected": "KONIGREICH_PREUSSEN"
+    },
+    {
+      "provinceId": 1696,
+      "candidates": [
+        "PRINCIPALITY_OF_WALLACHIA",
+        "OTTOMAN_EMPIRE"
+      ],
+      "selected": "PRINCIPALITY_OF_WALLACHIA"
+    },
+    {
+      "provinceId": 1697,
+      "candidates": [
+        "GREENLAND",
+        "DANMARK_NORGE"
+      ],
+      "selected": "GREENLAND"
+    },
+    {
+      "provinceId": 1707,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1709,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1716,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1733,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 1736,
+      "candidates": [
+        "REINO_DE_MEXICO",
+        "CAPITANIA_GENERAL_DE_PUERTO_RICO"
+      ],
+      "selected": "REINO_DE_MEXICO"
+    },
+    {
+      "provinceId": 1740,
+      "candidates": [
+        "GOVERNORATE_OF_CHILOE",
+        "VIRREINATO_DEL_PERU"
+      ],
+      "selected": "GOVERNORATE_OF_CHILOE"
+    },
+    {
+      "provinceId": 1763,
+      "candidates": [
+        "REPUBLICA_DE_VENEZIA",
+        "HABSBURG_MONARCHY"
+      ],
+      "selected": "REPUBLICA_DE_VENEZIA"
+    },
+    {
+      "provinceId": 1765,
+      "candidates": [
+        "KONIGREICH_PREUSSEN",
+        "RZECZPOSPOLITA_OBOJGA_NARODOW"
+      ],
+      "selected": "KONIGREICH_PREUSSEN"
+    },
+    {
+      "provinceId": 1775,
+      "candidates": [
+        "SULTANATE_OF_BIMA",
+        "PORTUGUESE_TIMOR"
+      ],
+      "selected": "SULTANATE_OF_BIMA"
+    },
+    {
+      "provinceId": 1811,
+      "candidates": [
+        "FREISTAAT_DER_DREI_BUNDE",
+        "SWISS_CONFEDERACY"
+      ],
+      "selected": "FREISTAAT_DER_DREI_BUNDE"
+    },
+    {
+      "provinceId": 1840,
+      "candidates": [
+        "KONIGREICH_PREUSSEN",
+        "RZECZPOSPOLITA_OBOJGA_NARODOW"
+      ],
+      "selected": "KONIGREICH_PREUSSEN"
+    },
+    {
+      "provinceId": 1851,
+      "candidates": [
+        "OLD_SWISS_CONFEDERACY",
+        "SWISS_CONFEDERACY"
+      ],
+      "selected": "OLD_SWISS_CONFEDERACY"
+    },
+    {
+      "provinceId": 1860,
+      "candidates": [
+        "COMPANY_RAJ",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "COMPANY_RAJ"
+    },
+    {
+      "provinceId": 1946,
+      "candidates": [
+        "OLD_SWISS_CONFEDERACY",
+        "SWISS_CONFEDERACY"
+      ],
+      "selected": "OLD_SWISS_CONFEDERACY"
+    },
+    {
+      "provinceId": 1962,
+      "candidates": [
+        "COLONIA_TRINIDAD",
+        "VIRREINATO_DE_LA_NUEVA_GRANADA"
+      ],
+      "selected": "COLONIA_TRINIDAD"
+    },
+    {
+      "provinceId": 1993,
+      "candidates": [
+        "OLD_SWISS_CONFEDERACY",
+        "SWISS_CONFEDERACY"
+      ],
+      "selected": "OLD_SWISS_CONFEDERACY"
+    },
+    {
+      "provinceId": 1994,
+      "candidates": [
+        "GOA_PORTUGUESA",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "GOA_PORTUGUESA"
+    },
+    {
+      "provinceId": 1995,
+      "candidates": [
+        "MARATHA_EMPIRE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "MARATHA_EMPIRE"
+    },
+    {
+      "provinceId": 1997,
+      "candidates": [
+        "FREISTAAT_DER_DREI_BUNDE",
+        "SWISS_CONFEDERACY"
+      ],
+      "selected": "FREISTAAT_DER_DREI_BUNDE"
+    },
+    {
+      "provinceId": 2020,
+      "candidates": [
+        "RYUKYU_KINGDOM",
+        "TOKUGAWA_SHOGUNATE"
+      ],
+      "selected": "RYUKYU_KINGDOM"
+    },
+    {
+      "provinceId": 2026,
+      "candidates": [
+        "STATUS_ECCLESIASTICUS",
+        "COMTAT_VENAISSIN"
+      ],
+      "selected": "STATUS_ECCLESIASTICUS"
+    },
+    {
+      "provinceId": 2035,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO"
+    },
+    {
+      "provinceId": 2037,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_FILIPINAS",
+        "REINO_DE_MEXICO"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_FILIPINAS"
+    },
+    {
+      "provinceId": 2047,
+      "candidates": [
+        "INDE_FRANCAISE",
+        "CARNATIC_SULTANATE",
+        "MUGHAL_EMPIRE"
+      ],
+      "selected": "INDE_FRANCAISE"
+    },
+    {
+      "provinceId": 2066,
+      "candidates": [
+        "CAPITANIA_GENERAL_DE_GUATEMALA",
+        "ISLAS_DE_LA_BAHIA"
+      ],
+      "selected": "CAPITANIA_GENERAL_DE_GUATEMALA"
+    },
+    {
+      "provinceId": 2076,
+      "candidates": [
+        "SAN_MARINO",
+        "STATUS_ECCLESIASTICUS"
+      ],
+      "selected": "SAN_MARINO"
     }
   ],
   "nearestAssignments": [
     {
-      "provinceId": 77,
-      "polityKey": "PROVINCE_OF_QUEBEC",
-      "distanceDegrees": 0.9251523542103729
+      "provinceId": 54,
+      "polityKey": "QING_EMPIRE",
+      "distanceDegrees": 0.6609462429174134
     },
     {
-      "provinceId": 129,
-      "polityKey": "CAPITANIA_GENERAL_DE_CUBA",
-      "distanceDegrees": 0.002838495552226927
+      "provinceId": 83,
+      "polityKey": "SHILLUK_KINGDOM",
+      "distanceDegrees": 1.4605696217572102
     },
     {
-      "provinceId": 143,
+      "provinceId": 108,
+      "polityKey": "REGENCY_OF_ALGIERS",
+      "distanceDegrees": 1.2471058375294397
+    },
+    {
+      "provinceId": 152,
       "polityKey": "OTTOMAN_EMPIRE",
-      "distanceDegrees": 0.861760550242095
+      "distanceDegrees": 1.4819866626633982
     },
     {
-      "provinceId": 149,
-      "polityKey": "ETHIOPIAN_EMPIRE",
-      "distanceDegrees": 0.21688675611941277
-    },
-    {
-      "provinceId": 178,
-      "polityKey": "HABSBURG_MONARCHY",
-      "distanceDegrees": 0.04595829979304409
-    },
-    {
-      "provinceId": 181,
-      "polityKey": "ELECTORATE_OF_BAVARIA",
-      "distanceDegrees": 0.5118961346767488
-    },
-    {
-      "provinceId": 182,
-      "polityKey": "KONIGREICH_PREUSSEN",
-      "distanceDegrees": 0.38421462772778686
-    },
-    {
-      "provinceId": 183,
-      "polityKey": "ROYAUME_DE_FRANCE",
-      "distanceDegrees": 1.1080907433766396
-    },
-    {
-      "provinceId": 184,
-      "polityKey": "KONIGREICH_PREUSSEN",
-      "distanceDegrees": 0.5705726623568637
-    },
-    {
-      "provinceId": 186,
-      "polityKey": "KONIGREICH_PREUSSEN",
-      "distanceDegrees": 0.4325691935794799
-    },
-    {
-      "provinceId": 187,
-      "polityKey": "KONIGREICH_PREUSSEN",
-      "distanceDegrees": 0.7000445857122234
-    },
-    {
-      "provinceId": 188,
-      "polityKey": "ROYAUME_DE_FRANCE",
-      "distanceDegrees": 0.21921333062110776
-    },
-    {
-      "provinceId": 189,
-      "polityKey": "HABSBURG_MONARCHY",
-      "distanceDegrees": 0.34781299999999504
-    },
-    {
-      "provinceId": 192,
-      "polityKey": "HABSBURG_MONARCHY",
-      "distanceDegrees": 0.09531199999999984
-    },
-    {
-      "provinceId": 194,
-      "polityKey": "OYO_EMPIRE",
-      "distanceDegrees": 0.9925938123991094
-    },
-    {
-      "provinceId": 195,
+      "provinceId": 154,
       "polityKey": "OTTOMAN_EMPIRE",
-      "distanceDegrees": 0.2688439999999943
+      "distanceDegrees": 1.329119916562353
     },
     {
-      "provinceId": 203,
-      "polityKey": "CAPITANIA_GENERAL_DE_FILIPINAS",
-      "distanceDegrees": 0.34830196320005
+      "provinceId": 155,
+      "polityKey": "ALAOUITE_MOROCCO",
+      "distanceDegrees": 1.3475622571018564
+    },
+    {
+      "provinceId": 173,
+      "polityKey": "REGENCY_OF_ALGIERS",
+      "distanceDegrees": 1.4522811553202637
+    },
+    {
+      "provinceId": 193,
+      "polityKey": "SHOSHONE",
+      "distanceDegrees": 1.3982636696989545
+    },
+    {
+      "provinceId": 206,
+      "polityKey": "REINO_DE_MEXICO",
+      "distanceDegrees": 1.0108028986899438
     },
     {
       "provinceId": 210,
-      "polityKey": "DANMARK_NORGE",
-      "distanceDegrees": 0.04689839533288311
+      "polityKey": "ETHIOPIAN_EMPIRE",
+      "distanceDegrees": 1.0064996064603675
     },
     {
-      "provinceId": 211,
-      "polityKey": "BHUTAN",
-      "distanceDegrees": 0.7938621340415447
+      "provinceId": 246,
+      "polityKey": "QASIMID_YEMEN",
+      "distanceDegrees": 1.386153588171238
     },
     {
-      "provinceId": 226,
-      "polityKey": "SULTANATE_OF_ACEH",
-      "distanceDegrees": 0.5749704674059382
+      "provinceId": 251,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "distanceDegrees": 0.7241049233088568
     },
     {
-      "provinceId": 227,
-      "polityKey": "SULTANATE_OF_BANJAR",
-      "distanceDegrees": 0.6136798667318257
+      "provinceId": 264,
+      "polityKey": "DUTCH_CAPE_COAST",
+      "distanceDegrees": 0.1873297093362404
     },
     {
-      "provinceId": 229,
-      "polityKey": "KUTAI_KINGDOM",
-      "distanceDegrees": 1.2917545848097451
+      "provinceId": 265,
+      "polityKey": "BORNU_EMPIRE",
+      "distanceDegrees": 0.5106961474407526
     },
     {
-      "provinceId": 238,
-      "polityKey": "AFSHARID_IRAN",
-      "distanceDegrees": 0.22123686307891818
+      "provinceId": 281,
+      "polityKey": "QING_EMPIRE",
+      "distanceDegrees": 1.0890238656705342
     },
     {
-      "provinceId": 276,
-      "polityKey": "TRINH_LORDS",
-      "distanceDegrees": 0.1015669999999993
+      "provinceId": 284,
+      "polityKey": "ETHIOPIAN_EMPIRE",
+      "distanceDegrees": 0.21481215049433244
     },
     {
-      "provinceId": 285,
-      "polityKey": "SULTANATE_OF_SULU",
-      "distanceDegrees": 0.32348728264956833
+      "provinceId": 289,
+      "polityKey": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
+      "distanceDegrees": 1.3504829506513611
+    },
+    {
+      "provinceId": 291,
+      "polityKey": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
+      "distanceDegrees": 0.7858369360115356
+    },
+    {
+      "provinceId": 293,
+      "polityKey": "ROZVI",
+      "distanceDegrees": 0.11761078596328045
     },
     {
       "provinceId": 311,
-      "polityKey": "QING_EMPIRE",
-      "distanceDegrees": 1.3789959266799912
+      "polityKey": "BORNU_EMPIRE",
+      "distanceDegrees": 1.185006321352039
     },
     {
       "provinceId": 312,
-      "polityKey": "KINGDOM_OF_MRAUK_U",
-      "distanceDegrees": 0.16023397356725885
+      "polityKey": "FUNJ_SULTANATE",
+      "distanceDegrees": 0.24064455115377076
     },
     {
-      "provinceId": 317,
-      "polityKey": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
-      "distanceDegrees": 0.06414888978774214
-    },
-    {
-      "provinceId": 331,
-      "polityKey": "JOSEON",
-      "distanceDegrees": 0.00759000000000043
-    },
-    {
-      "provinceId": 380,
-      "polityKey": "RUSSIAN_EMPIRE",
-      "distanceDegrees": 0.13920943700894295
-    },
-    {
-      "provinceId": 392,
-      "polityKey": "RUSSIAN_EMPIRE",
-      "distanceDegrees": 0.09301336430858424
-    },
-    {
-      "provinceId": 397,
-      "polityKey": "RUSSIAN_EMPIRE",
-      "distanceDegrees": 0.1869354593756928
-    },
-    {
-      "provinceId": 403,
-      "polityKey": "QING_EMPIRE",
-      "distanceDegrees": 0.807093632826446
-    },
-    {
-      "provinceId": 408,
-      "polityKey": "RUSSIAN_EMPIRE",
-      "distanceDegrees": 0.2390469087026845
-    },
-    {
-      "provinceId": 418,
+      "provinceId": 330,
       "polityKey": "OTTOMAN_EMPIRE",
-      "distanceDegrees": 0.4031003630260584
+      "distanceDegrees": 0.9503213111055001
     },
     {
-      "provinceId": 420,
+      "provinceId": 334,
       "polityKey": "OTTOMAN_EMPIRE",
-      "distanceDegrees": 0.9738414150017602
+      "distanceDegrees": 0.8840823193473288
     },
     {
-      "provinceId": 421,
-      "polityKey": "WUULI_MANSA_BANKO",
-      "distanceDegrees": 0.4833258956853031
+      "provinceId": 343,
+      "polityKey": "SULTANATE_OF_DARFUR",
+      "distanceDegrees": 1.1797915832891837
     },
     {
-      "provinceId": 427,
-      "polityKey": "MAJEERTEEN_SULTANATE",
-      "distanceDegrees": 1.4740462468949205
+      "provinceId": 362,
+      "polityKey": "BORNU_EMPIRE",
+      "distanceDegrees": 0.5956997305009624
     },
     {
-      "provinceId": 457,
-      "polityKey": "OTTOMAN_EMPIRE",
-      "distanceDegrees": 0.18807705869928407
-    },
-    {
-      "provinceId": 460,
+      "provinceId": 363,
       "polityKey": "THONBURI_KINGDOM",
-      "distanceDegrees": 0.07620792264587375
+      "distanceDegrees": 0.9877069859021906
     },
     {
-      "provinceId": 467,
-      "polityKey": "OTTOMAN_EMPIRE",
-      "distanceDegrees": 0.3332758209786573
-    },
-    {
-      "provinceId": 504,
-      "polityKey": "SHOSHONE",
-      "distanceDegrees": 0.7484750315441304
-    },
-    {
-      "provinceId": 511,
-      "polityKey": "COLONY_OF_PENNSYLVANIA",
-      "distanceDegrees": 0.28812471967013453
-    },
-    {
-      "provinceId": 526,
+      "provinceId": 369,
       "polityKey": "REINO_DE_MEXICO",
-      "distanceDegrees": 0.15233500000000078
+      "distanceDegrees": 0.6560680223879156
+    },
+    {
+      "provinceId": 374,
+      "polityKey": "UBWAMI_BW_URUNDI",
+      "distanceDegrees": 0.8508381338421545
+    },
+    {
+      "provinceId": 393,
+      "polityKey": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
+      "distanceDegrees": 0.8603149945997021
+    },
+    {
+      "provinceId": 398,
+      "polityKey": "OYO_EMPIRE",
+      "distanceDegrees": 1.228859536318126
+    },
+    {
+      "provinceId": 406,
+      "polityKey": "MAJEERTEEN_SULTANATE",
+      "distanceDegrees": 0.8951521953831822
+    },
+    {
+      "provinceId": 430,
+      "polityKey": "QING_EMPIRE",
+      "distanceDegrees": 0.9403295007602374
+    },
+    {
+      "provinceId": 432,
+      "polityKey": "WADAI_EMPIRE",
+      "distanceDegrees": 1.1184000000000012
+    },
+    {
+      "provinceId": 434,
+      "polityKey": "ROZVI",
+      "distanceDegrees": 0.13138104300673942
+    },
+    {
+      "provinceId": 443,
+      "polityKey": "ETHIOPIAN_EMPIRE",
+      "distanceDegrees": 0.0679131423049437
+    },
+    {
+      "provinceId": 468,
+      "polityKey": "DUTCH_CAPE_COAST",
+      "distanceDegrees": 1.4467801491588137
+    },
+    {
+      "provinceId": 471,
+      "polityKey": "SULTANATE_OF_DARFUR",
+      "distanceDegrees": 0.8412000000000006
+    },
+    {
+      "provinceId": 473,
+      "polityKey": "KINGDOM_OF_KAKONGO",
+      "distanceDegrees": 0.8045198381643552
+    },
+    {
+      "provinceId": 481,
+      "polityKey": "SULTANATE_OF_TIDORE",
+      "distanceDegrees": 1.2464207957186837
+    },
+    {
+      "provinceId": 494,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "distanceDegrees": 0.3189051583151383
+    },
+    {
+      "provinceId": 495,
+      "polityKey": "KUTAI_KINGDOM",
+      "distanceDegrees": 1.1122
+    },
+    {
+      "provinceId": 500,
+      "polityKey": "BORNU_EMPIRE",
+      "distanceDegrees": 0.8380081259439408
+    },
+    {
+      "provinceId": 515,
+      "polityKey": "KAZAKH_KHANATE",
+      "distanceDegrees": 1.1668224243645706
+    },
+    {
+      "provinceId": 521,
+      "polityKey": "SULTANATE_OF_BRUNEI",
+      "distanceDegrees": 0.22097911666036918
+    },
+    {
+      "provinceId": 531,
+      "polityKey": "SULTANATE_OF_JOHOR",
+      "distanceDegrees": 0.8949767411219101
+    },
+    {
+      "provinceId": 541,
+      "polityKey": "IMAMATE_OF_FUTA_TORO",
+      "distanceDegrees": 0.6446929516885672
+    },
+    {
+      "provinceId": 548,
+      "polityKey": "REGENCY_OF_ALGIERS",
+      "distanceDegrees": 0.28186967843391186
+    },
+    {
+      "provinceId": 560,
+      "polityKey": "OMANI_EMPIRE",
+      "distanceDegrees": 1.2431884330221206
+    },
+    {
+      "provinceId": 577,
+      "polityKey": "ETHIOPIAN_EMPIRE",
+      "distanceDegrees": 1.475416649628165
+    },
+    {
+      "provinceId": 585,
+      "polityKey": "SULTANATE_OF_SULU",
+      "distanceDegrees": 1.0501192170415699
+    },
+    {
+      "provinceId": 606,
+      "polityKey": "FUNJ_SULTANATE",
+      "distanceDegrees": 0.7212313252174022
+    },
+    {
+      "provinceId": 610,
+      "polityKey": "WUULI_MANSA_BANKO",
+      "distanceDegrees": 1.392727374614286
+    },
+    {
+      "provinceId": 615,
+      "polityKey": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
+      "distanceDegrees": 0.49034243136812045
+    },
+    {
+      "provinceId": 617,
+      "polityKey": "FUNJ_SULTANATE",
+      "distanceDegrees": 1.2032014278736085
+    },
+    {
+      "provinceId": 624,
+      "polityKey": "TRINH_LORDS",
+      "distanceDegrees": 0.7638677634250601
+    },
+    {
+      "provinceId": 631,
+      "polityKey": "IMAMATE_OF_FUTA_TORO",
+      "distanceDegrees": 1.0873777126647381
+    },
+    {
+      "provinceId": 648,
+      "polityKey": "SULTANATE_OF_QISHN_AND_SOCOTRA",
+      "distanceDegrees": 0.552862293050377
+    },
+    {
+      "provinceId": 655,
+      "polityKey": "DUTCH_CAPE_COAST",
+      "distanceDegrees": 0.3653013795617908
+    },
+    {
+      "provinceId": 659,
+      "polityKey": "QING_EMPIRE",
+      "distanceDegrees": 0.8656438066549083
+    },
+    {
+      "provinceId": 663,
+      "polityKey": "SULTANATE_OF_TIDORE",
+      "distanceDegrees": 0.29797251672314734
+    },
+    {
+      "provinceId": 667,
+      "polityKey": "SULTANATE_OF_TIDORE",
+      "distanceDegrees": 0.5785999999999998
+    },
+    {
+      "provinceId": 673,
+      "polityKey": "UBWAMI_BW_U_RWANDA",
+      "distanceDegrees": 0.9795752957276961
+    },
+    {
+      "provinceId": 696,
+      "polityKey": "UBWAMI_BW_U_RWANDA",
+      "distanceDegrees": 0.468851798483464
+    },
+    {
+      "provinceId": 715,
+      "polityKey": "MAJEERTEEN_SULTANATE",
+      "distanceDegrees": 0.8729144241691312
+    },
+    {
+      "provinceId": 720,
+      "polityKey": "SULTANATE_OF_TIDORE",
+      "distanceDegrees": 0.18899437758816534
+    },
+    {
+      "provinceId": 725,
+      "polityKey": "OMANI_EMPIRE",
+      "distanceDegrees": 0.1936037112247567
+    },
+    {
+      "provinceId": 744,
+      "polityKey": "KAZAKH_KHANATE",
+      "distanceDegrees": 0.9087089137892308
+    },
+    {
+      "provinceId": 747,
+      "polityKey": "UBWAMI_BW_U_RWANDA",
+      "distanceDegrees": 0.36745222818755646
+    },
+    {
+      "provinceId": 753,
+      "polityKey": "WADAI_EMPIRE",
+      "distanceDegrees": 0.022700000000000387
+    },
+    {
+      "provinceId": 758,
+      "polityKey": "KANGLEIPAK_KINGDOM",
+      "distanceDegrees": 1.1094553663847861
+    },
+    {
+      "provinceId": 770,
+      "polityKey": "TRINH_LORDS",
+      "distanceDegrees": 0.14076029269649207
+    },
+    {
+      "provinceId": 794,
+      "polityKey": "KINGDOM_OF_MRAUK_U",
+      "distanceDegrees": 1.158294133629287
+    },
+    {
+      "provinceId": 795,
+      "polityKey": "KANGLEIPAK_KINGDOM",
+      "distanceDegrees": 0.8481093620518523
+    },
+    {
+      "provinceId": 804,
+      "polityKey": "SULTANATE_OF_BRUNEI",
+      "distanceDegrees": 1.113752874801591
+    },
+    {
+      "provinceId": 810,
+      "polityKey": "SULTANATE_OF_BANTEN",
+      "distanceDegrees": 0.6541013453586467
+    },
+    {
+      "provinceId": 837,
+      "polityKey": "KINGDOM_OF_MRAUK_U",
+      "distanceDegrees": 0.2793689260696333
+    },
+    {
+      "provinceId": 843,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "distanceDegrees": 1.1136208011522206
+    },
+    {
+      "provinceId": 848,
+      "polityKey": "SULTANATE_OF_BANJAR",
+      "distanceDegrees": 0.6564261884210242
+    },
+    {
+      "provinceId": 877,
+      "polityKey": "SULTANATE_OF_MEMPAWAH",
+      "distanceDegrees": 0.6637095825735899
+    },
+    {
+      "provinceId": 887,
+      "polityKey": "KANGLEIPAK_KINGDOM",
+      "distanceDegrees": 0.7348330218491853
+    },
+    {
+      "provinceId": 898,
+      "polityKey": "BOUNDOU",
+      "distanceDegrees": 1.4726311724257373
+    },
+    {
+      "provinceId": 917,
+      "polityKey": "THONBURI_KINGDOM",
+      "distanceDegrees": 0.3514148830086846
+    },
+    {
+      "provinceId": 961,
+      "polityKey": "DAHOMEY",
+      "distanceDegrees": 0.9646907535578441
+    },
+    {
+      "provinceId": 1013,
+      "polityKey": "ALAOUITE_MOROCCO",
+      "distanceDegrees": 0.005479639099686434
+    },
+    {
+      "provinceId": 1019,
+      "polityKey": "TIBET",
+      "distanceDegrees": 0.6219387268855361
+    },
+    {
+      "provinceId": 1031,
+      "polityKey": "SULTANATE_OF_ACEH",
+      "distanceDegrees": 0.5567338053324922
+    },
+    {
+      "provinceId": 1037,
+      "polityKey": "KINGDOM_OF_MRAUK_U",
+      "distanceDegrees": 0.3832885727490377
+    },
+    {
+      "provinceId": 1057,
+      "polityKey": "SULTANATE_OF_BANJAR",
+      "distanceDegrees": 0.5575600000000003
+    },
+    {
+      "provinceId": 1066,
+      "polityKey": "THONBURI_KINGDOM",
+      "distanceDegrees": 0.371100000000002
+    },
+    {
+      "provinceId": 1079,
+      "polityKey": "SULTANATE_OF_BRUNEI",
+      "distanceDegrees": 1.2258451329592832
+    },
+    {
+      "provinceId": 1113,
+      "polityKey": "SENEGAMBIA_COLONY",
+      "distanceDegrees": 0.681312740230211
+    },
+    {
+      "provinceId": 1118,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.027166155414408928
+    },
+    {
+      "provinceId": 1119,
+      "polityKey": "SULTANATE_OF_BIMA",
+      "distanceDegrees": 1.387382282381133
+    },
+    {
+      "provinceId": 1125,
+      "polityKey": "OTTOMAN_EMPIRE",
+      "distanceDegrees": 0.07832412869356382
+    },
+    {
+      "provinceId": 1132,
+      "polityKey": "SULTANATE_OF_PERAK",
+      "distanceDegrees": 0.40419225623457994
+    },
+    {
+      "provinceId": 1154,
+      "polityKey": "QING_EMPIRE",
+      "distanceDegrees": 0.6320450775063482
+    },
+    {
+      "provinceId": 1162,
+      "polityKey": "SULTANATE_OF_JAMBI",
+      "distanceDegrees": 0.5567150962027496
+    },
+    {
+      "provinceId": 1170,
+      "polityKey": "KINGDOM_OF_MRAUK_U",
+      "distanceDegrees": 0.1800559216210463
+    },
+    {
+      "provinceId": 1185,
+      "polityKey": "SULTANATE_OF_SUKADANA",
+      "distanceDegrees": 0.44961785368089824
+    },
+    {
+      "provinceId": 1208,
+      "polityKey": "OYO_EMPIRE",
+      "distanceDegrees": 0.9235168271341894
+    },
+    {
+      "provinceId": 1247,
+      "polityKey": "MUGHAL_EMPIRE",
+      "distanceDegrees": 0.3546567495480647
+    },
+    {
+      "provinceId": 1264,
+      "polityKey": "TIBET",
+      "distanceDegrees": 0.073599999999999
+    },
+    {
+      "provinceId": 1281,
+      "polityKey": "OYO_EMPIRE",
+      "distanceDegrees": 0.46721800830474064
+    },
+    {
+      "provinceId": 1288,
+      "polityKey": "MUGHAL_EMPIRE",
+      "distanceDegrees": 0.37979963138476086
+    },
+    {
+      "provinceId": 1391,
+      "polityKey": "OMANI_EMPIRE",
+      "distanceDegrees": 0.8423739430917857
+    },
+    {
+      "provinceId": 1446,
+      "polityKey": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
+      "distanceDegrees": 0.626566556720032
+    },
+    {
+      "provinceId": 1455,
+      "polityKey": "TIBET",
+      "distanceDegrees": 0.4524309892127216
+    },
+    {
+      "provinceId": 1494,
+      "polityKey": "BHUTAN",
+      "distanceDegrees": 0.22785964978468765
+    },
+    {
+      "provinceId": 1509,
+      "polityKey": "TAHT_I_QIRIM_VE_DEST_I_QIPCAQ",
+      "distanceDegrees": 0.612425768794082
+    },
+    {
+      "provinceId": 1520,
+      "polityKey": "BHUTAN",
+      "distanceDegrees": 0.6155070836310497
+    },
+    {
+      "provinceId": 1523,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.7446138932359491
+    },
+    {
+      "provinceId": 1562,
+      "polityKey": "SULTANATE_OF_JOHOR",
+      "distanceDegrees": 0.2828400608117571
+    },
+    {
+      "provinceId": 1581,
+      "polityKey": "SULTANATE_OF_JOHOR",
+      "distanceDegrees": 0.13629999999999942
+    },
+    {
+      "provinceId": 1583,
+      "polityKey": "BALI",
+      "distanceDegrees": 0.3370494099076599
+    },
+    {
+      "provinceId": 1587,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.40787974943603056
+    },
+    {
+      "provinceId": 1617,
+      "polityKey": "HABSBURG_MONARCHY",
+      "distanceDegrees": 0.08953731065873985
+    },
+    {
+      "provinceId": 1658,
+      "polityKey": "ELECTORATE_OF_BAVARIA",
+      "distanceDegrees": 0.42912209218356395
+    },
+    {
+      "provinceId": 1665,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 1.0429437281080884
+    },
+    {
+      "provinceId": 1683,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.061700000000001864
+    },
+    {
+      "provinceId": 1704,
+      "polityKey": "SULTANATE_OF_JOHOR",
+      "distanceDegrees": 0.30112468530088693
+    },
+    {
+      "provinceId": 1717,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.47300773778026256
+    },
+    {
+      "provinceId": 1723,
+      "polityKey": "ROYAUME_DE_FRANCE",
+      "distanceDegrees": 0.8205196219469673
+    },
+    {
+      "provinceId": 1724,
+      "polityKey": "HABSBURG_MONARCHY",
+      "distanceDegrees": 0.31138827288475845
+    },
+    {
+      "provinceId": 1726,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.7601651991508153
+    },
+    {
+      "provinceId": 1741,
+      "polityKey": "HABSBURG_MONARCHY",
+      "distanceDegrees": 0.5989937979645554
+    },
+    {
+      "provinceId": 1746,
+      "polityKey": "ELECTORATE_OF_BAVARIA",
+      "distanceDegrees": 0.8346767098703542
+    },
+    {
+      "provinceId": 1795,
+      "polityKey": "HABSBURG_MONARCHY",
+      "distanceDegrees": 0.26617475462560236
+    },
+    {
+      "provinceId": 1800,
+      "polityKey": "ELECTORATE_OF_BAVARIA",
+      "distanceDegrees": 0.27259999999999884
+    },
+    {
+      "provinceId": 1801,
+      "polityKey": "ELECTORATE_OF_BAVARIA",
+      "distanceDegrees": 0.16243352260429827
+    },
+    {
+      "provinceId": 1804,
+      "polityKey": "HABSBURG_MONARCHY",
+      "distanceDegrees": 0.13921065490434434
+    },
+    {
+      "provinceId": 1806,
+      "polityKey": "KINGDOM_OF_KAKONGO",
+      "distanceDegrees": 0.0015000000000000568
+    },
+    {
+      "provinceId": 1817,
+      "polityKey": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
+      "distanceDegrees": 0.32353982753287797
+    },
+    {
+      "provinceId": 1891,
+      "polityKey": "HABSBURG_MONARCHY",
+      "distanceDegrees": 0.27469659181587036
+    },
+    {
+      "provinceId": 1914,
+      "polityKey": "SULTANATE_OF_JOHOR",
+      "distanceDegrees": 0.3264176266057122
+    },
+    {
+      "provinceId": 1922,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.5893912537525474
+    },
+    {
+      "provinceId": 1927,
+      "polityKey": "ROYAUME_DE_FRANCE",
+      "distanceDegrees": 0.1812044425503945
+    },
+    {
+      "provinceId": 1936,
+      "polityKey": "HABSBURG_MONARCHY",
+      "distanceDegrees": 0.11785049246834621
+    },
+    {
+      "provinceId": 1938,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.014040512811147461
+    },
+    {
+      "provinceId": 1947,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.0549000000000035
+    },
+    {
+      "provinceId": 1953,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.36887641561910683
+    },
+    {
+      "provinceId": 1957,
+      "polityKey": "HABSBURG_MONARCHY",
+      "distanceDegrees": 0.09073962783053176
+    },
+    {
+      "provinceId": 1963,
+      "polityKey": "ROYAUME_DE_FRANCE",
+      "distanceDegrees": 0.23400136751737155
+    },
+    {
+      "provinceId": 1964,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.7603014467959412
+    },
+    {
+      "provinceId": 1969,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.0019999999999988916
+    },
+    {
+      "provinceId": 1971,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.12394131675918145
+    },
+    {
+      "provinceId": 1975,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.021000000000000796
+    },
+    {
+      "provinceId": 1985,
+      "polityKey": "SENEGAMBIA_COLONY",
+      "distanceDegrees": 0.3096724882839939
+    },
+    {
+      "provinceId": 2009,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.10292876177240376
+    },
+    {
+      "provinceId": 2012,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.17509248984465164
+    },
+    {
+      "provinceId": 2014,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.8837594978273232
+    },
+    {
+      "provinceId": 2025,
+      "polityKey": "ELECTORATE_OF_BAVARIA",
+      "distanceDegrees": 1.3145432400647694
+    },
+    {
+      "provinceId": 2028,
+      "polityKey": "SULTANATE_OF_NDZUWANI",
+      "distanceDegrees": 0.5250205710255542
+    },
+    {
+      "provinceId": 2029,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.14460000000000406
+    },
+    {
+      "provinceId": 2030,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.7445227464624584
+    },
+    {
+      "provinceId": 2040,
+      "polityKey": "COLONIE_DE_LA_GUADELOUPE",
+      "distanceDegrees": 0.36201060757939096
+    },
+    {
+      "provinceId": 2057,
+      "polityKey": "KONIGREICH_PREUSSEN",
+      "distanceDegrees": 0.5836512143395229
+    },
+    {
+      "provinceId": 2059,
+      "polityKey": "TIBET",
+      "distanceDegrees": 0.5965999999999987
+    },
+    {
+      "provinceId": 2065,
+      "polityKey": "HABSBURG_MONARCHY",
+      "distanceDegrees": 0.08962812194787631
+    },
+    {
+      "provinceId": 2070,
+      "polityKey": "FANJAKAN_IMERINA",
+      "distanceDegrees": 0.06337825556678045
+    },
+    {
+      "provinceId": 2084,
+      "polityKey": "REGNO_DI_SARDEGNA",
+      "distanceDegrees": 0.004525483399594034
+    },
+    {
+      "provinceId": 2086,
+      "polityKey": "QING_EMPIRE",
+      "distanceDegrees": 0.1478161357903805
     }
   ],
   "explicitProvinceAssignments": [],
-  "representedRosterPolities": 101,
+  "representedRosterPolities": 184,
   "rosterPolitiesWithoutProvinceCentroids": [
-    "ANDORRA",
     "BABA_MAHAL",
-    "BAHAWALPUR_STATE",
-    "BALI",
-    "BAOL",
-    "BOUNDOU",
-    "BRITISH_BENCOOLEN",
-    "BRITISH_LEEWARD_ISLANDS",
     "CAPITANIA_GENERAL_DE_PUERTO_RICO",
     "CAYMAN_ISLANDS",
     "COLONIA_DO_SACRAMENTO",
-    "COLONIA_TRINIDAD",
-    "COLONIE_DE_LA_GRENADE",
-    "COLONIE_DE_LA_GUADELOUPE",
     "COLONIE_DE_LA_GUYANE",
-    "COLONIE_DE_SAINTE_LUCIE",
-    "COLONY_OF_BARBADOS",
     "COLONY_OF_BERMUDA",
-    "COLONY_OF_CONNECTICUT",
-    "COLONY_OF_JAMAICA",
-    "COLONY_OF_RHODE_ISLAND_AND_PROVIDENCE_PLANTATIONS",
-    "COLONY_OF_SOUTH_CAROLINA",
-    "COLONY_OF_TOBAGO",
-    "COMPANY_RAJ",
     "COMTAT_VENAISSIN",
     "COUTO_MISTO",
-    "DAHOMEY",
-    "DANG_TRONG",
     "DANISH_GOLD_COAST",
     "DANISH_INDIA",
-    "DANSK_VESTINDIEN",
     "DUCATO_DI_MASSA_E_PRINCIPATO_DI_CARRARA",
-    "DUCATUS_MEDIOLANI",
-    "DUCATUS_MUTINAE_ET_REGII",
     "DUCHE_SOUVERAIN_DE_BOUILLON",
-    "DUTCH_CAPE_COAST",
-    "FREISTAAT_DER_DREI_BUNDE",
     "GIBRALTAR",
-    "GOA_PORTUGUESA",
-    "GORKHA_KINGDOM",
-    "GOVERNORATE_OF_CHILOE",
     "GRAND_DUCHY_OF_TUSCANY",
-    "GREENLAND",
     "GUERNSEY",
-    "HAUDENOSAUNEE",
     "HAUSHABI",
-    "HOSPITALLER_MALTA",
-    "ILE_DE_FRANCE",
-    "IMAMATE_OF_FUTA_TORO",
-    "INDE_FRANCAISE",
     "ISLAS_DE_LA_BAHIA",
-    "ISLE_BOURBON",
     "ISLE_OF_MAN",
     "JERSEY",
     "KAHLUR_KINGDOM",
-    "KAJOOR",
-    "KANGLEIPAK_KINGDOM",
-    "KHANATE_OF_KOKAND",
-    "KINGDOM_OF_CHAMPASAK",
     "KINGDOM_OF_COORG",
-    "KINGDOM_OF_KAKONGO",
-    "KINGDOM_OF_KARTLI_KAKHETI",
     "KINGDOM_OF_NGOYO",
-    "KOLONIE_BERBICE",
-    "KOLONIE_DEMERARA",
-    "KOLONIE_ESSEQUEBO",
-    "NAM_BAN",
-    "NEW_HAMPSHIRE_COLONY",
     "NIANI",
-    "NUEVO_SANTANDER",
-    "OMANI_EMPIRE",
-    "PAT_A_PANGAMPONG_SA_RANAO",
-    "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
-    "PORTUGUESE_TIMOR",
-    "PRINCIPALITY_OF_ABKHAZIA",
-    "PRINCIPALITY_OF_GURIA",
     "PRINCIPALITY_OF_MINGRELIA",
     "PRINCIPALITY_OF_MONACO",
-    "PRINCIPALITY_OF_THUAN_THANH",
     "PRINCIPATO_DI_PIOMBINO",
     "PROVINCE_OF_MARYLAND",
     "PROVINCIA_DE_CARACAS",
     "PROVINCIAS_INTERNAS",
-    "QASIMID_YEMEN",
     "REPUBLIC_OF_NOLI",
     "REPUBLICA_DE_COSPAJA",
-    "REPUBLICA_DE_RAGUSA",
     "REPUBLIK_DER_SIEBEN_ZENDEN",
     "REPUBLIQUE_DE_GENEVE",
     "RESPUBLICA_LUCENSIS",
     "RHODE_ISLAND",
-    "RYUKYU_KINGDOM",
-    "SAINT_DOMINGUE",
     "SAINT_HELENA_COLONY",
     "SALUUM",
-    "SAN_MARINO",
     "SARAWAK",
-    "SENEGAMBIA_COLONY",
     "SERENISCIMA_REPUBRICA_DE_ZENA",
-    "SHARIFIAN_SULTANATE",
-    "SHILLUK_KINGDOM",
-    "SIIN",
-    "ST_JOHN_S_ISLAND_COLONY",
-    "ST_VINCENT_AND_THE_GRENADINES_TERRITORY",
     "STADTREPUBLIK_MULHAUSEN",
-    "SULTANATE_OF_BANTEN",
-    "SULTANATE_OF_BIMA",
-    "SULTANATE_OF_BONE",
-    "SULTANATE_OF_BRUNEI",
-    "SULTANATE_OF_KEDAH",
-    "SULTANATE_OF_LAHEJ",
     "SULTANATE_OF_MAORE",
-    "SULTANATE_OF_MEMPAWAH",
-    "SULTANATE_OF_NDZUWANI",
-    "SULTANATE_OF_PALEMBANG",
-    "SULTANATE_OF_PERAK",
-    "SULTANATE_OF_QISHN_AND_SOCOTRA",
-    "SULTANATE_OF_SAMBAS",
-    "SULTANATE_OF_SUKADANA",
-    "SULTANATE_OF_THE_MALDIVES",
-    "SULTANATE_OF_TIDORE",
-    "SWISS_CONFEDERACY",
     "TAY_SON",
-    "THANJAVUR_MARATHA_KINGDOM",
-    "UBWAMI_BW_U_RWANDA",
-    "UBWAMI_BW_URUNDI",
-    "WAALO"
+    "WAALO",
+    "WOLOF"
   ],
   "territorialRosterPolitiesWithoutProvinceCentroids": [
-    "ANDORRA",
-    "BAHAWALPUR_STATE",
-    "BALI",
-    "BAOL",
-    "BOUNDOU",
-    "BRITISH_BENCOOLEN",
-    "BRITISH_LEEWARD_ISLANDS",
     "CAPITANIA_GENERAL_DE_PUERTO_RICO",
     "CAYMAN_ISLANDS",
     "COLONIA_DO_SACRAMENTO",
-    "COLONIA_TRINIDAD",
-    "COLONIE_DE_LA_GRENADE",
-    "COLONIE_DE_LA_GUADELOUPE",
     "COLONIE_DE_LA_GUYANE",
-    "COLONIE_DE_SAINTE_LUCIE",
-    "COLONY_OF_BARBADOS",
     "COLONY_OF_BERMUDA",
-    "COLONY_OF_CONNECTICUT",
-    "COLONY_OF_JAMAICA",
-    "COLONY_OF_RHODE_ISLAND_AND_PROVIDENCE_PLANTATIONS",
-    "COLONY_OF_SOUTH_CAROLINA",
-    "COLONY_OF_TOBAGO",
-    "COMPANY_RAJ",
     "COMTAT_VENAISSIN",
     "COUTO_MISTO",
-    "DAHOMEY",
-    "DANG_TRONG",
     "DANISH_GOLD_COAST",
     "DANISH_INDIA",
-    "DANSK_VESTINDIEN",
     "DUCATO_DI_MASSA_E_PRINCIPATO_DI_CARRARA",
-    "DUCATUS_MEDIOLANI",
-    "DUCATUS_MUTINAE_ET_REGII",
     "DUCHE_SOUVERAIN_DE_BOUILLON",
-    "DUTCH_CAPE_COAST",
-    "FREISTAAT_DER_DREI_BUNDE",
     "GIBRALTAR",
-    "GOA_PORTUGUESA",
-    "GORKHA_KINGDOM",
-    "GOVERNORATE_OF_CHILOE",
     "GRAND_DUCHY_OF_TUSCANY",
-    "GREENLAND",
     "GUERNSEY",
-    "HAUDENOSAUNEE",
     "HAUSHABI",
-    "HOSPITALLER_MALTA",
-    "ILE_DE_FRANCE",
-    "IMAMATE_OF_FUTA_TORO",
-    "INDE_FRANCAISE",
     "ISLAS_DE_LA_BAHIA",
-    "ISLE_BOURBON",
     "JERSEY",
     "KAHLUR_KINGDOM",
-    "KAJOOR",
-    "KANGLEIPAK_KINGDOM",
-    "KHANATE_OF_KOKAND",
-    "KINGDOM_OF_CHAMPASAK",
     "KINGDOM_OF_COORG",
-    "KINGDOM_OF_KAKONGO",
-    "KINGDOM_OF_KARTLI_KAKHETI",
     "KINGDOM_OF_NGOYO",
-    "KOLONIE_BERBICE",
-    "KOLONIE_DEMERARA",
-    "KOLONIE_ESSEQUEBO",
-    "NAM_BAN",
-    "NEW_HAMPSHIRE_COLONY",
     "NIANI",
-    "NUEVO_SANTANDER",
-    "OMANI_EMPIRE",
-    "PAT_A_PANGAMPONG_SA_RANAO",
-    "PORTUGUESE_SAO_TOME_AND_PRINCIPE",
-    "PORTUGUESE_TIMOR",
-    "PRINCIPALITY_OF_ABKHAZIA",
-    "PRINCIPALITY_OF_GURIA",
     "PRINCIPALITY_OF_MINGRELIA",
     "PRINCIPALITY_OF_MONACO",
-    "PRINCIPALITY_OF_THUAN_THANH",
     "PRINCIPATO_DI_PIOMBINO",
-    "QASIMID_YEMEN",
     "REPUBLIC_OF_NOLI",
     "REPUBLICA_DE_COSPAJA",
-    "REPUBLICA_DE_RAGUSA",
     "REPUBLIQUE_DE_GENEVE",
     "RESPUBLICA_LUCENSIS",
-    "RYUKYU_KINGDOM",
-    "SAINT_DOMINGUE",
     "SAINT_HELENA_COLONY",
     "SALUUM",
-    "SAN_MARINO",
-    "SENEGAMBIA_COLONY",
     "SERENISCIMA_REPUBRICA_DE_ZENA",
-    "SHARIFIAN_SULTANATE",
-    "SHILLUK_KINGDOM",
-    "SIIN",
-    "ST_JOHN_S_ISLAND_COLONY",
-    "ST_VINCENT_AND_THE_GRENADINES_TERRITORY",
     "STADTREPUBLIK_MULHAUSEN",
-    "SULTANATE_OF_BANTEN",
-    "SULTANATE_OF_BIMA",
-    "SULTANATE_OF_BONE",
-    "SULTANATE_OF_BRUNEI",
-    "SULTANATE_OF_KEDAH",
-    "SULTANATE_OF_LAHEJ",
     "SULTANATE_OF_MAORE",
-    "SULTANATE_OF_MEMPAWAH",
-    "SULTANATE_OF_NDZUWANI",
-    "SULTANATE_OF_PALEMBANG",
-    "SULTANATE_OF_PERAK",
-    "SULTANATE_OF_QISHN_AND_SOCOTRA",
-    "SULTANATE_OF_SAMBAS",
-    "SULTANATE_OF_SUKADANA",
-    "SULTANATE_OF_THE_MALDIVES",
-    "SULTANATE_OF_TIDORE",
-    "SWISS_CONFEDERACY",
     "TAY_SON",
-    "THANJAVUR_MARATHA_KINGDOM",
-    "UBWAMI_BW_U_RWANDA",
-    "UBWAMI_BW_URUNDI",
-    "WAALO"
+    "WAALO",
+    "WOLOF"
   ],
   "unrepresentedOverlordLinks": [],
-  "splitStates": 47
+  "splitStates": 112
 }
