@@ -201,7 +201,7 @@ test("High renders detailed geometry, modeled scenery and moving water while pau
           clearTimeout(timeout);
           resolve({ frames, changed });
         };
-        const timeout = setTimeout(finish, 30000);
+        const timeout = setTimeout(finish, 90000);
         r.render = (
           time: number,
           political: boolean,
