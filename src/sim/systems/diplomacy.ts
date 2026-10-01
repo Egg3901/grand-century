@@ -735,20 +735,26 @@ export function collectAllianceBloc(
   const includeGuarantees = opts.includeGuarantees === true;
   const result = new Set<NationId>([leader]);
   const queue: NationId[] = [leader];
+  // One pass over relations builds the active alliance (and guarantee) edges;
+  // the BFS used to re-filter every relation for every node it visited.
+  const alliesOf = new Map<NationId, NationId[]>();
+  const guaranteesOf: NationId[] = [];
+  for (const relation of world.relations) {
+    const active = relation.expiresDay < 0 || relation.expiresDay > world.day;
+    if (!active) continue;
+    if (relation.kind === 'alliance') {
+      (alliesOf.get(relation.a) ?? alliesOf.set(relation.a, []).get(relation.a)!).push(relation.b);
+      (alliesOf.get(relation.b) ?? alliesOf.set(relation.b, []).get(relation.b)!).push(relation.a);
+    } else if (includeGuarantees && relation.kind === 'guarantee') {
+      // Guarantees are defensive-only: pull guarantors into the war leader's
+      // bloc when collecting defenders, never into an offensive march.
+      if (relation.a === leader) guaranteesOf.push(relation.b);
+      else if (relation.b === leader) guaranteesOf.push(relation.a);
+    }
+  }
   while (queue.length > 0) {
     const current = queue.shift() as NationId;
-    const options = world.relations
-      .filter((relation) => {
-        const active = relation.expiresDay < 0 || relation.expiresDay > world.day;
-        if (!active) return false;
-        if (relation.kind === 'alliance') return true;
-        // Guarantees are defensive-only: pull guarantors into the war leader's
-        // bloc when collecting defenders, never into an offensive march.
-        if (includeGuarantees && relation.kind === 'guarantee' && current === leader) return true;
-        return false;
-      })
-      .map((relation) => relation.a === current ? relation.b : relation.b === current ? relation.a : -1)
-      .filter((nationId) => nationId >= 0)
+    const options = [...(alliesOf.get(current) ?? []), ...(current === leader ? guaranteesOf : [])]
       .sort((a, b) => a - b);
     for (const nationId of options) {
       if (nationId === against || result.has(nationId)) continue;

@@ -17,7 +17,10 @@
     "Algiers": "ALG",
     "Annam": "VIE",
     "Asante": "ASH",
-    "Austrian Empire": ["AUS", "LVN"],
+    "Austrian Empire": [
+      "AUS",
+      "LVN"
+    ],
     "Baden": "BAD",
     "Bavaria": "BAV",
     "Bhutan": "BHU",
@@ -41,14 +44,27 @@
     "Nepal": "NEP",
     "New South Wales": "ENG",
     "Oudh": "AWA",
-    "Ottoman Empire": ["OTT", "ALG", "EGY", "HEJ", "SER", "TRI", "TUN"],
+    "Ottoman Empire": [
+      "OTT",
+      "ALG",
+      "EGY",
+      "HEJ",
+      "SER",
+      "TRI",
+      "TUN"
+    ],
     "Papal States": "PAP",
     "Paraguay": "PRG",
     "Persia": "PER",
     "Portugal": "POR",
     "Prussia": "PRU",
     "Rattanakosin Kingdom": "SIA",
-    "Russian Empire": ["RUS", "FIN", "POL", "RUA"],
+    "Russian Empire": [
+      "RUS",
+      "FIN",
+      "POL",
+      "RUA"
+    ],
     "Saxony": "SAX",
     "Spain": "ESP",
     "Sweden–Norway": "SWE",
@@ -60,82 +76,112 @@
     "United States": "USA",
     "Vice-Royalty of Brazil": "BRA",
     "Vice-Royalty of New Granada": "CLM",
-    "Vice-Royalty of New Spain": ["MEX", "UCA"],
-    "Vice-Royalty of Peru": ["BOL", "PEU"],
+    "Vice-Royalty of New Spain": [
+      "MEX",
+      "UCA"
+    ],
+    "Vice-Royalty of Peru": [
+      "BOL",
+      "PEU"
+    ],
     "Viceroyalty of Brazil": "BRA",
     "Viceroyalty of New Granada": "CLM",
-    "Viceroyalty of New Spain": ["MEX", "UCA"],
-    "Viceroyalty of Peru": ["BOL", "PEU"],
+    "Viceroyalty of New Spain": [
+      "MEX",
+      "UCA"
+    ],
+    "Viceroyalty of Peru": [
+      "BOL",
+      "PEU"
+    ],
     "Württemberg": "WUR"
   },
   "provinceOverrides": [
     {
-      "provinceId": 253,
-      "provinceName": "Ostpreußen",
+      "region": "Ostpreußen",
+      "place": "Königsberg",
+      "lon": 20.51,
+      "lat": 54.71,
       "expectedOwnerTag": "PRU",
       "confidence": "high",
       "source": "content/history/1830/anchors.json",
       "reason": "East Prussia belongs to Prussia at the scenario date."
     },
     {
-      "provinceId": 68,
-      "provinceName": "Cyprus",
+      "region": "Cyprus",
+      "place": "Nicosia",
+      "lon": 33.36,
+      "lat": 35.17,
       "expectedOwnerTag": "OTT",
       "confidence": "high",
       "source": "content/history/1830/anchors.json",
       "reason": "Cyprus is Ottoman territory at the scenario date."
     },
     {
-      "provinceId": 16,
-      "provinceName": "Arizona",
+      "region": "Arizona",
+      "place": "Tucson",
+      "lon": -110.97,
+      "lat": 32.22,
       "expectedOwnerTag": "MEX",
       "confidence": "high",
       "source": "content/history/1830/anchors.json",
       "reason": "The southwest remains Mexican territory at the scenario date."
     },
     {
-      "provinceId": 45,
-      "provinceName": "California",
+      "region": "California",
+      "place": "Monterey",
+      "lon": -121.89,
+      "lat": 36.6,
       "expectedOwnerTag": "MEX",
       "confidence": "high",
       "source": "content/history/1830/anchors.json",
       "reason": "Alta California remains Mexican territory at the scenario date."
     },
     {
-      "provinceId": 93,
-      "provinceName": "Florida",
+      "region": "Florida",
+      "place": "Tallahassee",
+      "lon": -84.28,
+      "lat": 30.44,
       "expectedOwnerTag": "USA",
       "confidence": "high",
       "source": "content/history/1830/anchors.json",
       "reason": "Florida transferred from Spain to the United States before the scenario date."
     },
     {
-      "provinceId": 215,
-      "provinceName": "Nevada-Utah",
-      "expectedOwnerTag": "MEX",
+      "region": "Nevada-Utah",
+      "place": "Great Salt Lake",
+      "lon": -112.0,
+      "lat": 40.8,
+      "expectedOwnerTag": "SHO",
       "confidence": "high",
-      "source": "content/history/1830/anchors.json",
-      "reason": "The region remains Mexican territory at the scenario date."
+      "source": "content/scenarios/1830-01-01/polities.json",
+      "reason": "Mexico claimed the Great Basin, but it was de facto Shoshone and Ute country in 1830; the reviewed 1830 layer records the Shoshone."
     },
     {
-      "provinceId": 218,
-      "provinceName": "New Mexico",
+      "region": "New Mexico",
+      "place": "Santa Fe",
+      "lon": -105.94,
+      "lat": 35.69,
       "expectedOwnerTag": "MEX",
       "confidence": "high",
       "source": "content/history/1830/anchors.json",
       "reason": "New Mexico remains Mexican territory at the scenario date."
     },
     {
-      "provinceId": 327,
-      "provinceName": "Texas",
+      "region": "Texas",
+      "place": "San Antonio",
+      "lon": -98.49,
+      "lat": 29.42,
       "expectedOwnerTag": "MEX",
       "confidence": "high",
       "source": "content/history/1830/anchors.json",
       "reason": "Texas remains Mexican territory before the 1836 revolution."
     },
     {
-      "provinceId": 120,
-      "provinceName": "Hispaniola",
+      "region": "Hispaniola",
+      "place": "Santo Domingo",
+      "lon": -69.93,
+      "lat": 18.49,
       "expectedOwnerTag": "HAI",
       "confidence": "high",
       "source": "content/history/1830/anchors.json",

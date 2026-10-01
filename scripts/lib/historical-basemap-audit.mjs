@@ -67,12 +67,19 @@ function asTags(value) {
   return Array.isArray(value) ? value : [value];
 }
 
-export function auditHistoricalBasemap({ world, reference, config }) {
+export function auditHistoricalBasemap({ world, reference, config, locate = null }) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(config.asOf)) throw new Error(`Invalid audit date ${config.asOf}`);
   const indexedFeatures = reference.features
     .filter((feature) => feature.geometry?.type === 'Polygon' || feature.geometry?.type === 'MultiPolygon')
     .map((feature) => ({ feature, bounds: geometryBounds(feature.geometry) }));
-  const overrides = new Map(config.provinceOverrides.map((entry) => [entry.provinceId, entry]));
+  // Overrides key on a place (lon/lat) so they survive mesh rebuilds; legacy
+  // entries keyed by province id and name are still accepted.
+  const nearest = (lon, lat) => world.provinces.reduce((best, p) => (
+    (p.lon - lon) ** 2 + (p.lat - lat) ** 2 < (best.lon - lon) ** 2 + (best.lat - lat) ** 2 ? p : best)).id;
+  const overrides = new Map(config.provinceOverrides.map((entry) => [
+    entry.lon != null ? (locate ? locate(entry.lon, entry.lat) : nearest(entry.lon, entry.lat)) : entry.provinceId,
+    entry,
+  ]));
   const knownTags = new Set(world.nations.map((nation) => nation.tag));
   const rows = [];
 
@@ -83,7 +90,7 @@ export function auditHistoricalBasemap({ world, reference, config }) {
       .filter(({ feature }) => pointInGeometry(point, feature.geometry))
       .map(({ feature }) => feature);
     const override = overrides.get(province.id);
-    if (override && override.provinceName !== province.name) {
+    if (override && override.provinceName !== undefined && override.provinceName !== province.name) {
       throw new Error(`Province ${province.id} renamed from ${override.provinceName} to ${province.name}`);
     }
     if (override && !knownTags.has(override.expectedOwnerTag)) {

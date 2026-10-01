@@ -37,7 +37,10 @@ const RUN_LONG = process.env.MP_CONFORMANCE_LONG === '1';
  *
  * Re-measure and update MEASURED_BANDWIDTH_JSON_BYTES if the harness shape changes.
  */
-const MEASURED_BANDWIDTH_JSON_BYTES = 1_735_708;
+// Re-measured for the world v8 map (2,091 provinces, 155 nations; was 387 and
+// 90): forced broadcasts carry every province summary, so the gate scales
+// with map size. Unforced play also slows soft province refresh with map size.
+const MEASURED_BANDWIDTH_JSON_BYTES = 4_870_000;
 const BANDWIDTH_HEADROOM = 1.35;
 const BANDWIDTH_BUDGET_JSON_BYTES = Math.ceil(MEASURED_BANDWIDTH_JSON_BYTES * BANDWIDTH_HEADROOM);
 const BANDWIDTH_SIM_DAYS = 60;

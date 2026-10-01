@@ -833,9 +833,13 @@ export class GameSession {
     const seq = this.sharedSeq;
     const isFirst = this.lastSent === null;
 
-    // Soft province metrics every ~1s (or on force); critical fields every broadcast.
-    this.softProvinceAcc += force ? 1 : (1 / MP_SNAPSHOT_HZ);
-    const includeSoft = force || isFirst || this.softProvinceAcc >= 1;
+    // Soft province metrics (population, militancy, needs) refresh on a slower
+    // cadence that scales with map size: about 1 s per 600 provinces, so the
+    // 2,100-province world sends them every ~3.5 s. Ownership, control and
+    // occupation are critical fields and still go out on every broadcast.
+    const softIntervalSeconds = Math.max(1, shared.provinces.length / 600);
+    this.softProvinceAcc += force ? softIntervalSeconds : (1 / MP_SNAPSHOT_HZ);
+    const includeSoft = force || isFirst || this.softProvinceAcc >= softIntervalSeconds;
     if (includeSoft) this.softProvinceAcc = 0;
 
     this.lastShared = shared;

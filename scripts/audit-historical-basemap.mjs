@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { auditHistoricalBasemap } from './lib/historical-basemap-audit.mjs';
+import { makeProvinceLocator } from '../content/history/locateProvince.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -30,6 +31,7 @@ const report = auditHistoricalBasemap({
   world: await readJson(worldPath),
   reference,
   config,
+  locate: makeProvinceLocator(await readJson(path.join(root, 'src/data/generated/provinces.geo.json'))),
 });
 await mkdir(path.dirname(outputPath), { recursive: true });
 await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');

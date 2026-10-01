@@ -33,6 +33,7 @@ import {
 import { buildMovementViews, culturePolicyOf, CULTURE_TUNING, getCultureLedger } from './systems/culture';
 import { availableRegimentTypes, availableShipTypes } from './militaryCatalog';
 import {
+
   colonialReachKind,
   computeColonialPointsBreakdown,
   isSupplied,
@@ -168,6 +169,17 @@ function markCultureHeartland(
  * applies it from `world.playerNation` after compose so SP output stays
  * bit-identical to the former single-pass builder.
  */
+/** Round to three decimals for presentation snapshots. */
+const q3 = (value: number): number => Math.round(value * 1000) / 1000;
+/** Two decimals: the HUD shows these as whole percentages. */
+const q2 = (value: number): number => Math.round(value * 100) / 100;
+/** Three significant figures: map tooltips show population as 1.23M or 45.6k. */
+const sig3 = (value: number): number => {
+  if (!Number.isFinite(value) || value === 0) return 0;
+  const scale = 10 ** Math.max(0, Math.floor(Math.log10(Math.abs(value))) - 2);
+  return Math.round(value / scale) * scale;
+};
+
 export function buildSharedSnapshot(world: World, data: GameData): SharedSnapshot {
   const { rgoOutputByRecipe, recipeByKey } = recipeIndexes(data);
 
@@ -228,23 +240,25 @@ export function buildSharedSnapshot(world: World, data: GameData): SharedSnapsho
       }
     }
     const popTotal = stats.population;
+    // Display precision: sub-visible float drift otherwise put every one of
+    // ~2,100 provinces into every multiplayer diff.
     provinces[i] = {
       id: province.id,
       owner: province.owner,
       controller: province.controller,
       stateId: province.stateId,
-      population: stats.population,
-      militancy: stats.militancy,
-      unrestRisk: world.states[province.stateId]?.unrestRisk ?? 0,
-      needsMet: stats.needsMet,
-      growth: stats.growth,
-      economyOutput: rgoOutput + stats.outputProxy,
+      population: sig3(stats.population),
+      militancy: Math.round(stats.militancy * 10) / 10, // 0-10 scale, shown to one decimal
+      unrestRisk: q2(world.states[province.stateId]?.unrestRisk ?? 0),
+      needsMet: q2(stats.needsMet),
+      growth: q3(stats.growth),
+      economyOutput: Math.round((rgoOutput + stats.outputProxy) * 10) / 10,
       rgoGood,
       fortLevel: province.fortLevel,
-      occupation: province.occupationProgress,
+      occupation: q3(province.occupationProgress),
       pluralityCulture,
-      pluralityShare: popTotal > 0 && pluralityCulture >= 0 ? pluralitySize / popTotal : 0,
-      nonAcceptedShare: popTotal > 0 ? nonAccepted / popTotal : 0,
+      pluralityShare: q3(popTotal > 0 && pluralityCulture >= 0 ? pluralitySize / popTotal : 0),
+      nonAcceptedShare: q3(popTotal > 0 ? nonAccepted / popTotal : 0),
       cultureHeartland: false,
     };
   }
