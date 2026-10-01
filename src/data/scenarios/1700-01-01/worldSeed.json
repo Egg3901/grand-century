@@ -1024,7 +1024,7 @@
       "name": "Timbuktu",
       "ownerTag": "UNC",
       "stateId": 193,
-      "stateName": "Timbuktu",
+      "stateName": "Hamdullahi",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -1192,7 +1192,7 @@
       "name": "Cochabamba",
       "ownerTag": "VIRREINATO_DEL_PERU",
       "stateId": 47,
-      "stateName": "Santa Cruz",
+      "stateName": "Chuquisaca",
       "terrain": "jungle",
       "coastal": false,
       "rgoGood": "timber",
@@ -1438,7 +1438,7 @@
       "name": "Murzuk",
       "ownerTag": "UNC",
       "stateId": 93,
-      "stateName": "Sabha (UNC)",
+      "stateName": "Sirte (UNC)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -2426,7 +2426,7 @@
       "name": "Kashgar",
       "ownerTag": "POLITY_Q1923401",
       "stateId": 35,
-      "stateName": "Dihua",
+      "stateName": "Ili",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -2448,7 +2448,7 @@
       "name": "Tashkent",
       "ownerTag": "POLITY_Q1433867",
       "stateId": 73,
-      "stateName": "Tashkent (POLITY_Q1433867)",
+      "stateName": "Ulytau (POLITY_Q1433867)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -2538,7 +2538,7 @@
       "name": "Kano",
       "ownerTag": "UNC",
       "stateId": 58,
-      "stateName": "Kano (UNC)",
+      "stateName": "Kukawa (UNC)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -2607,7 +2607,7 @@
       "name": "Chuquisaca",
       "ownerTag": "VIRREINATO_DEL_PERU",
       "stateId": 47,
-      "stateName": "Santa Cruz",
+      "stateName": "Chuquisaca",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "coal",
@@ -2631,7 +2631,7 @@
       "name": "Santa Cruz",
       "ownerTag": "VIRREINATO_DEL_PERU",
       "stateId": 47,
-      "stateName": "Santa Cruz",
+      "stateName": "Chuquisaca",
       "terrain": "hills",
       "coastal": false,
       "rgoGood": "iron",
@@ -2835,7 +2835,7 @@
       "name": "Dar Zaghawa",
       "ownerTag": "UNC",
       "stateId": 101,
-      "stateName": "Nyala (UNC)",
+      "stateName": "El Fasher (UNC)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -2975,7 +2975,7 @@
       "name": "Sabha",
       "ownerTag": "POLITY_Q12560",
       "stateId": 92,
-      "stateName": "Sabha (POLITY_Q12560)",
+      "stateName": "Sirte (POLITY_Q12560)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -3022,7 +3022,7 @@
       "name": "Lower Purus",
       "ownerTag": "VIRREINATO_DEL_PERU",
       "stateId": 47,
-      "stateName": "Santa Cruz",
+      "stateName": "Chuquisaca",
       "terrain": "jungle",
       "coastal": false,
       "rgoGood": "timber",
@@ -3090,7 +3090,7 @@
       "name": "Hadhramaut",
       "ownerTag": "UNC",
       "stateId": 187,
-      "stateName": "Hadhramaut (UNC)",
+      "stateName": "Mahra (UNC)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -3315,7 +3315,7 @@
       "name": "Aksu",
       "ownerTag": "POLITY_Q1923401",
       "stateId": 35,
-      "stateName": "Dihua",
+      "stateName": "Ili",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "iron",
@@ -3408,7 +3408,7 @@
       "name": "Cross Timbers",
       "ownerTag": "REINO_DE_MEXICO",
       "stateId": 95,
-      "stateName": "Cross Timbers (REINO_DE_MEXICO)",
+      "stateName": "Llano Estacado (REINO_DE_MEXICO)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -3542,7 +3542,7 @@
       "name": "Hamada du Draa",
       "ownerTag": "ALAOUITE_MOROCCO",
       "stateId": 448,
-      "stateName": "Marrakesh",
+      "stateName": "Fez",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -3832,7 +3832,7 @@
       "name": "Ili",
       "ownerTag": "POLITY_Q1923401",
       "stateId": 35,
-      "stateName": "Dihua",
+      "stateName": "Ili",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "coal",
@@ -3975,7 +3975,7 @@
       "name": "Kucha",
       "ownerTag": "POLITY_Q1923401",
       "stateId": 35,
-      "stateName": "Dihua",
+      "stateName": "Ili",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -4115,7 +4115,7 @@
       "name": "Juruá",
       "ownerTag": "VIRREINATO_DEL_PERU",
       "stateId": 47,
-      "stateName": "Santa Cruz",
+      "stateName": "Chuquisaca",
       "terrain": "jungle",
       "coastal": false,
       "rgoGood": "timber",
@@ -4354,7 +4354,7 @@
       "name": "Kong",
       "ownerTag": "UNC",
       "stateId": 189,
-      "stateName": "Grand-Bassam",
+      "stateName": "Kumasi",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -4565,7 +4565,7 @@
       "name": "Koudougou",
       "ownerTag": "UNC",
       "stateId": 193,
-      "stateName": "Timbuktu",
+      "stateName": "Hamdullahi",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -5372,7 +5372,7 @@
       "name": "Fada",
       "ownerTag": "UNC",
       "stateId": 101,
-      "stateName": "Nyala (UNC)",
+      "stateName": "El Fasher (UNC)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -5439,10 +5439,10 @@
     },
     {
       "id": 235,
-      "name": "Djenné",
+      "name": "Hamdullahi",
       "ownerTag": "UNC",
       "stateId": 193,
-      "stateName": "Timbuktu",
+      "stateName": "Hamdullahi",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -5603,7 +5603,7 @@
       "name": "La Paz",
       "ownerTag": "VIRREINATO_DEL_PERU",
       "stateId": 47,
-      "stateName": "Santa Cruz",
+      "stateName": "Chuquisaca",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "iron",
@@ -5649,7 +5649,7 @@
       "name": "Kukawa",
       "ownerTag": "BORNU_EMPIRE",
       "stateId": 56,
-      "stateName": "Kano (BORNU_EMPIRE)",
+      "stateName": "Kukawa (BORNU_EMPIRE)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -5826,7 +5826,7 @@
       "name": "Ulytau",
       "ownerTag": "POLITY_Q1433867",
       "stateId": 73,
-      "stateName": "Tashkent (POLITY_Q1433867)",
+      "stateName": "Ulytau (POLITY_Q1433867)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -6439,7 +6439,7 @@
       "name": "Pishpek",
       "ownerTag": "POLITY_Q1923401",
       "stateId": 74,
-      "stateName": "Tashkent (POLITY_Q1923401)",
+      "stateName": "Ulytau (POLITY_Q1923401)",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "coal",
@@ -6554,7 +6554,7 @@
       "name": "Aral",
       "ownerTag": "POLITY_Q1433867",
       "stateId": 73,
-      "stateName": "Tashkent (POLITY_Q1433867)",
+      "stateName": "Ulytau (POLITY_Q1433867)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -6811,7 +6811,7 @@
       "name": "Nupe",
       "ownerTag": "UNC",
       "stateId": 58,
-      "stateName": "Kano (UNC)",
+      "stateName": "Kukawa (UNC)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -6904,10 +6904,10 @@
     },
     {
       "id": 299,
-      "name": "Porto-Novo",
+      "name": "Abomey",
       "ownerTag": "UNC",
       "stateId": 60,
-      "stateName": "Porto-Novo",
+      "stateName": "Abomey",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "cattle",
@@ -6972,7 +6972,7 @@
       "name": "Llano Estacado",
       "ownerTag": "NOUVELLE_FRANCE",
       "stateId": 94,
-      "stateName": "Cross Timbers (NOUVELLE_FRANCE)",
+      "stateName": "Llano Estacado (NOUVELLE_FRANCE)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -7018,7 +7018,7 @@
       "name": "Goundam",
       "ownerTag": "UNC",
       "stateId": 193,
-      "stateName": "Timbuktu",
+      "stateName": "Hamdullahi",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -7288,7 +7288,7 @@
       "name": "Atasu",
       "ownerTag": "POLITY_Q1433867",
       "stateId": 73,
-      "stateName": "Tashkent (POLITY_Q1433867)",
+      "stateName": "Ulytau (POLITY_Q1433867)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -7399,7 +7399,7 @@
       "name": "Dar Masalit",
       "ownerTag": "SULTANATE_OF_DARFUR",
       "stateId": 100,
-      "stateName": "Nyala (SULTANATE_OF_DARFUR)",
+      "stateName": "El Fasher (SULTANATE_OF_DARFUR)",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "grain",
@@ -7726,7 +7726,7 @@
       "name": "Haud",
       "ownerTag": "UNC",
       "stateId": 214,
-      "stateName": "Nugal (UNC)",
+      "stateName": "Majeerteen (UNC)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -7841,7 +7841,7 @@
       "name": "Tafilalt",
       "ownerTag": "ALAOUITE_MOROCCO",
       "stateId": 448,
-      "stateName": "Marrakesh",
+      "stateName": "Fez",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -8005,7 +8005,7 @@
       "name": "Ak-Mechet",
       "ownerTag": "POLITY_Q1433867",
       "stateId": 73,
-      "stateName": "Tashkent (POLITY_Q1433867)",
+      "stateName": "Ulytau (POLITY_Q1433867)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -8069,7 +8069,7 @@
     },
     {
       "id": 350,
-      "name": "Medina",
+      "name": "Medina (Al Madinah Region)",
       "ownerTag": "POLITY_Q12560",
       "stateId": 110,
       "stateName": "Mecca (POLITY_Q12560)",
@@ -8352,7 +8352,7 @@
       "name": "Shan States",
       "ownerTag": "UNC",
       "stateId": 283,
-      "stateName": "Rangoon (UNC)",
+      "stateName": "Ava (UNC)",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "cattle",
@@ -8422,7 +8422,7 @@
       "name": "Fez",
       "ownerTag": "ALAOUITE_MOROCCO",
       "stateId": 448,
-      "stateName": "Marrakesh",
+      "stateName": "Fez",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -8917,7 +8917,7 @@
       "name": "Rosso",
       "ownerTag": "UNC",
       "stateId": 90,
-      "stateName": "Kaédi",
+      "stateName": "Thilogne",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -8964,7 +8964,7 @@
       "name": "Majeerteen",
       "ownerTag": "POLITY_Q2257830",
       "stateId": 213,
-      "stateName": "Nugal (POLITY_Q2257830)",
+      "stateName": "Majeerteen (POLITY_Q2257830)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -9005,7 +9005,7 @@
       "name": "Dihua",
       "ownerTag": "POLITY_Q1923401",
       "stateId": 35,
-      "stateName": "Dihua",
+      "stateName": "Ili",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -9047,7 +9047,7 @@
       "name": "Arkansas Valley",
       "ownerTag": "NOUVELLE_FRANCE",
       "stateId": 94,
-      "stateName": "Cross Timbers (NOUVELLE_FRANCE)",
+      "stateName": "Llano Estacado (NOUVELLE_FRANCE)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -9181,7 +9181,7 @@
       "name": "Benin City",
       "ownerTag": "OYO_EMPIRE",
       "stateId": 57,
-      "stateName": "Kano (OYO_EMPIRE)",
+      "stateName": "Kukawa (OYO_EMPIRE)",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "cattle",
@@ -9244,10 +9244,10 @@
     },
     {
       "id": 402,
-      "name": "Kaédi",
+      "name": "Thilogne",
       "ownerTag": "UNC",
       "stateId": 90,
-      "stateName": "Kaédi",
+      "stateName": "Thilogne",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -9384,7 +9384,7 @@
       "name": "Warsangali",
       "ownerTag": "POLITY_Q2257830",
       "stateId": 213,
-      "stateName": "Nugal (POLITY_Q2257830)",
+      "stateName": "Majeerteen (POLITY_Q2257830)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -9404,7 +9404,7 @@
       "name": "Az Zawiyah",
       "ownerTag": "POLITY_Q12560",
       "stateId": 92,
-      "stateName": "Sabha (POLITY_Q12560)",
+      "stateName": "Sirte (POLITY_Q12560)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -9448,7 +9448,7 @@
       "name": "Comanchería",
       "ownerTag": "NOUVELLE_FRANCE",
       "stateId": 94,
-      "stateName": "Cross Timbers (NOUVELLE_FRANCE)",
+      "stateName": "Llano Estacado (NOUVELLE_FRANCE)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "cotton",
@@ -9780,7 +9780,7 @@
       "name": "El Fasher",
       "ownerTag": "SULTANATE_OF_DARFUR",
       "stateId": 100,
-      "stateName": "Nyala (SULTANATE_OF_DARFUR)",
+      "stateName": "El Fasher (SULTANATE_OF_DARFUR)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -9915,7 +9915,7 @@
       "name": "Hsenwi",
       "ownerTag": "QING_EMPIRE",
       "stateId": 282,
-      "stateName": "Rangoon (QING_EMPIRE)",
+      "stateName": "Ava (QING_EMPIRE)",
       "terrain": "hills",
       "coastal": false,
       "rgoGood": "cattle",
@@ -10735,7 +10735,7 @@
       "name": "Gonja",
       "ownerTag": "UNC",
       "stateId": 189,
-      "stateName": "Grand-Bassam",
+      "stateName": "Kumasi",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -10888,7 +10888,7 @@
       "name": "São Salvador",
       "ownerTag": "KINGDOM_OF_KAKONGO",
       "stateId": 619,
-      "stateName": "São Salvador",
+      "stateName": "Kinguele",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "grain",
@@ -10950,10 +10950,10 @@
     },
     {
       "id": 478,
-      "name": "Sanaa",
+      "name": "Sana'a",
       "ownerTag": "QASIMID_YEMEN",
       "stateId": 137,
-      "stateName": "Sanaa",
+      "stateName": "Sana'a",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -11370,7 +11370,7 @@
       "name": "Mahakam",
       "ownerTag": "KUTAI_KINGDOM",
       "stateId": 262,
-      "stateName": "Bandjarmasin (KUTAI_KINGDOM)",
+      "stateName": "Martapura (KUTAI_KINGDOM)",
       "terrain": "jungle",
       "coastal": true,
       "rgoGood": "timber",
@@ -11772,7 +11772,7 @@
       "name": "Nyala",
       "ownerTag": "SULTANATE_OF_DARFUR",
       "stateId": 100,
-      "stateName": "Nyala (SULTANATE_OF_DARFUR)",
+      "stateName": "El Fasher (SULTANATE_OF_DARFUR)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -11971,7 +11971,7 @@
       "name": "Rida",
       "ownerTag": "QASIMID_YEMEN",
       "stateId": 137,
-      "stateName": "Sanaa",
+      "stateName": "Sana'a",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -12607,7 +12607,7 @@
       "name": "Ghadames",
       "ownerTag": "POLITY_Q12560",
       "stateId": 92,
-      "stateName": "Sabha (POLITY_Q12560)",
+      "stateName": "Sirte (POLITY_Q12560)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -12737,7 +12737,7 @@
       "name": "Charjui",
       "ownerTag": "SAFAVID_IRAN",
       "stateId": 182,
-      "stateName": "Hissar (SAFAVID_IRAN)",
+      "stateName": "Bukhara (SAFAVID_IRAN)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -12954,10 +12954,10 @@
     },
     {
       "id": 569,
-      "name": "Labé",
+      "name": "Boulebane",
       "ownerTag": "BOUNDOU",
       "stateId": 159,
-      "stateName": "Labé",
+      "stateName": "Boulebane",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "cattle",
@@ -13004,7 +13004,7 @@
       "name": "Mahra",
       "ownerTag": "SULTANATE_OF_QISHN_AND_SOCOTRA",
       "stateId": 186,
-      "stateName": "Hadhramaut (SULTANATE_OF_QISHN_AND_SOCOTRA)",
+      "stateName": "Mahra (SULTANATE_OF_QISHN_AND_SOCOTRA)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -13049,7 +13049,7 @@
       "name": "Sampit",
       "ownerTag": "POLITY_Q1660566",
       "stateId": 263,
-      "stateName": "Bandjarmasin (POLITY_Q1660566)",
+      "stateName": "Martapura (POLITY_Q1660566)",
       "terrain": "jungle",
       "coastal": true,
       "rgoGood": "timber",
@@ -14007,7 +14007,7 @@
       "name": "Sokoto",
       "ownerTag": "UNC",
       "stateId": 58,
-      "stateName": "Kano (UNC)",
+      "stateName": "Kukawa (UNC)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "cattle",
@@ -14095,7 +14095,7 @@
       "name": "Karshi",
       "ownerTag": "POLITY_Q577668",
       "stateId": 181,
-      "stateName": "Hissar (POLITY_Q577668)",
+      "stateName": "Bukhara (POLITY_Q577668)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -14118,7 +14118,7 @@
       "name": "Grand-Bassam",
       "ownerTag": "UNC",
       "stateId": 189,
-      "stateName": "Grand-Bassam",
+      "stateName": "Kumasi",
       "terrain": "jungle",
       "coastal": true,
       "rgoGood": "cotton",
@@ -14180,7 +14180,7 @@
       "name": "Timbedra",
       "ownerTag": "UNC",
       "stateId": 193,
-      "stateName": "Timbuktu",
+      "stateName": "Hamdullahi",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -14443,7 +14443,7 @@
       "name": "Bukhara",
       "ownerTag": "POLITY_Q577668",
       "stateId": 181,
-      "stateName": "Hissar (POLITY_Q577668)",
+      "stateName": "Bukhara (POLITY_Q577668)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -14584,7 +14584,7 @@
       "name": "Dhofar",
       "ownerTag": "SULTANATE_OF_QISHN_AND_SOCOTRA",
       "stateId": 186,
-      "stateName": "Hadhramaut (SULTANATE_OF_QISHN_AND_SOCOTRA)",
+      "stateName": "Mahra (SULTANATE_OF_QISHN_AND_SOCOTRA)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -14626,7 +14626,7 @@
       "name": "Kumasi",
       "ownerTag": "UNC",
       "stateId": 189,
-      "stateName": "Grand-Bassam",
+      "stateName": "Kumasi",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -14843,7 +14843,7 @@
       "name": "Ségou",
       "ownerTag": "UNC",
       "stateId": 193,
-      "stateName": "Timbuktu",
+      "stateName": "Hamdullahi",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -15101,10 +15101,10 @@
     },
     {
       "id": 668,
-      "name": "Bandjarmasin",
+      "name": "Martapura",
       "ownerTag": "POLITY_Q1660566",
       "stateId": 263,
-      "stateName": "Bandjarmasin (POLITY_Q1660566)",
+      "stateName": "Martapura (POLITY_Q1660566)",
       "terrain": "jungle",
       "coastal": true,
       "rgoGood": "timber",
@@ -15148,7 +15148,7 @@
       "name": "Hissar",
       "ownerTag": "POLITY_Q577668",
       "stateId": 181,
-      "stateName": "Hissar (POLITY_Q577668)",
+      "stateName": "Bukhara (POLITY_Q577668)",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "coal",
@@ -15436,10 +15436,10 @@
     },
     {
       "id": 683,
-      "name": "Washington, D.C.",
+      "name": "Washington",
       "ownerTag": "COLONY_OF_VIRGINIA",
       "stateId": 306,
-      "stateName": "Washington, D.C. (COLONY_OF_VIRGINIA)",
+      "stateName": "Washington (COLONY_OF_VIRGINIA)",
       "terrain": "forest",
       "coastal": true,
       "rgoGood": "cotton",
@@ -15462,7 +15462,7 @@
       "name": "Khuzdar",
       "ownerTag": "KHANATE_OF_KALAT",
       "stateId": 381,
-      "stateName": "Khuzdar (KHANATE_OF_KALAT)",
+      "stateName": "Kalat (KHANATE_OF_KALAT)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -15508,7 +15508,7 @@
       "name": "Marrakesh",
       "ownerTag": "ALAOUITE_MOROCCO",
       "stateId": 448,
-      "stateName": "Marrakesh",
+      "stateName": "Fez",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -16057,7 +16057,7 @@
       "name": "Nugal",
       "ownerTag": "POLITY_Q2257830",
       "stateId": 213,
-      "stateName": "Nugal (POLITY_Q2257830)",
+      "stateName": "Majeerteen (POLITY_Q2257830)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -16121,7 +16121,7 @@
       "name": "Stoeng Treng",
       "ownerTag": "NAM_BAN",
       "stateId": 369,
-      "stateName": "Phnom Penh (NAM_BAN)",
+      "stateName": "Oudong (NAM_BAN)",
       "terrain": "jungle",
       "coastal": false,
       "rgoGood": "timber",
@@ -16688,7 +16688,7 @@
       "name": "Taroudant",
       "ownerTag": "ALAOUITE_MOROCCO",
       "stateId": 448,
-      "stateName": "Marrakesh",
+      "stateName": "Fez",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -16982,7 +16982,7 @@
       "name": "Samarkand",
       "ownerTag": "POLITY_Q577668",
       "stateId": 181,
-      "stateName": "Hissar (POLITY_Q577668)",
+      "stateName": "Bukhara (POLITY_Q577668)",
       "terrain": "hills",
       "coastal": false,
       "rgoGood": "cattle",
@@ -17266,7 +17266,7 @@
       "name": "Siak",
       "ownerTag": "SULTANATE_OF_JOHOR",
       "stateId": 249,
-      "stateName": "Siak",
+      "stateName": "Daik",
       "terrain": "jungle",
       "coastal": true,
       "rgoGood": "timber",
@@ -17827,7 +17827,7 @@
       "name": "Rangoon",
       "ownerTag": "KINGDOM_OF_MRAUK_U",
       "stateId": 281,
-      "stateName": "Rangoon (KINGDOM_OF_MRAUK_U)",
+      "stateName": "Ava (KINGDOM_OF_MRAUK_U)",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "grain",
@@ -17960,10 +17960,10 @@
     },
     {
       "id": 797,
-      "name": "Louangphrabang",
+      "name": "Luang Phrabang",
       "ownerTag": "LAN_XANG",
       "stateId": 323,
-      "stateName": "Louangphrabang (LAN_XANG)",
+      "stateName": "Luang Phrabang (LAN_XANG)",
       "terrain": "hills",
       "coastal": false,
       "rgoGood": "iron",
@@ -18045,10 +18045,10 @@
     },
     {
       "id": 801,
-      "name": "Tanjungpinang",
+      "name": "Daik",
       "ownerTag": "SULTANATE_OF_JOHOR",
       "stateId": 249,
-      "stateName": "Siak",
+      "stateName": "Daik",
       "terrain": "jungle",
       "coastal": true,
       "rgoGood": "cotton",
@@ -18068,7 +18068,7 @@
       "name": "Kharan",
       "ownerTag": "SAFAVID_IRAN",
       "stateId": 382,
-      "stateName": "Khuzdar (SAFAVID_IRAN)",
+      "stateName": "Kalat (SAFAVID_IRAN)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -18294,7 +18294,7 @@
       "name": "Bangalore",
       "ownerTag": "MYSORE_KINGDOM",
       "stateId": 502,
-      "stateName": "Bangalore",
+      "stateName": "Mysore",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "grain",
@@ -18603,7 +18603,7 @@
       "name": "Chagai",
       "ownerTag": "KHANATE_OF_KALAT",
       "stateId": 381,
-      "stateName": "Khuzdar (KHANATE_OF_KALAT)",
+      "stateName": "Kalat (KHANATE_OF_KALAT)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -18804,7 +18804,7 @@
       "name": "Magway",
       "ownerTag": "KINGDOM_OF_MRAUK_U",
       "stateId": 281,
-      "stateName": "Rangoon (KINGDOM_OF_MRAUK_U)",
+      "stateName": "Ava (KINGDOM_OF_MRAUK_U)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "cattle",
@@ -19051,7 +19051,7 @@
       "name": "Upper Barito",
       "ownerTag": "POLITY_Q1660566",
       "stateId": 263,
-      "stateName": "Bandjarmasin (POLITY_Q1660566)",
+      "stateName": "Martapura (POLITY_Q1660566)",
       "terrain": "jungle",
       "coastal": false,
       "rgoGood": "cotton",
@@ -19414,7 +19414,7 @@
       "name": "Lynchburg",
       "ownerTag": "COLONY_OF_VIRGINIA",
       "stateId": 306,
-      "stateName": "Washington, D.C. (COLONY_OF_VIRGINIA)",
+      "stateName": "Washington (COLONY_OF_VIRGINIA)",
       "terrain": "forest",
       "coastal": true,
       "rgoGood": "timber",
@@ -19621,7 +19621,7 @@
       "name": "Bhuj",
       "ownerTag": "POLITY_Q83618",
       "stateId": 413,
-      "stateName": "Ahmedabad",
+      "stateName": "Baroda",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -20152,7 +20152,7 @@
       "name": "Sirte",
       "ownerTag": "POLITY_Q12560",
       "stateId": 92,
-      "stateName": "Sabha (POLITY_Q12560)",
+      "stateName": "Sirte (POLITY_Q12560)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -20462,7 +20462,7 @@
       "name": "Kahayan",
       "ownerTag": "POLITY_Q1660566",
       "stateId": 263,
-      "stateName": "Bandjarmasin (POLITY_Q1660566)",
+      "stateName": "Martapura (POLITY_Q1660566)",
       "terrain": "jungle",
       "coastal": true,
       "rgoGood": "timber",
@@ -21122,7 +21122,7 @@
       "name": "Ava",
       "ownerTag": "UNC",
       "stateId": 283,
-      "stateName": "Rangoon (UNC)",
+      "stateName": "Ava (UNC)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "cattle",
@@ -21417,7 +21417,7 @@
       "name": "Wheeling",
       "ownerTag": "HAUDENOSAUNEE",
       "stateId": 307,
-      "stateName": "Washington, D.C. (HAUDENOSAUNEE)",
+      "stateName": "Washington (HAUDENOSAUNEE)",
       "terrain": "forest",
       "coastal": true,
       "rgoGood": "timber",
@@ -21736,7 +21736,7 @@
       "name": "Lao Chi",
       "ownerTag": "TRINH_LORDS",
       "stateId": 324,
-      "stateName": "Louangphrabang (TRINH_LORDS)",
+      "stateName": "Luang Phrabang (TRINH_LORDS)",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "iron",
@@ -21845,7 +21845,7 @@
       "name": "Jarai",
       "ownerTag": "NAM_BAN",
       "stateId": 546,
-      "stateName": "Hue (NAM_BAN)",
+      "stateName": "Huế (NAM_BAN)",
       "terrain": "hills",
       "coastal": false,
       "rgoGood": "cattle",
@@ -22480,7 +22480,7 @@
       "name": "Larkana",
       "ownerTag": "SINDH",
       "stateId": 406,
-      "stateName": "Karachi",
+      "stateName": "Hydrabad",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "grain",
@@ -22551,7 +22551,7 @@
       "name": "Greenbrier",
       "ownerTag": "NOUVELLE_FRANCE",
       "stateId": 308,
-      "stateName": "Washington, D.C. (NOUVELLE_FRANCE)",
+      "stateName": "Washington (NOUVELLE_FRANCE)",
       "terrain": "forest",
       "coastal": true,
       "rgoGood": "timber",
@@ -22832,7 +22832,7 @@
       "name": "Qui Nhon",
       "ownerTag": "CAMBODIA",
       "stateId": 545,
-      "stateName": "Hue (CAMBODIA)",
+      "stateName": "Huế (CAMBODIA)",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "cattle",
@@ -22918,7 +22918,7 @@
       "name": "Naushahro",
       "ownerTag": "SINDH",
       "stateId": 406,
-      "stateName": "Karachi",
+      "stateName": "Hydrabad",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "grain",
@@ -23040,10 +23040,10 @@
     },
     {
       "id": 1029,
-      "name": "Louga",
+      "name": "Yang-Yang",
       "ownerTag": "WOLOF",
       "stateId": 320,
-      "stateName": "Louga",
+      "stateName": "Yang-Yang",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "cattle",
@@ -23136,7 +23136,7 @@
       "name": "Bassein",
       "ownerTag": "KINGDOM_OF_MRAUK_U",
       "stateId": 281,
-      "stateName": "Rangoon (KINGDOM_OF_MRAUK_U)",
+      "stateName": "Ava (KINGDOM_OF_MRAUK_U)",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "cattle",
@@ -23381,7 +23381,7 @@
       "name": "Phongsali",
       "ownerTag": "LAN_XANG",
       "stateId": 323,
-      "stateName": "Louangphrabang (LAN_XANG)",
+      "stateName": "Luang Phrabang (LAN_XANG)",
       "terrain": "hills",
       "coastal": false,
       "rgoGood": "cattle",
@@ -23610,7 +23610,7 @@
       "name": "Sintang",
       "ownerTag": "POLITY_Q1660566",
       "stateId": 263,
-      "stateName": "Bandjarmasin (POLITY_Q1660566)",
+      "stateName": "Martapura (POLITY_Q1660566)",
       "terrain": "jungle",
       "coastal": false,
       "rgoGood": "timber",
@@ -23657,7 +23657,7 @@
       "name": "Puri",
       "ownerTag": "POLITY_Q83618",
       "stateId": 428,
-      "stateName": "Puri",
+      "stateName": "Cuttack",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "cattle",
@@ -23879,7 +23879,7 @@
       "name": "Ahmedabad",
       "ownerTag": "POLITY_Q83618",
       "stateId": 413,
-      "stateName": "Ahmedabad",
+      "stateName": "Baroda",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -23983,10 +23983,10 @@
     },
     {
       "id": 1071,
-      "name": "Banjul",
+      "name": "Kuntaur",
       "ownerTag": "SENEGAL",
       "stateId": 333,
-      "stateName": "Banjul",
+      "stateName": "Kuntaur",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "grain",
@@ -24028,7 +24028,7 @@
       "name": "Rajkot",
       "ownerTag": "POLITY_Q83618",
       "stateId": 413,
-      "stateName": "Ahmedabad",
+      "stateName": "Baroda",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -24419,10 +24419,10 @@
     },
     {
       "id": 1091,
-      "name": "Kampong Cham",
+      "name": "Oudong",
       "ownerTag": "POLITY_Q1827039",
       "stateId": 370,
-      "stateName": "Phnom Penh (POLITY_Q1827039)",
+      "stateName": "Oudong (POLITY_Q1827039)",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "cattle",
@@ -25440,7 +25440,7 @@
       "name": "Baroda",
       "ownerTag": "POLITY_Q83618",
       "stateId": 413,
-      "stateName": "Ahmedabad",
+      "stateName": "Baroda",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -25555,7 +25555,7 @@
       "name": "Phnom Penh",
       "ownerTag": "CAMBODIA",
       "stateId": 368,
-      "stateName": "Phnom Penh (CAMBODIA)",
+      "stateName": "Oudong (CAMBODIA)",
       "terrain": "jungle",
       "coastal": true,
       "rgoGood": "timber",
@@ -25888,7 +25888,7 @@
       "name": "Kalat",
       "ownerTag": "KHANATE_OF_KALAT",
       "stateId": 381,
-      "stateName": "Khuzdar (KHANATE_OF_KALAT)",
+      "stateName": "Kalat (KHANATE_OF_KALAT)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -26487,7 +26487,7 @@
       "name": "Dera Bugti",
       "ownerTag": "KHANATE_OF_KALAT",
       "stateId": 381,
-      "stateName": "Khuzdar (KHANATE_OF_KALAT)",
+      "stateName": "Kalat (KHANATE_OF_KALAT)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -26695,7 +26695,7 @@
       "name": "Sambalpur",
       "ownerTag": "POLITY_Q83618",
       "stateId": 428,
-      "stateName": "Puri",
+      "stateName": "Cuttack",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "cattle",
@@ -26980,7 +26980,7 @@
       "name": "Yendi",
       "ownerTag": "UNC",
       "stateId": 189,
-      "stateName": "Grand-Bassam",
+      "stateName": "Kumasi",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -27177,7 +27177,7 @@
       "name": "Hydrabad",
       "ownerTag": "SINDH",
       "stateId": 406,
-      "stateName": "Karachi",
+      "stateName": "Hydrabad",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "grain",
@@ -27779,7 +27779,7 @@
       "name": "Palanpur",
       "ownerTag": "POLITY_Q83618",
       "stateId": 413,
-      "stateName": "Ahmedabad",
+      "stateName": "Baroda",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "cattle",
@@ -27887,7 +27887,7 @@
       "name": "Cuttack",
       "ownerTag": "POLITY_Q83618",
       "stateId": 428,
-      "stateName": "Puri",
+      "stateName": "Cuttack",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -27995,7 +27995,7 @@
       "name": "Umarkot",
       "ownerTag": "SINDH",
       "stateId": 406,
-      "stateName": "Karachi",
+      "stateName": "Hydrabad",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "cattle",
@@ -28691,7 +28691,7 @@
       "name": "Gangpur",
       "ownerTag": "POLITY_Q83618",
       "stateId": 428,
-      "stateName": "Puri",
+      "stateName": "Cuttack",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "grain",
@@ -29023,7 +29023,7 @@
       "name": "Surat",
       "ownerTag": "POLITY_Q83618",
       "stateId": 413,
-      "stateName": "Ahmedabad",
+      "stateName": "Baroda",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -29992,7 +29992,7 @@
       "name": "Tangier",
       "ownerTag": "ALAOUITE_MOROCCO",
       "stateId": 448,
-      "stateName": "Marrakesh",
+      "stateName": "Fez",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "cattle",
@@ -30615,7 +30615,7 @@
       "name": "Cibao",
       "ownerTag": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
       "stateId": 513,
-      "stateName": "Santo Domingo (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
+      "stateName": "Port-au-Prince (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "iron",
@@ -31203,7 +31203,7 @@
       "name": "Karachi",
       "ownerTag": "SINDH",
       "stateId": 406,
-      "stateName": "Karachi",
+      "stateName": "Hydrabad",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -31247,7 +31247,7 @@
       "name": "Shimoga",
       "ownerTag": "MYSORE_KINGDOM",
       "stateId": 502,
-      "stateName": "Bangalore",
+      "stateName": "Mysore",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "cattle",
@@ -31494,7 +31494,7 @@
       "name": "Panjgur",
       "ownerTag": "SAFAVID_IRAN",
       "stateId": 382,
-      "stateName": "Khuzdar (SAFAVID_IRAN)",
+      "stateName": "Kalat (SAFAVID_IRAN)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -31513,10 +31513,10 @@
     },
     {
       "id": 1411,
-      "name": "Tambacounda",
+      "name": "Medina (Tambacounda)",
       "ownerTag": "WUULI_MANSA_BANKO",
       "stateId": 468,
-      "stateName": "Tambacounda",
+      "stateName": "Medina (Tambacounda)",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "grain",
@@ -31554,10 +31554,10 @@
     },
     {
       "id": 1413,
-      "name": "Kaolack",
+      "name": "Kahone",
       "ownerTag": "SALUUM",
       "stateId": 733,
-      "stateName": "Kaolack (SALUUM)",
+      "stateName": "Kahone (SALUUM)",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "grain",
@@ -31847,7 +31847,7 @@
       "name": "Palakkad",
       "ownerTag": "MYSORE_KINGDOM",
       "stateId": 502,
-      "stateName": "Bangalore",
+      "stateName": "Mysore",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "cattle",
@@ -32108,10 +32108,10 @@
     },
     {
       "id": 1438,
-      "name": "Hue",
+      "name": "Huế",
       "ownerTag": "NGUYEN_LORDS",
       "stateId": 547,
-      "stateName": "Hue (NGUYEN_LORDS)",
+      "stateName": "Huế (NGUYEN_LORDS)",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "cattle",
@@ -32547,7 +32547,7 @@
       "name": "Mysore",
       "ownerTag": "MYSORE_KINGDOM",
       "stateId": 502,
-      "stateName": "Bangalore",
+      "stateName": "Mysore",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "grain",
@@ -32855,7 +32855,7 @@
       "name": "Haeju",
       "ownerTag": "JOSEON",
       "stateId": 517,
-      "stateName": "Seoul",
+      "stateName": "Hanseong",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -32875,7 +32875,7 @@
       "name": "Wonsan",
       "ownerTag": "JOSEON",
       "stateId": 517,
-      "stateName": "Seoul",
+      "stateName": "Hanseong",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "cattle",
@@ -33480,7 +33480,7 @@
       "name": "Mangalore",
       "ownerTag": "MYSORE_KINGDOM",
       "stateId": 502,
-      "stateName": "Bangalore",
+      "stateName": "Mysore",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "coal",
@@ -33675,7 +33675,7 @@
       "name": "Cap-Haïtien",
       "ownerTag": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
       "stateId": 513,
-      "stateName": "Santo Domingo (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
+      "stateName": "Port-au-Prince (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "iron",
@@ -33745,7 +33745,7 @@
       "name": "Lüneburg",
       "ownerTag": "KONUNGARIKET_SVERIGE",
       "stateId": 585,
-      "stateName": "Hannover (KONUNGARIKET_SVERIGE)",
+      "stateName": "Hanover (KONUNGARIKET_SVERIGE)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -34210,10 +34210,10 @@
     },
     {
       "id": 1534,
-      "name": "Kiel",
+      "name": "Glückstadt",
       "ownerTag": "HERZOGTUM_SCHLESWIG_HOLSTEIN_GOTTORP",
       "stateId": 511,
-      "stateName": "Kiel",
+      "stateName": "Glückstadt",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -34409,7 +34409,7 @@
       "name": "Azua",
       "ownerTag": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
       "stateId": 513,
-      "stateName": "Santo Domingo (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
+      "stateName": "Port-au-Prince (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
       "terrain": "mountains",
       "coastal": true,
       "rgoGood": "coal",
@@ -34560,7 +34560,7 @@
       "name": "Pyongyang",
       "ownerTag": "JOSEON",
       "stateId": 517,
-      "stateName": "Seoul",
+      "stateName": "Hanseong",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "cattle",
@@ -35200,10 +35200,10 @@
     },
     {
       "id": 1579,
-      "name": "Abyan Governorate",
+      "name": "Al Musaymir",
       "ownerTag": "QASIMID_YEMEN",
       "stateId": 526,
-      "stateName": "Abyan Governorate",
+      "stateName": "Al Musaymir",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -35265,7 +35265,7 @@
       "name": "Santo Domingo",
       "ownerTag": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
       "stateId": 513,
-      "stateName": "Santo Domingo (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
+      "stateName": "Port-au-Prince (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -35363,10 +35363,10 @@
     },
     {
       "id": 1587,
-      "name": "Rostock",
+      "name": "Ludwigslust",
       "ownerTag": "KONUNGARIKET_SVERIGE",
       "stateId": 530,
-      "stateName": "Rostock",
+      "stateName": "Ludwigslust",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "cattle",
@@ -35495,10 +35495,10 @@
     },
     {
       "id": 1593,
-      "name": "Berau",
+      "name": "Sambaliung",
       "ownerTag": "UNC",
       "stateId": 536,
-      "stateName": "Berau",
+      "stateName": "Sambaliung",
       "terrain": "jungle",
       "coastal": true,
       "rgoGood": "timber",
@@ -36008,10 +36008,10 @@
     },
     {
       "id": 1617,
-      "name": "Seoul",
+      "name": "Hanseong",
       "ownerTag": "JOSEON",
       "stateId": 517,
-      "stateName": "Seoul",
+      "stateName": "Hanseong",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -36185,7 +36185,7 @@
       "name": "Doha",
       "ownerTag": "POLITY_Q12560",
       "stateId": 791,
-      "stateName": "Doha",
+      "stateName": "Muharraq",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -36252,7 +36252,7 @@
       "name": "Quảng Nam",
       "ownerTag": "NGUYEN_LORDS",
       "stateId": 547,
-      "stateName": "Hue (NGUYEN_LORDS)",
+      "stateName": "Huế (NGUYEN_LORDS)",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "iron",
@@ -36396,7 +36396,7 @@
       "name": "Port-au-Prince",
       "ownerTag": "SAINT_DOMINGUE",
       "stateId": 514,
-      "stateName": "Santo Domingo (SAINT_DOMINGUE)",
+      "stateName": "Port-au-Prince (SAINT_DOMINGUE)",
       "terrain": "mountains",
       "coastal": true,
       "rgoGood": "coal",
@@ -36520,7 +36520,7 @@
       "name": "Zurich",
       "ownerTag": "OLD_SWISS_CONFEDERACY",
       "stateId": 702,
-      "stateName": "Zurich (OLD_SWISS_CONFEDERACY)",
+      "stateName": "Bern (OLD_SWISS_CONFEDERACY)",
       "terrain": "mountains",
       "coastal": true,
       "rgoGood": "coal",
@@ -37000,10 +37000,10 @@
     },
     {
       "id": 1663,
-      "name": "Aden",
+      "name": "Al Hawtah",
       "ownerTag": "QASIMID_YEMEN",
       "stateId": 558,
-      "stateName": "Aden",
+      "stateName": "Al Hawtah",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -37508,7 +37508,7 @@
       "name": "Osnabrück",
       "ownerTag": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
       "stateId": 586,
-      "stateName": "Hannover (REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN)",
+      "stateName": "Hanover (REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "cattle",
@@ -38254,10 +38254,10 @@
     },
     {
       "id": 1720,
-      "name": "Hannover",
+      "name": "Hanover",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 584,
-      "stateName": "Hannover (BRANDENBURG_PREUSSEN)",
+      "stateName": "Hanover (BRANDENBURG_PREUSSEN)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -38412,7 +38412,7 @@
       "name": "Leipzig",
       "ownerTag": "HABSBURG_MONARCHY",
       "stateId": 642,
-      "stateName": "Leipzig",
+      "stateName": "Dresden (Sachsen)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -38460,10 +38460,10 @@
     },
     {
       "id": 1729,
-      "name": "Gießen",
+      "name": "Darmstadt (Hessen)",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 589,
-      "stateName": "Gießen",
+      "stateName": "Darmstadt (Hessen)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -38850,10 +38850,10 @@
     },
     {
       "id": 1747,
-      "name": "Dagana",
+      "name": "Nder",
       "ownerTag": "WAALO",
       "stateId": 597,
-      "stateName": "Dagana",
+      "stateName": "Nder",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "cattle",
@@ -40231,10 +40231,10 @@
     },
     {
       "id": 1809,
-      "name": "Cabinda",
+      "name": "Kinguele",
       "ownerTag": "KINGDOM_OF_KAKONGO",
       "stateId": 619,
-      "stateName": "São Salvador",
+      "stateName": "Kinguele",
       "terrain": "jungle",
       "coastal": true,
       "rgoGood": "timber",
@@ -40345,7 +40345,7 @@
       "name": "Chur",
       "ownerTag": "FREISTAAT_DER_DREI_BUNDE",
       "stateId": 701,
-      "stateName": "Zurich (FREISTAAT_DER_DREI_BUNDE)",
+      "stateName": "Bern (FREISTAAT_DER_DREI_BUNDE)",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "iron",
@@ -40663,7 +40663,7 @@
       "name": "Hassan",
       "ownerTag": "MYSORE_KINGDOM",
       "stateId": 502,
-      "stateName": "Bangalore",
+      "stateName": "Mysore",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "grain",
@@ -40777,7 +40777,7 @@
       "name": "Basel",
       "ownerTag": "SWISS_CONFEDERACY",
       "stateId": 703,
-      "stateName": "Zurich (SWISS_CONFEDERACY)",
+      "stateName": "Bern (SWISS_CONFEDERACY)",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "iron",
@@ -41282,7 +41282,7 @@
       "name": "Bern",
       "ownerTag": "OLD_SWISS_CONFEDERACY",
       "stateId": 702,
-      "stateName": "Zurich (OLD_SWISS_CONFEDERACY)",
+      "stateName": "Bern (OLD_SWISS_CONFEDERACY)",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "coal",
@@ -42150,7 +42150,7 @@
       "name": "Dresden (Sachsen)",
       "ownerTag": "HABSBURG_MONARCHY",
       "stateId": 642,
-      "stateName": "Leipzig",
+      "stateName": "Dresden (Sachsen)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -42766,10 +42766,10 @@
     },
     {
       "id": 1924,
-      "name": "Denpasar",
+      "name": "Klungkung",
       "ownerTag": "BALI",
       "stateId": 657,
-      "stateName": "Denpasar",
+      "stateName": "Klungkung",
       "terrain": "mountains",
       "coastal": true,
       "rgoGood": "iron",
@@ -42897,7 +42897,7 @@
       "name": "Göttingen",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 584,
-      "stateName": "Hannover (BRANDENBURG_PREUSSEN)",
+      "stateName": "Hanover (BRANDENBURG_PREUSSEN)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -43423,7 +43423,7 @@
       "name": "Geneva",
       "ownerTag": "OLD_SWISS_CONFEDERACY",
       "stateId": 702,
-      "stateName": "Zurich (OLD_SWISS_CONFEDERACY)",
+      "stateName": "Bern (OLD_SWISS_CONFEDERACY)",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "coal",
@@ -43939,10 +43939,10 @@
     },
     {
       "id": 1978,
-      "name": "Kuwait City",
+      "name": "Kuwait",
       "ownerTag": "POLITY_Q12560",
       "stateId": 686,
-      "stateName": "Kuwait City",
+      "stateName": "Kuwait",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -44136,10 +44136,10 @@
     },
     {
       "id": 1987,
-      "name": "Kodagu",
+      "name": "Madikeri",
       "ownerTag": "KINGDOM_OF_COORG",
       "stateId": 690,
-      "stateName": "Kodagu",
+      "stateName": "Madikeri",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "cattle",
@@ -44379,7 +44379,7 @@
       "name": "Luzern",
       "ownerTag": "OLD_SWISS_CONFEDERACY",
       "stateId": 702,
-      "stateName": "Zurich (OLD_SWISS_CONFEDERACY)",
+      "stateName": "Bern (OLD_SWISS_CONFEDERACY)",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "cattle",
@@ -44557,10 +44557,10 @@
     },
     {
       "id": 2007,
-      "name": "Jena",
+      "name": "Weimar (Thüringen)",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 712,
-      "stateName": "Jena",
+      "stateName": "Weimar (Thüringen)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -44608,7 +44608,7 @@
       "name": "Phan Rang",
       "ownerTag": "POLITY_Q1827039",
       "stateId": 548,
-      "stateName": "Hue (POLITY_Q1827039)",
+      "stateName": "Huế (POLITY_Q1827039)",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "cattle",
@@ -44712,10 +44712,10 @@
     },
     {
       "id": 2014,
-      "name": "Sulu",
+      "name": "Jolo",
       "ownerTag": "SULTANATE_OF_SULU",
       "stateId": 715,
-      "stateName": "Sulu",
+      "stateName": "Jolo",
       "terrain": "jungle",
       "coastal": true,
       "rgoGood": "cotton",
@@ -44772,10 +44772,10 @@
     },
     {
       "id": 2017,
-      "name": "Braunschweig",
+      "name": "Brunswick",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 719,
-      "stateName": "Braunschweig",
+      "stateName": "Brunswick",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -44891,10 +44891,10 @@
     },
     {
       "id": 2023,
-      "name": "Thüringen",
+      "name": "Meiningen",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 723,
-      "stateName": "Thüringen",
+      "stateName": "Meiningen",
       "terrain": "forest",
       "coastal": true,
       "rgoGood": "timber",
@@ -44919,10 +44919,10 @@
     },
     {
       "id": 2024,
-      "name": "Krakow",
+      "name": "Kraków",
       "ownerTag": "RZECZPOSPOLITA_OBOJGA_NARODOW",
       "stateId": 724,
-      "stateName": "Krakow",
+      "stateName": "Kraków",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "grain",
@@ -44986,10 +44986,10 @@
     },
     {
       "id": 2027,
-      "name": "Coburg",
+      "name": "Gotha",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 726,
-      "stateName": "Coburg",
+      "stateName": "Gotha",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "cattle",
@@ -45087,10 +45087,10 @@
     },
     {
       "id": 2032,
-      "name": "Bone",
+      "name": "Watampone",
       "ownerTag": "SULTANATE_OF_BONE",
       "stateId": 730,
-      "stateName": "Bone",
+      "stateName": "Watampone",
       "terrain": "hills",
       "coastal": false,
       "rgoGood": "iron",
@@ -45185,7 +45185,7 @@
       "name": "Foundiougne",
       "ownerTag": "SENEGAL",
       "stateId": 734,
-      "stateName": "Kaolack (SENEGAL)",
+      "stateName": "Kahone (SENEGAL)",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "grain",
@@ -45200,7 +45200,7 @@
     },
     {
       "id": 2038,
-      "name": "Darmstadt",
+      "name": "Darmstadt (Hessen) (Darmstadt)",
       "ownerTag": "ELECTORATE_OF_BAVARIA",
       "stateId": 736,
       "stateName": "Kassel (ELECTORATE_OF_BAVARIA)",
@@ -45243,10 +45243,10 @@
     },
     {
       "id": 2040,
-      "name": "Thüringen (Thüringen)",
+      "name": "Altenburg",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 737,
-      "stateName": "Thüringen (Thüringen)",
+      "stateName": "Altenburg",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -45286,10 +45286,10 @@
     },
     {
       "id": 2042,
-      "name": "Grande Comore",
+      "name": "Fomboni",
       "ownerTag": "SULTANATE_OF_NDZUWANI",
       "stateId": 738,
-      "stateName": "Grande Comore",
+      "stateName": "Fomboni",
       "terrain": "mountains",
       "coastal": true,
       "rgoGood": "coal",
@@ -45383,10 +45383,10 @@
     },
     {
       "id": 2047,
-      "name": "Toscana",
+      "name": "Lucca",
       "ownerTag": "RESPUBLICA_LUCENSIS",
       "stateId": 744,
-      "stateName": "Toscana",
+      "stateName": "Lucca",
       "terrain": "mountains",
       "coastal": true,
       "rgoGood": "coal",
@@ -45461,10 +45461,10 @@
     },
     {
       "id": 2051,
-      "name": "Thüringen (Thüringen, Thüringen)",
+      "name": "Rudolstadt",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 747,
-      "stateName": "Thüringen (Thüringen (Thüringen, Thüringen))",
+      "stateName": "Rudolstadt",
       "terrain": "forest",
       "coastal": true,
       "rgoGood": "timber",
@@ -45487,10 +45487,10 @@
     },
     {
       "id": 2052,
-      "name": "Tübingen (Baden-Württemberg)",
+      "name": "Sigmaringen",
       "ownerTag": "HABSBURG_MONARCHY",
       "stateId": 782,
-      "stateName": "Tübingen (Baden-Württemberg)",
+      "stateName": "Sigmaringen",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "grain",
@@ -45508,10 +45508,10 @@
     },
     {
       "id": 2053,
-      "name": "Weimar",
+      "name": "Weimar (Thüringen) (Thüringen)",
       "ownerTag": "ELECTORATE_OF_BAVARIA",
       "stateId": 772,
-      "stateName": "Weimar (ELECTORATE_OF_BAVARIA)",
+      "stateName": "Weimar (Thüringen) (Thüringen) (ELECTORATE_OF_BAVARIA)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -45537,7 +45537,7 @@
       "name": "Thüringen",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 747,
-      "stateName": "Thüringen (Thüringen (Thüringen, Thüringen))",
+      "stateName": "Rudolstadt",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -45557,10 +45557,10 @@
     },
     {
       "id": 2055,
-      "name": "Sachsen-Anhalt",
+      "name": "Dessau",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 753,
-      "stateName": "Sachsen-Anhalt",
+      "stateName": "Dessau",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -45578,10 +45578,10 @@
     },
     {
       "id": 2056,
-      "name": "Sachsen-Anhalt (Sachsen-Anhalt)",
+      "name": "Sachsen-Anhalt",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 753,
-      "stateName": "Sachsen-Anhalt",
+      "stateName": "Dessau",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "cattle",
@@ -45718,10 +45718,10 @@
     },
     {
       "id": 2063,
-      "name": "Sachsen-Anhalt (Sachsen-Anhalt, Sachsen-Anhalt)",
+      "name": "Sachsen-Anhalt (Sachsen-Anhalt)",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 753,
-      "stateName": "Sachsen-Anhalt",
+      "stateName": "Dessau",
       "terrain": "farmland",
       "coastal": false,
       "rgoGood": "grain",
@@ -45760,7 +45760,7 @@
       "name": "Pedernales",
       "ownerTag": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
       "stateId": 513,
-      "stateName": "Santo Domingo (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
+      "stateName": "Port-au-Prince (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
       "terrain": "mountains",
       "coastal": true,
       "rgoGood": "coal",
@@ -45988,10 +45988,10 @@
     },
     {
       "id": 2077,
-      "name": "Andorra",
+      "name": "Andorra la Vella",
       "ownerTag": "ANDORRA",
       "stateId": 758,
-      "stateName": "Andorra",
+      "stateName": "Andorra la Vella",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "iron",
@@ -46143,10 +46143,10 @@
     },
     {
       "id": 2085,
-      "name": "Anjouan",
+      "name": "Mutsamudu",
       "ownerTag": "SULTANATE_OF_NDZUWANI",
       "stateId": 762,
-      "stateName": "Anjouan",
+      "stateName": "Mutsamudu",
       "terrain": "mountains",
       "coastal": true,
       "rgoGood": "iron",
@@ -46320,10 +46320,10 @@
     },
     {
       "id": 2094,
-      "name": "Thüringen",
+      "name": "Thüringen (Thüringen)",
       "ownerTag": "HABSBURG_MONARCHY",
       "stateId": 773,
-      "stateName": "Weimar (HABSBURG_MONARCHY)",
+      "stateName": "Weimar (Thüringen) (Thüringen) (HABSBURG_MONARCHY)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -46534,10 +46534,10 @@
     },
     {
       "id": 2105,
-      "name": "Tübingen (Baden-Württemberg) (Tübingen)",
+      "name": "Tübingen",
       "ownerTag": "HABSBURG_MONARCHY",
       "stateId": 782,
-      "stateName": "Tübingen (Baden-Württemberg)",
+      "stateName": "Sigmaringen",
       "terrain": "hills",
       "coastal": false,
       "rgoGood": "cattle",
@@ -46845,10 +46845,10 @@
     },
     {
       "id": 2121,
-      "name": "Muharraq Governorate",
+      "name": "Muharraq",
       "ownerTag": "POLITY_Q12560",
       "stateId": 791,
-      "stateName": "Doha",
+      "stateName": "Muharraq",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -47602,7 +47602,7 @@
     },
     {
       "id": 35,
-      "name": "Dihua",
+      "name": "Ili",
       "ownerTag": "POLITY_Q1923401",
       "provinceIds": [
         105,
@@ -47722,7 +47722,7 @@
     },
     {
       "id": 47,
-      "name": "Santa Cruz",
+      "name": "Chuquisaca",
       "ownerTag": "VIRREINATO_DEL_PERU",
       "provinceIds": [
         52,
@@ -47814,7 +47814,7 @@
     },
     {
       "id": 56,
-      "name": "Kano (BORNU_EMPIRE)",
+      "name": "Kukawa (BORNU_EMPIRE)",
       "ownerTag": "BORNU_EMPIRE",
       "provinceIds": [
         244
@@ -47822,7 +47822,7 @@
     },
     {
       "id": 57,
-      "name": "Kano (OYO_EMPIRE)",
+      "name": "Kukawa (OYO_EMPIRE)",
       "ownerTag": "OYO_EMPIRE",
       "provinceIds": [
         399
@@ -47830,7 +47830,7 @@
     },
     {
       "id": 58,
-      "name": "Kano (UNC)",
+      "name": "Kukawa (UNC)",
       "ownerTag": "UNC",
       "provinceIds": [
         110,
@@ -47852,7 +47852,7 @@
     },
     {
       "id": 60,
-      "name": "Porto-Novo",
+      "name": "Abomey",
       "ownerTag": "UNC",
       "provinceIds": [
         299
@@ -47976,7 +47976,7 @@
     },
     {
       "id": 73,
-      "name": "Tashkent (POLITY_Q1433867)",
+      "name": "Ulytau (POLITY_Q1433867)",
       "ownerTag": "POLITY_Q1433867",
       "provinceIds": [
         106,
@@ -47988,7 +47988,7 @@
     },
     {
       "id": 74,
-      "name": "Tashkent (POLITY_Q1923401)",
+      "name": "Ulytau (POLITY_Q1923401)",
       "ownerTag": "POLITY_Q1923401",
       "provinceIds": [
         279
@@ -48138,7 +48138,7 @@
     },
     {
       "id": 90,
-      "name": "Kaédi",
+      "name": "Thilogne",
       "ownerTag": "UNC",
       "provinceIds": [
         387,
@@ -48155,7 +48155,7 @@
     },
     {
       "id": 92,
-      "name": "Sabha (POLITY_Q12560)",
+      "name": "Sirte (POLITY_Q12560)",
       "ownerTag": "POLITY_Q12560",
       "provinceIds": [
         129,
@@ -48166,7 +48166,7 @@
     },
     {
       "id": 93,
-      "name": "Sabha (UNC)",
+      "name": "Sirte (UNC)",
       "ownerTag": "UNC",
       "provinceIds": [
         62
@@ -48174,7 +48174,7 @@
     },
     {
       "id": 94,
-      "name": "Cross Timbers (NOUVELLE_FRANCE)",
+      "name": "Llano Estacado (NOUVELLE_FRANCE)",
       "ownerTag": "NOUVELLE_FRANCE",
       "provinceIds": [
         302,
@@ -48184,7 +48184,7 @@
     },
     {
       "id": 95,
-      "name": "Cross Timbers (REINO_DE_MEXICO)",
+      "name": "Llano Estacado (REINO_DE_MEXICO)",
       "ownerTag": "REINO_DE_MEXICO",
       "provinceIds": [
         148
@@ -48236,7 +48236,7 @@
     },
     {
       "id": 100,
-      "name": "Nyala (SULTANATE_OF_DARFUR)",
+      "name": "El Fasher (SULTANATE_OF_DARFUR)",
       "ownerTag": "SULTANATE_OF_DARFUR",
       "provinceIds": [
         321,
@@ -48246,7 +48246,7 @@
     },
     {
       "id": 101,
-      "name": "Nyala (UNC)",
+      "name": "El Fasher (UNC)",
       "ownerTag": "UNC",
       "provinceIds": [
         123,
@@ -48593,7 +48593,7 @@
     },
     {
       "id": 137,
-      "name": "Sanaa",
+      "name": "Sana'a",
       "ownerTag": "QASIMID_YEMEN",
       "provinceIds": [
         478,
@@ -48794,7 +48794,7 @@
     },
     {
       "id": 159,
-      "name": "Labé",
+      "name": "Boulebane",
       "ownerTag": "BOUNDOU",
       "provinceIds": [
         569
@@ -49017,7 +49017,7 @@
     },
     {
       "id": 181,
-      "name": "Hissar (POLITY_Q577668)",
+      "name": "Bukhara (POLITY_Q577668)",
       "ownerTag": "POLITY_Q577668",
       "provinceIds": [
         622,
@@ -49028,7 +49028,7 @@
     },
     {
       "id": 182,
-      "name": "Hissar (SAFAVID_IRAN)",
+      "name": "Bukhara (SAFAVID_IRAN)",
       "ownerTag": "SAFAVID_IRAN",
       "provinceIds": [
         559
@@ -49068,7 +49068,7 @@
     },
     {
       "id": 186,
-      "name": "Hadhramaut (SULTANATE_OF_QISHN_AND_SOCOTRA)",
+      "name": "Mahra (SULTANATE_OF_QISHN_AND_SOCOTRA)",
       "ownerTag": "SULTANATE_OF_QISHN_AND_SOCOTRA",
       "provinceIds": [
         571,
@@ -49077,7 +49077,7 @@
     },
     {
       "id": 187,
-      "name": "Hadhramaut (UNC)",
+      "name": "Mahra (UNC)",
       "ownerTag": "UNC",
       "provinceIds": [
         134
@@ -49097,7 +49097,7 @@
     },
     {
       "id": 189,
-      "name": "Grand-Bassam",
+      "name": "Kumasi",
       "ownerTag": "UNC",
       "provinceIds": [
         189,
@@ -49139,7 +49139,7 @@
     },
     {
       "id": 193,
-      "name": "Timbuktu",
+      "name": "Hamdullahi",
       "ownerTag": "UNC",
       "provinceIds": [
         45,
@@ -49337,7 +49337,7 @@
     },
     {
       "id": 213,
-      "name": "Nugal (POLITY_Q2257830)",
+      "name": "Majeerteen (POLITY_Q2257830)",
       "ownerTag": "POLITY_Q2257830",
       "provinceIds": [
         389,
@@ -49347,7 +49347,7 @@
     },
     {
       "id": 214,
-      "name": "Nugal (UNC)",
+      "name": "Majeerteen (UNC)",
       "ownerTag": "UNC",
       "provinceIds": [
         335
@@ -49697,7 +49697,7 @@
     },
     {
       "id": 249,
-      "name": "Siak",
+      "name": "Daik",
       "ownerTag": "SULTANATE_OF_JOHOR",
       "provinceIds": [
         766,
@@ -49828,7 +49828,7 @@
     },
     {
       "id": 262,
-      "name": "Bandjarmasin (KUTAI_KINGDOM)",
+      "name": "Martapura (KUTAI_KINGDOM)",
       "ownerTag": "KUTAI_KINGDOM",
       "provinceIds": [
         497
@@ -49836,7 +49836,7 @@
     },
     {
       "id": 263,
-      "name": "Bandjarmasin (POLITY_Q1660566)",
+      "name": "Martapura (POLITY_Q1660566)",
       "ownerTag": "POLITY_Q1660566",
       "provinceIds": [
         573,
@@ -50029,7 +50029,7 @@
     },
     {
       "id": 281,
-      "name": "Rangoon (KINGDOM_OF_MRAUK_U)",
+      "name": "Ava (KINGDOM_OF_MRAUK_U)",
       "ownerTag": "KINGDOM_OF_MRAUK_U",
       "provinceIds": [
         791,
@@ -50039,7 +50039,7 @@
     },
     {
       "id": 282,
-      "name": "Rangoon (QING_EMPIRE)",
+      "name": "Ava (QING_EMPIRE)",
       "ownerTag": "QING_EMPIRE",
       "provinceIds": [
         432
@@ -50047,7 +50047,7 @@
     },
     {
       "id": 283,
-      "name": "Rangoon (UNC)",
+      "name": "Ava (UNC)",
       "ownerTag": "UNC",
       "provinceIds": [
         362,
@@ -50268,7 +50268,7 @@
     },
     {
       "id": 306,
-      "name": "Washington, D.C. (COLONY_OF_VIRGINIA)",
+      "name": "Washington (COLONY_OF_VIRGINIA)",
       "ownerTag": "COLONY_OF_VIRGINIA",
       "provinceIds": [
         683,
@@ -50277,7 +50277,7 @@
     },
     {
       "id": 307,
-      "name": "Washington, D.C. (HAUDENOSAUNEE)",
+      "name": "Washington (HAUDENOSAUNEE)",
       "ownerTag": "HAUDENOSAUNEE",
       "provinceIds": [
         954
@@ -50285,7 +50285,7 @@
     },
     {
       "id": 308,
-      "name": "Washington, D.C. (NOUVELLE_FRANCE)",
+      "name": "Washington (NOUVELLE_FRANCE)",
       "ownerTag": "NOUVELLE_FRANCE",
       "provinceIds": [
         1006
@@ -50394,7 +50394,7 @@
     },
     {
       "id": 320,
-      "name": "Louga",
+      "name": "Yang-Yang",
       "ownerTag": "WOLOF",
       "provinceIds": [
         1029
@@ -50420,7 +50420,7 @@
     },
     {
       "id": 323,
-      "name": "Louangphrabang (LAN_XANG)",
+      "name": "Luang Phrabang (LAN_XANG)",
       "ownerTag": "LAN_XANG",
       "provinceIds": [
         797,
@@ -50429,7 +50429,7 @@
     },
     {
       "id": 324,
-      "name": "Louangphrabang (TRINH_LORDS)",
+      "name": "Luang Phrabang (TRINH_LORDS)",
       "ownerTag": "TRINH_LORDS",
       "provinceIds": [
         969
@@ -50517,7 +50517,7 @@
     },
     {
       "id": 333,
-      "name": "Banjul",
+      "name": "Kuntaur",
       "ownerTag": "SENEGAL",
       "provinceIds": [
         1071
@@ -50868,7 +50868,7 @@
     },
     {
       "id": 368,
-      "name": "Phnom Penh (CAMBODIA)",
+      "name": "Oudong (CAMBODIA)",
       "ownerTag": "CAMBODIA",
       "provinceIds": [
         1142
@@ -50876,7 +50876,7 @@
     },
     {
       "id": 369,
-      "name": "Phnom Penh (NAM_BAN)",
+      "name": "Oudong (NAM_BAN)",
       "ownerTag": "NAM_BAN",
       "provinceIds": [
         714
@@ -50884,7 +50884,7 @@
     },
     {
       "id": 370,
-      "name": "Phnom Penh (POLITY_Q1827039)",
+      "name": "Oudong (POLITY_Q1827039)",
       "ownerTag": "POLITY_Q1827039",
       "provinceIds": [
         1091
@@ -50979,7 +50979,7 @@
     },
     {
       "id": 381,
-      "name": "Khuzdar (KHANATE_OF_KALAT)",
+      "name": "Kalat (KHANATE_OF_KALAT)",
       "ownerTag": "KHANATE_OF_KALAT",
       "provinceIds": [
         684,
@@ -50990,7 +50990,7 @@
     },
     {
       "id": 382,
-      "name": "Khuzdar (SAFAVID_IRAN)",
+      "name": "Kalat (SAFAVID_IRAN)",
       "ownerTag": "SAFAVID_IRAN",
       "provinceIds": [
         802,
@@ -51222,7 +51222,7 @@
     },
     {
       "id": 406,
-      "name": "Karachi",
+      "name": "Hydrabad",
       "ownerTag": "SINDH",
       "provinceIds": [
         1003,
@@ -51295,7 +51295,7 @@
     },
     {
       "id": 413,
-      "name": "Ahmedabad",
+      "name": "Baroda",
       "ownerTag": "POLITY_Q83618",
       "provinceIds": [
         872,
@@ -51449,7 +51449,7 @@
     },
     {
       "id": 428,
-      "name": "Puri",
+      "name": "Cuttack",
       "ownerTag": "POLITY_Q83618",
       "provinceIds": [
         1056,
@@ -51634,7 +51634,7 @@
     },
     {
       "id": 448,
-      "name": "Marrakesh",
+      "name": "Fez",
       "ownerTag": "ALAOUITE_MOROCCO",
       "provinceIds": [
         154,
@@ -51844,7 +51844,7 @@
     },
     {
       "id": 468,
-      "name": "Tambacounda",
+      "name": "Medina (Tambacounda)",
       "ownerTag": "WUULI_MANSA_BANKO",
       "provinceIds": [
         1411
@@ -52174,7 +52174,7 @@
     },
     {
       "id": 502,
-      "name": "Bangalore",
+      "name": "Mysore",
       "ownerTag": "MYSORE_KINGDOM",
       "provinceIds": [
         812,
@@ -52269,7 +52269,7 @@
     },
     {
       "id": 511,
-      "name": "Kiel",
+      "name": "Glückstadt",
       "ownerTag": "HERZOGTUM_SCHLESWIG_HOLSTEIN_GOTTORP",
       "provinceIds": [
         1534
@@ -52290,7 +52290,7 @@
     },
     {
       "id": 513,
-      "name": "Santo Domingo (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
+      "name": "Port-au-Prince (CAPITANIA_GENERAL_DE_SANTO_DOMINGO)",
       "ownerTag": "CAPITANIA_GENERAL_DE_SANTO_DOMINGO",
       "provinceIds": [
         1370,
@@ -52302,7 +52302,7 @@
     },
     {
       "id": 514,
-      "name": "Santo Domingo (SAINT_DOMINGUE)",
+      "name": "Port-au-Prince (SAINT_DOMINGUE)",
       "ownerTag": "SAINT_DOMINGUE",
       "provinceIds": [
         1635
@@ -52326,7 +52326,7 @@
     },
     {
       "id": 517,
-      "name": "Seoul",
+      "name": "Hanseong",
       "ownerTag": "JOSEON",
       "provinceIds": [
         1472,
@@ -52414,7 +52414,7 @@
     },
     {
       "id": 526,
-      "name": "Abyan Governorate",
+      "name": "Al Musaymir",
       "ownerTag": "QASIMID_YEMEN",
       "provinceIds": [
         1579
@@ -52451,7 +52451,7 @@
     },
     {
       "id": 530,
-      "name": "Rostock",
+      "name": "Ludwigslust",
       "ownerTag": "KONUNGARIKET_SVERIGE",
       "provinceIds": [
         1587
@@ -52507,7 +52507,7 @@
     },
     {
       "id": 536,
-      "name": "Berau",
+      "name": "Sambaliung",
       "ownerTag": "UNC",
       "provinceIds": [
         1593
@@ -52606,7 +52606,7 @@
     },
     {
       "id": 545,
-      "name": "Hue (CAMBODIA)",
+      "name": "Huế (CAMBODIA)",
       "ownerTag": "CAMBODIA",
       "provinceIds": [
         1019
@@ -52614,7 +52614,7 @@
     },
     {
       "id": 546,
-      "name": "Hue (NAM_BAN)",
+      "name": "Huế (NAM_BAN)",
       "ownerTag": "NAM_BAN",
       "provinceIds": [
         974
@@ -52622,7 +52622,7 @@
     },
     {
       "id": 547,
-      "name": "Hue (NGUYEN_LORDS)",
+      "name": "Huế (NGUYEN_LORDS)",
       "ownerTag": "NGUYEN_LORDS",
       "provinceIds": [
         1438,
@@ -52631,7 +52631,7 @@
     },
     {
       "id": 548,
-      "name": "Hue (POLITY_Q1827039)",
+      "name": "Huế (POLITY_Q1827039)",
       "ownerTag": "POLITY_Q1827039",
       "provinceIds": [
         2009
@@ -52726,7 +52726,7 @@
     },
     {
       "id": 558,
-      "name": "Aden",
+      "name": "Al Hawtah",
       "ownerTag": "QASIMID_YEMEN",
       "provinceIds": [
         1663
@@ -52973,7 +52973,7 @@
     },
     {
       "id": 584,
-      "name": "Hannover (BRANDENBURG_PREUSSEN)",
+      "name": "Hanover (BRANDENBURG_PREUSSEN)",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "provinceIds": [
         1720,
@@ -52982,7 +52982,7 @@
     },
     {
       "id": 585,
-      "name": "Hannover (KONUNGARIKET_SVERIGE)",
+      "name": "Hanover (KONUNGARIKET_SVERIGE)",
       "ownerTag": "KONUNGARIKET_SVERIGE",
       "provinceIds": [
         1513
@@ -52990,7 +52990,7 @@
     },
     {
       "id": 586,
-      "name": "Hannover (REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN)",
+      "name": "Hanover (REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN)",
       "ownerTag": "REPUBLIEK_DER_ZEVEN_VERENIGDE_NEDERLANDEN",
       "provinceIds": [
         1685
@@ -53016,7 +53016,7 @@
     },
     {
       "id": 589,
-      "name": "Gießen",
+      "name": "Darmstadt (Hessen)",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "provinceIds": [
         1729
@@ -53091,7 +53091,7 @@
     },
     {
       "id": 597,
-      "name": "Dagana",
+      "name": "Nder",
       "ownerTag": "WAALO",
       "provinceIds": [
         1747
@@ -53304,7 +53304,7 @@
     },
     {
       "id": 619,
-      "name": "São Salvador",
+      "name": "Kinguele",
       "ownerTag": "KINGDOM_OF_KAKONGO",
       "provinceIds": [
         475,
@@ -53545,7 +53545,7 @@
     },
     {
       "id": 642,
-      "name": "Leipzig",
+      "name": "Dresden (Sachsen)",
       "ownerTag": "HABSBURG_MONARCHY",
       "provinceIds": [
         1727,
@@ -53700,7 +53700,7 @@
     },
     {
       "id": 657,
-      "name": "Denpasar",
+      "name": "Klungkung",
       "ownerTag": "BALI",
       "provinceIds": [
         1924
@@ -53997,7 +53997,7 @@
     },
     {
       "id": 686,
-      "name": "Kuwait City",
+      "name": "Kuwait",
       "ownerTag": "POLITY_Q12560",
       "provinceIds": [
         1978
@@ -54033,7 +54033,7 @@
     },
     {
       "id": 690,
-      "name": "Kodagu",
+      "name": "Madikeri",
       "ownerTag": "KINGDOM_OF_COORG",
       "provinceIds": [
         1987
@@ -54129,7 +54129,7 @@
     },
     {
       "id": 701,
-      "name": "Zurich (FREISTAAT_DER_DREI_BUNDE)",
+      "name": "Bern (FREISTAAT_DER_DREI_BUNDE)",
       "ownerTag": "FREISTAAT_DER_DREI_BUNDE",
       "provinceIds": [
         1814
@@ -54137,7 +54137,7 @@
     },
     {
       "id": 702,
-      "name": "Zurich (OLD_SWISS_CONFEDERACY)",
+      "name": "Bern (OLD_SWISS_CONFEDERACY)",
       "ownerTag": "OLD_SWISS_CONFEDERACY",
       "provinceIds": [
         1641,
@@ -54148,7 +54148,7 @@
     },
     {
       "id": 703,
-      "name": "Zurich (SWISS_CONFEDERACY)",
+      "name": "Bern (SWISS_CONFEDERACY)",
       "ownerTag": "SWISS_CONFEDERACY",
       "provinceIds": [
         1833
@@ -54227,7 +54227,7 @@
     },
     {
       "id": 712,
-      "name": "Jena",
+      "name": "Weimar (Thüringen)",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "provinceIds": [
         2007
@@ -54255,7 +54255,7 @@
     },
     {
       "id": 715,
-      "name": "Sulu",
+      "name": "Jolo",
       "ownerTag": "SULTANATE_OF_SULU",
       "provinceIds": [
         2014
@@ -54287,7 +54287,7 @@
     },
     {
       "id": 719,
-      "name": "Braunschweig",
+      "name": "Brunswick",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "provinceIds": [
         2017
@@ -54319,7 +54319,7 @@
     },
     {
       "id": 723,
-      "name": "Thüringen",
+      "name": "Meiningen",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "provinceIds": [
         2023
@@ -54327,7 +54327,7 @@
     },
     {
       "id": 724,
-      "name": "Krakow",
+      "name": "Kraków",
       "ownerTag": "RZECZPOSPOLITA_OBOJGA_NARODOW",
       "provinceIds": [
         2024
@@ -54343,7 +54343,7 @@
     },
     {
       "id": 726,
-      "name": "Coburg",
+      "name": "Gotha",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "provinceIds": [
         2027
@@ -54376,7 +54376,7 @@
     },
     {
       "id": 730,
-      "name": "Bone",
+      "name": "Watampone",
       "ownerTag": "SULTANATE_OF_BONE",
       "provinceIds": [
         2032
@@ -54400,7 +54400,7 @@
     },
     {
       "id": 733,
-      "name": "Kaolack (SALUUM)",
+      "name": "Kahone (SALUUM)",
       "ownerTag": "SALUUM",
       "provinceIds": [
         1413
@@ -54408,7 +54408,7 @@
     },
     {
       "id": 734,
-      "name": "Kaolack (SENEGAL)",
+      "name": "Kahone (SENEGAL)",
       "ownerTag": "SENEGAL",
       "provinceIds": [
         2037
@@ -54432,7 +54432,7 @@
     },
     {
       "id": 737,
-      "name": "Thüringen (Thüringen)",
+      "name": "Altenburg",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "provinceIds": [
         2040
@@ -54440,7 +54440,7 @@
     },
     {
       "id": 738,
-      "name": "Grande Comore",
+      "name": "Fomboni",
       "ownerTag": "SULTANATE_OF_NDZUWANI",
       "provinceIds": [
         2042
@@ -54489,7 +54489,7 @@
     },
     {
       "id": 744,
-      "name": "Toscana",
+      "name": "Lucca",
       "ownerTag": "RESPUBLICA_LUCENSIS",
       "provinceIds": [
         2047
@@ -54513,7 +54513,7 @@
     },
     {
       "id": 747,
-      "name": "Thüringen (Thüringen (Thüringen, Thüringen))",
+      "name": "Rudolstadt",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "provinceIds": [
         2051,
@@ -54562,7 +54562,7 @@
     },
     {
       "id": 753,
-      "name": "Sachsen-Anhalt",
+      "name": "Dessau",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "provinceIds": [
         2055,
@@ -54605,7 +54605,7 @@
     },
     {
       "id": 758,
-      "name": "Andorra",
+      "name": "Andorra la Vella",
       "ownerTag": "ANDORRA",
       "provinceIds": [
         2077
@@ -54642,7 +54642,7 @@
     },
     {
       "id": 762,
-      "name": "Anjouan",
+      "name": "Mutsamudu",
       "ownerTag": "SULTANATE_OF_NDZUWANI",
       "provinceIds": [
         2085
@@ -54722,7 +54722,7 @@
     },
     {
       "id": 772,
-      "name": "Weimar (ELECTORATE_OF_BAVARIA)",
+      "name": "Weimar (Thüringen) (Thüringen) (ELECTORATE_OF_BAVARIA)",
       "ownerTag": "ELECTORATE_OF_BAVARIA",
       "provinceIds": [
         2053
@@ -54730,7 +54730,7 @@
     },
     {
       "id": 773,
-      "name": "Weimar (HABSBURG_MONARCHY)",
+      "name": "Weimar (Thüringen) (Thüringen) (HABSBURG_MONARCHY)",
       "ownerTag": "HABSBURG_MONARCHY",
       "provinceIds": [
         2094
@@ -54806,7 +54806,7 @@
     },
     {
       "id": 782,
-      "name": "Tübingen (Baden-Württemberg)",
+      "name": "Sigmaringen",
       "ownerTag": "HABSBURG_MONARCHY",
       "provinceIds": [
         2052,
@@ -54880,7 +54880,7 @@
     },
     {
       "id": 791,
-      "name": "Doha",
+      "name": "Muharraq",
       "ownerTag": "POLITY_Q12560",
       "provinceIds": [
         1625,

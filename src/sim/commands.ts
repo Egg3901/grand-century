@@ -36,6 +36,7 @@ import { isRecipeUnlocked, setNationResearch } from './systems/research';
 import { crisisLeadBackDown, joinCrisisSide, pressCrisisDemand } from './systems/crisis';
 import { setCultureAccepted, setCulturePolicy } from './systems/culture';
 import { Rng } from './rng';
+import { hopKm } from './geography';
 import {
   REGIMENT_TYPES,
   regimentAvailability,
@@ -43,6 +44,9 @@ import {
   shipAvailability,
   shipSpec,
 } from './militaryCatalog';
+
+/** Soldiers within this distance of the recruiting province join its pool. */
+const RECRUIT_RADIUS_KM = 250;
 
 type Poster = (msg: FromWorker) => void;
 type RegimentType = Regiment['type'];
@@ -109,13 +113,15 @@ function recruitArmyWithPlan(
     }
   }
 
-  // World v8 provinces are about a fifth the size of the reference ones, so a
-  // single province rarely holds the ~1,250 soldiers one regiment needs. The
-  // recruiting pool is the soldier population of the whole state (same owner),
-  // with capacity rounded once over the pool: national totals are unchanged.
+  // World v8 provinces and states are much smaller than the reference ones, so
+  // a single state can hold fewer than the ~1,250 soldiers one regiment needs.
+  // The recruiting pool is every soldier pop of the same owner in the state or
+  // within RECRUIT_RADIUS_KM, with capacity rounded once over the pool.
   const state = world.states[province.stateId];
-  const poolPops = (state?.provinceIds ?? [province.id])
-    .filter((id) => world.provinces[id]?.owner === nationId)
+  const inState = new Set(state?.provinceIds ?? [province.id]);
+  const poolPops = world.provinces
+    .filter((p) => p.owner === nationId && (inState.has(p.id) || hopKm(province.id, p.id) <= RECRUIT_RADIUS_KM))
+    .map((p) => p.id)
     .flatMap((id) => world.provinces[id]!.popIds.map((popId) => world.pops[popId]))
     .filter((pop): pop is NonNullable<typeof pop> => pop?.type === 'soldier' && pop.size > 0)
     .sort((a, b) => b.size - a.size || a.id - b.id);

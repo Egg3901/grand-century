@@ -130,6 +130,15 @@ def main():
             if fold(c['name']) in nm or (pr.get('POP_MAX') or 0) > 500_000 and abs(x - c['lon']) < 0.15 and abs(y - c['lat']) < 0.15:
                 paired.add(k); pop = max(pop, pr.get('POP_MAX') or 0)
         cand[j].append((-1, c['importance'], 0, c['name'])); urban[j] += min(pop, 5_000_000)
+    # 1830 seats of government (game capitals and new small states) name the
+    # province they sit in, ahead of ranked modern towns.
+    here = Path(__file__).parent
+    seats = list(json.loads((here / 'capitals-1830.json').read_text())['capitals'].values())
+    if (here / 'new-nations-1830.json').exists():
+        seats += [n['capital'] for n in json.loads((here / 'new-nations-1830.json').read_text())['nations'] if n.get('capital')]
+    for name, lon, lat in seats:
+        j = province_of(lon, lat, reach=0.1)
+        if j is not None: cand[j].append((-1, 0, 0, name))
     for k, f in enumerate(places):
         p = f['properties']
         name = p.get('NAME') or p.get('NAMEASCII')

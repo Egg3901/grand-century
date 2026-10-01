@@ -137,7 +137,7 @@ test('map shows reliable labels and clear borders', async ({ page }) => {
     'France',
     'Austrian Empire',
     'Spain',
-    'Kingdom of Brazil',
+    'Brazil',
   ];
   mkdirSync('artifacts', { recursive: true });
   await jumpTo(page, [0, 22], 1.25);
