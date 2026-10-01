@@ -1690,12 +1690,15 @@ function AtlasMap2D({ camera, atmosphere }: { camera: RefObject<View|null>; atmo
       if (province.owner === snapshot.playerNation) playerIds.push(province.id);
     }
     const ids = playerIds.length > 0 ? playerIds : [-1];
+    // The halo outlines every player province. At strategic zoom the glows
+    // merge into one empire outline; closer in, the world v8 province density
+    // turns internal edges into noise, so it fades out by zoom 4.5.
+    const halo = (opacity: number) => ['case', ['in', ['id'], ['literal', ids]], mapMode === 'political' ? opacity : 0, 0];
     map.setPaintProperty(MAP_PLAYER_HALO_LAYER, 'line-opacity', [
-      'case',
-      ['in', ['id'], ['literal', ids]],
-      mapMode === 'political' ? 0.42 : 0,
-      0,
-    ]);
+      'interpolate', ['linear'], ['zoom'],
+      3, halo(0.42),
+      4.5, halo(0),
+    ] as never);
   }, [mapMode, mapReady, snapshot]);
 
   // Clear any in-flight mapmode dissolve timers on unmount.
