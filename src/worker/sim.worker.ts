@@ -124,7 +124,8 @@ async function loadWorldFromSlot(slot: string) {
     lastAutosaveYear = yearFromDay(world.day);
     post({ t: 'ready', data });
     postSnapshotNow();
-    post({ t: 'saveStatus', action: 'load', slot, ok: true, msg: 'load complete' });
+    const msg = loaded.metadata.migratedFrom ? 'load complete, campaign moved onto the new world map' : 'load complete';
+    post({ t: 'saveStatus', action: 'load', slot, ok: true, msg });
     await publishSaveSlots();
   } catch (error) {
     post({

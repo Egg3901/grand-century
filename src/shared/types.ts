@@ -1141,6 +1141,23 @@ export interface World {
 
   /** Last monthly pop mobility flows for the player nation (migration + class conversion). */
   popMobilityLedger?: PopMobilityLedger;
+
+  /** Map migrations this campaign went through on load (oldest first). */
+  migrations?: WorldMigrationReport[];
+}
+
+/** Record of one save migration onto a rebuilt world map. */
+export interface WorldMigrationReport {
+  /** World the save was written against, e.g. 'legacy-1830-387'. */
+  from: string;
+  /** World it was migrated onto, e.g. 'world-v8'. */
+  to: string;
+  /** Campaign day at migration. */
+  day: GameDay;
+  /** Counts of what was carried over (provinces, pops, armies, ...). */
+  carried: Record<string, number>;
+  /** Counts of what could not be expressed on the new map, by reason. */
+  dropped: Record<string, number>;
 }
 
 // ---------------------------------------------------------------------------

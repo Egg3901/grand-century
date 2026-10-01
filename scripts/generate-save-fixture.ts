@@ -8,6 +8,10 @@
  *
  * --legacy strips `worldFingerprint` so the blob matches saves written before
  * H2 instrumentation. Use once per release when adding a new fixture.
+ *
+ * The tests/fixtures/legacy-387-*.save.gz fixtures are frozen saves from the
+ * 387-province world that predates world v8. They exercise save migration
+ * (tests/save-migration.test.ts) and must not be regenerated with this script.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
