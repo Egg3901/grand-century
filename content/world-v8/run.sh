@@ -26,7 +26,7 @@ for stage in atoms cut group export attributes names seed runtime; do
     names) run names python3 "$HERE/names.py" "$W/provinces-full.geojson" "$W/pieces.ndjson" "$W/provinces.ndjson" "$SRC/ne_10m_populated_places.geojson" "$ROOT/content/history/1830/cities.json" "$HERE/names-1830.json" "$W/names.json" ;;
     seed) run seed python3 "$HERE/seed.py" "$W/provinces-full.geojson" "$W/provinces.ndjson" "$W/pieces.ndjson" "$W/attributes.json" "$W/names.json" "$W/provinces.adjacency.json" "$LEGACY_SEED" "$LEGACY_GEO" "$ROOT/content/scenarios/1830-01-01/sources/gc-nation-crosswalk.json" "$HERE/capitals-1830.json" "$W/worldSeed.json" "$W/legacy-migration.json" ;;
     runtime)
-      run simplify mapshaper -i "$W/provinces-full.geojson" -simplify 4% keep-shapes -o "$W/provinces-s.geojson"
+      run simplify mapshaper -i "$W/provinces-full.geojson" -clean snap-interval=0.00002 allow-empty -simplify 4% keep-shapes -o precision=0.0001 "$W/provinces-s.geojson"
       run runtime python3 "$HERE/runtime.py" "$W/provinces-s.geojson" "$W/provinces-full.geojson" "$W/provinces.geo.json" ;;
   esac
 done
