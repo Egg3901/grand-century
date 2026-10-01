@@ -1,5 +1,5 @@
 {
-  "provinceGeometrySha256": "04337113687ffd9b966b91931bc04a9396b86c57640521d3bf9d285cb555d0bc",
+  "provinceGeometrySha256": "11e95a5dfae933b2432c0873d0049c4dffb164022fe87999e11fe267a5c14cbf",
   "source": "https://registry.opendata.aws/terrain-tiles/",
   "landcover": {
     "url": "https://naturalearth.s3.amazonaws.com/10m_raster/NE1_LR_LC.zip",

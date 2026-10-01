@@ -387,6 +387,8 @@ if (existsSync(scenarioSeedRoot)) {
   }
 }
 const seeds = seedPaths.map((seedPath) => JSON.parse(readFileSync(seedPath, 'utf8')));
+// Hand-drawn designs, captured before any colour-derived fallback is added.
+const HAND_DRAWN = new Set(Object.keys(FLAGS));
 let generated = 0;
 for (const seed of seeds) {
   for (const nation of seed.nations) {
@@ -416,7 +418,7 @@ const newNationsPath = path.join(root, 'content/world-v8/new-nations-1830.json')
 if (existsSync(newNationsPath)) {
   const { nations } = JSON.parse(readFileSync(newNationsPath, 'utf8'));
   for (const nation of nations) {
-    const drawn = Boolean(FLAGS[nation.tag]);
+    const drawn = HAND_DRAWN.has(nation.tag);
     if (nation.flagSource === 'historical' && !drawn) {
       throw new Error(`${nation.tag}: flagSource historical but no design in build-flags.mjs`);
     }

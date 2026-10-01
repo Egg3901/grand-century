@@ -24,7 +24,9 @@ SCEN = '1830-01-01'
 # Autonomous 1830 polities that the source layer draws inside a larger state:
 # Moldavia (Ottoman principality under Russian occupation) and Mysore
 # (princely state under the Company) keep the land of their legacy provinces.
-KEEP_LEGACY = {'MOL', 'MYS'}
+# Only land the layer gives to the listed holders is reclaimed, never another
+# real polity's own polygon (Coorg inside legacy Mysore).
+KEEP_LEGACY = {'MOL': {'OTT', 'RUS', 'WAL', 'UNC'}, 'MYS': {'ENG', 'UNC'}}
 NEW_NATIONS = Path(__file__).with_name('new-nations-1830.json')
 STATE_MIN = 3       # provinces per state, grown by merging neighbours
 STATE_MAX = 6
@@ -95,7 +97,7 @@ def main():
         lp = lprov.get(pred)
         if lp and lp['ownerTag'] != owner:
             lnat = nation_by_tag.get(lp['ownerTag'])
-            if lnat and (lnat.get('overlordTag') == owner or lp['ownerTag'] in KEEP_LEGACY): owner = lp['ownerTag']
+            if lnat and (lnat.get('overlordTag') == owner or owner in KEEP_LEGACY.get(lp['ownerTag'], ())): owner = lp['ownerTag']
         weight = 0.0  # filled below, once every successor of each legacy province is known
         lon, lat = a['labelPoint']
         provinces.append({
