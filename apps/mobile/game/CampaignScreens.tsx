@@ -6,6 +6,7 @@ import { campaignRoster, validSeed, type CampaignConfig, type NativeSave } from 
 import { deleteNativeSave, listNativeSaves, newSaveId } from './nativeSaves';
 import { NationFlag } from './NationFlag';
 import { MenuButton } from './GameMenus';
+import { gpRankFor } from '../../../src/shared/greatPowers';
 
 export const screenStyles = StyleSheet.create({
   page: { flex: 1, backgroundColor: '#102b35' },
@@ -19,11 +20,31 @@ export const screenStyles = StyleSheet.create({
   choice: { backgroundColor: '#193a44', padding: 14, borderWidth: 1, borderColor: '#53717a', borderRadius: 10, minHeight: 48, gap: 4 },
   selected: { borderColor: '#d6b475', backgroundColor: '#29464c' },
   heading: { color: '#f4eddf', fontSize: 17, fontWeight: '700' },
+  choiceHead: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  radio: { width: 18, height: 18, borderRadius: 9, borderWidth: 2, borderColor: '#8fa3a6', alignItems: 'center', justifyContent: 'center' },
+  radioOn: { borderColor: '#d6b475' },
+  radioDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#d6b475' },
+  nationRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, paddingHorizontal: 12, minHeight: 56, borderRadius: 10, borderWidth: 1, borderColor: 'transparent' },
+  nationName: { color: '#f4eddf', fontSize: 16, fontWeight: '700' },
+  nationMeta: { color: '#a9bcbd', fontSize: 13, marginTop: 2 },
+  rank: { color: '#d6b475', fontSize: 12, fontWeight: '800', letterSpacing: 1 },
 });
+const words = (key: string) => key.replaceAll('_', ' ').replace(/^./, (c) => c.toUpperCase());
 const s = screenStyles;
 function Choice({ title, detail, selected, onPress }: { title: string; detail?: string; selected: boolean; onPress: () => void }) {
   return <Pressable accessibilityRole="button" accessibilityLabel={title} accessibilityState={{ selected }} onPress={onPress} style={[s.choice, selected && s.selected]}>
-    <Text style={s.heading}>{selected ? '● ' : '○ '}{title}</Text>{detail && <Text style={s.text}>{detail}</Text>}
+    <View style={s.choiceHead}><View style={[s.radio, selected && s.radioOn]}>{selected && <View style={s.radioDot} />}</View><Text style={[s.heading, { flex: 1 }]}>{title}</Text></View>
+    {detail && <Text style={[s.text, { paddingLeft: 28 }]}>{detail}</Text>}
+  </Pressable>;
+}
+function NationRow({ nation, provinces, rank, selected, onPress }: { nation: { tag: string; name: string; color: readonly number[]; government: string }; provinces: number; rank: number; selected: boolean; onPress: () => void }) {
+  return <Pressable accessibilityRole="button" accessibilityLabel={`Select ${nation.name}`} accessibilityState={{ selected }} onPress={onPress} style={[s.nationRow, selected && s.selected]}>
+    <NationFlag tag={nation.tag} name={nation.name} color={nation.color} size={26} />
+    <View style={{ flex: 1 }}>
+      <Text style={s.nationName}>{nation.name}</Text>
+      <Text style={s.nationMeta}>{words(nation.government)} · {provinces} {provinces === 1 ? 'province' : 'provinces'}</Text>
+    </View>
+    {rank > 0 && rank <= 8 && <Text style={s.rank}>GP {rank}</Text>}
   </Pressable>;
 }
 export function CampaignSetup({ onBack, onStart, busy, notice }: { onBack: () => void; onStart: (config: CampaignConfig) => void; busy: boolean; notice: string }) {
@@ -41,6 +62,15 @@ export function CampaignSetup({ onBack, onStart, busy, notice }: { onBack: () =>
   const nations = roster.nations.filter((n) => !['UNC', 'UNA', 'COL'].includes(n.tag));
   const selected = nations.find((n) => n.tag === nationTag) ?? nations[0];
   const owned = roster.provinces.filter((p) => p.ownerTag === selected.tag);
+  const provinceCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const p of roster.provinces) counts.set(p.ownerTag, (counts.get(p.ownerTag) ?? 0) + 1);
+    return counts;
+  }, [roster]);
+  const matches = nations.filter((n) => `${n.name} ${n.tag}`.toLowerCase().includes(query.trim().toLowerCase()));
+  const powers = matches.filter((n) => gpRankFor(n) > 0).sort((a, b) => gpRankFor(a) - gpRankFor(b));
+  const others = matches.filter((n) => gpRankFor(n) === 0).sort((a, b) => a.name.localeCompare(b.name));
+  const nationRow = (n: (typeof nations)[number]) => <NationRow key={n.tag} nation={n} provinces={provinceCounts.get(n.tag) ?? 0} rank={gpRankFor(n)} selected={n.tag === selected.tag} onPress={() => setNationTag(n.tag)} />;
   const scenario = loadScenario(scenarioId).manifest;
   return <ScrollView style={s.page} contentContainerStyle={s.content} keyboardShouldPersistTaps="handled">
     <MenuButton label={step === 'world' ? 'Back to main menu' : 'Back to campaign options'} onPress={step === 'world' ? onBack : () => setStep('world')} disabled={busy} />
@@ -66,13 +96,17 @@ export function CampaignSetup({ onBack, onStart, busy, notice }: { onBack: () =>
     </> : <>
       <View style={s.card}>
         <View style={s.row}><NationFlag tag={selected.tag} name={selected.name} color={selected.color} size={36} /><Text style={[s.heading, { flex: 1 }]}>{selected.name}</Text></View>
-        <Text style={s.text}>{selected.government.replaceAll('_', ' ')} · {owned.length} provinces</Text>
+        <Text style={s.text}>{words(selected.government)} · {owned.length} provinces{gpRankFor(selected) > 0 ? ` · Great Power #${gpRankFor(selected)}` : ''}</Text>
         <Text style={s.text}>{selected.eraSummary ?? `Capital: ${roster.provinces.find((p) => p.id === selected.capitalProvinceId)?.name ?? 'Unknown'}. Lead ${selected.primaryCulture.replaceAll('_', ' ')} society into a new century.`}</Text>
         <Text style={s.text}>{name.trim() || `${selected.name} campaign`} · Seed {seed} · Autosave every {autosave} min</Text>
         <MenuButton label={`Begin campaign as ${selected.name}`} disabled={busy} onPress={() => { if (seed !== null) onStart({ id: newSaveId(), name: name.trim() || `${selected.name} campaign`, seed, mapMode: mode, scenarioId, playerNation: roster.nations.indexOf(selected), autosaveMinutes: autosave }); }} />
       </View>
       <TextInput style={s.input} accessibilityLabel="Search nations" placeholder="Search nations" placeholderTextColor="#a8b8b9" value={query} onChangeText={setQuery} />
-      {nations.filter((n) => `${n.name} ${n.tag}`.toLowerCase().includes(query.trim().toLowerCase())).sort((a,b) => a.name.localeCompare(b.name)).map((n) => <Choice key={n.tag} title={`Select ${n.name}`} selected={n.tag === selected.tag} onPress={() => setNationTag(n.tag)} />)}
+      {powers.length > 0 && <Text style={s.label}>GREAT POWERS</Text>}
+      {powers.map(nationRow)}
+      {others.length > 0 && <Text style={s.label}>{powers.length > 0 ? 'OTHER NATIONS' : 'NATIONS'}</Text>}
+      {others.map(nationRow)}
+      {matches.length === 0 && <Text style={s.text}>No nation matches "{query.trim()}".</Text>}
     </>}
     {busy && <Text style={s.text}>Preparing and saving your campaign...</Text>}
     {!!notice && <Text accessibilityRole="alert" style={s.text}>{notice}</Text>}

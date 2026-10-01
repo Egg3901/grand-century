@@ -1,3 +1,4 @@
+import { gpRankFor } from '../shared/greatPowers';
 import type {
   BudgetLine,
   DiploRelation,
@@ -30,7 +31,6 @@ import { primeDiplomacy } from './systems/diplomacy';
 const RGO_RECIPES = ['rgo_grain', 'rgo_cattle', 'rgo_timber', 'rgo_coal', 'rgo_iron', 'rgo_cotton'];
 const FACTORY_RECIPES = ['factory_fabric', 'factory_steel', 'factory_small_arms', 'factory_cannery'];
 const POP_TYPES: PopType[] = ['farmer', 'laborer', 'soldier', 'aristocrat', 'craftsman', 'clergy'];
-const GP_ORDER = ['ENG', 'FRA', 'PRU', 'AUS', 'RUS', 'USA', 'OTT', 'ESP'];
 const INDUSTRIAL_TAGS = new Set(['ENG', 'FRA', 'PRU', 'AUS', 'RUS', 'USA', 'NLD', 'SWE', 'SAR', 'TSC', 'ESP', 'POR']);
 const RGO_GOOD_TO_RECIPE: Record<string, string> = {
   grain: 'rgo_grain',
@@ -591,11 +591,6 @@ export function religionKeyFor(tag: string, seedReligion?: string): string {
 function primaryCultureKeyFor(tag: string, seedPrimary: string): string {
   const seeded = VIC2_CULTURE_TO_GC[seedPrimary] ?? seedPrimary;
   return PRIMARY_CULTURE_OVERRIDE[tag] || seeded || CULTURE_BY_TAG[tag] || 'british';
-}
-
-function gpRankFor(seed: { tag: string; greatPowerRank?: number }): number {
-  if (seed.greatPowerRank && seed.greatPowerRank > 0) return seed.greatPowerRank;
-  return GP_ORDER.includes(seed.tag) ? GP_ORDER.indexOf(seed.tag) + 1 : 0;
 }
 
 export function initialTechKeysForSeed(

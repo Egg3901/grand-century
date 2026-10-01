@@ -7,21 +7,22 @@ import { NationFlag } from './components/NationFlag';
 import './Hud.css';
 
 const SPEEDS = [0, 1, 2, 3, 4, 5] as const;
-const PANELS: { id: PanelId; label: string }[] = [
-  { id: 'budget', label: 'Budget' },
+/** `group` starts a new visual section in the desktop rail. */
+const PANELS: { id: PanelId; label: string; group?: string }[] = [
+  { id: 'budget', label: 'Budget', group: 'Economy' },
   { id: 'production', label: 'Production' },
   { id: 'population', label: 'Population' },
   { id: 'cultures', label: 'Cultures' },
   { id: 'market', label: 'Market' },
-  { id: 'politics', label: 'Politics' },
+  { id: 'politics', label: 'Politics', group: 'Statecraft' },
   { id: 'diplomacy', label: 'Diplomacy' },
   { id: 'great_powers', label: 'Great Powers' },
   { id: 'formables', label: 'Formables' },
   { id: 'decisions', label: 'Decisions' },
-  { id: 'technology', label: 'Technology' },
+  { id: 'technology', label: 'Technology', group: 'Progress & arms' },
   { id: 'military', label: 'Military' },
   { id: 'colonization', label: 'Colonization' },
-  { id: 'save_load', label: 'Save / Load' },
+  { id: 'save_load', label: 'Save / Load', group: 'Campaign' },
 ];
 const MAP_MODES: { id: MapMode; label: string }[] = [
   { id: 'political', label: 'Political' },
@@ -230,7 +231,12 @@ export function Hud() {
       </header>
 
       <nav className="hud-rail atlas-panel" aria-label="Panels" data-coach-id="panel-rail-desktop">
-        {panels.map((panel) => (
+        {panels.map((panel) => [
+          panel.group ? (
+            <span key={`${panel.id}-group`} className="hud-rail__group" aria-hidden="true">
+              {panel.group}
+            </span>
+          ) : null,
           <button
             key={panel.id}
             type="button"
@@ -240,11 +246,12 @@ export function Hud() {
             {...instantPressProps(() => togglePanel(panel.id as Exclude<PanelId, null>))}
           >
             {panel.label}
-          </button>
-        ))}
+          </button>,
+        ])}
       </nav>
 
       <nav className="hud-mapmodes atlas-panel" aria-label="Map mode" data-coach-id="mapmodes-desktop">
+        <span className="hud-rail__group" aria-hidden="true">Map modes</span>
         {MAP_MODES.map((mode) => (
           <button
             key={mode.id}

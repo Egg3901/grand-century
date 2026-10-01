@@ -13,9 +13,12 @@ export function cityLabels(
   zoom: number,
   width: number,
   height: number,
+  blocked: readonly { x: number; y: number; width: number }[] = [],
 ): CityLabel[] {
   if (zoom < 3.4) return [];
   const placed: CityLabel[] = [];
+  // Nation lettering is placed first; cities never sit on top of it.
+  const occupied: { x: number; y: number; width: number }[] = [...blocked];
   for (const city of [...cities].sort(
     (a, b) => a.importance - b.importance || a.id.localeCompare(b.id),
   )) {
@@ -32,7 +35,7 @@ export function cityLabels(
     )
       continue;
     if (
-      placed.some(
+      occupied.some(
         (p) =>
           Math.abs(p.y - y) < 30 &&
           Math.abs(p.x - x) < (p.width + labelWidth) / 2 + 8,
@@ -40,6 +43,7 @@ export function cityLabels(
     )
       continue;
     placed.push({ city, x, y, width: labelWidth });
+    occupied.push({ x, y, width: labelWidth });
     if (placed.length === 32) break;
   }
   return placed;

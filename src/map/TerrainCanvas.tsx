@@ -282,6 +282,25 @@ export function TerrainCanvas({
         snapshot.relations,
       )
     : new Set<number>();
+  const nationLabels =
+    ready && snapshot && data && r && view.current.zoom < 4.2
+      ? snapshot.nations.flatMap((n) => {
+          if (n.gpRank <= 0 || n.gpRank > 8) return [];
+          const p = data.provinces[n.capital];
+          if (!p) return [];
+          const anchor = homelandAnchors[n.tag] ?? [p.lon, p.lat];
+          const [x, y] = r.project(anchor[0], anchor[1]);
+          const width = n.name.length * 10 + 28;
+          if (
+            x < width / 2 + 8 ||
+            y < 110 ||
+            x > (canvas.current?.clientWidth ?? 0) - width / 2 - 8 ||
+            y > (canvas.current?.clientHeight ?? 0) - 100
+          )
+            return [];
+          return [{ n, x, y, width }];
+        })
+      : [];
   return (
     <div className="gc-terrain-view" data-testid="terrain-3d">
       <canvas
@@ -374,47 +393,34 @@ export function TerrainCanvas({
       )}
       {ready && snapshot && data && r && (
         <div className="gc-terrain-labels">
-          {snapshot.nations
-            .filter(
-              (n) => view.current.zoom < 4.2 && n.gpRank > 0 && n.gpRank <= 8,
-            )
-            .map((n) => {
-              const p = data.provinces[n.capital];
-              if (!p) return null;
-              const anchor = homelandAnchors[n.tag] ?? [p.lon, p.lat];
-              const [x, y] = r.project(anchor[0], anchor[1]);
-              if (
-                x < 65 ||
-                y < 110 ||
-                x > (canvas.current?.clientWidth ?? 0) - 65 ||
-                y > (canvas.current?.clientHeight ?? 0) - 100
-              )
-                return null;
-              return (
-                <button
-                  key={n.id}
-                  style={{ left: x, top: y }}
-                  onClick={() => useStore.getState().focusNationDiplomacy(n.id)}
-                >
-                  {n.name}
-                </button>
-              );
-            })}
+          {nationLabels.map(({ n, x, y }) => (
+            <button
+              key={n.id}
+              className="gc-terrain-nation"
+              style={{ left: x, top: y }}
+              onClick={() => useStore.getState().focusNationDiplomacy(n.id)}
+            >
+              {n.name}
+            </button>
+          ))}
           {cityLabels(
             (lon, lat) => r.project(lon, lat),
             view.current.zoom,
             canvas.current?.clientWidth ?? 0,
             canvas.current?.clientHeight ?? 0,
+            nationLabels,
           ).map(({ city, x, y }) => (
             <button
               key={city.id}
-              style={{ left: x, top: y, fontSize: 12 }}
+              className="gc-terrain-city"
+              data-capital={city.importance === 0 || undefined}
+              style={{ left: x, top: y }}
               onClick={() => {
                 const id = r.provinceAtPoint(...r.project(city.lon, city.lat));
                 if (id !== null) useStore.getState().selectProvince(id);
               }}
             >
-              {city.importance === 0 ? "◆ " : "• "}
+              <span aria-hidden="true">{city.importance === 0 ? "◆" : "•"}</span>
               {city.name}
             </button>
           ))}

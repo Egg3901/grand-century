@@ -1,11 +1,19 @@
 import { ATMOSPHERE_KEY, parseAtmosphere, calendarDay, type Atmosphere } from "../graphics/atmosphere";
-import { weatherMapData, WEATHER_CLOUD_PAINT } from "../graphics/weather";
+import {
+  weatherMapData,
+  WEATHER_CLOUD_PAINT,
+  WEATHER_PRECIPITATION_LAYOUT,
+  WEATHER_RAIN_PAINT,
+  WEATHER_SNOW_CASING_PAINT,
+  WEATHER_SNOW_PAINT,
+} from "../graphics/weather";
 import type { FeatureCollection, Geometry } from 'geojson';
 import { parseGraphicsMode, type GraphicsMode } from "../graphics/preferences";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
 import { useSnapshotFields } from '../ui/useSnapshotFields';
 import type { View } from '../graphics/terrainData';
+import { homelandAnchors } from '../graphics/mapAnchors';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './GrandMap.css';
 import { DEFAULT_SCENARIO_ID, loadScenario } from '../data/generated';
@@ -127,6 +135,20 @@ const MAP_COAST_WATERLINE_2_LAYER = 'coast-waterline-2';
 const MAP_COASTLINE_INK_LAYER = 'coastline-ink';
 const MAP_LAND_SHADOW_LAYER = 'land-shadow';
 const MAP_LAND_UNDERLAY_LAYER = 'land-underlay';
+const WEATHER_LABEL: Record<Atmosphere['weather'], string> = {
+  dynamic: 'Regional',
+  clear: 'Clear',
+  rain: 'Rain',
+  snow: 'Snow',
+  fog: 'Fog',
+};
+const WEATHER_GLYPH: Record<Atmosphere['weather'], string> = {
+  dynamic: '\u2601',
+  clear: '\u2600',
+  rain: '\u2602',
+  snow: '\u2744',
+  fog: '\u2248',
+};
 const MAP_HACHURE_LAYER = 'terrain-hachure';
 const MAP_HACHURE_IMAGE = 'terrain-hachure-tile';
 const MAP_STIPPLE_LAYER = 'terrain-stipple';
@@ -597,7 +619,9 @@ function AtlasMap2D({ camera, atmosphere }: { camera: RefObject<View|null>; atmo
         + Math.log(values.area + 1) * 0.2
       );
       const isMajor = MAJOR_LABEL_TAGS.has(tag) || (gpRankByTag.get(tag) ?? 0) > 0;
-      const anchor = capitalSeedByTag.get(tag) ?? { lon: values.lon, lat: values.lat };
+      // Homeland anchors match the 3D map and keep empire labels on the metropole.
+      const home = homelandAnchors[tag];
+      const anchor = home ? { lon: home[0], lat: home[1] } : capitalSeedByTag.get(tag) ?? { lon: values.lon, lat: values.lat };
       labels.push({
         tag,
         name: nationNameByTag.get(tag) ?? tag,
@@ -1457,8 +1481,10 @@ function AtlasMap2D({ camera, atmosphere }: { camera: RefObject<View|null>; atmo
     }
     if (!map.getLayer("visual-weather-clouds")) {
       map.addLayer({ id: "visual-weather-clouds", type: "fill", source: "visual-weather-clouds", paint: WEATHER_CLOUD_PAINT });
-      map.addLayer({ id: "visual-weather-rain", type: "line", source: "visual-weather-precipitation", filter: ["==", ["get", "kind"], "rain"], paint: { "line-color": "#b2d8eb", "line-width": 1.5, "line-opacity": .8 } });
-      map.addLayer({ id: "visual-weather-snow", type: "line", source: "visual-weather-precipitation", filter: ["==", ["get", "kind"], "snow"], paint: { "line-color": "#fffaf1", "line-width": 3, "line-opacity": .85 } });
+      const precipitation = { type: "line", source: "visual-weather-precipitation", layout: WEATHER_PRECIPITATION_LAYOUT } as const;
+      map.addLayer({ ...precipitation, id: "visual-weather-rain", filter: ["==", ["get", "kind"], "rain"], paint: WEATHER_RAIN_PAINT as never });
+      map.addLayer({ ...precipitation, id: "visual-weather-snow-casing", filter: ["==", ["get", "kind"], "snow"], paint: WEATHER_SNOW_CASING_PAINT as never });
+      map.addLayer({ ...precipitation, id: "visual-weather-snow", filter: ["==", ["get", "kind"], "snow"], paint: WEATHER_SNOW_PAINT as never });
     }
   }, [mapReady, atmosphere.weather, weatherDay]);
 
@@ -2490,83 +2516,81 @@ export function GrandMap() {
       ) : (
         <AtlasMap2D key={campaign} camera={camera} atmosphere={atmosphere} />
       )}
-      <details
-        className="gc-atmosphere-controls"
-        style={{
-          position: 'absolute',
-          background: '#112c35',
-          color: '#f4efdd',
-          padding: 8,
-          zIndex: 3,
-        }}
-      >
-        <summary>
-          Weather /{' '}
-          {atmosphere.weather === 'dynamic' ? 'Regional' : atmosphere.weather}
-        </summary>
-        <label>
-          Lighting{' '}
-          <select
-            aria-label="Map lighting"
-            value={atmosphere.lighting}
-            onChange={(e) =>
-              chooseAtmosphere({
-                ...atmosphere,
-                lighting: e.target.value as Atmosphere['lighting'],
-              })
-            }
+      <div className="gc-map-dock" role="group" aria-label="Map display">
+        <details className="gc-atmosphere-controls">
+          <summary>
+            <span aria-hidden="true">{WEATHER_GLYPH[atmosphere.weather]}</span>
+            <span className="gc-atmosphere-controls__label">
+              Weather · {WEATHER_LABEL[atmosphere.weather]}
+            </span>
+          </summary>
+          <div className="gc-atmosphere-controls__body">
+            <label>
+              <span>Lighting</span>
+              <select
+                aria-label="Map lighting"
+                value={atmosphere.lighting}
+                onChange={(e) =>
+                  chooseAtmosphere({
+                    ...atmosphere,
+                    lighting: e.target.value as Atmosphere['lighting'],
+                  })
+                }
+              >
+                <option value="cycle">Day and night</option>
+                <option value="day">Always day</option>
+                <option value="night">Always night</option>
+              </select>
+            </label>
+            <label>
+              <span>Weather</span>
+              <select
+                aria-label="Map weather"
+                value={atmosphere.weather}
+                onChange={(e) =>
+                  chooseAtmosphere({
+                    ...atmosphere,
+                    weather: e.target.value as Atmosphere['weather'],
+                  })
+                }
+              >
+                {(['dynamic', 'clear', 'rain', 'snow', 'fog'] as const).map((w) => (
+                  <option key={w} value={w}>
+                    {WEATHER_LABEL[w]}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <p>Seasonal cloud banks and precipitation. Visual only, never affects the campaign.</p>
+          </div>
+        </details>
+        <div className="gc-graphics-controls" role="group" aria-label="Map graphics">
+          <button
+            aria-pressed={graphics === '2d'}
+            aria-label="2D · Low power"
+            onClick={() => choose('2d')}
+            title="Flat map, lower graphics cost"
           >
-            <option value="cycle">Day / night cycle</option>
-            <option value="day">Day</option>
-            <option value="night">Night</option>
-          </select>
-        </label>{' '}
-        <label>
-          Weather{' '}
-          <select
-            aria-label="Map weather"
-            value={atmosphere.weather}
-            onChange={(e) =>
-              chooseAtmosphere({
-                ...atmosphere,
-                weather: e.target.value as Atmosphere['weather'],
-              })
-            }
+            2D<span className="gc-graphics-controls__detail"> · Low power</span>
+          </button>
+          <button
+            aria-pressed={graphics === '3d'}
+            aria-label="3D · Balanced"
+            onClick={() => choose('3d')}
+            title="Raised terrain and animated water"
           >
-            {['dynamic', 'clear', 'rain', 'snow', 'fog'].map((w) => (
-              <option key={w} value={w}>
-                {w}
-              </option>
-            ))}
-          </select>
-        </label>
-        <p style={{ fontSize: 12 }}>
-          Regional cloud banks and precipitation. Visual only. Lighting cycles
-          in 3D.
-        </p>
-      </details>
-      <div className="gc-graphics-controls" aria-label="Map graphics">
-        <button
-          aria-pressed={graphics === '2d'}
-          onClick={() => choose('2d')}
-          title="Flat map, lower graphics cost"
-        >
-          2D · Low power
-        </button>
-        <button
-          aria-pressed={graphics === '3d'}
-          onClick={() => choose('3d')}
-          title="Raised terrain and animated water"
-        >
-          3D · Balanced
-        </button>
-        <button
-          aria-pressed={graphics === 'high'}
-          onClick={() => choose('high')}
-          title="Detailed terrain, animated sea and modeled scenery"
-        >
-          3D · High
-        </button>
+            3D<span className="gc-graphics-controls__detail"> · Balanced</span>
+          </button>
+          <button
+            aria-pressed={graphics === 'high'}
+            aria-label="3D · High"
+            onClick={() => choose('high')}
+            title="Detailed terrain, animated sea and modeled scenery"
+          >
+            <span className="gc-graphics-controls__short">High</span>
+            <span className="gc-graphics-controls__detail">3D · High</span>
+          </button>
+        </div>
       </div>
       {(notice || (graphics !== '2d' && !supported)) && (
         <p className="gc-graphics-notice" role="status">

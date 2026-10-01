@@ -83,16 +83,20 @@ export function weatherMapData(atmosphere: Atmosphere) {
     const kind =
       atmosphere.weather === "dynamic" ? system.kind : atmosphere.weather;
     // Nested banks soften the silhouette without a fullscreen haze.
-    for (const scale of [1, 0.82, 0.64]) {
-      const ring = Array.from({ length: 49 }, (_, i) => {
-        const angle = (i / 48) * Math.PI * 2;
-        const edge = 1 + Math.sin(angle * 5 + index) * 0.055;
+    for (const scale of [1, 0.8, 0.6]) {
+      const ring = Array.from({ length: 73 }, (_, i) => {
+        const angle = (i / 72) * Math.PI * 2;
+        const edge =
+          1 +
+          Math.sin(angle * 5 + index) * 0.05 +
+          Math.sin(angle * 11 + index * 2.3 + scale * 7) * 0.03 +
+          Math.sin(angle * 23 + index * 5.1) * 0.012;
         return [
           system.lon + Math.cos(angle) * WEATHER_RADIUS[0] * scale * edge,
           system.lat + Math.sin(angle) * WEATHER_RADIUS[1] * scale * edge,
         ];
       });
-      ring[48] = ring[0];
+      ring[72] = ring[0];
       clouds.features.push({
         type: "Feature",
         properties: { kind },
@@ -100,34 +104,60 @@ export function weatherMapData(atmosphere: Atmosphere) {
       });
     }
     if (kind === "fog") continue;
-    for (let x = -8; x <= 8; x++)
-      for (let y = -5; y <= 5; y++) {
-        if ((x / 8) ** 2 + (y / 5) ** 2 > 0.8) continue;
-        const lon = system.lon + x * 2.5 + Math.sin(x * 17 + y) * 0.6;
-        const lat = system.lat + y * 1.8 + Math.cos(y * 13 + x) * 0.4;
-        precipitation.features.push({
-          type: "Feature",
-          properties: { kind },
-          geometry: {
-            type: "LineString",
-            coordinates:
-              kind === "snow"
-                ? [
-                    [lon, lat],
-                    [lon + 0.09, lat + 0.09],
-                  ]
-                : [
-                    [lon, lat],
-                    [lon + 0.24, lat - 0.5],
-                  ],
-          },
-        });
-      }
+    // Deterministic scatter, denser toward the core, so drops never form a lattice.
+    let seed = (index + 1) * 2654435761;
+    const random = () => {
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      return seed / 4294967296;
+    };
+    for (let n = 0; n < 110; n++) {
+      const r = Math.sqrt(random()) * 0.92,
+        angle = random() * Math.PI * 2;
+      if (random() > 1 - r * r * 0.55) continue;
+      const lon = system.lon + Math.cos(angle) * r * WEATHER_RADIUS[0];
+      const lat = system.lat + Math.sin(angle) * r * WEATHER_RADIUS[1];
+      const length = 0.35 + random() * 0.3;
+      precipitation.features.push({
+        type: "Feature",
+        properties: { kind },
+        geometry: {
+          type: "LineString",
+          coordinates:
+            kind === "snow"
+              ? [
+                  [lon, lat],
+                  [lon + 0.08, lat + 0.08],
+                ]
+              : [
+                  [lon, lat],
+                  [lon + length * 0.35, lat - length],
+                ],
+        },
+      });
+    }
   }
   return { clouds, precipitation };
 }
 
 export const WEATHER_CLOUD_PAINT = {
-  "fill-color": "#ced9dc",
-  "fill-opacity": 0.12,
+  "fill-color": "#eef2f3",
+  "fill-opacity": 0.16,
+} as const;
+
+// Engraved-plate weather: slate ink hatching for rain, cased flakes for snow.
+export const WEATHER_PRECIPITATION_LAYOUT = { "line-cap": "round" } as const;
+export const WEATHER_RAIN_PAINT = {
+  "line-color": "#3d6078",
+  "line-width": ["interpolate", ["linear"], ["zoom"], 1, 0.8, 5, 1.6],
+  "line-opacity": 0.5,
+} as const;
+export const WEATHER_SNOW_CASING_PAINT = {
+  "line-color": "#4a6275",
+  "line-width": ["interpolate", ["linear"], ["zoom"], 1, 3, 5, 5.5],
+  "line-opacity": 0.35,
+} as const;
+export const WEATHER_SNOW_PAINT = {
+  "line-color": "#fbfdff",
+  "line-width": ["interpolate", ["linear"], ["zoom"], 1, 2, 5, 4],
+  "line-opacity": 0.92,
 } as const;
