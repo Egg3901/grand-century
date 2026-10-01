@@ -798,7 +798,7 @@ interface CultureSlice {
  * Deterministic (pure function of the baked seed + game data).
  */
 function provinceCultureSlices(
-  seed: { name: string; ownerTag: string; lon: number; lat: number; neighbors: number[] },
+  seed: { name: string; ownerTag: string; lon: number; lat: number; neighbors: number[]; legacyName?: string | null },
   nations: Nation[],
   ownerId: number,
   religionByNation: number[],
