@@ -27,6 +27,9 @@ All notable changes to Grand Century are documented here.
   replaced them.
 - **Pacing kept.** Population, costs and march times are scaled so the larger
   map plays at the old pace; armies now march by distance.
+- **Recruiting draws on the region.** Raising regiments uses the soldiers of
+  your state and nearby provinces (within about 250 km), so small provinces
+  still field armies.
 
 ### Map and menu refinement
 
