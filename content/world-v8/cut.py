@@ -65,15 +65,30 @@ def tiles_of(g):
             stack.append(as_area(cur.intersection(h)))
 
 def load_layer(path):
+    """Exclusive polity polygons: the smallest polygon wins any overlap.
+
+    Matches the seed compiler's rule, so a dependency drawn inside its
+    overlord (an Indian princely state inside Company territory) keeps its
+    own land and the overlord keeps the rest.
+    """
     d = json.load(open(path))
-    geoms, keys = [], []
+    raw = []
     for f in d['featureCollection']['features']:
         g = shape(f['geometry'])
         if not g.is_valid: g = make_valid(g)
         g = as_area(g)
-        if g.is_empty: continue
+        if not g.is_empty: raw.append((g.area, f['properties']['polityKey'], g))
+    raw.sort(key=lambda r: (r[0], r[1]))
+    placed = []
+    geoms, keys = [], []
+    for _, key, g in raw:
+        prior = [p for p in placed if p.intersects(g)]
+        if prior:
+            g = as_area(make_valid(g.difference(unary_union(prior))))
+            if g.is_empty: continue
+        placed.append(g)
         for t in tiles_of(g):
-            prepare(t); geoms.append(t); keys.append(f['properties']['polityKey'])
+            prepare(t); geoms.append(t); keys.append(key)
     return d['asOf'], geoms, keys, STRtree(geoms)
 
 LAYER_DATA = []

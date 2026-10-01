@@ -810,16 +810,20 @@ function provinceCultureSlices(
     return key ? religionIndex(data, key) : primaryReligion;
   };
 
+  // Culture content is keyed by region name. World v8 provinces carry the
+  // name of their dominant pre-v8 predecessor, so those keys keep applying.
+  const regionKey = seed.legacyName ?? seed.name;
+
   // Native population under map-placeholder tags: one homogeneous native slice.
   if (PLACEHOLDER_TAGS.has(seed.ownerTag)) {
-    const nativeKey = placeholderCultureFor(seed.name, seed.lon, seed.lat);
+    const nativeKey = placeholderCultureFor(regionKey, seed.lon, seed.lat);
     const native = nativeKey ? cultureIndex(data, nativeKey, primary) : primary;
-    const override = PLACEHOLDER_RELIGION_RULES[seed.name];
+    const override = PLACEHOLDER_RELIGION_RULES[regionKey];
     return [{ culture: native, religion: cultureReligion(native, override), weight: 1 }];
   }
 
-  const rules = MINORITY_RULES[seed.name]
-    ?? colonialMinorityFor(seed.ownerTag, seed.name, seed.lon, seed.lat)
+  const rules = MINORITY_RULES[regionKey]
+    ?? colonialMinorityFor(seed.ownerTag, regionKey, seed.lon, seed.lat)
     ?? [];
   const slices: CultureSlice[] = [];
   let minorityTotal = 0;

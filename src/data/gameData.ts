@@ -300,13 +300,19 @@ const statesOf = (tags: string[]): number[] => [
  */
 export const UNRESOLVED_STATE_NAMES: { tag: string; name: string }[] = [];
 
+// World v8 states carry the name of their dominant pre-v8 state, so content
+// keyed by historical region ("Bohemia") resolves to every successor state.
+const LEGACY_STATE_NAME = new Map(WORLD_SEED.states.map((s) => [s.id, s.legacyStateName ?? s.name]));
+const stateMatches = (p: (typeof WORLD_SEED.provinces)[number], names: string[]) =>
+  names.includes(p.stateName ?? p.name) || names.includes(LEGACY_STATE_NAME.get(p.stateId) ?? '');
+
 const statesNamed = (tag: string, names: string[]): number[] => {
   for (const name of names) {
-    const found = WORLD_SEED.provinces.some((p) => p.ownerTag === tag && (p.stateName ?? p.name) === name);
+    const found = WORLD_SEED.provinces.some((p) => p.ownerTag === tag && stateMatches(p, [name]));
     if (!found) UNRESOLVED_STATE_NAMES.push({ tag, name });
   }
   return [...new Set(WORLD_SEED.provinces
-    .filter((p) => p.ownerTag === tag && names.includes(p.stateName ?? p.name))
+    .filter((p) => p.ownerTag === tag && stateMatches(p, names))
     .map((p) => p.stateId))].sort((a, b) => a - b);
 };
 

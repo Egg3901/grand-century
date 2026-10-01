@@ -73,6 +73,8 @@ export interface SeedProvince {
   lon: number;
   lat: number;
   populationWeight: number;
+  /** World v8: name of the dominant pre-v8 province, the key for region-named content. */
+  legacyName?: string | null;
 }
 
 export interface SeedState {
@@ -80,6 +82,8 @@ export interface SeedState {
   name: string;
   ownerTag: string;
   provinceIds: number[];
+  /** World v8: name of the dominant pre-v8 state, the key for region-named content. */
+  legacyStateName?: string | null;
 }
 
 export interface WorldSeedData {

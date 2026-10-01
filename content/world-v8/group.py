@@ -307,17 +307,24 @@ def merge_small(provinces, nbrs):
                 for j, l in nbrs[i].items():
                     q = owner_of[j]
                     if q != pid: cand[q] += l * (1.0 if ROWS[j]['iso'] == iso else 0.35)
-            cand = {q: w for q, w in cand.items() if mergeable(pid, q) and stats[q][0] + area <= MAX_MERGED * max(tgt, stats[q][1])}
+            fits = {q: w for q, w in cand.items() if stats[q][0] + area <= MAX_MERGED * max(tgt, stats[q][1])}
+            # A fully compatible neighbour always wins; the source-noise
+            # exception only applies when no such neighbour exists. Otherwise a
+            # small core area (Berlin) can be absorbed by a foreign neighbour.
+            hard = {q: w for q, w in fits.items() if compatible(stats[pid][4], stats[q][4])}
+            cand = hard or {q: w for q, w in fits.items() if mergeable(pid, q)}
             if not cand:
                 # Islands and exclaves: nearest mergeable province within reach.
                 lon, lat = stats[pid][2], stats[pid][3]
                 best_d, best = None, None
-                for q in alive:
+                for rule in (lambda q: compatible(stats[pid][4], stats[q][4]), lambda q: mergeable(pid, q)):
+                  if best is not None: break
+                  for q in alive:
                     if q == pid: continue
                     d = (stats[q][2] - lon) ** 2 + (stats[q][3] - lat) ** 2
                     if d > ISLAND_REACH_DEG ** 2 * 4: continue
                     d = min((ROWS[i]['lon'] - lon) ** 2 + (ROWS[i]['lat'] - lat) ** 2 for i in alive[q])
-                    if d <= ISLAND_REACH_DEG ** 2 and (best_d is None or d < best_d) and mergeable(pid, q) \
+                    if d <= ISLAND_REACH_DEG ** 2 and (best_d is None or d < best_d) and rule(q) \
                             and stats[q][0] + area <= MAX_MERGED * max(tgt, stats[q][1]):
                         best_d, best = d, q
                 if best is None: continue
