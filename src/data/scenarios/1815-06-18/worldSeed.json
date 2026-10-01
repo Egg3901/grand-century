@@ -44415,7 +44415,7 @@
     },
     {
       "id": 2000,
-      "name": "Dresden (Sachsen) 2",
+      "name": "Dresden (Sachsen) (Dresden)",
       "ownerTag": "KONIGREICH_PREUSSEN",
       "stateId": 662,
       "stateName": "Berlin",
@@ -45243,10 +45243,10 @@
     },
     {
       "id": 2040,
-      "name": "Thüringen 2",
+      "name": "Thüringen (Thüringen)",
       "ownerTag": "KONIGREICH_SACHSEN",
       "stateId": 687,
-      "stateName": "Thüringen 2",
+      "stateName": "Thüringen (Thüringen)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -45461,10 +45461,10 @@
     },
     {
       "id": 2051,
-      "name": "Thüringen 3",
+      "name": "Thüringen (Thüringen, Thüringen)",
       "ownerTag": "FURSTENTUM_SCHWARZBURG_RUDOLSTADT",
       "stateId": 697,
-      "stateName": "Thüringen 4 (FURSTENTUM_SCHWARZBURG_RUDOLSTADT)",
+      "stateName": "Thüringen (Thüringen (Thüringen, Thüringen)) (FURSTENTUM_SCHWARZBURG_RUDOLSTADT)",
       "terrain": "forest",
       "coastal": true,
       "rgoGood": "timber",
@@ -45534,10 +45534,10 @@
     },
     {
       "id": 2054,
-      "name": "Thüringen 4",
+      "name": "Thüringen",
       "ownerTag": "FURSTENTUM_SCHWARZBURG_SONDERSHAUSEN",
       "stateId": 698,
-      "stateName": "Thüringen 4 (FURSTENTUM_SCHWARZBURG_SONDERSHAUSEN)",
+      "stateName": "Thüringen (Thüringen (Thüringen, Thüringen)) (FURSTENTUM_SCHWARZBURG_SONDERSHAUSEN)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -45578,7 +45578,7 @@
     },
     {
       "id": 2056,
-      "name": "Sachsen-Anhalt 2",
+      "name": "Sachsen-Anhalt (Sachsen-Anhalt)",
       "ownerTag": "HERZOGTUM_ANHALT_BERNBURG",
       "stateId": 703,
       "stateName": "Sachsen-Anhalt (HERZOGTUM_ANHALT_BERNBURG)",
@@ -45718,7 +45718,7 @@
     },
     {
       "id": 2063,
-      "name": "Sachsen-Anhalt 3",
+      "name": "Sachsen-Anhalt (Sachsen-Anhalt, Sachsen-Anhalt)",
       "ownerTag": "HERZOGTUM_ANHALT_COTHEN",
       "stateId": 704,
       "stateName": "Sachsen-Anhalt (HERZOGTUM_ANHALT_COTHEN)",
@@ -46320,7 +46320,7 @@
     },
     {
       "id": 2094,
-      "name": "Thüringen 5",
+      "name": "Thüringen",
       "ownerTag": "FURSTENTUM_REUSS_GREIZ",
       "stateId": 726,
       "stateName": "Weimar (FURSTENTUM_REUSS_GREIZ)",
@@ -46534,7 +46534,7 @@
     },
     {
       "id": 2105,
-      "name": "Tübingen (Baden-Württemberg) 2",
+      "name": "Tübingen (Baden-Württemberg) (Tübingen)",
       "ownerTag": "HOHENZOLLERN_HECHINGEN",
       "stateId": 736,
       "stateName": "Tübingen (Baden-Württemberg) (HOHENZOLLERN_HECHINGEN)",
@@ -54082,7 +54082,7 @@
     },
     {
       "id": 687,
-      "name": "Thüringen 2",
+      "name": "Thüringen (Thüringen)",
       "ownerTag": "KONIGREICH_SACHSEN",
       "provinceIds": [
         2040
@@ -54163,7 +54163,7 @@
     },
     {
       "id": 697,
-      "name": "Thüringen 4 (FURSTENTUM_SCHWARZBURG_RUDOLSTADT)",
+      "name": "Thüringen (Thüringen (Thüringen, Thüringen)) (FURSTENTUM_SCHWARZBURG_RUDOLSTADT)",
       "ownerTag": "FURSTENTUM_SCHWARZBURG_RUDOLSTADT",
       "provinceIds": [
         2051
@@ -54171,7 +54171,7 @@
     },
     {
       "id": 698,
-      "name": "Thüringen 4 (FURSTENTUM_SCHWARZBURG_SONDERSHAUSEN)",
+      "name": "Thüringen (Thüringen (Thüringen, Thüringen)) (FURSTENTUM_SCHWARZBURG_SONDERSHAUSEN)",
       "ownerTag": "FURSTENTUM_SCHWARZBURG_SONDERSHAUSEN",
       "provinceIds": [
         2054

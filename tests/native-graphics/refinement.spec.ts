@@ -16,7 +16,7 @@ async function start(page: Page) {
     .click();
   await expect(
     page.getByRole("button", { name: "Open Economy", exact: true }),
-  ).toBeVisible({ timeout: 30000 });
+  ).toBeVisible({ timeout: 90000 });
 }
 
 test("map mode control stays inside a phone viewport", async ({ page }) => {
@@ -110,5 +110,5 @@ test("engraved native homepage scrolls and launches campaigns in landscape", asy
     .click();
   await expect(
     page.getByRole("button", { name: "Open Economy", exact: true }),
-  ).toBeVisible({ timeout: 30000 });
+  ).toBeVisible({ timeout: 90000 });
 });

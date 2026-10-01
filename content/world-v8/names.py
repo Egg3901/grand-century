@@ -173,8 +173,12 @@ def main():
             for m in members[pid]: region[pieces[m][1]] += pieces[m][3]
             r = clean(region.most_common(1)[0][0])
             if r and fold(r) != fold(n): n = f'{n} ({r})'
-        base, k = n, 2
-        while fold(n) in used: n = f'{base} {k}'; k += 1
+        # Never numbers: disambiguate by the largest unit, then the region too.
+        if fold(n) in used:
+            unit = clean(pieces[max(members[pid], key=lambda m: pieces[m][3])][0])
+            region = clean(Counter({pieces[m][1]: pieces[m][3] for m in members[pid]}).most_common(1)[0][0] or '')
+            for candidate in (f'{n} ({unit})', f'{n} ({region})', f'{n} ({region}, {unit})', f'{unit} ({region})'):
+                if fold(candidate) not in used: n = candidate; break
         top = sorted(cand.get(pid, []))[:1]
         rank = list(top[0][:3]) if top else [9, 99, 0]
         used.add(fold(n)); final.append({'id': pid, 'key': keys[pid], 'name': n, 'source': how, 'rank': rank, 'urban': round(urban[pid])})

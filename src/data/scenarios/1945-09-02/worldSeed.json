@@ -44415,7 +44415,7 @@
     },
     {
       "id": 2000,
-      "name": "Dresden (Sachsen) 2",
+      "name": "Dresden (Sachsen) (Dresden)",
       "ownerTag": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
       "stateId": 644,
       "stateName": "Berlin",
@@ -45243,10 +45243,10 @@
     },
     {
       "id": 2040,
-      "name": "Thüringen 2",
+      "name": "Thüringen (Thüringen)",
       "ownerTag": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
       "stateId": 667,
-      "stateName": "Thüringen 2",
+      "stateName": "Thüringen (Thüringen)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -45461,10 +45461,10 @@
     },
     {
       "id": 2051,
-      "name": "Thüringen 3",
+      "name": "Thüringen (Thüringen, Thüringen)",
       "ownerTag": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
       "stateId": 675,
-      "stateName": "Thüringen 4",
+      "stateName": "Thüringen (Thüringen (Thüringen, Thüringen))",
       "terrain": "forest",
       "coastal": true,
       "rgoGood": "timber",
@@ -45534,10 +45534,10 @@
     },
     {
       "id": 2054,
-      "name": "Thüringen 4",
+      "name": "Thüringen",
       "ownerTag": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
       "stateId": 675,
-      "stateName": "Thüringen 4",
+      "stateName": "Thüringen (Thüringen (Thüringen, Thüringen))",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -45578,7 +45578,7 @@
     },
     {
       "id": 2056,
-      "name": "Sachsen-Anhalt 2",
+      "name": "Sachsen-Anhalt (Sachsen-Anhalt)",
       "ownerTag": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
       "stateId": 680,
       "stateName": "Sachsen-Anhalt",
@@ -45718,7 +45718,7 @@
     },
     {
       "id": 2063,
-      "name": "Sachsen-Anhalt 3",
+      "name": "Sachsen-Anhalt (Sachsen-Anhalt, Sachsen-Anhalt)",
       "ownerTag": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
       "stateId": 680,
       "stateName": "Sachsen-Anhalt",
@@ -46320,7 +46320,7 @@
     },
     {
       "id": 2094,
-      "name": "Thüringen 5",
+      "name": "Thüringen",
       "ownerTag": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
       "stateId": 698,
       "stateName": "Weimar",
@@ -46534,7 +46534,7 @@
     },
     {
       "id": 2105,
-      "name": "Tübingen (Baden-Württemberg) 2",
+      "name": "Tübingen (Baden-Württemberg) (Tübingen)",
       "ownerTag": "FRENCH_OCCUPATION_ZONE_IN_GERMANY",
       "stateId": 707,
       "stateName": "Tübingen (Baden-Württemberg)",
@@ -53942,7 +53942,7 @@
     },
     {
       "id": 667,
-      "name": "Thüringen 2",
+      "name": "Thüringen (Thüringen)",
       "ownerTag": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
       "provinceIds": [
         2040
@@ -54009,7 +54009,7 @@
     },
     {
       "id": 675,
-      "name": "Thüringen 4",
+      "name": "Thüringen (Thüringen (Thüringen, Thüringen))",
       "ownerTag": "SOVIET_OCCUPATION_ZONE_IN_GERMANY",
       "provinceIds": [
         2051,

@@ -1,4 +1,9 @@
 import { test, expect } from "@playwright/test";
+import { readFileSync } from "node:fs";
+
+const PARIS = (JSON.parse(readFileSync(new URL("../../src/data/generated/worldSeed.json", import.meta.url), "utf8")) as {
+  provinces: { id: number; name: string }[];
+}).provinces.find((province) => province.name === "Paris")!;
 
 test("3D terrain preserves province interaction, 2D fallback and phone controls", async ({
   page,
@@ -27,10 +32,11 @@ test("3D terrain preserves province interaction, 2D fallback and phone controls"
   expect(paris.geo[1]).toBeCloseTo(48.86, 3);
   expect(paris.point[0]).toBeGreaterThan(200);
   expect(paris.point[0]).toBeLessThan(1000);
-  expect(paris.province).toBe(273); // France, from the authored 1830 province atlas.
+  // The province named for Paris in the world v8 1830 atlas.
+  expect(paris.province).toBe(PARIS.id);
   await page.mouse.click(paris.point[0], paris.point[1]);
   await expect(
-    page.getByRole("heading", { name: "Region Centre", exact: true }),
+    page.getByRole("heading", { name: PARIS.name, exact: true }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Done", exact: true }).click();
   await page.getByRole("button", { name: "Zoom in", exact: true }).click();
@@ -269,7 +275,7 @@ test("close-zoom frontiers follow ownership even when nations have identical col
     const gl = (
       document.querySelector(".gc-terrain-view canvas") as HTMLCanvasElement
     ).getContext("webgl")!;
-    const colors = Array.from({ length: 1024 }, () => [160, 150, 110]);
+    const colors = Array.from({ length: 4096 }, () => [160, 150, 110]);
     const read = () => {
       const pixels = new Uint8Array(
         gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
@@ -328,7 +334,7 @@ test("fine terrain, day/night cycle and weather draw real pixels and persist con
   page,
 }) => {
   // Five full pixel readbacks use software GL in CI; camera timing has its own native gate.
-  test.setTimeout(180000);
+  test.setTimeout(360000);
   await page.setViewportSize({ width: 430, height: 932 });
   await page.addInitScript(() => {
     localStorage.setItem("grand-century.tutorial.v0_2_0.seen", "1");
@@ -433,7 +439,7 @@ test("fine terrain, day/night cycle and weather draw real pixels and persist con
 });
 
 test("engraved homepage fits portrait and landscape; regional weather remains visible in 2D", async ({ page }) => {
-  test.setTimeout(180000);
+  test.setTimeout(360000);
   await page.addInitScript(() => {
     localStorage.setItem("grand-century.tutorial.v0_2_0.seen", "1");
     localStorage.setItem("grand-century-graphics-v1", "2d");

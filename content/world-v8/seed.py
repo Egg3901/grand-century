@@ -203,7 +203,11 @@ def main():
         lead = min(ids, key=lambda i: (tuple(names[i]['rank']), -provinces[i]['populationWeight'], i))
         name = provinces[lead]['name']
         used[name] += 1
-        if used[name] > 1: name = f"{name} {used[name]}"
+        if used[name] > 1:
+            # Two states led by same-named provinces: name the later one for its
+            # second province instead of numbering it.
+            others = [provinces[i]['name'] for i in ids if i != lead]
+            name = f"{name} ({others[0]})" if others else f"{name} ({provinces[lead]['_adm1']})"
         score = Counter()
         for i in ids:
             for k, v in provinces[i]['_ov'].items():
