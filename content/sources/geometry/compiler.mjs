@@ -188,6 +188,66 @@ export function validateGeometrySupplements({ asOf, roster, supplements, audit }
   requireValue(auditByRelation.size === relationIds.size, 'geometry supplement audit does not match the source pack');
 }
 
+function ringBounds(ring) {
+  let west = Infinity;
+  let south = Infinity;
+  let east = -Infinity;
+  let north = -Infinity;
+  for (const [lon, lat] of ring) {
+    west = Math.min(west, lon);
+    south = Math.min(south, lat);
+    east = Math.max(east, lon);
+    north = Math.max(north, lat);
+  }
+  return [west, south, east, north];
+}
+
+function boundsWithin(inner, outer) {
+  return inner[0] >= outer[0] && inner[1] >= outer[1] && inner[2] <= outer[2] && inner[3] <= outer[3];
+}
+
+/** Keep only the polygon components whose outer ring lies entirely inside the reviewed bounds. */
+export function filterGeometryComponents(geometry, bounds) {
+  const polygons = geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates;
+  const kept = polygons.filter((polygon) => boundsWithin(ringBounds(polygon[0]), bounds));
+  return {
+    geometry: kept.length === 1
+      ? { type: 'Polygon', coordinates: kept[0] }
+      : { type: 'MultiPolygon', coordinates: kept },
+    keptComponents: kept.length,
+    droppedComponents: polygons.length - kept.length,
+  };
+}
+
+const COMPONENT_FILTER_ACTIONS = new Set(['keep_components_within', 'omit_record']);
+
+export function validateGeometryComponentFilters({ asOf, roster, filters }) {
+  requireValue(filters.schemaVersion === 1 && filters.asOf === asOf, 'invalid geometry component filter pack');
+  const polityByKey = new Map(roster.polities.map((polity) => [polity.key, polity]));
+  const seen = new Set();
+  for (const filter of filters.filters ?? []) {
+    const key = `${filter.polityKey}:${filter.sourceRecord}`;
+    requireValue(!seen.has(key), `duplicate component filter ${key}`);
+    seen.add(key);
+    const polity = polityByKey.get(filter.polityKey);
+    requireValue(Boolean(polity), `component filter ${key} has unknown polity`);
+    requireValue(EXCLUSIVE_STATUSES.has(polity.status), `component filter ${key} targets nonexclusive ${filter.polityKey}`);
+    requireValue(
+      (polity.sources ?? []).some((source) => source.kind === 'cliopatria_record' && source.id === filter.sourceRecord),
+      `component filter ${key} does not match a Cliopatria source of ${filter.polityKey}`,
+    );
+    requireValue(COMPONENT_FILTER_ACTIONS.has(filter.action), `component filter ${key} has unknown action ${filter.action}`);
+    requireValue(Boolean(filter.reason), `component filter ${key} needs a reason`);
+    if (filter.action === 'keep_components_within') {
+      const bounds = filter.bounds ?? [];
+      requireValue(
+        bounds.length === 4 && bounds.every(Number.isFinite) && bounds[0] < bounds[2] && bounds[1] < bounds[3],
+        `component filter ${key} needs [west, south, east, north] bounds`,
+      );
+    }
+  }
+}
+
 export async function compileScenarioBorders({
   scenarioDir,
   ohmCacheDir,
@@ -216,6 +276,12 @@ export async function compileScenarioBorders({
     cliopatriaDiscovery,
   });
   validateGeometrySupplements({ asOf: manifest.id, roster, supplements, audit: supplementAudit });
+  const componentFilters = await readOptionalJson(
+    path.join(scenarioDir, 'sources/geometry-component-filters.json'),
+    { schemaVersion: 1, asOf: manifest.id, filters: [] },
+  );
+  validateGeometryComponentFilters({ asOf: manifest.id, roster, filters: componentFilters });
+  const filterByTask = new Map((componentFilters.filters ?? []).map((filter) => [`${filter.polityKey}:${filter.sourceRecord}`, filter]));
 
   const auditById = new Map(audit.entries.map((entry) => [entry.relationId, entry]));
   const resolutionById = new Map(resolutions.resolutions.map((entry) => [entry.relationId, entry]));
@@ -319,17 +385,36 @@ export async function compileScenarioBorders({
       const candidate = discoveryByRecord.get(task.source.id);
       requireValue(Boolean(rawFeature) && Boolean(candidate), `${task.polity.key} is missing Cliopatria record ${task.source.id}`);
       requireValue(geometryHash(rawFeature.geometry) === candidate.geometryHash, `${task.polity.key} Cliopatria geometry hash changed`);
-      const sourceFeature = featureForPolity(rawFeature, task.polity, task.source);
-      sourceFeature.geometry = simplifyGeometry(sourceFeature.geometry, simplificationStep);
-      features.push(sourceFeature);
-      provenance.push({
+      const filter = filterByTask.get(`${task.polity.key}:${task.source.id}`);
+      const baseProvenance = {
         polityKey: task.polity.key,
         source: 'Cliopatria',
         sourceRecord: task.source.id,
         license: source.license,
         archiveSha256: source.archiveSha256,
         transformed: true,
-      });
+      };
+      if (filter?.action === 'omit_record') {
+        provenance.push({ ...baseProvenance, componentFilter: { action: filter.action, reason: filter.reason } });
+        continue;
+      }
+      const sourceFeature = featureForPolity(rawFeature, task.polity, task.source);
+      let componentFilter = null;
+      if (filter?.action === 'keep_components_within') {
+        const filtered = filterGeometryComponents(sourceFeature.geometry, filter.bounds);
+        requireValue(filtered.keptComponents > 0, `${task.polity.key} component filter for record ${task.source.id} keeps nothing`);
+        sourceFeature.geometry = filtered.geometry;
+        componentFilter = {
+          action: filter.action,
+          bounds: filter.bounds,
+          keptComponents: filtered.keptComponents,
+          droppedComponents: filtered.droppedComponents,
+          reason: filter.reason,
+        };
+      }
+      sourceFeature.geometry = simplifyGeometry(sourceFeature.geometry, simplificationStep);
+      features.push(sourceFeature);
+      provenance.push({ ...baseProvenance, ...(componentFilter ? { componentFilter } : {}) });
     }
   }
 
