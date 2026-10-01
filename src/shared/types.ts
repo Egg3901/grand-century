@@ -386,6 +386,9 @@ export interface FormableStatus {
   coreStateIds: StateId[];
   controlledCoreStates: number;
   totalCoreStates: number;
+  /** World v8: controlled share of the cores' 1830 population, the gating measure. */
+  controlledCoreShare?: number;
+  requiredCoreShare?: number;
   requiredCoreStates: number;
   requirements: FormableRequirementStatus[];
   /** Prestige granted on successful form (after NGF→GER stacking gate). */

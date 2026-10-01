@@ -213,11 +213,22 @@ def main():
         state_records.append({'id': sid, 'name': name, 'ownerTag': provinces[ids[0]]['ownerTag'], 'provinceIds': ids,
                               'legacyStateId': lsid, 'legacyStateName': lstate[lsid]['name'] if lsid is not None else None})
 
-    # legacy state -> new states (for cores and formables)
-    successors = defaultdict(set)
+    # legacy state -> new states (for cores and formables). A new state
+    # succeeds a legacy state only when that state covers at least half of it,
+    # or is its dominant predecessor: the coarse legacy regions spilled across
+    # real borders (old "Piemonte" reached Marseille and Zurich).
+    state_overlap = defaultdict(lambda: defaultdict(float))
+    state_area = defaultdict(float)
     for p in provinces:
-        for k in p['_ov']:
-            if k in lprov: successors[lprov[k]['stateId']].add(p['stateId'])
+        for k, v in p['_ov'].items():
+            if k in lprov:
+                state_overlap[p['stateId']][lprov[k]['stateId']] += v
+                state_area[p['stateId']] += v
+    successors = defaultdict(set)
+    for sid, by_legacy in state_overlap.items():
+        dominant = max(by_legacy, key=by_legacy.get)
+        for lsid, v in by_legacy.items():
+            if lsid == dominant or v >= 0.5 * state_area[sid]: successors[lsid].add(sid)
     def map_states(old_ids):
         out = set()
         for s in old_ids: out |= successors.get(s, set())

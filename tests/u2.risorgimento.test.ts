@@ -31,7 +31,7 @@ describe('1.0-U2 — the Risorgimento', () => {
     expect(italy).toBeTruthy();
     // The Vic2 cut models Lombardy-Venetia as Austrian provinces rather than an
     // LVN tag; Lombardia is the one the Risorgimento has to take.
-    const lombardy = WORLD_SEED.provinces.find((p) => p.name === 'Lombardia')!.stateId;
+    const lombardy = WORLD_SEED.provinces.find((p) => p.legacyName === 'Lombardia' && p.name === 'Milan')!.stateId;
     expect(italy!.coreStateIds).toContain(lombardy);
     expect(italy!.yearAtLeast).toBe(1848);
   });

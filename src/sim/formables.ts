@@ -1,3 +1,4 @@
+import { WORLD_SEED } from '../data/generated';
 import type {
   FormableDefinition,
   FormableStatus,
@@ -35,6 +36,35 @@ function requiredCoreStates(totalCoreStates: number, requiredShare: number): num
   if (totalCoreStates <= 0) return 0;
   const share = Math.max(0, Math.min(1, requiredShare));
   return Math.max(1, Math.ceil(totalCoreStates * share));
+}
+
+/**
+ * Core progress is weighted by each state's 1830 population, not counted. On
+ * the world v8 mesh a one-city free city and a large Prussian state are both
+ * single states; counting them equally made unification hinge on micro-states.
+ */
+function coreStateWeight(world: World, stateId: StateId): number {
+  const state = world.states[stateId];
+  if (!state) return 0;
+  let weight = 0;
+  for (const provinceId of state.provinceIds) weight += WORLD_SEED.provinces[provinceId]?.populationWeight ?? 0;
+  return Math.max(0.05, weight);
+}
+
+function controlledCoreShare(world: World, nationId: NationId, coreStates: StateId[]): number {
+  const nation = world.nations[nationId];
+  if (!nation) return 0;
+  const sphere = new Set<number>(nation.sphereMembers);
+  let controlled = 0;
+  let total = 0;
+  for (const stateId of coreStates) {
+    const state = world.states[stateId];
+    if (!state) continue;
+    const weight = coreStateWeight(world, stateId);
+    total += weight;
+    if (state.owner === nationId || sphere.has(state.owner)) controlled += weight;
+  }
+  return total > 0 ? controlled / total : 0;
 }
 
 function controlledCoreStates(world: World, nationId: NationId, coreStates: StateId[]): number {
@@ -100,6 +130,7 @@ export function evaluateNationFormable(world: World, data: GameData, nationId: N
   const totalCoreStates = coreStates.length;
   const controlled = controlledCoreStates(world, nationId, coreStates);
   const required = requiredCoreStates(totalCoreStates, formable.requiredCoreShare);
+  const controlledShare = controlledCoreShare(world, nationId, coreStates);
   const breakdown = classifyFormableCores(world, nationId, coreStates);
   const ownedCount = breakdown.filter((entry) => entry.kind === 'owned').length;
   const spheredCount = breakdown.filter((entry) => entry.kind === 'sphered').length;
@@ -115,7 +146,7 @@ export function evaluateNationFormable(world: World, data: GameData, nationId: N
     !formable.requireGreatPower
     || meetsPowerRequirement(world, nationId)
   ));
-  const coreControl = controlled >= required;
+  const coreControl = totalCoreStates > 0 && controlledShare >= Math.max(0, Math.min(1, formable.requiredCoreShare)) - 1e-9;
   const year = yearAtDay(world.day, world.startDate ?? data.startDate);
   const eraMet = !formable.yearAtLeast || year >= formable.yearAtLeast;
   const prestigeReward = formablePrestigeReward(nation?.tag ?? '', formable, data);
@@ -148,7 +179,7 @@ export function evaluateNationFormable(world: World, data: GameData, nationId: N
       key: 'core_control',
       label: 'Control core states (owned or sphered)',
       met: coreControl,
-      detail: `${controlled}/${totalCoreStates} controlled (${ownedCount} owned, ${spheredCount} sphered). Need ${required}. Sphered cores do not annex on proclaim.`,
+      detail: `${Math.round(controlledShare * 100)}% of the core population controlled (${controlled}/${totalCoreStates} states: ${ownedCount} owned, ${spheredCount} sphered). Need ${Math.round(formable.requiredCoreShare * 100)}%. Sphered cores do not annex on proclaim.`,
     },
   ];
   if (formable.yearAtLeast) {
@@ -171,6 +202,8 @@ export function evaluateNationFormable(world: World, data: GameData, nationId: N
     coreStateIds: coreStates.slice(),
     controlledCoreStates: controlled,
     totalCoreStates,
+    controlledCoreShare: controlledShare,
+    requiredCoreShare: formable.requiredCoreShare,
     requiredCoreStates: required,
     requirements,
     prestigeReward,

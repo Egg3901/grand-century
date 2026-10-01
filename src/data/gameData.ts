@@ -324,7 +324,10 @@ const statesNamed = (tag: string, names: string[]): number[] => {
 // separable from Hungary, Galicia and Illyria, which were never in it. This was
 // previously approximated by the single mixed state that held all of them.
 const GERMAN_CONFEDERATION_STATES = [
-  ...statesOf(['PRU', 'BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES', 'HOL']),
+  ...statesOf(['PRU', 'BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES', 'HOL', 'HEK']),
+  // World v8 gives the Confederation's smaller members their own land.
+  ...statesOf(['MEC', 'MST', 'OLD', 'BRS', 'NAS', 'LIP', 'WDK', 'ANH', 'REU', 'SWZ', 'HOH',
+    'WEI', 'MEI', 'SCG', 'SAA', 'BRE', 'HAM', 'LUB', 'FRM', 'LIE']),
   ...statesNamed('AUS', ['Österreich', 'Bohemia']),
 ];
 const NORTH_GERMAN_STATES = statesOf(['PRU', 'SAX', 'HAN', 'HES']);
@@ -337,7 +340,7 @@ for (const formable of FORMABLES) {
     // U2: the Risorgimento runs through Austrian Lombardy-Venetia. In the Vic2
     // cut those are Austrian provinces rather than an LVN tag, gathered into the
     // Venetia state. Derived by name — literal ids rot on every world rebuild.
-    for (const lombardy of statesNamed('AUS', ['Venetia'])) {
+    for (const lombardy of statesNamed('AUS', ['Venetia', 'Lombardia'])) {
       if (!formable.coreStateIds.includes(lombardy)) formable.coreStateIds.push(lombardy);
     }
     formable.coreStateIds.sort((a, b) => a - b);

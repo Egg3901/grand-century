@@ -148,7 +148,7 @@ function buildDecisionProgressLines(
     const status = getFormableStatusesForNation(world, data, nation.id)
       .find((entry) => entry.key === req.key);
     const share = status && status.totalCoreStates > 0
-      ? status.controlledCoreStates / status.totalCoreStates
+      ? (status.controlledCoreShare ?? status.controlledCoreStates / status.totalCoreStates)
       : 0;
     const have = Math.round(share * 100);
     const need = Math.round(req.share * 100);
@@ -277,7 +277,7 @@ export function checkRequirement(
       const status = getFormableStatusesForNation(world, data, nation.id)
         .find((entry) => entry.key === req.key);
       const share = status && status.totalCoreStates > 0
-        ? status.controlledCoreStates / status.totalCoreStates
+        ? (status.controlledCoreShare ?? status.controlledCoreStates / status.totalCoreStates)
         : 0;
       return share >= req.share
         ? { ok: true, reason: '' }
@@ -814,7 +814,7 @@ export function getPlayerBalanceOfPowerView(world: World, data: GameData, nation
   let best: { status: typeof statuses[number]; share: number } | null = null;
   for (const status of statuses) {
     if (status.totalCoreStates <= 0) continue;
-    const share = status.controlledCoreStates / status.totalCoreStates;
+    const share = (status.controlledCoreShare ?? status.controlledCoreStates / status.totalCoreStates);
     if (!best || share > best.share) best = { status, share };
   }
   const playerTag = world.nations[nationId]?.tag ?? '';
@@ -846,7 +846,7 @@ export function applyBalanceOfPowerPressure(world: World, data: GameData): void 
     const statuses = getFormableStatusesForNation(world, data, nation.id);
     for (const status of statuses) {
       if (status.totalCoreStates <= 0) continue;
-      const share = status.controlledCoreStates / status.totalCoreStates;
+      const share = (status.controlledCoreShare ?? status.controlledCoreStates / status.totalCoreStates);
       if (share < bopAlarmShareFor(data, status.key, nation.tag)) continue;
       const rivalryAt = bopRivalryShareFor(data, status.key, nation.tag);
       const formable = data.formables?.find((entry) => entry.key === status.key);

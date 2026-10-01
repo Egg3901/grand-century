@@ -99,7 +99,8 @@ import type { SeedNation } from "../../src/data/generated";
 import { labelFitsViewport } from "./game/mapLabelPlacement";
 
 type Nation = SeedNation;
-type Province = (typeof worldSeed.provinces)[number];
+// The shared seed type: the JSON-inferred type narrows nullable fields to literal null.
+type Province = import("../../src/data/generated").SeedProvince;
 const paper = "#f4eddf";
 const ink = "#192e35";
 const wax = "#d6b475";

@@ -184,7 +184,7 @@ describe('1.0-U1 — the Prussian unification arc', () => {
     // rivalry threshold well crossed (ids derived, not literal)
     const confedOutsideAustria = WORLD_SEED.provinces
       .filter((p) => ['BAV', 'SAX', 'HAN', 'BAD', 'WUR', 'HES'].includes(p.ownerTag)
-        || (p.ownerTag === 'AUS' && (p.stateName ?? p.name) === 'Bohemia'))
+        || (p.ownerTag === 'AUS' && (p.legacyStateName ?? p.stateName ?? p.name) === 'Bohemia'))
       .map((p) => p.stateId);
     transferStates(world, confedOutsideAustria, prussia);
 
@@ -208,7 +208,7 @@ describe('1.0-U1 — the Prussian unification arc', () => {
     world2.nations[france2].gpRank = Math.max(1, world2.nations[france2].gpRank);
     const southernCores = WORLD_SEED.provinces
       .filter((p) => ['BAV', 'BAD', 'WUR'].includes(p.ownerTag)
-        || (p.ownerTag === 'AUS' && (p.stateName ?? p.name) === 'Bohemia'))
+        || (p.ownerTag === 'AUS' && (p.legacyStateName ?? p.stateName ?? p.name) === 'Bohemia'))
       .map((p) => p.stateId);
     transferStates(world2, southernCores, prussia2);
     const austriaBefore = opinionBetween(world2, austria2, prussia2);
