@@ -1,6 +1,12 @@
 import { gunzipSync, gzipSync, strFromU8, strToU8 } from 'fflate';
 import { DEFAULT_SCENARIO, DEFAULT_SCENARIO_ID, loadScenario, type WorldSeedData } from '../data/generated';
-import type { GameDate, ScenarioId, World } from '../shared/types';
+import type { GameDate, ScenarioId, World, WorldMigrationReport } from '../shared/types';
+import {
+  LEGACY_MIGRATABLE_SCENARIOS,
+  LEGACY_PROVINCE_COUNT,
+  LEGACY_WORLD_SEED,
+  migrateLegacySave,
+} from './legacyMigration';
 import {
   exportDiplomacyRuntime,
   importDiplomacyRuntime,
@@ -21,6 +27,13 @@ const SAVE_VERSION = 1;
  */
 export const WORLD_CONTENT_SCHEMA_VERSION = 2;
 
+/**
+ * Schema version the legacy 387-province world's saves were fingerprinted with.
+ * Pinned separately so a future WORLD_CONTENT_SCHEMA_VERSION bump still
+ * recognizes (and migrates) those saves.
+ */
+export const LEGACY_WORLD_SCHEMA_VERSION = 2;
+
 /** Identity of the static world seed a save was written against. */
 export interface WorldFingerprint {
   schemaVersion: number;
@@ -34,7 +47,7 @@ export interface WorldFingerprint {
 interface SavePayload {
   version: number;
   createdAt: number;
-  /** Absent on pre-fingerprint saves — treated as unknown and accepted. */
+  /** Absent on pre-fingerprint saves: accepted when the map size matches, migrated when it is the legacy 387-province map. */
   worldFingerprint?: WorldFingerprint;
   world: World;
   runtimes: {
@@ -48,13 +61,16 @@ export interface SaveMetadata {
   createdAt: number;
   day: number;
   playerNation: number;
+  /** Set when the save was written against an older world map and migrated on load. */
+  migratedFrom?: string;
+  migration?: WorldMigrationReport;
 }
 
 function cloneWorld(world: World): World {
   return JSON.parse(JSON.stringify(world)) as World;
 }
 
-/** FNV-1a 32-bit over UTF-16 code units — cheap, deterministic, non-crypto. */
+/** FNV-1a 32-bit over UTF-16 code units: cheap, deterministic, non-crypto. */
 function fnv1aHex(text: string): string {
   let h = 2166136261;
   for (let i = 0; i < text.length; i += 1) {
@@ -67,7 +83,7 @@ function fnv1aHex(text: string): string {
 /**
  * Canonical seed identity used for hashing. Omits display-only / float-heavy
  * fields (names, lon/lat, colors) so the hash tracks ownership topology and
- * province count — the things that make old saves paint garbage on a rework.
+ * province count, the things that make old saves paint garbage on a rework.
  */
 function seedIdentityJson(seed: WorldSeedData): string {
   return JSON.stringify({
@@ -114,14 +130,55 @@ export function computeWorldFingerprint(
   seed: WorldSeedData = DEFAULT_SCENARIO.worldSeed,
   scenarioId?: ScenarioId,
   startDate?: GameDate,
+  schemaVersion: number = WORLD_CONTENT_SCHEMA_VERSION,
 ): WorldFingerprint {
   return {
-    schemaVersion: WORLD_CONTENT_SCHEMA_VERSION,
+    schemaVersion,
     provinceCount: seed.provinceCount,
     seedHash: fnv1aHex(seedIdentityJson(seed)),
     ...(scenarioId ? { scenarioId } : {}),
     ...(startDate ? { startDate } : {}),
   };
+}
+
+let legacyFingerprintCache: Map<string, WorldFingerprint> | null = null;
+
+/** Fingerprint of the legacy 387-province world for a scenario, as its saves recorded it. */
+export function computeLegacyWorldFingerprint(scenarioId: ScenarioId, startDate: GameDate): WorldFingerprint {
+  legacyFingerprintCache ??= new Map();
+  const key = `${scenarioId}|${JSON.stringify(startDate)}`;
+  let fingerprint = legacyFingerprintCache.get(key);
+  if (!fingerprint) {
+    fingerprint = computeWorldFingerprint(LEGACY_WORLD_SEED, scenarioId, startDate, LEGACY_WORLD_SCHEMA_VERSION);
+    legacyFingerprintCache.set(key, fingerprint);
+  }
+  return fingerprint;
+}
+
+/** True when a payload was written against the legacy 387-province world. */
+function isLegacyWorldPayload(payload: SavePayload): boolean {
+  const scenarioId = payload.world.scenarioId ?? DEFAULT_SCENARIO_ID;
+  if (!LEGACY_MIGRATABLE_SCENARIOS.includes(scenarioId)) return false;
+  if (payload.worldFingerprint == null) {
+    return payload.world.provinces?.length === LEGACY_PROVINCE_COUNT;
+  }
+  const startDate = payload.world.startDate ?? DEFAULT_SCENARIO.manifest.startDate;
+  return fingerprintsMatch(payload.worldFingerprint, computeLegacyWorldFingerprint(scenarioId, startDate));
+}
+
+/** Fill optional fields older saves may lack. Idempotent. */
+function healWorld(world: World): void {
+  world.scenarioId = world.scenarioId ?? DEFAULT_SCENARIO_ID;
+  world.startDate = world.startDate ?? { ...DEFAULT_SCENARIO.manifest.startDate };
+  if (!Array.isArray(world.rebellions)) world.rebellions = [];
+  if (!Number.isFinite(world.nextRebellionId)) world.nextRebellionId = 1;
+  if (!Array.isArray(world.pendingEvents)) world.pendingEvents = [];
+  if (!world.eventLastFired || typeof world.eventLastFired !== 'object') world.eventLastFired = {};
+  if (!world.decisionLastTaken || typeof world.decisionLastTaken !== 'object') world.decisionLastTaken = {};
+  if (!Number.isFinite(world.nextEventInstanceId)) world.nextEventInstanceId = 1;
+  for (const state of world.states ?? []) {
+    if (!Number.isFinite(state.unrestMonths)) state.unrestMonths = 0;
+  }
 }
 
 function fingerprintsMatch(a: WorldFingerprint, b: WorldFingerprint): boolean {
@@ -167,38 +224,37 @@ export function deserializeWorld(buffer: Uint8Array): { world: World; metadata: 
   if (!payload.world) {
     throw new Error('Unsupported or corrupted save payload.');
   }
-  // Missing fingerprint = pre-instrumentation save: accept (backward compat).
-  // Present-and-different = different world seed / province layout: reject loudly.
-  if (
-    payload.worldFingerprint != null &&
-    !fingerprintsMatch(
-      payload.worldFingerprint,
-      computeWorldFingerprint(
-        loadScenario(payload.world.scenarioId ?? DEFAULT_SCENARIO_ID).worldSeed,
-        payload.world.scenarioId ?? DEFAULT_SCENARIO_ID,
-        payload.world.startDate ?? DEFAULT_SCENARIO.manifest.startDate,
-      ),
-    )
-  ) {
-    throw new Error(
-      'This save was made against a different world and cannot be loaded. Start a new campaign instead.',
-    );
+  const scenarioId = payload.world.scenarioId ?? DEFAULT_SCENARIO_ID;
+  const currentFingerprint = computeWorldFingerprint(
+    loadScenario(scenarioId).worldSeed,
+    scenarioId,
+    payload.world.startDate ?? DEFAULT_SCENARIO.manifest.startDate,
+  );
+  const current = payload.worldFingerprint != null
+    ? fingerprintsMatch(payload.worldFingerprint, currentFingerprint)
+    // Pre-fingerprint save: accept it only if its map is the shipped map's size.
+    : payload.world.provinces?.length === currentFingerprint.provinceCount;
+
+  let world = payload.world;
+  let runtimes = payload.runtimes;
+  let migration: WorldMigrationReport | undefined;
+  if (!current) {
+    // Saves from the 387-province 1830 world (before world v8) are migrated onto
+    // the shipped map; saves from any other world are rejected loudly.
+    if (!isLegacyWorldPayload(payload)) {
+      throw new Error(
+        'This save was made against a different world and cannot be loaded. Start a new campaign instead.',
+      );
+    }
+    healWorld(world);
+    const migrated = migrateLegacySave(world, runtimes ?? {});
+    world = migrated.world;
+    runtimes = migrated.runtimes;
+    migration = migrated.report;
   }
-  const world = payload.world;
-  world.scenarioId = world.scenarioId ?? DEFAULT_SCENARIO_ID;
-  world.startDate = world.startDate ?? { ...DEFAULT_SCENARIO.manifest.startDate };
-  // Optional / self-healing fields (old saves fill in defaults).
-  if (!Array.isArray(world.rebellions)) world.rebellions = [];
-  if (!Number.isFinite(world.nextRebellionId)) world.nextRebellionId = 1;
-  if (!Array.isArray(world.pendingEvents)) world.pendingEvents = [];
-  if (!world.eventLastFired || typeof world.eventLastFired !== 'object') world.eventLastFired = {};
-  if (!world.decisionLastTaken || typeof world.decisionLastTaken !== 'object') world.decisionLastTaken = {};
-  if (!Number.isFinite(world.nextEventInstanceId)) world.nextEventInstanceId = 1;
-  for (const state of world.states ?? []) {
-    if (!Number.isFinite(state.unrestMonths)) state.unrestMonths = 0;
-  }
-  importDiplomacyRuntime(world, payload.runtimes?.diplomacy);
-  importWarRuntime(world, payload.runtimes?.war);
+  healWorld(world);
+  importDiplomacyRuntime(world, runtimes?.diplomacy);
+  importWarRuntime(world, runtimes?.war);
   return {
     world,
     metadata: {
@@ -206,6 +262,7 @@ export function deserializeWorld(buffer: Uint8Array): { world: World; metadata: 
       createdAt: payload.createdAt,
       day: world.day,
       playerNation: world.playerNation,
+      ...(migration ? { migratedFrom: migration.from, migration } : {}),
     },
   };
 }
