@@ -3,6 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { compileHistoricalWorld } from '../content/history/compileHistoricalWorld.mjs';
+import { makeProvinceLocator } from '../content/history/locateProvince.mjs';
 import { buildNationalBorders } from './lib/national-borders.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -19,7 +20,7 @@ const [seed, polities, ownership, anchors, provincesGeo] = await Promise.all([
   readJson(path.join(historyPath, 'anchors.json')),
   readJson(provincesPath),
 ]);
-const compiled = compileHistoricalWorld(seed, polities, ownership, anchors);
+const compiled = compileHistoricalWorld(seed, polities, ownership, anchors, makeProvinceLocator(provincesGeo));
 const output = `${JSON.stringify(compiled)}\n`;
 const bordersOutput = `${JSON.stringify(buildNationalBorders(provincesGeo, compiled))}\n`;
 

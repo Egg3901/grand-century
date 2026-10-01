@@ -5,7 +5,7 @@ let browserReady = true;
 
 const WORLD_SEED = JSON.parse(readFileSync(new URL('../../src/data/generated/worldSeed.json', import.meta.url), 'utf8')) as {
   provinceCount: number;
-  provinces: Array<{ name: string }>;
+  provinces: Array<{ name: string; ownerTag: string }>;
 };
 
 async function jumpTo(page: Page, center: [number, number], zoom: number) {
@@ -34,26 +34,19 @@ test.beforeAll(async () => {
 test('consolidated map: real names, not boxy Europe/China', async ({ page }) => {
   test.skip(!browserReady, 'Playwright browsers unavailable in this environment.');
 
-  expect(WORLD_SEED.provinceCount).toBeGreaterThanOrEqual(300);
-  expect(WORLD_SEED.provinceCount).toBeLessThanOrEqual(800);
+  // World v8: provinces are administrative units grouped to a density table
+  // and named after their principal 1830 town.
+  expect(WORLD_SEED.provinceCount).toBeGreaterThanOrEqual(1500);
+  expect(WORLD_SEED.provinceCount).toBeLessThanOrEqual(3000);
   expect(WORLD_SEED.provinces.every((province) => !/\s\d+$/.test(province.name))).toBe(true);
-
-  const chinaNames = new Set([
-    'Gansu', 'Qinghai', 'Guangxi', 'Guizhou', 'Chongqing', 'Beijing', 'Fujian', 'Anhui',
-    'Guangdong', 'Tibet', 'Xinjiang', 'Hainan', 'Ningxia', 'Shaanxi', 'Shanxi', 'Hubei',
-    'Hunan', 'Sichuan', 'Yunnan', 'Hebei', 'Henan', 'Liaoning', 'Shandong', 'Tianjin',
-    'Jiangxi', 'Jiangsu', 'Shanghai', 'Zhejiang', 'Jilin', 'Inner Mongolia', 'Heilongjiang',
-  ]);
-  const chinaCount = WORLD_SEED.provinces.filter((province) => chinaNames.has(province.name)).length;
-  expect(chinaCount).toBe(31);
-  expect(WORLD_SEED.provinces.some((province) => province.name === 'Bavaria')).toBe(true);
-  expect(WORLD_SEED.provinces.some((province) => province.name === 'Gansu')).toBe(true);
-  const frenchRegions = [
-    'Île-de-France', 'Normandy', 'Brittany', 'Guyenne', 'Gascony', 'Languedoc', 'Provence',
-  ];
-  for (const name of frenchRegions) {
-    expect(WORLD_SEED.provinces.some((province) => province.name === name)).toBe(true);
+  expect(new Set(WORLD_SEED.provinces.map((province) => province.name)).size).toBe(WORLD_SEED.provinceCount);
+  const ownerOf = (name: string) => WORLD_SEED.provinces.find((province) => province.name === name)?.ownerTag;
+  for (const [name, tag] of [['Beijing', 'QNG'], ['Canton', 'QNG'], ['Munich', 'BAV'], ['Edo', 'JPN']] as const) {
+    expect(ownerOf(name), name).toBe(tag);
   }
+  const frenchRegions = WORLD_SEED.provinces.filter((province) => province.ownerTag === 'FRA').map((province) => province.name);
+  for (const name of ['Paris', 'Lyon', 'Marseille', 'Bordeaux']) expect(frenchRegions).toContain(name);
+  expect(frenchRegions.length).toBeGreaterThan(60);
   expect(WORLD_SEED.provinces.some((province) => province.name === 'France')).toBe(false);
 
   await page.goto('/');

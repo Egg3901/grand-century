@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1830-01-01",
+  "resolutions": [
+    {
+      "relationId": 2692575,
+      "action": "cliopatria_fallback",
+      "sourceRecords": [
+        124
+      ],
+      "geometryHashes": [
+        "2a9a081e09737102694618a15019a42563820fc79d668543760f967f831c715b"
+      ],
+      "reason": "The exact-date Free City of Krakow relation has two unclosed chains with 0.30 and 0.41 degree endpoint gaps; the hash-pinned Cliopatria Free City of Krakow polygon supplies the reviewed fallback."
+    },
+    {
+      "relationId": 2692576,
+      "action": "close_outer_chain",
+      "maxGapDegrees": 0.01,
+      "reason": "Congress Poland has one unclosed outer chain whose endpoints are 0.0088 degrees apart near the Bug river; closing it under a 0.01 degree threshold restores the exact-date polygon."
+    },
+    {
+      "relationId": 2827168,
+      "action": "skip_nonexclusive",
+      "reason": "The Sarawak relation has no closed rings. Sarawak is a constituent province of Brunei on 1830-01-01, so no exclusive geometry is lost."
+    },
+    {
+      "relationId": 2847907,
+      "action": "skip_duplicate_source",
+      "reason": "This is a chronology container. The same reviewed Sindh identity has valid exact-date boundary relation 2922476."
+    },
+    {
+      "relationId": 2889977,
+      "action": "cliopatria_fallback",
+      "sourceRecords": [
+        112
+      ],
+      "geometryHashes": [
+        "1717eb0c840b74ac06c9573af3aa03bee9f7977fe05c0e6f4e81d4e0a31d5013"
+      ],
+      "reason": "The exact-date Qing relation has eight unclosed chains with gaps up to 17 degrees; the hash-pinned Cliopatria Qing polygon supplies the reviewed fallback."
+    },
+    {
+      "relationId": 2916014,
+      "action": "cliopatria_fallback",
+      "sourceRecords": [
+        146
+      ],
+      "geometryHashes": [
+        "8e05a713d1adf92789a4de8e8c33443704652edfc657dd835b7ee0b872592262"
+      ],
+      "reason": "The exact-date Austrian Empire relation has one unclosed chain; a 0.01 degree closure leaves an inner ring outside every outer ring, so the hash-pinned Cliopatria Austrian Empire polygon supplies the reviewed fallback."
+    }
+  ]
+}

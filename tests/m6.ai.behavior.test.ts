@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { simTimeout } from './simTimeout';
 import { GAME_DATA } from '../src/data/gameData';
 import { createWorld } from '../src/sim/bootstrap';
 import { advanceDay } from '../src/sim/world';
@@ -132,6 +133,6 @@ describe('M6 AI behavior quality', () => {
     expect(combined.wars).toBeGreaterThanOrEqual(20);
     expect(combined.resolved).toBeGreaterThanOrEqual(Math.floor(combined.wars * 0.5));
     expect(combined.changed).toBeGreaterThanOrEqual(40);
-  }, 180_000);
+  }, simTimeout(180_000));
 });
 

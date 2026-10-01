@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1830-01-01",
+  "filters": [
+    {
+      "polityKey": "GRE",
+      "sourceRecord": 130,
+      "action": "keep_components_within",
+      "bounds": [
+        19.5,
+        36.0,
+        26.5,
+        39.6
+      ],
+      "reason": "Keep the mainland, Euboea and Cycladic components of the Hellenic State. Crete stays Ottoman under the London Protocol, and a 45 km2 component in the Rhineland is a source artifact."
+    },
+    {
+      "polityKey": "NETHERLANDS_ANTILLES",
+      "sourceRecord": 69,
+      "action": "keep_components_within",
+      "bounds": [
+        -71.0,
+        11.5,
+        -62.0,
+        18.6
+      ],
+      "reason": "Keep the Dutch Caribbean islands; Suriname is supplied by its own OHM relation."
+    },
+    {
+      "polityKey": "DANISH_INDIA",
+      "sourceRecord": 20,
+      "action": "keep_components_within",
+      "bounds": [
+        75.0,
+        8.0,
+        90.0,
+        24.0
+      ],
+      "reason": "Keep Tranquebar and Serampore; the Gold Coast component duplicates the OHM Danish Gold Coast relation."
+    },
+    {
+      "polityKey": "STRAITS_SETTLEMENTS",
+      "sourceRecord": 144,
+      "action": "keep_components_within",
+      "bounds": [
+        99.5,
+        0.9,
+        104.5,
+        6.0
+      ],
+      "reason": "Keep only the Penang, Province Wellesley, Malacca and Singapore components of the British colonial record."
+    },
+    {
+      "polityKey": "STRAITS_SETTLEMENTS",
+      "sourceRecord": 116,
+      "action": "omit_record",
+      "reason": "British India record; Company territory is supplied by the OHM Company Raj relation."
+    },
+    {
+      "polityKey": "STRAITS_SETTLEMENTS",
+      "sourceRecord": 138,
+      "action": "omit_record",
+      "reason": "Whole British Empire record; every other component duplicates reviewed OHM colony geometry."
+    }
+  ]
+}

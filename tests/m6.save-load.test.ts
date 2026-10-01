@@ -5,6 +5,7 @@ import { applyCommand } from '../src/sim/commands';
 import { deserializeWorld, serializeWorld } from '../src/sim/persistence';
 import { buildSnapshot } from '../src/sim/snapshot';
 import { advanceDay } from '../src/sim/world';
+import { simTimeout } from './simTimeout';
 
 function noopPost() {
   // command sink for deterministic tests
@@ -42,6 +43,6 @@ describe('M6 save/load hardening', () => {
     }
 
     expect(buildSnapshot(resumed, GAME_DATA)).toEqual(buildSnapshot(baseline, GAME_DATA));
-  }, 60_000);
+  }, simTimeout(60_000));
 });
 

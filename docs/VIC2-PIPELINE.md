@@ -1,5 +1,10 @@
 # The Victoria II map pipeline
 
+> **Superseded.** The runtime map is now built by the world v8 pipeline in
+> `content/world-v8/` from geoBoundaries administrative units and the dated
+> scenario border layers. This document describes the retired Vic2-region build.
+
+
 Grand Century's province map is cut to **Victoria II's 549 state regions**, with
 geometry from Natural Earth and ownership from Vic2's own province history,
 rolled back to 1 January 1830.

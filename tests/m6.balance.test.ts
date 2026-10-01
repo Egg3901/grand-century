@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { simTimeout } from './simTimeout';
 import { GAME_DATA } from '../src/data/gameData';
 import { createWorld } from '../src/sim/bootstrap';
 import { runCampaignMetrics } from '../src/sim/seasonReport';
@@ -39,13 +40,13 @@ describe('M6 balance envelope', () => {
       expect(summary.peakActiveRebellions).toBeLessThanOrEqual(12);
       expect(summary.peakRebelArmies).toBeLessThanOrEqual(32);
     }
-  }, 320_000);
+  }, simTimeout(320_000));
 
   it('is deterministic for repeated same-seed campaigns', () => {
     const first = runCampaignMetrics(GAME_DATA, 6602, 30);
     const second = runCampaignMetrics(GAME_DATA, 6602, 30);
     expect(second).toEqual(first);
-  }, 220_000);
+  }, simTimeout(220_000));
 
   it('keeps a fed and reformed nation rebellion-free', () => {
     const world = createWorld(GAME_DATA, 6626);
@@ -74,6 +75,6 @@ describe('M6 balance envelope', () => {
     const playerRebelArmies = world.armies.filter((army) => army.rebel && army.hostileTo === player && army.regiments.length > 0);
     expect(playerRebellions).toHaveLength(0);
     expect(playerRebelArmies).toHaveLength(0);
-  }, 220_000);
+  }, simTimeout(220_000));
 });
 

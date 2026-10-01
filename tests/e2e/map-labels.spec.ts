@@ -126,7 +126,7 @@ test('map shows reliable labels and clear borders', async ({ page }) => {
   await page.goto('/');
   await page.getByTestId('menu-new-game').click();
   await expect(page.locator('.menu-overlay')).toBeHidden({ timeout: 10_000 });
-  await expect(page.locator('.grand-map__country-label').first()).toBeVisible({ timeout: 15_000 });
+  await expect(page.locator('.grand-map__country-label').first()).toBeVisible({ timeout: 90_000 });
 
   const majors = [
     'United Kingdom',
@@ -137,7 +137,7 @@ test('map shows reliable labels and clear borders', async ({ page }) => {
     'France',
     'Austrian Empire',
     'Spain',
-    'Kingdom of Brazil',
+    'Brazil',
   ];
   mkdirSync('artifacts', { recursive: true });
   await jumpTo(page, [0, 22], 1.25);

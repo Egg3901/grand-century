@@ -8,7 +8,11 @@ import {
   buildCandidateCrosswalk,
   loadScenarioRosterFiles,
 } from '../content/sources/roster/compiler.mjs';
-import { validateGeometryResolutions, validateGeometrySupplements } from '../content/sources/geometry/compiler.mjs';
+import {
+  validateGeometryComponentFilters,
+  validateGeometryResolutions,
+  validateGeometrySupplements,
+} from '../content/sources/geometry/compiler.mjs';
 import { compileRelationships } from '../content/sources/relationships/compiler.mjs';
 
 const root = process.cwd();
@@ -105,6 +109,11 @@ async function validateGeometryAudit(id) {
     { schemaVersion: 1, asOf: id, entries: [] },
   );
   validateGeometrySupplements({ asOf: id, roster, supplements, audit: supplementAudit });
+  const componentFilters = await readOptionalJson(
+    path.join(scenarioDir, 'sources', 'geometry-component-filters.json'),
+    { schemaVersion: 1, asOf: id, filters: [] },
+  );
+  validateGeometryComponentFilters({ asOf: id, roster, filters: componentFilters });
   return {
     valid: audit.entries.length - invalid.length,
     total: audit.entries.length,
@@ -157,6 +166,18 @@ async function validateCompiledBorders(id) {
     path.join(scenarioDir, 'sources', 'geometry-supplements.json'),
     { supplements: [] },
   );
+  const componentFilters = await readOptionalJson(
+    path.join(scenarioDir, 'sources', 'geometry-component-filters.json'),
+    { filters: [] },
+  );
+  for (const filter of componentFilters.filters ?? []) {
+    requireValue(
+      compiled.provenance.some((entry) => entry.polityKey === filter.polityKey
+        && entry.sourceRecord === filter.sourceRecord
+        && entry.componentFilter?.action === filter.action),
+      `${id} compiled borders omit component filter provenance for ${filter.polityKey} record ${filter.sourceRecord}`,
+    );
+  }
   for (const supplement of supplements.supplements ?? []) {
     requireValue(
       compiled.provenance.some((entry) => entry.relationId === supplement.relationId
@@ -240,6 +261,13 @@ async function validateCompiledSeed(id, manifest) {
     const source = provinceOverrides.overrides.find((override) => override.provinceId === assignment.provinceId);
     requireValue(source?.polityKey === assignment.polityKey, `${id} explicit province assignment changed owner`);
     requireValue(Boolean(assignment.notes && assignment.reviewedBy && assignment.reviewedAt), `${id} explicit province assignment lacks review provenance`);
+  }
+  for (const assignment of diagnostics.regionFillAssignments ?? []) {
+    const province = worldSeed.provinces[assignment.provinceId];
+    const fill = (provinceOverrides.regionFills ?? []).find(({ bounds: [w, s, e, n] }) =>
+      province.lon >= w && province.lon <= e && province.lat >= s && province.lat <= n);
+    requireValue(fill?.polityKey === assignment.polityKey && province.ownerTag === assignment.polityKey, `${id} region fill assignment is stale`);
+    requireValue(Boolean(fill.notes && provinceOverrides.reviewedBy && provinceOverrides.reviewedAt), `${id} region fill lacks review provenance`);
   }
   const represented = worldSeed.nations.filter((nation) => nation.tag !== 'UNC').length;
   requireValue(diagnostics.representedRosterPolities === represented, `${id} represented-polity count is stale`);
@@ -398,11 +426,13 @@ for (const id of catalog.scenarios) {
     continue;
   }
   await validateOhmSpec(id);
-  if (id !== '1830-01-01') {
+  {
     await validateRoster(id, manifest);
     geometryAudits.push({ id, ...await validateGeometryAudit(id) });
     await validateCompiledBorders(id);
-    seedAudits.push(await validateCompiledSeed(id, manifest));
+    // The playable 1830 campaign still runs on the legacy generated seed; its source pack
+    // feeds the province mesh rebuild and has no compiled scenario seed yet.
+    if (id !== '1830-01-01') seedAudits.push(await validateCompiledSeed(id, manifest));
     const files = await loadScenarioRosterFiles(path.join(scenariosRoot, id));
     await validateCliopatria(id, files);
     rosterAudits.push(auditRosterReview(files));

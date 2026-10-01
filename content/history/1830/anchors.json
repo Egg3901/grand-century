@@ -5,62 +5,82 @@
     {
       "id": "algiers-still-ottoman",
       "kind": "province",
-      "provinceName": "Algiers",
-      "ownerTag": "ALG"
+      "ownerTag": "ALG",
+      "lon": 3.04,
+      "lat": 36.7,
+      "place": "Algiers"
     },
     {
       "id": "texas-still-mexican",
       "kind": "province",
-      "provinceName": "Texas",
-      "ownerTag": "MEX"
+      "ownerTag": "MEX",
+      "lon": -98.49,
+      "lat": 29.42,
+      "place": "Texas"
     },
     {
       "id": "flanders-still-dutch",
       "kind": "province",
-      "provinceName": "Vlaanderen",
-      "ownerTag": "NLD"
+      "ownerTag": "NLD",
+      "lon": 3.72,
+      "lat": 51.05,
+      "place": "Vlaanderen"
     },
     {
       "id": "syria-still-ottoman",
       "kind": "province",
-      "provinceName": "Syria",
-      "ownerTag": "OTT"
+      "ownerTag": "OTT",
+      "lon": 36.29,
+      "lat": 33.51,
+      "place": "Syria"
     },
     {
       "id": "congress-poland-exists",
       "kind": "province",
-      "provinceName": "Mazowieckie",
-      "ownerTag": "POL"
+      "ownerTag": "POL",
+      "lon": 21.01,
+      "lat": 52.23,
+      "place": "Mazowieckie"
     },
     {
       "id": "gran-colombia-intact",
       "kind": "province",
-      "provinceName": "Ecuador",
-      "ownerTag": "CLM"
+      "ownerTag": "CLM",
+      "lon": -78.47,
+      "lat": -0.18,
+      "place": "Ecuador"
     },
     {
       "id": "alaska-is-russian",
       "kind": "province",
-      "provinceName": "Alaska",
-      "ownerTag": "RUS"
+      "ownerTag": "RUS",
+      "lon": -135.33,
+      "lat": 57.05,
+      "place": "Alaska"
     },
     {
       "id": "egypt-holds-the-nile",
       "kind": "province",
-      "provinceName": "Lower Egypt",
-      "ownerTag": "EGY"
+      "ownerTag": "EGY",
+      "lon": 31.24,
+      "lat": 30.04,
+      "place": "Lower Egypt"
     },
     {
       "id": "greece-is-independent",
       "kind": "province",
-      "provinceName": "Peloponnese",
-      "ownerTag": "GRE"
+      "ownerTag": "GRE",
+      "lon": 22.37,
+      "lat": 37.51,
+      "place": "Peloponnese"
     },
     {
       "id": "serbia-is-autonomous",
       "kind": "province",
-      "provinceName": "Northern Serbia",
-      "ownerTag": "SER"
+      "ownerTag": "SER",
+      "lon": 20.91,
+      "lat": 44.01,
+      "place": "Northern Serbia"
     },
     {
       "id": "poland-is-russian-constituent",

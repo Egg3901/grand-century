@@ -4,6 +4,7 @@ import { createWorld } from '../src/sim/bootstrap';
 import { Rng } from '../src/sim/rng';
 import { runPopsMonthly } from '../src/sim/systems/pops';
 import { advanceDay } from '../src/sim/world';
+import { simTimeout } from './simTimeout';
 
 function disableAi(world: ReturnType<typeof createWorld>) {
   for (const nation of world.nations) nation.isPlayer = true;
@@ -76,7 +77,7 @@ describe('M2 economy loop', () => {
       if (world.nations[nationId].isBankrupt) sawBankruptcy = true;
     }
     expect(sawBankruptcy).toBe(true);
-  }, 60_000);
+  }, simTimeout(60_000));
 
   it('grows well-fed pops and shrinks starving pops', () => {
     const world = createWorld(GAME_DATA, 99);
@@ -108,5 +109,5 @@ describe('M2 economy loop', () => {
     const treasuryA = a.nations[a.playerNation].treasury;
     const treasuryB = b.nations[b.playerNation].treasury;
     expect(treasuryA).toBeCloseTo(treasuryB, 9);
-  }, 60_000);
+  }, simTimeout(60_000));
 });

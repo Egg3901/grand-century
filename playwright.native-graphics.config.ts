@@ -3,7 +3,9 @@ export default defineConfig({
   testDir: "./tests/native-graphics",
   testMatch: "*.spec.ts",
   workers: 1,
-  timeout: 60000,
+  // World v8 doubles software-GL startup on CI's GPU-less runners.
+  timeout: 180000,
+  expect: { timeout: 60000 },
   use: {
     baseURL: "http://127.0.0.1:1436",
     viewport: { width: 430, height: 932 },

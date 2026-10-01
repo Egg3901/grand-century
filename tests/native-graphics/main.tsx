@@ -3,6 +3,8 @@ import { createRoot } from "react-dom/client";
 import App from "../../apps/mobile/App";
 import { UnitCounterHarness } from "./unit-counter-harness";
 import TerrainMap from "../../apps/mobile/game/TerrainMap";
+import { hydrateFiles } from "./native-services";
+await hydrateFiles();
 createRoot(document.getElementById("root")!).render(
   location.search.includes("units") ? (
     <UnitCounterHarness />

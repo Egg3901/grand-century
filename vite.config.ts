@@ -43,7 +43,9 @@ const RESOLVED_VIRTUAL_GENERATED_GEO = `\0${VIRTUAL_GENERATED_GEO}`;
  * Override via GENERATED_GEO_BUDGET_BYTES_<KEY> (e.g. PROVINCES) for probes.
  */
 const GENERATED_GEO_BUDGETS_BYTES = {
-  provinces: Number(process.env.GENERATED_GEO_BUDGET_BYTES_PROVINCES) || 5 * 1024 * 1024,
+  // World v8: ~2,100 provinces at topology-preserving 4% detail, 7.5 MB raw
+  // (2.6 MB gzip). Runtime-cached, not precached; Pages allows 25 MiB per file.
+  provinces: Number(process.env.GENERATED_GEO_BUDGET_BYTES_PROVINCES) || 8 * 1024 * 1024,
   nationalBorders: Number(process.env.GENERATED_GEO_BUDGET_BYTES_NATIONALBORDERS) || 3 * 1024 * 1024,
   rivers: Number(process.env.GENERATED_GEO_BUDGET_BYTES_RIVERS) || 1 * 1024 * 1024,
   lakes: Number(process.env.GENERATED_GEO_BUDGET_BYTES_LAKES) || 1 * 1024 * 1024,
@@ -218,8 +220,9 @@ export default defineConfig({
         globIgnores: ['**/generated/**', '**/sim.worker-*.js', '**/terrain-atlas*.js'],
         navigateFallback: 'index.html',
         navigateFallbackDenylist: [/^\/api/],
-        // Shell chunks stay under 2 MiB; geo is asserted separately above.
-        maximumFileSizeToCacheInBytes: 2 * 1024 * 1024,
+        // Shell chunks stay under 3 MiB (the map chunk carries the bundled
+        // v8 world seeds, about 2.2 MB); geo is asserted separately above.
+        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         runtimeCaching: [
           {
             urlPattern: ({ url }) => /\/terrain\/terrain-atlas-high-(height|surface|normals|province)-[a-f0-9]+\.txt$/.test(url.pathname),
@@ -233,7 +236,7 @@ export default defineConfig({
           },
           {
             // Optional 3D atlas loads only when selected; 2D pays no download cost.
-            urlPattern: ({ url }) => /\/assets\/terrain-atlas(?:-(?:high|detail|material|coast))?-[^/]+\.js$/.test(url.pathname),
+            urlPattern: ({ url }) => /\/assets\/terrain-atlas(?:-(?:high|detail|material|coast|provinces))?-[^/]+\.js$/.test(url.pathname),
             handler: 'CacheFirst',
             options: { cacheName: 'gc-terrain-atlas', expiration: { maxEntries: 8, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
           },
@@ -288,6 +291,9 @@ export default defineConfig({
           if (id.endsWith('/graphics/terrain-detail.json')) return 'terrain-atlas-detail';
           if (id.endsWith('/graphics/terrain-material.json')) return 'terrain-atlas-material';
           if (id.endsWith('/graphics/physical-land.json')) return 'terrain-atlas-coast';
+          // The 3D renderer samples full province polygons (7 MB on the v8
+          // mesh): runtime-cached with the other terrain chunks, not precached.
+          if (id.endsWith('/data/generated/provinces.geo.json')) return 'terrain-atlas-provinces';
           // Split the former 1.3 MB map monolith: MapLibre is large and stable;
           // GrandMap changes with game UI and should hash independently.
           if (id.includes('maplibre-gl') || id.includes('node_modules/maplibre')) return 'maplibre';

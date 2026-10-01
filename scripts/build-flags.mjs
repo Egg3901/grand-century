@@ -324,6 +324,43 @@ Object.assign(FLAGS, {
   KOK: field(CR) + `<rect x="0" y="16" width="60" height="8" fill="${G}"/>` + star5(30, 20, 4, Y),
 });
 
+// ---- World v8: 1830 polities that gained a game nation ------------------
+// Only flags documented for 1830 are drawn here. Every other new nation in
+// content/world-v8/new-nations-1830.json takes the neutral procedural banner,
+// and the file records which treatment each tag gets.
+function bremenSpeck() {
+  let out = '';
+  for (let i = 0; i < 8; i++) out += rect(0, i * 5, WIDTH, 5, i % 2 === 0 ? R : W);
+  for (let i = 0; i < 8; i++) {
+    out += rect(0, i * 5, 5, 5, i % 2 === 0 ? W : R) + rect(5, i * 5, 5, 5, i % 2 === 0 ? R : W);
+  }
+  return out;
+}
+
+function maldivesHoist() {
+  let out = field(R);
+  for (let i = -2; i < 10; i++) {
+    const y = i * 5;
+    out += `<polygon points="0,${y + 5} 10,${y} 10,${y + 5} 0,${y + 10}" fill="${i % 2 === 0 ? K : W}"/>`;
+  }
+  return out;
+}
+
+Object.assign(FLAGS, {
+  COS: hstripes([B, W, B]), // Federal Republic of Central America, of which Costa Rica is a state
+  BHR: field(R) + rect(0, 0, 15, HEIGHT, W), // white hoist added after the 1820 treaty
+  MDV: maldivesHoist(), // plain red with the black and white hoist; the crescent came later
+  MON: field(R) + rect(27, 8, 6, 24, W) + rect(20, 17, 20, 6, W),
+  OLD: field(B) + rect(26, 0, 8, HEIGHT, R) + rect(0, 16, WIDTH, 8, R),
+  NAS: hstripes([O, B]),
+  LIP: hstripes([Y, R]),
+  WDK: hstripes([K, R, Y]),
+  WEI: hstripes([K, Y, G]),
+  MEI: hstripes([G, W]),
+  BRE: bremenSpeck(),
+  SMR: hstripes([W, LB]),
+});
+
 // ---- Fallback flags for the Vic2 region cut -----------------------------
 // Cutting provinces to Vic2's state regions brought in dozens of minor polities
 // (Chinese and Indian substates, Malay sultanates, Arabian emirates) that have
@@ -350,6 +387,8 @@ if (existsSync(scenarioSeedRoot)) {
   }
 }
 const seeds = seedPaths.map((seedPath) => JSON.parse(readFileSync(seedPath, 'utf8')));
+// Hand-drawn designs, captured before any colour-derived fallback is added.
+const HAND_DRAWN = new Set(Object.keys(FLAGS));
 let generated = 0;
 for (const seed of seeds) {
   for (const nation of seed.nations) {
@@ -370,6 +409,24 @@ for (const scenarioId of readdirSync(scenarioContentRoot)) {
       64 + (bytes[0] % 144), 64 + (bytes[1] % 144), 64 + (bytes[2] % 144),
     ]);
     generated += 1;
+  }
+}
+
+// World v8 new nations: the hand-drawn set above must match the file's
+// flagSource exactly, so a design is never silently replaced by a banner.
+const newNationsPath = path.join(root, 'content/world-v8/new-nations-1830.json');
+if (existsSync(newNationsPath)) {
+  const { nations } = JSON.parse(readFileSync(newNationsPath, 'utf8'));
+  for (const nation of nations) {
+    const drawn = HAND_DRAWN.has(nation.tag);
+    if (nation.flagSource === 'historical' && !drawn) {
+      throw new Error(`${nation.tag}: flagSource historical but no design in build-flags.mjs`);
+    }
+    if (nation.flagSource === 'procedural') {
+      if (drawn) throw new Error(`${nation.tag}: flagSource procedural but a design exists in build-flags.mjs`);
+      FLAGS[nation.tag] = fallbackFlag(nation.color);
+      generated += 1;
+    }
   }
 }
 

@@ -1,3 +1,4 @@
+import { provinceScale } from './geography';
 import { gpRankFor } from '../shared/greatPowers';
 import type {
   BudgetLine,
@@ -364,10 +365,8 @@ export const PLACEHOLDER_NAME_RULES: Record<string, string> = {
   'West Sahara': 'african',
   'Libyan Desert': 'african',
   'Inner Mauritania': 'african',
-  // Pacific: Vic2's island coordinates are unreliable (the map is hand-drawn,
-  // not projected), so these are named rather than boxed.
-  Fiji: 'polynesian',
-  Kiribati: 'polynesian',
+  // Pacific islands are boxed by coordinate in placeholderCultureFor now that
+  // province positions are real geography; these names remain for the old cut.
   'Western Polynesia': 'polynesian',
   'Northern New Guinea': 'polynesian',
   'Southern New Guinea': 'polynesian',
@@ -376,7 +375,6 @@ export const PLACEHOLDER_NAME_RULES: Record<string, string> = {
   // Mongols, Tibetans and Kazakhs.
   'Inner Chukotka': 'central_asian',
   'North Siberia': 'central_asian',
-  Sakhalin: 'central_asian',
   // The North American interior is not empty and is not American yet.
   'Northwest Territories': 'indigenous_american',
   'Yukon Territory': 'indigenous_american',
@@ -423,9 +421,16 @@ export const PLACEHOLDER_RELIGION_RULES: Record<string, string> = {
 function placeholderCultureFor(name: string, lon: number, lat: number): string | null {
   const named = PLACEHOLDER_NAME_RULES[name];
   if (named) return named;
+  // Oceania and New Guinea, before the Malay box that would otherwise take them.
+  if ((lon >= 160 || lon <= -120) && lat >= -50 && lat <= 30) return 'polynesian';
+  if (lon >= 130 && lon <= 160 && lat >= -12 && lat <= 0) return 'polynesian';
   if (lon >= -20 && lon <= 52 && lat >= -36 && lat <= 20) return 'african';
   if (lon >= 95 && lon <= 170 && lat >= -12 && lat <= 25) return 'malay';
   if (lon >= -100 && lon <= -55 && lat >= -60 && lat <= 30) return 'latin_american';
+  // Siberia's peoples share the steppe bucket; the North American interior
+  // and Arctic are not empty and not yet settled.
+  if (lon >= 60 && lat >= 50) return 'central_asian';
+  if (lon <= -52 && lat >= 25) return 'indigenous_american';
   return null;
 }
 /**
@@ -690,6 +695,7 @@ function createStates(worldSeed: WorldSeedData, tagToNationId: Record<string, nu
 }
 
 function createProvinces(worldSeed: WorldSeedData, rng: Rng, tagToNationId: Record<string, number>): { provinces: Province[]; runtime: ProvinceSeedRuntime[] } {
+  const scale = provinceScale(worldSeed.provinces.length);
   const provinces: Province[] = [];
   const runtime: ProvinceSeedRuntime[] = [];
   const validIds = new Set(worldSeed.provinces.map((province) => province.id));
@@ -699,8 +705,9 @@ function createProvinces(worldSeed: WorldSeedData, rng: Rng, tagToNationId: Reco
     const controller = seed.controllerTag ? (tagToNationId[seed.controllerTag] ?? owner) : owner;
     const terrain = seed.terrain as Terrain;
     const recipe = RGO_GOOD_TO_RECIPE[seed.rgoGood] ?? RGO_RECIPES[seed.id % RGO_RECIPES.length];
-    const level = clamp(1 + Math.round(seed.populationWeight * 1.6), 1, 5);
-    const employed = Math.max(800, Math.floor((1200 + rng.next() * 2400) * seed.populationWeight));
+    // Floors are per reference province; a v8 province is a fraction of one.
+    const level = clamp(1 + Math.round((seed.populationWeight / scale) * 1.6), 1, 5);
+    const employed = Math.max(Math.floor(800 * scale), Math.floor((1200 + rng.next() * 2400) * seed.populationWeight));
     provinces.push({
       id: seed.id,
       name: seed.name,
@@ -724,7 +731,7 @@ function createProvinces(worldSeed: WorldSeedData, rng: Rng, tagToNationId: Reco
     });
     runtime.push({
       id: seed.id,
-      weight: Math.max(0.2, seed.populationWeight),
+      weight: Math.max(0.2 * scale, seed.populationWeight),
     });
   }
   return { provinces, runtime };
@@ -794,7 +801,7 @@ interface CultureSlice {
  * Deterministic (pure function of the baked seed + game data).
  */
 function provinceCultureSlices(
-  seed: { name: string; ownerTag: string; lon: number; lat: number; neighbors: number[] },
+  seed: { name: string; ownerTag: string; lon: number; lat: number; neighbors: number[]; legacyName?: string | null },
   nations: Nation[],
   ownerId: number,
   religionByNation: number[],
@@ -810,16 +817,20 @@ function provinceCultureSlices(
     return key ? religionIndex(data, key) : primaryReligion;
   };
 
+  // Culture content is keyed by region name. World v8 provinces carry the
+  // name of their dominant pre-v8 predecessor, so those keys keep applying.
+  const regionKey = seed.legacyName ?? seed.name;
+
   // Native population under map-placeholder tags: one homogeneous native slice.
   if (PLACEHOLDER_TAGS.has(seed.ownerTag)) {
-    const nativeKey = placeholderCultureFor(seed.name, seed.lon, seed.lat);
+    const nativeKey = placeholderCultureFor(regionKey, seed.lon, seed.lat);
     const native = nativeKey ? cultureIndex(data, nativeKey, primary) : primary;
-    const override = PLACEHOLDER_RELIGION_RULES[seed.name];
+    const override = PLACEHOLDER_RELIGION_RULES[regionKey];
     return [{ culture: native, religion: cultureReligion(native, override), weight: 1 }];
   }
 
-  const rules = MINORITY_RULES[seed.name]
-    ?? colonialMinorityFor(seed.ownerTag, seed.name, seed.lon, seed.lat)
+  const rules = MINORITY_RULES[regionKey]
+    ?? colonialMinorityFor(seed.ownerTag, regionKey, seed.lon, seed.lat)
     ?? [];
   const slices: CultureSlice[] = [];
   let minorityTotal = 0;
@@ -885,8 +896,9 @@ function createPops(worldSeed: WorldSeedData, worldProvinces: Province[], provin
       ? provinceCultureSlices(seed, nations, province.owner, religionByNation, provinceOwnerBySeedId, data)
       : [{ culture: nation.primaryCulture, religion, weight: 1 }];
     const plurality = slices[0];
-    const density = Math.max(0.3, weight * (province.terrain === 'desert' ? 0.62 : 1));
-    const basePopulation = Math.max(2200, Math.floor((7000 + rng.next() * 16000) * density));
+    const scale = provinceScale(worldProvinces.length);
+    const density = Math.max(0.3 * scale, weight * (province.terrain === 'desert' ? 0.62 : 1));
+    const basePopulation = Math.max(2200 * scale, Math.floor((7000 + rng.next() * 16000) * density));
     const sizeShareByType: Record<PopType, number> = {
       farmer: 0.42,
       laborer: 0.27,
@@ -902,7 +914,7 @@ function createPops(worldSeed: WorldSeedData, worldProvinces: Province[], provin
     for (let i = 0; i < POP_TYPES.length; i++) {
       const type = POP_TYPES[i];
       const share = sizeShareByType[type] ?? 0.05;
-      const typeSize = Math.max(80, Math.floor(basePopulation * share * (0.9 + rng.next() * 0.25)));
+      const typeSize = Math.max(Math.max(10, Math.round(80 * scale)), Math.floor(basePopulation * share * (0.9 + rng.next() * 0.25)));
       // Soldiers serve the crown; local elites belong to the local plurality.
       const cohorts: CultureSlice[] = type === 'soldier'
         ? [{ culture: nation.primaryCulture, religion, weight: 1 }]

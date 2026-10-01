@@ -16,6 +16,28 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  unit:
+    # The world v8 map (2,141 provinces) roughly triples simulation cost, so the
+    # unit suite runs as parallel shards instead of inside the checks job.
+    name: Unit tests (${{ matrix.shard }}/3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            apps/mobile/package-lock.json
+      - run: npm ci
+      - run: npm ci --prefix apps/mobile
+      - run: npm test -- --maxWorkers=2 --shard=${{ matrix.shard }}/3
   checks:
     name: Web and mobile checks
     runs-on: ubuntu-latest
@@ -34,7 +56,6 @@ jobs:
       - run: node --test scripts/project-mobile-relief.test.mjs scripts/mobile-flags.test.mjs
       - run: npm run mobile:typecheck
       - run: npm --prefix apps/mobile run bundle:workers:ios
-      - run: npm test -- --maxWorkers=2
       - run: npm run build
         env:
           VITE_BASE: /games/grand-century/
@@ -47,6 +68,13 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test --config playwright.graphics.config.ts
       - run: npx playwright test --config playwright.native-graphics.config.ts
+      - name: Retain browser test evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-artifacts
+          path: artifacts/
+          if-no-files-found: ignore
   ios:
     name: iOS simulator render
     runs-on: macos-26

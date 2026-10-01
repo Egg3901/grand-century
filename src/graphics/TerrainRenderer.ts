@@ -41,6 +41,9 @@ import {
   type View,
 } from "./terrainData";
 
+/** Province palette width: the most provinces the 3D renderer can color. */
+export const PALETTE_WIDTH = 4096;
+
 const vertex = `
 precision highp float;
 precision highp sampler2D;
@@ -109,7 +112,7 @@ float idAt(vec2 p) {
   if(inLocal(p)>.5) return decodeId(texture2D(localProvinces,(p-localBounds.xy)/localBounds.zw).ra);
   return decodeId(texture2D(provinces,p).ra);
 }
-float ownerAt(float id) { return decodeId(texture2D(palette,vec2((id-.5)/1024.0,.75)).ra); }
+float ownerAt(float id) { return decodeId(texture2D(palette,vec2((id-.5)/${PALETTE_WIDTH}.0,.75)).ra); }
 vec2 coastAt(vec2 p) { return texture2D(localProvinces,(p-localBounds.xy)/localBounds.zw).gb; }
 vec2 coastCoverage(vec2 p) {
   vec2 pixel=(p-localBounds.xy)/localBounds.zw/localTexel-.5;
@@ -213,7 +216,7 @@ void main() {
   material*=.99+broad*.02;
   vec3 land=illumination(material,normal,sun);
   float light=.55+.45*daylight(sun);
-  vec3 pigment=texture2D(palette,vec2((id-.5)/1024.0,.25)).rgb;
+  vec3 pigment=texture2D(palette,vec2((id-.5)/${PALETTE_WIDTH}.0,.25)).rgb;
   // Nations read as colour at strategic zoom; terrain takes over up close.
   float wash=mix(.48,.30,closeDetail);
   land=mix(land,land*(1.0-wash)+pigment*light*wash,political*step(.5,id));
@@ -428,7 +431,7 @@ export class TerrainRenderer {
         false,
         gl.LUMINANCE_ALPHA,
       );
-      this.texture(1024, 2, new Uint8Array(8192).fill(180), false);
+      this.texture(PALETTE_WIDTH, 2, new Uint8Array(PALETTE_WIDTH * 8).fill(180), false);
       this.texture(
         data.size,
         data.size,
@@ -552,8 +555,8 @@ export class TerrainRenderer {
       .join(";");
     if (key === this.paletteKey) return;
     this.paletteKey = key;
-    const pixels = new Uint8Array(4096);
-    for (let i = 0; i < Math.min(1024, colors.length); i++)
+    const pixels = new Uint8Array(PALETTE_WIDTH * 4);
+    for (let i = 0; i < Math.min(PALETTE_WIDTH, colors.length); i++)
       pixels.set([colors[i][0], colors[i][1], colors[i][2], 255], i * 4);
     const gl = this.gl;
     gl.bindTexture(gl.TEXTURE_2D, this.textures[2]);
@@ -562,14 +565,14 @@ export class TerrainRenderer {
       0,
       0,
       0,
-      1024,
+      PALETTE_WIDTH,
       1,
       gl.RGBA,
       gl.UNSIGNED_BYTE,
       pixels,
     );
-    const ownerPixels = new Uint8Array(4096);
-    for (let i = 0; i < Math.min(1024, owners.length); i++) {
+    const ownerPixels = new Uint8Array(PALETTE_WIDTH * 4);
+    for (let i = 0; i < Math.min(PALETTE_WIDTH, owners.length); i++) {
       ownerPixels[i * 4] = (owners[i] + 1) & 255;
       ownerPixels[i * 4 + 3] = (owners[i] + 1) >> 8;
     }
@@ -579,7 +582,7 @@ export class TerrainRenderer {
       0,
       0,
       1,
-      1024,
+      PALETTE_WIDTH,
       1,
       gl.RGBA,
       gl.UNSIGNED_BYTE,

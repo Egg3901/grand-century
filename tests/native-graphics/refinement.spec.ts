@@ -16,7 +16,7 @@ async function start(page: Page) {
     .click();
   await expect(
     page.getByRole("button", { name: "Open Economy", exact: true }),
-  ).toBeVisible({ timeout: 30000 });
+  ).toBeVisible({ timeout: 90000 });
 }
 
 test("map mode control stays inside a phone viewport", async ({ page }) => {
@@ -59,7 +59,10 @@ test("landscape leaves space for the map and reachable controls", async ({
   const dock = await page
     .getByRole("button", { name: "Open Economy", exact: true })
     .boundingBox();
-  expect(dock!.y - (top!.y + top!.height)).toBeGreaterThan(200);
+  expect(
+    dock!.y - (top!.y + top!.height),
+    `rank ${JSON.stringify(top)} dock ${JSON.stringify(dock)}`,
+  ).toBeGreaterThan(200);
   await page
     .getByRole("button", { name: "Map mode: Political", exact: true })
     .click();
@@ -110,5 +113,5 @@ test("engraved native homepage scrolls and launches campaigns in landscape", asy
     .click();
   await expect(
     page.getByRole("button", { name: "Open Economy", exact: true }),
-  ).toBeVisible({ timeout: 30000 });
+  ).toBeVisible({ timeout: 90000 });
 });

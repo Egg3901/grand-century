@@ -36,6 +36,7 @@ import { isRecipeUnlocked, setNationResearch } from './systems/research';
 import { crisisLeadBackDown, joinCrisisSide, pressCrisisDemand } from './systems/crisis';
 import { setCultureAccepted, setCulturePolicy } from './systems/culture';
 import { Rng } from './rng';
+import { hopKm } from './geography';
 import {
   REGIMENT_TYPES,
   regimentAvailability,
@@ -43,6 +44,9 @@ import {
   shipAvailability,
   shipSpec,
 } from './militaryCatalog';
+
+/** Soldiers within this distance of the recruiting province join its pool. */
+const RECRUIT_RADIUS_KM = 250;
 
 type Poster = (msg: FromWorker) => void;
 type RegimentType = Regiment['type'];
@@ -109,19 +113,22 @@ function recruitArmyWithPlan(
     }
   }
 
-  const popPool = province.popIds
-    .map((id) => world.pops[id])
-    .filter((pop) => pop?.type === 'soldier' && pop.size > 200)
-    .map((pop) => {
-      const popSupportCap = Math.max(0, Math.floor((pop.size / 1000) * nation.regimentsPerSoldierPop));
-      const allocated = usedByPop.get(pop.id) ?? 0;
-      return {
-        pop,
-        slots: Math.max(0, popSupportCap - allocated),
-      };
-    })
-    .filter((entry) => entry.slots > 0)
-    .sort((a, b) => b.pop.size - a.pop.size || a.pop.id - b.pop.id);
+  // World v8 provinces and states are much smaller than the reference ones, so
+  // a single state can hold fewer than the ~1,250 soldiers one regiment needs.
+  // The recruiting pool is every soldier pop of the same owner in the state or
+  // within RECRUIT_RADIUS_KM, with capacity rounded once over the pool.
+  const state = world.states[province.stateId];
+  const inState = new Set(state?.provinceIds ?? [province.id]);
+  const poolPops = world.provinces
+    .filter((p) => p.owner === nationId && (inState.has(p.id) || hopKm(province.id, p.id) <= RECRUIT_RADIUS_KM))
+    .map((p) => p.id)
+    .flatMap((id) => world.provinces[id]!.popIds.map((popId) => world.pops[popId]))
+    .filter((pop): pop is NonNullable<typeof pop> => pop?.type === 'soldier' && pop.size > 0)
+    .sort((a, b) => b.size - a.size || a.id - b.id);
+  const poolSize = poolPops.reduce((sum, pop) => sum + pop.size, 0);
+  const poolAllocated = poolPops.reduce((sum, pop) => sum + (usedByPop.get(pop.id) ?? 0), 0);
+  let poolSlots = Math.max(0, Math.floor((poolSize / 1000) * nation.regimentsPerSoldierPop) - poolAllocated);
+  const popPool = poolPops.length > 0 && poolSlots > 0 ? [{ pop: poolPops[0], slots: poolSlots }] : [];
   if (popPool.length === 0) {
     log(post, 'warn', 'No soldier pops available for recruitment.');
     return;
@@ -153,10 +160,13 @@ function recruitArmyWithPlan(
   for (const type of allowedRequested) {
     const profile = regimentSpec(type);
     if (nation.treasury < profile.cost) break;
-    const source = popPool.find((entry) => entry.slots > 0 && entry.pop.size > profile.manpowerDrain + 90);
-    if (!source) break;
-    source.pop.size = Math.max(0, source.pop.size - profile.manpowerDrain);
-    source.slots -= 1;
+    const remaining = poolPops.reduce((sum, pop) => sum + pop.size, 0);
+    if (poolSlots <= 0 || remaining <= profile.manpowerDrain + 90) break;
+    // Manpower comes from the whole pool in proportion to size; the largest
+    // soldier pop is recorded as the regiment's source.
+    for (const pop of poolPops) pop.size = Math.max(0, pop.size - profile.manpowerDrain * (pop.size / remaining));
+    poolSlots -= 1;
+    const source = popPool[0];
     nation.treasury -= profile.cost;
     regiments.push({
       type,

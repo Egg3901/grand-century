@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { makeProvinceLocator } from '../content/history/locateProvince.mjs';
 import {
   auditHistoricalBasemap,
   pointInGeometry,
@@ -49,18 +50,21 @@ describe('historical basemap audit', () => {
     expect(JSON.stringify(report)).not.toContain('coordinates');
   });
 
-  it('keeps every override pinned to the current province identity', () => {
+  it('resolves every override to a province with its expected 1830 owner', () => {
     const config = JSON.parse(readFileSync(
       new URL('../content/history/1830/reference-basemaps.json', import.meta.url),
       'utf8',
-    )) as { provinceOverrides: Array<{ provinceId: number; provinceName: string }> };
+    )) as { provinceOverrides: Array<{ place: string; lon: number; lat: number; expectedOwnerTag: string }> };
     const world = JSON.parse(readFileSync(
       new URL('../src/data/generated/worldSeed.json', import.meta.url),
       'utf8',
-    )) as { provinces: Array<{ id: number; name: string }> };
-    const provincesById = new Map(world.provinces.map((province) => [province.id, province]));
+    )) as { provinces: Array<{ id: number; ownerTag: string }> };
+    const geo = JSON.parse(readFileSync(new URL('../src/data/generated/provinces.geo.json', import.meta.url), 'utf8'));
+    const locate = makeProvinceLocator(geo);
     for (const override of config.provinceOverrides) {
-      expect(provincesById.get(override.provinceId)?.name).toBe(override.provinceName);
+      const id = locate(override.lon, override.lat);
+      expect(id, override.place).not.toBeNull();
+      expect(world.provinces[id!].ownerTag, override.place).toBe(override.expectedOwnerTag);
     }
   });
 });

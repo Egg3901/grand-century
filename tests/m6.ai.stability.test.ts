@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { simTimeout } from './simTimeout';
 import { GAME_DATA } from '../src/data/gameData';
 import { BALANCE } from '../src/sim/balance';
 import { createWorld } from '../src/sim/bootstrap';
@@ -42,6 +43,6 @@ describe('M6 AI long-run stability', () => {
 
     const bankruptNations = world.nations.filter((nation) => nation.isBankrupt).length;
     expect(bankruptNations).toBeLessThan(Math.ceil(world.nations.length * 0.5));
-  }, 80_000);
+  }, simTimeout(80_000));
 });
 

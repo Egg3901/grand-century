@@ -141,9 +141,34 @@ export function importDiplomacyRuntime(world: World, snapshot: DiplomacyRuntimeS
   RUNTIME_BY_WORLD.set(world, runtime);
 }
 
+/**
+ * Pair -> position index over world.relations. A linear findIndex per lookup
+ * made ensureAllPairRelations quadratic in the relation count (about 12k
+ * pairs on the 155-nation 1830 world). The index is rebuilt whenever the
+ * array is replaced or its length changes, and every hit is verified, so an
+ * in-place edit can never return the wrong relation.
+ */
+const RELATION_INDEX = new WeakMap<DiploRelation[], { length: number; byPair: Map<number, number> }>();
+const pairKey = (a: NationId, b: NationId) => a * 65536 + b;
+
 function relationIndex(world: World, a: NationId, b: NationId): number {
   const pair = relationPair(a, b);
-  return world.relations.findIndex((relation) => relation.a === pair.a && relation.b === pair.b);
+  const relations = world.relations;
+  let cache = RELATION_INDEX.get(relations);
+  if (!cache || cache.length !== relations.length) {
+    const byPair = new Map<number, number>();
+    for (let i = 0; i < relations.length; i++) byPair.set(pairKey(relations[i].a, relations[i].b), i);
+    cache = { length: relations.length, byPair };
+    RELATION_INDEX.set(relations, cache);
+  }
+  const index = cache.byPair.get(pairKey(pair.a, pair.b));
+  if (index !== undefined) {
+    const hit = relations[index];
+    if (hit && hit.a === pair.a && hit.b === pair.b) return index;
+  }
+  const found = relations.findIndex((relation) => relation.a === pair.a && relation.b === pair.b);
+  if (found >= 0) cache.byPair.set(pairKey(pair.a, pair.b), found);
+  return found;
 }
 
 export function getOrCreateRelation(world: World, a: NationId, b: NationId): DiploRelation {
@@ -158,6 +183,8 @@ export function getOrCreateRelation(world: World, a: NationId, b: NationId): Dip
     expiresDay: -1,
   };
   world.relations.push(created);
+  const cache = RELATION_INDEX.get(world.relations);
+  if (cache) { cache.byPair.set(pairKey(pair.a, pair.b), world.relations.length - 1); cache.length = world.relations.length; }
   return created;
 }
 
@@ -175,8 +202,8 @@ function ensureAllPairRelations(world: World): void {
 }
 
 export function relationForNations(world: World, a: NationId, b: NationId): DiploRelation | null {
-  const pair = relationPair(a, b);
-  return world.relations.find((relation) => relation.a === pair.a && relation.b === pair.b) ?? null;
+  const index = relationIndex(world, a, b);
+  return index >= 0 ? world.relations[index] : null;
 }
 
 export function relationKindBetween(world: World, a: NationId, b: NationId): DiploRelationKind {
@@ -675,7 +702,32 @@ export function tryAddRivalry(world: World, a: NationId, b: NationId): { ok: boo
   return { ok: true, reason: `${world.nations[b].name} is now marked as a rival (−${RIVALRY_DP_COST} DP).` };
 }
 
-export function evaluateAllianceAcceptance(world: World, proposer: NationId, target: NationId): { accepted: boolean; score: number } {
+/** Per-nation rivalry and war counts, built once when evaluating many targets. */
+export interface AllianceAcceptanceContext {
+  rivals: Map<NationId, number>;
+  wars: Map<NationId, number>;
+}
+
+export function allianceAcceptanceContext(world: World): AllianceAcceptanceContext {
+  const rivals = new Map<NationId, number>();
+  for (const entry of world.relations) {
+    if (entry.kind !== 'rivalry') continue;
+    rivals.set(entry.a, (rivals.get(entry.a) ?? 0) + 1);
+    if (entry.b !== entry.a) rivals.set(entry.b, (rivals.get(entry.b) ?? 0) + 1);
+  }
+  const wars = new Map<NationId, number>();
+  for (const war of world.wars) {
+    for (const nation of new Set([...war.attackers, ...war.defenders])) wars.set(nation, (wars.get(nation) ?? 0) + 1);
+  }
+  return { rivals, wars };
+}
+
+export function evaluateAllianceAcceptance(
+  world: World,
+  proposer: NationId,
+  target: NationId,
+  context?: AllianceAcceptanceContext,
+): { accepted: boolean; score: number } {
   const relation = getOrCreateRelation(world, proposer, target);
   if (relation.kind === 'rivalry' || hasActiveTruce(world, proposer, target)) return { accepted: false, score: -999 };
   const runtime = ensureRuntime(world);
@@ -683,10 +735,11 @@ export function evaluateAllianceAcceptance(world: World, proposer: NationId, tar
   const proposerScore = runtime.powerScores.find((entry) => entry.nation === proposer)?.score ?? 1;
   const targetScore = runtime.powerScores.find((entry) => entry.nation === target)?.score ?? 1;
   const balance = 25 - Math.abs(proposerScore - targetScore) / Math.max(20, targetScore) * 26;
-  const rivals = world.relations.filter((entry) => (
+  const rivals = context ? context.rivals.get(target) ?? 0 : world.relations.filter((entry) => (
     entry.kind === 'rivalry' && (entry.a === target || entry.b === target)
   )).length;
-  const wars = world.wars.filter((war) => war.attackers.includes(target) || war.defenders.includes(target)).length;
+  const wars = context ? context.wars.get(target) ?? 0
+    : world.wars.filter((war) => war.attackers.includes(target) || war.defenders.includes(target)).length;
   const threat = rivals * 6 + wars * 8;
   const infamyPenalty = Math.max(0, world.nations[proposer]?.infamy - INFAMY_LIMIT) * 2;
   const score = relation.opinion + threat + balance - infamyPenalty;
@@ -708,21 +761,23 @@ export function collectAllianceBloc(
   const includeGuarantees = opts.includeGuarantees === true;
   const result = new Set<NationId>([leader]);
   const queue: NationId[] = [leader];
+  // Edges come from the pair index: one lookup per nation for each visited
+  // node, instead of a scan of every relation in the world.
+  const edgesOf = (current: NationId): NationId[] => {
+    const out: NationId[] = [];
+    for (let other = 0; other < world.nations.length; other++) {
+      if (other === current) continue;
+      const relation = relationForNations(world, current, other);
+      if (!relation || !(relation.expiresDay < 0 || relation.expiresDay > world.day)) continue;
+      // Guarantees are defensive-only: pull guarantors into the war leader's
+      // bloc when collecting defenders, never into an offensive march.
+      if (relation.kind === 'alliance' || (includeGuarantees && current === leader && relation.kind === 'guarantee')) out.push(other);
+    }
+    return out;
+  };
   while (queue.length > 0) {
     const current = queue.shift() as NationId;
-    const options = world.relations
-      .filter((relation) => {
-        const active = relation.expiresDay < 0 || relation.expiresDay > world.day;
-        if (!active) return false;
-        if (relation.kind === 'alliance') return true;
-        // Guarantees are defensive-only: pull guarantors into the war leader's
-        // bloc when collecting defenders, never into an offensive march.
-        if (includeGuarantees && relation.kind === 'guarantee' && current === leader) return true;
-        return false;
-      })
-      .map((relation) => relation.a === current ? relation.b : relation.b === current ? relation.a : -1)
-      .filter((nationId) => nationId >= 0)
-      .sort((a, b) => a - b);
+    const options = edgesOf(current);
     for (const nationId of options) {
       if (nationId === against || result.has(nationId)) continue;
       if (hasActiveTruce(world, nationId, against)) continue;

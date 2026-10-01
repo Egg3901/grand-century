@@ -339,7 +339,9 @@ describe('cultural seeding tables resolve against the generated map', () => {
   // falls through cultureIndex's fallback to index 0 and comes out British.
   // The 1830 re-cut broke 67 of 96 minority rules and made 36 of 93 nations
   // British without failing a single test. That is what these guard.
-  const provinceNames = new Set(WORLD_SEED.provinces.map((province) => province.name));
+  // Region-named content resolves through a province's own name or, on the
+  // world v8 mesh, the name of its dominant pre-v8 predecessor.
+  const provinceNames = new Set(WORLD_SEED.provinces.flatMap((province) => [province.name, province.legacyName ?? province.name]));
   const cultureKeys = new Set(GAME_DATA.cultures.map((culture) => culture.key));
   const religionKeys = new Set(GAME_DATA.religions.map((religion) => religion.key));
 

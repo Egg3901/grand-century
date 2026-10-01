@@ -28,7 +28,7 @@ describe('scenario catalog', () => {
   });
 
   it('registers compiled development scenarios without advertising them as playable', () => {
-    expect(loadScenario('1700-01-01').worldSeed.provinceCount).toBe(548);
+    expect(loadScenario('1700-01-01').worldSeed.provinceCount).toBe(WORLD_SEED.provinceCount);
     expect(loadScenario('1936-01-01').manifest.status).toBe('preview');
     expect(() => loadScenario('1789-07-14')).toThrow('Unknown scenario: 1789-07-14');
   });
@@ -60,7 +60,7 @@ describe('scenario catalog', () => {
   it('boots the exact 1945 preview seed with its own clock and technology horizon', () => {
     const scenario = loadScenario('1945-09-02');
     expect(scenario.manifest.seedProvenance).toBeUndefined();
-    expect(scenario.worldSeed.provinceCount).toBe(548);
+    expect(scenario.worldSeed.provinceCount).toBe(WORLD_SEED.provinceCount);
     expect(scenario.worldSeed.nations.some((nation) => nation.initialTechYear === 1945)).toBe(true);
     const world = createWorld({
       ...GAME_DATA,

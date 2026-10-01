@@ -1321,8 +1321,8 @@ export function GameplayPanels(props: GameplayProps) {
           <Card key={f.key}>
             <Heading>{f.name}</Heading>
             <Copy>
-              {f.controlledCoreStates} / {f.requiredCoreStates} required core
-              states controlled · Reward {f.prestigeReward ?? 0} prestige.
+              {Math.round((f.controlledCoreShare ?? 0) * 100)}% of the core population controlled
+              (need {Math.round((f.requiredCoreShare ?? 0) * 100)}%) · Reward {f.prestigeReward ?? 0} prestige.
             </Copy>
             {f.requirements.map((r) => (
               <Copy key={r.key}>

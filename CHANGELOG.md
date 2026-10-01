@@ -4,6 +4,33 @@ All notable changes to Grand Century are documented here.
 
 ## [Unreleased]
 
+### A new world map
+
+- **Real borders, about five times the provinces.** The world is rebuilt from
+  modern administrative units (geoBoundaries) cut along every scenario's
+  dated borders, so province edges follow real rivers, ridges and historic
+  county lines instead of generated straight cuts. The map grows from 387 to
+  2,141 provinces, denser where 1830 populations were denser.
+- **The 1830 world, corrected.** 169 states hold land on 1 January 1830,
+  including the free cities of Hamburg, Frankfurt, Lübeck and Kraków, Lucca,
+  the Thuringian and Anhalt duchies, Darfur, Wadai, Asante, the Kazakh Hordes
+  and many more that previously vanished into neighbours or unclaimed land.
+  London, Edinburgh and Cardiff are no longer in the Midlands, Berlin is
+  Prussian, capitals sit at their real 1830 seats, and the Canaries are
+  Spanish.
+- **Terrain from the land itself.** Mountains, hills, desert, forest and
+  jungle come from elevation and land cover data rather than latitude bands.
+- **1830 names.** Provinces are named after their principal town in its 1830
+  form (Smyrna, Christiania, Mukden, Fort Chipewyan), reviewed by hand.
+- **Your saves carry over.** Campaigns from the previous map load onto the new
+  one: provinces, people, factories and armies move to the places that
+  replaced them.
+- **Pacing kept.** Population, costs and march times are scaled so the larger
+  map plays at the old pace; armies now march by distance.
+- **Recruiting draws on the region.** Raising regiments uses the soldiers of
+  your state and nearby provinces (within about 250 km), so small provinces
+  still field armies.
+
 ### Map and menu refinement
 
 - **Weather reads as weather.** Rain and snow no longer fall on a visible

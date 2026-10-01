@@ -1,3 +1,4 @@
+import { worldProvinceScale } from '../geography';
 import type { GameData, Pop, PopMobilityLedger, PopType, ProvinceId, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
@@ -70,7 +71,7 @@ function popUrbanization(world: World, pop: Pop): number {
   const state = world.states[province.stateId];
   if (!state) return 0;
   const factoryLevel = state.factories.reduce((sum, factory) => sum + factory.level, 0);
-  return clamp(factoryLevel / Math.max(1, state.provinceIds.length * 10), 0, 1);
+  return clamp(factoryLevel / Math.max(1, state.provinceIds.length * 10 * worldProvinceScale(world)), 0, 1);
 }
 
 function createPop(world: World, source: Pop, provinceId: number, targetType: PopType, size: number, money: number): Pop {
@@ -176,7 +177,7 @@ export function runPopsWeekly(world: World, data: GameData, _rng: Rng): void {
   for (const state of world.states) {
     let factoryLevel = 0;
     for (const factory of state.factories) factoryLevel += factory.level;
-    stateUrbanization[state.id] = clamp(factoryLevel / Math.max(1, state.provinceIds.length * 10), 0, 1);
+    stateUrbanization[state.id] = clamp(factoryLevel / Math.max(1, state.provinceIds.length * 10 * worldProvinceScale(world)), 0, 1);
   }
 
   // Perf (#30): the base basket cost per 1000 is a per-TYPE constant within a

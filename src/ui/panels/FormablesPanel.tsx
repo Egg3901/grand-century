@@ -93,7 +93,7 @@ export function FormablesPanel() {
           <div key={status.key} className="production-build-row">
             <strong>{status.name}</strong>
             <span>
-              Core control: {status.controlledCoreStates}/{status.totalCoreStates} (need {status.requiredCoreStates})
+              Core control: {Math.round((status.controlledCoreShare ?? 0) * 100)}% of the core population (need {Math.round((status.requiredCoreShare ?? 0) * 100)}%), {status.controlledCoreStates}/{status.totalCoreStates} states
               {' — '}
               {status.ownedCoreCount ?? 0} owned / {status.spheredCoreCount ?? 0} sphered
             </span>
