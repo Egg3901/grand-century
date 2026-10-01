@@ -5,11 +5,13 @@ export function NationFlag({
   name,
   color,
   size = 28,
+  testID,
 }: {
   tag: string;
   name: string;
   color: readonly number[];
   size?: number;
+  testID?: string;
 }) {
   const source = nationFlags[tag];
   const style = {
@@ -25,7 +27,7 @@ export function NationFlag({
       style={style}
       resizeMode="contain"
       accessibilityLabel={`${name} flag`}
-      testID="player-country-flag"
+      testID={testID}
     />
   ) : (
     <View
@@ -36,6 +38,7 @@ export function NationFlag({
         justifyContent: "center",
       }}
       accessibilityLabel={name}
+      testID={testID}
     >
       <Text style={{ color: "#fff", fontSize: 9 }}>{tag}</Text>
     </View>

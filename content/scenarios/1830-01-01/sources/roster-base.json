@@ -1,0 +1,639 @@
+{
+  "schemaVersion": 1,
+  "asOf": "1830-01-01",
+  "coverage": "global",
+  "polities": [
+    {
+      "key": "ABU",
+      "displayName": "Abu Dhabi",
+      "status": "sovereign",
+      "flagAssetTag": "ABU",
+      "notes": "Existing Grand Century nation ABU mapped to its 1830-01-01 source identity. The Trucial coast sheikhdoms bound by the 1820 General Maritime Treaty, which is a maritime truce, not a protectorate. The GC Abu Dhabi tag represents the coast.",
+      "sources": []
+    },
+    {
+      "key": "AFG",
+      "displayName": "Afghanistan",
+      "status": "sovereign",
+      "flagAssetTag": "AFG",
+      "notes": "Existing Grand Century nation AFG mapped to its 1830-01-01 source identity. Afghan polity centred on Kabul under Dost Mohammad. Herat and Kandahar are held by rival Durrani and Barakzai rulers but have no separate exact-date geometry.",
+      "sources": []
+    },
+    {
+      "key": "ALG",
+      "displayName": "Algeria",
+      "status": "vassal",
+      "flagAssetTag": "ALG",
+      "notes": "Existing Grand Century nation ALG mapped to its 1830-01-01 source identity. Regency of Algiers under Dey Hussein, Ottoman in name.",
+      "sources": []
+    },
+    {
+      "key": "ARG",
+      "displayName": "Argentina",
+      "status": "sovereign",
+      "flagAssetTag": "ARG",
+      "notes": "Existing Grand Century nation ARG mapped to its 1830-01-01 source identity. United Provinces of the Rio de la Plata. On 1830-01-01 Rosas has just become governor of Buenos Aires and the interior is contested by the Unitarian League; no single Argentine state exists, and the OHM polygon is the confederal envelope.",
+      "sources": []
+    },
+    {
+      "key": "ATJ",
+      "displayName": "Atjeh",
+      "status": "sovereign",
+      "flagAssetTag": "ATJ",
+      "notes": "Existing Grand Century nation ATJ mapped to its 1830-01-01 source identity. Sultanate of Aceh, independent until the Dutch war of 1873. The Dutch East Indies envelope covers it, and this smaller polygon wins.",
+      "sources": []
+    },
+    {
+      "key": "AUS",
+      "displayName": "Austrian Empire",
+      "status": "sovereign",
+      "flagAssetTag": "AUS",
+      "notes": "Existing Grand Century nation AUS mapped to its 1830-01-01 source identity. Austrian Empire. The OHM relation has one unclosed chain whose repair misplaces an inner ring, so the hash-pinned Cliopatria polygon supplies geometry.",
+      "sources": []
+    },
+    {
+      "key": "BAD",
+      "displayName": "Baden",
+      "status": "sovereign",
+      "flagAssetTag": "BAD",
+      "notes": "Existing Grand Century nation BAD mapped to its 1830-01-01 source identity. Grand Duchy of Baden.",
+      "sources": []
+    },
+    {
+      "key": "BAV",
+      "displayName": "Bavaria",
+      "status": "sovereign",
+      "flagAssetTag": "BAV",
+      "notes": "Existing Grand Century nation BAV mapped to its 1830-01-01 source identity. Kingdom of Bavaria, including the Rhenish Palatinate.",
+      "sources": []
+    },
+    {
+      "key": "BER",
+      "displayName": "Beroda",
+      "status": "tributary",
+      "flagAssetTag": "BER",
+      "notes": "Existing Grand Century nation BER mapped to its 1830-01-01 source identity. Gaekwad Baroda, a Company subsidiary state. Found by supplemental name search.",
+      "sources": []
+    },
+    {
+      "key": "BOL",
+      "displayName": "Bolivia",
+      "status": "sovereign",
+      "flagAssetTag": "BOL",
+      "notes": "Existing Grand Century nation BOL mapped to its 1830-01-01 source identity. Republic of Bolivia under Santa Cruz.",
+      "sources": []
+    },
+    {
+      "key": "BRA",
+      "displayName": "Brazil",
+      "status": "sovereign",
+      "flagAssetTag": "BRA",
+      "notes": "Existing Grand Century nation BRA mapped to its 1830-01-01 source identity. Empire of Brazil under Pedro I.",
+      "sources": []
+    },
+    {
+      "key": "BRU",
+      "displayName": "Brunei",
+      "status": "sovereign",
+      "flagAssetTag": "BRU",
+      "notes": "Existing Grand Century nation BRU mapped to its 1830-01-01 source identity. Sultanate of Brunei, still including Sarawak before 1841.",
+      "sources": []
+    },
+    {
+      "key": "BUK",
+      "displayName": "Bukkhara",
+      "status": "sovereign",
+      "flagAssetTag": "BUK",
+      "notes": "Existing Grand Century nation BUK mapped to its 1830-01-01 source identity. Emirate of Bukhara.",
+      "sources": []
+    },
+    {
+      "key": "BUR",
+      "displayName": "Burma",
+      "status": "sovereign",
+      "flagAssetTag": "BUR",
+      "notes": "Existing Grand Century nation BUR mapped to its 1830-01-01 source identity. Konbaung Burma after the Treaty of Yandabo (1826) ceded Arakan, Tenasserim, Assam and Manipur.",
+      "sources": []
+    },
+    {
+      "key": "CAM",
+      "displayName": "Cambodia",
+      "status": "tributary",
+      "flagAssetTag": "CAM",
+      "notes": "Existing Grand Century nation CAM mapped to its 1830-01-01 source identity. Cambodia under Ang Chan II. The Cliopatria label Khmer Empire is anachronistic; the polygon is the 1803 to 1858 kingdom.",
+      "sources": []
+    },
+    {
+      "key": "CHL",
+      "displayName": "Chile",
+      "status": "sovereign",
+      "flagAssetTag": "CHL",
+      "notes": "Existing Grand Century nation CHL mapped to its 1830-01-01 source identity. Republic of Chile.",
+      "sources": []
+    },
+    {
+      "key": "CLM",
+      "displayName": "New Granada",
+      "status": "sovereign",
+      "flagAssetTag": "CLM",
+      "notes": "Existing Grand Century nation CLM mapped to its 1830-01-01 source identity. Gran Colombia still exists in law on 1830-01-01. Venezuela proclaims separation in early 1830 and Ecuador on 1830-05-13; the GC New Granada tag is the continuing polity.",
+      "sources": []
+    },
+    {
+      "key": "DEN",
+      "displayName": "Denmark",
+      "status": "sovereign",
+      "flagAssetTag": "DEN",
+      "notes": "Existing Grand Century nation DEN mapped to its 1830-01-01 source identity. Denmark, including Iceland, the Faroes and Greenland in this OHM polygon. Norway was ceded in 1814 and is not part of it.",
+      "sources": []
+    },
+    {
+      "key": "EGY",
+      "displayName": "Egypt",
+      "status": "vassal",
+      "flagAssetTag": "EGY",
+      "notes": "Existing Grand Century nation EGY mapped to its 1830-01-01 source identity. Egypt under Muhammad Ali.",
+      "sources": []
+    },
+    {
+      "key": "ENG",
+      "displayName": "United Kingdom",
+      "status": "sovereign",
+      "flagAssetTag": "ENG",
+      "notes": "Existing Grand Century nation ENG mapped to its 1830-01-01 source identity. United Kingdom of Great Britain and Ireland, exact-date OHM relation 1801 to 1922.",
+      "sources": []
+    },
+    {
+      "key": "ESP",
+      "displayName": "Spain",
+      "status": "sovereign",
+      "flagAssetTag": "ESP",
+      "notes": "Existing Grand Century nation ESP mapped to its 1830-01-01 source identity. Spanish monarchy under Ferdinand VII.",
+      "sources": []
+    },
+    {
+      "key": "ETH",
+      "displayName": "Ethiopia",
+      "status": "decentralized",
+      "flagAssetTag": "ETH",
+      "notes": "Existing Grand Century nation ETH mapped to its 1830-01-01 source identity. Ethiopia in the Zemene Mesafint: the emperor at Gondar is a figurehead and power lies with regional lords, so it is classified as decentralized.",
+      "sources": []
+    },
+    {
+      "key": "FRA",
+      "displayName": "France",
+      "status": "sovereign",
+      "flagAssetTag": "FRA",
+      "notes": "Existing Grand Century nation FRA mapped to its 1830-01-01 source identity. Bourbon Restoration France under Charles X; the July Revolution is seven months away.",
+      "sources": []
+    },
+    {
+      "key": "GRE",
+      "displayName": "Kingdom of Greece",
+      "status": "sovereign",
+      "flagAssetTag": "GRE",
+      "notes": "Existing Grand Century nation GRE mapped to its 1830-01-01 source identity. The Hellenic State under Governor Kapodistrias. On 1830-01-01 the Porte had accepted the London Treaty of 1827 at Adrianople (1829-09-14), which still envisaged an autonomous tributary state; full independence was recognized by the London Protocol of 1830-02-03. Ottoman authority was absent, no tribute was ever paid, and the state is treated as de facto sovereign, matching the GC tag. Judgment call. The Cliopatria label is a later name, and its Crete component and a stray Rhineland fragment are removed by a reviewed component filter.",
+      "sources": []
+    },
+    {
+      "key": "HAI",
+      "displayName": "Haiti",
+      "status": "sovereign",
+      "flagAssetTag": "HAI",
+      "notes": "Existing Grand Century nation HAI mapped to its 1830-01-01 source identity. Republic of Haiti under Boyer, holding the whole of Hispaniola since 1822.",
+      "sources": []
+    },
+    {
+      "key": "HAN",
+      "displayName": "Kingdom of Hanover",
+      "status": "sovereign",
+      "flagAssetTag": "HAN",
+      "notes": "Existing Grand Century nation HAN mapped to its 1830-01-01 source identity. Kingdom of Hanover, in personal union with the United Kingdom but a separate German Confederation member.",
+      "sources": []
+    },
+    {
+      "key": "HAW",
+      "displayName": "Hawaii",
+      "status": "sovereign",
+      "flagAssetTag": "HAW",
+      "notes": "Existing Grand Century nation HAW mapped to its 1830-01-01 source identity. Kingdom of Hawaii under Kamehameha III.",
+      "sources": []
+    },
+    {
+      "key": "HEK",
+      "displayName": "Hesse-Kassel",
+      "status": "sovereign",
+      "flagAssetTag": "HEK",
+      "notes": "Existing Grand Century nation HEK mapped to its 1830-01-01 source identity. Electorate of Hesse (Hesse-Kassel).",
+      "sources": []
+    },
+    {
+      "key": "HES",
+      "displayName": "Hesse",
+      "status": "sovereign",
+      "flagAssetTag": "HES",
+      "notes": "Existing Grand Century nation HES mapped to its 1830-01-01 source identity. Grand Duchy of Hesse (Hesse-Darmstadt).",
+      "sources": []
+    },
+    {
+      "key": "HOL",
+      "displayName": "Holstein",
+      "status": "vassal",
+      "flagAssetTag": "HOL",
+      "notes": "Existing Grand Century nation HOL mapped to its 1830-01-01 source identity. Duchy of Holstein, held by the Danish king as duke. Found by supplemental name search.",
+      "sources": []
+    },
+    {
+      "key": "HYD",
+      "displayName": "Hyderabad",
+      "status": "tributary",
+      "flagAssetTag": "HYD",
+      "notes": "Existing Grand Century nation HYD mapped to its 1830-01-01 source identity. Hyderabad under the Asaf Jahi nizam, a Company subsidiary state. Found by supplemental name search.",
+      "sources": []
+    },
+    {
+      "key": "JOH",
+      "displayName": "Johore",
+      "status": "sovereign",
+      "flagAssetTag": "JOH",
+      "notes": "Existing Grand Century nation JOH mapped to its 1830-01-01 source identity. Johor-Pahang under the Temenggong and Bendahara after the 1824 partition.",
+      "sources": []
+    },
+    {
+      "key": "JPN",
+      "displayName": "Tokugawa Shogunate",
+      "status": "sovereign",
+      "flagAssetTag": "JPN",
+      "notes": "Existing Grand Century nation JPN mapped to its 1830-01-01 source identity. Tokugawa shogunate.",
+      "sources": []
+    },
+    {
+      "key": "KAL",
+      "displayName": "Kalat",
+      "status": "sovereign",
+      "flagAssetTag": "KAL",
+      "notes": "Existing Grand Century nation KAL mapped to its 1830-01-01 source identity. Khanate of Kalat under Mehrab Khan.",
+      "sources": []
+    },
+    {
+      "key": "KHI",
+      "displayName": "Khiva",
+      "status": "sovereign",
+      "flagAssetTag": "KHI",
+      "notes": "Existing Grand Century nation KHI mapped to its 1830-01-01 source identity. Khanate of Khiva.",
+      "sources": []
+    },
+    {
+      "key": "KOK",
+      "displayName": "Kokand",
+      "status": "sovereign",
+      "flagAssetTag": "KOK",
+      "notes": "Existing Grand Century nation KOK mapped to its 1830-01-01 source identity. Khanate of Kokand.",
+      "sources": []
+    },
+    {
+      "key": "KOR",
+      "displayName": "Joseon Korea",
+      "status": "sovereign",
+      "flagAssetTag": "KOR",
+      "notes": "Existing Grand Century nation KOR mapped to its 1830-01-01 source identity. Joseon Korea.",
+      "sources": []
+    },
+    {
+      "key": "LIB",
+      "displayName": "Liberia",
+      "status": "colonial_administration",
+      "flagAssetTag": "LIB",
+      "notes": "Existing Grand Century nation LIB mapped to its 1830-01-01 source identity. The Liberia settlement is an American Colonization Society colony on 1830-01-01; it becomes an independent republic only in 1847.",
+      "sources": []
+    },
+    {
+      "key": "MAD",
+      "displayName": "Madagascar",
+      "status": "sovereign",
+      "flagAssetTag": "MAD",
+      "notes": "Existing Grand Century nation MAD mapped to its 1830-01-01 source identity. Merina kingdom under Ranavalona I; it controls the central highlands and much of the east, not the whole island.",
+      "sources": []
+    },
+    {
+      "key": "MEX",
+      "displayName": "Mexico",
+      "status": "sovereign",
+      "flagAssetTag": "MEX",
+      "notes": "Existing Grand Century nation MEX mapped to its 1830-01-01 source identity. First Mexican Republic, including Texas, New Mexico and Alta California.",
+      "sources": []
+    },
+    {
+      "key": "MOD",
+      "displayName": "Duchy of Modena",
+      "status": "sovereign",
+      "flagAssetTag": "MOD",
+      "notes": "Existing Grand Century nation MOD mapped to its 1830-01-01 source identity. Duchy of Modena and Reggio under Francis IV.",
+      "sources": []
+    },
+    {
+      "key": "MOR",
+      "displayName": "Morocco",
+      "status": "sovereign",
+      "flagAssetTag": "MOR",
+      "notes": "Existing Grand Century nation MOR mapped to its 1830-01-01 source identity. Alaouite Morocco under Abd al-Rahman.",
+      "sources": []
+    },
+    {
+      "key": "NAG",
+      "displayName": "Nagpur",
+      "status": "tributary",
+      "flagAssetTag": "NAG",
+      "notes": "Existing Grand Century nation NAG mapped to its 1830-01-01 source identity. Bhonsle Nagpur, a Company subsidiary state from 1818. Found by supplemental name search.",
+      "sources": []
+    },
+    {
+      "key": "NEJ",
+      "displayName": "Nejd",
+      "status": "sovereign",
+      "flagAssetTag": "NEJ",
+      "notes": "Existing Grand Century nation NEJ mapped to its 1830-01-01 source identity. Second Saudi State (Emirate of Nejd) under Turki ibn Abdullah, restored in 1824.",
+      "sources": []
+    },
+    {
+      "key": "NEP",
+      "displayName": "Nepal",
+      "status": "sovereign",
+      "flagAssetTag": "NEP",
+      "notes": "Existing Grand Century nation NEP mapped to its 1830-01-01 source identity. Kingdom of Nepal.",
+      "sources": []
+    },
+    {
+      "key": "NLD",
+      "displayName": "Netherlands",
+      "status": "sovereign",
+      "flagAssetTag": "NLD",
+      "notes": "Existing Grand Century nation NLD mapped to its 1830-01-01 source identity. United Kingdom of the Netherlands. Belgium is still part of it on 1830-01-01: the Belgian Revolution begins on 1830-08-25 and independence is declared on 1830-10-04. Luxembourg is held in personal union and lies inside this polygon.",
+      "sources": []
+    },
+    {
+      "key": "OMA",
+      "displayName": "Oman",
+      "status": "sovereign",
+      "flagAssetTag": "OMA",
+      "notes": "Existing Grand Century nation OMA mapped to its 1830-01-01 source identity. Omani state under Said bin Sultan. Its Swahili coast dependencies are represented separately.",
+      "sources": []
+    },
+    {
+      "key": "OTT",
+      "displayName": "Ottoman Empire",
+      "status": "sovereign",
+      "flagAssetTag": "OTT",
+      "notes": "Existing Grand Century nation OTT mapped to its 1830-01-01 source identity. Ottoman Empire after the Treaty of Adrianople. The OHM polygon is an imperial envelope that also covers autonomous vassals, which are represented separately.",
+      "sources": []
+    },
+    {
+      "key": "PAN",
+      "displayName": "Panjab",
+      "status": "sovereign",
+      "flagAssetTag": "PAN",
+      "notes": "Existing Grand Century nation PAN mapped to its 1830-01-01 source identity. Sikh Empire under Ranjit Singh, including Kashmir and Peshawar. The Company Raj envelope overlaps it; this smaller polygon wins.",
+      "sources": []
+    },
+    {
+      "key": "PAP",
+      "displayName": "Papal States",
+      "status": "sovereign",
+      "flagAssetTag": "PAP",
+      "notes": "Existing Grand Century nation PAP mapped to its 1830-01-01 source identity. Papal States.",
+      "sources": []
+    },
+    {
+      "key": "PER",
+      "displayName": "Persia",
+      "status": "sovereign",
+      "flagAssetTag": "PER",
+      "notes": "Existing Grand Century nation PER mapped to its 1830-01-01 source identity. Qajar Iran after the Treaty of Turkmenchay.",
+      "sources": []
+    },
+    {
+      "key": "PEU",
+      "displayName": "Peru",
+      "status": "sovereign",
+      "flagAssetTag": "PEU",
+      "notes": "Existing Grand Century nation PEU mapped to its 1830-01-01 source identity. Republic of Peru.",
+      "sources": []
+    },
+    {
+      "key": "POL",
+      "displayName": "Kingdom of Poland",
+      "status": "vassal",
+      "flagAssetTag": "POL",
+      "notes": "Existing Grand Century nation POL mapped to its 1830-01-01 source identity. Congress Poland. The single unclosed chain has a 0.009 degree endpoint gap and is closed under a recorded 0.01 degree threshold.",
+      "sources": []
+    },
+    {
+      "key": "POR",
+      "displayName": "Portugal",
+      "status": "sovereign",
+      "flagAssetTag": "POR",
+      "notes": "Existing Grand Century nation POR mapped to its 1830-01-01 source identity. Kingdom of Portugal under Dom Miguel during the Liberal Wars.",
+      "sources": []
+    },
+    {
+      "key": "PRG",
+      "displayName": "Paraguay",
+      "status": "sovereign",
+      "flagAssetTag": "PRG",
+      "notes": "Existing Grand Century nation PRG mapped to its 1830-01-01 source identity. Paraguay under Francia.",
+      "sources": []
+    },
+    {
+      "key": "PRU",
+      "displayName": "Prussia",
+      "status": "sovereign",
+      "flagAssetTag": "PRU",
+      "notes": "Existing Grand Century nation PRU mapped to its 1830-01-01 source identity. Kingdom of Prussia, OHM relation 1829-10-23 to 1834-08-15.",
+      "sources": []
+    },
+    {
+      "key": "QNG",
+      "displayName": "Qing Empire",
+      "status": "sovereign",
+      "flagAssetTag": "QNG",
+      "notes": "Existing Grand Century nation QNG mapped to its 1830-01-01 source identity. Qing Empire. The OHM relation has eight unclosed chains, so the hash-pinned Cliopatria polygon supplies geometry; Tibet, Mongolia and Xinjiang stay inside it.",
+      "sources": []
+    },
+    {
+      "key": "RUS",
+      "displayName": "Russian Empire",
+      "status": "sovereign",
+      "flagAssetTag": "RUS",
+      "notes": "Existing Grand Century nation RUS mapped to its 1830-01-01 source identity. Russian Empire after the Treaty of Adrianople, OHM relation 1829-09-14 to 1830-11-29.",
+      "sources": []
+    },
+    {
+      "key": "SAR",
+      "displayName": "Sardinia-Piedmont",
+      "status": "sovereign",
+      "flagAssetTag": "SAR",
+      "notes": "Existing Grand Century nation SAR mapped to its 1830-01-01 source identity. Kingdom of Sardinia, including Piedmont, Savoy, Nice, Liguria and Sardinia.",
+      "sources": []
+    },
+    {
+      "key": "SAX",
+      "displayName": "Kingdom of Saxony",
+      "status": "sovereign",
+      "flagAssetTag": "SAX",
+      "notes": "Existing Grand Century nation SAX mapped to its 1830-01-01 source identity. Kingdom of Saxony.",
+      "sources": []
+    },
+    {
+      "key": "SER",
+      "displayName": "Serbia",
+      "status": "vassal",
+      "flagAssetTag": "SER",
+      "notes": "Existing Grand Century nation SER mapped to its 1830-01-01 source identity. Autonomous Principality of Serbia. The Cliopatria label is an ethnonym, but the 1815 to 1847 polygon is the principality.",
+      "sources": []
+    },
+    {
+      "key": "SIA",
+      "displayName": "Siam",
+      "status": "sovereign",
+      "flagAssetTag": "SIA",
+      "notes": "Existing Grand Century nation SIA mapped to its 1830-01-01 source identity. Rattanakosin Siam under Rama III. The OHM mandala polygon also covers tributary Lao, Lanna, Cambodian and Malay states, which are represented separately where Cliopatria supplies geometry.",
+      "sources": []
+    },
+    {
+      "key": "SIN",
+      "displayName": "Sindh",
+      "status": "sovereign",
+      "flagAssetTag": "SIN",
+      "notes": "Existing Grand Century nation SIN mapped to its 1830-01-01 source identity. Talpur Sindh. Relation 2847907 is a chronology container; boundary relation 2922476 supplies geometry.",
+      "sources": []
+    },
+    {
+      "key": "SOK",
+      "displayName": "Sokoto",
+      "status": "sovereign",
+      "flagAssetTag": "SOK",
+      "notes": "Existing Grand Century nation SOK mapped to its 1830-01-01 source identity. Sokoto Caliphate.",
+      "sources": []
+    },
+    {
+      "key": "SWE",
+      "displayName": "Sweden",
+      "status": "sovereign",
+      "flagAssetTag": "SWE",
+      "notes": "Existing Grand Century nation SWE mapped to its 1830-01-01 source identity. Union of Sweden and Norway. Norway is a separate kingdom in personal union under the Swedish king; no exact-date OHM relation separates the two, so the union polygon is assigned to the Swedish tag.",
+      "sources": []
+    },
+    {
+      "key": "SWI",
+      "displayName": "Switzerland",
+      "status": "sovereign",
+      "flagAssetTag": "SWI",
+      "notes": "Existing Grand Century nation SWI mapped to its 1830-01-01 source identity. Swiss Confederation under the Federal Treaty of 1815.",
+      "sources": []
+    },
+    {
+      "key": "TRA",
+      "displayName": "Travancore",
+      "status": "tributary",
+      "flagAssetTag": "TRA",
+      "notes": "Existing Grand Century nation TRA mapped to its 1830-01-01 source identity. Travancore, a Company subsidiary state. Found by supplemental name search.",
+      "sources": []
+    },
+    {
+      "key": "TRI",
+      "displayName": "Tripoli",
+      "status": "vassal",
+      "flagAssetTag": "TRI",
+      "notes": "Existing Grand Century nation TRI mapped to its 1830-01-01 source identity. Karamanli Tripoli.",
+      "sources": []
+    },
+    {
+      "key": "TSC",
+      "displayName": "Two Sicilies",
+      "status": "sovereign",
+      "flagAssetTag": "TSC",
+      "notes": "Existing Grand Century nation TSC mapped to its 1830-01-01 source identity. Kingdom of the Two Sicilies.",
+      "sources": []
+    },
+    {
+      "key": "TUN",
+      "displayName": "Tunis",
+      "status": "vassal",
+      "flagAssetTag": "TUN",
+      "notes": "Existing Grand Century nation TUN mapped to its 1830-01-01 source identity. Beylik of Tunis.",
+      "sources": []
+    },
+    {
+      "key": "TUS",
+      "displayName": "Grand Duchy of Tuscany",
+      "status": "sovereign",
+      "flagAssetTag": "TUS",
+      "notes": "Existing Grand Century nation TUS mapped to its 1830-01-01 source identity. Grand Duchy of Tuscany under Leopold II.",
+      "sources": []
+    },
+    {
+      "key": "UCA",
+      "displayName": "The USCA",
+      "status": "sovereign",
+      "flagAssetTag": "UCA",
+      "notes": "Existing Grand Century nation UCA mapped to its 1830-01-01 source identity. Federal Republic of Central America after Morazan's victory in 1829, without Costa Rica.",
+      "sources": []
+    },
+    {
+      "key": "URY",
+      "displayName": "Uruguay",
+      "status": "sovereign",
+      "flagAssetTag": "URY",
+      "notes": "Existing Grand Century nation URY mapped to its 1830-01-01 source identity. Oriental Republic of Uruguay.",
+      "sources": []
+    },
+    {
+      "key": "USA",
+      "displayName": "United States",
+      "status": "sovereign",
+      "flagAssetTag": "USA",
+      "notes": "Existing Grand Century nation USA mapped to its 1830-01-01 source identity. United States, OHM relation 1821 to 1842.",
+      "sources": []
+    },
+    {
+      "key": "VIE",
+      "displayName": "Dai Nam",
+      "status": "sovereign",
+      "flagAssetTag": "VIE",
+      "notes": "Existing Grand Century nation VIE mapped to its 1830-01-01 source identity. Nguyen Vietnam under Minh Mang. The state name Dai Nam dates from 1839; the GC tag is reused for the same polity.",
+      "sources": []
+    },
+    {
+      "key": "WAL",
+      "displayName": "Wallachia",
+      "status": "vassal",
+      "flagAssetTag": "WAL",
+      "notes": "Existing Grand Century nation WAL mapped to its 1830-01-01 source identity. Principality of Wallachia under the Adrianople settlement. Found by supplemental name search.",
+      "sources": []
+    },
+    {
+      "key": "WUR",
+      "displayName": "Wurttemberg",
+      "status": "sovereign",
+      "flagAssetTag": "WUR",
+      "notes": "Existing Grand Century nation WUR mapped to its 1830-01-01 source identity. Kingdom of Wurttemberg.",
+      "sources": []
+    },
+    {
+      "key": "YEM",
+      "displayName": "Yemen",
+      "status": "sovereign",
+      "flagAssetTag": "YEM",
+      "notes": "Existing Grand Century nation YEM mapped to its 1830-01-01 source identity. Zaydi Imamate of Sanaa; Cliopatria interval 1815 to 1869.",
+      "sources": []
+    },
+    {
+      "key": "ZUL",
+      "displayName": "Zulu",
+      "status": "sovereign",
+      "flagAssetTag": "ZUL",
+      "notes": "Existing Grand Century nation ZUL mapped to its 1830-01-01 source identity. Zulu Kingdom under Dingane.",
+      "sources": []
+    }
+  ]
+}

@@ -2,11 +2,10 @@
   "schemaVersion": 1,
   "asOf": "1830-01-01",
   "source": "OpenHistoricalMap",
-  "reviewStatus": "discovery-only-not-approved-for-runtime",
-  "relationCount": 219,
+  "relationCount": 226,
   "counts": {
     "invalid_geometry": 6,
-    "valid": 213
+    "valid": 220
   },
   "entries": [
     {
@@ -21,7 +20,7 @@
     },
     {
       "relationId": 2661271,
-      "name": "W\u00fcrttemberg",
+      "name": "Württemberg",
       "wikidata": "Q159631",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -31,7 +30,7 @@
     },
     {
       "relationId": 2661272,
-      "name": "Gro\u00dfherzogtum Hessen",
+      "name": "Großherzogtum Hessen",
       "wikidata": "Q20135",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -101,7 +100,7 @@
     },
     {
       "relationId": 2690845,
-      "name": "\u0627\u0644\u0633\u0648\u062f\u0627\u0646 \u0627\u0644\u062a\u0631\u0643\u064a-\u0627\u0644\u0645\u0635\u0631\u064a",
+      "name": "السودان التركي-المصري",
       "wikidata": "Q2464621",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -141,7 +140,7 @@
     },
     {
       "relationId": 2692575,
-      "name": "Wolne Miasto Krak\u00f3w",
+      "name": "Wolne Miasto Kraków",
       "wikidata": "Q501303",
       "status": "invalid_geometry",
       "error": "[ohm] relation 2692575 has 2 unclosed boundary chains",
@@ -149,7 +148,7 @@
     },
     {
       "relationId": 2692576,
-      "name": "Kr\u00f3lestwo Polskie",
+      "name": "Królestwo Polskie",
       "wikidata": "Q221457",
       "status": "invalid_geometry",
       "error": "[ohm] relation 2692576 has 1 unclosed boundary chains",
@@ -167,7 +166,7 @@
     },
     {
       "relationId": 2692912,
-      "name": "N\u0289m\u0289n\u0289\u0289 Sookobit\u0289",
+      "name": "Nʉmʉnʉʉ Sookobitʉ",
       "wikidata": "Q648279",
       "status": "valid",
       "geometryType": "Polygon",
@@ -187,7 +186,7 @@
     },
     {
       "relationId": 2693578,
-      "name": "K\u00f6nigreich Sachsen",
+      "name": "Königreich Sachsen",
       "wikidata": "Q153015",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -197,7 +196,7 @@
     },
     {
       "relationId": 2694486,
-      "name": "\u671d\u9bae \uc870\uc120",
+      "name": "朝鮮 조선",
       "wikidata": "Q28179",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -227,7 +226,7 @@
     },
     {
       "relationId": 2694810,
-      "name": "Gro\u00dfherzogtum Mecklenburg-Strelitz",
+      "name": "Großherzogtum Mecklenburg-Strelitz",
       "wikidata": "Q161215",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -297,7 +296,7 @@
     },
     {
       "relationId": 2698260,
-      "name": "Capitania-Geral de Mo\u00e7ambique, Sofala e Rios de Sena",
+      "name": "Capitania-Geral de Moçambique, Sofala e Rios de Sena",
       "wikidata": null,
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -337,7 +336,7 @@
     },
     {
       "relationId": 2745639,
-      "name": "\u9806\u57ce\u93ae",
+      "name": "順城鎮",
       "wikidata": "Q10825475",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -407,7 +406,7 @@
     },
     {
       "relationId": 2748578,
-      "name": "Freie und Hansestadt L\u00fcbeck",
+      "name": "Freie und Hansestadt Lübeck",
       "wikidata": "Q950240",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -423,6 +422,16 @@
       "geometryType": "MultiPolygon",
       "polygons": 7,
       "coordinates": 5746,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2748587,
+      "name": "Herzogtum Holstein",
+      "wikidata": "Q704288",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 2901,
       "license": "CC0"
     },
     {
@@ -457,7 +466,7 @@
     },
     {
       "relationId": 2800955,
-      "name": "\u0928\u0947\u092a\u093e\u0932 \u0905\u0927\u093f\u0930\u093e\u091c\u094d\u092f",
+      "name": "नेपाल अधिराज्य",
       "wikidata": "Q837",
       "status": "valid",
       "geometryType": "Polygon",
@@ -487,7 +496,7 @@
     },
     {
       "relationId": 2803504,
-      "name": "Guin\u00e9 Portuguesa",
+      "name": "Guiné Portuguesa",
       "wikidata": null,
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -537,7 +546,7 @@
     },
     {
       "relationId": 2808126,
-      "name": "Rep\u00fablica Federal de Centro Am\u00e9rica",
+      "name": "República Federal de Centro América",
       "wikidata": null,
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -567,7 +576,7 @@
     },
     {
       "relationId": 2808604,
-      "name": "Herzogtum Anhalt-C\u00f6then",
+      "name": "Herzogtum Anhalt-Cöthen",
       "wikidata": "Q264970",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -587,7 +596,7 @@
     },
     {
       "relationId": 2822865,
-      "name": "\u0627\u0645\u0627\u0631\u062a \u06a9\u0627\u0628\u0644",
+      "name": "امارت کابل",
       "wikidata": null,
       "status": "valid",
       "geometryType": "Polygon",
@@ -735,7 +744,7 @@
     },
     {
       "relationId": 2830658,
-      "name": "Gro\u00dfherzogtum Mecklenburg-Schwerin",
+      "name": "Großherzogtum Mecklenburg-Schwerin",
       "wikidata": "Q158445",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -745,7 +754,7 @@
     },
     {
       "relationId": 2830674,
-      "name": "F\u00fcrstentum Schwarzburg-Rudolstadt",
+      "name": "Fürstentum Schwarzburg-Rudolstadt",
       "wikidata": "Q695316",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -755,7 +764,7 @@
     },
     {
       "relationId": 2830677,
-      "name": "F\u00fcrstentum Schwarzburg-Sondershausen",
+      "name": "Fürstentum Schwarzburg-Sondershausen",
       "wikidata": "Q630163",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -765,7 +774,7 @@
     },
     {
       "relationId": 2830728,
-      "name": "\u5357\u87e0 Nam B\u00e0n",
+      "name": "南蟠 Nam Bàn",
       "wikidata": null,
       "status": "valid",
       "geometryType": "Polygon",
@@ -885,7 +894,7 @@
     },
     {
       "relationId": 2831854,
-      "name": "F\u00fcrstentum Reu\u00df-Gera",
+      "name": "Fürstentum Reuß-Gera",
       "wikidata": "Q639100",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -895,7 +904,7 @@
     },
     {
       "relationId": 2831855,
-      "name": "F\u00fcrstentum Reu\u00df-Greiz",
+      "name": "Fürstentum Reuß-Greiz",
       "wikidata": "Q531783",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -995,7 +1004,7 @@
     },
     {
       "relationId": 2834791,
-      "name": "Saint Christopher\u2013Nevis\u2013Anguilla\u2013Virgin Islands",
+      "name": "Saint Christopher–Nevis–Anguilla–Virgin Islands",
       "wikidata": "Q1637975",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1065,7 +1074,7 @@
     },
     {
       "relationId": 2840195,
-      "name": "Ke Aupuni Hawai\u02bbi",
+      "name": "Ke Aupuni Hawaiʻi",
       "wikidata": "Q156418",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1075,7 +1084,7 @@
     },
     {
       "relationId": 2841332,
-      "name": "Capitan\u00eda General de Filipinas",
+      "name": "Capitanía General de Filipinas",
       "wikidata": "Q2721139",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1085,7 +1094,7 @@
     },
     {
       "relationId": 2841669,
-      "name": "Capitan\u00eda General de Cuba",
+      "name": "Capitanía General de Cuba",
       "wikidata": "Q2039931",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1095,7 +1104,7 @@
     },
     {
       "relationId": 2841681,
-      "name": "Capitan\u00eda General de Puerto Rico",
+      "name": "Capitanía General de Puerto Rico",
       "wikidata": "Q541745",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1105,7 +1114,7 @@
     },
     {
       "relationId": 2841722,
-      "name": "R\u00e9publique d'Ha\u00efti",
+      "name": "République d'Haïti",
       "wikidata": "Q95408244",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1125,7 +1134,7 @@
     },
     {
       "relationId": 2845857,
-      "name": "Nueva Espa\u00f1a",
+      "name": "Nueva España",
       "wikidata": "Q170603",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1233,7 +1242,7 @@
     },
     {
       "relationId": 2848466,
-      "name": "Nederlands-Indi\u00eb",
+      "name": "Nederlands-Indië",
       "wikidata": "Q188161",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1243,7 +1252,7 @@
     },
     {
       "relationId": 2848678,
-      "name": "Provincias Unidas del R\u00edo de la Plata",
+      "name": "Provincias Unidas del Río de la Plata",
       "wikidata": "Q738144",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1273,7 +1282,7 @@
     },
     {
       "relationId": 2848712,
-      "name": "Imp\u00e9rio do Brasil",
+      "name": "Império do Brasil",
       "wikidata": "Q217230",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1323,7 +1332,7 @@
     },
     {
       "relationId": 2849532,
-      "name": "\u0642\u0632\u0627\u0642 \u062e\u0627\u0646\u062f\u06cc\u063a\u06cc",
+      "name": "قزاق خاندیغی",
       "wikidata": "Q1433867",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1333,7 +1342,7 @@
     },
     {
       "relationId": 2851143,
-      "name": "\u0420\u0443\u0441\u0441\u043a\u0430\u044f \u0410\u043c\u0435\u0440\u0438\u043a\u0430",
+      "name": "Русская Америка",
       "wikidata": null,
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1343,7 +1352,7 @@
     },
     {
       "relationId": 2851349,
-      "name": "\u062e\u06cc\u0648\u0647 \u062e\u0627\u0646\u0644\u06cc\u06af\u06cc",
+      "name": "خیوه خانلیگی",
       "wikidata": null,
       "status": "valid",
       "geometryType": "Polygon",
@@ -1353,7 +1362,7 @@
     },
     {
       "relationId": 2851355,
-      "name": "\u062e\u0627\u0646\u200c\u0646\u0634\u06cc\u0646 \u062e\u0648\u0642\u0646\u062f",
+      "name": "خان‌نشین خوقند",
       "wikidata": "Q696241",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1363,7 +1372,7 @@
     },
     {
       "relationId": 2851361,
-      "name": "\u0627\u0645\u0627\u0631\u062a \u0628\u062e\u0627\u0631\u0627",
+      "name": "امارت بخارا",
       "wikidata": "Q746558",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1393,7 +1402,7 @@
     },
     {
       "relationId": 2856878,
-      "name": "\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0634\u0644\u0643",
+      "name": "مملكة الشلك",
       "wikidata": "Q3482103",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1403,7 +1412,7 @@
     },
     {
       "relationId": 2857300,
-      "name": "\u0631\u06cc\u0627\u0633\u062a \u0628\u06c1\u0627\u0648\u0644\u067e\u0648\u0631",
+      "name": "ریاست بہاولپور",
       "wikidata": "Q800236",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1413,7 +1422,7 @@
     },
     {
       "relationId": 2857706,
-      "name": "\u041c\u0438\u0442\u0440\u043e\u043f\u043e\u043b\u0441\u0442\u0432\u043e \u0426\u0440\u043d\u043e\u0433\u043e\u0440\u0441\u043a\u043e",
+      "name": "Митрополство Црногорско",
       "wikidata": "Q3324486",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1423,7 +1432,7 @@
     },
     {
       "relationId": 2859731,
-      "name": "M\u00e9xico",
+      "name": "México",
       "wikidata": "Q1109279",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1433,7 +1442,7 @@
     },
     {
       "relationId": 2860392,
-      "name": "Posessiones Espa\u00f1oles del Golfo de Guinea",
+      "name": "Posessiones Españoles del Golfo de Guinea",
       "wikidata": "Q1232509",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1443,7 +1452,7 @@
     },
     {
       "relationId": 2860664,
-      "name": "Espa\u00f1a",
+      "name": "España",
       "wikidata": "Q29",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1463,7 +1472,7 @@
     },
     {
       "relationId": 2860736,
-      "name": "Filipinas espa\u00f1olas",
+      "name": "Filipinas españolas",
       "wikidata": "Q3199818",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1483,7 +1492,7 @@
     },
     {
       "relationId": 2860769,
-      "name": "Kasultanan sin S\u016bg",
+      "name": "Kasultanan sin Sūg",
       "wikidata": "Q422065",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1523,7 +1532,7 @@
     },
     {
       "relationId": 2861415,
-      "name": "\u062f\u0648\u0644\u0629 \u0627\u0644\u062c\u0632\u0627\u0626\u0631",
+      "name": "دولة الجزائر",
       "wikidata": "Q3045696",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1533,7 +1542,7 @@
     },
     {
       "relationId": 2861416,
-      "name": "\u0627\u0644\u0633\u0644\u0637\u0646\u0629 \u0627\u0644\u0634\u0631\u064a\u0641\u0629",
+      "name": "السلطنة الشريفة",
       "wikidata": "Q131429368",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1563,7 +1572,7 @@
     },
     {
       "relationId": 2864416,
-      "name": "Timor Portugu\u00eas",
+      "name": "Timor Português",
       "wikidata": "Q142965",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1573,7 +1582,7 @@
     },
     {
       "relationId": 2865799,
-      "name": "\u00cele Sainte-Marie",
+      "name": "Île Sainte-Marie",
       "wikidata": null,
       "status": "valid",
       "geometryType": "Polygon",
@@ -1643,7 +1652,7 @@
     },
     {
       "relationId": 2869648,
-      "name": "\u0625\u0645\u0627\u0645\u0629 \u0641\u0648\u062a\u0629 \u062a\u0648\u0631\u0648",
+      "name": "إمامة فوتة تورو",
       "wikidata": "Q861795",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1653,7 +1662,7 @@
     },
     {
       "relationId": 2869649,
-      "name": "\u062f\u0648\u0644\u0629 \u0627\u0644\u062e\u0644\u0627\u0641\u0629 \u0641\u064a \u0628\u0644\u0627\u062f \u0627\u0644\u0633\u0648\u062f\u0627\u0646",
+      "name": "دولة الخلافة في بلاد السودان",
       "wikidata": null,
       "status": "valid",
       "geometryType": "Polygon",
@@ -1673,7 +1682,7 @@
     },
     {
       "relationId": 2871332,
-      "name": "\u0643\u0633\u0644\u0637\u0627\u0646\u0646 \u0628\u0646\u062c\u0631",
+      "name": "كسلطانن بنجر",
       "wikidata": "Q1660566",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1683,7 +1692,7 @@
     },
     {
       "relationId": 2874736,
-      "name": "\u078b\u07a8\u0788\u07ac\u0780\u07a8\u0783\u07a7\u0787\u07b0\u0796\u07ac",
+      "name": "ދިވެހިރާއްޖެ",
       "wikidata": null,
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1783,7 +1792,7 @@
     },
     {
       "relationId": 2885981,
-      "name": "Portuguese S\u00e3o Tom\u00e9 and Pr\u00edncipe",
+      "name": "Portuguese São Tomé and Príncipe",
       "wikidata": "Q7232692",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1793,7 +1802,7 @@
     },
     {
       "relationId": 2889893,
-      "name": "\u6c5f\u6238\u5e55\u5e9c",
+      "name": "江戸幕府",
       "wikidata": "Q205662",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1803,7 +1812,7 @@
     },
     {
       "relationId": 2889977,
-      "name": "\u5927\u6df8 \u1869\u1820\u1873\u180c\u1834\u1873\u1829 \u1864\u1860\u1875\u1860\u1828",
+      "name": "大淸 ᡩᠠᡳ᠌ᠴᡳᠩ ᡤᡠᡵᡠᠨ",
       "wikidata": "Q8733",
       "status": "invalid_geometry",
       "error": "[ohm] relation 2889977 has 8 unclosed boundary chains",
@@ -1821,7 +1830,7 @@
     },
     {
       "relationId": 2906074,
-      "name": "\u0f60\u0f56\u0fb2\u0f74\u0f42\u0f0b\u0f62\u0f92\u0fb1\u0f63\u0f0b\u0f41\u0f56\u0f0d",
+      "name": "འབྲུག་རྒྱལ་ཁབ།",
       "wikidata": "Q917",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1831,7 +1840,7 @@
     },
     {
       "relationId": 2912841,
-      "name": "K\u00f6nigreich Bayern",
+      "name": "Königreich Bayern",
       "wikidata": "Q154195",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1841,7 +1850,7 @@
     },
     {
       "relationId": 2913636,
-      "name": "K\u00f6nigreich Preu\u00dfen",
+      "name": "Königreich Preußen",
       "wikidata": "Q27306",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1881,7 +1890,7 @@
     },
     {
       "relationId": 2914815,
-      "name": "Danh\u0254m\u025b",
+      "name": "Danhɔmɛ",
       "wikidata": "Q468814",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1899,7 +1908,7 @@
     },
     {
       "relationId": 2918031,
-      "name": "\u062f\u0627\u0631 \u0627\u0644\u0643\u0648\u062a\u064a",
+      "name": "دار الكوتي",
       "wikidata": "Q21590889",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1919,7 +1928,7 @@
     },
     {
       "relationId": 2918514,
-      "name": "\u5927\u8d8a",
+      "name": "大越",
       "wikidata": "Q430309",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1929,7 +1938,7 @@
     },
     {
       "relationId": 2918515,
-      "name": "Tourane fran\u00e7aise",
+      "name": "Tourane française",
       "wikidata": "Q25282",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1949,7 +1958,7 @@
     },
     {
       "relationId": 2920986,
-      "name": "\u0627\u0644\u0652\u0625\u0650\u0645\u0652\u0628\u064e\u0631\u064e\u0627\u0637\u064f\u0648\u0631\u0650\u064a\u064e\u0651\u0629 \u0627\u0644\u0652\u0639\u064f\u0645\u064e\u0627\u0646\u0650\u064a\u064e\u0651\u0629",
+      "name": "الْإِمْبَرَاطُورِيَّة الْعُمَانِيَّة",
       "wikidata": "Q22684779",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -1959,7 +1968,7 @@
     },
     {
       "relationId": 2921509,
-      "name": "\u0633\u0644\u0637\u0646\u0629 \u0627\u0644\u062d\u0648\u0627\u0634\u0628",
+      "name": "سلطنة الحواشب",
       "wikidata": "Q1591062",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1969,7 +1978,7 @@
     },
     {
       "relationId": 2921516,
-      "name": "\u0633\u0644\u0637\u0646\u0629 \u0644\u062d\u062c",
+      "name": "سلطنة لحج",
       "wikidata": "Q404774",
       "status": "valid",
       "geometryType": "Polygon",
@@ -1998,6 +2007,16 @@
       "license": "CC0"
     },
     {
+      "relationId": 2922111,
+      "name": "Baroda",
+      "wikidata": "Q808575",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 13,
+      "coordinates": 6119,
+      "license": "CC0"
+    },
+    {
       "relationId": 2922243,
       "name": "Kingdom of Coorg",
       "wikidata": "Q19892830",
@@ -2005,6 +2024,16 @@
       "geometryType": "Polygon",
       "polygons": 1,
       "coordinates": 1524,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2922413,
+      "name": "Kingdom of Travancore",
+      "wikidata": "Q150058",
+      "status": "valid",
+      "geometryType": "MultiPolygon",
+      "polygons": 52,
+      "coordinates": 8758,
       "license": "CC0"
     },
     {
@@ -2029,7 +2058,7 @@
     },
     {
       "relationId": 2922476,
-      "name": "\u0627\u0633\u062a\u0627\u0646 \u0633\u0646\u062f",
+      "name": "استان سند",
       "wikidata": "Q37211",
       "status": "valid",
       "geometryType": "Polygon",
@@ -2039,12 +2068,42 @@
     },
     {
       "relationId": 2923110,
-      "name": "\ud801\udc88\ud801\udc9a\ud801\udc90\ud801\udc86\ud801\udc96\ud801\udc92\ud801\udc96\ud801\udc86\ud801\udc86\ud801\udc96 \ud801\udc91\ud801\udc96\ud801\udc83\ud801\udc9c\ud801\udc87\ud801\udc82\ud801\udc9c\ud801\udc92",
+      "name": "𐒈𐒚𐒐𐒆𐒖𐒒𐒖𐒆𐒆𐒖 𐒑𐒖𐒃𐒜𐒇𐒂𐒜𐒒",
       "wikidata": "Q2257830",
       "status": "valid",
       "geometryType": "Polygon",
       "polygons": 1,
       "coordinates": 1622,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2923117,
+      "name": "Princely State of Gwalior",
+      "wikidata": "Q1557792",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 6982,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2923306,
+      "name": "Princely State of Hyderabad",
+      "wikidata": "Q1240096",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 15070,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2923410,
+      "name": "Princely State of Nagpur",
+      "wikidata": "Q4311709",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 32202,
       "license": "CC0"
     },
     {
@@ -2059,12 +2118,22 @@
     },
     {
       "relationId": 2923782,
-      "name": "\u0628\u06c1\u0627\u0648\u0644\u067e\u0648\u0631 \u062f\u06cc \u0631\u06cc\u0627\u0633\u062a",
+      "name": "بہاولپور دی ریاست",
       "wikidata": "Q800236",
       "status": "valid",
       "geometryType": "Polygon",
       "polygons": 1,
       "coordinates": 3879,
+      "license": "CC0"
+    },
+    {
+      "relationId": 2929117,
+      "name": "Wallachia",
+      "wikidata": "Q389004",
+      "status": "valid",
+      "geometryType": "Polygon",
+      "polygons": 1,
+      "coordinates": 3623,
       "license": "CC0"
     },
     {
@@ -2119,7 +2188,7 @@
     },
     {
       "relationId": 2959473,
-      "name": "Capitania Geral dos A\u00e7ores",
+      "name": "Capitania Geral dos Açores",
       "wikidata": "Q17747179",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -2139,7 +2208,7 @@
     },
     {
       "relationId": 2961073,
-      "name": "\u0643\u0633\u0644\u0637\u0627\u0646\u0646 \u0628\u0631\u0648\u0646\u064a",
+      "name": "كسلطانن بروني",
       "wikidata": "Q887803",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -2149,7 +2218,7 @@
     },
     {
       "relationId": 2961281,
-      "name": "\u062f\u0648\u0644\u062a\u0652 \u0639\u0644\u06cc\u0651\u0647 \u0639\u062b\u0645\u0627\u0646\u06cc\u0651\u0647",
+      "name": "دولتْ علیّه عثمانیّه",
       "wikidata": "Q12560",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -2159,7 +2228,7 @@
     },
     {
       "relationId": 2961282,
-      "name": "\u0420\u043e\u0441\u0441\u0438\u0439\u0441\u043a\u0430\u044f \u0438\u043c\u043f\u0435\u0440\u0438\u044f",
+      "name": "Российская империя",
       "wikidata": "Q34266",
       "status": "valid",
       "geometryType": "MultiPolygon",
@@ -2169,7 +2238,7 @@
     },
     {
       "relationId": 2961391,
-      "name": "Din\u00e9",
+      "name": "Diné",
       "wikidata": "Q108266",
       "status": "valid",
       "geometryType": "Polygon",
@@ -2179,7 +2248,7 @@
     },
     {
       "relationId": 2961649,
-      "name": "\u00c9tablissements fran\u00e7ais dans l'Inde",
+      "name": "Établissements français dans l'Inde",
       "wikidata": "Q646374",
       "status": "valid",
       "geometryType": "MultiPolygon",

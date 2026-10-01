@@ -8,7 +8,11 @@ import {
   buildCandidateCrosswalk,
   loadScenarioRosterFiles,
 } from '../content/sources/roster/compiler.mjs';
-import { validateGeometryResolutions, validateGeometrySupplements } from '../content/sources/geometry/compiler.mjs';
+import {
+  validateGeometryComponentFilters,
+  validateGeometryResolutions,
+  validateGeometrySupplements,
+} from '../content/sources/geometry/compiler.mjs';
 import { compileRelationships } from '../content/sources/relationships/compiler.mjs';
 
 const root = process.cwd();
@@ -105,6 +109,11 @@ async function validateGeometryAudit(id) {
     { schemaVersion: 1, asOf: id, entries: [] },
   );
   validateGeometrySupplements({ asOf: id, roster, supplements, audit: supplementAudit });
+  const componentFilters = await readOptionalJson(
+    path.join(scenarioDir, 'sources', 'geometry-component-filters.json'),
+    { schemaVersion: 1, asOf: id, filters: [] },
+  );
+  validateGeometryComponentFilters({ asOf: id, roster, filters: componentFilters });
   return {
     valid: audit.entries.length - invalid.length,
     total: audit.entries.length,
@@ -157,6 +166,18 @@ async function validateCompiledBorders(id) {
     path.join(scenarioDir, 'sources', 'geometry-supplements.json'),
     { supplements: [] },
   );
+  const componentFilters = await readOptionalJson(
+    path.join(scenarioDir, 'sources', 'geometry-component-filters.json'),
+    { filters: [] },
+  );
+  for (const filter of componentFilters.filters ?? []) {
+    requireValue(
+      compiled.provenance.some((entry) => entry.polityKey === filter.polityKey
+        && entry.sourceRecord === filter.sourceRecord
+        && entry.componentFilter?.action === filter.action),
+      `${id} compiled borders omit component filter provenance for ${filter.polityKey} record ${filter.sourceRecord}`,
+    );
+  }
   for (const supplement of supplements.supplements ?? []) {
     requireValue(
       compiled.provenance.some((entry) => entry.relationId === supplement.relationId
@@ -398,11 +419,13 @@ for (const id of catalog.scenarios) {
     continue;
   }
   await validateOhmSpec(id);
-  if (id !== '1830-01-01') {
+  {
     await validateRoster(id, manifest);
     geometryAudits.push({ id, ...await validateGeometryAudit(id) });
     await validateCompiledBorders(id);
-    seedAudits.push(await validateCompiledSeed(id, manifest));
+    // The playable 1830 campaign still runs on the legacy generated seed; its source pack
+    // feeds the province mesh rebuild and has no compiled scenario seed yet.
+    if (id !== '1830-01-01') seedAudits.push(await validateCompiledSeed(id, manifest));
     const files = await loadScenarioRosterFiles(path.join(scenariosRoot, id));
     await validateCliopatria(id, files);
     rosterAudits.push(auditRosterReview(files));

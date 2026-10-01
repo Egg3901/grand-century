@@ -61,6 +61,10 @@ import {
   weatherMapData,
   weatherAtLocation,
   WEATHER_CLOUD_PAINT,
+  WEATHER_PRECIPITATION_LAYOUT,
+  WEATHER_RAIN_PAINT,
+  WEATHER_SNOW_CASING_PAINT,
+  WEATHER_SNOW_PAINT,
 } from "../../src/graphics/weather";
 import { HomeScreen } from "./game/HomeScreen";
 import { MapModeChooser } from "./game/MapModeChooser";
@@ -733,21 +737,22 @@ function Atlas({
                 id="visual-weather-rain"
                 type="line"
                 filter={["==", ["get", "kind"], "rain"]}
-                paint={{
-                  "line-color": "#b2d8eb",
-                  "line-width": 1.5,
-                  "line-opacity": 0.8,
-                }}
+                layout={WEATHER_PRECIPITATION_LAYOUT}
+                paint={WEATHER_RAIN_PAINT as never}
+              />
+              <Layer
+                id="visual-weather-snow-casing"
+                type="line"
+                filter={["==", ["get", "kind"], "snow"]}
+                layout={WEATHER_PRECIPITATION_LAYOUT}
+                paint={WEATHER_SNOW_CASING_PAINT as never}
               />
               <Layer
                 id="visual-weather-snow"
                 type="line"
                 filter={["==", ["get", "kind"], "snow"]}
-                paint={{
-                  "line-color": "#fffaf1",
-                  "line-width": 3,
-                  "line-opacity": 0.85,
-                }}
+                layout={WEATHER_PRECIPITATION_LAYOUT}
+                paint={WEATHER_SNOW_PAINT as never}
               />
             </GeoJSONSource>
           </Map>
@@ -786,6 +791,7 @@ function Atlas({
             tag={player?.tag ?? nation.tag}
             name={player?.name ?? nation.name}
             color={player?.color ?? nation.color}
+            testID="player-country-flag"
           />
         </View>
         <View style={styles.topTitleBlock}>
@@ -851,16 +857,38 @@ function Atlas({
           left: 12,
           top: landscape ? 76 : 136,
           minHeight: 44,
-          paddingHorizontal: 12,
-          justifyContent: "center",
-          backgroundColor: "#102b35",
+          paddingHorizontal: 14,
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 8,
+          borderRadius: 22,
+          borderWidth: 1,
+          borderColor: "#35545c",
+          backgroundColor: "rgba(16, 43, 53, 0.88)",
         }}
       >
-        <Text style={{ color: "#f4eddf", fontSize: 12 }}>
-          Weather /{" "}
+        <Ionicons
+          name={
+            localWeather.kind === "rain"
+              ? "rainy-outline"
+              : localWeather.kind === "snow"
+                ? "snow-outline"
+                : localWeather.kind === "fog"
+                  ? "cloudy-outline"
+                  : "sunny-outline"
+          }
+          size={17}
+          color="#d6b475"
+        />
+        <Text style={{ color: "#f4eddf", fontSize: 13, fontWeight: "700" }}>
           {localWeather.kind.charAt(0).toUpperCase() +
             localWeather.kind.slice(1)}
-          {atmosphere.weather !== "clear" ? " · Regional" : ""}
+          {atmosphere.weather === "dynamic" ? (
+            <Text style={{ color: "#a9bcbd", fontWeight: "400" }}>
+              {" "}
+              · Regional
+            </Text>
+          ) : null}
         </Text>
       </Pressable>
       {active && !panel && !province && (

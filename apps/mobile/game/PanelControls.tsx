@@ -10,6 +10,7 @@ export const panelStyles = StyleSheet.create({
     fontWeight: "600",
   },
   text: { fontSize: 15, lineHeight: 22, color: "#42565a" },
+  link: { fontSize: 13, color: "#7a5a22", fontWeight: "600", textDecorationLine: "underline" },
   value: { fontSize: 16, fontWeight: "700", color: "#17262d", flexShrink: 1 },
   row: {
     flexDirection: "row",
@@ -118,9 +119,9 @@ export function Fact({
             accessibilityLabel={`Explain ${label}`}
             accessibilityState={{ expanded }}
             onPress={() => setExpanded(!expanded)}
-            style={{ minHeight: 44, justifyContent: "center" }}
+            style={{ minHeight: 44, justifyContent: "center", alignSelf: "flex-start" }}
           >
-            <Text style={panelStyles.text}>
+            <Text style={panelStyles.link}>
               {expanded ? "Hide calculation" : "Show calculation"}
             </Text>
           </Pressable>

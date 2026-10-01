@@ -304,7 +304,7 @@ export default function GraphicsSmoke() {
           gap: 8,
         }}
       >
-        <NationFlag tag="ALG" name="Algeria" color={[90, 120, 70]} />
+        <NationFlag tag="ALG" name="Algeria" color={[90, 120, 70]} testID="player-country-flag" />
         <Text style={{ color: "#fff" }}>
           Native graphics check {phase + 1}/3{failed ? `: ${failed}` : ""}
         </Text>

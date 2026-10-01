@@ -157,15 +157,17 @@ void main() {
     float swell=sin(dot(p,vec2(.78,.63))+clock*1.35);
     float cross=sin(dot(p,vec2(-.56,1.12))-clock*1.8+swell*.6);
     float fine=sin(dot(p,vec2(3.3,-2.1))+clock*3.1+cross);
-    vec3 wn=normalize(vec3(swell*.27+cross*.14,cos(dot(p,vec2(.78,.63))+clock*1.35)*.20+fine*.055*detail,1.0));
+    // Swell relief fades out at strategic zoom, where it aliased into a zigzag moire.
+    float calm=mix(.3,1.0,detail);
+    vec3 wn=normalize(vec3((swell*.27+cross*.14)*calm,(cos(dot(p,vec2(.78,.63))+clock*1.35)*.20)*calm+fine*.055*detail,1.0));
     vec3 eye=normalize(vec3(0.0,-.707,.707));
     float fresnel=.035+.965*pow(1.0-max(0.0,dot(wn,eye)),5.0);
     float glint=pow(max(0.0,dot(wn,normalize(sun+eye))),128.0);
     float coast=coastalData.y;
     float shelf=smoothstep(.02,.95,coast);
-    vec3 sea=mix(vec3(.025,.13,.24),vec3(.055,.43,.48),shelf);
+    vec3 sea=mix(vec3(.06,.21,.33),vec3(.09,.46,.50),shelf);
     sea=mix(sea,vec3(.38,.57,.68),fresnel*.7);
-    sea+=vec3(.65,.73,.70)*glint*.24*(.3+.7*noise(p*.27))+(swell+cross*.5)*.011;
+    sea+=vec3(.65,.73,.70)*glint*.24*(.3+.7*noise(p*.27))+(swell+cross*.5)*.011*calm;
     // Moving surf bands follow the physical shore distance at close zoom.
     float breaker=pow(max(0.0,sin(coast*18.0-clock*2.4+cross*1.7)),10.0);
     float shore=smoothstep(.77,.99,coast);
@@ -210,9 +212,11 @@ void main() {
   vec3 material=mix(ground.rgb*vec3(.76,.83,.79),albedo,closeDetail*.92);
   material*=.99+broad*.02;
   vec3 land=illumination(material,normal,sun);
-  float light=.3+.7*daylight(sun);
+  float light=.55+.45*daylight(sun);
   vec3 pigment=texture2D(palette,vec2((id-.5)/1024.0,.25)).rgb;
-  land=mix(land,land*.68+pigment*light*.32,political*step(.5,id));
+  // Nations read as colour at strategic zoom; terrain takes over up close.
+  float wash=mix(.48,.30,closeDetail);
+  land=mix(land,land*(1.0-wash)+pigment*light*wash,political*step(.5,id));
   // Symmetric, screen-sized edges. Ownership comes from the live simulation,
   // so conquests and procedural worlds do not retain historical frontiers.
   float right=idAt(uv+vec2(texel,0)), left=idAt(uv-vec2(texel,0));
@@ -224,7 +228,12 @@ void main() {
   land=mix(land,vec3(.22,.25,.20),border*provinceLines*mix(.12,.30,political));
   land=mix(land,vec3(.96,.88,.65),frontier*mix(.32,.75,political));
   if(abs(id-selected)<.1) land=mix(land,vec3(.96,.79,.38),.13+min(1.0,border)*.62);
-  gl_FragColor=vec4(atmosphereColor(mix(water,land,coverage),sun,weather),1.0);
+  vec3 surfaceColor=mix(water,land,coverage);
+  // Inked shoreline with a pale shelf rim on the seaward side.
+  float rim=1.0-abs(coverage*2.0-1.0);
+  surfaceColor=mix(surfaceColor,vec3(.13,.15,.14),smoothstep(.35,1.0,rim)*.42);
+  surfaceColor=mix(surfaceColor,vec3(.72,.80,.76),smoothstep(0.0,.5,rim)*(1.0-coverage)*.16);
+  gl_FragColor=vec4(atmosphereColor(surfaceColor,sun,weather),1.0);
 }
 `;
 
