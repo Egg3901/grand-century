@@ -121,6 +121,33 @@ def main():
     # modern urban population as a density proxy. Independent of the legacy
     # geometry, whose collapsed provinces (one for most of Britain) skewed it.
     assign_population(provinces, feats, names)
+    # Game balance: each 1830 nation keeps the total population weight its
+    # land carried on the pre-v8 map (legacy weights split by area), so great
+    # power economies are unchanged. Maddison, terrain and urban data above
+    # only decide how that total is distributed inside the nation.
+    succ_area = defaultdict(float)
+    for p in provinces:
+        for k, v in p['_ov'].items(): succ_area[k] += v
+    legacy_w = {p['id']: sum(lprov[k]['populationWeight'] * v / max(succ_area[k], 1e-9)
+                              for k, v in p['_ov'].items() if k in lprov) for p in provinces}
+    # The preserved unit is (owner, modern country): British India and the
+    # British Isles each keep their own legacy total, so India's size cannot
+    # drain London through the within-nation split.
+    # Regions the legacy cut mis-split internally (it collapsed most of Great
+    # Britain into one province beside three Irish ones) are preserved as a
+    # whole, so Maddison's real ratios set the split inside them.
+    MACRO = {'GBR': 'BRITISH_ISLES', 'IRL': 'BRITISH_ISLES', 'IMN': 'BRITISH_ISLES',
+             'NLD': 'LOW_COUNTRIES', 'BEL': 'LOW_COUNTRIES', 'LUX': 'LOW_COUNTRIES'}
+    cell = lambda p: (p['ownerTag'], MACRO.get(feats[p['id']]['properties']['iso'], feats[p['id']]['properties']['iso']))
+    cell_legacy = defaultdict(float); cell_new = defaultdict(float)
+    for p in provinces:
+        cell_legacy[cell(p)] += legacy_w[p['id']]; cell_new[cell(p)] += p['populationWeight']
+    for p in provinces:
+        c = cell(p)
+        if cell_new[c] > 0 and cell_legacy[c] > 0:
+            p['populationWeight'] = p['populationWeight'] / cell_new[c] * cell_legacy[c]
+        else:
+            p['populationWeight'] = legacy_w[p['id']]
     # preserve the legacy world population total
     total_old = sum(p['populationWeight'] for p in legacy['provinces'])
     total_new = sum(p['populationWeight'] for p in provinces) or 1

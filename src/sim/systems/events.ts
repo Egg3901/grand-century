@@ -67,28 +67,36 @@ function nationOwnedProvinceIds(world: World, nationId: NationId): Set<number> {
   return ids;
 }
 
-function avgMilitancy(world: World, nationId: NationId): number {
-  const owned = nationOwnedProvinceIds(world, nationId);
-  let sum = 0;
-  let count = 0;
+/**
+ * Per-nation pop averages, computed once per day for every nation instead of
+ * one full pop scan per nation per trigger check. Same means as before.
+ */
+const POP_AVERAGES = new WeakMap<World, { day: number; pops: number; militancy: Float64Array; needs: Float64Array; count: Float64Array }>();
+
+function popAverages(world: World) {
+  const cached = POP_AVERAGES.get(world);
+  if (cached && cached.day === world.day && cached.pops === world.pops.length) return cached;
+  const n = world.nations.length;
+  const militancy = new Float64Array(n), needs = new Float64Array(n), count = new Float64Array(n);
   for (const pop of world.pops) {
-    if (pop.size <= 0 || !owned.has(pop.provinceId)) continue;
-    sum += pop.militancy;
-    count += 1;
+    if (pop.size <= 0) continue;
+    const owner = world.provinces[pop.provinceId]?.owner;
+    if (owner === undefined || owner < 0 || owner >= n) continue;
+    militancy[owner] += pop.militancy; needs[owner] += pop.needsMet; count[owner] += 1;
   }
-  return count > 0 ? sum / count : 0;
+  const value = { day: world.day, pops: world.pops.length, militancy, needs, count };
+  POP_AVERAGES.set(world, value);
+  return value;
+}
+
+function avgMilitancy(world: World, nationId: NationId): number {
+  const a = popAverages(world);
+  return a.count[nationId] > 0 ? a.militancy[nationId] / a.count[nationId] : 0;
 }
 
 function avgNeedsMet(world: World, nationId: NationId): number {
-  const owned = nationOwnedProvinceIds(world, nationId);
-  let sum = 0;
-  let count = 0;
-  for (const pop of world.pops) {
-    if (pop.size <= 0 || !owned.has(pop.provinceId)) continue;
-    sum += pop.needsMet;
-    count += 1;
-  }
-  return count > 0 ? sum / count : 1;
+  const a = popAverages(world);
+  return a.count[nationId] > 0 ? a.needs[nationId] / a.count[nationId] : 1;
 }
 
 function factoryCount(world: World, nationId: NationId): number {

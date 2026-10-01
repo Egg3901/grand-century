@@ -141,9 +141,34 @@ export function importDiplomacyRuntime(world: World, snapshot: DiplomacyRuntimeS
   RUNTIME_BY_WORLD.set(world, runtime);
 }
 
+/**
+ * Pair -> position index over world.relations. A linear findIndex per lookup
+ * made ensureAllPairRelations quadratic in the relation count (about 12k
+ * pairs on the 155-nation 1830 world). The index is rebuilt whenever the
+ * array is replaced or its length changes, and every hit is verified, so an
+ * in-place edit can never return the wrong relation.
+ */
+const RELATION_INDEX = new WeakMap<DiploRelation[], { length: number; byPair: Map<number, number> }>();
+const pairKey = (a: NationId, b: NationId) => a * 65536 + b;
+
 function relationIndex(world: World, a: NationId, b: NationId): number {
   const pair = relationPair(a, b);
-  return world.relations.findIndex((relation) => relation.a === pair.a && relation.b === pair.b);
+  const relations = world.relations;
+  let cache = RELATION_INDEX.get(relations);
+  if (!cache || cache.length !== relations.length) {
+    const byPair = new Map<number, number>();
+    for (let i = 0; i < relations.length; i++) byPair.set(pairKey(relations[i].a, relations[i].b), i);
+    cache = { length: relations.length, byPair };
+    RELATION_INDEX.set(relations, cache);
+  }
+  const index = cache.byPair.get(pairKey(pair.a, pair.b));
+  if (index !== undefined) {
+    const hit = relations[index];
+    if (hit && hit.a === pair.a && hit.b === pair.b) return index;
+  }
+  const found = relations.findIndex((relation) => relation.a === pair.a && relation.b === pair.b);
+  if (found >= 0) cache.byPair.set(pairKey(pair.a, pair.b), found);
+  return found;
 }
 
 export function getOrCreateRelation(world: World, a: NationId, b: NationId): DiploRelation {
@@ -158,6 +183,8 @@ export function getOrCreateRelation(world: World, a: NationId, b: NationId): Dip
     expiresDay: -1,
   };
   world.relations.push(created);
+  const cache = RELATION_INDEX.get(world.relations);
+  if (cache) { cache.byPair.set(pairKey(pair.a, pair.b), world.relations.length - 1); cache.length = world.relations.length; }
   return created;
 }
 
@@ -175,8 +202,8 @@ function ensureAllPairRelations(world: World): void {
 }
 
 export function relationForNations(world: World, a: NationId, b: NationId): DiploRelation | null {
-  const pair = relationPair(a, b);
-  return world.relations.find((relation) => relation.a === pair.a && relation.b === pair.b) ?? null;
+  const index = relationIndex(world, a, b);
+  return index >= 0 ? world.relations[index] : null;
 }
 
 export function relationKindBetween(world: World, a: NationId, b: NationId): DiploRelationKind {

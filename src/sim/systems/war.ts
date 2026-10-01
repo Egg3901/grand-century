@@ -1,3 +1,4 @@
+import { hopKm, REFERENCE_HOP_KM } from '../geography';
 import type {
   BattleReport,
   Army,
@@ -346,14 +347,17 @@ function movementDaysForArmy(world: World, army: Army, target: Province): number
   const nation = world.nations[army.owner];
   const moveBonus = nation ? Math.max(0, techModifiersFor(nation, gameDataForScenario(world.scenarioId)).armyMovement ?? 0) : 0;
   const techFactor = clamp(1 - Math.min(0.35, moveBonus), 0.65, 1);
-  return clamp(BASE_ARMY_MOVE_DAYS * terrainPenalty * compositionFactor * techFactor + fortPenalty + leaderMove, 2, 15);
+  // World v8: march time follows distance, so smaller provinces do not slow wars.
+  const distanceFactor = clamp(hopKm(source.id, target.id) / REFERENCE_HOP_KM, 0.2, 3);
+  return clamp(BASE_ARMY_MOVE_DAYS * distanceFactor * terrainPenalty * compositionFactor * techFactor + fortPenalty + leaderMove, 1, 15);
 }
 
 function movementDaysForFleet(world: World, fleet: Fleet, target: Province): number {
   const source = world.provinces[fleet.location];
   if (!source) return BASE_FLEET_MOVE_DAYS;
   const hostilePenalty = source.owner !== target.owner ? 1 : 0;
-  return clamp(BASE_FLEET_MOVE_DAYS + hostilePenalty + terrainMoveCost(target.terrain) * 0.3, 2, 10);
+  const distanceFactor = clamp(hopKm(source.id, target.id) / REFERENCE_HOP_KM, 0.2, 3);
+  return clamp(BASE_FLEET_MOVE_DAYS * distanceFactor + hostilePenalty + terrainMoveCost(target.terrain) * 0.3, 1, 10);
 }
 
 function isFriendlyControlled(world: World, nationId: NationId, provinceId: ProvinceId): boolean {

@@ -1,3 +1,4 @@
+import { worldProvinceScale } from '../geography';
 import type { BudgetLine, GameData, NationId, Pop, World } from '../../shared/types';
 import type { Rng } from '../rng';
 import { BALANCE } from '../balance';
@@ -186,10 +187,12 @@ function computeNationBudget(
     .reduce((total, fleet) => total + fleet.ships.length * BALANCE.economy.navyUpkeepPerShip, 0);
   const armyUpkeep = armyOnlyUpkeep + navyOnlyUpkeep;
   const subsidySpend = nationFactorySubsidies(world, nationId, index);
-  const constructionSpend = nation.constructionBlocked ? 0 : provinceIds.length * BALANCE.economy.constructionSpendPerProvince;
+  // Per-province costs are per reference province (see geography.ts).
+  const provinceUnits = provinceIds.length * worldProvinceScale(world);
+  const constructionSpend = nation.constructionBlocked ? 0 : provinceUnits * BALANCE.economy.constructionSpendPerProvince;
   const population = nationPopulation(world, nationId, index);
   const adminSpend = population * BALANCE.economy.adminSpendPerPopulation
-    + provinceIds.length * BALANCE.economy.adminSpendPerProvince;
+    + provinceUnits * BALANCE.economy.adminSpendPerProvince;
   const reformUpkeep = Object.values(nation.reforms).reduce((sum, level) => (
     sum + Math.max(0, level) * BALANCE.economy.reformUpkeepPerLevel
   ), 0);
@@ -250,7 +253,7 @@ function computeNationBudget(
       constructionSpend: [
         { label: 'Province count', value: provinceIds.length },
         { label: '£ per province', value: BALANCE.economy.constructionSpendPerProvince },
-        { label: 'Formula', value: provinceIds.length * BALANCE.economy.constructionSpendPerProvince },
+        { label: 'Formula', value: provinceUnits * BALANCE.economy.constructionSpendPerProvince },
       ],
       adminSpend: [
         { label: 'Population', value: population },

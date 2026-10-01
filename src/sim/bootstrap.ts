@@ -1,3 +1,4 @@
+import { provinceScale } from './geography';
 import { gpRankFor } from '../shared/greatPowers';
 import type {
   BudgetLine,
@@ -694,6 +695,7 @@ function createStates(worldSeed: WorldSeedData, tagToNationId: Record<string, nu
 }
 
 function createProvinces(worldSeed: WorldSeedData, rng: Rng, tagToNationId: Record<string, number>): { provinces: Province[]; runtime: ProvinceSeedRuntime[] } {
+  const scale = provinceScale(worldSeed.provinces.length);
   const provinces: Province[] = [];
   const runtime: ProvinceSeedRuntime[] = [];
   const validIds = new Set(worldSeed.provinces.map((province) => province.id));
@@ -703,8 +705,9 @@ function createProvinces(worldSeed: WorldSeedData, rng: Rng, tagToNationId: Reco
     const controller = seed.controllerTag ? (tagToNationId[seed.controllerTag] ?? owner) : owner;
     const terrain = seed.terrain as Terrain;
     const recipe = RGO_GOOD_TO_RECIPE[seed.rgoGood] ?? RGO_RECIPES[seed.id % RGO_RECIPES.length];
-    const level = clamp(1 + Math.round(seed.populationWeight * 1.6), 1, 5);
-    const employed = Math.max(800, Math.floor((1200 + rng.next() * 2400) * seed.populationWeight));
+    // Floors are per reference province; a v8 province is a fraction of one.
+    const level = clamp(1 + Math.round((seed.populationWeight / scale) * 1.6), 1, 5);
+    const employed = Math.max(Math.floor(800 * scale), Math.floor((1200 + rng.next() * 2400) * seed.populationWeight));
     provinces.push({
       id: seed.id,
       name: seed.name,
@@ -728,7 +731,7 @@ function createProvinces(worldSeed: WorldSeedData, rng: Rng, tagToNationId: Reco
     });
     runtime.push({
       id: seed.id,
-      weight: Math.max(0.2, seed.populationWeight),
+      weight: Math.max(0.2 * scale, seed.populationWeight),
     });
   }
   return { provinces, runtime };
@@ -893,8 +896,9 @@ function createPops(worldSeed: WorldSeedData, worldProvinces: Province[], provin
       ? provinceCultureSlices(seed, nations, province.owner, religionByNation, provinceOwnerBySeedId, data)
       : [{ culture: nation.primaryCulture, religion, weight: 1 }];
     const plurality = slices[0];
-    const density = Math.max(0.3, weight * (province.terrain === 'desert' ? 0.62 : 1));
-    const basePopulation = Math.max(2200, Math.floor((7000 + rng.next() * 16000) * density));
+    const scale = provinceScale(worldProvinces.length);
+    const density = Math.max(0.3 * scale, weight * (province.terrain === 'desert' ? 0.62 : 1));
+    const basePopulation = Math.max(2200 * scale, Math.floor((7000 + rng.next() * 16000) * density));
     const sizeShareByType: Record<PopType, number> = {
       farmer: 0.42,
       laborer: 0.27,
@@ -910,7 +914,7 @@ function createPops(worldSeed: WorldSeedData, worldProvinces: Province[], provin
     for (let i = 0; i < POP_TYPES.length; i++) {
       const type = POP_TYPES[i];
       const share = sizeShareByType[type] ?? 0.05;
-      const typeSize = Math.max(80, Math.floor(basePopulation * share * (0.9 + rng.next() * 0.25)));
+      const typeSize = Math.max(Math.max(10, Math.round(80 * scale)), Math.floor(basePopulation * share * (0.9 + rng.next() * 0.25)));
       // Soldiers serve the crown; local elites belong to the local plurality.
       const cohorts: CultureSlice[] = type === 'soldier'
         ? [{ culture: nation.primaryCulture, religion, weight: 1 }]
