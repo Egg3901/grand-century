@@ -1,8 +1,60 @@
 {
   "schemaVersion": 1,
   "asOf": "1936-01-01",
-  "reviewedBy": "Codex province projection review",
-  "reviewedAt": "2026-09-02",
+  "reviewedBy": "World v8 coverage review",
+  "reviewedAt": "2026-10-01",
   "note": "Cleared for the world v8 mesh: province edges now follow every scenario border, so centroid misassignments these overrides patched on the coarse legacy mesh no longer occur. Earlier overrides (10) were keyed to legacy province ids and are recorded in git history.",
-  "overrides": []
+  "overrides": [],
+  "regionFills": [
+    {
+      "bounds": [
+        -32,
+        36,
+        -24,
+        40.5
+      ],
+      "polityKey": "PORTUGAL",
+      "notes": "Azores: Portuguese autonomous district."
+    },
+    {
+      "bounds": [
+        -17.6,
+        32,
+        -15.8,
+        33.5
+      ],
+      "polityKey": "PORTUGAL",
+      "notes": "Madeira: Portuguese district."
+    },
+    {
+      "bounds": [
+        -26,
+        14.5,
+        -22,
+        17.5
+      ],
+      "polityKey": "PORTUGAL",
+      "notes": "Cape Verde: Portuguese colony administered from Lisbon."
+    },
+    {
+      "bounds": [
+        92,
+        6,
+        94,
+        14.5
+      ],
+      "polityKey": "BRITISH_RAJ",
+      "notes": "Andaman and Nicobar Islands: administered by British India."
+    },
+    {
+      "bounds": [
+        176.5,
+        -13,
+        177.5,
+        -12
+      ],
+      "polityKey": "COLONY_OF_FIJI",
+      "notes": "Rotuma: dependency of the Colony of Fiji."
+    }
+  ]
 }

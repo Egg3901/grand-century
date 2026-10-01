@@ -262,6 +262,13 @@ async function validateCompiledSeed(id, manifest) {
     requireValue(source?.polityKey === assignment.polityKey, `${id} explicit province assignment changed owner`);
     requireValue(Boolean(assignment.notes && assignment.reviewedBy && assignment.reviewedAt), `${id} explicit province assignment lacks review provenance`);
   }
+  for (const assignment of diagnostics.regionFillAssignments ?? []) {
+    const province = worldSeed.provinces[assignment.provinceId];
+    const fill = (provinceOverrides.regionFills ?? []).find(({ bounds: [w, s, e, n] }) =>
+      province.lon >= w && province.lon <= e && province.lat >= s && province.lat <= n);
+    requireValue(fill?.polityKey === assignment.polityKey && province.ownerTag === assignment.polityKey, `${id} region fill assignment is stale`);
+    requireValue(Boolean(fill.notes && provinceOverrides.reviewedBy && provinceOverrides.reviewedAt), `${id} region fill lacks review provenance`);
+  }
   const represented = worldSeed.nations.filter((nation) => nation.tag !== 'UNC').length;
   requireValue(diagnostics.representedRosterPolities === represented, `${id} represented-polity count is stale`);
   const expectedMissing = roster.polities

@@ -144,6 +144,20 @@ export function compileScenarioSeed({
     requireValue(Boolean(override.notes), `override for province ${override.provinceId} needs review notes`);
     overrideByProvince.set(override.provinceId, override);
   }
+  // Region fills cover land the dated border source leaves blank (Egypt and
+  // Angola in 1914, Atlantic and Pacific islands). They are reviewed bounding
+  // boxes rather than province ids, so they survive mesh rebuilds, and they
+  // only apply where no border polygon contains the province's label point.
+  const regionFills = provinceOverrides.regionFills ?? [];
+  for (const fill of regionFills) {
+    requireValue(Array.isArray(fill.bounds) && fill.bounds.length === 4, `region fill ${fill.polityKey} needs [west, south, east, north] bounds`);
+    const polity = polityByKey.get(fill.polityKey);
+    requireValue(Boolean(polity), `region fill references unknown polity ${fill.polityKey}`);
+    requireValue(polity.status !== 'constituent', `region fill assigns land to constituent ${fill.polityKey}`);
+    requireValue(Boolean(fill.notes), `region fill ${fill.polityKey} needs review notes`);
+  }
+  const regionFillFor = ([lon, lat]) => regionFills.find(({ bounds: [w, s, e, n] }) => lon >= w && lon <= e && lat >= s && lat <= n);
+  const regionFillLedger = [];
   const shapes = ownershipShapes(compiledBorders);
   const overlapLedger = [];
   const nearestLedger = [];
@@ -174,6 +188,12 @@ export function compileScenarioSeed({
     if (distinct.length > 1) overlapLedger.push({ provinceId: province.id, candidates: distinct, selected: distinct[0] });
     if (distinct.length > 0) {
       ownerByProvince.set(province.id, distinct[0]);
+      continue;
+    }
+    const fill = regionFillFor(point);
+    if (fill) {
+      ownerByProvince.set(province.id, fill.polityKey);
+      regionFillLedger.push({ provinceId: province.id, provinceName: province.name, polityKey: fill.polityKey, notes: fill.notes });
       continue;
     }
     const nearby = shapes
@@ -307,6 +327,7 @@ export function compileScenarioSeed({
       overlaps: overlapLedger,
       nearestAssignments: nearestLedger,
       explicitProvinceAssignments: overrideLedger,
+      regionFillAssignments: regionFillLedger,
       representedRosterPolities: representedKeys.length,
       rosterPolitiesWithoutProvinceCentroids: roster.polities
         .map((polity) => polity.key)

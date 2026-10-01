@@ -3,43 +3,8 @@
   "asOf": "1914-07-28",
   "nationalBorderGridDegrees": 0.06,
   "provinceCount": 2141,
-  "assignedProvinces": 2107,
-  "gapProvinceIds": [
-    77,
-    151,
-    168,
-    192,
-    290,
-    327,
-    345,
-    414,
-    431,
-    450,
-    477,
-    510,
-    535,
-    855,
-    909,
-    937,
-    973,
-    976,
-    982,
-    1039,
-    1077,
-    1208,
-    1846,
-    1990,
-    2016,
-    2031,
-    2075,
-    2081,
-    2082,
-    2100,
-    2122,
-    2125,
-    2138,
-    2139
-  ],
+  "assignedProvinces": 2141,
+  "gapProvinceIds": [],
   "overlaps": [
     {
       "provinceId": 12,
@@ -1030,19 +995,9 @@
       "distanceDegrees": 0.9538288525726193
     },
     {
-      "provinceId": 273,
-      "polityKey": "DEUTSCH_SUDWESTAFRIKA",
-      "distanceDegrees": 0.9986999999999995
-    },
-    {
       "provinceId": 329,
       "polityKey": "EMIRATE_OF_NEJD",
       "distanceDegrees": 0.8414000000000001
-    },
-    {
-      "provinceId": 330,
-      "polityKey": "CONGO_BELGE",
-      "distanceDegrees": 1.1030999999999995
     },
     {
       "provinceId": 333,
@@ -1055,34 +1010,14 @@
       "distanceDegrees": 0.09076678908058734
     },
     {
-      "provinceId": 346,
-      "polityKey": "CONGO_BELGE",
-      "distanceDegrees": 1.141926880321153
-    },
-    {
       "provinceId": 383,
       "polityKey": "EMIRATE_OF_JABAL_SHAMMAR",
       "distanceDegrees": 0.7844871044612473
     },
     {
-      "provinceId": 390,
-      "polityKey": "EMIRATE_OF_NEJD",
-      "distanceDegrees": 1.1721608326429482
-    },
-    {
       "provinceId": 442,
       "polityKey": "EMIRATE_OF_JABAL_SHAMMAR",
       "distanceDegrees": 1.2017587777919496
-    },
-    {
-      "provinceId": 466,
-      "polityKey": "CONGO_BELGE",
-      "distanceDegrees": 1.2653305101830121
-    },
-    {
-      "provinceId": 487,
-      "polityKey": "NORTHERN_RHODESIA",
-      "distanceDegrees": 1.3011000000000017
     },
     {
       "provinceId": 496,
@@ -1093,26 +1028,6 @@
       "provinceId": 524,
       "polityKey": "ADEN_PROTECTORATE",
       "distanceDegrees": 0.9501651590092838
-    },
-    {
-      "provinceId": 644,
-      "polityKey": "ADEN_PROTECTORATE",
-      "distanceDegrees": 1.149642164819662
-    },
-    {
-      "provinceId": 690,
-      "polityKey": "CIRENAICA_ITALIANA",
-      "distanceDegrees": 0.6357999999999997
-    },
-    {
-      "provinceId": 705,
-      "polityKey": "ANGLO_EGYPTIAN_SUDAN",
-      "distanceDegrees": 0.4515999999999991
-    },
-    {
-      "provinceId": 722,
-      "polityKey": "DEUTSCH_SUDWESTAFRIKA",
-      "distanceDegrees": 1.119899499955241
     },
     {
       "provinceId": 723,
@@ -1130,49 +1045,14 @@
       "distanceDegrees": 1.1136208011522206
     },
     {
-      "provinceId": 931,
-      "polityKey": "ANGLO_EGYPTIAN_SUDAN",
-      "distanceDegrees": 0.7688623608943251
-    },
-    {
-      "provinceId": 950,
-      "polityKey": "ANGLO_EGYPTIAN_SUDAN",
-      "distanceDegrees": 0.8526999999999987
-    },
-    {
-      "provinceId": 1103,
-      "polityKey": "OTTOMAN_EMPIRE",
-      "distanceDegrees": 0.6611158582275833
-    },
-    {
-      "provinceId": 1120,
-      "polityKey": "OTTOMAN_EMPIRE",
-      "distanceDegrees": 0.8175924290256146
-    },
-    {
       "provinceId": 1121,
       "polityKey": "OTTOMAN_EMPIRE",
       "distanceDegrees": 0.07832412869356382
     },
     {
-      "provinceId": 1154,
-      "polityKey": "OTTOMAN_EMPIRE",
-      "distanceDegrees": 1.4670435201451961
-    },
-    {
-      "provinceId": 1221,
-      "polityKey": "CIRENAICA_ITALIANA",
-      "distanceDegrees": 0.6097257749429048
-    },
-    {
       "provinceId": 1381,
       "polityKey": "SPANISH_MOROCCO",
       "distanceDegrees": 0.4640531974623661
-    },
-    {
-      "provinceId": 1388,
-      "polityKey": "BRITISH_RAJ",
-      "distanceDegrees": 0.8423739430917857
     },
     {
       "provinceId": 1579,
@@ -1186,7 +1066,315 @@
     }
   ],
   "explicitProvinceAssignments": [],
-  "representedRosterPolities": 163,
+  "regionFillAssignments": [
+    {
+      "provinceId": 77,
+      "provinceName": "Hofuf",
+      "polityKey": "EMIRATE_OF_NEJD",
+      "notes": "Al-Hasa (taken by Nejd in 1913) and the Rub al Khali hinterland, unadministered but nearest to Nejd."
+    },
+    {
+      "provinceId": 151,
+      "provinceName": "Libyan Desert",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 168,
+      "provinceName": "Rub al Khali",
+      "polityKey": "MUSCAT_AND_OMAN",
+      "notes": "Dhofar, the Kuria Muria islands and the Jiddat al-Harasis: within the Sultanate of Muscat and Oman."
+    },
+    {
+      "provinceId": 192,
+      "provinceName": "Cubango",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 273,
+      "provinceName": "Cuanhama",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 290,
+      "provinceName": "Benguela",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 327,
+      "provinceName": "Ambriz",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 330,
+      "provinceName": "Chokwe",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 345,
+      "provinceName": "Huambo",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 346,
+      "provinceName": "Upper Kasai",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 390,
+      "provinceName": "Aflaj",
+      "polityKey": "EMIRATE_OF_NEJD",
+      "notes": "Al-Hasa (taken by Nejd in 1913) and the Rub al Khali hinterland, unadministered but nearest to Nejd."
+    },
+    {
+      "provinceId": 414,
+      "provinceName": "Moxico",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 431,
+      "provinceName": "Dakhla Oasis",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 450,
+      "provinceName": "Jiddat al-Harasis",
+      "polityKey": "MUSCAT_AND_OMAN",
+      "notes": "Dhofar, the Kuria Muria islands and the Jiddat al-Harasis: within the Sultanate of Muscat and Oman."
+    },
+    {
+      "provinceId": 466,
+      "provinceName": "Cassange",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 477,
+      "provinceName": "El Kharga",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 487,
+      "provinceName": "Luchazi",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 510,
+      "provinceName": "Novaya Zemlya",
+      "polityKey": "RUSSIAN_EMPIRE",
+      "notes": "Novaya Zemlya: Russian Arkhangelsk governorate."
+    },
+    {
+      "provinceId": 535,
+      "provinceName": "São Paulo de Luanda",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 644,
+      "provinceName": "Dhofar",
+      "polityKey": "MUSCAT_AND_OMAN",
+      "notes": "Dhofar, the Kuria Muria islands and the Jiddat al-Harasis: within the Sultanate of Muscat and Oman."
+    },
+    {
+      "provinceId": 690,
+      "provinceName": "Siwa",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 705,
+      "provinceName": "Aswan",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 722,
+      "provinceName": "Moçâmedes",
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 855,
+      "provinceName": "El Faiyum",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 909,
+      "provinceName": "Asyut",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 931,
+      "provinceName": "Ababda",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 937,
+      "provinceName": "Qasr Farafra",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 950,
+      "provinceName": "Darb al-Arbain",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 973,
+      "provinceName": "Alexandria",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 976,
+      "provinceName": "Qattara",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 982,
+      "provinceName": "Quseir",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 1039,
+      "provinceName": "Cairo",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 1077,
+      "provinceName": "El Minya",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 1103,
+      "provinceName": "El Arish",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 1120,
+      "provinceName": "El Tur",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 1154,
+      "provinceName": "Myos Hormos",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 1208,
+      "provinceName": "Marmarica",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 1221,
+      "provinceName": "Salum",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "provinceId": 1388,
+      "provinceName": "Kuria Muria",
+      "polityKey": "MUSCAT_AND_OMAN",
+      "notes": "Dhofar, the Kuria Muria islands and the Jiddat al-Harasis: within the Sultanate of Muscat and Oman."
+    },
+    {
+      "provinceId": 1846,
+      "provinceName": "Andaman Islands",
+      "polityKey": "BRITISH_RAJ",
+      "notes": "Andaman and Nicobar Islands: administered by British India."
+    },
+    {
+      "provinceId": 1990,
+      "provinceName": "Praia",
+      "polityKey": "PORTUGAL",
+      "notes": "Cape Verde: Portuguese colony administered from Lisbon."
+    },
+    {
+      "provinceId": 2016,
+      "provinceName": "Apia",
+      "polityKey": "DEUTSCHES_REICH",
+      "notes": "German Samoa: Reich colony."
+    },
+    {
+      "provinceId": 2031,
+      "provinceName": "Ponta Delgada",
+      "polityKey": "PORTUGAL",
+      "notes": "Azores: Portuguese autonomous district."
+    },
+    {
+      "provinceId": 2075,
+      "provinceName": "Pelew Islands",
+      "polityKey": "DEUTSCH_NEUGUINEA",
+      "notes": "Palau, Caroline and Northern Mariana Islands: administered as part of German New Guinea."
+    },
+    {
+      "provinceId": 2081,
+      "provinceName": "Madeira",
+      "polityKey": "PORTUGAL",
+      "notes": "Madeira: Portuguese district."
+    },
+    {
+      "provinceId": 2082,
+      "provinceName": "Ponape",
+      "polityKey": "DEUTSCH_NEUGUINEA",
+      "notes": "Palau, Caroline and Northern Mariana Islands: administered as part of German New Guinea."
+    },
+    {
+      "provinceId": 2100,
+      "provinceName": "Capitol Hill",
+      "polityKey": "DEUTSCH_NEUGUINEA",
+      "notes": "Palau, Caroline and Northern Mariana Islands: administered as part of German New Guinea."
+    },
+    {
+      "provinceId": 2122,
+      "provinceName": "Truk",
+      "polityKey": "DEUTSCH_NEUGUINEA",
+      "notes": "Palau, Caroline and Northern Mariana Islands: administered as part of German New Guinea."
+    },
+    {
+      "provinceId": 2125,
+      "provinceName": "Rotuma",
+      "polityKey": "COLONY_OF_FIJI",
+      "notes": "Rotuma: dependency of the Colony of Fiji since 1881."
+    },
+    {
+      "provinceId": 2138,
+      "provinceName": "Spratly Islands",
+      "polityKey": "US_PHILIPPINES",
+      "notes": "Spratly Islands: no sovereign claim on the scenario date; attached to the nearest administration so the province is playable."
+    },
+    {
+      "provinceId": 2139,
+      "provinceName": "Woleai",
+      "polityKey": "DEUTSCH_NEUGUINEA",
+      "notes": "Palau, Caroline and Northern Mariana Islands: administered as part of German New Guinea."
+    }
+  ],
+  "representedRosterPolities": 165,
   "rosterPolitiesWithoutProvinceCentroids": [
     "ALGERIE_FRANCAISE",
     "BRITISH_CONCESSION_IN_TIANJIN",
@@ -1194,7 +1382,6 @@
     "COLONIE_DE_LA_GUADELOUPE",
     "COLONIE_DE_LA_GUYANE",
     "COLONY_OF_BERMUDA",
-    "COLONY_OF_FIJI",
     "COOK_ISLANDS",
     "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
     "GAMBIA_COLONY_AND_PROTECTORATE",
@@ -1215,8 +1402,7 @@
     "SAINT_HELENA_CROWN_COLONY",
     "SAINT_PIERRE_ET_MIQUELON",
     "SPANISH_GUINEA",
-    "TOKELAU_ISLANDS_PROTECTORATE",
-    "US_PHILIPPINES"
+    "TOKELAU_ISLANDS_PROTECTORATE"
   ],
   "territorialRosterPolitiesWithoutProvinceCentroids": [
     "ALGERIE_FRANCAISE",
@@ -1225,7 +1411,6 @@
     "COLONIE_DE_LA_GUADELOUPE",
     "COLONIE_DE_LA_GUYANE",
     "COLONY_OF_BERMUDA",
-    "COLONY_OF_FIJI",
     "COOK_ISLANDS",
     "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
     "GAMBIA_COLONY_AND_PROTECTORATE",
@@ -1245,9 +1430,8 @@
     "SAINT_HELENA_CROWN_COLONY",
     "SAINT_PIERRE_ET_MIQUELON",
     "SPANISH_GUINEA",
-    "TOKELAU_ISLANDS_PROTECTORATE",
-    "US_PHILIPPINES"
+    "TOKELAU_ISLANDS_PROTECTORATE"
   ],
   "unrepresentedOverlordLinks": [],
-  "splitStates": 105
+  "splitStates": 101
 }

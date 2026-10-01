@@ -3,14 +3,8 @@
   "asOf": "1936-01-01",
   "nationalBorderGridDegrees": 0.06,
   "provinceCount": 2141,
-  "assignedProvinces": 2136,
-  "gapProvinceIds": [
-    1846,
-    1990,
-    2031,
-    2081,
-    2125
-  ],
+  "assignedProvinces": 2141,
+  "gapProvinceIds": [],
   "overlaps": [
     {
       "provinceId": 0,
@@ -1039,7 +1033,39 @@
     }
   ],
   "explicitProvinceAssignments": [],
-  "representedRosterPolities": 176,
+  "regionFillAssignments": [
+    {
+      "provinceId": 1846,
+      "provinceName": "Andaman Islands",
+      "polityKey": "BRITISH_RAJ",
+      "notes": "Andaman and Nicobar Islands: administered by British India."
+    },
+    {
+      "provinceId": 1990,
+      "provinceName": "Praia",
+      "polityKey": "PORTUGAL",
+      "notes": "Cape Verde: Portuguese colony administered from Lisbon."
+    },
+    {
+      "provinceId": 2031,
+      "provinceName": "Ponta Delgada",
+      "polityKey": "PORTUGAL",
+      "notes": "Azores: Portuguese autonomous district."
+    },
+    {
+      "provinceId": 2081,
+      "provinceName": "Madeira",
+      "polityKey": "PORTUGAL",
+      "notes": "Madeira: Portuguese district."
+    },
+    {
+      "provinceId": 2125,
+      "provinceName": "Rotuma",
+      "polityKey": "COLONY_OF_FIJI",
+      "notes": "Rotuma: dependency of the Colony of Fiji."
+    }
+  ],
+  "representedRosterPolities": 177,
   "rosterPolitiesWithoutProvinceCentroids": [
     "AFRIQUE_EQUATORIALE_FRANCAISE",
     "ALGERIE_FRANCAISE",
@@ -1050,7 +1076,6 @@
     "COLONIE_DE_LA_GUADELOUPE",
     "COLONIE_DE_LA_GUYANE",
     "COLONY_OF_BERMUDA",
-    "COLONY_OF_FIJI",
     "COOK_ISLANDS",
     "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
     "FRENCH_MANDATE_FOR_SYRIA_AND_LEBANON",
@@ -1084,7 +1109,6 @@
     "COLONIE_DE_LA_GUADELOUPE",
     "COLONIE_DE_LA_GUYANE",
     "COLONY_OF_BERMUDA",
-    "COLONY_OF_FIJI",
     "COOK_ISLANDS",
     "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
     "FRENCH_MANDATE_FOR_SYRIA_AND_LEBANON",

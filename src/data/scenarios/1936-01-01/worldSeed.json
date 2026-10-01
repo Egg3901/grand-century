@@ -41066,7 +41066,7 @@
     {
       "id": 1846,
       "name": "Andaman Islands",
-      "ownerTag": "UNC",
+      "ownerTag": "BRITISH_RAJ",
       "stateId": 578,
       "stateName": "Andaman Islands",
       "terrain": "jungle",
@@ -44201,9 +44201,9 @@
     {
       "id": 1990,
       "name": "Praia",
-      "ownerTag": "UNC",
+      "ownerTag": "PORTUGAL",
       "stateId": 689,
-      "stateName": "Praia (UNC)",
+      "stateName": "Praia (PORTUGAL)",
       "terrain": "mountains",
       "coastal": true,
       "rgoGood": "iron",
@@ -45069,7 +45069,7 @@
     {
       "id": 2031,
       "name": "Ponta Delgada",
-      "ownerTag": "UNC",
+      "ownerTag": "PORTUGAL",
       "stateId": 701,
       "stateName": "Ponta Delgada",
       "terrain": "hills",
@@ -46068,7 +46068,7 @@
     {
       "id": 2081,
       "name": "Madeira",
-      "ownerTag": "UNC",
+      "ownerTag": "PORTUGAL",
       "stateId": 701,
       "stateName": "Ponta Delgada",
       "terrain": "mountains",
@@ -46922,9 +46922,9 @@
     {
       "id": 2125,
       "name": "Rotuma",
-      "ownerTag": "UNC",
-      "stateId": 735,
-      "stateName": "Viti Levu (UNC)",
+      "ownerTag": "COLONY_OF_FIJI",
+      "stateId": 734,
+      "stateName": "Viti Levu (COLONY_OF_FIJI)",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "grain",
@@ -47096,7 +47096,7 @@
       "id": 2134,
       "name": "Ellice Islands",
       "ownerTag": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
-      "stateId": 734,
+      "stateId": 735,
       "stateName": "Viti Levu (GILBERT_AND_ELLICE_ISLANDS_COLONY)",
       "terrain": "jungle",
       "coastal": true,
@@ -53038,7 +53038,7 @@
     {
       "id": 578,
       "name": "Andaman Islands",
-      "ownerTag": "UNC",
+      "ownerTag": "BRITISH_RAJ",
       "provinceIds": [
         1846
       ]
@@ -54112,8 +54112,8 @@
     },
     {
       "id": 689,
-      "name": "Praia (UNC)",
-      "ownerTag": "UNC",
+      "name": "Praia (PORTUGAL)",
+      "ownerTag": "PORTUGAL",
       "provinceIds": [
         1990
       ]
@@ -54214,7 +54214,7 @@
     {
       "id": 701,
       "name": "Ponta Delgada",
-      "ownerTag": "UNC",
+      "ownerTag": "PORTUGAL",
       "provinceIds": [
         2031,
         2081
@@ -54488,18 +54488,18 @@
     },
     {
       "id": 734,
-      "name": "Viti Levu (GILBERT_AND_ELLICE_ISLANDS_COLONY)",
-      "ownerTag": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+      "name": "Viti Levu (COLONY_OF_FIJI)",
+      "ownerTag": "COLONY_OF_FIJI",
       "provinceIds": [
-        2134
+        2125
       ]
     },
     {
       "id": 735,
-      "name": "Viti Levu (UNC)",
-      "ownerTag": "UNC",
+      "name": "Viti Levu (GILBERT_AND_ELLICE_ISLANDS_COLONY)",
+      "ownerTag": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
       "provinceIds": [
-        2125
+        2134
       ]
     },
     {
@@ -55152,6 +55152,7 @@
         487,
         509,
         547,
+        578,
         641,
         651,
         697
@@ -55564,6 +55565,25 @@
       "religion": "protestant",
       "coreStateIds": [
         318
+      ],
+      "polityStatus": "vassal",
+      "overlordTag": "UNITED_KINGDOM",
+      "eraSummary": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "initialTechYear": 1926
+    },
+    {
+      "tag": "COLONY_OF_FIJI",
+      "name": "Colony of Fiji",
+      "color": [
+        130,
+        72,
+        144
+      ],
+      "government": "democracy",
+      "capitalProvinceId": 2125,
+      "primaryCulture": "han",
+      "coreStateIds": [
+        734
       ],
       "polityStatus": "vassal",
       "overlordTag": "UNITED_KINGDOM",
@@ -56273,7 +56293,7 @@
       "capitalProvinceId": 2134,
       "primaryCulture": "han",
       "coreStateIds": [
-        734
+        735
       ],
       "polityStatus": "vassal",
       "overlordTag": "UNITED_KINGDOM",
@@ -57584,7 +57604,9 @@
       "primaryCulture": "french",
       "religion": "catholic",
       "coreStateIds": [
-        494
+        494,
+        689,
+        701
       ],
       "polityStatus": "sovereign",
       "eraSummary": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
@@ -58606,27 +58628,6 @@
       "polityStatus": "sovereign",
       "eraSummary": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
       "initialTechYear": 1936
-    },
-    {
-      "tag": "UNC",
-      "name": "Unassigned Historical Coverage",
-      "color": [
-        112,
-        112,
-        112
-      ],
-      "government": "uncivilized",
-      "capitalProvinceId": 1846,
-      "primaryCulture": "han",
-      "coreStateIds": [
-        578,
-        689,
-        701,
-        735
-      ],
-      "polityStatus": "decentralized",
-      "initialTechYear": 1886,
-      "eraSummary": "Province centroids outside every reviewed exclusive border polygon."
     }
   ],
   "formables": []

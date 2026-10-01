@@ -6,7 +6,7 @@
     {
       "id": 0,
       "name": "Godthaab",
-      "ownerTag": "UNC",
+      "ownerTag": "DANMARK",
       "stateId": 517,
       "stateName": "Godthaab",
       "terrain": "arctic",
@@ -29404,7 +29404,7 @@
     {
       "id": 1315,
       "name": "Christianshaab",
-      "ownerTag": "UNC",
+      "ownerTag": "DANMARK",
       "stateId": 517,
       "stateName": "Godthaab",
       "terrain": "mountains",
@@ -37812,7 +37812,7 @@
     {
       "id": 1699,
       "name": "Julianehaab",
-      "ownerTag": "UNC",
+      "ownerTag": "DANMARK",
       "stateId": 517,
       "stateName": "Godthaab",
       "terrain": "mountains",
@@ -44201,9 +44201,9 @@
     {
       "id": 1990,
       "name": "Praia",
-      "ownerTag": "UNC",
+      "ownerTag": "PORTUGAL",
       "stateId": 678,
-      "stateName": "Praia (UNC)",
+      "stateName": "Praia (PORTUGAL)",
       "terrain": "mountains",
       "coastal": true,
       "rgoGood": "iron",
@@ -45069,7 +45069,7 @@
     {
       "id": 2031,
       "name": "Ponta Delgada",
-      "ownerTag": "UNC",
+      "ownerTag": "PORTUGAL",
       "stateId": 690,
       "stateName": "Ponta Delgada",
       "terrain": "hills",
@@ -45287,7 +45287,7 @@
     {
       "id": 2042,
       "name": "Fomboni",
-      "ownerTag": "UNC",
+      "ownerTag": "COLONY_OF_MADAGASCAR_AND_DEPENDENCIES",
       "stateId": 668,
       "stateName": "Fomboni",
       "terrain": "mountains",
@@ -46068,7 +46068,7 @@
     {
       "id": 2081,
       "name": "Madeira",
-      "ownerTag": "UNC",
+      "ownerTag": "PORTUGAL",
       "stateId": 690,
       "stateName": "Ponta Delgada",
       "terrain": "mountains",
@@ -46089,7 +46089,7 @@
       "id": 2082,
       "name": "Ponape",
       "ownerTag": "EMPIRE_OF_JAPAN",
-      "stateId": 727,
+      "stateId": 728,
       "stateName": "Ponape (EMPIRE_OF_JAPAN)",
       "terrain": "hills",
       "coastal": true,
@@ -46144,7 +46144,7 @@
     {
       "id": 2085,
       "name": "Mutsamudu",
-      "ownerTag": "UNC",
+      "ownerTag": "COLONY_OF_MADAGASCAR_AND_DEPENDENCIES",
       "stateId": 691,
       "stateName": "Mutsamudu",
       "terrain": "mountains",
@@ -46671,7 +46671,7 @@
     {
       "id": 2112,
       "name": "Other Territories",
-      "ownerTag": "UNC",
+      "ownerTag": "UNITED_KINGDOM",
       "stateId": 730,
       "stateName": "Other Territories",
       "terrain": "mountains",
@@ -46750,7 +46750,7 @@
       "id": 2116,
       "name": "Gilbert Islands",
       "ownerTag": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
-      "stateId": 726,
+      "stateId": 727,
       "stateName": "Ponape (BRITISH_WESTERN_PACIFIC_TERRITORIES)",
       "terrain": "jungle",
       "coastal": true,
@@ -46866,7 +46866,7 @@
       "id": 2122,
       "name": "Truk",
       "ownerTag": "EMPIRE_OF_JAPAN",
-      "stateId": 727,
+      "stateId": 728,
       "stateName": "Ponape (EMPIRE_OF_JAPAN)",
       "terrain": "jungle",
       "coastal": true,
@@ -46922,9 +46922,9 @@
     {
       "id": 2125,
       "name": "Rotuma",
-      "ownerTag": "UNC",
-      "stateId": 723,
-      "stateName": "Viti Levu (UNC)",
+      "ownerTag": "COLONY_OF_FIJI",
+      "stateId": 722,
+      "stateName": "Viti Levu (COLONY_OF_FIJI)",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "grain",
@@ -46963,7 +46963,7 @@
       "id": 2127,
       "name": "Marshall Islands",
       "ownerTag": "EMPIRE_OF_JAPAN",
-      "stateId": 727,
+      "stateId": 728,
       "stateName": "Ponape (EMPIRE_OF_JAPAN)",
       "terrain": "jungle",
       "coastal": true,
@@ -46982,9 +46982,9 @@
     {
       "id": 2128,
       "name": "Pleasant Island",
-      "ownerTag": "UNC",
-      "stateId": 728,
-      "stateName": "Ponape (UNC)",
+      "ownerTag": "AUSTRALIA",
+      "stateId": 726,
+      "stateName": "Ponape (AUSTRALIA)",
       "terrain": "plains",
       "coastal": true,
       "rgoGood": "grain",
@@ -47020,7 +47020,7 @@
     {
       "id": 2130,
       "name": "Cocos Islands",
-      "ownerTag": "UNC",
+      "ownerTag": "UNITED_KINGDOM",
       "stateId": 730,
       "stateName": "Other Territories",
       "terrain": "plains",
@@ -47096,7 +47096,7 @@
       "id": 2134,
       "name": "Ellice Islands",
       "ownerTag": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
-      "stateId": 722,
+      "stateId": 723,
       "stateName": "Viti Levu (GILBERT_AND_ELLICE_ISLANDS_COLONY)",
       "terrain": "jungle",
       "coastal": true,
@@ -47193,7 +47193,7 @@
       "id": 2139,
       "name": "Woleai",
       "ownerTag": "EMPIRE_OF_JAPAN",
-      "stateId": 727,
+      "stateId": 728,
       "stateName": "Ponape (EMPIRE_OF_JAPAN)",
       "terrain": "plains",
       "coastal": true,
@@ -52474,7 +52474,7 @@
     {
       "id": 517,
       "name": "Godthaab",
-      "ownerTag": "UNC",
+      "ownerTag": "DANMARK",
       "provinceIds": [
         0,
         1315,
@@ -53951,7 +53951,7 @@
     {
       "id": 668,
       "name": "Fomboni",
-      "ownerTag": "UNC",
+      "ownerTag": "COLONY_OF_MADAGASCAR_AND_DEPENDENCIES",
       "provinceIds": [
         2042
       ]
@@ -54035,8 +54035,8 @@
     },
     {
       "id": 678,
-      "name": "Praia (UNC)",
-      "ownerTag": "UNC",
+      "name": "Praia (PORTUGAL)",
+      "ownerTag": "PORTUGAL",
       "provinceIds": [
         1990
       ]
@@ -54137,7 +54137,7 @@
     {
       "id": 690,
       "name": "Ponta Delgada",
-      "ownerTag": "UNC",
+      "ownerTag": "PORTUGAL",
       "provinceIds": [
         2031,
         2081
@@ -54146,7 +54146,7 @@
     {
       "id": 691,
       "name": "Mutsamudu",
-      "ownerTag": "UNC",
+      "ownerTag": "COLONY_OF_MADAGASCAR_AND_DEPENDENCIES",
       "provinceIds": [
         2085
       ]
@@ -54404,18 +54404,18 @@
     },
     {
       "id": 722,
-      "name": "Viti Levu (GILBERT_AND_ELLICE_ISLANDS_COLONY)",
-      "ownerTag": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
+      "name": "Viti Levu (COLONY_OF_FIJI)",
+      "ownerTag": "COLONY_OF_FIJI",
       "provinceIds": [
-        2134
+        2125
       ]
     },
     {
       "id": 723,
-      "name": "Viti Levu (UNC)",
-      "ownerTag": "UNC",
+      "name": "Viti Levu (GILBERT_AND_ELLICE_ISLANDS_COLONY)",
+      "ownerTag": "GILBERT_AND_ELLICE_ISLANDS_COLONY",
       "provinceIds": [
-        2125
+        2134
       ]
     },
     {
@@ -54439,6 +54439,14 @@
     },
     {
       "id": 726,
+      "name": "Ponape (AUSTRALIA)",
+      "ownerTag": "AUSTRALIA",
+      "provinceIds": [
+        2128
+      ]
+    },
+    {
+      "id": 727,
       "name": "Ponape (BRITISH_WESTERN_PACIFIC_TERRITORIES)",
       "ownerTag": "BRITISH_WESTERN_PACIFIC_TERRITORIES",
       "provinceIds": [
@@ -54446,7 +54454,7 @@
       ]
     },
     {
-      "id": 727,
+      "id": 728,
       "name": "Ponape (EMPIRE_OF_JAPAN)",
       "ownerTag": "EMPIRE_OF_JAPAN",
       "provinceIds": [
@@ -54454,14 +54462,6 @@
         2122,
         2127,
         2139
-      ]
-    },
-    {
-      "id": 728,
-      "name": "Ponape (UNC)",
-      "ownerTag": "UNC",
-      "provinceIds": [
-        2128
       ]
     },
     {
@@ -54475,7 +54475,7 @@
     {
       "id": 730,
       "name": "Other Territories",
-      "ownerTag": "UNC",
+      "ownerTag": "UNITED_KINGDOM",
       "provinceIds": [
         2112,
         2130
@@ -54759,7 +54759,8 @@
         28,
         29,
         200,
-        270
+        270,
+        726
       ],
       "polityStatus": "sovereign",
       "eraSummary": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
@@ -55299,7 +55300,7 @@
       "coreStateIds": [
         687,
         721,
-        726,
+        727,
         735
       ],
       "polityStatus": "vassal",
@@ -55610,6 +55611,25 @@
       "initialTechYear": 1935
     },
     {
+      "tag": "COLONY_OF_FIJI",
+      "name": "Colony of Fiji",
+      "color": [
+        130,
+        72,
+        144
+      ],
+      "government": "democracy",
+      "capitalProvinceId": 2125,
+      "primaryCulture": "han",
+      "coreStateIds": [
+        722
+      ],
+      "polityStatus": "vassal",
+      "overlordTag": "UNITED_KINGDOM",
+      "eraSummary": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
+      "initialTechYear": 1935
+    },
+    {
       "tag": "COLONY_OF_JAMAICA",
       "name": "Colony of Jamaica",
       "color": [
@@ -55643,6 +55663,8 @@
       "religion": "catholic",
       "coreStateIds": [
         139,
+        668,
+        691,
         708
       ],
       "polityStatus": "vassal",
@@ -55827,10 +55849,11 @@
         122
       ],
       "government": "democracy",
-      "capitalProvinceId": 1702,
+      "capitalProvinceId": 0,
       "primaryCulture": "north_german",
       "religion": "protestant",
       "coreStateIds": [
+        517,
         518,
         562
       ],
@@ -56073,7 +56096,7 @@
         683,
         703,
         718,
-        727,
+        728,
         732,
         736
       ],
@@ -56345,7 +56368,7 @@
       "capitalProvinceId": 2134,
       "primaryCulture": "han",
       "coreStateIds": [
-        722
+        723
       ],
       "polityStatus": "vassal",
       "overlordTag": "UNITED_KINGDOM",
@@ -57248,7 +57271,9 @@
       "primaryCulture": "french",
       "religion": "catholic",
       "coreStateIds": [
-        491
+        491,
+        678,
+        690
       ],
       "polityStatus": "sovereign",
       "eraSummary": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
@@ -58181,6 +58206,7 @@
         632,
         637,
         647,
+        730,
         731
       ],
       "polityStatus": "sovereign",
@@ -58261,31 +58287,6 @@
       "polityStatus": "sovereign",
       "eraSummary": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
       "initialTechYear": 1945
-    },
-    {
-      "tag": "UNC",
-      "name": "Unassigned Historical Coverage",
-      "color": [
-        112,
-        112,
-        112
-      ],
-      "government": "uncivilized",
-      "capitalProvinceId": 0,
-      "primaryCulture": "north_german",
-      "coreStateIds": [
-        517,
-        668,
-        678,
-        690,
-        691,
-        723,
-        728,
-        730
-      ],
-      "polityStatus": "decentralized",
-      "initialTechYear": 1895,
-      "eraSummary": "Province centroids outside every reviewed exclusive border polygon."
     }
   ],
   "formables": []

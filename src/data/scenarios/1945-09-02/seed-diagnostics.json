@@ -3,21 +3,8 @@
   "asOf": "1945-09-02",
   "nationalBorderGridDegrees": 0.06,
   "provinceCount": 2141,
-  "assignedProvinces": 2129,
-  "gapProvinceIds": [
-    0,
-    1315,
-    1699,
-    1990,
-    2031,
-    2042,
-    2081,
-    2085,
-    2112,
-    2125,
-    2128,
-    2130
-  ],
+  "assignedProvinces": 2141,
+  "gapProvinceIds": [],
   "overlaps": [
     {
       "provinceId": 12,
@@ -845,7 +832,81 @@
     }
   ],
   "explicitProvinceAssignments": [],
-  "representedRosterPolities": 163,
+  "regionFillAssignments": [
+    {
+      "provinceId": 0,
+      "provinceName": "Godthaab",
+      "polityKey": "DANMARK",
+      "notes": "Greenland: Danish colony (administered under US protection during the war, returned to Copenhagen in 1945)."
+    },
+    {
+      "provinceId": 1315,
+      "provinceName": "Christianshaab",
+      "polityKey": "DANMARK",
+      "notes": "Greenland: Danish colony (administered under US protection during the war, returned to Copenhagen in 1945)."
+    },
+    {
+      "provinceId": 1699,
+      "provinceName": "Julianehaab",
+      "polityKey": "DANMARK",
+      "notes": "Greenland: Danish colony (administered under US protection during the war, returned to Copenhagen in 1945)."
+    },
+    {
+      "provinceId": 1990,
+      "provinceName": "Praia",
+      "polityKey": "PORTUGAL",
+      "notes": "Cape Verde: Portuguese colony administered from Lisbon."
+    },
+    {
+      "provinceId": 2031,
+      "provinceName": "Ponta Delgada",
+      "polityKey": "PORTUGAL",
+      "notes": "Azores: Portuguese autonomous district."
+    },
+    {
+      "provinceId": 2042,
+      "provinceName": "Fomboni",
+      "polityKey": "COLONY_OF_MADAGASCAR_AND_DEPENDENCIES",
+      "notes": "Comoros: dependency of the Colony of Madagascar."
+    },
+    {
+      "provinceId": 2081,
+      "provinceName": "Madeira",
+      "polityKey": "PORTUGAL",
+      "notes": "Madeira: Portuguese district."
+    },
+    {
+      "provinceId": 2085,
+      "provinceName": "Mutsamudu",
+      "polityKey": "COLONY_OF_MADAGASCAR_AND_DEPENDENCIES",
+      "notes": "Comoros: dependency of the Colony of Madagascar."
+    },
+    {
+      "provinceId": 2112,
+      "provinceName": "Other Territories",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Christmas Island: British, attached to the Straits Settlements."
+    },
+    {
+      "provinceId": 2125,
+      "provinceName": "Rotuma",
+      "polityKey": "COLONY_OF_FIJI",
+      "notes": "Rotuma: dependency of the Colony of Fiji."
+    },
+    {
+      "provinceId": 2128,
+      "provinceName": "Pleasant Island",
+      "polityKey": "AUSTRALIA",
+      "notes": "Nauru: League mandate administered by Australia; Japanese occupation ended in September 1945."
+    },
+    {
+      "provinceId": 2130,
+      "provinceName": "Cocos Islands",
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Cocos (Keeling) Islands: British, attached to the Straits Settlements."
+    }
+  ],
+  "representedRosterPolities": 164,
   "rosterPolitiesWithoutProvinceCentroids": [
     "AFRIQUE_EQUATORIALE_FRANCAISE",
     "CAYMAN_ISLANDS",
@@ -853,7 +914,6 @@
     "COLONIE_DE_LA_GUADELOUPE",
     "COLONIE_DE_LA_GUYANE",
     "COLONY_OF_BERMUDA",
-    "COLONY_OF_FIJI",
     "COOK_ISLANDS",
     "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
     "GAMBIA_COLONY_AND_PROTECTORATE",
@@ -881,7 +941,6 @@
     "COLONIE_DE_LA_GUADELOUPE",
     "COLONIE_DE_LA_GUYANE",
     "COLONY_OF_BERMUDA",
-    "COLONY_OF_FIJI",
     "COOK_ISLANDS",
     "ETABLISSEMENTS_FRANCAIS_DE_L_OCEANI",
     "GAMBIA_COLONY_AND_PROTECTORATE",

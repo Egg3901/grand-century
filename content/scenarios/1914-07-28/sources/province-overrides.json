@@ -1,8 +1,140 @@
 {
   "schemaVersion": 1,
   "asOf": "1914-07-28",
-  "reviewedBy": "Codex province projection review",
-  "reviewedAt": "2026-09-02",
+  "reviewedBy": "World v8 coverage review",
+  "reviewedAt": "2026-10-01",
   "note": "Cleared for the world v8 mesh: province edges now follow every scenario border, so centroid misassignments these overrides patched on the coarse legacy mesh no longer occur. Earlier overrides (26) were keyed to legacy province ids and are recorded in git history.",
-  "overrides": []
+  "overrides": [],
+  "regionFills": [
+    {
+      "bounds": [
+        -32,
+        36,
+        -24,
+        40.5
+      ],
+      "polityKey": "PORTUGAL",
+      "notes": "Azores: Portuguese autonomous district."
+    },
+    {
+      "bounds": [
+        -17.6,
+        32,
+        -15.8,
+        33.5
+      ],
+      "polityKey": "PORTUGAL",
+      "notes": "Madeira: Portuguese district."
+    },
+    {
+      "bounds": [
+        -26,
+        14.5,
+        -22,
+        17.5
+      ],
+      "polityKey": "PORTUGAL",
+      "notes": "Cape Verde: Portuguese colony administered from Lisbon."
+    },
+    {
+      "bounds": [
+        24.5,
+        21.5,
+        37,
+        32
+      ],
+      "polityKey": "UNITED_KINGDOM",
+      "notes": "Khedivate of Egypt: de jure Ottoman, under British occupation since 1882 and British-controlled on the scenario date (protectorate declared December 1914). The roster has no Khedivate polity; ownership follows control."
+    },
+    {
+      "bounds": [
+        11.5,
+        -18.5,
+        24.5,
+        -4.3
+      ],
+      "polityKey": "PORTUGAL",
+      "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "bounds": [
+        92,
+        6,
+        94,
+        14.5
+      ],
+      "polityKey": "BRITISH_RAJ",
+      "notes": "Andaman and Nicobar Islands: administered by British India."
+    },
+    {
+      "bounds": [
+        50,
+        70,
+        70,
+        77.5
+      ],
+      "polityKey": "RUSSIAN_EMPIRE",
+      "notes": "Novaya Zemlya: Russian Arkhangelsk governorate."
+    },
+    {
+      "bounds": [
+        51.5,
+        16.4,
+        60,
+        21.5
+      ],
+      "polityKey": "MUSCAT_AND_OMAN",
+      "notes": "Dhofar, the Kuria Muria islands and the Jiddat al-Harasis: within the Sultanate of Muscat and Oman."
+    },
+    {
+      "bounds": [
+        46,
+        19,
+        56,
+        26.5
+      ],
+      "polityKey": "EMIRATE_OF_NEJD",
+      "notes": "Al-Hasa (taken by Nejd in 1913) and the Rub al Khali hinterland, unadministered but nearest to Nejd."
+    },
+    {
+      "bounds": [
+        130,
+        0,
+        165,
+        21
+      ],
+      "polityKey": "DEUTSCH_NEUGUINEA",
+      "notes": "Palau, Caroline and Northern Mariana Islands: administered as part of German New Guinea."
+    },
+    {
+      "bounds": [
+        -173,
+        -14.5,
+        -171,
+        -13
+      ],
+      "polityKey": "DEUTSCHES_REICH",
+      "notes": "German Samoa: Reich colony."
+    },
+    {
+      "bounds": [
+        176.5,
+        -13,
+        177.5,
+        -12
+      ],
+      "polityKey": "COLONY_OF_FIJI",
+      "notes": "Rotuma: dependency of the Colony of Fiji since 1881."
+    },
+    {
+      "bounds": [
+        111,
+        7,
+        117,
+        12.5
+      ],
+      "polityKey": "US_PHILIPPINES",
+      "notes": "Spratly Islands: no sovereign claim on the scenario date; attached to the nearest administration so the province is playable."
+    }
+  ]
 }
