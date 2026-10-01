@@ -19,7 +19,7 @@ def main():
     keys = {r['key'] for r in rows}
     errors = [f'unknown key {k}' for k in over if k not in keys]
     for k, n in over.items():
-        if any(c in n for c in '–—‎‏') or any(ord(c) < 32 for c in n):
+        if any(c in n for c in '\u2013\u2014\u200e\u200f') or any(ord(c) < 32 for c in n):
             errors.append(f'bad character in {k}: {n!r}')
     seen = defaultdict(list)
     for r in rows:
