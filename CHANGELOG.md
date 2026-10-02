@@ -27,6 +27,9 @@ All notable changes to Grand Century are documented here.
   replaced them.
 - **Pacing kept.** Population, costs and march times are scaled so the larger
   map plays at the old pace; armies now march by distance.
+- **Province borders you can see.** Province lines inside a nation read in
+  both 2D and 3D from regional zoom, in a tone that contrasts with the nation
+  colour, and your own country no longer glows over them.
 - **Recruiting draws on the region.** Raising regiments uses the soldiers of
   your state and nearby provinces (within about 250 km), so small provinces
   still field armies.
