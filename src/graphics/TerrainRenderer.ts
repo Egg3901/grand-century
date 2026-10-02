@@ -228,7 +228,11 @@ void main() {
   float owner=ownerAt(id);
   float frontier=max(max(step(.5,abs(owner-ownerAt(right)))*step(.5,right),step(.5,abs(owner-ownerAt(left)))*step(.5,left)),
     max(step(.5,abs(owner-ownerAt(up)))*step(.5,up),step(.5,abs(owner-ownerAt(down)))*step(.5,down)));
-  land=mix(land,vec3(.22,.25,.20),border*provinceLines*mix(.12,.30,political));
+  // Province rules take the ink that contrasts with the ground under them:
+  // pale on dark nation fills, dark on light terrain.
+  float lum=dot(land,vec3(.299,.587,.114));
+  vec3 rule=mix(vec3(.12,.13,.11),vec3(.86,.80,.64),smoothstep(.40,.16,lum));
+  land=mix(land,rule,border*provinceLines*mix(.30,.52,political));
   land=mix(land,vec3(.96,.88,.65),frontier*mix(.32,.75,political));
   if(abs(id-selected)<.1) land=mix(land,vec3(.96,.79,.38),.13+min(1.0,border)*.62);
   vec3 surfaceColor=mix(water,land,coverage);
@@ -970,7 +974,7 @@ export class TerrainRenderer {
     gl.uniform1f(this.uniforms.surfaceTexel, 1 / this.data.size);
     gl.uniform1f(
       this.uniforms.provinceLines,
-      clamp((this.view.zoom - 3.5) / 2, 0, 1),
+      clamp((this.view.zoom - 2.6) / 1.4, 0, 1),
     );
     gl.uniform1i(this.uniforms.heightMap, 4);
     gl.uniform1f(this.uniforms.heightTexel, 1 / this.data.size);

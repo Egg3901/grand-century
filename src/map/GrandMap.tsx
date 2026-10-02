@@ -1200,25 +1200,25 @@ function AtlasMap2D({ camera, atmosphere }: { camera: RefObject<View|null>; atmo
               'interpolate',
               ['linear'],
               ['zoom'],
-              3.2,
-              0.25,
+              2.6,
+              0.35,
               4.8,
-              0.5,
+              0.75,
               6.8,
-              0.85,
+              1.05,
             ],
             'line-opacity': [
               'interpolate',
               ['linear'],
               ['zoom'],
-              3.0,
+              2.6,
               0,
-              4.2,
-              0.22,
-              5.4,
-              0.5,
+              3.6,
+              0.45,
+              4.8,
+              0.68,
               7.2,
-              0.72,
+              0.78,
             ],
           },
         });
@@ -1690,14 +1690,14 @@ function AtlasMap2D({ camera, atmosphere }: { camera: RefObject<View|null>; atmo
       if (province.owner === snapshot.playerNation) playerIds.push(province.id);
     }
     const ids = playerIds.length > 0 ? playerIds : [-1];
-    // The halo outlines every player province. At strategic zoom the glows
-    // merge into one empire outline; closer in, the world v8 province density
-    // turns internal edges into noise, so it fades out by zoom 4.5.
+    // The halo outlines every player province. At world zoom the glows merge
+    // into one empire outline; from regional zoom the world v8 density turns
+    // it into gold speckle over internal province rules, so it is gone by 3.
     const halo = (opacity: number) => ['case', ['in', ['id'], ['literal', ids]], mapMode === 'political' ? opacity : 0, 0];
     map.setPaintProperty(MAP_PLAYER_HALO_LAYER, 'line-opacity', [
       'interpolate', ['linear'], ['zoom'],
-      3, halo(0.42),
-      4.5, halo(0),
+      1.8, halo(0.42),
+      3, halo(0),
     ] as never);
   }, [mapMode, mapReady, snapshot]);
 
