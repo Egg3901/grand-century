@@ -55,14 +55,17 @@ test("landscape leaves space for the map and reachable controls", async ({
   await page.setViewportSize({ width: 390, height: 844 });
   await start(page);
   await page.setViewportSize({ width: 844, height: 390 });
-  const top = await page.getByText("WORLD RANK", { exact: true }).boundingBox();
-  const dock = await page
-    .getByRole("button", { name: "Open Economy", exact: true })
-    .boundingBox();
-  expect(
-    dock!.y - (top!.y + top!.height),
-    `rank ${JSON.stringify(top)} dock ${JSON.stringify(dock)}`,
-  ).toBeGreaterThan(200);
+  // The landscape relayout lands a frame after the resize; read the boxes
+  // once it has, not the portrait positions still on screen.
+  await expect
+    .poll(async () => {
+      const top = await page.getByText("WORLD RANK", { exact: true }).boundingBox();
+      const dock = await page
+        .getByRole("button", { name: "Open Economy", exact: true })
+        .boundingBox();
+      return top && dock ? dock.y - (top.y + top.height) : 0;
+    })
+    .toBeGreaterThan(200);
   await page
     .getByRole("button", { name: "Map mode: Political", exact: true })
     .click();
