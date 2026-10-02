@@ -69,6 +69,7 @@ export const nationFlags: Record<string, ImageSourcePropType> = {
   "KOK": require('../assets/flags/KOK.png'),
   "KOR": require('../assets/flags/KOR.png'),
   "KRA": require('../assets/flags/KRA.png'),
+  "KTH": require('../assets/flags/KTH.png'),
   "KTI": require('../assets/flags/KTI.png'),
   "KUW": require('../assets/flags/KUW.png'),
   "KZH": require('../assets/flags/KZH.png'),

@@ -1,5 +1,5 @@
 import { gunzipSync, gzipSync, strFromU8, strToU8 } from 'fflate';
-import { DEFAULT_SCENARIO, DEFAULT_SCENARIO_ID, loadScenario, type WorldSeedData } from '../data/generated';
+import { BORROWED_1936_SCENARIOS, DEFAULT_SCENARIO, DEFAULT_SCENARIO_ID, loadScenario, type WorldSeedData } from '../data/generated';
 import type { GameDate, ScenarioId, World, WorldMigrationReport } from '../shared/types';
 import {
   LEGACY_MIGRATABLE_SCENARIOS,
@@ -181,6 +181,32 @@ function healWorld(world: World): void {
   }
 }
 
+/**
+ * Seed hashes of the first world v8 release (dfe76de), per scenario. Saves
+ * made then share today's province mesh and carry their own ownership, so
+ * later content corrections keep them loadable. 1914 and 1945 borrowed the
+ * 1936 world in that release; their saves move onto hidden scenario ids that
+ * rebuild exactly that world.
+ */
+const WORLD_V8_0_SEED_HASHES: Readonly<Record<ScenarioId, string>> = {
+  '1700-01-01': '264c1fd3',
+  '1776-07-04': '1e4a681b',
+  '1815-06-18': 'e9d2d9c6',
+  '1830-01-01': '48bec7fc',
+  '1914-07-28': 'fb1d6386',
+  '1936-01-01': 'd6977f2e',
+  '1945-09-02': '8b19df21',
+};
+
+function sameMesh(saved: WorldFingerprint, current: WorldFingerprint): boolean {
+  return (
+    saved.schemaVersion === current.schemaVersion &&
+    saved.provinceCount === current.provinceCount &&
+    (saved.scenarioId === undefined || saved.scenarioId === current.scenarioId) &&
+    (saved.startDate === undefined || JSON.stringify(saved.startDate) === JSON.stringify(current.startDate))
+  );
+}
+
 function fingerprintsMatch(a: WorldFingerprint, b: WorldFingerprint): boolean {
   return (
     a.schemaVersion === b.schemaVersion &&
@@ -230,10 +256,19 @@ export function deserializeWorld(buffer: Uint8Array): { world: World; metadata: 
     scenarioId,
     payload.world.startDate ?? DEFAULT_SCENARIO.manifest.startDate,
   );
-  const current = payload.worldFingerprint != null
+  const priorRelease = payload.worldFingerprint != null
+    && !fingerprintsMatch(payload.worldFingerprint, currentFingerprint)
+    && sameMesh(payload.worldFingerprint, currentFingerprint)
+    && WORLD_V8_0_SEED_HASHES[scenarioId] === payload.worldFingerprint.seedHash;
+  if (priorRelease && BORROWED_1936_SCENARIOS[scenarioId]) {
+    payload.world.scenarioId = BORROWED_1936_SCENARIOS[scenarioId];
+    // Throws ScenarioNotLoadedError until the borrowed world is fetched.
+    loadScenario(payload.world.scenarioId);
+  }
+  const current = priorRelease || (payload.worldFingerprint != null
     ? fingerprintsMatch(payload.worldFingerprint, currentFingerprint)
     // Pre-fingerprint save: accept it only if its map is the shipped map's size.
-    : payload.world.provinces?.length === currentFingerprint.provinceCount;
+    : payload.world.provinces?.length === currentFingerprint.provinceCount);
 
   let world = payload.world;
   let runtimes = payload.runtimes;

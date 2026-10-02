@@ -980,11 +980,6 @@
   ],
   "nearestAssignments": [
     {
-      "provinceId": 231,
-      "polityKey": "ADEN_PROTECTORATE",
-      "distanceDegrees": 1.0787368951098255
-    },
-    {
       "provinceId": 243,
       "polityKey": "EMIRATE_OF_NEJD",
       "distanceDegrees": 0.9685389873412448
@@ -1090,6 +1085,12 @@
       "provinceName": "Cubango",
       "polityKey": "PORTUGAL",
       "notes": "Angola (Portuguese West Africa): Portuguese colony; no separate colonial polity in the 1914 roster."
+    },
+    {
+      "provinceId": 231,
+      "provinceName": "Najran",
+      "polityKey": "OTTOMAN_EMPIRE",
+      "notes": "Najran: claimed within Ottoman Yemen and Asir, contested by the Yam tribes; not part of the Aden Protectorate."
     },
     {
       "provinceId": 273,
@@ -1433,5 +1434,5 @@
     "TOKELAU_ISLANDS_PROTECTORATE"
   ],
   "unrepresentedOverlordLinks": [],
-  "splitStates": 101
+  "splitStates": 100
 }

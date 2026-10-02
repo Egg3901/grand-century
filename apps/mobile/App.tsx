@@ -96,6 +96,7 @@ import {
   type CampaignConfig,
 } from "./game/campaign";
 import type { SeedNation } from "../../src/data/generated";
+import { ScenarioGate } from "./game/ScenarioGate";
 import { labelFitsViewport } from "./game/mapLabelPlacement";
 
 type Nation = SeedNation;
@@ -1303,7 +1304,12 @@ function Atlas({
   );
 }
 
+/** Era seeds load before any campaign screen can ask for one. */
 export default function App() {
+  return <ScenarioGate><AppScreens /></ScenarioGate>;
+}
+
+function AppScreens() {
   useEffect(() => {
     let cancelled = false;
     const warm = setTimeout(() => {

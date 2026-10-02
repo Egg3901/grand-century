@@ -3,8 +3,6 @@
 // collecting specs — which silently took the entire e2e suite to 0 tests
 // collected some time after 1.0.0. Vite/vitest/tsc all accept the attribute.
 import worldSeedRaw from './generated/worldSeed.json' with { type: 'json' };
-import worldSeed1700Raw from './scenarios/1700-01-01/worldSeed.json' with { type: 'json' };
-import worldSeed1936Raw from './scenarios/1936-01-01/worldSeed.json' with { type: 'json' };
 import scenario1700ManifestRaw from '../../content/scenarios/1700-01-01/manifest.json' with { type: 'json' };
 import scenario1776ManifestRaw from '../../content/scenarios/1776-07-04/manifest.json' with { type: 'json' };
 import scenario1815ManifestRaw from '../../content/scenarios/1815-06-18/manifest.json' with { type: 'json' };
@@ -160,21 +158,32 @@ const SCENARIO_1830: CompiledScenarioData = Object.freeze({
   worldSeed: worldSeedRaw as WorldSeedData,
 });
 
-const SCENARIO_1700: CompiledScenarioData = Object.freeze({
-  manifest: scenario1700Manifest,
-  worldSeed: worldSeed1700Raw as unknown as WorldSeedData,
-});
+/**
+ * Every other era ships its own compiled seed as a separate chunk, loaded on
+ * demand: bundling all seven would add megabytes to every first load.
+ * Callers that start or restore a world await `ensureScenario` first.
+ * Unlike the static imports above these carry no `type: 'json'` attribute:
+ * in the dev server the browser would then demand a JSON response for what
+ * Vite serves as a module. tsx, Vitest and Metro resolve them without it.
+ */
+const SEED_LOADERS: Readonly<Record<string, () => Promise<{ default: unknown }>>> = {
+  '1700-01-01': () => import('./scenarios/1700-01-01/worldSeed.json'),
+  '1776-07-04': () => import('./scenarios/1776-07-04/worldSeed.json'),
+  '1815-06-18': () => import('./scenarios/1815-06-18/worldSeed.json'),
+  '1914-07-28': () => import('./scenarios/1914-07-28/worldSeed.json'),
+  '1936-01-01': () => import('./scenarios/1936-01-01/worldSeed.json'),
+  '1945-09-02': () => import('./scenarios/1945-09-02/worldSeed.json'),
+};
 
-const SCENARIO_1936: CompiledScenarioData = Object.freeze({
-  manifest: scenario1936Manifest,
-  worldSeed: worldSeed1936Raw as unknown as WorldSeedData,
-});
-
-function derivedScenario(manifest: ScenarioManifest, source: CompiledScenarioData): CompiledScenarioData {
+function derivedScenario(id: ScenarioId, manifest: ScenarioManifest, source: CompiledScenarioData): CompiledScenarioData {
   const yearDelta = manifest.startDate.year - source.manifest.startDate.year;
   const populationScale = Math.exp(yearDelta * 0.004);
   return Object.freeze({
-    manifest,
+    manifest: Object.freeze({
+      ...manifest,
+      id,
+      seedProvenance: Object.freeze({ kind: 'inherited_development' as const, sourceScenarioId: source.manifest.id }),
+    }),
     worldSeed: {
       ...source.worldSeed,
       source: `${manifest.id} development seed inherited from ${source.manifest.id}`,
@@ -189,7 +198,7 @@ function derivedScenario(manifest: ScenarioManifest, source: CompiledScenarioDat
         initialTechYear: nation.initialTechYear === undefined
           ? undefined
           : nation.initialTechYear + yearDelta,
-        eraSummary: manifest.seedProvenance?.limitations ?? nation.eraSummary,
+        eraSummary: nation.eraSummary,
       })),
       formables: source.worldSeed.formables?.map((formable) => ({
         ...formable,
@@ -200,20 +209,91 @@ function derivedScenario(manifest: ScenarioManifest, source: CompiledScenarioDat
   });
 }
 
-const SCENARIO_1776 = derivedScenario(scenario1776Manifest, SCENARIO_1700);
-const SCENARIO_1815 = derivedScenario(scenario1815Manifest, SCENARIO_1830);
-const SCENARIO_1914 = derivedScenario(scenario1914Manifest, SCENARIO_1936);
-const SCENARIO_1945 = derivedScenario(scenario1945Manifest, SCENARIO_1936);
+/**
+ * Hidden scenario ids for campaigns saved while 1914 and 1945 still borrowed
+ * the 1936 world (the first world v8 release). Their saves keep loading
+ * against the exact seed they were made with; they never appear in menus.
+ */
+export const BORROWED_1936_SCENARIOS: Readonly<Record<string, ScenarioId>> = {
+  '1914-07-28': '1914-07-28@v8.0',
+  '1945-09-02': '1945-09-02@v8.0',
+};
+const BORROWED_SOURCE: Readonly<Record<string, ScenarioManifest>> = {
+  '1914-07-28@v8.0': scenario1914Manifest,
+  '1945-09-02@v8.0': scenario1945Manifest,
+};
 
-const COMPILED_SCENARIOS: ReadonlyMap<ScenarioId, CompiledScenarioData> = new Map([
-  [SCENARIO_1700.manifest.id, SCENARIO_1700],
-  [SCENARIO_1776.manifest.id, SCENARIO_1776],
-  [SCENARIO_1815.manifest.id, SCENARIO_1815],
-  [SCENARIO_1830.manifest.id, SCENARIO_1830],
-  [SCENARIO_1914.manifest.id, SCENARIO_1914],
-  [SCENARIO_1936.manifest.id, SCENARIO_1936],
-  [SCENARIO_1945.manifest.id, SCENARIO_1945],
-]);
+const COMPILED_SCENARIOS = new Map<ScenarioId, CompiledScenarioData>([[SCENARIO_1830.manifest.id, SCENARIO_1830]]);
+const MANIFEST_BY_ID = new Map<ScenarioId, ScenarioManifest>(SCENARIO_MANIFESTS.map((manifest) => [manifest.id, manifest]));
+const PENDING = new Map<ScenarioId, Promise<CompiledScenarioData>>();
+
+/** Thrown by `loadScenario` for a known era whose seed has not been fetched yet. */
+export class ScenarioNotLoadedError extends Error {
+  readonly scenarioId: ScenarioId;
+  constructor(scenarioId: ScenarioId) {
+    super(`Scenario ${scenarioId} is not loaded yet; await ensureScenario first.`);
+    this.name = 'ScenarioNotLoadedError';
+    this.scenarioId = scenarioId;
+  }
+}
+
+export function isScenarioLoaded(id: ScenarioId): boolean {
+  return COMPILED_SCENARIOS.has(id);
+}
+
+/** Fetch an era's compiled seed (once) so `loadScenario` can resolve it synchronously. */
+export function ensureScenario(id: ScenarioId): Promise<CompiledScenarioData> {
+  const loaded = COMPILED_SCENARIOS.get(id);
+  if (loaded) return Promise.resolve(loaded);
+  const pending = PENDING.get(id);
+  if (pending) return pending;
+  let promise: Promise<CompiledScenarioData>;
+  if (BORROWED_SOURCE[id]) {
+    promise = ensureScenario('1936-01-01').then((source) => derivedScenario(id, BORROWED_SOURCE[id], source));
+  } else {
+    const manifest = MANIFEST_BY_ID.get(id);
+    const loader = SEED_LOADERS[id];
+    if (!manifest || !loader) return Promise.reject(new Error(`Unknown scenario: ${id}`));
+    promise = loader().then((module) => Object.freeze({ manifest, worldSeed: module.default as WorldSeedData }));
+  }
+  const tracked = promise.then((scenario) => {
+    COMPILED_SCENARIOS.set(id, scenario);
+    PENDING.delete(id);
+    return scenario;
+  }, (error: unknown) => {
+    PENDING.delete(id);
+    throw error;
+  });
+  PENDING.set(id, tracked);
+  return tracked;
+}
+
+/** Load every era seed, including hidden compatibility worlds (server and native, where bundles are not split). */
+export function preloadScenarios(): Promise<void> {
+  const ids = [...SCENARIO_MANIFESTS.map((manifest) => manifest.id), ...Object.keys(BORROWED_SOURCE)];
+  return Promise.all(ids.map((id) => ensureScenario(id))).then(() => undefined);
+}
+
+/** Run a synchronous step that may need era seeds, loading them as it asks. */
+export async function withScenarios<T>(step: () => T): Promise<T> {
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    try {
+      return step();
+    } catch (error) {
+      if (!(error instanceof ScenarioNotLoadedError)) throw error;
+      await ensureScenario(error.scenarioId);
+    }
+  }
+  return step();
+}
+
+/** Manifest for any scenario, available without its seed. */
+export function scenarioManifest(id: ScenarioId): ScenarioManifest {
+  const manifest = MANIFEST_BY_ID.get(id) ?? COMPILED_SCENARIOS.get(id)?.manifest
+    ?? (BORROWED_SOURCE[id] ? Object.freeze({ ...BORROWED_SOURCE[id], id }) : undefined);
+  if (!manifest) throw new Error(`Unknown scenario: ${id}`);
+  return manifest;
+}
 
 export const DEFAULT_SCENARIO_ID: ScenarioId = SCENARIO_1830.manifest.id;
 
@@ -225,8 +305,9 @@ export function listScenarios(): readonly ScenarioManifest[] {
 /** Resolve one compiled scenario or fail before simulation bootstrap. */
 export function loadScenario(id: ScenarioId): CompiledScenarioData {
   const scenario = COMPILED_SCENARIOS.get(id);
-  if (!scenario) throw new Error(`Unknown scenario: ${id}`);
-  return scenario;
+  if (scenario) return scenario;
+  if (MANIFEST_BY_ID.has(id) || BORROWED_SOURCE[id]) throw new ScenarioNotLoadedError(id);
+  throw new Error(`Unknown scenario: ${id}`);
 }
 
 export const DEFAULT_SCENARIO = loadScenario(DEFAULT_SCENARIO_ID);

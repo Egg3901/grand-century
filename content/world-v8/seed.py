@@ -21,6 +21,7 @@ from shapely.geometry import shape, Point
 (PROVINCES, PROVINCE_LIST, PIECES, ATTRIBUTES, NAMES, ADJ, LEGACY_SEED, LEGACY_GEO, CROSSWALK,
  CAPITALS, OUT, MIGRATION) = [Path(p) for p in sys.argv[1:13]]
 SCEN = '1830-01-01'
+ROOT = Path(__file__).resolve().parents[2]
 # Autonomous 1830 polities that the source layer draws inside a larger state:
 # Moldavia (Ottoman principality under Russian occupation) and Mysore
 # (princely state under the Company) keep the land of their legacy provinces.
@@ -108,6 +109,18 @@ def main():
             'legacyName': lp['name'] if lp else None, 'legacyStateId': lp['stateId'] if lp else None,
             '_adm1': f['properties']['adm1Name'], '_pred': pred, '_ov': ov,
         })
+    # Reviewed corrections where the 1830 polity layer is wrong (the Kazakh
+    # Hordes polygon covered Russian fortress lines, Kokand and Khiva). Keyed by
+    # a point inside the province, so they survive mesh rebuilds.
+    fixes = Path(__file__).with_name('owner-overrides-1830.json')
+    if fixes.exists():
+        tree = STRtree([shape(f['geometry']) for f in feats])
+        for fix in json.loads(fixes.read_text())['overrides']:
+            pt = Point(fix['lon'], fix['lat'])
+            hit = [int(j) for j in tree.query(pt) if shape(feats[int(j)]['geometry']).contains(pt)]
+            if not hit: raise SystemExit(f"owner override {fix['place']} is outside every province")
+            if fix['tag'] not in gc_tags: raise SystemExit(f"owner override {fix['place']} names unknown tag {fix['tag']}")
+            provinces[hit[0]]['ownerTag'] = fix['tag']
     # Every legacy province names at least one successor, so region-keyed
     # content (culture minorities, placeholder natives) never drops out.
     named = Counter(p['_pred'] for p in provinces if p['_pred'] is not None)
@@ -172,7 +185,20 @@ def main():
     # then longest shared border) until each holds STATE_MIN..STATE_MAX.
     shared = defaultdict(float)
     for a_, b_, l in adj['land']: shared[(a_, b_)] += l; shared[(b_, a_)] += l
-    state_of = list(range(n)); members_of = {i: [i] for i in range(n)}
+    # State ids are stable across rebuilds on the same mesh: a state from the
+    # installed seed survives unchanged while every province keeps its owner,
+    # so saves made on an earlier build keep valid state references. Only
+    # provinces whose owner changed are regrown, into freed ids first.
+    prior_path = ROOT / 'src/data/generated/worldSeed.json'
+    prior = json.loads(prior_path.read_text()) if prior_path.exists() else None
+    kept = {}
+    if prior and prior.get('provinceCount') == n:
+        for st in prior['states']:
+            ids = st['provinceIds']
+            if ids and all(provinces[i]['ownerTag'] == st['ownerTag'] for i in ids): kept[st['id']] = sorted(ids)
+    in_kept = {i for ids in kept.values() for i in ids}
+    regrow = [i for i in range(n) if i not in in_kept]
+    state_of = {i: i for i in regrow}; members_of = {i: [i] for i in regrow}
     def legacy_state(i): return provinces[i]['legacyStateId']
     changed = True
     while changed:
@@ -185,6 +211,7 @@ def main():
             score = defaultdict(float)
             for i in mine:
                 for j_ in nb[i]:
+                    if j_ not in state_of: continue
                     t = state_of[j_]
                     if t == sid or provinces[j_]['ownerTag'] != owner: continue
                     if len(members_of[t]) + len(mine) > STATE_MAX: continue
@@ -196,7 +223,15 @@ def main():
             t = max(score, key=lambda k: (score[k], -k))
             for i in mine: state_of[i] = t
             members_of[t] += members_of.pop(sid); changed = True
-    states = [sorted(v) for _, v in sorted(members_of.items())]
+    grown = [sorted(v) for _, v in sorted(members_of.items())]
+    free = [i for i in range((max(kept) + 1) if kept else 0) if i not in kept]
+    by_id = dict(kept)
+    for ids in grown:
+        sid = free.pop(0) if free else len(by_id)
+        while sid in by_id: sid += 1
+        by_id[sid] = ids
+    assert sorted(by_id) == list(range(len(by_id))), 'state ids must stay contiguous'
+    states = [by_id[i] for i in range(len(by_id))]
     state_records = []
     used = Counter()
     for sid, ids in enumerate(states):

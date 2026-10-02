@@ -48,6 +48,13 @@ export function deriveAlerts(
   goodNames: ReadonlyMap<number, string> = new Map(),
 ): UiAlert[] {
   if (!prev) return existingAlerts as UiAlert[];
+  // A new campaign or scenario replaces the world; its nations are not formations.
+  if (
+    (prev.scenarioId ?? null) !== (next.scenarioId ?? null)
+    || prev.seed !== next.seed
+    || (prev.mapMode ?? null) !== (next.mapMode ?? null)
+    || next.day < prev.day
+  ) return existingAlerts as UiAlert[];
 
   const alerts = existingAlerts.slice();
   let changed = false;

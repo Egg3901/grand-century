@@ -7,7 +7,7 @@ import { detailNation, detailProvince } from '../../../src/sim/detail';
 
 import type { NativeRequest, NativeResponse } from './nativeProtocol';
 import { serializeWorld, deserializeWorld } from '../../../src/sim/persistence';
-import { DEFAULT_SCENARIO_ID, loadScenario } from '../../../src/data/generated';
+import { DEFAULT_SCENARIO_ID, loadScenario, preloadScenarios, withScenarios } from '../../../src/data/generated';
 import { resolveWorldSeed } from '../../../src/sim/proceduralWorld';
 
 type WorkerScope = {
@@ -48,13 +48,20 @@ function start(seed: number, playerNation?: number, scenarioId = DEFAULT_SCENARI
   publishSnapshot();
 }
 
+// Metro bundles every era seed, so this resolves on the first microtask; the
+// chain keeps message order while it does.
+let queue: Promise<void> = preloadScenarios();
 scope.onmessage = ({ data: message }) => {
+  queue = queue.then(() => handle(message), () => handle(message));
+};
+
+async function handle(message: NativeRequest) {
   try {
     if (message.t === 'exportSave') {
       if (!world) throw new Error('No campaign is open.');
       post({ t: 'exportedSave', request: message.request, payload: Array.from(serializeWorld(world)), snapshot: snapshot(world, gameData) });
     } else if (message.t === 'importSave') {
-      const loaded = deserializeWorld(new Uint8Array(message.payload)).world;
+      const loaded = (await withScenarios(() => deserializeWorld(new Uint8Array(message.payload)))).world;
       const data = dataFor(loaded.scenarioId ?? DEFAULT_SCENARIO_ID, loaded.seed, loaded.mapMode ?? 'historical');
       world = loaded;
       gameData = data;
@@ -83,7 +90,7 @@ scope.onmessage = ({ data: message }) => {
     if ('request' in message) post({ t: 'storageError', request: message.request, message: reason });
     else post({ t: 'log', level: 'error', msg: reason });
   }
-};
+}
 
 setInterval(() => {
   const now = Date.now();

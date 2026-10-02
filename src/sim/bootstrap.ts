@@ -1004,8 +1004,17 @@ export function createWorld(
   addFactorySeeds(worldSeed, states, rng);
   const pops = createPops(worldSeed, provinces, runtime, nations, data, rng);
 
+  // Britain where it exists (ENG in 1830, UNITED_KINGDOM in the dated eras),
+  // else the top great power, else the nation with the most provinces.
+  const provinceCount = new Map<number, number>();
+  for (const province of provinces) provinceCount.set(province.owner, (provinceCount.get(province.owner) ?? 0) + 1);
+  const largest = nations.reduce((best, nation) => (
+    (provinceCount.get(nation.id) ?? 0) > (provinceCount.get(best?.id ?? -1) ?? 0) && worldSeed.nations[nation.id]?.tag !== 'UNC' ? nation : best
+  ), nations[0])?.id;
   const defaultPlayer = tagToNationId.ENG
+    ?? tagToNationId.UNITED_KINGDOM
     ?? nations.find((nation) => (worldSeed.nations[nation.id]?.greatPowerRank ?? 0) === 1)?.id
+    ?? largest
     ?? 0;
 
   const world: World = {

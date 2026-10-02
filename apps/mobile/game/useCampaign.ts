@@ -4,6 +4,7 @@ import type { WorldSnapshot } from '../../../src/shared/types';
 import { NativeSimTransport, type CampaignTransport } from './NativeSimTransport';
 import { type CampaignConfig, type NativeSave, saveSummary, campaignNation } from './campaign';
 import { newSaveId, readNativeSave, writeNativeSave } from './nativeSaves';
+import { BORROWED_1936_SCENARIOS } from '../../../src/data/generated';
 
 export type Session = { config: CampaignConfig; transport: CampaignTransport; snapshot: WorldSnapshot; online?: boolean };
 export function useCampaign() {
@@ -32,8 +33,12 @@ export function useCampaign() {
     const result = await checkpoint(current.current, kind, label || (kind === 'auto' ? 'Autosave' : current.current.config.name));
     setNotice(`${result.label} saved on this device.`);
   }), [perform]);
-  const open = (config: CampaignConfig, saved?: NativeSave) => perform(async () => {
-    campaignNation(config);
+  const open = (requested: CampaignConfig, saved?: NativeSave) => perform(async () => {
+    let config = requested;
+    // A 1914 or 1945 checkpoint from the first world v8 build restores onto the
+    // borrowed 1936 world it was made in; its nation is checked after import.
+    const borrowed = saved ? BORROWED_1936_SCENARIOS[config.scenarioId] : undefined;
+    if (!borrowed) campaignNation(config);
     const previous = current.current;
     if (previous) {
       previous.transport.send({ t: 'command', cmd: { t: 'setSpeed', speed: 0 } });
@@ -55,6 +60,7 @@ export function useCampaign() {
       if (saved) await transport.importSave(await readNativeSave(saved.id));
       else transport.send({ t: 'command', cmd: { t: 'newGame', ...config } });
       const exported = await transport.exportSave();
+      if (borrowed && exported.snapshot.scenarioId === borrowed) config = { ...config, scenarioId: borrowed };
       if (exported.snapshot.seed !== config.seed || exported.snapshot.playerNation !== config.playerNation || exported.snapshot.mapMode !== config.mapMode || (exported.snapshot.scenarioId ?? '1830-01-01') !== config.scenarioId) {
         throw new Error('This checkpoint does not match its campaign information. Your current campaign is unchanged.');
       }

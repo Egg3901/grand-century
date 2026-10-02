@@ -8,6 +8,16 @@
   "regionFills": [
     {
       "bounds": [
+        46.5,
+        17.3,
+        48.2,
+        19.0
+      ],
+      "polityKey": "OTTOMAN_EMPIRE",
+      "notes": "Najran: claimed within Ottoman Yemen and Asir, contested by the Yam tribes; not part of the Aden Protectorate."
+    },
+    {
+      "bounds": [
         -32,
         36,
         -24,
