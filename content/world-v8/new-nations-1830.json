@@ -1846,6 +1846,28 @@
       "flagSource": "procedural",
       "eraSummary": "The Principality of Liechtenstein is a sovereign member of the German Confederation whose princes live in Vienna.",
       "protect": true
+    },
+    {
+      "polityKey": "KATHIRI_SULTANATE",
+      "tag": "KTH",
+      "name": "Kathiri",
+      "color": [
+        176,
+        140,
+        96
+      ],
+      "government": "absolute_monarchy",
+      "primaryCulture": "arabic",
+      "religion": "sunni",
+      "polityStatus": "sovereign",
+      "overlordTag": null,
+      "capital": [
+        "Seiyun",
+        48.79,
+        15.94
+      ],
+      "flagSource": "procedural",
+      "eraSummary": "The Kathiri sultans hold Seiyun and Tarim in the Wadi Hadhramaut, where the old learned families of Tarim keep the religious schools. Yafi mercenaries and rival coastal naqibs contest the ports."
     }
   ],
   "folds": {
@@ -1855,7 +1877,7 @@
     },
     "KATHIRI_SULTANATE": {
       "to": "UNC",
-      "reason": "The source polygon lies in Central Africa, not the Hadhramaut; withheld until corrected geometry exists."
+      "reason": "The source polygon lies in Central Africa, so that land stays unassigned; the Kathiri nation is placed in the Hadhramaut by owner-overrides-1830.json."
     },
     "HERZOGTUM_ANHALT_BERNBURG": {
       "to": "ANH",

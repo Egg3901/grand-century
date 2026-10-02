@@ -126,6 +126,7 @@ export function compileScenarioSeed({
   compiledBorders,
   manifest,
   provinceOverrides = { overrides: [] },
+  priorSeed = null,
 }) {
   requireValue(roster.asOf === manifest.id && compiledBorders.asOf === manifest.id, 'scenario source dates do not match');
   requireValue(
@@ -236,15 +237,37 @@ export function compileScenarioSeed({
   const groups = [...stateGroups.values()].sort((left, right) => (
     left.baseStateId - right.baseStateId || left.ownerTag.localeCompare(right.ownerTag, 'en')
   ));
-  const stateIdByGroup = new Map(groups.map((group, index) => [`${group.baseStateId}:${group.ownerTag}`, index]));
+  // State ids stay stable across recompiles on the same mesh: a group with the
+  // same owner and provinces as a state in the prior compiled seed keeps that
+  // id, so saves made on an earlier build keep valid state references. New
+  // groups take freed ids first, then append.
+  const groupId = new Map();
+  const priorKey = (ownerTag, provinceIds) => `${ownerTag}|${[...provinceIds].sort((a, b) => a - b).join(',')}`;
+  if (priorSeed && priorSeed.provinceCount === baseSeed.provinceCount) {
+    const priorIdByKey = new Map(priorSeed.states.map((state) => [priorKey(state.ownerTag, state.provinceIds), state.id]));
+    for (const group of groups) {
+      const id = priorIdByKey.get(priorKey(group.ownerTag, group.provinceIds));
+      if (id !== undefined && id < groups.length) groupId.set(group, id);
+    }
+  }
+  const taken = new Set(groupId.values());
+  let nextFree = 0;
+  for (const group of groups) {
+    if (groupId.has(group)) continue;
+    while (taken.has(nextFree)) nextFree += 1;
+    groupId.set(group, nextFree);
+    taken.add(nextFree);
+  }
+  requireValue(taken.size === groups.length && Math.max(-1, ...taken) === groups.length - 1, 'state ids must stay contiguous');
+  const stateIdByGroup = new Map(groups.map((group) => [`${group.baseStateId}:${group.ownerTag}`, groupId.get(group)]));
   const splitCounts = new Map();
   for (const group of groups) splitCounts.set(group.baseStateId, (splitCounts.get(group.baseStateId) ?? 0) + 1);
-  const states = groups.map((group, id) => ({
-    id,
+  const states = groups.map((group) => ({
+    id: groupId.get(group),
     name: splitCounts.get(group.baseStateId) > 1 ? `${group.baseName} (${group.ownerTag})` : group.baseName,
     ownerTag: group.ownerTag,
     provinceIds: group.provinceIds,
-  }));
+  })).sort((left, right) => left.id - right.id);
   const stateById = new Map(states.map((state) => [state.id, state]));
   const populationScale = manifest.startDate.year <= 1700 ? 0.55 : manifest.startDate.year >= 1936 ? 1.8 : 1;
   const provinces = baseSeed.provinces.map((province) => {

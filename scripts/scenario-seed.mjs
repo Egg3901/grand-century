@@ -40,6 +40,8 @@ const result = compileScenarioSeed({
     path.join(resolvedScenarioDir, 'sources', 'province-overrides.json'),
     { overrides: [] },
   ),
+  // The seed already in the output directory keeps state ids stable.
+  priorSeed: await readOptionalJson(path.join(path.resolve(outputDir), 'worldSeed.json'), null),
 });
 await writeScenarioSeed(path.resolve(outputDir), result);
 process.stdout.write(

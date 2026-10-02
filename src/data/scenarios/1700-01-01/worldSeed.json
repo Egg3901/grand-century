@@ -84,7 +84,7 @@
       ],
       "lon": 90.6127,
       "lat": 71.5821,
-      "populationWeight": 0.00396,
+      "populationWeight": 0.0039050000000000005,
       "legacyName": "North Siberia",
       "legacyStateName": "North Siberia"
     },
@@ -130,7 +130,7 @@
       ],
       "lon": 98.3115,
       "lat": 64.8416,
-      "populationWeight": 0.36388000000000004,
+      "populationWeight": 0.35574000000000006,
       "legacyName": "West Yakutsk",
       "legacyStateName": "West Yakutsk"
     },
@@ -475,7 +475,7 @@
       ],
       "lon": 117.4673,
       "lat": 52.2171,
-      "populationWeight": 0.24381500000000003,
+      "populationWeight": 0.23837000000000003,
       "legacyName": "Trans-Baikal",
       "legacyStateName": "Trans-Baikal"
     },
@@ -498,7 +498,7 @@
       ],
       "lon": 152.6002,
       "lat": 61.8459,
-      "populationWeight": 0.21945000000000003,
+      "populationWeight": 0.21455500000000002,
       "legacyName": "Okhotsk",
       "legacyStateName": "Okhotsk"
     },
@@ -521,7 +521,7 @@
       ],
       "lon": 158.0327,
       "lat": 55.248,
-      "populationWeight": 0.22346500000000002,
+      "populationWeight": 0.21846000000000002,
       "legacyName": "Coastal Chukotka",
       "legacyStateName": "Coastal Chukotka"
     },
@@ -567,7 +567,7 @@
       ],
       "lon": 134.8418,
       "lat": 66.4847,
-      "populationWeight": 0.19904500000000003,
+      "populationWeight": 0.19459,
       "legacyName": "Okhotsk",
       "legacyStateName": "Okhotsk"
     },
@@ -607,7 +607,7 @@
       ],
       "lon": 164.5103,
       "lat": 67.5132,
-      "populationWeight": 0.0010450000000000001,
+      "populationWeight": 0.00099,
       "legacyName": "Coastal Chukotka",
       "legacyStateName": "Coastal Chukotka"
     },
@@ -630,7 +630,7 @@
       ],
       "lon": 80.5673,
       "lat": 57.7576,
-      "populationWeight": 0.104995,
+      "populationWeight": 0.10268500000000001,
       "legacyName": "Lower Yeniseysk",
       "legacyStateName": "Lower Yeniseysk"
     },
@@ -692,7 +692,7 @@
       ],
       "lon": 107.4946,
       "lat": 60.3901,
-      "populationWeight": 0.18623000000000003,
+      "populationWeight": 0.18210500000000002,
       "legacyName": "Irkutsk",
       "legacyStateName": "Irkutsk"
     },
@@ -758,7 +758,7 @@
       ],
       "lon": 134.4622,
       "lat": 56.9781,
-      "populationWeight": 0.17506500000000003,
+      "populationWeight": 0.17116,
       "legacyName": "Okhotsk",
       "legacyStateName": "Okhotsk"
     },
@@ -780,7 +780,7 @@
       ],
       "lon": 132.0065,
       "lat": 61.2331,
-      "populationWeight": 0.05412000000000001,
+      "populationWeight": 0.05291,
       "legacyName": "Okhotsk",
       "legacyStateName": "Okhotsk"
     },
@@ -827,7 +827,7 @@
       ],
       "lon": 102.191,
       "lat": 55.1617,
-      "populationWeight": 0.148665,
+      "populationWeight": 0.145365,
       "legacyName": "Irkutsk",
       "legacyStateName": "Irkutsk"
     },
@@ -871,7 +871,7 @@
       ],
       "lon": 66.6267,
       "lat": 66.6493,
-      "populationWeight": 0.019250000000000003,
+      "populationWeight": 0.018810000000000004,
       "legacyName": "Ob",
       "legacyStateName": "Ob"
     },
@@ -894,7 +894,7 @@
       ],
       "lon": 111.4098,
       "lat": 54.5119,
-      "populationWeight": 0.18837500000000004,
+      "populationWeight": 0.18414,
       "legacyName": "Irkutsk",
       "legacyStateName": "Irkutsk"
     },
@@ -966,7 +966,7 @@
       ],
       "lon": 80.5425,
       "lat": 65.4838,
-      "populationWeight": 0.23881,
+      "populationWeight": 0.23347500000000002,
       "legacyName": "Lower Yeniseysk",
       "legacyStateName": "Lower Yeniseysk"
     },
@@ -1015,7 +1015,7 @@
       ],
       "lon": 70.64,
       "lat": 57.3718,
-      "populationWeight": 0.366685,
+      "populationWeight": 0.35849000000000003,
       "legacyName": "Akmolinsk",
       "legacyStateName": "Akmolinsk"
     },
@@ -1088,7 +1088,7 @@
       ],
       "lon": 122.0459,
       "lat": 66.2118,
-      "populationWeight": 0.06160000000000001,
+      "populationWeight": 0.06022500000000001,
       "legacyName": "Okhotsk",
       "legacyStateName": "Okhotsk"
     },
@@ -1260,7 +1260,7 @@
       ],
       "lon": 112.9157,
       "lat": 62.0608,
-      "populationWeight": 0.04675000000000001,
+      "populationWeight": 0.045705,
       "legacyName": "West Yakutsk",
       "legacyStateName": "West Yakutsk"
     },
@@ -1268,7 +1268,7 @@
       "id": 55,
       "name": "Altai",
       "ownerTag": "POLITY_Q1923401",
-      "stateId": 108,
+      "stateId": 59,
       "stateName": "Tannu Uriankhai (POLITY_Q1923401)",
       "terrain": "hills",
       "coastal": true,
@@ -1533,7 +1533,7 @@
       ],
       "lon": 90.1771,
       "lat": 54.6913,
-      "populationWeight": 0.24519000000000002,
+      "populationWeight": 0.23969000000000004,
       "legacyName": "Tomsk",
       "legacyStateName": "Tomsk"
     },
@@ -1602,7 +1602,7 @@
       ],
       "lon": 66.3352,
       "lat": 60.8367,
-      "populationWeight": 0.05395500000000001,
+      "populationWeight": 0.05274500000000001,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -1626,7 +1626,7 @@
       ],
       "lon": 75.1942,
       "lat": 61.2429,
-      "populationWeight": 0.0814,
+      "populationWeight": 0.079585,
       "legacyName": "Ob",
       "legacyStateName": "Ob"
     },
@@ -1676,7 +1676,7 @@
       ],
       "lon": 120.8132,
       "lat": 59.7657,
-      "populationWeight": 0.12358500000000001,
+      "populationWeight": 0.12083500000000001,
       "legacyName": "Trans-Baikal",
       "legacyStateName": "Trans-Baikal"
     },
@@ -2292,7 +2292,7 @@
       "id": 99,
       "name": "Barnaul",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 169,
+      "stateId": 808,
       "stateName": "Barnaul",
       "terrain": "plains",
       "coastal": false,
@@ -2307,7 +2307,7 @@
       ],
       "lon": 81.8247,
       "lat": 52.8619,
-      "populationWeight": 0.12331000000000002,
+      "populationWeight": 0.23738,
       "legacyName": "Tomsk",
       "legacyStateName": "Tomsk"
     },
@@ -2374,7 +2374,7 @@
       ],
       "lon": 87.7853,
       "lat": 63.3255,
-      "populationWeight": 0.029480000000000003,
+      "populationWeight": 0.028820000000000002,
       "legacyName": "Lower Yeniseysk",
       "legacyStateName": "Lower Yeniseysk"
     },
@@ -2447,8 +2447,8 @@
       "id": 106,
       "name": "Tashkent",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 73,
-      "stateName": "Ulytau (POLITY_Q1433867)",
+      "stateId": 77,
+      "stateName": "Tashkent (POLITY_Q1433867)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -2465,7 +2465,7 @@
       ],
       "lon": 68.9387,
       "lat": 42.3622,
-      "populationWeight": 0.30057500000000004,
+      "populationWeight": 0.138105,
       "legacyName": "Uzbekia",
       "legacyStateName": "Uzbekia"
     },
@@ -2996,7 +2996,7 @@
       "id": 130,
       "name": "Troitsk",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 59,
+      "stateId": 73,
       "stateName": "Koryakovsk",
       "terrain": "plains",
       "coastal": false,
@@ -3013,7 +3013,7 @@
       ],
       "lon": 63.9271,
       "lat": 52.7979,
-      "populationWeight": 0.08822,
+      "populationWeight": 0.16984000000000002,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -3081,7 +3081,7 @@
       ],
       "lon": 61.6634,
       "lat": 58.6064,
-      "populationWeight": 0.191125,
+      "populationWeight": 0.18689,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -3090,7 +3090,7 @@
       "name": "Hadhramaut",
       "ownerTag": "UNC",
       "stateId": 187,
-      "stateName": "Mahra (UNC)",
+      "stateName": "Hadhramaut",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -3103,7 +3103,7 @@
       ],
       "lon": 48.6372,
       "lat": 15.9606,
-      "populationWeight": 0.10395000000000001,
+      "populationWeight": 0.09988000000000001,
       "legacyName": "Yemen",
       "legacyStateName": "Yemen"
     },
@@ -3649,7 +3649,7 @@
       ],
       "lon": 91.2681,
       "lat": 58.8851,
-      "populationWeight": 0.029370000000000004,
+      "populationWeight": 0.028710000000000003,
       "legacyName": "Lower Yeniseysk",
       "legacyStateName": "Lower Yeniseysk"
     },
@@ -3757,7 +3757,7 @@
       ],
       "lon": 62.3291,
       "lat": 68.5782,
-      "populationWeight": 0.11335500000000001,
+      "populationWeight": 0.11088,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -3799,7 +3799,7 @@
       ],
       "lon": 96.5565,
       "lat": 58.1689,
-      "populationWeight": 0.08129,
+      "populationWeight": 0.079475,
       "legacyName": "West Yakutsk",
       "legacyStateName": "West Yakutsk"
     },
@@ -4823,7 +4823,7 @@
       "id": 209,
       "name": "Kokshetau",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 59,
+      "stateId": 73,
       "stateName": "Koryakovsk",
       "terrain": "plains",
       "coastal": false,
@@ -4838,7 +4838,7 @@
       ],
       "lon": 70.2092,
       "lat": 51.8011,
-      "populationWeight": 0.12364000000000001,
+      "populationWeight": 0.06985000000000001,
       "legacyName": "Akmolinsk",
       "legacyStateName": "Akmolinsk"
     },
@@ -4846,7 +4846,7 @@
       "id": 210,
       "name": "Semipalatinsk",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 169,
+      "stateId": 808,
       "stateName": "Barnaul",
       "terrain": "plains",
       "coastal": false,
@@ -4861,7 +4861,7 @@
       ],
       "lon": 79.8736,
       "lat": 49.3025,
-      "populationWeight": 0.15367,
+      "populationWeight": 0.08679,
       "legacyName": "Semireche",
       "legacyStateName": "Semireche"
     },
@@ -5116,7 +5116,7 @@
       ],
       "lon": 49.7056,
       "lat": 48.561,
-      "populationWeight": 0.058905000000000006,
+      "populationWeight": 0.06534000000000001,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -5293,7 +5293,7 @@
       ],
       "lon": 48.6685,
       "lat": 55.9414,
-      "populationWeight": 0.279455,
+      "populationWeight": 0.27324000000000004,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -5825,8 +5825,8 @@
       "id": 252,
       "name": "Ulytau",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 73,
-      "stateName": "Ulytau (POLITY_Q1433867)",
+      "stateId": 807,
+      "stateName": "Ulytau",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -5840,7 +5840,7 @@
       ],
       "lon": 67.205,
       "lat": 47.6992,
-      "populationWeight": 0.007425,
+      "populationWeight": 0.028270000000000003,
       "legacyName": "Akmolinsk",
       "legacyStateName": "Akmolinsk"
     },
@@ -6003,8 +6003,8 @@
       "id": 260,
       "name": "Great Horde",
       "ownerTag": "POLITY_Q1923401",
-      "stateId": 108,
-      "stateName": "Tannu Uriankhai (POLITY_Q1923401)",
+      "stateId": 169,
+      "stateName": "Semirechye (POLITY_Q1923401)",
       "terrain": "hills",
       "coastal": false,
       "rgoGood": "iron",
@@ -6017,7 +6017,7 @@
       ],
       "lon": 79.488,
       "lat": 43.793,
-      "populationWeight": 0.11198000000000001,
+      "populationWeight": 0.28891500000000003,
       "legacyName": "Semireche",
       "legacyStateName": "Semireche"
     },
@@ -6231,7 +6231,7 @@
       "id": 270,
       "name": "Koryakovsk",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 59,
+      "stateId": 73,
       "stateName": "Koryakovsk",
       "terrain": "plains",
       "coastal": false,
@@ -6245,7 +6245,7 @@
       ],
       "lon": 75.8826,
       "lat": 52.1542,
-      "populationWeight": 0.12193500000000002,
+      "populationWeight": 0.068915,
       "legacyName": "Akmolinsk",
       "legacyStateName": "Akmolinsk"
     },
@@ -6394,8 +6394,8 @@
       "id": 277,
       "name": "Lake Balkhash",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 169,
-      "stateName": "Barnaul",
+      "stateId": 143,
+      "stateName": "Semirechye (POLITY_Q1433867)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -6410,7 +6410,7 @@
       ],
       "lon": 73.6356,
       "lat": 47.5182,
-      "populationWeight": 0.0068200000000000005,
+      "populationWeight": 0.025905000000000004,
       "legacyName": "Semireche",
       "legacyStateName": "Semireche"
     },
@@ -6439,7 +6439,7 @@
       "name": "Pishpek",
       "ownerTag": "POLITY_Q1923401",
       "stateId": 74,
-      "stateName": "Ulytau (POLITY_Q1923401)",
+      "stateName": "Tashkent (POLITY_Q1923401)",
       "terrain": "hills",
       "coastal": true,
       "rgoGood": "coal",
@@ -6451,7 +6451,7 @@
       ],
       "lon": 73.0667,
       "lat": 43.9547,
-      "populationWeight": 0.164505,
+      "populationWeight": 0.14569500000000002,
       "legacyName": "Semireche",
       "legacyStateName": "Semireche"
     },
@@ -6501,7 +6501,7 @@
       ],
       "lon": 46.6478,
       "lat": 51.4601,
-      "populationWeight": 0.176495,
+      "populationWeight": 0.17259000000000002,
       "legacyName": "Tartaria",
       "legacyStateName": "Tartaria"
     },
@@ -6553,8 +6553,8 @@
       "id": 284,
       "name": "Aral",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 73,
-      "stateName": "Ulytau (POLITY_Q1433867)",
+      "stateId": 108,
+      "stateName": "Aral",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -6568,7 +6568,7 @@
       ],
       "lon": 62.1272,
       "lat": 45.538,
-      "populationWeight": 0.0068200000000000005,
+      "populationWeight": 0.02596,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -6663,7 +6663,7 @@
       ],
       "lon": 60.8422,
       "lat": 55.2746,
-      "populationWeight": 0.26383500000000004,
+      "populationWeight": 0.25795,
       "legacyName": "Tartaria",
       "legacyStateName": "Tartaria"
     },
@@ -6856,7 +6856,7 @@
       "id": 297,
       "name": "Petropavlovsk",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 59,
+      "stateId": 73,
       "stateName": "Koryakovsk",
       "terrain": "plains",
       "coastal": false,
@@ -6871,7 +6871,7 @@
       ],
       "lon": 67.479,
       "lat": 53.7051,
-      "populationWeight": 0.10142000000000001,
+      "populationWeight": 0.05731000000000001,
       "legacyName": "Akmolinsk",
       "legacyStateName": "Akmolinsk"
     },
@@ -7287,8 +7287,8 @@
       "id": 316,
       "name": "Atasu",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 73,
-      "stateName": "Ulytau (POLITY_Q1433867)",
+      "stateId": 807,
+      "stateName": "Ulytau",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -7302,7 +7302,7 @@
       ],
       "lon": 70.7057,
       "lat": 48.9211,
-      "populationWeight": 0.003135,
+      "populationWeight": 0.011935000000000001,
       "legacyName": "Akmolinsk",
       "legacyStateName": "Akmolinsk"
     },
@@ -7655,8 +7655,8 @@
       "id": 332,
       "name": "Ilek",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 77,
-      "stateName": "Ilek",
+      "stateId": 73,
+      "stateName": "Koryakovsk",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -7670,7 +7670,7 @@
       ],
       "lon": 56.0902,
       "lat": 50.3552,
-      "populationWeight": 0.09977000000000001,
+      "populationWeight": 0.056375,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -8004,8 +8004,8 @@
       "id": 347,
       "name": "Ak-Mechet",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 73,
-      "stateName": "Ulytau (POLITY_Q1433867)",
+      "stateId": 77,
+      "stateName": "Tashkent (POLITY_Q1433867)",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -8017,7 +8017,7 @@
       ],
       "lon": 65.9644,
       "lat": 44.8201,
-      "populationWeight": 0.022605,
+      "populationWeight": 0.020020000000000003,
       "legacyName": "Akmolinsk",
       "legacyStateName": "Akmolinsk"
     },
@@ -8155,7 +8155,7 @@
       ],
       "lon": 52.5728,
       "lat": 65.7017,
-      "populationWeight": 0.023045000000000003,
+      "populationWeight": 0.022550000000000004,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -8257,8 +8257,8 @@
       "id": 358,
       "name": "Mugodzhar",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 77,
-      "stateName": "Ilek",
+      "stateId": 108,
+      "stateName": "Aral",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -8273,7 +8273,7 @@
       ],
       "lon": 59.1499,
       "lat": 47.4327,
-      "populationWeight": 0.002145,
+      "populationWeight": 0.008085,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -8281,8 +8281,8 @@
       "id": 359,
       "name": "Emba",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 77,
-      "stateName": "Ilek",
+      "stateId": 108,
+      "stateName": "Aral",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cotton",
@@ -8296,7 +8296,7 @@
       ],
       "lon": 56.5152,
       "lat": 47.5266,
-      "populationWeight": 0.00396,
+      "populationWeight": 0.015125000000000001,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -8865,7 +8865,7 @@
       ],
       "lon": 44.5027,
       "lat": 63.752,
-      "populationWeight": 0.013420000000000001,
+      "populationWeight": 0.013145000000000002,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -9352,7 +9352,7 @@
       ],
       "lon": 72.3277,
       "lat": 40.5538,
-      "populationWeight": 0.09350000000000001,
+      "populationWeight": 0.18177500000000002,
       "legacyName": "Kirghizia",
       "legacyStateName": "Kirghizia"
     },
@@ -9881,7 +9881,7 @@
       ],
       "lon": 55.8459,
       "lat": 57.97,
-      "populationWeight": 0.102025,
+      "populationWeight": 0.09977000000000001,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -10000,7 +10000,7 @@
       ],
       "lon": 41.1481,
       "lat": 65.2691,
-      "populationWeight": 0.011935000000000001,
+      "populationWeight": 0.01166,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -10028,8 +10028,8 @@
       "id": 437,
       "name": "Ustyurt",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 143,
-      "stateName": "Balkhan (POLITY_Q1433867)",
+      "stateId": 108,
+      "stateName": "Aral",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -10041,7 +10041,7 @@
       ],
       "lon": 55.056,
       "lat": 45.3375,
-      "populationWeight": 0.0024200000000000003,
+      "populationWeight": 0.009295,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -10086,7 +10086,7 @@
       ],
       "lon": 45.739,
       "lat": 48.4821,
-      "populationWeight": 0.172205,
+      "populationWeight": 0.168355,
       "legacyName": "Astrakhan",
       "legacyStateName": "Astrakhan"
     },
@@ -10163,8 +10163,8 @@
       "id": 443,
       "name": "Semirechye",
       "ownerTag": "POLITY_Q1923401",
-      "stateId": 108,
-      "stateName": "Tannu Uriankhai (POLITY_Q1923401)",
+      "stateId": 169,
+      "stateName": "Semirechye (POLITY_Q1923401)",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -10177,7 +10177,7 @@
       ],
       "lon": 77.8096,
       "lat": 45.5228,
-      "populationWeight": 0.018920000000000003,
+      "populationWeight": 0.04884000000000001,
       "legacyName": "Semireche",
       "legacyStateName": "Semireche"
     },
@@ -10270,7 +10270,7 @@
       ],
       "lon": 53.2346,
       "lat": 52.6581,
-      "populationWeight": 0.10835000000000002,
+      "populationWeight": 0.10593000000000001,
       "legacyName": "Tartaria",
       "legacyStateName": "Tartaria"
     },
@@ -10348,8 +10348,8 @@
       "id": 451,
       "name": "Issyk-Kul",
       "ownerTag": "POLITY_Q1923401",
-      "stateId": 108,
-      "stateName": "Tannu Uriankhai (POLITY_Q1923401)",
+      "stateId": 806,
+      "stateName": "Issyk-Kul",
       "terrain": "mountains",
       "coastal": false,
       "rgoGood": "iron",
@@ -10608,7 +10608,7 @@
       ],
       "lon": 58.8578,
       "lat": 41.3185,
-      "populationWeight": 0.13332000000000002,
+      "populationWeight": 0.12034,
       "legacyName": "Turkmenia",
       "legacyStateName": "Turkmenia"
     },
@@ -11250,7 +11250,7 @@
       ],
       "lon": 52.3646,
       "lat": 62.0493,
-      "populationWeight": 0.011165,
+      "populationWeight": 0.010890000000000002,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -11565,7 +11565,7 @@
       ],
       "lon": 57.6218,
       "lat": 62.9915,
-      "populationWeight": 0.01254,
+      "populationWeight": 0.012265000000000002,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -11590,7 +11590,7 @@
       ],
       "lon": 52.2203,
       "lat": 59.3528,
-      "populationWeight": 0.05137,
+      "populationWeight": 0.05027,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -11748,8 +11748,8 @@
       "id": 514,
       "name": "Turgay",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 59,
-      "stateName": "Koryakovsk",
+      "stateId": 807,
+      "stateName": "Ulytau",
       "terrain": "desert",
       "coastal": false,
       "rgoGood": "cattle",
@@ -11763,7 +11763,7 @@
       ],
       "lon": 63.9084,
       "lat": 49.5783,
-      "populationWeight": 0.004345000000000001,
+      "populationWeight": 0.0165,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -11816,7 +11816,7 @@
       "id": 517,
       "name": "Balkhan",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 143,
+      "stateId": 809,
       "stateName": "Balkhan (POLITY_Q1433867)",
       "terrain": "desert",
       "coastal": true,
@@ -11829,7 +11829,7 @@
       ],
       "lon": 54.1464,
       "lat": 40.9569,
-      "populationWeight": 0.06138000000000001,
+      "populationWeight": 0.07441500000000001,
       "legacyName": "Turkmenia",
       "legacyStateName": "Turkmenia"
     },
@@ -11962,7 +11962,7 @@
       ],
       "lon": 57.7267,
       "lat": 53.1127,
-      "populationWeight": 0.08272000000000002,
+      "populationWeight": 0.08085,
       "legacyName": "Tartaria",
       "legacyStateName": "Tartaria"
     },
@@ -12078,8 +12078,8 @@
       "id": 529,
       "name": "Mangyshlak",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 143,
-      "stateName": "Balkhan (POLITY_Q1433867)",
+      "stateId": 108,
+      "stateName": "Aral",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -12090,7 +12090,7 @@
       ],
       "lon": 55.0924,
       "lat": 42.9194,
-      "populationWeight": 0.01144,
+      "populationWeight": 0.043615,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -12269,8 +12269,8 @@
       "id": 538,
       "name": "Guryev",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 77,
-      "stateName": "Ilek",
+      "stateId": 810,
+      "stateName": "Guryev",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cotton",
@@ -12282,7 +12282,7 @@
       ],
       "lon": 53.7491,
       "lat": 47.6177,
-      "populationWeight": 0.018755,
+      "populationWeight": 0.010615000000000001,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -13004,7 +13004,7 @@
       "name": "Mahra",
       "ownerTag": "SULTANATE_OF_QISHN_AND_SOCOTRA",
       "stateId": 186,
-      "stateName": "Mahra (SULTANATE_OF_QISHN_AND_SOCOTRA)",
+      "stateName": "Mahra",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -13015,7 +13015,7 @@
       ],
       "lon": 51.1371,
       "lat": 16.0745,
-      "populationWeight": 0.034375,
+      "populationWeight": 0.03844500000000001,
       "legacyName": "Yemen",
       "legacyStateName": "Yemen"
     },
@@ -13183,7 +13183,7 @@
       ],
       "lon": 58.387,
       "lat": 60.6747,
-      "populationWeight": 0.012870000000000001,
+      "populationWeight": 0.012595,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -13529,7 +13529,7 @@
       ],
       "lon": 50.2587,
       "lat": 61.576,
-      "populationWeight": 0.023265,
+      "populationWeight": 0.022770000000000002,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -13537,7 +13537,7 @@
       "id": 596,
       "name": "Karkaraly",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 169,
+      "stateId": 808,
       "stateName": "Barnaul",
       "terrain": "plains",
       "coastal": false,
@@ -13551,7 +13551,7 @@
       ],
       "lon": 73.372,
       "lat": 50.0943,
-      "populationWeight": 0.09245500000000001,
+      "populationWeight": 0.052250000000000005,
       "legacyName": "Semireche",
       "legacyStateName": "Semireche"
     },
@@ -13637,7 +13637,7 @@
       ],
       "lon": 61.3625,
       "lat": 42.4391,
-      "populationWeight": 0.14168,
+      "populationWeight": 0.191565,
       "legacyName": "Uzbekia",
       "legacyStateName": "Uzbekia"
     },
@@ -14086,7 +14086,7 @@
       ],
       "lon": 45.6344,
       "lat": 46.3697,
-      "populationWeight": 0.0484,
+      "populationWeight": 0.047355,
       "legacyName": "Astrakhan",
       "legacyStateName": "Astrakhan"
     },
@@ -14584,7 +14584,7 @@
       "name": "Dhofar",
       "ownerTag": "SULTANATE_OF_QISHN_AND_SOCOTRA",
       "stateId": 186,
-      "stateName": "Mahra (SULTANATE_OF_QISHN_AND_SOCOTRA)",
+      "stateName": "Mahra",
       "terrain": "desert",
       "coastal": true,
       "rgoGood": "cattle",
@@ -14668,7 +14668,7 @@
       "id": 648,
       "name": "Kungrad",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 143,
+      "stateId": 809,
       "stateName": "Balkhan (POLITY_Q1433867)",
       "terrain": "desert",
       "coastal": true,
@@ -14684,7 +14684,7 @@
       ],
       "lon": 57.1076,
       "lat": 44.1281,
-      "populationWeight": 0.00022000000000000003,
+      "populationWeight": 0.0008800000000000001,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -14966,7 +14966,7 @@
       ],
       "lon": 60.6083,
       "lat": 66.0244,
-      "populationWeight": 0.01254,
+      "populationWeight": 0.012265000000000002,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -15887,7 +15887,7 @@
       ],
       "lon": 40.2931,
       "lat": 61.4176,
-      "populationWeight": 0.007975000000000001,
+      "populationWeight": 0.007810000000000001,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -16264,7 +16264,7 @@
       ],
       "lon": 64.4182,
       "lat": 41.8938,
-      "populationWeight": 0.016390000000000002,
+      "populationWeight": 0.022165000000000004,
       "legacyName": "Uzbekia",
       "legacyStateName": "Uzbekia"
     },
@@ -16486,7 +16486,7 @@
       ],
       "lon": 48.576,
       "lat": 57.9969,
-      "populationWeight": 0.010505,
+      "populationWeight": 0.01023,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -16744,7 +16744,7 @@
       ],
       "lon": 59.2933,
       "lat": 44.279,
-      "populationWeight": 0.006655,
+      "populationWeight": 0.024530000000000003,
       "legacyName": "Uzbekia",
       "legacyStateName": "Uzbekia"
     },
@@ -16752,8 +16752,8 @@
       "id": 743,
       "name": "Lbishchensk",
       "ownerTag": "POLITY_Q1433867",
-      "stateId": 77,
-      "stateName": "Ilek",
+      "stateId": 810,
+      "stateName": "Guryev",
       "terrain": "plains",
       "coastal": false,
       "rgoGood": "grain",
@@ -16766,7 +16766,7 @@
       ],
       "lon": 52.2756,
       "lat": 49.9046,
-      "populationWeight": 0.04273500000000001,
+      "populationWeight": 0.024145000000000003,
       "legacyName": "Uralsk",
       "legacyStateName": "Uralsk"
     },
@@ -17082,7 +17082,7 @@
       ],
       "lon": 36.5891,
       "lat": 67.9424,
-      "populationWeight": 0.08173000000000001,
+      "populationWeight": 0.07991500000000001,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -17211,7 +17211,7 @@
       ],
       "lon": 50.5956,
       "lat": 53.0259,
-      "populationWeight": 0.175285,
+      "populationWeight": 0.17138,
       "legacyName": "Tartaria",
       "legacyStateName": "Tartaria"
     },
@@ -17439,7 +17439,7 @@
       ],
       "lon": 48.1676,
       "lat": 61.639,
-      "populationWeight": 0.012265000000000002,
+      "populationWeight": 0.01199,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -19127,7 +19127,7 @@
       ],
       "lon": 45.5382,
       "lat": 58.8736,
-      "populationWeight": 0.008140000000000001,
+      "populationWeight": 0.00792,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -19297,7 +19297,7 @@
       ],
       "lon": 31.7633,
       "lat": 65.3997,
-      "populationWeight": 0.006765000000000001,
+      "populationWeight": 0.006600000000000001,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -19319,7 +19319,7 @@
       ],
       "lon": 45.225,
       "lat": 53.1464,
-      "populationWeight": 0.105655,
+      "populationWeight": 0.10329,
       "legacyName": "Tartaria",
       "legacyStateName": "Tartaria"
     },
@@ -19908,7 +19908,7 @@
       ],
       "lon": 53.0583,
       "lat": 57.4764,
-      "populationWeight": 0.085965,
+      "populationWeight": 0.08409500000000002,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -20845,7 +20845,7 @@
       ],
       "lon": 45.6764,
       "lat": 44.2394,
-      "populationWeight": 0.06913500000000002,
+      "populationWeight": 0.067595,
       "legacyName": "Ekaterinodar",
       "legacyStateName": "Ekaterinodar"
     },
@@ -20979,7 +20979,7 @@
       ],
       "lon": 46.7508,
       "lat": 42.6509,
-      "populationWeight": 0.053020000000000005,
+      "populationWeight": 0.051865,
       "legacyName": "North Caucasia",
       "legacyStateName": "North Caucasia"
     },
@@ -21597,7 +21597,7 @@
       ],
       "lon": 47.4163,
       "lat": 53.8127,
-      "populationWeight": 0.070455,
+      "populationWeight": 0.06886,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -22118,7 +22118,7 @@
       ],
       "lon": 42.808,
       "lat": 47.3035,
-      "populationWeight": 0.064625,
+      "populationWeight": 0.06314,
       "legacyName": "Astrakhan",
       "legacyStateName": "Astrakhan"
     },
@@ -23174,7 +23174,7 @@
       ],
       "lon": 37.6302,
       "lat": 60.7338,
-      "populationWeight": 0.023375000000000003,
+      "populationWeight": 0.02288,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -24347,7 +24347,7 @@
       ],
       "lon": 41.4126,
       "lat": 49.3095,
-      "populationWeight": 0.049060000000000006,
+      "populationWeight": 0.04796,
       "legacyName": "Astrakhan",
       "legacyStateName": "Astrakhan"
     },
@@ -24658,7 +24658,7 @@
       ],
       "lon": 38.1374,
       "lat": 45.2381,
-      "populationWeight": 0.106425,
+      "populationWeight": 0.10406000000000001,
       "legacyName": "Ekaterinodar",
       "legacyStateName": "Ekaterinodar"
     },
@@ -24723,7 +24723,7 @@
       ],
       "lon": 28.7179,
       "lat": 57.8874,
-      "populationWeight": 0.016280000000000003,
+      "populationWeight": 0.015950000000000002,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -24747,7 +24747,7 @@
       ],
       "lon": 35.558,
       "lat": 51.6343,
-      "populationWeight": 0.07777,
+      "populationWeight": 0.07601,
       "legacyName": "Luhansk",
       "legacyStateName": "Luhansk"
     },
@@ -24769,7 +24769,7 @@
       ],
       "lon": 33.0652,
       "lat": 67.7005,
-      "populationWeight": 0.024970000000000003,
+      "populationWeight": 0.024420000000000004,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -24949,7 +24949,7 @@
       ],
       "lon": 35.226,
       "lat": 54.1207,
-      "populationWeight": 0.033330000000000005,
+      "populationWeight": 0.032615000000000005,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -25274,7 +25274,7 @@
       ],
       "lon": 41.4706,
       "lat": 55.8469,
-      "populationWeight": 0.04037000000000001,
+      "populationWeight": 0.039490000000000004,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -25610,7 +25610,7 @@
       ],
       "lon": 40.6293,
       "lat": 59.1781,
-      "populationWeight": 0.0242,
+      "populationWeight": 0.02365,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -25659,7 +25659,7 @@
       ],
       "lon": 31.3534,
       "lat": 57.6338,
-      "populationWeight": 0.01914,
+      "populationWeight": 0.0187,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -26013,7 +26013,7 @@
       ],
       "lon": 31.5575,
       "lat": 68.6211,
-      "populationWeight": 0.003245,
+      "populationWeight": 0.00319,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -26058,7 +26058,7 @@
       ],
       "lon": 37.8787,
       "lat": 50.8026,
-      "populationWeight": 0.08393000000000002,
+      "populationWeight": 0.08206000000000001,
       "legacyName": "Luhansk",
       "legacyStateName": "Luhansk"
     },
@@ -26526,7 +26526,7 @@
       ],
       "lon": 40.7225,
       "lat": 51.1731,
-      "populationWeight": 0.04488000000000001,
+      "populationWeight": 0.04389,
       "legacyName": "Luhansk",
       "legacyStateName": "Luhansk"
     },
@@ -26798,7 +26798,7 @@
       ],
       "lon": 33.4443,
       "lat": 58.7295,
-      "populationWeight": 0.007095000000000001,
+      "populationWeight": 0.00693,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -27056,7 +27056,7 @@
       ],
       "lon": 34.0491,
       "lat": 55.2818,
-      "populationWeight": 0.009680000000000001,
+      "populationWeight": 0.009460000000000001,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -27078,7 +27078,7 @@
       ],
       "lon": 45.6084,
       "lat": 54.4597,
-      "populationWeight": 0.06061000000000001,
+      "populationWeight": 0.05923500000000001,
       "legacyName": "Tartaria",
       "legacyStateName": "Tartaria"
     },
@@ -27141,7 +27141,7 @@
       ],
       "lon": 45.2652,
       "lat": 57.5435,
-      "populationWeight": 0.007315,
+      "populationWeight": 0.00715,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -27298,7 +27298,7 @@
       ],
       "lon": 37.8194,
       "lat": 53.982,
-      "populationWeight": 0.09075000000000001,
+      "populationWeight": 0.088715,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -27363,7 +27363,7 @@
       ],
       "lon": 39.9069,
       "lat": 50.164,
-      "populationWeight": 0.08970500000000001,
+      "populationWeight": 0.08767,
       "legacyName": "Luhansk",
       "legacyStateName": "Luhansk"
     },
@@ -27407,7 +27407,7 @@
       ],
       "lon": 42.9956,
       "lat": 45.5716,
-      "populationWeight": 0.040975000000000004,
+      "populationWeight": 0.040040000000000006,
       "legacyName": "Ekaterinodar",
       "legacyStateName": "Ekaterinodar"
     },
@@ -27519,7 +27519,7 @@
       ],
       "lon": 39.5676,
       "lat": 60.19,
-      "populationWeight": 0.003465,
+      "populationWeight": 0.0034100000000000003,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -27543,7 +27543,7 @@
       ],
       "lon": 30.1114,
       "lat": 56.5288,
-      "populationWeight": 0.009680000000000001,
+      "populationWeight": 0.009460000000000001,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -27965,7 +27965,7 @@
       ],
       "lon": 36.0036,
       "lat": 52.933,
-      "populationWeight": 0.06358,
+      "populationWeight": 0.06220500000000001,
       "legacyName": "Luhansk",
       "legacyStateName": "Luhansk"
     },
@@ -28146,7 +28146,7 @@
       ],
       "lon": 32.2919,
       "lat": 59.7325,
-      "populationWeight": 0.01067,
+      "populationWeight": 0.010450000000000001,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -28194,7 +28194,7 @@
       ],
       "lon": 36.1083,
       "lat": 55.7789,
-      "populationWeight": 0.31614000000000003,
+      "populationWeight": 0.30910000000000004,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -28216,7 +28216,7 @@
       ],
       "lon": 33.4207,
       "lat": 56.4434,
-      "populationWeight": 0.008635,
+      "populationWeight": 0.00847,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -28330,7 +28330,7 @@
       ],
       "lon": 39.2135,
       "lat": 52.7428,
-      "populationWeight": 0.07744000000000001,
+      "populationWeight": 0.07568000000000001,
       "legacyName": "Luhansk",
       "legacyStateName": "Luhansk"
     },
@@ -28395,7 +28395,7 @@
       ],
       "lon": 31.572,
       "lat": 55.1347,
-      "populationWeight": 0.02607,
+      "populationWeight": 0.025465,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -28417,7 +28417,7 @@
       ],
       "lon": 39.6609,
       "lat": 46.3502,
-      "populationWeight": 0.04642,
+      "populationWeight": 0.045375000000000006,
       "legacyName": "Ekaterinodar",
       "legacyStateName": "Ekaterinodar"
     },
@@ -28485,7 +28485,7 @@
       ],
       "lon": 38.6189,
       "lat": 63.6345,
-      "populationWeight": 0.00462,
+      "populationWeight": 0.004510000000000001,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -28529,7 +28529,7 @@
       ],
       "lon": 35.2394,
       "lat": 62.685,
-      "populationWeight": 0.00319,
+      "populationWeight": 0.003135,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -28639,7 +28639,7 @@
       ],
       "lon": 34.5073,
       "lat": 63.8675,
-      "populationWeight": 0.005940000000000001,
+      "populationWeight": 0.005775000000000001,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -28773,7 +28773,7 @@
       ],
       "lon": 43.395,
       "lat": 55.7,
-      "populationWeight": 0.107965,
+      "populationWeight": 0.105545,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -28796,7 +28796,7 @@
       ],
       "lon": 33.9224,
       "lat": 53.0849,
-      "populationWeight": 0.030965000000000003,
+      "populationWeight": 0.030250000000000003,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -28992,7 +28992,7 @@
       ],
       "lon": 34.5189,
       "lat": 57.1488,
-      "populationWeight": 0.009295,
+      "populationWeight": 0.009075000000000001,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -29014,7 +29014,7 @@
       ],
       "lon": 38.6282,
       "lat": 55.2899,
-      "populationWeight": 0.07078500000000001,
+      "populationWeight": 0.06919,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -29259,7 +29259,7 @@
       ],
       "lon": 34.5957,
       "lat": 59.6603,
-      "populationWeight": 0.006765000000000001,
+      "populationWeight": 0.006600000000000001,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -29305,7 +29305,7 @@
       ],
       "lon": 40.4233,
       "lat": 48.2966,
-      "populationWeight": 0.087175,
+      "populationWeight": 0.08525,
       "legacyName": "Astrakhan",
       "legacyStateName": "Astrakhan"
     },
@@ -29459,7 +29459,7 @@
       ],
       "lon": 42.283,
       "lat": 57.0072,
-      "populationWeight": 0.06979500000000001,
+      "populationWeight": 0.06825500000000001,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -29482,7 +29482,7 @@
       ],
       "lon": 31.6957,
       "lat": 63.7171,
-      "populationWeight": 0.0029700000000000004,
+      "populationWeight": 0.00286,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -29608,7 +29608,7 @@
       ],
       "lon": 36.0132,
       "lat": 59.9766,
-      "populationWeight": 0.002915,
+      "populationWeight": 0.00286,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -30047,7 +30047,7 @@
       ],
       "lon": 38.9303,
       "lat": 57.2448,
-      "populationWeight": 0.072215,
+      "populationWeight": 0.07062,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -30250,7 +30250,7 @@
       ],
       "lon": 29.4434,
       "lat": 59.5235,
-      "populationWeight": 0.28264500000000004,
+      "populationWeight": 0.276375,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -30447,7 +30447,7 @@
       ],
       "lon": 39.507,
       "lat": 54.1215,
-      "populationWeight": 0.061765,
+      "populationWeight": 0.06039,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -30472,7 +30472,7 @@
       ],
       "lon": 41.3807,
       "lat": 44.6849,
-      "populationWeight": 0.07155500000000001,
+      "populationWeight": 0.06996000000000001,
       "legacyName": "Ekaterinodar",
       "legacyStateName": "Ekaterinodar"
     },
@@ -30583,7 +30583,7 @@
       ],
       "lon": 36.7557,
       "lat": 57.2932,
-      "populationWeight": 0.032065,
+      "populationWeight": 0.03135,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -30696,7 +30696,7 @@
       ],
       "lon": 41.7654,
       "lat": 58.4901,
-      "populationWeight": 0.02101,
+      "populationWeight": 0.02057,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -30790,7 +30790,7 @@
       ],
       "lon": 41.5144,
       "lat": 54.4664,
-      "populationWeight": 0.03388,
+      "populationWeight": 0.03311,
       "legacyName": "Tartaria",
       "legacyStateName": "Tartaria"
     },
@@ -31083,7 +31083,7 @@
       ],
       "lon": 35.1031,
       "lat": 66.9174,
-      "populationWeight": 0.0025850000000000005,
+      "populationWeight": 0.00253,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -31151,7 +31151,7 @@
       ],
       "lon": 42.1736,
       "lat": 52.8548,
-      "populationWeight": 0.053020000000000005,
+      "populationWeight": 0.051865,
       "legacyName": "Tartaria",
       "legacyStateName": "Tartaria"
     },
@@ -31727,7 +31727,7 @@
       ],
       "lon": 42.1227,
       "lat": 50.592,
-      "populationWeight": 0.030085,
+      "populationWeight": 0.029370000000000004,
       "legacyName": "Astrakhan",
       "legacyStateName": "Astrakhan"
     },
@@ -32102,7 +32102,7 @@
       ],
       "lon": 43.1846,
       "lat": 48.7888,
-      "populationWeight": 0.02673,
+      "populationWeight": 0.026125000000000002,
       "legacyName": "Astrakhan",
       "legacyStateName": "Astrakhan"
     },
@@ -32263,7 +32263,7 @@
       ],
       "lon": 35.7898,
       "lat": 58.0364,
-      "populationWeight": 0.0039050000000000005,
+      "populationWeight": 0.003795,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -32538,7 +32538,7 @@
       ],
       "lon": 44.2794,
       "lat": 50.4538,
-      "populationWeight": 0.0297,
+      "populationWeight": 0.029040000000000003,
       "legacyName": "Astrakhan",
       "legacyStateName": "Astrakhan"
     },
@@ -32646,7 +32646,7 @@
       ],
       "lon": 40.6256,
       "lat": 46.7142,
-      "populationWeight": 0.036245000000000006,
+      "populationWeight": 0.03542,
       "legacyName": "Astrakhan",
       "legacyStateName": "Astrakhan"
     },
@@ -32737,7 +32737,7 @@
       ],
       "lon": 43.5664,
       "lat": 58.208,
-      "populationWeight": 0.00231,
+      "populationWeight": 0.0022550000000000005,
       "legacyName": "Kazan",
       "legacyStateName": "Kazan"
     },
@@ -33620,7 +33620,7 @@
       ],
       "lon": 39.7722,
       "lat": 44.5605,
-      "populationWeight": 0.02552,
+      "populationWeight": 0.024915000000000003,
       "legacyName": "Ekaterinodar",
       "legacyStateName": "Ekaterinodar"
     },
@@ -33666,7 +33666,7 @@
       ],
       "lon": 33.1068,
       "lat": 61.4601,
-      "populationWeight": 0.002145,
+      "populationWeight": 0.0020900000000000003,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -33832,7 +33832,7 @@
       ],
       "lon": 45.5371,
       "lat": 43.0998,
-      "populationWeight": 0.026400000000000003,
+      "populationWeight": 0.025795000000000002,
       "legacyName": "North Caucasia",
       "legacyStateName": "North Caucasia"
     },
@@ -33926,7 +33926,7 @@
       ],
       "lon": 33.0298,
       "lat": 62.5784,
-      "populationWeight": 0.020185000000000005,
+      "populationWeight": 0.01969,
       "legacyName": "Karelia",
       "legacyStateName": "Karelia"
     },
@@ -33947,7 +33947,7 @@
       ],
       "lon": 39.5022,
       "lat": 58.3278,
-      "populationWeight": 0.01518,
+      "populationWeight": 0.01485,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -33969,7 +33969,7 @@
       ],
       "lon": 40.5614,
       "lat": 52.9763,
-      "populationWeight": 0.029095000000000003,
+      "populationWeight": 0.028435000000000005,
       "legacyName": "Tartaria",
       "legacyStateName": "Tartaria"
     },
@@ -35083,7 +35083,7 @@
       ],
       "lon": 41.8678,
       "lat": 45.7919,
-      "populationWeight": 0.08393000000000002,
+      "populationWeight": 0.08206000000000001,
       "legacyName": "Ekaterinodar",
       "legacyStateName": "Ekaterinodar"
     },
@@ -36002,7 +36002,7 @@
       ],
       "lon": 32.5542,
       "lat": 52.7696,
-      "populationWeight": 0.024970000000000003,
+      "populationWeight": 0.024420000000000004,
       "legacyName": "Ingria",
       "legacyStateName": "Ingria"
     },
@@ -36243,7 +36243,7 @@
       ],
       "lon": 41.9252,
       "lat": 43.707,
-      "populationWeight": 0.008085,
+      "populationWeight": 0.00792,
       "legacyName": "Ekaterinodar",
       "legacyStateName": "Ekaterinodar"
     },
@@ -38412,7 +38412,7 @@
       "name": "Leipzig",
       "ownerTag": "HABSBURG_MONARCHY",
       "stateId": 642,
-      "stateName": "Dresden (Sachsen)",
+      "stateName": "Dresden",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -38460,10 +38460,10 @@
     },
     {
       "id": 1729,
-      "name": "Darmstadt (Hessen)",
+      "name": "Darmstadt",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 589,
-      "stateName": "Darmstadt (Hessen)",
+      "stateName": "Darmstadt",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -42147,10 +42147,10 @@
     },
     {
       "id": 1896,
-      "name": "Dresden (Sachsen)",
+      "name": "Dresden",
       "ownerTag": "HABSBURG_MONARCHY",
       "stateId": 642,
-      "stateName": "Dresden (Sachsen)",
+      "stateName": "Dresden",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -44415,7 +44415,7 @@
     },
     {
       "id": 2000,
-      "name": "Dresden (Sachsen) (Dresden)",
+      "name": "Görlitz",
       "ownerTag": "HABSBURG_MONARCHY",
       "stateId": 710,
       "stateName": "Berlin (HABSBURG_MONARCHY)",
@@ -44557,10 +44557,10 @@
     },
     {
       "id": 2007,
-      "name": "Weimar (Thüringen)",
+      "name": "Weimar",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 712,
-      "stateName": "Weimar (Thüringen)",
+      "stateName": "Weimar",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -45200,7 +45200,7 @@
     },
     {
       "id": 2038,
-      "name": "Darmstadt (Hessen) (Darmstadt)",
+      "name": "Hanau",
       "ownerTag": "ELECTORATE_OF_BAVARIA",
       "stateId": 736,
       "stateName": "Kassel (ELECTORATE_OF_BAVARIA)",
@@ -45508,10 +45508,10 @@
     },
     {
       "id": 2053,
-      "name": "Weimar (Thüringen) (Thüringen)",
+      "name": "Gera",
       "ownerTag": "ELECTORATE_OF_BAVARIA",
       "stateId": 772,
-      "stateName": "Weimar (Thüringen) (Thüringen) (ELECTORATE_OF_BAVARIA)",
+      "stateName": "Gera (ELECTORATE_OF_BAVARIA)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -45534,7 +45534,7 @@
     },
     {
       "id": 2054,
-      "name": "Thüringen",
+      "name": "Sondershausen",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 747,
       "stateName": "Rudolstadt",
@@ -45718,7 +45718,7 @@
     },
     {
       "id": 2063,
-      "name": "Sachsen-Anhalt (Sachsen-Anhalt)",
+      "name": "Köthen",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "stateId": 753,
       "stateName": "Dessau",
@@ -46320,10 +46320,10 @@
     },
     {
       "id": 2094,
-      "name": "Thüringen (Thüringen)",
+      "name": "Greiz",
       "ownerTag": "HABSBURG_MONARCHY",
       "stateId": 773,
-      "stateName": "Weimar (Thüringen) (Thüringen) (HABSBURG_MONARCHY)",
+      "stateName": "Gera (HABSBURG_MONARCHY)",
       "terrain": "farmland",
       "coastal": true,
       "rgoGood": "grain",
@@ -47840,14 +47840,10 @@
     },
     {
       "id": 59,
-      "name": "Koryakovsk",
-      "ownerTag": "POLITY_Q1433867",
+      "name": "Tannu Uriankhai (POLITY_Q1923401)",
+      "ownerTag": "POLITY_Q1923401",
       "provinceIds": [
-        130,
-        209,
-        270,
-        297,
-        514
+        55
       ]
     },
     {
@@ -47976,19 +47972,19 @@
     },
     {
       "id": 73,
-      "name": "Ulytau (POLITY_Q1433867)",
+      "name": "Koryakovsk",
       "ownerTag": "POLITY_Q1433867",
       "provinceIds": [
-        106,
-        252,
-        284,
-        316,
-        347
+        130,
+        209,
+        270,
+        297,
+        332
       ]
     },
     {
       "id": 74,
-      "name": "Ulytau (POLITY_Q1923401)",
+      "name": "Tashkent (POLITY_Q1923401)",
       "ownerTag": "POLITY_Q1923401",
       "provinceIds": [
         279
@@ -48015,14 +48011,11 @@
     },
     {
       "id": 77,
-      "name": "Ilek",
+      "name": "Tashkent (POLITY_Q1433867)",
       "ownerTag": "POLITY_Q1433867",
       "provinceIds": [
-        332,
-        358,
-        359,
-        538,
-        743
+        106,
+        347
       ]
     },
     {
@@ -48310,13 +48303,14 @@
     },
     {
       "id": 108,
-      "name": "Tannu Uriankhai (POLITY_Q1923401)",
-      "ownerTag": "POLITY_Q1923401",
+      "name": "Aral",
+      "ownerTag": "POLITY_Q1433867",
       "provinceIds": [
-        55,
-        260,
-        443,
-        451
+        284,
+        358,
+        359,
+        437,
+        529
       ]
     },
     {
@@ -48647,13 +48641,10 @@
     },
     {
       "id": 143,
-      "name": "Balkhan (POLITY_Q1433867)",
+      "name": "Semirechye (POLITY_Q1433867)",
       "ownerTag": "POLITY_Q1433867",
       "provinceIds": [
-        437,
-        517,
-        529,
-        648
+        277
       ]
     },
     {
@@ -48891,13 +48882,11 @@
     },
     {
       "id": 169,
-      "name": "Barnaul",
-      "ownerTag": "POLITY_Q1433867",
+      "name": "Semirechye (POLITY_Q1923401)",
+      "ownerTag": "POLITY_Q1923401",
       "provinceIds": [
-        99,
-        210,
-        277,
-        596
+        260,
+        443
       ]
     },
     {
@@ -49068,7 +49057,7 @@
     },
     {
       "id": 186,
-      "name": "Mahra (SULTANATE_OF_QISHN_AND_SOCOTRA)",
+      "name": "Mahra",
       "ownerTag": "SULTANATE_OF_QISHN_AND_SOCOTRA",
       "provinceIds": [
         571,
@@ -49077,7 +49066,7 @@
     },
     {
       "id": 187,
-      "name": "Mahra (UNC)",
+      "name": "Hadhramaut",
       "ownerTag": "UNC",
       "provinceIds": [
         134
@@ -53016,7 +53005,7 @@
     },
     {
       "id": 589,
-      "name": "Darmstadt (Hessen)",
+      "name": "Darmstadt",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "provinceIds": [
         1729
@@ -53545,7 +53534,7 @@
     },
     {
       "id": 642,
-      "name": "Dresden (Sachsen)",
+      "name": "Dresden",
       "ownerTag": "HABSBURG_MONARCHY",
       "provinceIds": [
         1727,
@@ -54227,7 +54216,7 @@
     },
     {
       "id": 712,
-      "name": "Weimar (Thüringen)",
+      "name": "Weimar",
       "ownerTag": "BRANDENBURG_PREUSSEN",
       "provinceIds": [
         2007
@@ -54722,7 +54711,7 @@
     },
     {
       "id": 772,
-      "name": "Weimar (Thüringen) (Thüringen) (ELECTORATE_OF_BAVARIA)",
+      "name": "Gera (ELECTORATE_OF_BAVARIA)",
       "ownerTag": "ELECTORATE_OF_BAVARIA",
       "provinceIds": [
         2053
@@ -54730,7 +54719,7 @@
     },
     {
       "id": 773,
-      "name": "Weimar (Thüringen) (Thüringen) (HABSBURG_MONARCHY)",
+      "name": "Gera (HABSBURG_MONARCHY)",
       "ownerTag": "HABSBURG_MONARCHY",
       "provinceIds": [
         2094
@@ -55011,6 +55000,52 @@
       "ownerTag": "UNC",
       "provinceIds": [
         2138
+      ]
+    },
+    {
+      "id": 806,
+      "name": "Issyk-Kul",
+      "ownerTag": "POLITY_Q1923401",
+      "provinceIds": [
+        451
+      ]
+    },
+    {
+      "id": 807,
+      "name": "Ulytau",
+      "ownerTag": "POLITY_Q1433867",
+      "provinceIds": [
+        252,
+        316,
+        514
+      ]
+    },
+    {
+      "id": 808,
+      "name": "Barnaul",
+      "ownerTag": "POLITY_Q1433867",
+      "provinceIds": [
+        99,
+        210,
+        596
+      ]
+    },
+    {
+      "id": 809,
+      "name": "Balkhan (POLITY_Q1433867)",
+      "ownerTag": "POLITY_Q1433867",
+      "provinceIds": [
+        517,
+        648
+      ]
+    },
+    {
+      "id": 810,
+      "name": "Guryev",
+      "ownerTag": "POLITY_Q1433867",
+      "provinceIds": [
+        538,
+        743
       ]
     }
   ],
@@ -57437,14 +57472,17 @@
       ],
       "government": "absolute_monarchy",
       "capitalProvinceId": 99,
-      "primaryCulture": "central_asian",
-      "religion": "sunni",
+      "primaryCulture": "russian",
+      "religion": "orthodox",
       "coreStateIds": [
-        59,
         73,
         77,
+        108,
         143,
-        169
+        807,
+        808,
+        809,
+        810
       ],
       "polityStatus": "sovereign",
       "eraSummary": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",
@@ -57505,10 +57543,12 @@
       "coreStateIds": [
         35,
         52,
+        59,
         74,
-        108,
+        169,
         341,
-        421
+        421,
+        806
       ],
       "polityStatus": "sovereign",
       "eraSummary": "Source-pack classification with a neutral procedural flag treatment pending historical art review.",

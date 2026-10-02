@@ -1,0 +1,139 @@
+{
+ "asOf": "1830-01-01",
+ "note": "Reviewed 1830 ownership corrections where the source polity layer is wrong. Each point names the province that contains it on the world v8 mesh, so entries survive rebuilds. Applied before population and state assembly.",
+ "overrides": [
+  {
+   "place": "Barnaul",
+   "lon": 81.8247,
+   "lat": 52.8619,
+   "tag": "RUS",
+   "note": "Kolyvan-Voskresensk mining district of Tomsk governorate since the 18th century."
+  },
+  {
+   "place": "Semipalatinsk",
+   "lon": 79.8736,
+   "lat": 49.3025,
+   "tag": "RUS",
+   "note": "Irtysh line fortress, Omsk oblast."
+  },
+  {
+   "place": "Koryakovsk",
+   "lon": 75.8826,
+   "lat": 52.1542,
+   "tag": "RUS",
+   "note": "Irtysh line redoubt."
+  },
+  {
+   "place": "Petropavlovsk",
+   "lon": 67.479,
+   "lat": 53.7051,
+   "tag": "RUS",
+   "note": "Ishim line fortress."
+  },
+  {
+   "place": "Troitsk",
+   "lon": 63.9271,
+   "lat": 52.7979,
+   "tag": "RUS",
+   "note": "Orenburg line fortress."
+  },
+  {
+   "place": "Kokshetau",
+   "lon": 70.2092,
+   "lat": 51.8011,
+   "tag": "RUS",
+   "note": "Kokchetav okrug, created by Russia in 1824 under the Siberian Kirgiz statute."
+  },
+  {
+   "place": "Karkaraly",
+   "lon": 73.372,
+   "lat": 50.0943,
+   "tag": "RUS",
+   "note": "Karkaraly okrug, created by Russia in 1824."
+  },
+  {
+   "place": "Ilek",
+   "lon": 56.0902,
+   "lat": 50.3552,
+   "tag": "RUS",
+   "note": "Orenburg Cossack host along the Ilek."
+  },
+  {
+   "place": "Guryev",
+   "lon": 53.7491,
+   "lat": 47.6177,
+   "tag": "RUS",
+   "note": "Ural Cossack host fortress at the Ural mouth."
+  },
+  {
+   "place": "Lbishchensk",
+   "lon": 52.2756,
+   "lat": 49.9046,
+   "tag": "RUS",
+   "note": "Ural Cossack host line."
+  },
+  {
+   "place": "Tashkent",
+   "lon": 68.9387,
+   "lat": 42.3622,
+   "tag": "KOK",
+   "note": "Held by Kokand since 1809."
+  },
+  {
+   "place": "Pishpek",
+   "lon": 73.0667,
+   "lat": 43.9547,
+   "tag": "KOK",
+   "note": "Kokand fortress built in 1825."
+  },
+  {
+   "place": "Ak-Mechet",
+   "lon": 65.9644,
+   "lat": 44.8201,
+   "tag": "KOK",
+   "note": "Kokand fortress on the Syr Darya."
+  },
+  {
+   "place": "Kungrad",
+   "lon": 57.1076,
+   "lat": 44.1281,
+   "tag": "KHI",
+   "note": "Khanate of Khiva, Aral delta."
+  },
+  {
+   "place": "Muynoq",
+   "lon": 59.2933,
+   "lat": 44.279,
+   "tag": "KHI",
+   "note": "Khanate of Khiva, Aral delta."
+  },
+  {
+   "place": "Balkhan",
+   "lon": 54.1464,
+   "lat": 40.9569,
+   "tag": "KHI",
+   "note": "Turkmen Yomut lands within the Khivan sphere."
+  },
+  {
+   "place": "Great Horde",
+   "lon": 79.488,
+   "lat": 43.793,
+   "tag": "KZH",
+   "note": "Senior Horde in Zhetysu; the Qing frontier stood at Ili further east."
+  },
+  {
+   "place": "Semirechye",
+   "lon": 77.8096,
+   "lat": 45.5228,
+   "tag": "KZH",
+   "note": "Senior Horde pastures south of Lake Balkhash."
+  },
+  {
+   "place": "Hadhramaut",
+   "lon": 48.6372,
+   "lat": 15.9606,
+   "tag": "KTH",
+   "note": "Wadi Hadhramaut under the Kathiri sultans of Seiyun and Tarim."
+  }
+ ]
+}
