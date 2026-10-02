@@ -55076,7 +55076,7 @@
     },
     {
       "tag": "CAPITANIA_GENERAL_DE_CUBA",
-      "name": "Capitanía General de Cuba",
+      "name": "Captaincy General of Cuba",
       "color": [
         101,
         94,
@@ -55098,7 +55098,7 @@
     },
     {
       "tag": "CAPITANIA_GENERAL_DE_FILIPINAS",
-      "name": "Capitanía General de Filipinas",
+      "name": "Captaincy General of the Philippines",
       "color": [
         162,
         191,
@@ -55119,7 +55119,7 @@
     },
     {
       "tag": "CAPITANIA_GENERAL_DE_GUATEMALA",
-      "name": "Capitanía General de Guatemala",
+      "name": "Captaincy General of Guatemala",
       "color": [
         72,
         153,
@@ -55143,7 +55143,7 @@
     },
     {
       "tag": "CAPITANIA_GENERAL_DE_YUCATAN",
-      "name": "Capitania General de Yucatán",
+      "name": "Captaincy General of Yucatan",
       "color": [
         165,
         74,
@@ -55164,7 +55164,7 @@
     },
     {
       "tag": "CAPITANIA_GERAL_DE_MOCAMBIQUE_SOFALA_E_RIOS_DE_SENA",
-      "name": "Capitania-Geral de Moçambique, Sofala e Rios de Sena",
+      "name": "Portuguese Mozambique",
       "color": [
         98,
         142,
@@ -55838,7 +55838,7 @@
     },
     {
       "tag": "ESTADO_DO_GRAO_PARA_E_RIO_NEGRO",
-      "name": "Estado do Grão-Pará e Rio Negro",
+      "name": "Grão-Pará and Rio Negro",
       "color": [
         204,
         151,
@@ -55957,7 +55957,7 @@
     },
     {
       "tag": "FREE_CITY_OF_LUBECK",
-      "name": "Free City of Lübeck",
+      "name": "Lübeck",
       "color": [
         137,
         143,
@@ -55997,7 +55997,7 @@
     },
     {
       "tag": "FURSTENTUM_REUSS_GERA",
-      "name": "Fürstentum Reuß-Gera",
+      "name": "Reuss-Gera",
       "color": [
         143,
         65,
@@ -56017,7 +56017,7 @@
     },
     {
       "tag": "FURSTENTUM_REUSS_GREIZ",
-      "name": "Fürstentum Reuß-Greiz",
+      "name": "Reuss-Greiz",
       "color": [
         80,
         87,
@@ -56036,7 +56036,7 @@
     },
     {
       "tag": "FURSTENTUM_SCHWARZBURG_RUDOLSTADT",
-      "name": "Fürstentum Schwarzburg-Rudolstadt",
+      "name": "Schwarzburg-Rudolstadt",
       "color": [
         162,
         200,
@@ -56055,7 +56055,7 @@
     },
     {
       "tag": "FURSTENTUM_SCHWARZBURG_SONDERSHAUSEN",
-      "name": "Fürstentum Schwarzburg-Sondershausen",
+      "name": "Schwarzburg-Sondershausen",
       "color": [
         168,
         69,
@@ -56094,7 +56094,7 @@
     },
     {
       "tag": "GOVERNORATE_OF_CHILOE",
-      "name": "Governorate of Chiloé",
+      "name": "Chiloé",
       "color": [
         146,
         146,
@@ -56171,7 +56171,7 @@
     },
     {
       "tag": "GROSSHERZOGTUM_HESSEN",
-      "name": "Großherzogtum Hessen",
+      "name": "Grand Duchy of Hesse",
       "color": [
         171,
         167,
@@ -56192,7 +56192,7 @@
     },
     {
       "tag": "GROSSHERZOGTUM_MECKLENBURG_SCHWERIN",
-      "name": "Großherzogtum Mecklenburg-Schwerin",
+      "name": "Mecklenburg-Schwerin",
       "color": [
         78,
         144,
@@ -56211,7 +56211,7 @@
     },
     {
       "tag": "GUINE_PORTUGUESA",
-      "name": "Guiné Portuguesa",
+      "name": "Portuguese Guinea",
       "color": [
         174,
         123,
@@ -56269,7 +56269,7 @@
     },
     {
       "tag": "HERZOGTUM_ANHALT_COTHEN",
-      "name": "Herzogtum Anhalt-Cöthen",
+      "name": "Anhalt-Köthen",
       "color": [
         167,
         96,
@@ -56383,7 +56383,7 @@
     },
     {
       "tag": "INDE_FRANCAISE",
-      "name": "Inde française",
+      "name": "French India",
       "color": [
         81,
         137,
@@ -56530,7 +56530,7 @@
     },
     {
       "tag": "KAZAKH_KHANATE",
-      "name": "قزاق خاندیغی",
+      "name": "Kazakh Khanate",
       "color": [
         152,
         195,
@@ -56580,7 +56580,7 @@
     },
     {
       "tag": "KHANATE_OF_KHIVA",
-      "name": "خیوه خانلیگی",
+      "name": "Khanate of Khiva",
       "color": [
         64,
         185,
@@ -56736,7 +56736,7 @@
     },
     {
       "tag": "KONIGREICH_PREUSSEN",
-      "name": "Königreich Preußen",
+      "name": "Prussia",
       "color": [
         110,
         101,
@@ -56768,7 +56768,7 @@
     },
     {
       "tag": "KONIGREICH_SACHSEN",
-      "name": "Königreich Sachsen",
+      "name": "Saxony",
       "color": [
         139,
         169,
@@ -56836,7 +56836,7 @@
     },
     {
       "tag": "KROLESTWO_POLSKIE",
-      "name": "Królestwo Polskie",
+      "name": "Kingdom of Poland",
       "color": [
         96,
         168,
@@ -56937,7 +56937,7 @@
     },
     {
       "tag": "MAJEERTEEN_SULTANATE",
-      "name": "𐒈𐒚𐒐𐒆𐒖𐒒𐒖𐒆𐒆𐒖 𐒑𐒖𐒃𐒜𐒇𐒂𐒜𐒒",
+      "name": "Majeerteen Sultanate",
       "color": [
         154,
         151,
@@ -56956,7 +56956,7 @@
     },
     {
       "tag": "MARATHA_EMPIRE",
-      "name": "मराठा साम्राज्य",
+      "name": "Maratha Empire",
       "color": [
         187,
         170,
@@ -57008,7 +57008,7 @@
     },
     {
       "tag": "N_M_N_SOOKOBIT",
-      "name": "Nʉmʉnʉʉ Sookobitʉ",
+      "name": "Comanchería",
       "color": [
         125,
         96,
@@ -57027,7 +57027,7 @@
     },
     {
       "tag": "NAM_BAN",
-      "name": "南蟠 Nam Bàn",
+      "name": "Nam Ban",
       "color": [
         141,
         96,
@@ -57084,7 +57084,7 @@
     },
     {
       "tag": "NGUYEN_VIETNAM",
-      "name": "Nguyễn Vietnam",
+      "name": "Vietnam",
       "color": [
         128,
         159,
@@ -57188,7 +57188,7 @@
     },
     {
       "tag": "OTTOMAN_EMPIRE",
-      "name": "دولتْ علیّه عثمانیّه",
+      "name": "Ottoman Empire",
       "color": [
         99,
         134,
@@ -57351,7 +57351,7 @@
     },
     {
       "tag": "PRINCE_BISHOPRIC_OF_MONTENEGRO",
-      "name": "Митрополство Црногорско",
+      "name": "Prince-Bishopric of Montenegro",
       "color": [
         95,
         155,
@@ -57469,7 +57469,7 @@
     },
     {
       "tag": "PRINCIPALITY_OF_THUAN_THANH",
-      "name": "順城鎮",
+      "name": "Thuan Thanh",
       "color": [
         133,
         66,
@@ -57547,7 +57547,7 @@
     },
     {
       "tag": "PROVINCIAS_UNIDAS_DEL_RIO_DE_LA_PLATA",
-      "name": "Provincias Unidas del Río de la Plata",
+      "name": "United Provinces of the River Plate",
       "color": [
         164,
         67,
@@ -57827,7 +57827,7 @@
     },
     {
       "tag": "REPUBLIQUE_D_HAITI",
-      "name": "République d'Haïti",
+      "name": "Haiti",
       "color": [
         131,
         203,
@@ -57920,7 +57920,7 @@
     },
     {
       "tag": "RUSSIAN_AMERICA",
-      "name": "Русская Америка",
+      "name": "Russian America",
       "color": [
         172,
         92,
@@ -57940,7 +57940,7 @@
     },
     {
       "tag": "RUSSIAN_EMPIRE",
-      "name": "Российская империя",
+      "name": "Russian Empire",
       "color": [
         161,
         121,
@@ -58077,7 +58077,7 @@
     },
     {
       "tag": "SHILLUK_KINGDOM",
-      "name": "مملكة الشلك",
+      "name": "Shilluk Kingdom",
       "color": [
         108,
         92,
@@ -58155,7 +58155,7 @@
     },
     {
       "tag": "SOKOTO_CALIPHATE",
-      "name": "دولة الخلافة في بلاد السودان",
+      "name": "Sokoto Caliphate",
       "color": [
         119,
         130,
@@ -58279,7 +58279,7 @@
     },
     {
       "tag": "SULTANATE_OF_BANJAR",
-      "name": "كسلطانن بنجر",
+      "name": "Sultanate of Banjar",
       "color": [
         84,
         132,
@@ -58895,7 +58895,7 @@
     },
     {
       "tag": "VIRREINATO_DEL_PERU",
-      "name": "Virreinato del Perú",
+      "name": "Viceroyalty of Peru",
       "color": [
         125,
         171,

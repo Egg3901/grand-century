@@ -389,6 +389,16 @@ if (existsSync(scenarioSeedRoot)) {
 const seeds = seedPaths.map((seedPath) => JSON.parse(readFileSync(seedPath, 'utf8')));
 // Hand-drawn designs, captured before any colour-derived fallback is added.
 const HAND_DRAWN = new Set(Object.keys(FLAGS));
+// Dated-era polities that flew the same flag as a hand-drawn 1830 design on
+// their scenario date. Only unchanged flags are listed: Portugal (1910),
+// Brazil (1889), Spain, Ethiopia and Egypt changed and keep generated flags.
+const ERA_FLAG_ALIASES = {
+  UNITED_KINGDOM: 'ENG', UNITED_STATES: 'USA', EMPIRE_OF_JAPAN: 'JPN', DANMARK: 'DEN', SWITZERLAND: 'SWI',
+  KONINKRIJK_DER_NEDERLANDEN: 'NLD', SVERIGE: 'SWE', MEXICO: 'MEX', ARGENTINA: 'ARG', CHILE: 'CHL',
+  KINGDOM_OF_GREECE: 'GRE', GREECE: 'GRE', FRANCE: 'FRA', FRENCH_THIRD_REPUBLIC: 'FRA', KINGDOM_OF_NEPAL: 'NEP',
+  IRAN: 'PER', ITALIA: 'ITA', RUSSIAN_EMPIRE: 'RUS', DEUTSCHES_REICH: 'GER', OTTOMAN_EMPIRE: 'OTT', TURKIYE: 'OTT',
+};
+for (const [tag, design] of Object.entries(ERA_FLAG_ALIASES)) FLAGS[tag] ??= FLAGS[design];
 let generated = 0;
 for (const seed of seeds) {
   for (const nation of seed.nations) {

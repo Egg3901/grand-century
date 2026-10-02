@@ -39,6 +39,10 @@ All notable changes to Grand Century are documented here.
   the Aral delta, and the Kazakh Hordes keep the steppe and the Senior Horde's
   lands south of Lake Balkhash. The Kathiri sultans hold the Wadi Hadhramaut,
   and Najran is Ottoman in 1914.
+- **Era names and flags.** Nations in every era are named in English (Russian
+  Empire, Austria-Hungary, Ottoman Empire rather than their local scripts), the
+  great powers fly their historical flags, and a new campaign in any era opens
+  as the United Kingdom.
 - **German town names.** Weimar, Dresden, Darmstadt, Gera and other small-state
   provinces carry their town names instead of region labels.
 - **Recruiting draws on the region.** Raising regiments uses the soldiers of

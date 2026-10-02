@@ -102,6 +102,15 @@ export function MainMenu() {
     ? (snapshot?.nations.find((nation) => nation.id === latestSave.playerNation) ?? null)
     : null;
 
+  // After a scenario switch, select the new world's default nation.
+  const adoptScenarioPlayer = useRef<string | null>(null);
+  useEffect(() => {
+    if (!snapshot || adoptScenarioPlayer.current === null) return;
+    if ((snapshot.scenarioId ?? DEFAULT_SCENARIO_ID) !== adoptScenarioPlayer.current) return;
+    adoptScenarioPlayer.current = null;
+    setSelectedNation(snapshot.playerNation);
+  }, [snapshot]);
+
   // Procedural previews replace the nation list — keep the selection valid.
   useEffect(() => {
     if (!snapshot || nations.length === 0) return;
@@ -276,7 +285,10 @@ export function MainMenu() {
                         onChange={(event) => {
                           const nextScenarioId = event.target.value;
                           setScenarioId(nextScenarioId);
-                          previewWorld(mapMode, parsedSeed(), selectedNation, nextScenarioId);
+                          // Nation ids differ per era: let the new world pick its
+                          // default and adopt it once its first snapshot arrives.
+                          adoptScenarioPlayer.current = nextScenarioId;
+                          sendCommand({ t: 'newGame', seed: parsedSeed(), mapMode, scenarioId: nextScenarioId });
                         }}
                       >
                         {selectableScenarios.map((scenario) => (

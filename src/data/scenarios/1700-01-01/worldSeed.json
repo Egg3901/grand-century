@@ -55231,7 +55231,7 @@
     },
     {
       "tag": "BRANDENBURG_PREUSSEN",
-      "name": "Brandenburg-Preußen",
+      "name": "Brandenburg-Prussia",
       "color": [
         206,
         81,
@@ -55349,7 +55349,7 @@
     },
     {
       "tag": "CAPITANIA_GENERAL_DE_CUBA",
-      "name": "Capitanía General de Cuba",
+      "name": "Captaincy General of Cuba",
       "color": [
         101,
         94,
@@ -55372,7 +55372,7 @@
     },
     {
       "tag": "CAPITANIA_GENERAL_DE_FILIPINAS",
-      "name": "Capitanía General de Filipinas",
+      "name": "Captaincy General of the Philippines",
       "color": [
         162,
         191,
@@ -55393,7 +55393,7 @@
     },
     {
       "tag": "CAPITANIA_GENERAL_DE_GUATEMALA",
-      "name": "Capitanía General de Guatemala",
+      "name": "Captaincy General of Guatemala",
       "color": [
         72,
         153,
@@ -55438,7 +55438,7 @@
     },
     {
       "tag": "CAPITANIA_GENERAL_DE_YUCATAN",
-      "name": "Capitania General de Yucatán",
+      "name": "Captaincy General of Yucatan",
       "color": [
         165,
         74,
@@ -55970,7 +55970,7 @@
     },
     {
       "tag": "DUCHE_SOUVERAIN_DE_BOUILLON",
-      "name": "Duché Souverain de Bouillon",
+      "name": "Duchy of Bouillon",
       "color": [
         83,
         151,
@@ -56162,7 +56162,7 @@
     },
     {
       "tag": "ESTADO_DO_MARANHAO",
-      "name": "Estado do Maranhão",
+      "name": "Maranhão",
       "color": [
         102,
         96,
@@ -56232,7 +56232,7 @@
     },
     {
       "tag": "FREISTAAT_DER_DREI_BUNDE",
-      "name": "Freistaat der Drei Bünde",
+      "name": "Three Leagues",
       "color": [
         106,
         64,
@@ -56293,7 +56293,7 @@
     },
     {
       "tag": "GOBERNACION_DE_CHILE",
-      "name": "Gobernación de Chile",
+      "name": "Captaincy General of Chile",
       "color": [
         146,
         133,
@@ -56477,7 +56477,7 @@
     },
     {
       "tag": "INDE_FRANCAISE",
-      "name": "Inde française",
+      "name": "French India",
       "color": [
         81,
         137,
@@ -56946,7 +56946,7 @@
     },
     {
       "tag": "MANCHE_CH_OL",
-      "name": "Manche Chʼol",
+      "name": "Manche Chol",
       "color": [
         91,
         148,
@@ -57047,7 +57047,7 @@
     },
     {
       "tag": "NAM_BAN",
-      "name": "南蟠 Nam Bàn",
+      "name": "Nam Ban",
       "color": [
         141,
         96,
@@ -57245,7 +57245,7 @@
     },
     {
       "tag": "NUEVO_REINO_DE_LEON",
-      "name": "Nuevo Reino de León",
+      "name": "Nuevo León",
       "color": [
         173,
         72,
@@ -57342,7 +57342,7 @@
     },
     {
       "tag": "POLITY",
-      "name": "ᠬᠣᠱᠤᠳ ᠤᠯᠤᠰ",
+      "name": "Khoshut Khanate",
       "color": [
         97,
         96,
@@ -57363,7 +57363,7 @@
     },
     {
       "tag": "POLITY_POLITY",
-      "name": "خیوه خانلیگی",
+      "name": "Khanate of Khiva",
       "color": [
         104,
         92,
@@ -57382,7 +57382,7 @@
     },
     {
       "tag": "POLITY_Q10825475",
-      "name": "順城鎮",
+      "name": "Thuan Thanh",
       "color": [
         85,
         100,
@@ -57402,7 +57402,7 @@
     },
     {
       "tag": "POLITY_Q12560",
-      "name": "دولتْ علیّه عثمانیّه",
+      "name": "Ottoman Empire",
       "color": [
         100,
         162,
@@ -57464,7 +57464,7 @@
     },
     {
       "tag": "POLITY_Q1433867",
-      "name": "قزاق خاندیغی",
+      "name": "Kazakh Khanate",
       "color": [
         131,
         163,
@@ -57490,7 +57490,7 @@
     },
     {
       "tag": "POLITY_Q1660566",
-      "name": "كسلطانن بنجر",
+      "name": "Sultanate of Banjar",
       "color": [
         142,
         128,
@@ -57509,7 +57509,7 @@
     },
     {
       "tag": "POLITY_Q1827039",
-      "name": "唐冲",
+      "name": "Cochinchina",
       "color": [
         162,
         100,
@@ -57530,7 +57530,7 @@
     },
     {
       "tag": "POLITY_Q1923401",
-      "name": "ᠵᠡᠭᠦᠨᠭᠠᠷ ᠬᠠᠭᠠᠨᠠᠲᠣ ᠣᠯᠣᠰ",
+      "name": "Dzungar Khanate",
       "color": [
         156,
         120,
@@ -57556,7 +57556,7 @@
     },
     {
       "tag": "POLITY_Q2257830",
-      "name": "𐒈𐒚𐒐𐒆𐒖𐒒𐒖𐒆𐒆𐒖 𐒑𐒖𐒃𐒜𐒇𐒂𐒜𐒒",
+      "name": "Majeerteen Sultanate",
       "color": [
         169,
         124,
@@ -57575,7 +57575,7 @@
     },
     {
       "tag": "POLITY_Q3482103",
-      "name": "مملكة الشلك",
+      "name": "Shilluk Kingdom",
       "color": [
         116,
         83,
@@ -57595,7 +57595,7 @@
     },
     {
       "tag": "POLITY_Q4118614",
-      "name": "كسلطانن تدوري",
+      "name": "Sultanate of Tidore",
       "color": [
         187,
         184,
@@ -57615,7 +57615,7 @@
     },
     {
       "tag": "POLITY_Q577668",
-      "name": "خانات بخارا",
+      "name": "Khanate of Bukhara",
       "color": [
         163,
         108,
@@ -57635,7 +57635,7 @@
     },
     {
       "tag": "POLITY_Q83618",
-      "name": "मराठा साम्राज्य",
+      "name": "Maratha Empire",
       "color": [
         185,
         104,
@@ -57824,7 +57824,7 @@
     },
     {
       "tag": "PRINCIPAUTE_DE_NEUCHATEL",
-      "name": "Principauté de Neuchâtel",
+      "name": "Neuchâtel",
       "color": [
         71,
         156,
@@ -58124,7 +58124,7 @@
     },
     {
       "tag": "RIOGHACHT_EIREANN",
-      "name": "Ríoghacht Éireann",
+      "name": "Kingdom of Ireland",
       "color": [
         171,
         120,
@@ -58248,7 +58248,7 @@
     },
     {
       "tag": "RZECZPOSPOLITA_OBOJGA_NARODOW",
-      "name": "Rzeczpospolita Obojga Narodów",
+      "name": "Polish-Lithuanian Commonwealth",
       "color": [
         152,
         107,
@@ -58396,7 +58396,7 @@
     },
     {
       "tag": "SERENISCIMA_REPUBRICA_DE_ZENA",
-      "name": "Serenìscima Repùbrica de Zêna",
+      "name": "Republic of Genoa",
       "color": [
         64,
         117,
@@ -59172,7 +59172,7 @@
     },
     {
       "tag": "VIRREINATO_DEL_PERU",
-      "name": "Virreinato del Perú",
+      "name": "Viceroyalty of Peru",
       "color": [
         125,
         171,

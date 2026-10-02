@@ -1578,7 +1578,7 @@ export type Command =
   // --- 0.8.0 Age of Nationalism ---
   | { t: 'setCulturePolicy'; policy: CulturePolicy }
   | { t: 'setCultureAccepted'; culture: number; accepted: boolean }
-  | { t: 'newGame'; seed: number; playerNation: NationId; mapMode?: CampaignMapMode; scenarioId?: ScenarioId }
+  | { t: 'newGame'; seed: number; playerNation?: NationId; mapMode?: CampaignMapMode; scenarioId?: ScenarioId }
   | { t: 'save'; slot: string }
   | { t: 'load'; slot: string }
   | { t: 'listSaves' };

@@ -127,6 +127,7 @@ export function compileScenarioSeed({
   manifest,
   provinceOverrides = { overrides: [] },
   priorSeed = null,
+  englishNames = {},
 }) {
   requireValue(roster.asOf === manifest.id && compiledBorders.asOf === manifest.id, 'scenario source dates do not match');
   requireValue(
@@ -307,7 +308,7 @@ export function compileScenarioSeed({
       }
       return {
         tag: polity.key,
-        name: polity.displayName,
+        name: englishNames[polity.key] ?? polity.displayName,
         color: deterministicColor(polity.key),
         government: governmentFor(polity, manifest.startDate.year),
         capitalProvinceId,

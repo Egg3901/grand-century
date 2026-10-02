@@ -54610,7 +54610,7 @@
     },
     {
       "tag": "AFRICA_OCIDENTAL_PORTUGUESA",
-      "name": "África Ocidental Portuguesa",
+      "name": "Portuguese West Africa",
       "color": [
         96,
         188,
@@ -54631,7 +54631,7 @@
     },
     {
       "tag": "ALGERIE_FRANCAISE",
-      "name": "Algérie française",
+      "name": "French Algeria",
       "color": [
         189,
         94,
@@ -55431,7 +55431,7 @@
     },
     {
       "tag": "CESKOSLOVENSKA_REPUBLIKA",
-      "name": "Československá republika",
+      "name": "Czechoslovakia",
       "color": [
         145,
         196,
@@ -56046,7 +56046,7 @@
     },
     {
       "tag": "EIRE_IRELAND",
-      "name": "Éire / Ireland",
+      "name": "Ireland",
       "color": [
         107,
         109,
@@ -56499,7 +56499,7 @@
     },
     {
       "tag": "GUINE_PORTUGUESA",
-      "name": "Guiné Portuguesa",
+      "name": "Portuguese Guinea",
       "color": [
         174,
         123,
@@ -56931,7 +56931,7 @@
     },
     {
       "tag": "MEXICO",
-      "name": "México",
+      "name": "Mexico",
       "color": [
         71,
         151,
@@ -57162,7 +57162,7 @@
     },
     {
       "tag": "OSTERREICH",
-      "name": "Österreich",
+      "name": "Austria",
       "color": [
         128,
         192,
@@ -57203,7 +57203,7 @@
     },
     {
       "tag": "PANAMA",
-      "name": "Panamá",
+      "name": "Panama",
       "color": [
         125,
         176,
@@ -57241,7 +57241,7 @@
     },
     {
       "tag": "PERU",
-      "name": "Perú",
+      "name": "Peru",
       "color": [
         103,
         122,
@@ -57378,7 +57378,7 @@
     },
     {
       "tag": "PROTECTORAT_FRANCAIS_DE_TUNISIE",
-      "name": "Protectorat français de Tunisie",
+      "name": "French Tunisia",
       "color": [
         163,
         143,
@@ -57503,7 +57503,7 @@
     },
     {
       "tag": "REGATUL_ROMANIEI",
-      "name": "Regatul României",
+      "name": "Romania",
       "color": [
         127,
         96,
@@ -58175,7 +58175,7 @@
     },
     {
       "tag": "TURKIYE",
-      "name": "Türkiye",
+      "name": "Turkey",
       "color": [
         94,
         148,

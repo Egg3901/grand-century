@@ -54674,7 +54674,7 @@
     },
     {
       "tag": "AFRICA_OCIDENTAL_PORTUGUESA",
-      "name": "África Ocidental Portuguesa",
+      "name": "Portuguese West Africa",
       "color": [
         96,
         188,
@@ -55348,7 +55348,7 @@
     },
     {
       "tag": "CESKOSLOVENSKA_REPUBLIKA",
-      "name": "Československá republika",
+      "name": "Czechoslovakia",
       "color": [
         145,
         196,
@@ -56441,7 +56441,7 @@
     },
     {
       "tag": "GUINE_PORTUGUESA",
-      "name": "Guiné Portuguesa",
+      "name": "Portuguese Guinea",
       "color": [
         174,
         123,
@@ -56776,7 +56776,7 @@
     },
     {
       "tag": "KRALJEVINA_JUGOSLAVIJA",
-      "name": "Kraljevina Jugoslavija / Краљевина Југославија",
+      "name": "Yugoslavia",
       "color": [
         113,
         101,
@@ -56841,7 +56841,7 @@
     },
     {
       "tag": "LETZEBUERG",
-      "name": "Lëtzebuerg",
+      "name": "Luxembourg",
       "color": [
         169,
         152,
@@ -56938,7 +56938,7 @@
     },
     {
       "tag": "MAGYAR_KIRALYSAG",
-      "name": "Magyar Királyság",
+      "name": "Hungary",
       "color": [
         114,
         74,
@@ -57019,7 +57019,7 @@
     },
     {
       "tag": "MEXICO",
-      "name": "México",
+      "name": "Mexico",
       "color": [
         71,
         151,
@@ -57269,7 +57269,7 @@
     },
     {
       "tag": "OSTERREICH",
-      "name": "Österreich",
+      "name": "Austria",
       "color": [
         128,
         192,
@@ -57310,7 +57310,7 @@
     },
     {
       "tag": "PANAMA",
-      "name": "Panamá",
+      "name": "Panama",
       "color": [
         125,
         176,
@@ -57368,7 +57368,7 @@
     },
     {
       "tag": "PERU",
-      "name": "Perú",
+      "name": "Peru",
       "color": [
         103,
         122,
@@ -57392,7 +57392,7 @@
     },
     {
       "tag": "POLITY",
-      "name": "إمارة شرق الأردن",
+      "name": "Khoshut Khanate",
       "color": [
         97,
         96,
@@ -57412,7 +57412,7 @@
     },
     {
       "tag": "POLITY_Q124943",
-      "name": "المملكة المصرية",
+      "name": "Kingdom of Egypt",
       "color": [
         67,
         86,
@@ -57456,7 +57456,7 @@
     },
     {
       "tag": "POLITY_Q207521",
-      "name": "መንግሥተ ኢትዮጵያ",
+      "name": "Ethiopian Empire",
       "color": [
         64,
         189,
@@ -57501,7 +57501,7 @@
     },
     {
       "tag": "POLITY_Q794",
-      "name": "ایران",
+      "name": "Iran",
       "color": [
         67,
         107,
@@ -57520,7 +57520,7 @@
     },
     {
       "tag": "POLITY_Q851",
-      "name": "المملكة العربية السعودية",
+      "name": "Saudi Arabia",
       "color": [
         143,
         174,
@@ -57711,7 +57711,7 @@
     },
     {
       "tag": "PROTECTORAT_FRANCAIS_DE_TUNISIE",
-      "name": "Protectorat français de Tunisie",
+      "name": "French Tunisia",
       "color": [
         163,
         143,
@@ -57876,7 +57876,7 @@
     },
     {
       "tag": "REGATUL_ROMANIEI",
-      "name": "Regatul României",
+      "name": "Romania",
       "color": [
         127,
         96,
@@ -57902,7 +57902,7 @@
     },
     {
       "tag": "REPUBLICA_DOMINICANA",
-      "name": "República Dominicana",
+      "name": "Dominican Republic",
       "color": [
         123,
         120,
@@ -58000,7 +58000,7 @@
     },
     {
       "tag": "SAORSTAT_EIREANN_IRISH_FREE_STATE",
-      "name": "Saorstát Éireann / Irish Free State",
+      "name": "Irish Free State",
       "color": [
         127,
         109,
@@ -58471,7 +58471,7 @@
     },
     {
       "tag": "TURKIYE",
-      "name": "Türkiye",
+      "name": "Turkey",
       "color": [
         94,
         148,

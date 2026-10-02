@@ -162,14 +162,17 @@ const SCENARIO_1830: CompiledScenarioData = Object.freeze({
  * Every other era ships its own compiled seed as a separate chunk, loaded on
  * demand: bundling all seven would add megabytes to every first load.
  * Callers that start or restore a world await `ensureScenario` first.
+ * Unlike the static imports above these carry no `type: 'json'` attribute:
+ * in the dev server the browser would then demand a JSON response for what
+ * Vite serves as a module. tsx, Vitest and Metro resolve them without it.
  */
 const SEED_LOADERS: Readonly<Record<string, () => Promise<{ default: unknown }>>> = {
-  '1700-01-01': () => import('./scenarios/1700-01-01/worldSeed.json', { with: { type: 'json' } }),
-  '1776-07-04': () => import('./scenarios/1776-07-04/worldSeed.json', { with: { type: 'json' } }),
-  '1815-06-18': () => import('./scenarios/1815-06-18/worldSeed.json', { with: { type: 'json' } }),
-  '1914-07-28': () => import('./scenarios/1914-07-28/worldSeed.json', { with: { type: 'json' } }),
-  '1936-01-01': () => import('./scenarios/1936-01-01/worldSeed.json', { with: { type: 'json' } }),
-  '1945-09-02': () => import('./scenarios/1945-09-02/worldSeed.json', { with: { type: 'json' } }),
+  '1700-01-01': () => import('./scenarios/1700-01-01/worldSeed.json'),
+  '1776-07-04': () => import('./scenarios/1776-07-04/worldSeed.json'),
+  '1815-06-18': () => import('./scenarios/1815-06-18/worldSeed.json'),
+  '1914-07-28': () => import('./scenarios/1914-07-28/worldSeed.json'),
+  '1936-01-01': () => import('./scenarios/1936-01-01/worldSeed.json'),
+  '1945-09-02': () => import('./scenarios/1945-09-02/worldSeed.json'),
 };
 
 function derivedScenario(id: ScenarioId, manifest: ScenarioManifest, source: CompiledScenarioData): CompiledScenarioData {
