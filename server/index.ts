@@ -25,7 +25,7 @@ import {
 } from '../src/net/sessionProtocol.ts';
 import { decodeWire, encodeWire } from '../src/net/snapshotCodec.ts';
 import { SessionManager } from './session.ts';
-import { DEFAULT_SCENARIO_ID, listScenarios } from '../src/data/generated.ts';
+import { DEFAULT_SCENARIO_ID, listScenarios, preloadScenarios } from '../src/data/generated.ts';
 
 const PORT = Number(process.env.PORT ?? 3412);
 // Default to loopback so the box stays behind Caddy; Railway sets HOST=0.0.0.0 for public ingress.
@@ -297,6 +297,9 @@ setInterval(() => {
   manager.tickAll(dt);
 }, 33);
 
-httpServer.listen(PORT, HOST, () => {
-  console.log(`[grand-century-server] listening on ws://${HOST}:${PORT}`);
+// Every era seed is resident before the first session can ask for one.
+void preloadScenarios().then(() => {
+  httpServer.listen(PORT, HOST, () => {
+    console.log(`[grand-century-server] listening on ws://${HOST}:${PORT}`);
+  });
 });

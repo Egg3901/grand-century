@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { DEFAULT_SCENARIO_ID, listScenarios, loadScenario } from '../../../src/data/generated';
+import { DEFAULT_SCENARIO_ID, listScenarios, scenarioManifest } from '../../../src/data/generated';
 import { CAMPAIGN_MAP_MODES, type CampaignMapMode } from '../../../src/shared/campaignMap';
 import { campaignRoster, validSeed, type CampaignConfig, type NativeSave } from './campaign';
 import { deleteNativeSave, listNativeSaves, newSaveId } from './nativeSaves';
@@ -71,7 +71,7 @@ export function CampaignSetup({ onBack, onStart, busy, notice }: { onBack: () =>
   const powers = matches.filter((n) => gpRankFor(n) > 0).sort((a, b) => gpRankFor(a) - gpRankFor(b));
   const others = matches.filter((n) => gpRankFor(n) === 0).sort((a, b) => a.name.localeCompare(b.name));
   const nationRow = (n: (typeof nations)[number]) => <NationRow key={n.tag} nation={n} provinces={provinceCounts.get(n.tag) ?? 0} rank={gpRankFor(n)} selected={n.tag === selected.tag} onPress={() => setNationTag(n.tag)} />;
-  const scenario = loadScenario(scenarioId).manifest;
+  const scenario = scenarioManifest(scenarioId);
   return <ScrollView style={s.page} contentContainerStyle={s.content} keyboardShouldPersistTaps="handled">
     <MenuButton label={step === 'world' ? 'Back to main menu' : 'Back to campaign options'} onPress={step === 'world' ? onBack : () => setStep('world')} disabled={busy} />
     <Text style={s.label}>NEW CAMPAIGN / {step === 'world' ? '1. WORLD' : '2. NATION'}</Text>

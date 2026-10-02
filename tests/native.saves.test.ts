@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { preloadScenarios } from '../src/data/generated';
 const memory = vi.hoisted(() => ({ files: new Map<string, string | Uint8Array>(), fail: '' }));
 vi.mock('../apps/mobile/node_modules/expo-file-system/src/index.ts', () => {
   const path = (parts: any[]) => parts.map((p) => typeof p === 'string' ? p : p.uri).join('/');
@@ -28,6 +29,7 @@ const save = (id: string, kind: NativeSave['kind'] = 'manual', campaign = 'campa
 });
 beforeEach(() => { memory.files.clear(); memory.fail = ''; });
 describe('native save library', () => {
+  beforeAll(() => preloadScenarios());
   it('keeps two recovery points per campaign without deleting manual or other campaign saves', async () => {
     for (const s of [save('manual'), save('other', 'auto', 'campaign-b'), save('a', 'auto', undefined, 1), save('b', 'auto', undefined, 2), save('c', 'auto', undefined, 3)]) writeNativeSave(s, new Uint8Array([1, 2, 3]));
     expect(listNativeSaves().map((s) => s.id).sort()).toEqual(['b', 'c', 'manual', 'other']);

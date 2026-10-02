@@ -30,6 +30,17 @@ All notable changes to Grand Century are documented here.
 - **Province borders you can see.** Province lines inside a nation read in
   both 2D and 3D from regional zoom, in a tone that contrasts with the nation
   colour, and your own country no longer glows over them.
+- **1914 and 1945 are their own worlds.** Both previews used to start on the
+  1936 map. They now start on their own dated borders, nations and alliances,
+  and 1776 and 1815 have their own maps too. Campaigns already started in 1914
+  or 1945 keep the world they began in.
+- **Central Asia and Arabia in 1830.** Russia holds its Siberian fortress lines
+  and the Ural and Orenburg Cossack hosts, Kokand holds Tashkent, Khiva holds
+  the Aral delta, and the Kazakh Hordes keep the steppe and the Senior Horde's
+  lands south of Lake Balkhash. The Kathiri sultans hold the Wadi Hadhramaut,
+  and Najran is Ottoman in 1914.
+- **German town names.** Weimar, Dresden, Darmstadt, Gera and other small-state
+  provinces carry their town names instead of region labels.
 - **Recruiting draws on the region.** Raising regiments uses the soldiers of
   your state and nearby provinces (within about 250 km), so small provinces
   still field armies.

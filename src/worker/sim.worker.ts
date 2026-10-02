@@ -20,7 +20,7 @@ import { deserializeWorld, serializeWorld } from '../sim/persistence';
 import { listSaveSlots, readSaveSlot, writeSaveSlot } from './saveSlots';
 import { DEFAULT_CAMPAIGN_MAP_MODE, parseCampaignMapMode } from '../shared/campaignMap';
 import { resolveWorldSeed } from '../sim/proceduralWorld';
-import { DEFAULT_SCENARIO_ID, loadScenario } from '../data/generated';
+import { DEFAULT_SCENARIO_ID, ensureScenario, loadScenario, withScenarios } from '../data/generated';
 import { yearAtDay } from '../sim/calendar';
 
 const ctx: DedicatedWorkerGlobalScope = self as unknown as DedicatedWorkerGlobalScope;
@@ -117,7 +117,7 @@ async function loadWorldFromSlot(slot: string) {
       post({ t: 'saveStatus', action: 'load', slot, ok: false, msg: 'slot not found' });
       return;
     }
-    const loaded = deserializeWorld(payload);
+    const loaded = await withScenarios(() => deserializeWorld(payload));
     world = loaded.world;
     if (!world.mapMode) world.mapMode = DEFAULT_CAMPAIGN_MAP_MODE;
     data = gameDataForMapMode(world.scenarioId ?? DEFAULT_SCENARIO_ID, world.mapMode, world.seed);
@@ -186,10 +186,13 @@ ctx.onmessage = (e: MessageEvent<ToWorker>) => {
   switch (msg.t) {
     case 'init': {
       const mapMode = parseCampaignMapMode(msg.mapMode);
-      startWorld(msg.scenarioId ?? DEFAULT_SCENARIO_ID, msg.seed, mapMode);
-      post({ t: 'ready', data });
-      postSnapshotNow();
-      void publishSaveSlots();
+      const scenarioId = msg.scenarioId ?? DEFAULT_SCENARIO_ID;
+      void ensureScenario(scenarioId).then(() => {
+        startWorld(scenarioId, msg.seed, mapMode);
+        post({ t: 'ready', data });
+        postSnapshotNow();
+        void publishSaveSlots();
+      }, (error: unknown) => post({ t: 'log', level: 'error', msg: `could not load ${scenarioId}: ${String(error)}` }));
       break;
     }
     case 'command':
@@ -208,9 +211,12 @@ function handleCommand(cmd: Command) {
   if (!world) return;
   if (cmd.t === 'newGame') {
     const mapMode = parseCampaignMapMode(cmd.mapMode);
-    startWorld(cmd.scenarioId ?? world.scenarioId ?? DEFAULT_SCENARIO_ID, cmd.seed, mapMode, cmd.playerNation);
-    post({ t: 'ready', data });
-    postSnapshotNow();
+    const scenarioId = cmd.scenarioId ?? world.scenarioId ?? DEFAULT_SCENARIO_ID;
+    void ensureScenario(scenarioId).then(() => {
+      startWorld(scenarioId, cmd.seed, mapMode, cmd.playerNation);
+      post({ t: 'ready', data });
+      postSnapshotNow();
+    }, (error: unknown) => post({ t: 'log', level: 'error', msg: `could not load ${scenarioId}: ${String(error)}` }));
     return;
   }
   if (cmd.t === 'save') {

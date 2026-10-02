@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
+import { preloadScenarios } from '../src/data/generated';
 import {
   DEFAULT_SCENARIO,
   DEFAULT_SCENARIO_ID,
@@ -11,6 +12,7 @@ import { createWorld } from '../src/sim/bootstrap';
 import { dateAtDay } from '../src/sim/calendar';
 
 describe('scenario catalog', () => {
+  beforeAll(() => preloadScenarios());
   it('registers the current 1830 world as the compatibility baseline', () => {
     expect(DEFAULT_SCENARIO_ID).toBe('1830-01-01');
     expect(listScenarios().map((scenario) => [scenario.id, scenario.status])).toEqual([

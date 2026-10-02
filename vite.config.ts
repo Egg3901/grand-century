@@ -217,12 +217,11 @@ export default defineConfig({
         // The sim worker is similarly runtime-cached so MapLibre can fit under
         // the 2 MiB precache budget without opaque module-import cache misses.
         globPatterns: ['**/*.{js,css,html,ico,svg,png,webp,woff2}'],
-        globIgnores: ['**/generated/**', '**/sim.worker-*.js', '**/terrain-atlas*.js'],
+        globIgnores: ['**/generated/**', '**/sim.worker-*.js', '**/terrain-atlas*.js', '**/worldSeed-*.js'],
         navigateFallback: 'index.html',
         navigateFallbackDenylist: [/^\/api/],
-        // Shell chunks stay under 3 MiB (the map chunk carries the bundled
-        // v8 world seeds, about 2.2 MB); geo is asserted separately above.
-        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
+        // Shell chunks stay under 2 MiB; geo is asserted separately above.
+        maximumFileSizeToCacheInBytes: 2 * 1024 * 1024,
         runtimeCaching: [
           {
             urlPattern: ({ url }) => /\/terrain\/terrain-atlas-high-(height|surface|normals|province)-[a-f0-9]+\.txt$/.test(url.pathname),
@@ -253,6 +252,12 @@ export default defineConfig({
                 statuses: [0, 200],
               },
             },
+          },
+          {
+            // Era seeds other than 1830 load when a campaign in that era starts.
+            urlPattern: ({ url }) => /\/assets\/worldSeed-[^/]+\.js$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: { cacheName: 'gc-era-seeds', expiration: { maxEntries: 12, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [0, 200] } },
           },
           {
             urlPattern: ({ url }) => /\/assets\/sim\.worker-[^/]+\.js$/.test(url.pathname),
