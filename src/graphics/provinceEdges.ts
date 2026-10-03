@@ -37,6 +37,16 @@ function spatialKey(chain: number[]): number {
  * and drop it: the GPU copy is the only one kept (about 30 MB of vertices).
  */
 export function provinceEdgeMesh(): EdgeMesh {
+  const work = iterateEdgeMesh();
+  for (;;) {
+    const next = work.next();
+    if (next.done) return next.value;
+  }
+}
+
+/** The same build, yielding between slices so startup never waits on it. */
+export function* iterateEdgeMesh(): Generator<void, EdgeMesh> {
+  yield;
   const chains = (edges as { chains: number[][] }).chains
     .map((chain) => ({ chain, key: spatialKey(chain) }))
     .sort((l, r) => l.key - r.key)
@@ -46,7 +56,7 @@ export function provinceEdgeMesh(): EdgeMesh {
   const vertices = new Float32Array(quads * 4 * EDGE_STRIDE);
   const bounds = new Float32Array(Math.ceil(quads / EDGE_CELL_QUADS) * 4);
   for (let i = 0; i < bounds.length; i += 4) bounds.set([Infinity, Infinity, -Infinity, -Infinity], i);
-  let o = 0, quad = 0;
+  let o = 0, quad = 0, built = 0;
   for (const chain of chains) {
     const a = chain[0] + 1, b = chain[1] + 1;
     let x = chain[2], y = chain[3];
@@ -69,6 +79,7 @@ export function provinceEdgeMesh(): EdgeMesh {
       }
       px = qx; py = qy;
     }
+    if (++built % 200 === 0) yield;
   }
   return { vertices, quads, bounds };
 }
@@ -123,7 +134,7 @@ void main() {
   float chosen=selected>0.0 ? max(step(abs(ids.x-selected),.1),step(abs(ids.y-selected),.1)) : 0.0;
   kind=chosen>.5 ? 2.0 : (coast>.5 ? 3.0 : frontier);
   float width=chosen>.5 ? 2.6 : (coast>.5 ? 1.2 : (frontier>.5 ? 2.2 : 1.4));
-  alpha=chosen>.5 ? 1.0 : (coast>.5 ? .6 : (frontier>.5 ? mix(.55,.9,political) : provinceLines*mix(.4,.7,political)));
+  alpha=chosen>.5 ? 1.0 : (coast>.5 ? .45 : (frontier>.5 ? mix(.55,.9,political) : provinceLines*mix(.4,.7,political)));
   // Thinner at world zoom, where fragmented coasts would turn frontiers to fuzz.
   width*=mix(.6,1.0,smoothstep(1.5,3.5,zoom));
   halfWidth=width*pixelRatio*.5+.75;
@@ -170,7 +181,7 @@ void main() {
   vec3 pale=vec3(.95,.88,.66), ink=vec3(.13,.13,.11);
   // Frontiers: pale rule with an ink casing. Province rules: ink with a pale
   // casing, readable on dark nation fills and light terrain alike.
-  vec3 color=kind>2.5 ? vec3(.10,.12,.12) : (kind>1.5 ? vec3(.96,.79,.38) : (kind>.5 ? mix(pale,ink,edge*.8) : mix(ink,pale,edge*.7)));
+  vec3 color=kind>2.5 ? vec3(.17,.21,.23) : (kind>1.5 ? vec3(.96,.79,.38) : (kind>.5 ? mix(pale,ink,edge*.8) : mix(ink,pale,edge*.7)));
   vec3 sun=sunAt(uv);
   vec3 weather=weatherAt(uv,heightAt(uv));
   gl_FragColor=vec4(atmosphereColor(color,sun,weather),alpha*coverage);

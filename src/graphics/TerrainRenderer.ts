@@ -34,7 +34,8 @@ import {
   edgeFragmentShader,
   edgeQuadIndices,
   edgeVertexShader,
-  provinceEdgeMesh,
+  iterateEdgeMesh,
+  type EdgeMesh,
 } from "./provinceEdges";
 import {
   clamp,
@@ -100,6 +101,7 @@ uniform vec4 localBounds;
 uniform float localTexel;
 uniform float localEnabled;
 uniform float provinceLines;
+uniform float rasterBorders;
 uniform float surfaceTexel;
 uniform float closeDetail;
 uniform float clock;
@@ -230,7 +232,19 @@ void main() {
   float wash=mix(.48,.30,closeDetail);
   land=mix(land,land*(1.0-wash)+pigment*light*wash,political*step(.5,id));
   // Province and national borders are drawn afterwards as vector lines
-  // (provinceEdges.ts); the selected province keeps a soft fill tint here.
+  // (provinceEdges.ts). Until that mesh is ready these raster edges stand in.
+  if(rasterBorders>.5) {
+    float right=idAt(uv+vec2(texel,0)), left=idAt(uv-vec2(texel,0));
+    float up=idAt(uv+vec2(0,texel)), down=idAt(uv-vec2(0,texel));
+    float border=min(1.0,step(.5,abs(id-right))+step(.5,abs(id-left))+step(.5,abs(id-up))+step(.5,abs(id-down)));
+    float owner=ownerAt(id);
+    float frontier=max(max(step(.5,abs(owner-ownerAt(right)))*step(.5,right),step(.5,abs(owner-ownerAt(left)))*step(.5,left)),
+      max(step(.5,abs(owner-ownerAt(up)))*step(.5,up),step(.5,abs(owner-ownerAt(down)))*step(.5,down)));
+    float lum=dot(land,vec3(.299,.587,.114));
+    vec3 rule=mix(vec3(.12,.13,.11),vec3(.86,.80,.64),smoothstep(.40,.16,lum));
+    land=mix(land,rule,border*provinceLines*mix(.30,.52,political));
+    land=mix(land,vec3(.96,.88,.65),frontier*mix(.32,.75,political));
+  }
   if(abs(id-selected)<.1) land=mix(land,vec3(.96,.79,.38),.13);
   vec3 surfaceColor=mix(water,land,coverage);
   // Inked shoreline with a pale shelf rim on the seaward side.
@@ -316,6 +330,9 @@ export class TerrainRenderer {
   private edgeIndexBuffer: WebGLBuffer | null = null;
   private edgeQuads = 0;
   private edgeBounds: Float32Array = new Float32Array(0);
+  private edgeWork: Generator<void, EdgeMesh> | null = null;
+  private readyEdges: EdgeMesh | null = null;
+  private edgeTimer: ReturnType<typeof setTimeout> | null = null;
   private edgeUniforms: Record<string, WebGLUniformLocation | null> = {};
   private edgeAttributes: Record<string, number> = {};
   private sceneryProvinces: readonly SceneryProvince[] = [];
@@ -412,6 +429,7 @@ export class TerrainRenderer {
         "localTexel",
         "localEnabled",
         "provinceLines",
+        "rasterBorders",
         "surfaceTexel",
         "closeDetail",
         "detail",
@@ -536,16 +554,33 @@ export class TerrainRenderer {
       this.edgeUniforms[name] = gl.getUniformLocation(program, name);
     for (const name of ["p0", "p1", "corner", "ids"])
       this.edgeAttributes[name] = gl.getAttribLocation(program, name);
-    const mesh = provinceEdgeMesh();
-    this.edgeQuads = mesh.quads;
-    this.edgeBounds = mesh.bounds;
     this.edgeBuffer = gl.createBuffer();
     this.edgeIndexBuffer = gl.createBuffer();
     if (!this.edgeBuffer || !this.edgeIndexBuffer) throw new Error("Unable to allocate border buffers");
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.edgeBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, mesh.vertices, gl.STATIC_DRAW);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.edgeIndexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, edgeQuadIndices(), gl.STATIC_DRAW);
+    // The mesh (230k quads) is built in small slices after startup; the raster
+    // borders stand in until it is uploaded.
+    this.edgeWork = iterateEdgeMesh();
+    this.scheduleEdges(0);
+  }
+  private scheduleEdges(delay: number) {
+    this.edgeTimer = setTimeout(() => {
+      this.edgeTimer = null;
+      if (this.disposed || !this.edgeWork) return;
+      const deadline = performance.now() + 3;
+      while (this.edgeWork) {
+        const next = this.edgeWork.next();
+        if (next.done) {
+          this.readyEdges = next.value;
+          this.edgeWork = null;
+          this.onInvalidate();
+          return;
+        }
+        if (performance.now() >= deadline) break;
+      }
+      this.scheduleEdges(4);
+    }, delay);
   }
   private drawEdges(seconds: number, political: boolean, selected: number | null, weather: number[]) {
     const gl = this.gl, program = this.edgeProgram;
@@ -774,6 +809,10 @@ export class TerrainRenderer {
     this.sceneryFailure = null;
     if (this.sceneryTimer !== null) clearTimeout(this.sceneryTimer);
     this.sceneryTimer = null;
+    if (this.edgeTimer !== null) clearTimeout(this.edgeTimer);
+    this.edgeTimer = null;
+    this.edgeWork = null;
+    this.readyEdges = null;
     this.sceneryBounds =
       this.quality === "high" ? { x: cx, y: cy, ex, ey, zoom: level } : null;
     this.detailBounds = this.view.zoom >= 4 ? { x: cx, y: cy, ex, ey } : null;
@@ -1017,6 +1056,13 @@ export class TerrainRenderer {
       this.readyCoast = null;
       this.readyDetail = null;
     }
+    if (this.readyEdges && this.edgeBuffer) {
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.edgeBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, this.readyEdges.vertices, gl.STATIC_DRAW);
+      this.edgeQuads = this.readyEdges.quads;
+      this.edgeBounds = this.readyEdges.bounds;
+      this.readyEdges = null;
+    }
     if (this.readyScenery) {
       this.sceneryCount = this.readyScenery.length / 9;
       gl.bindBuffer(gl.ARRAY_BUFFER, this.sceneryBuffer);
@@ -1086,6 +1132,7 @@ export class TerrainRenderer {
       this.uniforms.provinceLines,
       clamp((this.view.zoom - 2.6) / 1.4, 0, 1),
     );
+    gl.uniform1f(this.uniforms.rasterBorders, this.edgeQuads ? 0 : 1);
     gl.uniform1i(this.uniforms.heightMap, 4);
     gl.uniform1f(this.uniforms.heightTexel, 1 / this.data.size);
     gl.uniform1f(this.uniforms.relief, reliefForZoom(this.view.zoom));
