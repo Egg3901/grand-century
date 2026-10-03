@@ -559,16 +559,15 @@ export class TerrainRenderer {
     if (!this.edgeBuffer || !this.edgeIndexBuffer) throw new Error("Unable to allocate border buffers");
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.edgeIndexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, edgeQuadIndices(), gl.STATIC_DRAW);
-    // The mesh (230k quads) is built in small slices after startup; the raster
-    // borders stand in until it is uploaded.
+    // The mesh (230k quads) is built in 2 ms slices after the first frame;
+    // the raster borders stand in until it is uploaded.
     this.edgeWork = iterateEdgeMesh();
-    this.scheduleEdges(0);
   }
   private scheduleEdges(delay: number) {
     this.edgeTimer = setTimeout(() => {
       this.edgeTimer = null;
       if (this.disposed || !this.edgeWork) return;
-      const deadline = performance.now() + 3;
+      const deadline = performance.now() + 2;
       while (this.edgeWork) {
         const next = this.edgeWork.next();
         if (next.done) {
@@ -579,7 +578,7 @@ export class TerrainRenderer {
         }
         if (performance.now() >= deadline) break;
       }
-      this.scheduleEdges(4);
+      this.scheduleEdges(12);
     }, delay);
   }
   private drawEdges(seconds: number, political: boolean, selected: number | null, weather: number[]) {
@@ -1056,6 +1055,9 @@ export class TerrainRenderer {
       this.readyCoast = null;
       this.readyDetail = null;
     }
+    // Border preparation starts once the first frame is on screen, so it
+    // never competes with startup for the JS thread.
+    if (this.edgeWork && this.edgeTimer === null) this.scheduleEdges(500);
     if (this.readyEdges && this.edgeBuffer) {
       gl.bindBuffer(gl.ARRAY_BUFFER, this.edgeBuffer);
       gl.bufferData(gl.ARRAY_BUFFER, this.readyEdges.vertices, gl.STATIC_DRAW);

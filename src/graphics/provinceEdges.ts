@@ -1,5 +1,9 @@
 import edges from "./province-edges.json";
-import { mercator } from "./terrainData";
+import { MAX_LAT } from "./terrainData";
+
+/** Mercator y, identical to terrainData.mercator without allocating a tuple. */
+const mercatorY = (lat: number) =>
+  (1 - Math.asinh(Math.tan((Math.min(MAX_LAT, Math.max(-MAX_LAT, lat)) * Math.PI) / 180)) / Math.PI) / 2;
 
 /**
  * Vector province borders for the 3D renderer. Borders used to come from
@@ -22,6 +26,9 @@ export interface EdgeMesh {
   /** Mercator [minX, minY, maxX, maxY] per cell of EDGE_CELL_QUADS quads. */
   bounds: Float32Array;
 }
+
+const CORNER_SIDE = [-1, 1, 1, -1];
+const CORNER_END = [0, 0, 1, 1];
 
 /** Morton order on the first point keeps each batch spatially compact. */
 function spatialKey(chain: number[]): number {
@@ -60,21 +67,22 @@ export function* iterateEdgeMesh(): Generator<void, EdgeMesh> {
   for (const chain of chains) {
     const a = chain[0] + 1, b = chain[1] + 1;
     let x = chain[2], y = chain[3];
-    let [px, py] = mercator(x / 1e4, y / 1e4);
+    let px = (x / 1e4 + 180) / 360, py = mercatorY(y / 1e4);
     for (let i = 4; i < chain.length; i += 2) {
       x += chain[i];
       y += chain[i + 1];
-      const [qx, qy] = mercator(x / 1e4, y / 1e4);
+      const qx = (x / 1e4 + 180) / 360;
+      const qy = mercatorY(y / 1e4);
       const box = Math.floor(quad / EDGE_CELL_QUADS) * 4;
       bounds[box] = Math.min(bounds[box], px, qx);
       bounds[box + 1] = Math.min(bounds[box + 1], py, qy);
       bounds[box + 2] = Math.max(bounds[box + 2], px, qx);
       bounds[box + 3] = Math.max(bounds[box + 3], py, qy);
       quad += 1;
-      for (const [side, end] of [[-1, 0], [1, 0], [1, 1], [-1, 1]]) {
+      for (let c = 0; c < 4; c += 1) {
         vertices[o++] = px; vertices[o++] = py;
         vertices[o++] = qx; vertices[o++] = qy;
-        vertices[o++] = side; vertices[o++] = end;
+        vertices[o++] = CORNER_SIDE[c]; vertices[o++] = CORNER_END[c];
         vertices[o++] = a; vertices[o++] = b;
       }
       px = qx; py = qy;
