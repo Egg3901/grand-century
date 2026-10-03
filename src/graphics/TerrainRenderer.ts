@@ -808,10 +808,6 @@ export class TerrainRenderer {
     this.sceneryFailure = null;
     if (this.sceneryTimer !== null) clearTimeout(this.sceneryTimer);
     this.sceneryTimer = null;
-    if (this.edgeTimer !== null) clearTimeout(this.edgeTimer);
-    this.edgeTimer = null;
-    this.edgeWork = null;
-    this.readyEdges = null;
     this.sceneryBounds =
       this.quality === "high" ? { x: cx, y: cy, ex, ey, zoom: level } : null;
     this.detailBounds = this.view.zoom >= 4 ? { x: cx, y: cy, ex, ey } : null;
@@ -829,6 +825,10 @@ export class TerrainRenderer {
       this.readyDetail !== null ||
       this.sceneryFailure !== null
     );
+  }
+  /** True once the vector border mesh is on the GPU (raster borders retire). */
+  get vectorBorders() {
+    return this.edgeQuads > 0;
   }
   get isPreparingScenery() {
     return (
@@ -1201,6 +1201,10 @@ export class TerrainRenderer {
     gl.deleteBuffer(this.edgeIndexBuffer);
     gl.deleteProgram(this.edgeProgram);
     gl.deleteProgram(this.program);
+    if (this.edgeTimer !== null) clearTimeout(this.edgeTimer);
+    this.edgeTimer = null;
+    this.edgeWork = null;
+    this.readyEdges = null;
     if (this.sceneryTimer !== null) clearTimeout(this.sceneryTimer);
     this.sceneryTimer = null;
     this.sceneryWork = null;
