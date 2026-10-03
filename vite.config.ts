@@ -299,6 +299,8 @@ export default defineConfig({
           // The 3D renderer samples full province polygons (7 MB on the v8
           // mesh): runtime-cached with the other terrain chunks, not precached.
           if (id.endsWith('/data/generated/provinces.geo.json')) return 'terrain-atlas-provinces';
+          // Vector border edges for the 3D renderer, cached with the terrain chunks.
+          if (id.endsWith('/graphics/province-edges.json')) return 'terrain-atlas-provinces';
           // Split the former 1.3 MB map monolith: MapLibre is large and stable;
           // GrandMap changes with game UI and should hash independently.
           if (id.includes('maplibre-gl') || id.includes('node_modules/maplibre')) return 'maplibre';

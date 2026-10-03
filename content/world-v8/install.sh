@@ -15,6 +15,7 @@ for s in 1700-01-01 1776-07-04 1815-06-18 1914-07-28 1936-01-01 1945-09-02; do
     --base-seed src/data/generated/worldSeed.json --out-dir "src/data/scenarios/$s"
 done
 npm run -s mobile:atlas
+node scripts/build-province-edges.mjs
 node scripts/sync-mobile-flags.mjs
 if [[ "$TERRAIN" != "--no-terrain" ]]; then
   python3 scripts/build-terrain-atlas.py --cache "$CACHE" --landcover "$CACHE/NE1_LR_LC.zip"
