@@ -267,6 +267,13 @@ test("close-zoom frontiers follow ownership even when nations have identical col
   await page.evaluate(() =>
     (window as any).__gcTerrainFocus({ lon: 10, lat: 45, zoom: 6 }),
   );
+  // Vector borders build after startup and must survive camera moves (a reset
+  // on every view change once kept the raster stand-in on screen forever).
+  for (const lon of [10.2, 10.4, 10]) {
+    await page.evaluate((x) => (window as any).__gcTerrainFocus({ lon: x, lat: 45, zoom: 6 }), lon);
+    await page.waitForTimeout(300);
+  }
+  await page.waitForFunction(() => (window as any).__gcTerrain.vectorBorders, null, { timeout: 60_000 });
   await page.waitForFunction(
     () => !(window as any).__gcTerrain.isPreparingScenery,
   );
