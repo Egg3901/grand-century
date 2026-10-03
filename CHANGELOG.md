@@ -27,6 +27,9 @@ All notable changes to Grand Century are documented here.
   replaced them.
 - **Pacing kept.** Population, costs and march times are scaled so the larger
   map plays at the old pace; armies now march by distance.
+- **Smooth borders in 3D.** National frontiers, province lines and coastlines
+  in the 3D map are drawn as anti-aliased lines along the real boundaries
+  instead of stepping along map pixels, at every zoom.
 - **Province borders you can see.** Province lines inside a nation read in
   both 2D and 3D from regional zoom, in a tone that contrasts with the nation
   colour, and your own country no longer glows over them.

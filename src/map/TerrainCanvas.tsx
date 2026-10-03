@@ -211,7 +211,8 @@ export function TerrainCanvas({
           motion.addEventListener("change", wake);
           setReady(true);
           wake();
-        } catch {
+        } catch (error) {
+          console.error("[terrain] 3D renderer unavailable", error);
           onFallback("3D graphics are unavailable on this device. Using 2D.");
         }
       })

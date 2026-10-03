@@ -28,6 +28,15 @@ import {
 } from "./provinceDetail";
 import { iterateScenery, type SceneryProvince } from "./terrainScenery";
 import {
+  EDGE_BATCH_QUADS,
+  EDGE_CELL_QUADS,
+  EDGE_STRIDE,
+  edgeFragmentShader,
+  edgeQuadIndices,
+  edgeVertexShader,
+  provinceEdgeMesh,
+} from "./provinceEdges";
+import {
   clamp,
   geographic,
   mercator,
@@ -220,21 +229,9 @@ void main() {
   // Nations read as colour at strategic zoom; terrain takes over up close.
   float wash=mix(.48,.30,closeDetail);
   land=mix(land,land*(1.0-wash)+pigment*light*wash,political*step(.5,id));
-  // Symmetric, screen-sized edges. Ownership comes from the live simulation,
-  // so conquests and procedural worlds do not retain historical frontiers.
-  float right=idAt(uv+vec2(texel,0)), left=idAt(uv-vec2(texel,0));
-  float up=idAt(uv+vec2(0,texel)), down=idAt(uv-vec2(0,texel));
-  float border=min(1.0,step(.5,abs(id-right))+step(.5,abs(id-left))+step(.5,abs(id-up))+step(.5,abs(id-down)));
-  float owner=ownerAt(id);
-  float frontier=max(max(step(.5,abs(owner-ownerAt(right)))*step(.5,right),step(.5,abs(owner-ownerAt(left)))*step(.5,left)),
-    max(step(.5,abs(owner-ownerAt(up)))*step(.5,up),step(.5,abs(owner-ownerAt(down)))*step(.5,down)));
-  // Province rules take the ink that contrasts with the ground under them:
-  // pale on dark nation fills, dark on light terrain.
-  float lum=dot(land,vec3(.299,.587,.114));
-  vec3 rule=mix(vec3(.12,.13,.11),vec3(.86,.80,.64),smoothstep(.40,.16,lum));
-  land=mix(land,rule,border*provinceLines*mix(.30,.52,political));
-  land=mix(land,vec3(.96,.88,.65),frontier*mix(.32,.75,political));
-  if(abs(id-selected)<.1) land=mix(land,vec3(.96,.79,.38),.13+min(1.0,border)*.62);
+  // Province and national borders are drawn afterwards as vector lines
+  // (provinceEdges.ts); the selected province keeps a soft fill tint here.
+  if(abs(id-selected)<.1) land=mix(land,vec3(.96,.79,.38),.13);
   vec3 surfaceColor=mix(water,land,coverage);
   // Inked shoreline with a pale shelf rim on the seaward side.
   float rim=1.0-abs(coverage*2.0-1.0);
@@ -314,6 +311,13 @@ export class TerrainRenderer {
   private count = 0;
   private sceneryCount = 0;
   private sceneryBuffer: WebGLBuffer | null = null;
+  private edgeProgram: WebGLProgram | null = null;
+  private edgeBuffer: WebGLBuffer | null = null;
+  private edgeIndexBuffer: WebGLBuffer | null = null;
+  private edgeQuads = 0;
+  private edgeBounds: Float32Array = new Float32Array(0);
+  private edgeUniforms: Record<string, WebGLUniformLocation | null> = {};
+  private edgeAttributes: Record<string, number> = {};
   private sceneryProvinces: readonly SceneryProvince[] = [];
   private readonly segments: number;
   private width = 1;
@@ -501,12 +505,118 @@ export class TerrainRenderer {
       this.count = indices.length;
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
       gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+      this.createEdges(compile);
       if (gl.getError() !== gl.NO_ERROR)
         throw new Error("Unable to allocate terrain graphics memory");
     } catch (error) {
       this.dispose();
       throw error;
     }
+  }
+  /** Vector province borders: shared edges drawn as anti-aliased screen-width quads. */
+  private createEdges(compile: (source: string, type: number) => WebGLShader) {
+    const gl = this.gl;
+    const program = gl.createProgram();
+    if (!program) throw new Error("Unable to create border program");
+    this.edgeProgram = program;
+    const vs = compile(edgeVertexShader(PALETTE_WIDTH, terrainHeightShader), gl.VERTEX_SHADER);
+    const fs = compile(edgeFragmentShader(atmosphereShader, terrainHeightShader), gl.FRAGMENT_SHADER);
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    gl.deleteShader(vs);
+    gl.deleteShader(fs);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS))
+      throw new Error(gl.getProgramInfoLog(program) ?? "Border link failed");
+    for (const name of [
+      "center", "extent", "tilt", "relief", "viewport", "pixelRatio", "palette", "selected",
+      "political", "provinceLines", "zoom", "clock", "atmosphere", "heightMap", "heightTexel",
+      "detailHeight", "heightBounds", "detailHeightTexel", "heightEnabled",
+    ])
+      this.edgeUniforms[name] = gl.getUniformLocation(program, name);
+    for (const name of ["p0", "p1", "corner", "ids"])
+      this.edgeAttributes[name] = gl.getAttribLocation(program, name);
+    const mesh = provinceEdgeMesh();
+    this.edgeQuads = mesh.quads;
+    this.edgeBounds = mesh.bounds;
+    this.edgeBuffer = gl.createBuffer();
+    this.edgeIndexBuffer = gl.createBuffer();
+    if (!this.edgeBuffer || !this.edgeIndexBuffer) throw new Error("Unable to allocate border buffers");
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.edgeBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, mesh.vertices, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.edgeIndexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, edgeQuadIndices(), gl.STATIC_DRAW);
+  }
+  private drawEdges(seconds: number, political: boolean, selected: number | null, weather: number[]) {
+    const gl = this.gl, program = this.edgeProgram;
+    if (!program || !this.edgeBuffer || !this.edgeQuads) return;
+    gl.useProgram(program);
+    const u = this.edgeUniforms;
+    gl.uniform2fv(u.center, mercator(this.view.lon, this.view.lat));
+    gl.uniform2fv(u.extent, this.extent);
+    gl.uniform2fv(u.tilt, this.tilt);
+    gl.uniform1f(u.relief, reliefForZoom(this.view.zoom));
+    gl.uniform2fv(u.viewport, [gl.drawingBufferWidth, gl.drawingBufferHeight]);
+    gl.uniform1f(u.pixelRatio, gl.drawingBufferWidth / this.width);
+    gl.uniform1i(u.palette, 2);
+    gl.uniform1i(u.heightMap, 4);
+    gl.uniform1i(u.detailHeight, 7);
+    gl.uniform1f(u.heightTexel, 1 / this.data.size);
+    const h = this.activeHeight, n = h ? 2 ** h.z : 1;
+    gl.uniform4fv(u.heightBounds, h ? [h.x / n, h.y / n, h.columns / n, h.rows / n] : [0, 0, 1, 1]);
+    gl.uniform2fv(u.detailHeightTexel, h ? [1 / h.width, 1 / h.height] : [1, 1]);
+    gl.uniform1f(u.heightEnabled, h ? 1 : 0);
+    gl.uniform1f(u.selected, selected == null ? -1 : selected + 1);
+    gl.uniform1f(u.political, political ? 1 : 0);
+    gl.uniform1f(u.provinceLines, clamp((this.view.zoom - 2.6) / 1.4, 0, 1));
+    gl.uniform1f(u.zoom, this.view.zoom);
+    gl.uniform1f(u.clock, seconds);
+    gl.uniform3fv(u.atmosphere, weather);
+    // Draped over the terrain: no depth test or writes, so scenery drawn
+    // afterwards still sorts against the ground alone.
+    gl.disable(gl.DEPTH_TEST);
+    gl.depthMask(false);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.edgeBuffer);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.edgeIndexBuffer);
+    const a = this.edgeAttributes;
+    for (const name of ["p0", "p1", "corner", "ids"]) gl.enableVertexAttribArray(a[name]);
+    const bytes = EDGE_STRIDE * 4;
+    // Skip batches outside a generous view box (tilt shows more ground north).
+    const [cx, cy] = mercator(this.view.lon, this.view.lat);
+    const mx = this.extent[0] * 1.3, my = (this.extent[1] / Math.max(0.2, this.tilt[0])) * 1.6;
+    const b = this.edgeBounds;
+    const visible = (quad: number) => {
+      const c = Math.floor(quad / EDGE_CELL_QUADS) * 4;
+      return !(b[c] > cx + mx || b[c + 2] < cx - mx || b[c + 1] > cy + my || b[c + 3] < cy - my);
+    };
+    for (let first = 0; first < this.edgeQuads; first += EDGE_BATCH_QUADS) {
+      const last = Math.min(this.edgeQuads, first + EDGE_BATCH_QUADS);
+      let bound = false;
+      for (let start = first; start < last; ) {
+        // Cells never straddle batches only when the sizes divide; clamp both ways.
+        const cellEnd = Math.min(last, (Math.floor(start / EDGE_CELL_QUADS) + 1) * EDGE_CELL_QUADS);
+        if (!visible(start)) { start = cellEnd; continue; }
+        let end = cellEnd;
+        while (end < last && visible(end)) end = Math.min(last, (Math.floor(end / EDGE_CELL_QUADS) + 1) * EDGE_CELL_QUADS);
+        if (!bound) {
+          const base = first * 4 * bytes;
+          gl.vertexAttribPointer(a.p0, 2, gl.FLOAT, false, bytes, base);
+          gl.vertexAttribPointer(a.p1, 2, gl.FLOAT, false, bytes, base + 8);
+          gl.vertexAttribPointer(a.corner, 2, gl.FLOAT, false, bytes, base + 16);
+          gl.vertexAttribPointer(a.ids, 2, gl.FLOAT, false, bytes, base + 24);
+          bound = true;
+        }
+        gl.drawElements(gl.TRIANGLES, (end - start) * 6, gl.UNSIGNED_SHORT, (start - first) * 12);
+        start = end;
+      }
+    }
+    for (const name of ["p0", "p1", "corner", "ids"]) gl.disableVertexAttribArray(a[name]);
+    gl.disable(gl.BLEND);
+    gl.depthMask(true);
+    gl.enable(gl.DEPTH_TEST);
+    gl.useProgram(this.program);
   }
   private texture(
     w: number,
@@ -1005,6 +1115,8 @@ export class TerrainRenderer {
       ),
     );
     gl.drawElements(gl.TRIANGLES, this.count, gl.UNSIGNED_SHORT, 0);
+    for (const name of ["position", "normal"] as const) gl.disableVertexAttribArray(this.attributes[name]);
+    this.drawEdges(seconds, political, selected, [a.hour, a.declination, a.weather]);
     if (this.sceneryCount && scenery) {
       gl.uniform1f(this.uniforms.scenery, 1);
       gl.bindBuffer(gl.ARRAY_BUFFER, this.sceneryBuffer);
@@ -1036,6 +1148,9 @@ export class TerrainRenderer {
     gl.deleteBuffer(this.vertexBuffer);
     gl.deleteBuffer(this.indexBuffer);
     gl.deleteBuffer(this.sceneryBuffer);
+    gl.deleteBuffer(this.edgeBuffer);
+    gl.deleteBuffer(this.edgeIndexBuffer);
+    gl.deleteProgram(this.edgeProgram);
     gl.deleteProgram(this.program);
     if (this.sceneryTimer !== null) clearTimeout(this.sceneryTimer);
     this.sceneryTimer = null;
